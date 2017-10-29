@@ -1,0 +1,75 @@
+@import "variables";
+
+* {
+  line-height: 2;
+  text-align: justify;
+}
+
+a {
+  text-decoration: none;
+}
+
+.logo {
+  position: absolute;
+  left: 2.5rem;
+  top: 2.5rem;
+  z-index: 1001;
+}
+
+.light-font {
+  color: $light-color;
+  font-weight: bold;
+}
+
+.thin-font {
+  font-weight: 400;
+}
+
+.text-underline {
+  border-bottom: .125rem solid $light-color;
+  padding-bottom: .125rem;
+}
+
+.light-description {
+  border-left: $light-color solid .5rem;
+  width: 1.5rem;
+}
+
+.background-color {
+  background-color: $background-color;
+}
+
+.border-color {
+  border-color: $light-color;
+}
+
+.submit-button-group {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.submit-button-group-separate {
+  display: flex;
+  justify-content: space-between;
+}
+
+.page-enter-active, .page-leave-active {
+  transition: opacity .2s;
+}
+
+.page-enter, .page-leave-active {
+  opacity: 0;
+}
+
+.el-picker-panel *, .el-steps * {
+  text-align: center;
+}
+
+.el-button * {
+  line-height: 1;
+}
+
+.el-steps * {
+  line-height: 1;
+  font-weight: bold;
+}
