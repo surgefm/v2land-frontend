@@ -1,7 +1,13 @@
 export default {
+  client: {},
+  event: {},
+  pendingNews: {},
+  temp: {},
   subscribe: {
     mode: '',
-    method: '',
-    contact: ''
+    contact: {
+      method: '',
+      address: ''
+    }
   }
 }

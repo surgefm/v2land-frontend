@@ -1,17 +1,76 @@
 <template>
   <div class="share">
-    <i class="el-icon-share border-color"></i>
-    <span class="icon-twitter border-color"></span>
-    <span class="icon-facebook border-color"></span>
-    <span class="icon-google-plus border-color"></span>
-    <span class="icon-weibo border-color"></span>
+    <a
+      v-for="site of share"
+      :href="shareTo(site)"
+      :key="news.id + ': ' + site"
+      onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
+      <span :class="['icon-' + site, 'border-color', 'icon-container']"></span>
+    </a>
+    <div class="icon-container" v-if="isClientAdmin">
+      <i class="el-icon-edit border-color" @click="edit"></i>
+      <i class="el-icon-delete border-color" @click="remove"></i>
+    </div>
   </div>
 </template>
+
+<script>
+  import config from '~/const'
+  import $ from 'postman-url-encoder'
+
+  export default {
+    props: {
+      news: Object
+    },
+    data () {
+      return {
+        share: ['twitter', 'facebook', 'google-plus', 'weibo']
+      }
+    },
+    computed: {
+      isClientAdmin () {
+        return this.$store.getters.isClientAdmin
+      }
+    },
+    methods: {
+      shareTo (site) {
+        let url = config.baseUrl + this.$route.params.name + '?news=' + this.news.id
+        let message = this.news.title + ' - ' +
+          this.news.abstract.slice(0, 50) +
+          (this.news.abstract.length > 50 ? '… ' : ' ')
+
+        switch (site) {
+          case 'twitter':
+            return $.encode('https://twitter.com/intent/tweet?text=' + message +
+              '&url=' + url +
+              '&hashtags=' + this.$route.params.name + ',浪潮'
+            )
+          case 'facebook':
+            return $.encode('https://www.facebook.com/sharer/sharer.php?u=' + url)
+          case 'google-plus':
+            return $.encode('https://plus.google.com/share?url=' + url)
+          case 'weibo':
+            return $.encode('http://service.weibo.com/share/share.php?url=' + url + '&title=' + message)
+        }
+      },
+      remove () {
+        this.$store.dispatch('editNews', {
+          id: this.news.id,
+          data: { status: 'removed' }
+        }).then(() => {
+          this.$store.dispatch('fetchEvent', this.$route.params.name)
+        })
+      },
+      edit () {
+        this.$router.push(`/${this.$route.params.name}/edit/${this.news.id}`)
+      }
+    }
+  }
+</script>
 
 <style scoped>
   .share {
     display: flex;
-    margin-top: .25rem;
     font-size: 1rem;
   }
 
@@ -24,6 +83,12 @@
     border-top: none;
     border-left: none;
     border-right: none;
+    height: 2rem;
+  }
+
+  .icon-container {
+    display: flex;
+    align-items: center;
   }
 
   .border-color:before {
@@ -35,7 +100,9 @@
     border-color: rgb(52, 152, 219);
   }
 
-  .el-icon-share:hover:before {
+  .el-icon-document:hover:before,
+  .el-icon-delete:hover:before,
+  .el-icon-edit:hover:before {
     color: #336e7b;
   }
 

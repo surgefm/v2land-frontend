@@ -1,3 +1,5 @@
+const OptimizeCSSClassnamesPlugin = require('optimize-css-classnames-plugin')
+
 module.exports = {
   /*
   ** Headers of the page
@@ -35,7 +37,11 @@ module.exports = {
         })
       }
     },
-    vendor: ['axios']
+    vendor: [
+      'postman-url-encoder',
+      'cookie',
+      '~/plugins/axios'
+    ]
   },
 
   css: [
@@ -71,10 +77,12 @@ module.exports = {
   ],
 
   plugins: [
-    '~/plugins/element.js'
+    '~/plugins/element.js',
+    '~/plugins/components.js'
   ],
 
   router: {
+    middleware: 'auth',
     linkExactActiveClass: 'exact-active-link'
   }
 }

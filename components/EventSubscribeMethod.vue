@@ -82,13 +82,13 @@
       save () {
         this.$store.commit('setSubscribeMethod', {
           method: this.form.method,
-          contact: this.form[this.form.method]
+          address: this.form[this.form.method]
         })
       }
     },
     created () {
-      this.form.method = this.$store.state.subscribe.method || 'email'
-      this.form[this.form.method] = this.$store.state.subscribe.contact
+      this.form.method = this.$store.state.subscribe.contact.method || 'email'
+      this.form[this.form.method] = this.$store.state.subscribe.contact.address
     }
   }
 </script>
@@ -107,7 +107,7 @@
   }
 
   .method-selector {
-    width: calc(100% - 90px);
+    width: 100%;
   }
 
   .submit-button-group-separate {

@@ -1,6 +1,7 @@
 <template>
   <div>
     <nuxt/>
+    <page-foot/>
   </div>
 </template>
 

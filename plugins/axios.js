@@ -1,0 +1,20 @@
+import Cookie from 'cookie'
+import Axios from 'axios'
+import config from '~/const'
+
+let headers = {}
+
+try {
+  let cookies = Cookie.parse(document.cookie)
+  if (cookies && cookies.accessToken) {
+    headers.Authorization = cookies.accessToken
+  }
+} catch (err) {}
+
+let instance = Axios.create({
+  baseURL: config.api,
+  timeout: 1000,
+  headers
+})
+
+export default instance

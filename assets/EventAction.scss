@@ -8,11 +8,19 @@
   visibility: hidden;
   opacity: 0;
   transition: .2s;
+  position: relative;
 }
 
 .subscribe-container:hover .text, .exact-active-link .text {
   visibility: visible;
   opacity: 1;
+}
+
+.subscribe-container:hover .badge, .exact-active-link .badge {
+  position: relative !important;
+  margin-right: .25rem !important;
+  top: 0 !important;
+  right: 0 !important;
 }
 
 .icon {

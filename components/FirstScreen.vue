@@ -1,20 +1,24 @@
 <template>
-  <div v-if="background && background.url" class="first-screen-container">
-    <div 
-      class="background"
-      :style="'background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.0), \
+  <div style="width: 100%">
+    <div v-if="background && background.imageUrl" class="first-screen-container">
+      <div 
+        class="background"
+        :style="'background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.0), \
           rgba(0, 0, 0, 0.0) 50%, rgba(0, 0, 0, 1)), url(' +
-          background.url + ')'"
-    >
+          background.imageUrl + ')'"
+      >
+      </div>
+      
+      <div v-if="background && background.imageUrl" class="header">
+        <slot name="header"></slot>
+      </div>
     </div>
-    
-    <div class="header">
+
+    <div v-else class="blank-top">
       <slot name="header"></slot>
     </div>
   </div>
-  <div v-else class="blank-top">
-    <slot name="header"></slot>
-  </div>
+  
 </template>
 
 <script>
@@ -28,6 +32,7 @@
 <style scoped>
   .first-screen-container {
     height: 100vh;
+    width: 100%;
   }
 
   .background {
@@ -52,5 +57,8 @@
 
   .blank-top {
     padding-top: 6rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
 </style>

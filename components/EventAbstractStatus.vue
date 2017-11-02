@@ -1,16 +1,19 @@
 <template>
   <div class="status">
-    <span>
+    <span v-if="time.startTime">
       起始时间：
       <span class="light-font">
         {{ getString(time.startTime) }}
       </span>
     </span>
-    <span class="margin-left">
+    <span class="margin-left" v-if="time.lastTime">
       最后更新：
       <span class="light-font">
         {{ getString(time.lastTime) }}
       </span>
+    </span>
+    <span class="light-font" v-if="!time.startTime">
+      尚无相关新闻
     </span>
   </div>
 </template>

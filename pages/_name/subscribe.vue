@@ -31,15 +31,13 @@
 </template>
 
 <script>
-  import Logo from '~/components/Logo.vue'
-  import Background from '~/components/Background.vue'
-  import Card from '~/components/Card.vue'
-  import EventAction from '~/components/EventAction'
-  import EventTitle from '~/components/EventTitle'
   import EventSubscribeStep from '~/components/EventSubscribeStep'
   import EventSubscribeMode from '~/components/EventSubscribeMode'
   import EventSubscribeMethod from '~/components/EventSubscribeMethod'
   import EventSubscribeSuccess from '~/components/EventSubscribeSuccess'
+
+  import axios from '~/plugins/axios'
+  import $ from 'postman-url-encoder'
 
   export default {
     data () {
@@ -57,11 +55,6 @@
       }
     },
     components: {
-      Logo,
-      Background,
-      Card,
-      'event-action': EventAction,
-      'event-title': EventTitle,
       'event-subscribe-step': EventSubscribeStep,
       'event-subscribe-mode': EventSubscribeMode,
       'event-subscribe-method': EventSubscribeMethod,
@@ -75,8 +68,14 @@
         this.show = 'method'
       },
       submit () {
-        this.$message.success('关注成功')
-        this.show = 'success'
+        let url = $.encode(`events/${this.$route.params.name}/subscribe`)
+        axios.post(url, {
+          mode: this.$store.state.subscribe.mode,
+          contact: this.$store.state.subscribe.contact
+        })
+          .then(() => {
+            this.show = 'success'
+          })
       }
     }
   }

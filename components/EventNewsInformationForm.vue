@@ -34,7 +34,12 @@
 
 <script>
   export default {
+    props: {
+      data: String,
+      mode: String
+    },
     data () {
+      let url = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/
       return {
         form: {
           url: '',
@@ -45,7 +50,8 @@
         },
         rules: {
           url: [
-            { required: true, message: '请输入新闻链接', trigger: 'blur' }
+            { required: true, message: '请输入新闻链接', trigger: 'blur' },
+            { pattern: url, message: '请输入正确的链接', trigger: 'blur' }
           ],
           title: [
             { required: true, message: '请输入新闻标题', trigger: 'blur' }
@@ -63,17 +69,52 @@
         }
       }
     },
+    computed: {
+      origData () {
+        return this.$store.getters.getNews({
+          name: this.$route.params.name,
+          id: this.$route.params.id
+        })
+      }
+    },
     methods: {
       submitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.$message.success('提交成功，该新闻会在审核后列入该事件')
-            this.resetForm('form')
+            // 调整时间
+            let newTime = this.form.time.getTime()
+            let minutesOffset = this.form.time.getTimezoneOffset() + 480
+            newTime += minutesOffset * 60000
+            this.form.time = new Date(newTime)
+
+            this.$store.commit('setTemp', {
+              label: this.data,
+              temp: this.form
+            })
+            this.$emit('submit')
           }
         })
       },
-      resetForm (formName) {
-        this.$refs[formName].resetFields()
+      resetForm (formName = 'form') {
+        if (this.mode === 'edit' && this.origData) {
+          this.form = Object.assign({}, this.origData)
+          this.$set(this.form, 'time', new Date(this.origData.time))
+        } else {
+          this.$refs[formName].resetFields()
+        }
+      }
+    },
+    created () {
+      if (this.mode === 'edit' && this.origData) {
+        this.form = Object.assign({}, this.origData)
+        this.$set(this.form, 'time', new Date(this.origData.time))
+      }
+    },
+    watch: {
+      'form.time' () {
+        if (this.form.time && this.form.time.getTime) {
+          this.form.time.setSeconds(0)
+        }
       }
     }
   }

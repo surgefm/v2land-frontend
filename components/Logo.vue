@@ -1,8 +1,10 @@
 <template>
   <div class="icon-container">
-    <el-tooltip content="浪潮 - 渴望重回土地" placement="right" effect="light">
-      <img src="/icon.png" height="64px">
-    </el-tooltip>
+    <nuxt-link to="/">
+      <el-tooltip content="浪潮 - 渴望重回土地" placement="right" effect="light">
+        <img src="/icon.png" height="64px">
+      </el-tooltip>
+    </nuxt-link>
   </div>
 </template>
 
@@ -13,7 +15,7 @@
     padding: .5rem;
   }
 
-  img {
-    cursor: pointer;
+  .icon-container .exact-active-link {
+    background-color: transparent;
   }
 </style>

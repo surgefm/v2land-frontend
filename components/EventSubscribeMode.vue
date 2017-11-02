@@ -76,7 +76,7 @@
   }
 
   .mode-selector {
-    width: calc(100% - 90px);
+    width: 100%;
   }
 
   .submit-button-group {

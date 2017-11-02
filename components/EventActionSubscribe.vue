@@ -7,12 +7,3 @@
     <i class="icon el-icon-bell light-font"></i>
   </nuxt-link>
 </template>
-
-<script>
-  import '~/assets/EventAction.scss'
-
-  export default { }
-</script>
-
-<style scoped>
-</style>

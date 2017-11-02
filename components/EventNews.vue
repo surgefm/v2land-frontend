@@ -7,17 +7,29 @@
       {{ news.source }}
     </span>
     <br v-if="news.source || news.tag">
-    <p v-if="news.title" class="title">
+    <a v-if="news.title" :href="news.url" target="_blank" class="title">
       {{ news.title }}
-    </p>
-    <p v-if="news.content" class="news">
-      {{ news.content }}
+    </a>
+    <p v-if="news.abstract" class="news">
+      {{ news.abstract }}
     </p>
     <div class="bottom">
       <span class="bottom-date">
-        {{ getString(news.date) }}
+        {{ getString(news.time) }}
       </span>
-      <event-news-share class="news-share"></event-news-share>
+      <event-news-admit
+        class="news-share"
+        v-if="mode === 'admit'"
+        :news="news"
+        v-on:update="$emit('update')"
+      >
+      </event-news-admit>
+      <event-news-share
+        v-else
+        class="news-share"
+        :news="news"
+      >
+      </event-news-share>
     </div>
     <span v-if="order" class="order light-font">
       {{ order }}
@@ -26,16 +38,17 @@
 </template>
 
 <script>
-  import Card from './Card.vue'
+  import EventNewsAdmit from './EventNewsAdmit.vue'
   import EventNewsShare from './EventNewsShare.vue'
 
   export default {
     props: {
       news: Object,
-      order: Number
+      order: Number,
+      mode: String
     },
     components: {
-      Card,
+      'event-news-admit': EventNewsAdmit,
       'event-news-share': EventNewsShare
     },
     methods: {
@@ -57,6 +70,14 @@
 </script>
 
 <style scoped>
+  a {
+    color: black;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
   .news-container {
     position: relative;
   }
