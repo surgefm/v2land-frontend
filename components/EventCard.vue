@@ -77,4 +77,14 @@
     text-decoration: none;
     color: black;
   }
+
+  @media (max-width: 600px) {
+    .event-text-image {
+      width: calc(100% - 8rem);
+    }
+
+    .event-image-container {
+      width: 8rem;
+    }
+  }
 </style>

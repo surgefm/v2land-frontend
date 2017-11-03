@@ -21,6 +21,20 @@
   </background>
 </template>
 
+<script>
+  export default {
+    head () {
+      return {
+        title: '关于浪潮',
+        meta: [
+          { hid: 't:title', name: 'twitter:title', content: '关于浪潮' },
+          { hid: 'og:title', property: 'og:title', content: '关于浪潮' }
+        ]
+      }
+    }
+  }
+</script>
+
 <style scoped>
   p, ol {
     margin-top: 1rem;

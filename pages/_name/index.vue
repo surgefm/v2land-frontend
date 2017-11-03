@@ -21,6 +21,7 @@
 
 <script>
   import $ from 'postman-url-encoder'
+  import config from '~/const'
 
   export default {
     computed: {
@@ -32,6 +33,9 @@
       },
       newsCollection () {
         return this.$store.getters.getNewsCollection(this.name)
+      },
+      image () {
+        return config.static + this.event.image.imageUrl
       }
     },
     async asyncData ({ store, params, redirect, route }) {
@@ -54,6 +58,19 @@
             element.scrollIntoView()
           }
         }, 200)
+      }
+    },
+    head () {
+      return {
+        title: this.name + ' - 浪潮，渴望重回土地',
+        meta: [
+          { hid: 't:title', name: 'twitter:title', content: this.title },
+          { hid: 'og:title', property: 'og:title', content: this.title },
+          { hid: 't:description', name: 'twitter:description', content: this.event.description },
+          { hid: 'og:description', property: 'og:description', content: this.event.description },
+          this.event.image ? { hid: 't:image', name: 'twitter:image', content: this.image } : {},
+          this.event.image ? { hid: 'og:image', property: 'og:image', content: this.image } : {}
+        ]
       }
     }
   }

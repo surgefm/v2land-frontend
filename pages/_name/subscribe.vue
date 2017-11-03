@@ -53,6 +53,9 @@
           case 'method': return 1
           case 'success': return 2
         }
+      },
+      name () {
+        return this.$route.params.name
       }
     },
     components: {
@@ -77,6 +80,20 @@
           .then(() => {
             this.show = 'success'
           })
+      }
+    },
+    head () {
+      return {
+        title: '关注' + this.name,
+        meta: [
+          { hid: 't:title', name: 'twitter:title', content: '关注' + this.name },
+          { hid: 'og:title', property: 'og:title', content: '关注' + this.name },
+          { hid: 't:description', name: 'twitter:description', content: `关注${this.name}，定期获取事件动态` },
+          { hid: 'og:description', property: 'og:description', content: `关注${this.name}，定期获取事件动态` },
+          { hid: 't:image', name: 'twitter:image', content: 'https://s.langchao.co/' },
+          { hid: 'og:image', property: 'og:image', content: 'https://s.langchao.co/' },
+          { hid: 't:card', name: 'twitter:card', content: 'summary' }
+        ]
       }
     }
   }
