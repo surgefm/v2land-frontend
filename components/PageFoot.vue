@@ -17,7 +17,7 @@
     justify-content: center;
     font-size: .75rem;
     color: #586069 !important;
-    margin-bottom: 4rem;
+    margin: 1rem 0;
   }
 
   .copyright {

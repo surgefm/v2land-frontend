@@ -27,3 +27,28 @@
   font-size: 1.5rem;
   margin-left: .5rem;
 }
+
+@media (max-width: 600px) {
+  .subscribe-container .text {
+    visibility: visible;
+    opacity: 1;
+    order: 1;
+    font-size: 1rem;
+  }
+
+  .icon {
+    margin-left: 0;
+    margin-right: .5rem;
+    font-size: 1rem;
+  }
+
+  .subscribe-container .badge,
+  .subscribe-container:hover .badge,
+  .exact-active-link .badge {
+    margin-right: 0 !important;
+    position: absolute !important;
+    right: 0 !important;
+    top: -.5rem !important;
+    z-index: 3000;
+  }
+}

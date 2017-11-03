@@ -30,11 +30,14 @@
     computed: {
       isClientAdmin () {
         return this.$store.getters.isClientAdmin
+      },
+      event () {
+        return this.$store.getters.getEvent(this.$route.params.name)
       }
     },
     methods: {
       shareTo (site) {
-        let url = config.baseUrl + this.$route.params.name + '?news=' + this.news.id
+        let url = config.baseUrl + this.event.id + '?news=' + this.news.id
         let message = this.news.title + ' - ' +
           this.news.abstract.slice(0, 50) +
           (this.news.abstract.length > 50 ? '… ' : ' ')

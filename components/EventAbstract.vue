@@ -6,22 +6,18 @@
       {{ detail.description }}
     </event-description>
     <div class="event-share">
-      <event-share></event-share>
+      <event-share :event="detail" />
     </div>
   </card>
 </template>
 
 <script>
   import EventTitle from '~/components/EventTitle.vue'
-  import EventStatus from '~/components/EventAbstractStatus.vue'
-  import EventDescription from '~/components/EventAbstractDescription.vue'
   import EventShare from '~/components/EventAbstractShare.vue'
 
   export default {
     components: {
       'event-title': EventTitle,
-      'event-status': EventStatus,
-      'event-description': EventDescription,
       'event-share': EventShare
     },
     props: {
@@ -30,7 +26,7 @@
     computed: {
       time () {
         let news = this.detail.newsCollection
-        if (news.length === 0) {
+        if (!news || news.length === 0) {
           return {}
         }
 

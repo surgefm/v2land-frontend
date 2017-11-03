@@ -58,10 +58,11 @@
           {
             label: '邮件推送',
             value: 'email'
-          }, {
-            label: '通过我的 Twitter 账户发推',
-            value: 'twitter'
           }
+          // {
+          //   label: '通过我的 Twitter 账户发推',
+          //   value: 'twitter'
+          // }
         ]
       }
     },

@@ -40,7 +40,8 @@ module.exports = {
     vendor: [
       'postman-url-encoder',
       'cookie',
-      '~/plugins/axios'
+      '~/plugins/axios',
+      '~/const'
     ]
   },
 
@@ -58,12 +59,6 @@ module.exports = {
     '~/static/element/input-number.css',
     '~/static/element/select.css',
     '~/static/element/select-dropdown.css',
-    '~/static/element/checkbox.css',
-    '~/static/element/checkbox-button.css',
-    '~/static/element/checkbox-group.css',
-    '~/static/element/radio.css',
-    '~/static/element/radio-button.css',
-    '~/static/element/radio-group.css',
     '~/static/element/button.css',
     '~/static/element/button-group.css',
     '~/static/element/date-picker.css',
@@ -73,7 +68,8 @@ module.exports = {
     '~/static/element/scrollbar.css',
     '~/static/element/message.css',
     '~/static/element/step.css',
-    '~/static/element/steps.css'
+    '~/static/element/steps.css',
+    '~/static/element/upload.css'
   ],
 
   plugins: [

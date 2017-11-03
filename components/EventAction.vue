@@ -3,9 +3,10 @@
     <event-action-subscribe class="action"></event-action-subscribe>
     <event-action-post class="action"></event-action-post>
     <event-action-admit v-if="isClientAdmin" class="action"></event-action-admit>
-    <event-action-edit v-if="isClientAdmin" class="action"></event-action-edit>
-    <event-action-edit-image v-if="isClientAdmin" class="action"></event-action-edit-image>
+    <event-action-edit v-if="isClientAdmin" class="action small"></event-action-edit>
+    <event-action-edit-image v-if="isClientAdmin" class="action small"></event-action-edit-image>
     <event-action-return v-if="showReturn" class="action"></event-action-return>
+    <event-action-homepage v-if="!showReturn" class="action"></event-action-homepage>
   </div>
 </template>
 
@@ -16,6 +17,7 @@
   import EventActionEdit from './EventActionEdit.vue'
   import EventActionEditImage from './EventActionEditImage.vue'
   import EventActionReturn from './EventActionReturn.vue'
+  import EventActionHomepage from './EventActionHomepage.vue'
 
   export default {
     components: {
@@ -24,7 +26,8 @@
       'event-action-admit': EventActionAdmit,
       'event-action-edit': EventActionEdit,
       'event-action-edit-image': EventActionEditImage,
-      'event-action-return': EventActionReturn
+      'event-action-return': EventActionReturn,
+      'event-action-homepage': EventActionHomepage
     },
     computed: {
       isClientAdmin () {
@@ -63,5 +66,28 @@
 
   .action:first-child {
     margin-top: 0;
+  }
+
+  @media (max-width: 600px) {
+    .action-set-container {
+      flex-direction: row;
+      top: initial;
+      bottom: 0;
+      right: 0;
+      width: 100%;
+      background-color: rgba(256, 256, 256, .95);
+      justify-content: space-between;
+    }
+
+    .action {
+      flex-grow: 1;
+      padding: .25rem .25rem;
+      margin: 0;
+      justify-content: center;
+    }
+
+    .small {
+      display: none;
+    }
   }
 </style>

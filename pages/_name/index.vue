@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="event">
     <logo class="logo"></logo>
     <background>
       <first-screen :background="event.image">
@@ -13,12 +13,15 @@
       >
         <event-news :news="news" :order="i + 1"></event-news>
       </div>
+      <page-foot/>
     </background>
     <event-action></event-action>
   </div>
 </template>
 
 <script>
+  import $ from 'postman-url-encoder'
+
   export default {
     computed: {
       name () {
@@ -31,8 +34,16 @@
         return this.$store.getters.getNewsCollection(this.name)
       }
     },
-    async asyncData ({ store, params }) {
-      await store.dispatch('getEvent', params.name)
+    async asyncData ({ store, params, redirect, route }) {
+      let event = await store.dispatch('getEvent', params.name)
+      if (!event) {
+        return redirect('/')
+      }
+      if (event.name !== params.name) {
+        return redirect($.encode('/' + event.name +
+          (route.query.news ? ('?news=' + route.query.news) : '')
+        ))
+      }
       return {}
     },
     mounted () {

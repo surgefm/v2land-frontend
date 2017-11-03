@@ -4,7 +4,7 @@
     :to="'/' + this.$route.params.name + '/admit'"
   >
     <span v-if="pendingNews" class="badge">{{ pendingNews }}</span>
-    <span class="text light-font">审核新闻队列</span>
+    <span class="text light-font">审核队列</span>
     <i class="icon el-icon-tickets light-font"></i>
   </nuxt-link>
 </template>

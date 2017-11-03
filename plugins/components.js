@@ -8,6 +8,8 @@ import EventAbstract from '~/components/EventAbstract.vue'
 import EventNews from '~/components/EventNews.vue'
 import EventAction from '~/components/EventAction.vue'
 import EventTitle from '~/components/EventTitle'
+import EventStatus from '~/components/EventAbstractStatus.vue'
+import EventDescription from '~/components/EventAbstractDescription.vue'
 
 Vue.component('page-foot', PageFoot)
 Vue.component('logo', Logo)
@@ -18,3 +20,5 @@ Vue.component('event-abstract', EventAbstract)
 Vue.component('event-news', EventNews)
 Vue.component('event-action', EventAction)
 Vue.component('event-title', EventTitle)
+Vue.component('event-status', EventStatus)
+Vue.component('event-description', EventDescription)

@@ -17,6 +17,7 @@
       </div>
     </card>
     <logo class="logo"></logo>
+    <page-foot/>
   </background>
 </template>
 

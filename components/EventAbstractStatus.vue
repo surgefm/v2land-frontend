@@ -49,4 +49,15 @@
   .margin-left {
     margin-left: .75rem;
   }
+
+  @media (max-width: 600px) {
+    .margin-left {
+      margin-left: 0;
+    }
+
+    .status {
+      display: flex;
+      flex-direction: column;
+    }
+  }
 </style>

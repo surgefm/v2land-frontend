@@ -18,4 +18,10 @@
   .icon-container .exact-active-link {
     background-color: transparent;
   }
+
+  @media (max-width: 600px) {
+    img {
+      height: 40px;
+    }
+  }
 </style>

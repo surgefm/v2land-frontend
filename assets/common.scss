@@ -77,3 +77,16 @@ a {
 .el-form-item.is-required .el-form-item__label:before {
   content: "" !important;
 }
+
+.el-upload, .el-upload * {
+  width: 100%;
+}
+
+.image-uploader .el-upload {
+  border: .125rem dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  background-color: rgba(256, 256, 256, .5)
+}

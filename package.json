@@ -16,7 +16,6 @@
     "axios": "^0.17.0",
     "element-ui": "^2.0.0",
     "nuxt": "^1.0.0-rc11",
-    "optimize-css-classnames-plugin": "0.0.5",
     "postman-url-encoder": "^1.0.1",
     "vue": "^2.5.2",
     "vue-server-renderer": "^2.5.2",

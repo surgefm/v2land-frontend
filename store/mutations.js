@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 export default {
   setEvent (state, { name, detail }) {
-    state.event[name] = Object.assign({}, detail)
+    Vue.set(state.event, name, Object.assign({}, detail))
   },
 
   setSubscribeMode (state, mode) {

@@ -1,11 +1,11 @@
 <template>
-  <div style="width: 100%">
+  <div style="width: 100%" class="overall">
     <div v-if="background && background.imageUrl" class="first-screen-container">
       <div 
         class="background"
         :style="'background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.0), \
           rgba(0, 0, 0, 0.0) 50%, rgba(0, 0, 0, 1)), url(' +
-          background.imageUrl + ')'"
+          backgroundUrl + ')'"
       >
       </div>
       
@@ -22,16 +22,23 @@
 </template>
 
 <script>
+  import config from '~/const'
+
   export default {
     props: {
       background: Object
+    },
+    computed: {
+      backgroundUrl () {
+        return config.static + this.background.imageUrl
+      }
     }
   }
 </script>
 
 <style scoped>
   .first-screen-container {
-    height: 100vh;
+    min-height: 100vh;
     width: 100%;
   }
 
@@ -53,6 +60,7 @@
     bottom: -3.5rem;
     display: flex;
     justify-content: center;
+    padding: 4rem 0 0 0;
   }
 
   .blank-top {
@@ -60,5 +68,15 @@
     width: 100%;
     display: flex;
     justify-content: center;
+  }
+
+  @media (max-width: 600px) {
+    .overall {
+      margin-bottom: 2.5rem;
+    }
+
+    .header {
+      position: relative;
+    }
   }
 </style>
