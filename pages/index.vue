@@ -7,21 +7,6 @@
         :key="event.id"
         :event="event"
       />
-      <event-card
-        v-for="event of eventCollection"
-        :key="event.id"
-        :event="event"
-      />
-      <event-card
-        v-for="event of eventCollection"
-        :key="event.id"
-        :event="event"
-      />
-      <event-card
-        v-for="event of eventCollection"
-        :key="event.id"
-        :event="event"
-      />
     </div>
     <logo class="logo"></logo>
   </div>
