@@ -53,7 +53,7 @@
 
   .event-text {
     width: 100%;
-    padding: 1.5rem 2rem;
+    padding: 1rem 2rem;
   }
 
   .event-text-image {
@@ -68,6 +68,7 @@
 
   .event-image-container {
     width: 12rem;
+    margin: 1rem 0;
     background-size: cover;
     background-position: center;
   }
