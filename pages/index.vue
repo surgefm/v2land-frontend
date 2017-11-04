@@ -1,18 +1,30 @@
 <template>
-  <background>
-    <first-screen :background="{ imageUrl: 'default.jpg' }" />
-    <div class="homepage-container">
-      <div class="event-container">
-        <event-card
-          v-for="event of eventCollection"
-          :key="event.id"
-          :event="event"
-        />
-      </div>
-      <page-foot/>
+  <div class="homepage-container">
+    <div class="background-image" />
+    <div class="event-container">
+      <event-card
+        v-for="event of eventCollection"
+        :key="event.id"
+        :event="event"
+      />
+      <event-card
+        v-for="event of eventCollection"
+        :key="event.id"
+        :event="event"
+      />
+      <event-card
+        v-for="event of eventCollection"
+        :key="event.id"
+        :event="event"
+      />
+      <event-card
+        v-for="event of eventCollection"
+        :key="event.id"
+        :event="event"
+      />
     </div>
     <logo class="logo"></logo>
-  </background>
+  </div>
 </template>
 
 <script>
@@ -37,20 +49,27 @@
 
 <style scoped>
   .homepage-container {
-    position: absolute;
-    top: 40vh;
-    left: 0;
     width: 100%;
+    height: 100vh;
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
+  .background-image {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.0),
+      rgba(0, 0, 0, 0.0) 50%, rgba(0, 0, 0, 1)),
+      url(https://s.langchao.co/default.jpg);
+  }
+
   .event-container {
-    min-height: 60vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 1rem;
+    padding: 7rem 1rem;
   }
 </style>
