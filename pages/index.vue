@@ -1,12 +1,12 @@
 <template>
   <div class="homepage-container">
-    <div class="background-image" />
     <div class="event-container">
       <event-card
         v-for="event of eventCollection"
         :key="event.id"
         :event="event"
       />
+      <page-foot class="page-foot" />
     </div>
     <logo class="logo"></logo>
   </div>
@@ -40,15 +40,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
-
-  .background-image {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.0),
-      rgba(0, 0, 0, 0.0) 50%, rgba(0, 0, 0, 1)),
-      url(https://s.langchao.co/default.jpg);
   }
 
   .event-container {
