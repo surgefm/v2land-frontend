@@ -1,15 +1,22 @@
 <template>
   <card v-if="news" class="news-container">
-    <span v-if="news.tag" class="tag light-font">
-      {{ news.tag }}
-    </span>
-    <span v-if="news.source" class="source light-font">
-      {{ news.source }}
-    </span>
-    <br v-if="news.source || news.tag">
-    <a v-if="news.title" :href="news.url" target="_blank" class="title">
-      {{ news.title }}
-    </a>
+    <div class="top-container">
+      <span v-if="order" class="order light-font">
+        {{ order }}
+      </span>
+      <div class="title-container">
+        <span v-if="news.tag" class="tag light-font">
+          {{ news.tag }}
+        </span>
+        <span v-if="news.source" class="source light-font">
+          {{ news.source }}
+        </span>
+        <br v-if="news.source || news.tag">
+        <a v-if="news.title" :href="news.url" target="_blank" class="title">
+          {{ news.title }}
+        </a>
+      </div>
+    </div>
     <p v-if="news.abstract" class="news">
       {{ news.abstract }}
     </p>
@@ -31,9 +38,6 @@
       >
       </event-news-share>
     </div>
-    <span v-if="order" class="order light-font">
-      {{ order }}
-    </span>
   </card>
 </template>
 
@@ -123,6 +127,11 @@
     top: 1.5rem;
     font-family: 'Times New Roman', Times, serif;
     cursor: default;
+    font-weight: 900;
+  }
+
+  .top-container {
+    display: flex;
   }
 
   @media (max-width: 500px) {
@@ -133,6 +142,13 @@
 
     .news-share {
       margin-right: -.4rem;
+    }
+
+    .order {
+      position: relative;
+      right: initial;
+      top: 0;
+      left: -.25rem;
     }
   }
 </style>

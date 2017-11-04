@@ -2,9 +2,9 @@
   <div v-if="event">
     <logo class="logo"></logo>
     <background>
-      <first-screen :background="event.image">
-        <event-abstract slot="header" :detail="event"></event-abstract>
-      </first-screen>
+      <!-- <first-screen :background="event.image"> -->
+      <event-abstract :detail="event"></event-abstract>
+      <!-- </first-screen> -->
       <div 
         v-for="(news, i) of newsCollection"
         :key="news.id"
@@ -61,11 +61,12 @@
       }
     },
     head () {
+      let title = this.name + ' - 浪潮，渴望重回土地'
       return {
-        title: this.name + ' - 浪潮，渴望重回土地',
+        title,
         meta: [
-          { hid: 't:title', name: 'twitter:title', content: this.title },
-          { hid: 'og:title', property: 'og:title', content: this.title },
+          { hid: 't:title', name: 'twitter:title', content: title },
+          { hid: 'og:title', property: 'og:title', content: title },
           { hid: 't:description', name: 'twitter:description', content: this.event.description },
           { hid: 'og:description', property: 'og:description', content: this.event.description },
           this.event.image ? { hid: 't:image', name: 'twitter:image', content: this.image } : {},

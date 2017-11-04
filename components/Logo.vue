@@ -1,9 +1,15 @@
 <template>
   <div class="icon-container">
     <nuxt-link to="/">
-      <el-tooltip content="浪潮 - 渴望重回土地" placement="right" effect="light">
+      <el-tooltip
+        content="浪潮 - 渴望重回土地"
+        class="large-screen"
+        placement="right"
+        effect="light"
+      >
         <img src="/icon.png" height="64px">
       </el-tooltip>
+      <img src="/icon.png" class="small-screen" height="40px">
     </nuxt-link>
   </div>
 </template>
@@ -19,9 +25,17 @@
     background-color: transparent;
   }
 
+  .small-screen {
+    display: none;
+  }
+
   @media (max-width: 600px) {
-    img {
-      height: 40px;
+    .small-screen {
+      display: block;
+    }
+
+    .large-screen {
+      display: none;
     }
   }
 </style>

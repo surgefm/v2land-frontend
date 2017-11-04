@@ -58,7 +58,6 @@
 
   .event-text-image {
     width: calc(100% - 12rem);
-    padding-right: 1.5rem;
   }
 
   .event-title {
@@ -80,11 +79,11 @@
 
   @media (max-width: 600px) {
     .event-text-image {
-      width: calc(100% - 8rem);
+      width: 100%;
     }
 
     .event-image-container {
-      width: 8rem;
+      display: none;
     }
   }
 </style>
