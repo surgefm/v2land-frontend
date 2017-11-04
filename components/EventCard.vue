@@ -36,7 +36,7 @@
         return text
       },
       image () {
-        return config.static + this.event.image.imageUrl
+        return config.static + '240x240/' + this.event.image.imageUrl
       }
     }
   }
