@@ -1,5 +1,11 @@
 export default {
-  client: {},
+  client: {
+    username: '',
+    email: '',
+    role: '',
+    subscriptionList: [],
+    eventList: []
+  },
   event: {},
   pendingNews: {},
   temp: {},

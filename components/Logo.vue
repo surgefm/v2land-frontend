@@ -11,14 +11,13 @@
           <img
             src="//s.langchao.co/icon.svg"
             height="54px"
-            onload="this.id = 'show'"
           >
         </el-tooltip>
+      </nuxt-link>
+      <nuxt-link to="/" class="small-screen">
         <img
           src="//s.langchao.co/icon.svg"
-          class="small-screen"
           height="40px"
-          onload="this.id = 'show'"
         >
       </nuxt-link>
     </div>
@@ -52,6 +51,7 @@
   
   img {
     visibility: visible;
+    opacity: 1;
   }
 
   @media (max-width: 600px) {
