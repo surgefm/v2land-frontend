@@ -9,6 +9,7 @@
         v-for="(news, i) of newsCollection"
         :key="news.id"
         :id="news.id"
+        class="news"
       >
         <event-news :news="news" :order="i + 1"></event-news>
       </div>
