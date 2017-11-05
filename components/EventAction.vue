@@ -55,7 +55,7 @@
 
   .center {
     width: 100%;
-    max-width: 54rem;
+    max-width: 50rem;
     display: flex;
     flex-direction: column;
     align-items: flex-end;

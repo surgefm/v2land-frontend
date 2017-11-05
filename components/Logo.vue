@@ -31,7 +31,7 @@
   }
 
   .center {
-    max-width: 46rem;
+    max-width: 48rem;
     width: 100%;
     display: flex;
     justify-content: flex-start;
