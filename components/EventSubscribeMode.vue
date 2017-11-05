@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-form :model="form" :rules="rules" ref="form" label-width="90px">
+    <el-form :model="form" :rules="rules" ref="form" label-width="4.5rem">
       <el-form-item label="关注模式" prop="mode">
         <el-select
           v-model="form.mode"
