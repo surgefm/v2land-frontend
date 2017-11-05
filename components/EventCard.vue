@@ -45,6 +45,7 @@
 <style scoped>
   .card {
     padding: 0 !important;
+    margin-bottom: 0 !important;
   }
 
   .event-container {
@@ -53,7 +54,7 @@
 
   .event-text {
     width: 100%;
-    padding: 1rem 2rem;
+    padding: 1rem;
   }
 
   .event-text-image {

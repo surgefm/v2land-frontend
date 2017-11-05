@@ -1,13 +1,18 @@
 <template>
   <div class="homepage-container">
-    <div class="event-container">
-      <event-card
-        v-for="event of eventCollection"
-        :key="event.id"
-        :event="event"
-      />
-      <page-foot class="page-foot" />
-    </div>
+    <card class="title-container">
+      <event-title>浪潮</event-title>
+      <event-description class="title-description">社会事件追踪工具</event-description>
+      <nuxt-link to="/about">
+        <el-button class="title-button">了解浪潮</el-button>
+      </nuxt-link>
+    </card>
+    <event-card
+      v-for="event of eventCollection"
+      :key="event.id"
+      :event="event"
+    />
+    <page-foot class="page-foot" />
     <logo class="logo"></logo>
   </div>
 </template>
@@ -40,12 +45,25 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 7rem 1rem;
   }
 
-  .event-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 7rem 1rem;
+  .title-container {
+    display: block;
+    padding: 0 1rem !important;
+  }
+
+  .title-description {
+    margin-top: 0 !important;
+  }
+
+  .title-button {
+    margin: .5rem 0 1rem 0;
+  }
+
+  @media (max-width: 600px) {
+    .homepage-container {
+      padding: 5rem 1rem;
+    }
   }
 </style>

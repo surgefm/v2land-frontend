@@ -12,11 +12,11 @@ module.exports = {
       { hid: 't:site', name: 'twitter:site', content: '@Wave2Land' },
       { hid: 't:title', name: 'twitter:title', content: '浪潮 - 渴望重回土地' },
       { hid: 't:description', name: 'twitter:description', content: '回想一下，你曾关注的社会事件中，有多少得到了妥善的解决？' },
-      { hid: 't:image', name: 'twitter:image', content: 'https://s.langchao.co/default.jpg' },
+      { hid: 't:image', name: 'twitter:image', content: 'https://s.langchao.co/twitter-icon.png' },
       { hid: 'og:title', property: 'og:title', content: '浪潮 - 渴望重回土地' },
       { hid: 'og:type', property: 'og:type', content: 'website' },
       { hid: 'og:description', property: 'og:description', content: '回想一下，你曾关注的社会事件中，有多少得到了妥善的解决？' },
-      { hid: 'og:image', name: 'og:image', content: 'https://s.langchao.co/default.jpg' },
+      { hid: 'og:image', name: 'og:image', content: 'https://s.langchao.co/twitter-icon.png' },
       { hid: 'og:site_name', name: 'og:site_name', content: '浪潮' }
     ],
     link: [

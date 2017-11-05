@@ -40,6 +40,10 @@
     margin-top: 1rem;
   }
 
+  .tag {
+    margin-top: 0;
+  }
+
   .image-container {
     display: flex;
     justify-content: flex-end;

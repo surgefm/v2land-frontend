@@ -54,8 +54,8 @@
           { hid: 'og:title', property: 'og:title', content: '提交新闻 - ' + this.name },
           { hid: 't:description', name: 'twitter:description', content: `为${this.name}提交新闻` },
           { hid: 'og:description', property: 'og:description', content: `为${this.name}提交新闻` },
-          { hid: 't:image', name: 'twitter:image', content: 'https://s.langchao.co/' },
-          { hid: 'og:image', property: 'og:image', content: 'https://s.langchao.co/' },
+          { hid: 't:image', name: 'twitter:image', content: 'https://s.langchao.co/twitter-icon.png' },
+          { hid: 'og:image', property: 'og:image', content: 'https://s.langchao.co/twitter-icon.png' },
           { hid: 't:card', name: 'twitter:card', content: 'summary' }
         ]
       }

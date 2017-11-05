@@ -11,4 +11,10 @@
     align-items: center;
     flex-direction: column;
   }
+
+  @media (max-width: 600px) {
+    .background {
+      padding: 5rem 1rem;
+    }
+  }
 </style>
