@@ -8,7 +8,6 @@
       <div 
         v-for="(news, i) of newsCollection"
         :key="news.id"
-        :class="['news', 'news-' + i]"
         :id="news.id"
       >
         <event-news :news="news" :order="i + 1"></event-news>
@@ -84,9 +83,5 @@
   .news {
     width: 100%;
     max-width: 35rem;
-  }
-
-  .news-0 {
-    margin-top: -2rem;
   }
 </style>

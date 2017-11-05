@@ -1,7 +1,12 @@
 @import "variables";
 
+.subscribe-container {
+  transition: all .2s;
+}
+
 .subscribe-container:hover, .exact-active-link {
   background-color: $background-color;
+  box-shadow: 0 20px 80px rgba(0,0,0,.1), 0 5px 20px rgba(0,0,0,.05);
 }
 
 .subscribe-container .text {

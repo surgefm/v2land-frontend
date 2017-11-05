@@ -6,7 +6,7 @@
           <p class="event-title">
             {{ event.name }}
           </p>
-          <event-description>
+          <event-description class="event-description">
             {{ description }}
           </event-description>
         </div>
@@ -45,7 +45,6 @@
 <style scoped>
   .card {
     padding: 0 !important;
-    margin-bottom: 0 !important;
   }
 
   .event-container {
@@ -54,7 +53,7 @@
 
   .event-text {
     width: 100%;
-    padding: 1rem;
+    padding: 1.5rem;
   }
 
   .event-text-image {
@@ -67,11 +66,17 @@
     line-height: 1.5;
   }
 
+  .event-description {
+    margin-top: .5rem;
+  }
+
   .event-image-container {
     width: 12rem;
-    margin: 1rem 0;
+    margin: 0;
     background-size: cover;
     background-position: center;
+    border-top-right-radius: .5rem;
+    border-bottom-right-radius: .5rem;
   }
 
   p {

@@ -45,6 +45,5 @@
   .event-share {
     display: flex;
     justify-content: flex-end;
-    margin-bottom: 3rem;
   }
 </style>
