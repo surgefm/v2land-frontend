@@ -8,9 +8,18 @@
           placement="right"
           effect="light"
         >
-          <img class="" src="//s.langchao.co/icon.svg" height="54px">
+          <img
+            src="//s.langchao.co/icon.svg"
+            height="54px"
+            onload="this.id = 'show'"
+          >
         </el-tooltip>
-        <img src="//s.langchao.co/icon.svg" class="small-screen" height="40px">
+        <img
+          src="//s.langchao.co/icon.svg"
+          class="small-screen"
+          height="40px"
+          onload="this.id = 'show'"
+        >
       </nuxt-link>
     </div>
   </div>

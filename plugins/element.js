@@ -14,6 +14,7 @@ import Step from 'element-ui/lib/step'
 import Steps from 'element-ui/lib/steps'
 import Message from 'element-ui/lib/message'
 import Upload from 'element-ui/lib/upload'
+import Switch from 'element-ui/lib/switch'
 
 Vue.use(Button)
 Vue.use(DatePicker)
@@ -29,5 +30,6 @@ Vue.use(Icon)
 Vue.use(Step)
 Vue.use(Steps)
 Vue.use(Upload)
+Vue.use(Switch)
 
 Vue.prototype.$message = Message

@@ -1,7 +1,10 @@
 <template>
   <div class="homepage-container">
-    <card class="title-container">
-      <img src="https://s.langchao.co/750x200/default.jpg">
+    <card class="title-container hover">
+      <img
+        src="https://s.langchao.co/750x200/default.jpg"
+        onload="this.id = 'show'"
+      >
       <event-title>浪潮</event-title>
       <event-description class="title-description">
         你的社会事件追踪工具
@@ -21,6 +24,7 @@
     />
     <page-foot class="page-foot" />
     <logo class="logo"></logo>
+    <event-action></event-action>
   </div>
 </template>
 

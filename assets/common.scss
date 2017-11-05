@@ -10,6 +10,19 @@ a {
   text-decoration: none;
 }
 
+img {
+  opacity: 0;
+  transition: opacity .2s;
+}
+
+#show {
+  opacity: 1;
+}
+
+.hover:hover {
+  transform: translateY(-.2rem) !important;
+}
+
 .logo {
   position: absolute;
   top: 2rem;

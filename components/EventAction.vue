@@ -1,18 +1,20 @@
 <template>
   <div class="action-set-container">
     <div class="center">
-      <event-action-subscribe class="action"></event-action-subscribe>
-      <event-action-post class="action"></event-action-post>
-      <event-action-admit v-if="isClientAdmin" class="action"></event-action-admit>
-      <event-action-edit v-if="isClientAdmin" class="action small"></event-action-edit>
-      <event-action-edit-image v-if="isClientAdmin" class="action small"></event-action-edit-image>
+      <event-action-create-event v-if="isHomepage" class="action"></event-action-create-event>
+      <event-action-subscribe v-if="!isHomepage" class="action"></event-action-subscribe>
+      <event-action-post v-if="!isHomepage" class="action"></event-action-post>
+      <event-action-admit v-if="isClientAdmin && !isHomepage" class="action"></event-action-admit>
+      <event-action-edit v-if="isClientAdmin && !isHomepage" class="action small"></event-action-edit>
+      <event-action-edit-image v-if="isClientAdmin && !isHomepage" class="action small"></event-action-edit-image>
       <event-action-return v-if="showReturn" class="action"></event-action-return>
-      <event-action-homepage v-if="!showReturn" class="action"></event-action-homepage>
+      <event-action-homepage v-if="!showReturn && !isHomepage" class="action"></event-action-homepage>
     </div>
   </div>
 </template>
 
 <script>
+  import EventActionCreateEvent from './EventActionCreateEvent.vue'
   import EventActionSubscribe from './EventActionSubscribe.vue'
   import EventActionPost from './EventActionPost.vue'
   import EventActionAdmit from './EventActionAdmit.vue'
@@ -23,6 +25,7 @@
 
   export default {
     components: {
+      'event-action-create-event': EventActionCreateEvent,
       'event-action-subscribe': EventActionSubscribe,
       'event-action-post': EventActionPost,
       'event-action-admit': EventActionAdmit,
@@ -35,8 +38,11 @@
       isClientAdmin () {
         return this.$store.getters.isClientAdmin
       },
+      isHomepage () {
+        return this.$route.path === '/'
+      },
       showReturn () {
-        return this.$route.name !== 'name'
+        return this.$route.name !== 'name' && !this.isHomepage
       }
     }
   }

@@ -1,5 +1,5 @@
 <template>
-  <card class="card">
+  <card class="card hover">
     <nuxt-link :to="'/' + event.name" class="link">
       <div class="event-container">
         <div :class="['event-text', !event.image || 'event-text-image']">
@@ -9,12 +9,13 @@
           <event-description class="event-description">
             {{ description }}
           </event-description>
+          <img
+            class="event-image-container"
+            v-if="event.image"
+            :src="image"
+            onload="this.id='show'"
+          />
         </div>
-        <div
-          class="event-image-container"
-          v-if="event.image"
-          :style="`background-image:url(${image})`"
-        />
       </div>
     </nuxt-link>
   </card>
@@ -57,7 +58,8 @@
   }
 
   .event-text-image {
-    width: calc(100% - 12rem);
+    padding-right: 13.5rem;
+    position: relative;
   }
 
   .event-title {
@@ -72,11 +74,16 @@
 
   .event-image-container {
     width: 12rem;
+    height: 100%;
     margin: 0;
     background-size: cover;
     background-position: center;
     border-top-right-radius: .5rem;
     border-bottom-right-radius: .5rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    opacity: 0;
   }
 
   p {

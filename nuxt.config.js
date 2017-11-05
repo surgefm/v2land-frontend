@@ -77,7 +77,8 @@ module.exports = {
     '~/static/element/message.css',
     '~/static/element/step.css',
     '~/static/element/steps.css',
-    '~/static/element/upload.css'
+    '~/static/element/upload.css',
+    '~/static/element/switch.css'
   ],
 
   plugins: [

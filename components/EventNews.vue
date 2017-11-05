@@ -1,5 +1,5 @@
 <template>
-  <card v-if="news" class="news-container">
+  <card v-if="news" class="news-container hover">
     <div class="top-container">
       <span v-if="order" class="order light-font">
         {{ order }}

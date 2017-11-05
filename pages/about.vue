@@ -13,7 +13,9 @@
       <p>浪潮，正是这样一个小闹钟。它帮你记住一个事件，关注一个事件，推动一个事件。席慕蓉曾在诗中写道：「溪水急着要流向海洋，浪潮却渴望重回土地」。在一片嘈杂声中，一个事件盖过另一个事件，一阵喧嚣闹过另一阵喧嚣。我们可以选择像溪水一样，裹挟在舆论热点中随波逐流，却不知正去向何方。也可以选择成为浪潮：永远看准一个方向，永远不忘朝土地奔跑。</p>
       <p>浪潮，或许此刻退下沙滩，可我们知道，它终将重回土地。</p>
       <div class="image-container">
-        <img src="/icon.png">
+        <nuxt-link to="/">
+          <img src="//s.langchao.co/icon.svg" onload="this.id = 'show'">
+        </nuxt-link>
       </div>
     </card>
     <logo class="logo"></logo>

@@ -8,6 +8,10 @@
       <el-input v-model="form.description" type="textarea" autosize></el-input>
     </el-form-item>
 
+    <el-form-item label="是否可见">
+      <el-switch v-model="form.visible"></el-switch>
+    </el-form-item>
+
     <div class="submit-button-group">
       <el-button @click="resetForm('form')">重置</el-button>
       <el-button type="primary" @click="submitForm('form')" size="medium">提交</el-button>
@@ -28,11 +32,7 @@
         form: {
           name: '',
           description: '',
-          image: {
-            imageUrl: '',
-            source: '',
-            sourceUrl: ''
-          }
+          visible: false
         },
         rules: {
           url: [

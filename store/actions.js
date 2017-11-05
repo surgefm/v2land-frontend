@@ -58,6 +58,11 @@ export default {
     return axios.put(url, data)
   },
 
+  async createEvent ({ dispatch }, { name, data }) {
+    let url = $.encode(`events`)
+    return axios.post(url, data)
+  },
+
   async editNews ({ dispatch }, { id, data }) {
     let url = $.encode(`news/${id}`)
     return axios.patch(url, data)
