@@ -1,12 +1,14 @@
 <template>
   <div class="action-set-container">
-    <event-action-subscribe class="action"></event-action-subscribe>
-    <event-action-post class="action"></event-action-post>
-    <event-action-admit v-if="isClientAdmin" class="action"></event-action-admit>
-    <event-action-edit v-if="isClientAdmin" class="action small"></event-action-edit>
-    <event-action-edit-image v-if="isClientAdmin" class="action small"></event-action-edit-image>
-    <event-action-return v-if="showReturn" class="action"></event-action-return>
-    <event-action-homepage v-if="!showReturn" class="action"></event-action-homepage>
+    <div class="center">
+      <event-action-subscribe class="action"></event-action-subscribe>
+      <event-action-post class="action"></event-action-post>
+      <event-action-admit v-if="isClientAdmin" class="action"></event-action-admit>
+      <event-action-edit v-if="isClientAdmin" class="action small"></event-action-edit>
+      <event-action-edit-image v-if="isClientAdmin" class="action small"></event-action-edit-image>
+      <event-action-return v-if="showReturn" class="action"></event-action-return>
+      <event-action-homepage v-if="!showReturn" class="action"></event-action-homepage>
+    </div>
   </div>
 </template>
 
@@ -43,12 +45,21 @@
 <style scoped>
   .action-set-container {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+    justify-content: center;
     position: fixed;
     top: 2.5rem;
-    right: 2.5rem;
+    width: 100%;
     z-index: 1100;
+    visibility: hidden;
+  }
+
+  .center {
+    width: 100%;
+    max-width: 54rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    visibility: hidden;
   }
 
   .subscribe-container {
@@ -62,6 +73,7 @@
   .action {
     margin-top: .5rem;
     position: relative;
+    visibility: visible;
   }
 
   .action:first-child {
@@ -70,11 +82,16 @@
 
   @media (max-width: 600px) {
     .action-set-container {
-      flex-direction: row;
       top: initial;
       bottom: 0;
       right: 0;
       width: 100%;
+    }
+
+    .center {
+      flex-direction: row;
+      max-width: auto;
+      visibility: visible;
       background-color: rgba(256, 256, 256, .95);
       justify-content: space-between;
     }
