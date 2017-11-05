@@ -87,7 +87,7 @@
 
   @media (max-width: 600px) {
     .homepage-container {
-      padding: 5rem 1rem;
+      padding: 4rem 1rem;
     }
   }
 </style>

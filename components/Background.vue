@@ -14,7 +14,7 @@
 
   @media (max-width: 600px) {
     .background {
-      padding: 5rem 1rem;
+      padding: 4rem 1rem;
     }
   }
 </style>

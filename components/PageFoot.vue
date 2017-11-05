@@ -28,5 +28,6 @@
     color: #586069 !important;
     padding: .25rem;
     background-color: transparent !important;
+    box-shadow: none !important;
   }
 </style>
