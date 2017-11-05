@@ -92,8 +92,8 @@
   }
 
   @media (max-width: 600px) {
-    .event-text-image {
-      width: 100%;
+    .event-text {
+      padding-right: 1.5rem;
     }
 
     .event-image-container {
