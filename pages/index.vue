@@ -47,12 +47,12 @@
 <style scoped>
   .homepage-container {
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 7rem 1rem;
+    padding: 7rem 1rem 1rem 1rem;
   }
 
   .title-container {
@@ -87,7 +87,7 @@
 
   @media (max-width: 600px) {
     .homepage-container {
-      padding: 4rem 1rem;
+      padding: 4rem 1rem 1rem 1rem;
     }
   }
 </style>
