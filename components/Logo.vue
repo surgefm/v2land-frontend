@@ -23,6 +23,7 @@
 
   .icon-container .exact-active-link {
     background-color: transparent;
+    box-shadow: none;
   }
 
   .small-screen {
