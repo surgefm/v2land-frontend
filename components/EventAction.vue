@@ -1,14 +1,14 @@
 <template>
   <div class="action-set-container">
     <div class="center">
-      <event-action-create-event v-if="isClientAdmin && isHomepage" class="action"></event-action-create-event>
-      <event-action-subscribe v-if="!isHomepage" class="action"></event-action-subscribe>
-      <event-action-post v-if="!isHomepage" class="action"></event-action-post>
-      <event-action-admit v-if="isClientAdmin && !isHomepage" class="action"></event-action-admit>
-      <event-action-edit v-if="isClientAdmin && !isHomepage" class="action small"></event-action-edit>
-      <event-action-edit-image v-if="isClientAdmin && !isHomepage" class="action small"></event-action-edit-image>
+      <event-action-create-event v-if="showCreateEvent" class="action"></event-action-create-event>
+      <event-action-subscribe v-if="showSubscribe" class="action"></event-action-subscribe>
+      <event-action-post v-if="showPost" class="action"></event-action-post>
+      <event-action-admit v-if="showAdmit" class="action"></event-action-admit>
+      <event-action-edit v-if="showEdit" class="action small"></event-action-edit>
+      <event-action-edit-image v-if="showEditImage" class="action small"></event-action-edit-image>
       <event-action-return v-if="showReturn" class="action"></event-action-return>
-      <event-action-homepage v-if="!showReturn && !isHomepage" class="action"></event-action-homepage>
+      <event-action-homepage v-if="showHomepage" class="action"></event-action-homepage>
     </div>
   </div>
 </template>
@@ -41,8 +41,29 @@
       isHomepage () {
         return this.$route.path === '/'
       },
+      showCreateEvent () {
+        return this.isClientAdmin && this.isHomepage
+      },
+      showSubscribe () {
+        return !this.isHomepage
+      },
+      showPost () {
+        return this.showSubscribe
+      },
+      showAdmit () {
+        return this.isClientAdmin && !this.isHomepage
+      },
+      showEdit () {
+        return this.showAdmit
+      },
+      showEditImage () {
+        return this.showAdmit
+      },
       showReturn () {
         return this.$route.name !== 'name' && !this.isHomepage
+      },
+      showHomepage () {
+        return !this.showReturn && !this.isHomepage
       }
     }
   }

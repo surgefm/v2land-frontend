@@ -10,7 +10,6 @@
       >
       </event-information-form>
     </card>
-    <event-action></event-action>
     <logo class="logo"></logo>
     <page-foot/>
   </background>
