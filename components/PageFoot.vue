@@ -12,12 +12,10 @@
 <style scoped>
   .footer {
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    text-align: center;
     font-size: .75rem;
     color: #586069 !important;
-    margin: 1rem 0;
+    margin: 1rem 0 3rem 0;
   }
 
   .copyright {
