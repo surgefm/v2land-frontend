@@ -1,7 +1,7 @@
 <template>
   <div class="action-set-container">
     <div class="center">
-      <event-action-create-event v-if="isHomepage" class="action"></event-action-create-event>
+      <event-action-create-event v-if="isClientAdmin && isHomepage" class="action"></event-action-create-event>
       <event-action-subscribe v-if="!isHomepage" class="action"></event-action-subscribe>
       <event-action-post v-if="!isHomepage" class="action"></event-action-post>
       <event-action-admit v-if="isClientAdmin && !isHomepage" class="action"></event-action-admit>
