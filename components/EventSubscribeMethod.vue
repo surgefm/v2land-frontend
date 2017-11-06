@@ -26,7 +26,7 @@
     <div class="submit-button-group-separate">
       <el-button type="primary" @click="lastStep">上一步</el-button>
       <div>
-        <el-button v-if="form.method === 'twitter'">
+        <el-button v-if="form.method === 'twitter'" @click="connectTwitter">
           绑定 Twitter 账号
         </el-button>
         <el-button v-else type="primary" @click="submit" :disabled="!isSubmittable">
@@ -38,6 +38,10 @@
 </template>
 
 <script>
+  import config from '~/const'
+  import $ from 'postman-url-encoder'
+  import Cookie from 'cookie'
+
   export default {
     data () {
       return {
@@ -58,11 +62,11 @@
           {
             label: '邮件推送',
             value: 'email'
+          },
+          {
+            label: '通过我的 Twitter 账户发推',
+            value: 'twitter'
           }
-          // {
-          //   label: '通过我的 Twitter 账户发推',
-          //   value: 'twitter'
-          // }
         ]
       }
     },
@@ -85,11 +89,26 @@
           method: this.form.method,
           address: this.form[this.form.method]
         })
+      },
+      connectTwitter () {
+        let accessToken
+        try {
+          let cookies = Cookie.parse(document.cookie)
+          accessToken = cookies.accessToken
+        } catch (err) {}
+        let url = $.encode(config.api + 'auth/twitter?r=' + Math.random() * 10000 +
+          (accessToken ? '&access_token=' + accessToken : '') +
+          '&redirect=' + this.$route.params.name + '/subscribe?' +
+          'mode=' + this.$store.state.subscribe.mode)
+        window.location = url
       }
     },
     created () {
-      this.form.method = this.$store.state.subscribe.contact.method || 'email'
-      this.form[this.form.method] = this.$store.state.subscribe.contact.address
+      this.form.method = this.$route.query.method ||
+        this.$store.state.subscribe.contact.method ||
+        'email'
+      this.form[this.form.method] = this.$route.query.address ||
+        this.$store.state.subscribe.contact.address
     }
   }
 </script>

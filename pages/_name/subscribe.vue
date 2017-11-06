@@ -79,7 +79,30 @@
         })
           .then(() => {
             this.show = 'success'
+            this.$store.commit('setSubscribeMode', '')
+            this.$store.commit('setSubscribeMethod', { method: '', address: '' })
           })
+      }
+    },
+    created () {
+      if (this.$route.query.mode) {
+        this.$store.commit('setSubscribeMode', this.$route.query.mode)
+      }
+
+      if (this.$route.query.method && this.$route.query.twitter_id) {
+        this.$store.commit('setSubscribeMethod', {
+          method: this.$route.query.method,
+          address: this.$route.query.twitter_id
+        })
+      }
+
+      // 针对第三方账户跳转回来的情况，如果信息都已齐全，那就直接提交
+      if (this.$store.state.subscribe.mode &&
+        this.$store.state.subscribe.contact.method &&
+        this.$store.state.subscribe.contact.address) {
+        this.submit()
+      } else if (this.$store.state.subscribe.mode) {
+        this.show = 'method'
       }
     },
     head () {

@@ -15,11 +15,13 @@
   "dependencies": {
     "axios": "^0.17.0",
     "element-ui": "^2.0.0",
+    "js-cookie": "^2.2.0",
     "nuxt": "^1.0.0-rc11",
     "postman-url-encoder": "^1.0.1",
     "vue": "^2.5.2",
     "vue-server-renderer": "^2.5.2",
-    "vue-template-compiler": "^2.5.2"
+    "vue-template-compiler": "^2.5.2",
+    "vuex-persistedstate": "^2.3.1"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",

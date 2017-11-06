@@ -3,7 +3,7 @@
     <div class="center">
       <event-action-admin-event v-if="showAdminEvent" class="action" />
       <event-action-admin-admit v-if="showAdminAdmit" class="action" />
-      <event-action-create-event v-if="showCreateEvent" class="action" />
+      <event-action-create-event v-if="showCreateEvent" class="action small" />
       <event-action-subscribe v-if="showSubscribe" class="action" />
       <event-action-post v-if="showPost" class="action" />
       <event-action-admit v-if="showAdmit" class="action" />
@@ -97,7 +97,8 @@
 
   .center {
     width: 100%;
-    max-width: 50rem;
+    max-width: 53rem;
+    padding-right: .5rem;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -120,6 +121,12 @@
 
   .action:first-child {
     margin-top: 0;
+  }
+
+  @media (max-width: 780px) {
+    .center {
+      max-width: 50rem;
+    }
   }
 
   @media (max-width: 600px) {

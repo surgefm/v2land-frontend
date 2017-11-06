@@ -10,6 +10,11 @@
         你的社会事件追踪工具
       </event-description>
       <div class="title-button-container">
+        <nuxt-link to="/new">
+          <el-button class="title-button">
+            创建事件
+          </el-button>
+        </nuxt-link>
         <nuxt-link to="/about">
           <el-button class="title-button" type="primary">
             了解浪潮
@@ -81,7 +86,7 @@
   }
 
   .title-button {
-    margin: .5rem 0 1rem 0;
+    margin: .5rem 0 1rem .5rem;
   }
 
   @media (max-width: 600px) {

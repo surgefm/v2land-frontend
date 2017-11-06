@@ -10,15 +10,8 @@
 }
 
 .subscribe-container .text {
-  visibility: hidden;
-  opacity: 0;
   transition: .2s;
   position: relative;
-}
-
-.subscribe-container:hover .text, .exact-active-link .text {
-  visibility: visible;
-  opacity: 1;
 }
 
 .subscribe-container:hover .badge, .exact-active-link .badge {
@@ -31,6 +24,18 @@
 .icon {
   font-size: 1.5rem;
   margin-left: .5rem;
+}
+
+@media (max-width: 780px) {
+  .subscribe-container .text {
+    visibility: hidden;
+    opacity: 0;
+  }
+
+  .subscribe-container:hover .text, .exact-active-link .text {
+    visibility: visible;
+    opacity: 1;
+  }
 }
 
 @media (max-width: 600px) {
