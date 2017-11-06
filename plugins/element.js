@@ -14,7 +14,8 @@ import Step from 'element-ui/lib/step'
 import Steps from 'element-ui/lib/steps'
 import Message from 'element-ui/lib/message'
 import Upload from 'element-ui/lib/upload'
-import Switch from 'element-ui/lib/switch'
+import Checkbox from 'element-ui/lib/checkbox'
+import CheckboxGroup from 'element-ui/lib/checkbox-group'
 
 Vue.use(Button)
 Vue.use(DatePicker)
@@ -30,6 +31,7 @@ Vue.use(Icon)
 Vue.use(Step)
 Vue.use(Steps)
 Vue.use(Upload)
-Vue.use(Switch)
+Vue.use(Checkbox)
+Vue.use(CheckboxGroup)
 
 Vue.prototype.$message = Message

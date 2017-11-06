@@ -8,8 +8,15 @@
       <el-input v-model="form.description" type="textarea" autosize></el-input>
     </el-form-item>
 
-    <el-form-item label="是否可见">
-      <el-switch v-model="form.visible"></el-switch>
+    <el-form-item label="事件状态" v-if="isAdmin">
+      <el-select v-model="form.status">
+        <el-option
+          v-for="item in status"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
     </el-form-item>
 
     <div class="submit-button-group">
@@ -32,7 +39,7 @@
         form: {
           name: '',
           description: '',
-          visible: false
+          status: ''
         },
         rules: {
           url: [
@@ -46,12 +53,20 @@
             { required: true, message: '请输入事件简介', trigger: 'blur' },
             { max: 200, message: '简介字数不得超过 200 字', trigger: 'blur' }
           ]
-        }
+        },
+        status: [
+          { value: 'admitted', label: '公开' },
+          { value: 'pending', label: '待审核' },
+          { value: 'hidden', label: '隐藏' }
+        ]
       }
     },
     computed: {
       origData () {
         return this.$store.state.event[this.name]
+      },
+      isAdmin () {
+        return this.$store.getters.isClientAdmin
       }
     },
     methods: {
@@ -77,6 +92,9 @@
     created () {
       if (this.mode === 'edit' && this.origData) {
         this.form = Object.assign({}, this.origData)
+      }
+      if (this.mode !== 'edit' && this.isAdmin) {
+        this.form.status = 'admitted'
       }
     }
   }

@@ -63,7 +63,7 @@
                 document.cookie = cookie
 
                 this.$message.success('登录成功')
-                this.$router.push(this.$route.query.redirect || '/')
+                window.location.replace(window.location.origin + (this.$route.query.redirect || ''))
               })
               .catch(() => {
                 this.$message.error('用户名或密码错误')

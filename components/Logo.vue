@@ -13,11 +13,10 @@
             height="54px"
           >
         </el-tooltip>
-      </nuxt-link>
-      <nuxt-link to="/" class="small-screen">
         <img
           src="//s.langchao.co/icon.svg"
           height="40px"
+          class="small-screen"
         >
       </nuxt-link>
     </div>

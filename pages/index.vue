@@ -29,16 +29,11 @@
 </template>
 
 <script>
-  import EventCard from '~/components/EventCard.vue'
-
   export default {
     data () {
       return {
         eventCollection: []
       }
-    },
-    components: {
-      'event-card': EventCard
     },
     async asyncData ({ store }) {
       return {

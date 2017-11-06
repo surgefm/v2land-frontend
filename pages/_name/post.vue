@@ -27,11 +27,19 @@
       async submit () {
         let data = this.$store.state.temp.addNews
         let url = $.encode('events/' +
-          this.$route.params.name + '/news')
+          this.$route.params.name + (this.isAdmin ? '/news' : '/news/add'))
         axios.put(url, data)
           .then(() => {
-            this.$message.success('提交成功，该新闻会在通过审核后列入事件时间轴内')
-            this.$refs.form.resetForm()
+            if (this.isAdmin) {
+              this.$store.dispatch('fetchEvent', this.name)
+                .then(() => {
+                  this.$message.success('提交成功，该新闻已放入事件合辑内')
+                  this.$refs.form.resetForm()
+                })
+            } else {
+              this.$message.success('提交成功，该新闻会在通过审核后列入事件合辑内')
+              this.$refs.form.resetForm()
+            }
           })
           .catch(() => {
             this.$message.error('服务器开小差了，神秘')
@@ -41,6 +49,9 @@
     computed: {
       name () {
         return this.$route.params.name
+      },
+      isAdmin () {
+        return this.$store.getters.isClientAdmin
       }
     },
     components: {

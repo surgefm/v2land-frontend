@@ -1,6 +1,6 @@
 <template>
   <card class="card hover">
-    <nuxt-link :to="'/' + event.name" class="link">
+    <nuxt-link :to="'/' + event.name" class="link" v-if="!isAdminEvent">
       <div class="event-container">
         <div :class="['event-text', !event.image || 'event-text-image']">
           <p class="event-title">
@@ -18,11 +18,23 @@
         </div>
       </div>
     </nuxt-link>
+    <div v-else class="event-container">
+      <div class="event-text">
+        <nuxt-link class="event-title link" :to="'/' + event.name">
+          {{ event.name }}
+        </nuxt-link>
+        <event-description class="event-description">
+          {{ description }}
+        </event-description>
+        <event-card-action :event="event" v-on:update="$emit('update')" />
+      </div>
+    </div>
   </card>
 </template>
 
 <script>
   import config from '~/const'
+  import EventCardAction from '~/components/EventCardAction.vue'
 
   export default {
     props: {
@@ -38,7 +50,13 @@
       },
       image () {
         return config.static + '240x240/' + this.event.image.imageUrl
+      },
+      isAdminEvent () {
+        return this.$route.path === '/admin/event'
       }
+    },
+    components: {
+      'event-card-action': EventCardAction
     }
   }
 </script>
@@ -46,6 +64,10 @@
 <style scoped>
   .card {
     padding: 0 !important;
+  }
+
+  .link {
+    color: black;
   }
 
   .event-container {

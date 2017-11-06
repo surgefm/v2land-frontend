@@ -1,19 +1,23 @@
 <template>
   <div class="action-set-container">
     <div class="center">
-      <event-action-create-event v-if="showCreateEvent" class="action"></event-action-create-event>
-      <event-action-subscribe v-if="showSubscribe" class="action"></event-action-subscribe>
-      <event-action-post v-if="showPost" class="action"></event-action-post>
-      <event-action-admit v-if="showAdmit" class="action"></event-action-admit>
-      <event-action-edit v-if="showEdit" class="action small"></event-action-edit>
-      <event-action-edit-image v-if="showEditImage" class="action small"></event-action-edit-image>
-      <event-action-return v-if="showReturn" class="action"></event-action-return>
-      <event-action-homepage v-if="showHomepage" class="action"></event-action-homepage>
+      <event-action-admin-event v-if="showAdminEvent" class="action" />
+      <event-action-admin-admit v-if="showAdminAdmit" class="action" />
+      <event-action-create-event v-if="showCreateEvent" class="action" />
+      <event-action-subscribe v-if="showSubscribe" class="action" />
+      <event-action-post v-if="showPost" class="action" />
+      <event-action-admit v-if="showAdmit" class="action" />
+      <event-action-edit v-if="showEdit" class="action small" />
+      <event-action-edit-image v-if="showEditImage" class="action small" />
+      <event-action-return v-if="showReturn" class="action" />
+      <event-action-homepage v-if="showHomepage" class="action" />
     </div>
   </div>
 </template>
 
 <script>
+  import EventActionAdminEvent from './EventActionAdminEvent.vue'
+  import EventActionAdminAdmit from './EventActionAdminAdmit.vue'
   import EventActionCreateEvent from './EventActionCreateEvent.vue'
   import EventActionSubscribe from './EventActionSubscribe.vue'
   import EventActionPost from './EventActionPost.vue'
@@ -25,6 +29,8 @@
 
   export default {
     components: {
+      'event-action-admin-event': EventActionAdminEvent,
+      'event-action-admin-admit': EventActionAdminAdmit,
       'event-action-create-event': EventActionCreateEvent,
       'event-action-subscribe': EventActionSubscribe,
       'event-action-post': EventActionPost,
@@ -41,17 +47,26 @@
       isHomepage () {
         return this.$route.path === '/'
       },
+      isAdminDir () {
+        return this.$route.path.includes('/admin')
+      },
+      showAdminEvent () {
+        return (this.isHomepage && this.isClientAdmin) || this.isAdminDir
+      },
+      showAdminAdmit () {
+        return this.showAdminEvent
+      },
       showCreateEvent () {
-        return this.isClientAdmin && this.isHomepage
+        return this.isHomepage || this.isAdminDir
       },
       showSubscribe () {
-        return !this.isHomepage
+        return !this.isHomepage && !this.isAdminDir
       },
       showPost () {
         return this.showSubscribe
       },
       showAdmit () {
-        return this.isClientAdmin && !this.isHomepage
+        return this.isClientAdmin && !this.isHomepage && !this.isAdminDir
       },
       showEdit () {
         return this.showAdmit
@@ -60,7 +75,7 @@
         return this.showAdmit
       },
       showReturn () {
-        return this.$route.name !== 'name' && !this.isHomepage
+        return this.$route.name !== 'name' && !this.isHomepage && this.isAdminDir
       },
       showHomepage () {
         return !this.showReturn && !this.isHomepage

@@ -6,9 +6,7 @@ let headers = {}
 
 try {
   let cookies = Cookie.parse(document.cookie)
-  if (cookies && cookies.accessToken) {
-    headers.Authorization = cookies.accessToken
-  }
+  headers.Authorization = cookies.accessToken
 } catch (err) {}
 
 let instance = Axios.create({

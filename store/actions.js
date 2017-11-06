@@ -24,33 +24,45 @@ export default {
     }
   },
 
-  async getEventList ({ commit }) {
-    let url = $.encode(`events/latest`)
+  async getEventList ({ commit }, mode = 'latest') {
+    let url = $.encode(`events` + (mode === 'latest' ? '/latest' : ''))
     try {
       let { data } = await axios.get(url)
-      for (let event of data.eventCollection) {
+      for (let event of (data.eventCollection || data)) {
         event.image = event['header_image']
         commit('setEvent', {
           name: event.name,
           detail: event
         })
       }
-      return data.eventCollection
+      return data.eventCollection || data
     } catch (err) {
       return []
     }
   },
 
+  async getAllEventList ({ dispatch }) {
+    return dispatch('getEventList', 'all')
+  },
+
   async getPendingNews ({ commit }, name) {
-    let url = $.encode(`events/${name}/pending_news`)
-    let { data } = await axios.get(url)
+    if (name) {
+      let url = $.encode(`events/${name}/pending_news`)
+      let { data } = await axios.get(url)
 
-    commit('setPendingNews', {
-      name,
-      newsCollection: data.newsCollection
-    })
+      commit('setPendingNews', {
+        name,
+        newsCollection: data.newsCollection
+      })
 
-    return data.newsCollection
+      return data.newsCollection
+    } else {
+      let url = $.encode(`events/pending_news`)
+      let { data } = await axios.get(url)
+      commit('setAllPendingNews', data.newsCollection)
+
+      return data.newsCollection
+    }
   },
 
   async editEvent ({ dispatch }, { name, data }) {
@@ -58,8 +70,8 @@ export default {
     return axios.put(url, data)
   },
 
-  async createEvent ({ dispatch }, { name, data }) {
-    let url = $.encode(`events`)
+  async createEvent ({ dispatch, getters }, { data }) {
+    let url = $.encode(getters.isClientAdmin ? 'events' : 'events/add')
     return axios.post(url, data)
   },
 

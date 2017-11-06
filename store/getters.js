@@ -3,6 +3,10 @@ export default {
     return state.client.role === 'admin'
   },
 
+  isLoggedIn (state) {
+    return !!state.client.username
+  },
+
   getEvent: (state) => (name) => {
     return state.event[name]
   },
@@ -22,6 +26,10 @@ export default {
   },
 
   getPendingNews: (state) => (name) => {
-    return state.pendingNews[name] || []
+    if (name) {
+      return state.pendingNews[name] || []
+    } else {
+      return state.allPendingNews
+    }
   }
 }

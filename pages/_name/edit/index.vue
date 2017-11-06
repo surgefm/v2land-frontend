@@ -37,7 +37,8 @@
           })
           .then(() => {
             this.$message('修改成功')
-            this.$router.push(`/${this.$route.params.name}`)
+            let url = this.$route.query.redirect || `/${this.$route.params.name}`
+            this.$router.push(url)
           })
       }
     },

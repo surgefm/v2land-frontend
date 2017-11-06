@@ -8,6 +8,7 @@ export default {
   },
   event: {},
   pendingNews: {},
+  allPendingNews: [],
   temp: {},
   subscribe: {
     mode: '',

@@ -5,6 +5,11 @@
         {{ order }}
       </span>
       <div class="title-container">
+        <nuxt-link class="tag" v-if="news.event" :to="`/${news.event.name}`">
+          <span class="light-font">
+            {{ news.event.name }}
+          </span>
+        </nuxt-link>
         <span v-if="news.tag" class="tag light-font">
           {{ news.tag }}
         </span>
@@ -89,6 +94,10 @@
   .tag {
     font-size: .9rem;
     margin-right: .5rem;
+  }
+
+  .tag {
+    text-decoration: none !important;
   }
 
   .source {

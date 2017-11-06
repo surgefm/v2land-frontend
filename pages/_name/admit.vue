@@ -1,7 +1,7 @@
 <template>
   <background>
     <card>
-      <p class="tag light-font">{{ $route.params.name }}</p>
+      <p class="tag light-font" v-if="!isAdminAdmit">{{ name }}</p>
       <event-title>审核新闻队列</event-title>
       <p v-if="!(newsCollection.length > 0)">
         队列暂空
@@ -34,17 +34,32 @@
         return this.$route.params.name
       },
       newsCollection () {
-        return this.$store.getters.getPendingNews(this.name)
+        if (this.isAdminAdmit) {
+          return this.$store.getters.getPendingNews()
+        } else {
+          return this.$store.getters.getPendingNews(this.name)
+        }
+      },
+      isAdminAdmit () {
+        return this.name === 'admin'
       }
     },
     methods: {
       update () {
-        this.$store.dispatch('getPendingNews', this.$route.params.name)
-        this.$store.dispatch('fetchEvent', this.$route.params.name)
+        if (this.isAdminAdmit) {
+          this.$store.dispatch('getPendingNews')
+        } else {
+          this.$store.dispatch('getPendingNews', this.$route.params.name)
+          this.$store.dispatch('fetchEvent', this.$route.params.name)
+        }
       }
     },
     async asyncData ({ store, route }) {
-      return store.dispatch('getPendingNews', route.params.name)
+      if (route.params.name === 'admin') {
+        return store.dispatch('getPendingNews')
+      } else {
+        return store.dispatch('getPendingNews', route.params.name)
+      }
     },
     beforeRouteEnter: (to, from, next) => {
       next(vm => {

@@ -19,6 +19,12 @@ export default {
     }
   },
 
+  setAllPendingNews (state, newsCollection) {
+    if (newsCollection) {
+      Vue.set(state, 'allPendingNews', Array.from(newsCollection))
+    }
+  },
+
   setClient (state, client) {
     Vue.set(state, 'client', Object.assign({}, client))
   },

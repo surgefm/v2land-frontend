@@ -22,26 +22,31 @@
     components: {
       'event-information-form': EventInformationForm
     },
+    computed: {
+      isAdmin () {
+        return this.$store.getters.isClientAdmin
+      }
+    },
     methods: {
       submit () {
         let data = this.$store.state.temp['CreateEvent']
-        this.$store.dispatch('createEvent', { data })
-          .then(() => {
-            this.$store.dispatch('fetchEvent', this.$route.params.name)
-          })
-          .then(() => {
-            this.$message('创建成功')
-            this.$router.push(`/${this.$route.params.name}`)
-          })
-      }
-    },
-    beforeRouteEnter: (to, from, next) => {
-      next(vm => {
-        if (!vm.$store.getters.isClientAdmin) {
-          vm.$message.error('你无权访问该页面')
-          vm.$router.push('/')
+        if (this.isAdmin) {
+          this.$store.dispatch('createEvent', { data })
+            .then(() => {
+              this.$store.dispatch('fetchEvent', data.name)
+            })
+            .then(() => {
+              this.$message('创建成功')
+              this.$router.push(`/${data.name}`)
+            })
+        } else {
+          this.$store.dispatch('createEvent', { data })
+            .then(() => {
+              this.$message('提交成功，该事件会在审核通过后创建')
+              this.$router.push('/')
+            })
         }
-      })
+      }
     }
   }
 </script>

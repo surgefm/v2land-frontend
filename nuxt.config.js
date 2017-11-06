@@ -78,7 +78,8 @@ module.exports = {
     '~/static/element/step.css',
     '~/static/element/steps.css',
     '~/static/element/upload.css',
-    '~/static/element/switch.css'
+    '~/static/element/checkbox.css',
+    '~/static/element/checkbox-group.css'
   ],
 
   plugins: [
