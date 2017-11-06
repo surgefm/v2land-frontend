@@ -7,11 +7,12 @@
           <el-checkbox-group v-model="filterStatus" class="align-center">
             <el-checkbox label="pending">待审核</el-checkbox>
             <el-checkbox label="admitted">公开</el-checkbox>
+            <el-checkbox label="rejected">拒绝</el-checkbox>
             <el-checkbox label="hidden">隐藏</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
         <el-form-item label="事件标题">
-          <el-input placeholder="Please input" v-model="filterName"></el-input>
+          <el-input v-model="filterName"></el-input>
         </el-form-item>
       </el-form>
     </card>

@@ -24,6 +24,7 @@
         statusCollection: [
           { value: 'admitted', label: '公开' },
           { value: 'pending', label: '待审核' },
+          { value: 'rejected', label: '拒绝' },
           { value: 'hidden', label: '隐藏' }
         ],
         status: this.event.status
