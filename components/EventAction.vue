@@ -75,7 +75,7 @@
         return this.showAdmit
       },
       showReturn () {
-        return this.$route.name !== 'name' && !this.isHomepage && this.isAdminDir
+        return this.$route.name !== 'name' && !this.isHomepage && !this.isAdminDir
       },
       showHomepage () {
         return !this.showReturn && !this.isHomepage

@@ -76,7 +76,7 @@ export default {
   },
 
   async editNews ({ dispatch }, { id, data }) {
-    let url = $.encode(`news/${id}`)
+    let url = $.encode(`news/${id}/edit`)
     return axios.patch(url, data)
   }
 }
