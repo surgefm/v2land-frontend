@@ -8,7 +8,7 @@ module.exports = {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=no', 'user-scalable': 'no' },
       { hid: 'description', name: 'description', content: '回想一下，你曾关注的社会事件中，有多少得到了妥善的解决？' },
-      { hid: 't:card', name: 'twitter:card', content: 'summary_large_image' },
+      { hid: 't:card', name: 'twitter:card', content: 'summary' },
       { hid: 't:site', name: 'twitter:site', content: '@Wave2Land' },
       { hid: 't:title', name: 'twitter:title', content: '浪潮 - 渴望重回土地' },
       { hid: 't:description', name: 'twitter:description', content: '回想一下，你曾关注的社会事件中，有多少得到了妥善的解决？' },
