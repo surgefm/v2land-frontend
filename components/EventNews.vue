@@ -84,7 +84,8 @@
   }
 
   a:hover {
-    text-decoration: underline;
+    border-bottom: .125rem #000 solid;
+    padding-bottom: .125rem;
   }
 
   .news-container {

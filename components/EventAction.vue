@@ -89,7 +89,7 @@
     display: flex;
     justify-content: center;
     position: fixed;
-    top: 2.5rem;
+    top: 7rem;
     width: 100%;
     z-index: 1100;
     visibility: hidden;
