@@ -150,6 +150,7 @@
       padding: .25rem .25rem;
       margin: 0;
       justify-content: center;
+      height: 2.5rem;
     }
 
     .small {
