@@ -78,5 +78,14 @@ export default {
   async editNews ({ dispatch }, { id, data }) {
     let url = $.encode(`news/${id}/edit`)
     return axios.patch(url, data)
+  },
+
+  async logout () {
+    try {
+      axios.get('clients/logout')
+        .then(() => { window.location = window.location })
+        .catch(() => { window.location = window.location })
+      document.cookie = 'accessToken=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+    } catch (err) { }
   }
 }

@@ -16,8 +16,6 @@
 </template>
 
 <script>
-  import axios from '~/plugins/axios'
-
   export default {
     computed: {
       isLoggedIn () {
@@ -26,13 +24,7 @@
     },
     methods: {
       logout () {
-        try {
-          axios.get('clients/logout')
-            .then(() => {
-              document.cookie = 'accessToken=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
-              window.location = window.location
-            })
-        } catch (err) {}
+        this.$store.dispatch('logout')
       }
     }
   }

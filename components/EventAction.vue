@@ -9,6 +9,7 @@
       <event-action-admit v-if="showAdmit" class="action" />
       <event-action-edit v-if="showEdit" class="action small" />
       <event-action-edit-image v-if="showEditImage" class="action small" />
+      <event-action-client v-if="showClient" class="action small" />
       <event-action-return v-if="showReturn" class="action" />
       <event-action-homepage v-if="showHomepage" class="action" />
     </div>
@@ -24,6 +25,7 @@
   import EventActionAdmit from './EventActionAdmit.vue'
   import EventActionEdit from './EventActionEdit.vue'
   import EventActionEditImage from './EventActionEditImage.vue'
+  import EventActionClient from './EventActionClient.vue'
   import EventActionReturn from './EventActionReturn.vue'
   import EventActionHomepage from './EventActionHomepage.vue'
 
@@ -37,6 +39,7 @@
       'event-action-admit': EventActionAdmit,
       'event-action-edit': EventActionEdit,
       'event-action-edit-image': EventActionEditImage,
+      'event-action-client': EventActionClient,
       'event-action-return': EventActionReturn,
       'event-action-homepage': EventActionHomepage
     },
@@ -73,6 +76,9 @@
       },
       showEditImage () {
         return this.showAdmit
+      },
+      showClient () {
+        return true
       },
       showReturn () {
         return this.$route.name !== 'name' && !this.isHomepage && !this.isAdminDir
@@ -143,6 +149,7 @@
       visibility: visible;
       background-color: rgba(256, 256, 256, .95);
       justify-content: space-between;
+      padding-right: 0;
     }
 
     .action {

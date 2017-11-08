@@ -89,10 +89,11 @@
         this.$store.commit('setSubscribeMode', this.$route.query.mode)
       }
 
-      if (this.$route.query.method && this.$route.query.twitter_id) {
+      if (this.$route.query.method &&
+        (this.$route.query[this.$route.query.method + '_id'])) {
         this.$store.commit('setSubscribeMethod', {
           method: this.$route.query.method,
-          address: this.$route.query.twitter_id
+          address: this.$route.query[this.$route.query.method + '_id']
         })
       }
 

@@ -29,6 +29,9 @@
         <el-button v-if="form.method === 'twitter'" @click="connectTwitter">
           绑定 Twitter 账号
         </el-button>
+        <el-button v-if="form.method === 'weibo'" @click="connectWeibo">
+          绑定新浪微博账号
+        </el-button>
         <el-button v-else type="primary" @click="submit" :disabled="!isSubmittable">
           下一步
         </el-button>
@@ -64,8 +67,12 @@
             value: 'email'
           },
           {
-            label: '通过我的 Twitter 账户发推',
+            label: '通过我的 Twitter 账号发推',
             value: 'twitter'
+          },
+          {
+            label: '通过我的微博账号发布微博',
+            value: 'weibo'
           }
         ]
       }
@@ -100,6 +107,18 @@
           (accessToken ? '&access_token=' + accessToken : '') +
           '&redirect=' + this.$route.params.name + '/subscribe?' +
           'mode=' + this.$store.state.subscribe.mode)
+        window.location = url
+      },
+      connectWeibo () {
+        let accessToken
+        try {
+          let cookies = Cookie.parse(document.cookie)
+          accessToken = cookies.accessToken
+        } catch (err) {}
+        let url = $.encode(config.api + 'auth/weibo?' +
+          (accessToken ? 'access_token=' + accessToken + '&' : '') +
+          'redirect=' + this.$route.params.name + '/subscribe?mode=' +
+          this.$store.state.subscribe.mode)
         window.location = url
       }
     },
