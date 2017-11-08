@@ -88,7 +88,7 @@
         return this.showAdmit
       },
       showSubscriptionList () {
-        return this.isLoggedIn
+        return this.isLoggedIn && this.isHomepage
       },
       showClient () {
         return true
