@@ -6,6 +6,9 @@
     <nuxt-link to="/about" class="link">
       关于浪潮
     </nuxt-link>
+    <nuxt-link to="subscription" class="link" v-if="isLoggedIn">
+      关注列表
+    </nuxt-link>
     <nuxt-link :to="`/login?redirect=${$route.path}`" class="link" v-if="!isLoggedIn">
       登录
     </nuxt-link>

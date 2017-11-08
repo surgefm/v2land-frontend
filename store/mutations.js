@@ -29,6 +29,10 @@ export default {
     Vue.set(state, 'client', Object.assign({}, client))
   },
 
+  setSubscriptionList (state, list) {
+    Vue.set(state.client, 'subscriptionList', Array.from(list))
+  },
+
   setTemp (state, { label, temp }) {
     Vue.set(state.temp, label, Object.assign({}, temp))
   }

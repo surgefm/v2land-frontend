@@ -9,6 +9,7 @@
       <event-action-admit v-if="showAdmit" class="action" />
       <event-action-edit v-if="showEdit" class="action small" />
       <event-action-edit-image v-if="showEditImage" class="action small" />
+      <event-action-subscription-list v-if="showSubscriptionList" class="action small" />
       <event-action-client v-if="showClient" class="action small" />
       <event-action-return v-if="showReturn" class="action" />
       <event-action-homepage v-if="showHomepage" class="action" />
@@ -25,6 +26,7 @@
   import EventActionAdmit from './EventActionAdmit.vue'
   import EventActionEdit from './EventActionEdit.vue'
   import EventActionEditImage from './EventActionEditImage.vue'
+  import EventActionSubscriptionList from './EventActionSubscriptionList'
   import EventActionClient from './EventActionClient.vue'
   import EventActionReturn from './EventActionReturn.vue'
   import EventActionHomepage from './EventActionHomepage.vue'
@@ -39,6 +41,7 @@
       'event-action-admit': EventActionAdmit,
       'event-action-edit': EventActionEdit,
       'event-action-edit-image': EventActionEditImage,
+      'event-action-subscription-list': EventActionSubscriptionList,
       'event-action-client': EventActionClient,
       'event-action-return': EventActionReturn,
       'event-action-homepage': EventActionHomepage
@@ -53,8 +56,15 @@
       isAdminDir () {
         return this.$route.path.includes('/admin')
       },
+      isSubscriptionPage () {
+        return this.$route.path === '/subscription'
+      },
+      isLoggedIn () {
+        return this.$store.getters.isLoggedIn
+      },
       showAdminEvent () {
-        return (this.isHomepage && this.isClientAdmin) || this.isAdminDir
+        return ((this.isHomepage || this.isSubscriptionPage) && this.isClientAdmin) ||
+          this.isAdminDir
       },
       showAdminAdmit () {
         return this.showAdminEvent
@@ -63,13 +73,13 @@
         return this.isHomepage || this.isAdminDir
       },
       showSubscribe () {
-        return !this.isHomepage && !this.isAdminDir
+        return !this.isHomepage && !this.isAdminDir && !this.isSubscriptionPage
       },
       showPost () {
         return this.showSubscribe
       },
       showAdmit () {
-        return this.isClientAdmin && !this.isHomepage && !this.isAdminDir
+        return this.isClientAdmin && !this.isHomepage && !this.isAdminDir && !this.isSubscriptionPage
       },
       showEdit () {
         return this.showAdmit
@@ -77,11 +87,17 @@
       showEditImage () {
         return this.showAdmit
       },
+      showSubscriptionList () {
+        return this.isLoggedIn
+      },
       showClient () {
         return true
       },
       showReturn () {
-        return this.$route.name !== 'name' && !this.isHomepage && !this.isAdminDir
+        return this.$route.name !== 'name' &&
+          !this.isHomepage &&
+          !this.isAdminDir &&
+          !this.isSubscriptionPage
       },
       showHomepage () {
         return !this.showReturn && !this.isHomepage

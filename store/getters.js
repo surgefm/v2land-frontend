@@ -31,5 +31,13 @@ export default {
     } else {
       return state.allPendingNews
     }
+  },
+
+  getSubscriptionList (state, getters) {
+    if (getters.isLoggedIn) {
+      return state.client.subscriptionList.filter(s => s.status === 'active')
+    } else {
+      return []
+    }
   }
 }

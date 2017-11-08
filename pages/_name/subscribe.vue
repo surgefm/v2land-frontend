@@ -3,31 +3,28 @@
     <card>
       <p class="tag light-font">{{ $route.params.name }}</p>
       <event-title>关注事件</event-title>
-      <event-subscribe-step class="margin-top" :step="step"></event-subscribe-step>
+      <event-subscribe-step class="margin-top" :step="step" />
       <event-subscribe-mode
         class="margin-top"
         v-on:modeSelected="goToMethod"
         v-if="show === 'mode'"
-      >
-      </event-subscribe-mode>
+      />
 
       <event-subscribe-method
         class="margin-top"
         v-on:goToMode="goToMode"
         v-on:methodSelected="submit"
         v-if="show === 'method'"
-      >
-      </event-subscribe-method>
+      />
 
       <event-subscribe-success
         class="margin-top"
         v-if="show === 'success'"
-      >
-      </event-subscribe-success>
+      />
     </card>
-    <event-action></event-action>
-    <logo class="logo"></logo>
-    <page-foot/>
+    <event-action />
+    <logo class="logo" />
+    <page-foot />
   </background>
 </template>
 

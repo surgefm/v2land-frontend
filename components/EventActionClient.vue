@@ -8,7 +8,7 @@
     <i class="icon el-icon-setting light-font"></i>
   </nuxt-link>
   <div v-else class="subscribe-container" @click="logout">
-    <span class="text light-font">注销账号</span>
+    <span class="text light-font">退出登录</span>
     <i class="icon el-icon-setting light-font"></i>
   </div>
 </template>

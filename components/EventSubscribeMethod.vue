@@ -29,7 +29,7 @@
         <el-button v-if="form.method === 'twitter'" @click="connectTwitter">
           绑定 Twitter 账号
         </el-button>
-        <el-button v-if="form.method === 'weibo'" @click="connectWeibo">
+        <el-button v-else-if="form.method === 'weibo'" @click="connectWeibo">
           绑定新浪微博账号
         </el-button>
         <el-button v-else type="primary" @click="submit" :disabled="!isSubmittable">
@@ -49,7 +49,7 @@
     data () {
       return {
         form: {
-          method: 'email',
+          method: 'weibo',
           email: ''
         },
         rules: {
@@ -63,16 +63,16 @@
         },
         methodCollection: [
           {
-            label: '邮件推送',
-            value: 'email'
+            label: '通过我的微博账号发布微博',
+            value: 'weibo'
           },
           {
             label: '通过我的 Twitter 账号发推',
             value: 'twitter'
           },
           {
-            label: '通过我的微博账号发布微博',
-            value: 'weibo'
+            label: '邮件推送',
+            value: 'email'
           }
         ]
       }
@@ -125,7 +125,7 @@
     created () {
       this.form.method = this.$route.query.method ||
         this.$store.state.subscribe.contact.method ||
-        'email'
+        'weibo'
       this.form[this.form.method] = this.$route.query.address ||
         this.$store.state.subscribe.contact.address
     }

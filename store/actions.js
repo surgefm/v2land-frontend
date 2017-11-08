@@ -80,6 +80,22 @@ export default {
     return axios.patch(url, data)
   },
 
+  async getClient ({ commit }) {
+    let url = $.encode('clients/detail')
+    let { data } = await axios.get(url)
+    commit('setClient', data.detail)
+    console.log(data)
+    return data.detail
+  },
+
+  async getSubscriptions ({ commit, dispatch }) {
+    let url = $.encode('clients/detail')
+    let { data } = await axios.get(url)
+    console.log(data)
+    commit('setSubscriptionList', data.detail.subscriptionList)
+    return data.detail.subscriptionList
+  },
+
   async logout () {
     try {
       axios.get('clients/logout')
