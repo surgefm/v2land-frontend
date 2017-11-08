@@ -108,8 +108,18 @@
     },
     created () {
       if (this.$route.query.access_token) {
-        let expireTime = new Date(Date.now() + 60 * 60 * 24 * 14 * 1000)
-        this.saveAccessToken(this.$route.query.access_token, expireTime)
+        axios.get('clients/detail', {
+          headers: { Authorization: this.$route.query.access_token }
+        })
+          .then(() => {
+            let expireTime = new Date(Date.now() + 60 * 60 * 24 * 14 * 1000)
+            this.saveAccessToken(this.$route.query.access_token, expireTime)
+          })
+          .catch(err => {
+            if (err) {
+              this.$message.error('登录失败')
+            }
+          })
       }
     }
   }

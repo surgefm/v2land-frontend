@@ -3,10 +3,6 @@ import Cookie from 'cookie'
 
 export default async function ({ route, store, req }) {
   try {
-    if (store.state.client.username) {
-      return null
-    }
-
     let cookie
     if (req && req.headers.cookie) {
       cookie = Cookie.parse(req.headers.cookie)
@@ -15,8 +11,12 @@ export default async function ({ route, store, req }) {
       }
     } else if (req && !req.headers.cookie) {
       return store.commit('setClient', {})
+    } else if (!req && store.state.client.username) {
+      return
     } else if (!store.state.client.username) {
       cookie = Cookie.parse(document.cookie)
+    } else {
+      return store.commit('setClient', {})
     }
 
     if (cookie.accessToken) {
@@ -29,5 +29,7 @@ export default async function ({ route, store, req }) {
     } else {
       store.commit('setClient', {})
     }
-  } catch (err) {}
+  } catch (err) {
+    store.commit('setClient', {})
+  }
 }
