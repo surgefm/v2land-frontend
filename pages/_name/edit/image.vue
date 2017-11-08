@@ -123,9 +123,9 @@
         })
       },
       reset () {
-        if (this.isNew) {
+        if (this.isNew && this.$refs.form) {
           this.$refs.form.resetFields()
-        } else {
+        } else if (!this.isNew) {
           this.imageUrl = config.static + this.orig.imageUrl
           this.form = Object.assign({}, this.orig)
         }

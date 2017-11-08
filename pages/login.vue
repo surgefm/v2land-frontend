@@ -181,5 +181,11 @@
 
   .el-form-item.is-required:before {
     content: ""
-  } 
+  }
+
+  @media (max-width: 350px) {
+    .third-party span {
+      display: none;
+    }
+  }
 </style>
