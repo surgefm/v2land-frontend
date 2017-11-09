@@ -30,7 +30,7 @@
     data () {
       return {
         form: {
-          mode: ''
+          mode: '7DaysSinceLatestNews'
         },
         rules: {
           mode: [

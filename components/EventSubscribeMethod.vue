@@ -26,14 +26,14 @@
     <div class="submit-button-group-separate">
       <el-button type="primary" @click="lastStep">上一步</el-button>
       <div>
-        <el-button v-if="form.method === 'twitter'" @click="connectTwitter">
+        <el-button v-if="showTwitter" @click="connectTwitter">
           绑定 Twitter 账号
         </el-button>
-        <el-button v-else-if="form.method === 'weibo'" @click="connectWeibo">
+        <el-button v-else-if="showWeibo" @click="connectWeibo">
           绑定新浪微博账号
         </el-button>
         <el-button v-else type="primary" @click="submit" :disabled="!isSubmittable">
-          下一步
+          {{ buttonText }}
         </el-button>
       </div>
     </div>
@@ -78,6 +78,27 @@
       }
     },
     computed: {
+      showTwitter () {
+        return this.form.method === 'twitter' &&
+          !this.$store.getters.getAuth('twitter')
+      },
+      showWeibo () {
+        return this.form.method === 'weibo' &&
+          !this.$store.getters.getAuth('weibo')
+      },
+      buttonText () {
+        let method = this.form.method
+        let auth = this.$store.getters.getAuth(method)
+        if (method === 'twitter') {
+          this.$set(this.form, 'twitter', auth.profileId)
+          return `使用 @${auth.profile.screen_name} 发推`
+        } else if (method === 'weibo') {
+          this.$set(this.form, 'weibo', auth.profileId)
+          return `使用 @${auth.profile.screen_name} 发布微博`
+        } else {
+          return '下一步'
+        }
+      },
       isSubmittable () {
         return this.form.method && this.form[this.form.method]
       }

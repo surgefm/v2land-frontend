@@ -21,7 +21,14 @@
 
     <div class="submit-button-group">
       <el-button @click="resetForm('form')">重置</el-button>
-      <el-button type="primary" @click="submitForm('form')" size="medium">提交</el-button>
+      <el-button
+        type="primary"
+        @click="submitForm('form')"
+        size="medium"
+        :disabled="isSubmitting"
+      >
+        提交
+      </el-button>
     </div>
   </el-form>
 </template>
@@ -34,7 +41,6 @@
       name: String
     },
     data () {
-      let url = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/
       return {
         form: {
           name: '',
@@ -42,12 +48,9 @@
           status: ''
         },
         rules: {
-          url: [
-            { required: true, message: '请输入新闻链接', trigger: 'blur' },
-            { pattern: url, message: '请输入正确的链接', trigger: 'blur' }
-          ],
           name: [
-            { required: true, message: '请输入事件名', trigger: 'blur' }
+            { required: true, message: '请输入事件名', trigger: 'blur' },
+            { validator: this.validateName, trigger: 'blur' }
           ],
           description: [
             { required: true, message: '请输入事件简介', trigger: 'blur' },
@@ -59,7 +62,8 @@
           { value: 'pending', label: '待审核' },
           { value: 'rejected', label: '拒绝' },
           { value: 'hidden', label: '隐藏' }
-        ]
+        ],
+        isSubmitting: false
       }
     },
     computed: {
@@ -71,9 +75,20 @@
       }
     },
     methods: {
+      validateName (rule, value, callback) {
+        this.$store.dispatch('getEvent', value)
+          .then((event) => {
+            if (event) {
+              callback(new Error('已有公开的同名事件，或同名事件已在审核队列中'))
+            } else {
+              callback()
+            }
+          })
+      },
       submitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
+            this.isSubmitting = true
             this.$store.commit('setTemp', {
               label: this.data,
               temp: this.form
@@ -88,6 +103,9 @@
         } else {
           this.$refs[formName].resetFields()
         }
+      },
+      resetButton () {
+        this.isSubmitting = false
       }
     },
     created () {

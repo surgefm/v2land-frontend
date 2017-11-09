@@ -39,5 +39,35 @@ export default {
     } else {
       return []
     }
+  },
+
+  getLastSubscription (state, getters) {
+    let subscriptionList = getters.getSubscriptionList
+    if (subscriptionList.length > 0) {
+      return subscriptionList[0]
+    } else {
+      return null
+    }
+  },
+
+  getEventSubscriptionList: (state, getters) => (name) => {
+    let subscriptionList = getters.getSubscriptionList
+    let eventSubscriptionList = (subscriptionList || []).filter(s => s.eventName === name)
+    if (eventSubscriptionList.length > 0) {
+      return eventSubscriptionList
+    } else {
+      return null
+    }
+  },
+
+  getAuth: (state, getters) => (site) => {
+    if (getters.isLoggedIn) {
+      let auths = state.client.authList.filter(a => a.site === site)
+      if (auths.length > 0) {
+        return auths[0]
+      }
+    }
+
+    return null
   }
 }

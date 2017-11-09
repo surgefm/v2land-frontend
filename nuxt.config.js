@@ -79,7 +79,8 @@ module.exports = {
     '~/static/element/steps.css',
     '~/static/element/upload.css',
     '~/static/element/checkbox.css',
-    '~/static/element/checkbox-group.css'
+    '~/static/element/checkbox-group.css',
+    '~/static/element/popover.css'
   ],
 
   plugins: [
@@ -90,5 +91,11 @@ module.exports = {
   router: {
     middleware: 'auth',
     linkExactActiveClass: 'exact-active-link'
-  }
+  },
+
+  modules: [
+    ['@nuxtjs/google-analytics', {
+      id: 'UA-109441031-1'
+    }]
+  ]
 }

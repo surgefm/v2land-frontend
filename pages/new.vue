@@ -7,6 +7,7 @@
         :data="'CreateEvent'"
         class="event-form"
         v-on:submit="submit"
+        ref="event-form"
       >
       </event-information-form>
     </card>
@@ -44,6 +45,13 @@
             .then(() => {
               this.$message('提交成功，该事件会在审核通过后创建')
               this.$router.push('/')
+            })
+            .catch((err) => {
+              if (err.response.status === 422) {
+                this.$message.error('已有同名事件或同名事件已在审核队列中')
+              }
+              this.$refs['event-form'].resetForm()
+              this.$refs['event-form'].resetButton()
             })
         }
       }

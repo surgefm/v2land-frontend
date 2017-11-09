@@ -1,5 +1,30 @@
 <template>
   <card class="card hover">
+    <el-popover
+      ref="popover"
+      placement="bottom"
+      width="160"
+      v-model="isPopoverVisible"
+    >
+      <p style="text-align:center">确认取消关注？</p>
+      <div style="text-align: center; margin: 0">
+        <el-button
+          size="mini"
+          type="text"
+          @click="isPopoverVisible = false"
+        >
+          算了
+        </el-button>
+        <el-button
+          type="primary"
+          size="mini"
+          @click="unsubscribe"
+        >
+          确认
+        </el-button>
+      </div>
+    </el-popover>
+
     <nuxt-link class="subscription-title link" :to="'/' + subscription.eventName">
       {{ subscription.eventName }}
     </nuxt-link>
@@ -8,7 +33,13 @@
       <p>通知方式：{{ method }}</p>
     </div>
     <div class="subscription-action">
-      <el-button type="text" @click="unsubscribe">取消关注</el-button>
+      <el-button
+        type="text"
+        v-popover:popover
+        :disabled="isSubmitting"
+      >
+        取消关注
+      </el-button>
     </div>
   </card>
 </template>
@@ -20,6 +51,12 @@
   export default {
     props: {
       subscription: Object
+    },
+    data () {
+      return {
+        isSubmitting: false,
+        isPopoverVisible: false
+      }
     },
     computed: {
       mode () {
@@ -67,16 +104,20 @@
     },
     methods: {
       unsubscribe () {
+        this.isPopoverVisible = false
+        this.isSubmitting = true
         let url = 'subscriptions/unsubscribe?id=' + this.subscription.unsubscribeId
         axios.get($.encode(url))
           .then(() => {
             this.$store.dispatch('getSubscriptions')
               .then(() => {
                 this.$message.success('成功取消关注')
+                this.isSubmitting = false
               })
           })
           .catch(() => {
             this.$message.error('取消关注失败')
+            this.isSubmitting = false
           })
       }
     }

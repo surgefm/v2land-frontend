@@ -123,6 +123,16 @@ img {
   background-color: rgba(256, 256, 256, .5)
 }
 
+.el-step .is-finish {
+  color: #000 !important;
+  border-color: #000 !important;
+}
+
+.el-step .is-process {
+  color: #22a7f0 !important;
+  border-color: #22a7f0 !important;
+}
+
 @media (max-width: 600px) {
   .logo {
     left: auto;

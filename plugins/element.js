@@ -16,6 +16,7 @@ import Message from 'element-ui/lib/message'
 import Upload from 'element-ui/lib/upload'
 import Checkbox from 'element-ui/lib/checkbox'
 import CheckboxGroup from 'element-ui/lib/checkbox-group'
+import Popover from 'element-ui/lib/popover'
 
 Vue.use(Button)
 Vue.use(DatePicker)
@@ -33,5 +34,6 @@ Vue.use(Steps)
 Vue.use(Upload)
 Vue.use(Checkbox)
 Vue.use(CheckboxGroup)
+Vue.use(Popover)
 
 Vue.prototype.$message = Message

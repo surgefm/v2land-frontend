@@ -27,7 +27,14 @@
 
     <div class="submit-button-group">
       <el-button @click="resetForm('form')">重置</el-button>
-      <el-button type="primary" @click="submitForm('form')" size="medium">提交</el-button>
+      <el-button
+        type="primary"
+        @click="submitForm('form')"
+        size="medium"
+        :disabled="submitting"
+      >
+        提交
+      </el-button>
     </div>
   </el-form>
 </template>
@@ -66,7 +73,8 @@
           time: [
             { type: 'date', required: true, message: '请选择新闻发布时间', trigger: 'change' }
           ]
-        }
+        },
+        submitting: false
       }
     },
     computed: {
@@ -81,6 +89,7 @@
       submitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
+            this.submitting = true
             // 调整时间
             let newTime = this.form.time.getTime()
             let minutesOffset = this.form.time.getTimezoneOffset() + 480

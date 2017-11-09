@@ -78,10 +78,13 @@
             this.show = 'success'
             this.$store.commit('setSubscribeMode', '')
             this.$store.commit('setSubscribeMethod', { method: '', address: '' })
+            this.$store.dispatch('getClient')
           })
       }
     },
     created () {
+      let lastSubscription = this.$store.getters.getLastSubscription
+
       if (this.$route.query.mode) {
         this.$store.commit('setSubscribeMode', this.$route.query.mode)
       }
@@ -95,10 +98,13 @@
       }
 
       // 针对第三方账户跳转回来的情况，如果信息都已齐全，那就直接提交
-      if (this.$store.state.subscribe.mode &&
-        this.$store.state.subscribe.contact.method &&
-        this.$store.state.subscribe.contact.address) {
+      if (this.$route.query.mode &&
+        this.$route.query.method &&
+        this.$route.query[this.$route.query.method + '_id']) {
         this.submit()
+      } else if (lastSubscription) {
+        this.$store.commit('setSubscribeMode', lastSubscription.mode)
+        this.$store.commit('setSubscribeMethod', lastSubscription.contact)
       } else if (this.$store.state.subscribe.mode) {
         this.show = 'method'
       }
