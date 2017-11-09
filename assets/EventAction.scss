@@ -43,7 +43,7 @@
     visibility: visible;
     opacity: 1;
     order: 1;
-    font-size: .9rem;
+    font-size: .95rem;
   }
 
   .icon {
@@ -60,5 +60,17 @@
     right: 0 !important;
     top: -.5rem !important;
     z-index: 3000;
+  }
+}
+
+@media (max-width: 350px) {
+  .subscribe-container {
+    height: 3rem !important;
+  }
+
+  .subscribe-container .text {
+    line-height: 1.25;
+    letter-spacing: .25rem;
+    width: 2.5rem;
   }
 }

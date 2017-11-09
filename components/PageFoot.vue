@@ -13,7 +13,7 @@
       登录
     </nuxt-link>
     <span v-else class="link" @click="logout">
-      注销账号
+      退出登录
     </span>
   </div>
 </template>
