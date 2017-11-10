@@ -5,12 +5,12 @@ let accessToken
 export default async function (ctx) {
   try {
     await authThirdParty(ctx)
-    console.log(99999)
     await getClientData(ctx)
   } catch (err) { console.log(err) }
 }
 
 async function authThirdParty ({ route, store, req, res }) {
+  accessToken = null
   if (route.query.access_token) {
     await axios.get('clients/detail', {
       headers: { Authorization: route.query.access_token }
@@ -59,7 +59,9 @@ async function getClientData ({ route, store, req, redirect }) {
       })
 
       store.commit('setClient', data.detail)
-      redirect(route.query.redirect || '')
+      if (accessToken) {
+        redirect(307, route.query.redirect || '', { auth_login: 'ok' })
+      }
     } else {
       store.commit('setClient', {})
     }

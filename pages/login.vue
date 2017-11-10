@@ -92,10 +92,10 @@
         } catch (err) {}
       },
       loginTwitter () {
-        window.location = config.api + 'auth/twitter?redirect=' + this.$route.query.redirect
+        window.location = config.api + 'auth/twitter?redirect=' + (this.$route.query.redirect || '')
       },
       loginWeibo () {
-        window.location = config.api + 'auth/weibo?redirect=' + this.$route.query.redirect
+        window.location = config.api + 'auth/weibo?redirect=' + (this.$route.query.redirect || '')
       }
     },
     beforeRouteEnter: (to, from, next) => {
