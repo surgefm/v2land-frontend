@@ -59,12 +59,15 @@
       isSubscriptionPage () {
         return this.$route.path === '/subscription'
       },
+      isClientPage () {
+        return this.$route.path === '/me'
+      },
       isLoggedIn () {
         return this.$store.getters.isLoggedIn
       },
       showAdminEvent () {
-        return ((this.isHomepage || this.isSubscriptionPage) && this.isClientAdmin) ||
-          this.isAdminDir
+        return ((this.isHomepage || this.isSubscriptionPage || this.isClientPage) &&
+          this.isClientAdmin) || this.isAdminDir
       },
       showAdminAdmit () {
         return this.showAdminEvent
@@ -73,13 +76,15 @@
         return this.isHomepage || this.isAdminDir
       },
       showSubscribe () {
-        return !this.isHomepage && !this.isAdminDir && !this.isSubscriptionPage
+        return !this.isHomepage && !this.isAdminDir &&
+          !this.isSubscriptionPage && !this.isClientPage
       },
       showPost () {
         return this.showSubscribe
       },
       showAdmit () {
-        return this.isClientAdmin && !this.isHomepage && !this.isAdminDir && !this.isSubscriptionPage
+        return this.isClientAdmin && !this.isHomepage &&
+          !this.isAdminDir && !this.isSubscriptionPage && !this.isClientPage
       },
       showEdit () {
         return this.showAdmit
@@ -88,7 +93,7 @@
         return this.showAdmit
       },
       showSubscriptionList () {
-        return this.isLoggedIn && this.isHomepage
+        return this.isLoggedIn && (this.isHomepage || this.isClientPage)
       },
       showClient () {
         return true
@@ -97,7 +102,8 @@
         return this.$route.name !== 'name' &&
           !this.isHomepage &&
           !this.isAdminDir &&
-          !this.isSubscriptionPage
+          !this.isSubscriptionPage &&
+          !this.isClientPage
       },
       showHomepage () {
         return !this.showReturn && !this.isHomepage
