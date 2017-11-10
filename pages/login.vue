@@ -64,6 +64,19 @@
         }
       }
     },
+    computed: {
+      redirect () {
+        let redirect = this.$route.query.redirect
+        if (redirect) {
+          if (redirect[0] === '/') {
+            return redirect.slice(1)
+          } else {
+            return redirect
+          }
+        }
+        return ''
+      }
+    },
     methods: {
       submit () {
         this.$refs.form.validate((valid) => {
@@ -92,10 +105,10 @@
         } catch (err) {}
       },
       loginTwitter () {
-        window.location = config.api + 'auth/twitter?redirect=' + (this.$route.query.redirect || '')
+        window.location = config.api + 'auth/twitter?redirect=' + this.redirect
       },
       loginWeibo () {
-        window.location = config.api + 'auth/weibo?redirect=' + (this.$route.query.redirect || '')
+        window.location = config.api + 'auth/weibo?redirect=' + this.redirect
       }
     },
     beforeRouteEnter: (to, from, next) => {
