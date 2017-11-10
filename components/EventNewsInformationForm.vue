@@ -111,6 +111,9 @@
         } else {
           this.$refs[formName].resetFields()
         }
+      },
+      resetButton () {
+        this.isSubmitting = false
       }
     },
     created () {

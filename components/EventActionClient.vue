@@ -5,11 +5,11 @@
     to="/login"
   >
     <span class="text light-font">登录浪潮</span>
-    <i class="icon el-icon-setting light-font"></i>
+    <i class="icon icon-log-in light-font"></i>
   </nuxt-link>
   <div v-else class="subscribe-container" @click="logout">
     <span class="text light-font">退出登录</span>
-    <i class="icon el-icon-setting light-font"></i>
+    <i class="icon icon-log-out light-font"></i>
   </div>
 </template>
 

@@ -4,6 +4,6 @@
     to="/admin/event"
   >
     <span class="text light-font">管理事件</span>
-    <i class="icon el-icon-star-off light-font"></i>
+    <i class="icon icon-newspaper light-font"></i>
   </nuxt-link>
 </template>

@@ -35,10 +35,12 @@
                 .then(() => {
                   this.$message.success('提交成功，该新闻已放入事件合辑内')
                   this.$refs.form.resetForm()
+                  this.$refs.form.resetButton()
                 })
             } else {
               this.$message.success('提交成功，该新闻会在通过审核后列入事件合辑内')
               this.$refs.form.resetForm()
+              this.$refs.form.resetButton()
             }
           })
           .catch(() => {

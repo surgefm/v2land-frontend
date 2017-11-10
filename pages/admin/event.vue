@@ -2,7 +2,7 @@
   <background class="admin-event-container">
     <card>
       <event-title>管理事件</event-title>
-      <el-form ref="form" label-width="120px">
+      <el-form class="form" ref="form" label-width="120px">
         <el-form-item label="事件状态">
           <el-checkbox-group v-model="filterStatus" class="align-center">
             <el-checkbox label="pending">待审核</el-checkbox>
@@ -11,8 +11,8 @@
             <el-checkbox label="hidden">隐藏</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-        <el-form-item label="事件标题">
-          <el-input v-model="filterName"></el-input>
+        <el-form-item label="搜索">
+          <el-input v-model="filterName" placeholder="搜索事件名" />
         </el-form-item>
       </el-form>
     </card>
@@ -34,7 +34,7 @@
       return {
         eventCollection: [],
         filterName: '',
-        filterStatus: ['pending']
+        filterStatus: ['pending', 'admitted']
       }
     },
     computed: {
@@ -76,6 +76,10 @@
     width: 100%;
     display: flex;
     justify-content: center;
+  }
+
+  .form {
+    margin-top: .5rem;
   }
 
   .align-center {
