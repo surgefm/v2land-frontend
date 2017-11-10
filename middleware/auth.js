@@ -1,10 +1,42 @@
-import axios from '~/plugins/axios'
 import Cookie from 'cookie'
+let axios = require('~/plugins/axios').default
+let accessToken
 
-export default async function ({ route, store, req }) {
+export default async function (ctx) {
+  try {
+    await authThirdParty(ctx)
+    console.log(99999)
+    await getClientData(ctx)
+  } catch (err) { console.log(err) }
+}
+
+async function authThirdParty ({ route, store, req, res }) {
+  if (route.query.access_token) {
+    await axios.get('clients/detail', {
+      headers: { Authorization: route.query.access_token }
+    })
+
+    let expireTime = new Date(Date.now() + 60 * 60 * 24 * 14 * 1000)
+    let cookie = Cookie.serialize('accessToken', route.query.access_token, {
+      expires: expireTime
+    })
+
+    if (req) {
+      accessToken = route.query.access_token
+      res.setHeader('Set-Cookie', [cookie])
+    } else {
+      document.cookie = cookie
+    }
+  } else {
+    return null
+  }
+}
+
+async function getClientData ({ route, store, req, redirect }) {
   try {
     let cookie
-    if (req && req.headers.cookie) {
+    if (accessToken) {
+    } else if (req && req.headers.cookie) {
       cookie = Cookie.parse(req.headers.cookie)
       if (!cookie.accessToken) {
         return store.commit('setClient', {})
@@ -19,17 +51,19 @@ export default async function ({ route, store, req }) {
       return store.commit('setClient', {})
     }
 
-    if (cookie.accessToken) {
+    if (accessToken || cookie.accessToken) {
       let { data } = await axios.get('clients/detail', {
         headers: {
-          Authorization: cookie.accessToken
+          Authorization: accessToken || cookie.accessToken
         }
       })
+
       store.commit('setClient', data.detail)
+      redirect(route.query.redirect || '')
     } else {
       store.commit('setClient', {})
     }
   } catch (err) {
-    store.commit('setClient', {})
+    return store.commit('setClient', {})
   }
 }

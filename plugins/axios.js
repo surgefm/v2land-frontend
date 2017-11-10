@@ -11,8 +11,15 @@ try {
 
 let instance = Axios.create({
   baseURL: config.api,
-  timeout: 1000,
+  timeout: 5000,
   headers
 })
 
 export default instance
+export function create (headers) {
+  return Axios.create({
+    baseUrl: config.api,
+    timeout: 5000,
+    headers
+  })
+}

@@ -92,10 +92,10 @@
         } catch (err) {}
       },
       loginTwitter () {
-        window.location = config.api + 'auth/twitter?redirect=login'
+        window.location = config.api + 'auth/twitter?redirect=' + this.$route.query.redirect
       },
       loginWeibo () {
-        window.location = config.api + 'auth/weibo?redirect=login'
+        window.location = config.api + 'auth/weibo?redirect=' + this.$route.query.redirect
       }
     },
     beforeRouteEnter: (to, from, next) => {
@@ -105,22 +105,6 @@
           vm.$router.push(vm.$route.query.redirect || '/')
         }
       })
-    },
-    created () {
-      if (this.$route.query.access_token) {
-        axios.get('clients/detail', {
-          headers: { Authorization: this.$route.query.access_token }
-        })
-          .then(() => {
-            let expireTime = new Date(Date.now() + 60 * 60 * 24 * 14 * 1000)
-            this.saveAccessToken(this.$route.query.access_token, expireTime)
-          })
-          .catch(err => {
-            if (err) {
-              this.$message.error('登录失败')
-            }
-          })
-      }
     }
   }
 </script>
