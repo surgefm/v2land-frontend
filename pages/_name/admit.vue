@@ -17,7 +17,8 @@
         :news="news"
         mode="admit"
         :order="Number(i) + 1"
-        v-on:update="update"
+        v-on:admitted="update('admitted')"
+        v-on:rejected="update('rejected')"
       >
       </event-news>
     </div>
@@ -45,12 +46,27 @@
       }
     },
     methods: {
-      update () {
+      update (status) {
         if (this.isAdminAdmit) {
           this.$store.dispatch('getPendingNews')
+            .then(() => {
+              this.response(status)
+            })
         } else {
           this.$store.dispatch('getPendingNews', this.$route.params.name)
-          this.$store.dispatch('fetchEvent', this.$route.params.name)
+            .then(() => {
+              this.$store.dispatch('fetchEvent', this.$route.params.name)
+            })
+            .then(() => {
+              this.response(status)
+            })
+        }
+      },
+      response (status) {
+        if (status === 'admitted') {
+          this.$message('已将该新闻放入事件新闻合辑内')
+        } else {
+          this.$message('已拒绝该新闻')
         }
       }
     },

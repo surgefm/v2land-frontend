@@ -62,6 +62,8 @@
           data: { status: 'removed' }
         }).then(() => {
           this.$store.dispatch('fetchEvent', this.$route.params.name)
+        }).then(() => {
+          this.$message('已删除该新闻')
         })
       },
       edit () {

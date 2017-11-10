@@ -34,7 +34,7 @@ img {
 }
 
 .light-font {
-  color: $light-color;
+  color: $light-color !important;
 }
 
 .thin-font {
@@ -42,7 +42,7 @@ img {
 }
 
 .text-underline {
-  border-bottom: .125rem solid $light-color;
+  border-bottom: .125rem solid $light-color !important;
   padding-bottom: .125rem;
 }
 

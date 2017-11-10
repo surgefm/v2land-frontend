@@ -5,11 +5,11 @@
         {{ order }}
       </span>
       <div class="title-container">
-        <nuxt-link class="tag" v-if="news.event" :to="`/${news.event.name}`">
-          <span class="light-font">
-            {{ news.event.name }}
-          </span>
-        </nuxt-link>
+        <nuxt-link
+          class="tag light-font"
+          v-if="news.event"
+          :to="`/${news.event.name}`"
+        >{{ news.event.name }}</nuxt-link>
         <span v-if="order === 1 && !news.event" class="tag light-font">
           最新消息
         </span>
@@ -36,7 +36,8 @@
         class="news-share"
         v-if="mode === 'admit'"
         :news="news"
-        v-on:update="$emit('update')"
+        v-on:admitted="$emit('admitted')"
+        v-on:rejected="$emit('rejected')"
       >
       </event-news-admit>
       <event-news-share
@@ -99,6 +100,10 @@
     font-size: .9rem;
     margin-right: .5rem;
     text-decoration: none !important;
+  }
+
+  a.tag:hover {
+    border-color: rgb(30, 139, 195);
   }
 
   .source {

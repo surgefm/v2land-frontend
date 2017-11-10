@@ -16,7 +16,7 @@
           data: { status: result },
           id: this.news.id
         }).then(() => {
-          this.$emit('update')
+          this.$emit(result)
         })
       }
     }
