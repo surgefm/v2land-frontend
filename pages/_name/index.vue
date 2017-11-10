@@ -65,13 +65,16 @@
       let image = this.event
         ? (this.event.image ? this.image : null)
         : null
+      let description = this.event
+        ? this.event.description
+        : null
       return {
         title,
         meta: [
           { hid: 't:title', name: 'twitter:title', content: title },
           { hid: 'og:title', property: 'og:title', content: title },
-          { hid: 't:description', name: 'twitter:description', content: !this.event || this.event.description },
-          { hid: 'og:description', property: 'og:description', content: !this.event || this.event.description },
+          description ? { hid: 't:description', name: 'twitter:description', content: description } : {},
+          description ? { hid: 'og:description', property: 'og:description', content: description } : {},
           image ? { hid: 't:image', name: 'twitter:image', content: image } : {},
           image ? { hid: 'og:image', property: 'og:image', content: image } : {}
         ]

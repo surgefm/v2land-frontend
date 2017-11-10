@@ -10,6 +10,9 @@
             {{ news.event.name }}
           </span>
         </nuxt-link>
+        <span v-if="order === 1" class="tag light-font">
+          最新消息
+        </span>
         <span v-if="news.tag" class="tag light-font">
           {{ news.tag }}
         </span>
@@ -95,9 +98,6 @@
   .tag {
     font-size: .9rem;
     margin-right: .5rem;
-  }
-
-  .tag {
     text-decoration: none !important;
   }
 

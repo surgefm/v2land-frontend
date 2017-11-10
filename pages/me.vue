@@ -20,7 +20,7 @@
         </el-form-item>
         <el-form-item label="用户组">
           <span v-if="!isEditting">{{ role }}</span>
-          <el-input v-else v-model="role" disabled/>
+          <el-input v-else v-model="role" disabled />
         </el-form-item>
         <el-form-item
           v-for="auth of form.authList"
@@ -44,6 +44,7 @@
     </card>
     <logo class="logo" />
     <event-action />
+    <page-foot />
   </background>
 </template>
 
@@ -78,18 +79,21 @@
     },
     methods: {
       authInfo (auth) {
-        switch (auth.site) {
-          case 'weibo':
-            return {
-              site: '新浪微博',
-              username: '@' + auth.profile.screen_name
-            }
-          case 'twitter':
-            return {
-              site: 'Twitter',
-              username: '@' + auth.profile.screen_name
-            }
+        if (auth.profile) {
+          switch (auth.site) {
+            case 'weibo':
+              return {
+                site: '新浪微博',
+                username: '@' + auth.profile.screen_name
+              }
+            case 'twitter':
+              return {
+                site: 'Twitter',
+                username: '@' + auth.profile.screen_name
+              }
+          }
         }
+        
         return {}
       }
     },

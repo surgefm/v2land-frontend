@@ -1,7 +1,7 @@
 <template>
   <card class="hover">
-    <event-title>{{ detail.name }}</event-title>
-    <event-status :time="time"></event-status>
+    <event-title>{{ detail.name }}</event-title>
+    <event-status :time="time" />
     <event-description v-if="detail.description">
       {{ detail.description }}
     </event-description>
