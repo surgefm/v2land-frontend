@@ -126,7 +126,8 @@
   .bottom-date {
     font-size: .9rem;
     color: #888;
-    font-weight: bold;
+    font-weight: 500;
+    padding-bottom: .25rem;
   }
 
   .order {
