@@ -9,6 +9,9 @@
     <nuxt-link to="/subscription" class="link" v-if="isLoggedIn">
       关注列表
     </nuxt-link>
+    <nuxt-link to="/me" class="link" v-if="isLoggedIn">
+      账号信息
+    </nuxt-link>
     <nuxt-link :to="`/login?redirect=${$route.path}`" class="link" v-if="!isLoggedIn">
       登录
     </nuxt-link>
@@ -49,5 +52,6 @@
     box-shadow: none !important;
     margin-left: .25rem;
     cursor: pointer;
+    white-space: nowrap;
   }
 </style>

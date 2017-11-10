@@ -2,7 +2,7 @@
   <background>
     <card>
       <p class="tag light-font">个人中心</p>
-      <event-title>管理订阅</event-title>
+      <event-title>关注列表</event-title>
     </card>
     <subscription-card
       v-for="subscription of subscriptionList"

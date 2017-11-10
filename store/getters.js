@@ -7,6 +7,10 @@ export default {
     return !!state.client.username
   },
 
+  getClient (state) {
+    return state.client
+  },
+
   getEvent: (state) => (name) => {
     return state.event[name]
   },

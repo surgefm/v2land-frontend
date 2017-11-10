@@ -31,7 +31,7 @@
         type="primary"
         @click="submitForm('form')"
         size="medium"
-        :disabled="submitting"
+        :disabled="isSubmitting"
       >
         提交
       </el-button>
@@ -74,7 +74,7 @@
             { type: 'date', required: true, message: '请选择新闻发布时间', trigger: 'change' }
           ]
         },
-        submitting: false
+        isSubmitting: false
       }
     },
     computed: {
@@ -89,7 +89,7 @@
       submitForm (formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.submitting = true
+            this.isSubmitting = true
             // 调整时间
             let newTime = this.form.time.getTime()
             let minutesOffset = this.form.time.getTimezoneOffset() + 480

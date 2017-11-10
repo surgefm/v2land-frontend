@@ -22,7 +22,7 @@
       </el-form-item>
     </el-form>
 
-    <p v-if="showText" class="show-text">{{ showText}}</p>
+    <p v-if="showText" class="el-form-item__label show-text">{{ showText}}</p>
 
     <div class="submit-button-group-separate">
       <el-button type="primary" @click="lastStep">上一步</el-button>
@@ -174,7 +174,8 @@
 
   .show-text {
     text-align: center;
-    margin-top: -.5rem;
+    margin-top: -1rem;
+    float: none;
   }
 
   .submit-button-group-separate {
