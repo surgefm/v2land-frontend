@@ -4,26 +4,24 @@
       <span v-if="order" class="order light-font">
         {{ order }}
       </span>
-      <div class="title-container">
-        <nuxt-link
-          class="tag light-font"
-          v-if="news.event"
-          :to="`/${news.event.name}`"
-        >{{ news.event.name }}</nuxt-link>
-        <span v-if="order === 1 && !news.event" class="tag light-font">
-          最新消息
-        </span>
-        <span v-if="news.tag" class="tag light-font">
-          {{ news.tag }}
-        </span>
-        <span v-if="news.source" class="source light-font">
-          {{ news.source }}
-        </span>
-        <br v-if="news.source || news.tag">
-        <a v-if="news.title" :href="news.url" target="_blank" class="title">
-          {{ news.title }}
-        </a>
-      </div>
+      <nuxt-link
+        class="tag light-font"
+        v-if="news.event"
+        :to="`/${news.event.name}`"
+      >{{ news.event.name }}</nuxt-link>
+      <span v-if="order === 1 && !news.event" class="tag light-font">
+        最新消息
+      </span>
+      <span v-if="news.tag" class="tag light-font">
+        {{ news.tag }}
+      </span>
+      <span v-if="news.source" class="source light-font">
+        {{ news.source }}
+      </span>
+      <br v-if="news.source || news.tag">
+      <a v-if="news.title" :href="news.url" target="_blank" class="title">
+        {{ news.title }}
+      </a>
     </div>
     <p v-if="news.abstract" class="news">
       {{ news.abstract }}
@@ -114,6 +112,7 @@
     font-size: 1.25rem;
     font-weight: 500;
     line-height: 1.5;
+    word-wrap: break-word;
   }
 
   .news {
@@ -146,10 +145,6 @@
     font-weight: 900;
   }
 
-  .top-container {
-    display: flex;
-  }
-
   @media (max-width: 500px) {
     .bottom {
       flex-direction: column;
@@ -165,6 +160,8 @@
       right: initial;
       top: 0;
       left: -.25rem;
+      height: 4rem;
+      float: left;
     }
   }
 </style>

@@ -167,7 +167,7 @@
             profileId: auth.profileId
           })
             .then(() => {
-              this.$store.dispatch('getClient')
+              return this.$store.dispatch('getClient')
             })
             .then(() => {
               this.updateForm()
