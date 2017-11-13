@@ -107,6 +107,12 @@
             return '浪潮用户'
         }
       },
+      showConnectTwitter () {
+        return (this.client.authList.filter(a => a.site === 'twitter').length < 1)
+      },
+      showConnectWeibo () {
+        return (this.client.authList.filter(a => a.site === 'weibo').length < 1)
+      },
       isUnauthorizable () {
         let isClientHavingEmail = false
         if (!this.client.email.includes('.langchao.co') &&
@@ -167,11 +173,9 @@
       },
       connectTwitter () {
         window.location = config.api + 'auth/twitter?redirect=' + this.redirect
-        return (this.client.authList.filter(a => a.site === 'twitter').length < 1)
       },
       connectWeibo () {
         window.location = config.api + 'auth/weibo?redirect=' + this.redirect
-        return (this.client.authList.filter(a => a.site === 'weibo').length < 1)
       }
     },
     created () {
