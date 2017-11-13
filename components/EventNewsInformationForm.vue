@@ -31,7 +31,7 @@
         type="primary"
         @click="submitForm('form')"
         size="medium"
-        :disabled="isSubmitting"
+        :loading="isSubmitting"
       >
         提交
       </el-button>
