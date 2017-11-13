@@ -41,7 +41,7 @@
             解除绑定
           </el-button>
         </el-form-item>
-        <el-form-item v-if="connectTwitter" label="Twitter">
+        <el-form-item v-if="showConnectTwitter" label="Twitter">
           <el-button
             size="small"
             type="primary"
@@ -52,7 +52,7 @@
             绑定 Twitter
           </el-button>
         </el-form-item>
-        <el-form-item v-if="connectWeibo" label="新浪微博">
+        <el-form-item v-if="showConnectWeibo" label="新浪微博">
           <el-button
             size="small"
             type="danger"
@@ -108,9 +108,15 @@
         }
       },
       showConnectTwitter () {
+        if (!this.client.authList) {
+          return 0
+        }
         return (this.client.authList.filter(a => a.site === 'twitter').length < 1)
       },
       showConnectWeibo () {
+        if (!this.client.authList) {
+          return 0
+        }
         return (this.client.authList.filter(a => a.site === 'weibo').length < 1)
       },
       isUnauthorizable () {
