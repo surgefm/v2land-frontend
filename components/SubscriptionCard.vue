@@ -89,6 +89,10 @@
             value: 'twitter'
           },
           {
+            label: '在 Twitter 上 @ 我',
+            value: 'twitterAt'
+          },
+          {
             label: '通过我的微博账号发布微博',
             value: 'weibo'
           }

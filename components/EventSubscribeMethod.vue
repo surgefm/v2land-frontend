@@ -18,7 +18,12 @@
       </el-form-item>
 
       <el-form-item v-if="form.method === 'email'" label="邮箱地址" prop="email">
-        <el-input v-model="form.email"></el-input>
+        <el-input v-model="form.email" />
+      </el-form-item>
+      <el-form-item v-if="form.method === 'twitterAt'" label="Twitter ID" prop="twitter">
+        <el-input v-model="form.twitterAt">
+          <template slot="prepend">@</template>
+        </el-input>
       </el-form-item>
     </el-form>
 
@@ -51,7 +56,8 @@
       return {
         form: {
           method: 'weibo',
-          email: ''
+          email: '',
+          twitterAt: ''
         },
         rules: {
           method: [
@@ -70,6 +76,10 @@
           {
             label: '通过我的 Twitter 账号发推',
             value: 'twitter'
+          },
+          {
+            label: '在 Twitter 上 @ 我',
+            value: 'twitterAt'
           },
           {
             label: '邮件推送',
