@@ -79,6 +79,7 @@
   import axios from '~/plugins/axios'
   import config from '~/const'
   import Cookie from 'cookie'
+  import $ from 'postman-url-encoder'
 
   export default {
     data () {
