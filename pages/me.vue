@@ -78,6 +78,7 @@
 <script>
   import axios from '~/plugins/axios'
   import config from '~/const'
+  import Cookie from 'cookie'
 
   export default {
     data () {
@@ -150,6 +151,7 @@
       },
       updateForm () {
         this.$set(this, 'form', this.client)
+        this.$set(this.form, 'authList', this.client.authList)
         if ((this.form.username || '').includes(':')) {
           this.$set(this.form, 'username', '未设定')
         }
@@ -178,10 +180,26 @@
         }
       },
       connectTwitter () {
-        window.location = config.api + 'auth/twitter?redirect=' + this.redirect
+        let accessToken
+        try {
+          let cookies = Cookie.parse(document.cookie)
+          accessToken = cookies.accessToken
+        } catch (err) {}
+        let url = $.encode(config.api + 'auth/twitter?' +
+          (accessToken ? '&access_token=' + accessToken : '') +
+          '&redirect=me')
+        window.location = url
       },
       connectWeibo () {
-        window.location = config.api + 'auth/weibo?redirect=' + this.redirect
+        let accessToken
+        try {
+          let cookies = Cookie.parse(document.cookie)
+          accessToken = cookies.accessToken
+        } catch (err) {}
+        let url = $.encode(config.api + 'auth/weibo?' +
+          (accessToken ? '&access_token=' + accessToken : '') +
+          '&redirect=me')
+        window.location = url
       }
     },
     created () {
