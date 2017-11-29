@@ -25,6 +25,11 @@
           <template slot="prepend">@</template>
         </el-input>
       </el-form-item>
+      <el-form-item v-if="form.method === 'weiboAt'" label="微博账号" prop="weibo">
+        <el-input v-model="form.weiboAt">
+          <template slot="prepend">@</template>
+        </el-input>
+      </el-form-item>
     </el-form>
 
     <p v-if="showText" class="el-form-item__label show-text">{{ showText}}</p>
@@ -55,9 +60,10 @@
     data () {
       return {
         form: {
-          method: 'weibo',
+          method: 'weiboAt',
           email: '',
-          twitterAt: ''
+          twitterAt: '',
+          weiboAt: ''
         },
         rules: {
           method: [
@@ -80,6 +86,10 @@
           {
             label: '在 Twitter 上 @ 我',
             value: 'twitterAt'
+          },
+          {
+            label: '在微博上 @ 我',
+            value: 'weiboAt'
           },
           {
             label: '邮件推送',
@@ -158,7 +168,7 @@
     created () {
       this.form.method = this.$route.query.method ||
         this.$store.state.subscribe.contact.method ||
-        'weibo'
+        this.form.method
       this.form[this.form.method] = this.$route.query.address ||
         this.$store.state.subscribe.contact.address
     }

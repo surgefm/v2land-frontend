@@ -152,7 +152,6 @@
       },
       updateForm () {
         this.$set(this, 'form', this.client)
-        this.$set(this.form, 'authList', this.client.authList)
         if ((this.form.username || '').includes(':')) {
           this.$set(this.form, 'username', '未设定')
         }
