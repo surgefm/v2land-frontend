@@ -1,3 +1,5 @@
+const config = require('./const')
+
 module.exports = {
   /*
   ** Headers of the page
@@ -95,7 +97,7 @@ module.exports = {
 
   modules: [
     ['@nuxtjs/google-analytics', {
-      id: 'UA-109441031-1'
+      id: config.ga
     }]
   ]
 }
