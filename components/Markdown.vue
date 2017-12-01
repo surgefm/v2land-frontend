@@ -1,6 +1,5 @@
 <template>
   <div class="editor">
-    <p class="light-font">备注：</p>
     <div class="md" v-html="compiledMarkdown" />
   </div>
 </template>
@@ -14,7 +13,7 @@
     },
     computed: {
       compiledMarkdown () {
-        return marked(this.input, { sanitize: true })
+        return marked('*备注：*' + this.input, { sanitize: true })
       }
     }
   }
