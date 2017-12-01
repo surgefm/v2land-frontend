@@ -120,12 +120,12 @@
   }
 
   hr {
-    margin-top: .5rem;
-    height: 1px;
     border: none;
+    height: 1px;
     color: #888;
     background-color: #888;
-    max-width: 10rem;
+    width: 96%;
+    margin: .5rem 2% 0 2%;
   }
 
   .bottom {

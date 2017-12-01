@@ -1,3 +1,5 @@
+@import "variables";
+
 .editor {
   padding: .5rem 0rem;
   width: 100%;
@@ -9,6 +11,12 @@
   max-width: 100%;
   text-align: left;
   line-height: 1.5 !important;
+  color: #888;
+}
+
+.editor em:first-child {
+  color: $light-color;
+  font-style: normal;
 }
 
 .editor img {
@@ -16,15 +24,7 @@
 }
 
 .editor a {
-  color: black;
+  color: #888;
   padding-bottom: .125rem;
-  border-bottom: #000 solid 1px;
-}
-
-.editor ul {
-  color: green;
-}
-
-.editor code {
-  color: #f66;
+  border-bottom: #888 solid 1px;
 }
