@@ -1,6 +1,7 @@
 <template>
   <div class="editor">
-    <div v-html="compiledMarkdown" />
+    <p class="light-font">备注：</p>
+    <div class="md" v-html="compiledMarkdown" />
   </div>
 </template>
   
