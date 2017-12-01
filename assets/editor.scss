@@ -1,17 +1,14 @@
 .editor {
-  margin-top: .5rem;
-  padding: .5rem;
+  padding: .5rem 0rem;
   width: 100%;
   font-size: .8rem;
   line-height: 1.5;
-  background-color: rgba(30, 139, 195, .1);
-  border-radius: .25rem;
 }
 
 .editor * {
   max-width: 100%;
   text-align: left;
-  margin-top: .25rem;
+  line-height: 1.5 !important;
 }
 
 .editor img {
