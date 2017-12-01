@@ -10,6 +10,7 @@ import EventTitle from '~/components/EventTitle'
 import EventStatus from '~/components/EventAbstractStatus.vue'
 import EventDescription from '~/components/EventAbstractDescription.vue'
 import EventCard from '~/components/EventCard.vue'
+import Markdown from '~/components/Markdown.vue'
 
 Vue.component('page-foot', PageFoot)
 Vue.component('logo', Logo)
@@ -22,3 +23,4 @@ Vue.component('event-title', EventTitle)
 Vue.component('event-status', EventStatus)
 Vue.component('event-description', EventDescription)
 Vue.component('event-card', EventCard)
+Vue.component('markdown', Markdown)

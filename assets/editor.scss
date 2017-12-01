@@ -1,0 +1,30 @@
+.editor {
+  padding: .5rem 0rem;
+  width: 100%;
+  font-size: .8rem;
+  line-height: 1.5;
+}
+
+.editor * {
+  max-width: 100%;
+  text-align: left;
+  line-height: 1.5 !important;
+}
+
+.editor img {
+  opacity: 1 !important;
+}
+
+.editor a {
+  color: black;
+  padding-bottom: .125rem;
+  border-bottom: #000 solid 1px;
+}
+
+.editor ul {
+  color: green;
+}
+
+.editor code {
+  color: #f66;
+}
