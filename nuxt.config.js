@@ -58,6 +58,7 @@ module.exports = {
   css: [
     '~/assets/common.scss',
     '~/assets/EventAction.scss',
+    '~/assets/editor.scss',
     '~/assets/icon.css',
     '~/static/element/tooltip.css',
     '~/static/element/base.css',

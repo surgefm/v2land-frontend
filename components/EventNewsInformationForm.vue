@@ -1,19 +1,19 @@
 <template>
   <el-form :model="form" :rules="rules" ref="form" label-width="90px">
     <el-form-item label="新闻链接" prop="url">
-      <el-input v-model="form.url"></el-input>
+      <el-input v-model="form.url" />
     </el-form-item>
 
     <el-form-item label="标题" prop="title">
-      <el-input v-model="form.title"></el-input>
+      <el-input v-model="form.title" />
     </el-form-item>
 
     <el-form-item label="来源" prop="source">
-      <el-input v-model="form.source"></el-input>
+      <el-input v-model="form.source" />
     </el-form-item>
 
     <el-form-item label="摘要" prop="abstract">
-      <el-input v-model="form.abstract" type="textarea" autosize></el-input>
+      <el-input v-model="form.abstract" type="textarea" autosize />
     </el-form-item>
 
     <el-form-item label="发布时间" prop="time">
@@ -24,7 +24,14 @@
       >
       </el-date-picker>
     </el-form-item>
-
+    <el-form-item label="备注" prop="comment">
+      <el-input
+        v-model="form.comment"
+        type="textarea"
+        placeholder="选填，支持 Markdown 语法"
+      />
+      <markdown v-if="form.comment" :input="form.comment" />
+    </el-form-item>
     <div class="submit-button-group">
       <el-button @click="resetForm('form')">重置</el-button>
       <el-button

@@ -26,6 +26,7 @@
     <p v-if="news.abstract" class="news">
       {{ news.abstract }}
     </p>
+    <markdown v-if="news.comment" :input="comment" />
     <div class="bottom">
       <span class="bottom-date">
         {{ getString(news.time) }}
@@ -36,14 +37,12 @@
         :news="news"
         v-on:admitted="$emit('admitted')"
         v-on:rejected="$emit('rejected')"
-      >
-      </event-news-admit>
+      />
       <event-news-share
         v-else
         class="news-share"
         :news="news"
-      >
-      </event-news-share>
+      />
     </div>
   </card>
 </template>
