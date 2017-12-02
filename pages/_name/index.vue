@@ -19,7 +19,7 @@
         <div
           class="news"
           v-if="showNewsAboveCover(news)"
-          @click="activeNews = anchoredNews.id"
+          @click="clickAnchoredNews(anchoredNews)"
         >
           <event-news :news="anchoredNews" />
         </div>
@@ -65,6 +65,13 @@
           this.$route.hash &&
           this.$route.hash !== '#timeline'
       },
+      hash () {
+        if (this.$route.hash) {
+          return this.$route.hash.slice(1)
+        } else {
+          return null
+        }
+      },
       anchoredNews () {
         let hash = this.$route.hash
         if (hash) {
@@ -102,6 +109,13 @@
       },
       hideNews (news) {
         return this.showCover && news.id === this.$route.hash.slice(1)
+      },
+      clickAnchoredNews (news) {
+        setTimeout(() => {
+          if (this.hash !== news.id) {
+            this.activeNews = news.id
+          }
+        }, 50)
       },
       removeCover () {
         this.activeNews = null
