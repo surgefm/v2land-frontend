@@ -1,7 +1,12 @@
 <template>
   <card v-if="news" class="news-container hover">
     <div class="top-container">
-      <span v-if="order" class="order light-font">
+      <span
+        v-if="order"
+        v-clipboard="newsUrl"
+        @success="copySuccess"
+        class="order light-font"
+      >
         {{ order }}
       </span>
       <nuxt-link
@@ -26,7 +31,6 @@
     <p v-if="news.abstract" class="news">
       {{ news.abstract }}
     </p>
-    <hr v-if="news.comment">
     <markdown v-if="news.comment" :input="news.comment" />
     <div class="bottom">
       <span class="bottom-date">
@@ -49,14 +53,20 @@
 </template>
 
 <script>
-  import EventNewsAdmit from './EventNewsAdmit.vue'
-  import EventNewsShare from './EventNewsShare.vue'
+  import EventNewsAdmit from '~/components/EventNewsAdmit.vue'
+  import EventNewsShare from '~/components/EventNewsShare.vue'
+  import config from '~/const'
 
   export default {
     props: {
       news: Object,
       order: Number,
       mode: String
+    },
+    computed: {
+      newsUrl () {
+        return config.baseUrl + this.$route.params.name + '?news=i' + this.news.id
+      }
     },
     components: {
       'event-news-admit': EventNewsAdmit,
@@ -75,6 +85,9 @@
         string += date.getDate() + ' 日'
 
         return string
+      },
+      copySuccess () {
+        this.$message('已将该新闻分享链接拷贝至剪贴板')
       }
     }
   }
@@ -119,15 +132,6 @@
     padding-top: .5rem;
   }
 
-  hr {
-    border: none;
-    height: 1px;
-    color: #888;
-    background-color: #888;
-    width: 96%;
-    margin: .5rem 2% 0 2%;
-  }
-
   .bottom {
     margin-top: .5rem;
     display: flex;
@@ -150,7 +154,7 @@
     right: calc(100% - 1.25rem);
     top: 1.5rem;
     font-family: 'Times New Roman', Times, serif;
-    cursor: default;
+    cursor: pointer;
     font-weight: 900;
   }
 

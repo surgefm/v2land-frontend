@@ -1,21 +1,39 @@
 <template>
   <div v-if="event">
-    <logo class="logo"></logo>
+    <logo class="logo" />
     <background>
-      <!-- <first-screen :background="event.image"> -->
-      <event-abstract :detail="event"></event-abstract>
-      <!-- </first-screen> -->
+      <event-abstract :detail="event" />
       <div 
         v-for="(news, i) of newsCollection"
         :key="news.id"
-        :id="news.id"
-        class="news"
+        :id="'i' + news.id"
+        :class="[
+          'news',
+          showNewsAboveCover(news) ? 'above-cover' : '',
+          hideNews(news) ? 'hide-news' : ''
+        ]"
       >
-        <event-news :news="news" :order="i + 1"></event-news>
+        <div class="news" @click="activeNews = news.id">
+          <event-news :news="news" :order="i + 1" />
+        </div>
+        <div
+          class="news"
+          v-if="showNewsAboveCover(news)"
+          @click="activeNews = anchoredNews.id"
+        >
+          <event-news :news="anchoredNews" />
+        </div>
       </div>
-      <page-foot/>
+      <div
+        :class="[
+          'cover',
+          showCover ? 'shadow-cover' : ''
+        ]"
+        @click="removeCover"
+      />
+      <page-foot />
     </background>
-    <event-action></event-action>
+    <event-action />
   </div>
 </template>
 
@@ -24,6 +42,11 @@
   import config from '~/const'
 
   export default {
+    data () {
+      return {
+        activeNews: null
+      }
+    },
     computed: {
       name () {
         return this.$route.params.name
@@ -36,6 +59,52 @@
       },
       image () {
         return config.static + this.event.image.imageUrl
+      },
+      showCover () {
+        return this.activeNews &&
+          this.$route.hash &&
+          this.$route.hash !== '#timeline'
+      },
+      anchoredNews () {
+        let hash = this.$route.hash
+        if (hash) {
+          hash = hash.slice(1)
+          let name = this.$route.params.name
+          let news = this.$store.getters.getNews({
+            name,
+            id: hash
+          })
+          if (news) {
+            news.tag = '相关新闻'
+            return news
+          }
+        }
+        return null
+      }
+    },
+    methods: {
+      showNewsAboveCover (news) {
+        let show = this.showCover && news.id === this.activeNews
+        if (show) {
+          try {
+            setTimeout(() => {
+              let element = document.getElementById('i' + this.activeNews)
+              if (element) {
+                element.scrollIntoView()
+                window.scrollBy(0, -50)
+              }
+            }, 50)
+          } catch (e) {}
+        }
+
+        return show
+      },
+      hideNews (news) {
+        return this.showCover && news.id === this.$route.hash.slice(1)
+      },
+      removeCover () {
+        this.activeNews = null
+        window.location.hash = 'timeline'
       }
     },
     async asyncData ({ store, params, redirect, route }) {
@@ -56,6 +125,7 @@
           let element = document.getElementById(this.$route.query.news)
           if (element) {
             element.scrollIntoView()
+            window.scrollBy(0, -50)
           }
         }, 200)
       }
@@ -87,5 +157,30 @@
   .news {
     width: 100%;
     max-width: 35rem;
+  }
+
+  .cover {
+    transition: all .2s;
+    opacity: 0;
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
+  }
+
+  .shadow-cover {
+    z-index: 5000;
+    opacity: 1;
+    background-color: rgba(0, 0, 0, .1);
+  }
+
+  .above-cover {
+    z-index: 5001;
+  }
+
+  .hide-news {
+    display: none;
   }
 </style>

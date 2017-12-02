@@ -37,7 +37,7 @@
     },
     methods: {
       shareTo (site) {
-        let url = config.baseUrl + this.event.id + '?news=' + this.news.id
+        let url = config.baseUrl + this.event.id + '?news=i' + this.news.id
         let message = this.news.title + ' - ' +
           this.news.abstract.slice(0, 50) +
           (this.news.abstract.length > 50 ? '… ' : ' ')
