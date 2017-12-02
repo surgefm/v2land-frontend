@@ -14,12 +14,16 @@
         ]"
       >
         <div class="news" @click="activeNews = news.id">
-          <event-news :news="news" :order="i + 1" />
+          <event-news
+            :news="news"
+            :order="i + 1"
+            :id="'main-i' + news.id"
+          />
         </div>
         <div
           class="news"
           v-if="showNewsAboveCover(news)"
-          @click="activeNews = anchoredNews.id"
+          @click="clickAnchoredNews(anchoredNews)"
         >
           <event-news :news="anchoredNews" />
         </div>
@@ -65,6 +69,13 @@
           this.$route.hash &&
           this.$route.hash !== '#timeline'
       },
+      hash () {
+        if (this.$route.hash) {
+          return this.$route.hash.slice(1)
+        } else {
+          return null
+        }
+      },
       anchoredNews () {
         let hash = this.$route.hash
         if (hash) {
@@ -75,8 +86,9 @@
             id: hash
           })
           if (news) {
-            news.tag = '相关新闻'
-            return news
+            let copy = Object.assign({}, news)
+            copy.tag = '相关新闻'
+            return copy
           }
         }
         return null
@@ -102,6 +114,13 @@
       hideNews (news) {
         return this.showCover && news.id === this.$route.hash.slice(1)
       },
+      clickAnchoredNews (news) {
+        setTimeout(() => {
+          if (this.hash !== news.id) {
+            this.activeNews = news.id
+          }
+        }, 50)
+      },
       removeCover () {
         this.activeNews = null
         window.location.hash = 'timeline'
@@ -120,15 +139,15 @@
       return {}
     },
     mounted () {
-      if (!this.$route.hash) {
-        window.location.hash = 'timeline'
-      }
+      window.location.hash = 'timeline'
       if (this.$route.query.news && document) {
         setTimeout(() => {
           let element = document.getElementById(this.$route.query.news)
+          let news = document.getElementById('main-' + this.$route.query.news)
           if (element) {
             element.scrollIntoView()
             window.scrollBy(0, -50)
+            news.className += ' emphasize'
           }
         }, 200)
       }
@@ -166,7 +185,7 @@
     transition: all .2s;
     opacity: 0;
     width: 100%;
-    height: 100vh;
+    height: 100%;
     position: fixed;
     top: 0;
     left: 0;

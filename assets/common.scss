@@ -85,6 +85,10 @@ img {
   line-height: 1.75;
 }
 
+.emphasize {
+  animation: 1s linear 0s alternate emphasize;
+}
+
 .page-enter-active, .page-leave-active {
   transition: opacity .2s;
 }
@@ -138,5 +142,19 @@ img {
     left: auto;
     right: 1.5rem;
     top: 2.5rem;
+  }
+}
+
+@keyframes emphasize {
+  0% {
+    box-shadow: 0;
+  }
+
+  30% {
+    box-shadow: 0 0px 30px rgba(30,139,195,.4);
+  }
+
+  100% {
+    box-shadow: 0;
   }
 }
