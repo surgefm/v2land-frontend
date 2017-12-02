@@ -88,7 +88,8 @@ module.exports = {
 
   plugins: [
     '~/plugins/element.js',
-    '~/plugins/components.js'
+    '~/plugins/components.js',
+    '~/plugins/clipboard.js'
   ],
 
   router: {
