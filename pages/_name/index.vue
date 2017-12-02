@@ -14,7 +14,11 @@
         ]"
       >
         <div class="news" @click="activeNews = news.id">
-          <event-news :news="news" :order="i + 1" />
+          <event-news
+            :news="news"
+            :order="i + 1"
+            :id="'main-i' + news.id"
+          />
         </div>
         <div
           class="news"
@@ -141,9 +145,11 @@
       if (this.$route.query.news && document) {
         setTimeout(() => {
           let element = document.getElementById(this.$route.query.news)
+          let news = document.getElementById('main-' + this.$route.query.news)
           if (element) {
             element.scrollIntoView()
             window.scrollBy(0, -50)
+            news.className += ' emphasize'
           }
         }, 200)
       }
