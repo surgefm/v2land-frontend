@@ -75,8 +75,9 @@
             id: hash
           })
           if (news) {
-            news.tag = '相关新闻'
-            return news
+            let copy = Object.assign({}, news)
+            copy.tag = '相关新闻'
+            return copy
           }
         }
         return null
