@@ -120,6 +120,9 @@
       return {}
     },
     mounted () {
+      if (!this.$route.hash) {
+        window.location.hash = 'timeline'
+      }
       if (this.$route.query.news && document) {
         setTimeout(() => {
           let element = document.getElementById(this.$route.query.news)
