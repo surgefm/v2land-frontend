@@ -24,8 +24,8 @@
               <div @click="loginTwitter" class="item">
 
                 <div class="oval blue">
-                  <div class="inner-oval">
-                    <img width="80" height="80" src="~/static/Twitter_Logo_Blue.svg" />
+                  <div class="inner-oval twitter">
+                    <i class="icon-twitter" />
                   </div>
                 </div>
                 <div class="twitter-login unselectable">Twitter登录</div>
@@ -173,5 +173,11 @@ export default {
   -webkit-user-select: none;
   -o-user-select: none;
 } 
+
+.inner-oval.twitter {
+  text-align: center;
+  font-size: 48px;
+  padding-top: 12px;
+}
 
 </style>
