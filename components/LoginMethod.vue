@@ -52,7 +52,7 @@ export default {
   props: {
     redirect: {
       type: String,
-      required: true
+      default: ''
     }
   },
 
