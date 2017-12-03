@@ -184,7 +184,7 @@
   }
 
   .cover {
-    transition: all .2s;
+    transition: background-color .2s, opacity .2s, z-index 0s;
     opacity: 0;
     width: 100%;
     height: 100%;
