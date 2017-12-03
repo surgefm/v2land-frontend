@@ -3,7 +3,7 @@
     <card>
       <event-title>登录浪潮</event-title>
       <div class="login-method-container">
-        <login-method></login-method>
+        <login-method v-bind:redirect="redirect"></login-method>
       </div>
     </card>
     <logo class="logo"></logo>
@@ -12,15 +12,7 @@
 </template>
 
 <script>
-  // import Cookie from 'cookie'
-  // import axios from '~/plugins/axios'
-  import config from '~/const'
-
   export default {
-    data () {
-      return {
-      }
-    },
     computed: {
       redirect () {
         let redirect = this.$route.query.redirect
@@ -32,17 +24,6 @@
           }
         }
         return ''
-      }
-    },
-    methods: {
-      loginTwitter () {
-        window.location = config.api + 'auth/twitter?redirect=' + this.redirect
-      },
-      loginWeibo () {
-        window.location = config.api + 'auth/weibo?redirect=' + this.redirect
-      },
-      loginEmail () {
-
       }
     },
     beforeRouteEnter: (to, from, next) => {

@@ -49,6 +49,13 @@
 import config from '~/const'
 
 export default {
+  props: {
+    redirect: {
+      type: String,
+      required: true
+    }
+  },
+
   methods: {
     loginTwitter () {
       window.location = config.api + 'auth/twitter?redirect=' + this.redirect
