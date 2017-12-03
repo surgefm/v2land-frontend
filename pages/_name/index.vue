@@ -197,7 +197,7 @@
   .shadow-cover {
     z-index: 5000;
     opacity: 1;
-    background-color: rgba(0, 0, 0, .1);
+    background-color: rgba(0, 0, 0, .4);
   }
 
   .above-cover {
