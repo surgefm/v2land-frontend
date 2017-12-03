@@ -141,7 +141,7 @@
     mounted () {
       window.location.hash = 'timeline'
       if (this.$route.query.news && document) {
-        setTimeout(() => {
+        window.onload = () => {
           let element = document.getElementById(this.$route.query.news)
           let news = document.getElementById('main-' + this.$route.query.news)
           if (element) {
@@ -149,7 +149,7 @@
             window.scrollBy(0, -50)
             news.className += ' emphasize'
           }
-        }, 200)
+        }
       }
     },
     head () {
