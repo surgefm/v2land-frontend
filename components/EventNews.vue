@@ -156,6 +156,11 @@
     font-family: 'Times New Roman', Times, serif;
     cursor: pointer;
     font-weight: 900;
+    transition: all .2s;
+  }
+
+  .above-cover .order {
+    text-shadow: -.25rem 0 0 #fff;
   }
 
   @media (max-width: 500px) {
@@ -175,6 +180,7 @@
       left: -.25rem;
       height: 4rem;
       float: left;
+      text-shadow: none !important;
     }
   }
 </style>
