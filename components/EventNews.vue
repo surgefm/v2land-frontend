@@ -149,6 +149,7 @@
 
   .order {
     font-size: 4.25rem;
+    height: 4.25rem;
     line-height: 1;
     position: absolute;
     right: calc(100% - 1.25rem);
