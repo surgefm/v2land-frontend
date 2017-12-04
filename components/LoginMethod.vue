@@ -1,38 +1,36 @@
 <template>
   <div class="login-method">
-    <div class="item-container">
 
-      <div class="flex-container">
+    <div class="flex-container">
 
-        <div class="method-item">
-          <div @click="loginWeibo" class="item">
+      <div class="method-item">
+        <div @click="loginWeibo" class="item">
 
-            <div class="oval red"> 
-              <div class="inner-oval">
-                <img width="64" height="52" src="~/static/Sina_Weibo.svg" />
-              </div>
+          <div class="oval red"> 
+            <div class="inner-oval">
+              <img width="64" height="52" src="~/static/Sina_Weibo.svg" />
             </div>
-
-            <div class="weibo-login unselectable">微博登录</div>
           </div>
+
+          <div class="weibo-login unselectable">微博登录</div>
         </div>
+      </div>
 
-        <div class="method-item">
-          <div @click="loginTwitter" class="item">
+      <div class="method-item">
+        <div @click="loginTwitter" class="item">
 
-            <div class="oval blue">
-              <div class="inner-oval twitter">
-                <i class="icon-twitter" />
-              </div>
+          <div class="oval blue">
+            <div class="inner-oval twitter">
+              <i class="icon-twitter" />
             </div>
-            <div class="twitter-login unselectable">Twitter 登录</div>
-
           </div>
-        </div>
+          <div class="twitter-login unselectable">Twitter 登录</div>
 
+        </div>
       </div>
 
     </div>
+
 
     <div class="bottom">
       <div @click="loginEmail" class="email-login">使用用户名/邮箱登录</div>
@@ -66,12 +64,6 @@ export default {
 </script>
 
 <style scoped>
-
-.item-container {
-  width: 328px;
-  margin-left: 50%;
-  transform: translateX(-50%);
-}
 
 .oval {
   display: inline-block;
@@ -182,8 +174,7 @@ export default {
 .flex-container {
   display: -webkit-flex;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
   align-content: center;
   justify-content: space-around;
 
