@@ -195,13 +195,13 @@
   }
 
   .shadow-cover {
-    z-index: 5000;
+    z-index: 1900;
     opacity: 1;
     background-color: rgba(0, 0, 0, .4);
   }
 
   .above-cover {
-    z-index: 5001;
+    z-index: 1901;
   }
 
   .hide-news {
