@@ -15,7 +15,7 @@
           class="image"
           onload="this.id = 'show'"
         >
-        <i v-else class="el-icon-plus image-uploader-icon"></i>
+        <i v-else class="el-icon-plus image-uploader-icon" />
       </el-upload>
       <div class="form-container">
         <el-form
@@ -45,8 +45,8 @@
         </el-form>
       </div>
     </card>
-    <event-action></event-action>
-    <logo class="logo"></logo>
+    <event-action />
+    <logo class="logo" />
     <page-foot/>
   </background>
 </template>
@@ -55,8 +55,10 @@
   import config from '~/const'
   import $ from 'postman-url-encoder'
   import axios from '~/plugins/axios'
+  import Upload from 'element-ui/lib/upload'
 
   let url = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/
+  
   export default {
     data () {
       return {
@@ -130,6 +132,9 @@
           this.form = Object.assign({}, this.orig)
         }
       }
+    },
+    components: {
+      'el-upload': Upload
     },
     beforeRouteEnter: (to, from, next) => {
       next(vm => {

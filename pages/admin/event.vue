@@ -29,6 +29,9 @@
 </template>
 
 <script>
+  import Checkbox from 'element-ui/lib/checkbox'
+  import CheckboxGroup from 'element-ui/lib/checkbox-group'
+
   export default {
     data () {
       return {
@@ -62,6 +65,10 @@
             this.eventCollection = Array.from(eventList)
           })
       }
+    },
+    components: {
+      'el-checkbox': Checkbox,
+      'el-checkbox-group': CheckboxGroup
     },
     async asyncData ({ store }) {
       return {
