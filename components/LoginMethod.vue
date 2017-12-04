@@ -152,7 +152,7 @@ export default {
   /* https://stackoverflow.com/questions/924916/is-there-a-way-to-make-a-div-unselectable */
   .unselectable {
     user-select: none;
-  } 
+  }
 
   .inner-oval.twitter {
     text-align: center;
