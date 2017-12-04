@@ -11,6 +11,7 @@ import EventStatus from '~/components/EventAbstractStatus.vue'
 import EventDescription from '~/components/EventAbstractDescription.vue'
 import EventCard from '~/components/EventCard.vue'
 import Markdown from '~/components/Markdown.vue'
+import LoginMethod from '~/components/LoginMethod.vue'
 
 Vue.component('page-foot', PageFoot)
 Vue.component('logo', Logo)
@@ -24,3 +25,4 @@ Vue.component('event-status', EventStatus)
 Vue.component('event-description', EventDescription)
 Vue.component('event-card', EventCard)
 Vue.component('markdown', Markdown)
+Vue.component('login-method', LoginMethod)
