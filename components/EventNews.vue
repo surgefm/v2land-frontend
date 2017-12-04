@@ -159,8 +159,15 @@
     transition: all .2s;
   }
 
-  .above-cover .order {
-    text-shadow: -.25rem 0 0 #fff;
+  @media (min-width: 500px) {
+    .above-cover .order {
+      text-shadow: -.25rem 0 0 #000;
+      background-color: #1e8bc3;
+      color: #fff !important;
+      border-radius: .25rem;
+      padding: 0 .25rem;
+      box-shadow: -.25rem 0 0 #000;
+    }
   }
 
   @media (max-width: 500px) {
