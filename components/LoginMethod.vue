@@ -159,10 +159,6 @@ export default {
 /* https://stackoverflow.com/questions/924916/is-there-a-way-to-make-a-div-unselectable */
 .unselectable {
   user-select: none;
-  -moz-user-select: none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-  -o-user-select: none;
 } 
 
 .inner-oval.twitter {
@@ -172,7 +168,6 @@ export default {
 }
 
 .flex-container {
-  display: -webkit-flex;
   display: flex;
   flex-flow: row wrap;
   align-content: center;
