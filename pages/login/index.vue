@@ -3,7 +3,7 @@
     <card>
       <event-title>登录浪潮</event-title>
       <div class="login-method-container">
-        <login-method :redirect="redirect"></login-method>
+        <login-method :redirect="redirect" />
       </div>
     </card>
     <logo class="logo"></logo>

@@ -2,40 +2,35 @@
   <div class="login-method">
     <div class="item-container">
 
-      <!-- 一种十分古老的用table来排版的方法  -->
-      <!-- 暴露了一个老前端的年龄 -->
-      <table>
-        <tbody>
-          <tr>
+      <div class="flex-container">
 
-            <td>
-              <div @click="loginWeibo" class="item">
+        <div class="method-item">
+          <div @click="loginWeibo" class="item">
 
-                <div class="oval red"> 
-                  <div class="inner-oval">
-                    <img width="64" height="52" src="~/static/login-weibo.png" />
-                  </div>
-                </div>
-
-                <div class="weibo-login unselectable">微博登录</div>
+            <div class="oval red"> 
+              <div class="inner-oval">
+                <img width="64" height="52" src="~/static/Sina_Weibo.svg" />
               </div>
-            </td>
-            <td>
-              <div @click="loginTwitter" class="item">
+            </div>
 
-                <div class="oval blue">
-                  <div class="inner-oval twitter">
-                    <i class="icon-twitter" />
-                  </div>
-                </div>
-                <div class="twitter-login unselectable">Twitter登录</div>
+            <div class="weibo-login unselectable">微博登录</div>
+          </div>
+        </div>
 
+        <div class="method-item">
+          <div @click="loginTwitter" class="item">
+
+            <div class="oval blue">
+              <div class="inner-oval twitter">
+                <i class="icon-twitter" />
               </div>
-            </td>
+            </div>
+            <div class="twitter-login unselectable">Twitter 登录</div>
 
-          </tr>
-        </tbody>
-      </table>
+          </div>
+        </div>
+
+      </div>
 
     </div>
 
@@ -64,7 +59,7 @@ export default {
       window.location = config.api + 'auth/weibo?redirect=' + this.redirect
     },
     loginEmail () {
-      window.location = '/login/email'
+      this.$router.push('/login/email')
     }
   }
 }
@@ -95,12 +90,16 @@ export default {
   width: 100px;
   height: 100px;
   border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .inner-oval img {
-  margin-left: 50%;
+  /* margin-left: 50%;
   margin-top: 50%;
-  transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%); */
   opacity: 1;
 }
 
@@ -176,8 +175,19 @@ export default {
 
 .inner-oval.twitter {
   text-align: center;
-  font-size: 48px;
+  font-size: 52px;
   padding-top: 12px;
+}
+
+.flex-container {
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  justify-content: space-around;
+
+  margin-bottom: 12px;
 }
 
 </style>
