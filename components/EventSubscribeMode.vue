@@ -63,7 +63,7 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .mode-container {
     display: flex;
     align-items: center;

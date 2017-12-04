@@ -37,10 +37,8 @@
   }
 </script>
 
-<style scoped>
-
-.login-method-container {
-  padding-top: 24px;
-}
-
+<style lang="scss" scoped>
+  .login-method-container {
+    padding-top: 24px;
+  }
 </style>

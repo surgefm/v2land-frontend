@@ -73,7 +73,9 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  @import "../assets/variables.scss";
+
   .share {
     display: flex;
     font-size: 1rem;
@@ -102,7 +104,7 @@
   }
 
   .border-color:hover {
-    border-color: rgb(52, 152, 219);
+    border-color: $light-color;
   }
 
   .el-icon-document:hover:before,

@@ -49,7 +49,9 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  @import "../assets/variables.scss";
+
   .share {
     display: flex;
     margin-top: .25rem;
@@ -68,6 +70,6 @@
   }
 
   .border-color:hover {
-    border-color: rgb(52, 152, 219);
+    border-color: $light-color;
   }
 </style>

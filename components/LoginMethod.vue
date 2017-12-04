@@ -55,7 +55,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .oval {
     display: inline-block;
     width: 110px;

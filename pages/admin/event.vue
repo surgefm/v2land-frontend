@@ -71,7 +71,7 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .admin-event-container {
     width: 100%;
     display: flex;
