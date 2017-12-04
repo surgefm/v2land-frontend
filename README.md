@@ -1,4 +1,4 @@
-# v2land-frontend
+# v2land-frontend [![Build Status](https://travis-ci.org/v2land/v2land-frontend.svg?branch=master)](https://travis-ci.org/v2land/v2land-frontend)
 
 > Nuxt.js project
 
