@@ -23,7 +23,7 @@
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .icon-container {
     display: flex;
     justify-content: center;

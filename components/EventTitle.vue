@@ -4,7 +4,7 @@
   </span>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .title {
     font-size: 2rem;
     font-weight: bold;

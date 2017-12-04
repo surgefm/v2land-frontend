@@ -5,7 +5,7 @@
   </nuxt-link>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .el-icon-back {
     transform: rotate(180deg);
   }

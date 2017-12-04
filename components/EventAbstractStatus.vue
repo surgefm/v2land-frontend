@@ -41,7 +41,7 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .status {
     font-size: .9rem;
   }

@@ -30,7 +30,7 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .submit-button-group {
     margin-top: 1rem;
   }

@@ -47,6 +47,8 @@
 </template>
 
 <script>
+  import DatePicker from 'element-ui/lib/date-picker'
+
   export default {
     props: {
       data: String,
@@ -122,6 +124,9 @@
       resetButton () {
         this.isSubmitting = false
       }
+    },
+    components: {
+      'el-date-picker': DatePicker
     },
     created () {
       if (this.mode === 'edit' && this.origData) {

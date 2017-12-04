@@ -128,7 +128,7 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .link {
     color: black !important;
   }

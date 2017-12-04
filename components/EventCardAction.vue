@@ -46,7 +46,9 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  @import "../assets/variables";
+
   .share {
     display: flex;
     justify-content: flex-end;
@@ -81,7 +83,7 @@
   }
 
   .border-color:hover {
-    border-color: rgb(52, 152, 219);
+    border-color: $light-color;
   }
 
   .el-icon-edit:hover:before {
