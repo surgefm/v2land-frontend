@@ -37,7 +37,7 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   p, ol {
     margin-top: 1rem;
   }

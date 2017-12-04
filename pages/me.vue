@@ -216,7 +216,7 @@
   }
 </script>
 
-<style>
+<style lang="scss" scoped>
   .edit {
     font-size: 1.25rem;
     display: flex;

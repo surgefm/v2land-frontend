@@ -175,7 +175,7 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .method-container {
     display: flex;
     align-items: center;

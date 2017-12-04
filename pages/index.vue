@@ -48,7 +48,7 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .homepage-container {
     width: 100%;
     min-height: 100vh;

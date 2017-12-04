@@ -14,7 +14,7 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .description {
     padding: 0;
     margin-top: 1rem;

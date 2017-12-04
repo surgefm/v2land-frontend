@@ -122,7 +122,7 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .form-container {
     margin-top: 1rem;
     display: flex;
