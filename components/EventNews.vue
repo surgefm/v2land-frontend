@@ -170,6 +170,7 @@
       border-radius: .25rem;
       padding: 0 .25rem;
       box-shadow: -.25rem 0 0 #000;
+      opacity: 0;
     }
   }
 
