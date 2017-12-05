@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .background {
     padding: 7rem 1rem 1rem 1rem;
     display: flex;

@@ -36,7 +36,7 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .footer {
     width: 100%;
     text-align: center;

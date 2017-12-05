@@ -36,7 +36,7 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .first-screen-container {
     min-height: 100vh;
     width: 100%;

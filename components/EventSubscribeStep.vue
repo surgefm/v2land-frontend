@@ -7,9 +7,16 @@
 </template>
 
 <script>
+  import Step from 'element-ui/lib/step'
+  import Steps from 'element-ui/lib/steps'
+
   export default {
     props: {
       step: Number
+    },
+    components: {
+      'el-step': Step,
+      'el-steps': Steps
     }
   }
 </script>

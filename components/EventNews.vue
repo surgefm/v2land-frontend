@@ -93,7 +93,9 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  @import "../assets/variables.scss";
+
   a {
     color: black;
   }
@@ -114,7 +116,7 @@
   }
 
   a.tag:hover {
-    border-color: rgb(30, 139, 195);
+    border-color: $light-color;
   }
 
   .source {

@@ -29,6 +29,9 @@
 </template>
 
 <script>
+  import Checkbox from 'element-ui/lib/checkbox'
+  import CheckboxGroup from 'element-ui/lib/checkbox-group'
+
   export default {
     data () {
       return {
@@ -63,6 +66,10 @@
           })
       }
     },
+    components: {
+      'el-checkbox': Checkbox,
+      'el-checkbox-group': CheckboxGroup
+    },
     async asyncData ({ store }) {
       return {
         eventCollection: await store.dispatch('getAllEventList')
@@ -71,7 +78,7 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .admin-event-container {
     width: 100%;
     display: flex;

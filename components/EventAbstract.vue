@@ -41,7 +41,7 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .event-share {
     display: flex;
     justify-content: flex-end;

@@ -177,7 +177,7 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .news {
     width: 100%;
     max-width: 35rem;

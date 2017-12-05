@@ -112,7 +112,7 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .action-set-container {
     display: flex;
     justify-content: center;

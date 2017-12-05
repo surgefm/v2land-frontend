@@ -4,7 +4,7 @@
   </div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
   .card {
     max-width: 35rem;
     width: 100%;
