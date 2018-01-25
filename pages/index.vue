@@ -2,7 +2,7 @@
   <div class="homepage-container">
     <card class="title-container hover">
       <img
-        src="https://s.langchao.co/750x200/default.jpg"
+        src="https://assets.v2land.net/750x200/default.jpg"
         onload="this.id = 'show'"
       >
       <event-title>浪潮</event-title>
