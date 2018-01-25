@@ -86,7 +86,7 @@
 
   .event-title {
     font-size: 1.25rem;
-    font-weight: 500;
+    font-weight: bold;
     line-height: 1.5;
   }
 
