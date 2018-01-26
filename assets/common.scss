@@ -11,16 +11,7 @@ a {
 }
 
 .title, .event-title {
-  font-family: "source-han-serif-sc", "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
-}
-
-.event-title, .title {
-  opacity: 0;
-  transition: opacity .2s;
-}
-
-.wf-active .event-title, .wf-active .title {
-  opacity: 1;
+  font-family: "source-han-serif-sc", "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif !important;
 }
 
 img {
