@@ -4,3 +4,5 @@ node_js:
 env:
   - CXX=g++-4.8
 script: yarn run build
+notifications:
+  slack: v2land:xoeT2IXt8yCaUfMxoBbXrSZD
