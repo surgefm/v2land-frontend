@@ -1,5 +1,6 @@
 <template>
   <div class="homepage-container">
+    <logo class="logo" />
     <card class="title-container hover">
       <img
         src="https://assets.v2land.net/750x200/default.jpg"
@@ -28,8 +29,7 @@
       :event="event"
     />
     <page-foot class="page-foot" />
-    <logo class="logo"></logo>
-    <event-action></event-action>
+    <event-action />
   </div>
 </template>
 
