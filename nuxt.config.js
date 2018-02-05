@@ -9,95 +9,33 @@ module.exports = {
   head: {
     title: '浪潮 - 渴望重回土地',
     meta: [
-      {
-        charset: 'utf-8'
-      },
-      {
-        name: 'viewport',
-        content: 'width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=no',
-        'user-scalable': 'no'
-      },
-      {
-        hid: 'description',
-        name: 'description',
-        content: '回想一下，你曾关注的社会事件中，有多少得到了妥善的解决？'
-      },
-      {
-        hid: 't:card',
-        name: 'twitter:card',
-        content: 'summary'
-      },
-      {
-        hid: 't:site',
-        name: 'twitter:site',
-        content: '@Wave2Land'
-      },
-      {
-        hid: 't:title',
-        name: 'twitter:title',
-        content: '浪潮 - 渴望重回土地'
-      },
-      {
-        hid: 't:description',
-        name: 'twitter:description',
-        content: '回想一下，你曾关注的社会事件中，有多少得到了妥善的解决？'
-      },
-      {
-        hid: 't:image',
-        name: 'twitter:image',
-        content: 'https://assets.v2land.net/twitter-icon.png'
-      },
-      {
-        hid: 'og:title',
-        property: 'og:title',
-        content: '浪潮 - 渴望重回土地'
-      },
-      {
-        hid: 'og:type',
-        property: 'og:type',
-        content: 'website'
-      },
-      {
-        hid: 'og:description',
-        property: 'og:description',
-        content: '回想一下，你曾关注的社会事件中，有多少得到了妥善的解决？'
-      },
-      {
-        hid: 'og:image',
-        name: 'og:image',
-        content: 'https://assets.v2land.net/twitter-icon.png'
-      },
-      {
-        hid: 'og:site_name',
-        name: 'og:site_name',
-        content: '浪潮'
-      }
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=no', 'user-scalable': 'no' },
+      { hid: 'description', name: 'description', content: '回想一下，你曾关注的社会事件中，有多少得到了妥善的解决？' },
+      { hid: 't:card', name: 'twitter:card', content: 'summary' },
+      { hid: 't:site', name: 'twitter:site', content: '@Wave2Land' },
+      { hid: 't:title', name: 'twitter:title', content: '浪潮 - 渴望重回土地' },
+      { hid: 't:description', name: 'twitter:description', content: '回想一下，你曾关注的社会事件中，有多少得到了妥善的解决？' },
+      { hid: 't:image', name: 'twitter:image', content: 'https://assets.v2land.net/twitter-icon.png' },
+      { hid: 'og:title', property: 'og:title', content: '浪潮 - 渴望重回土地' },
+      { hid: 'og:type', property: 'og:type', content: 'website' },
+      { hid: 'og:description', property: 'og:description', content: '回想一下，你曾关注的社会事件中，有多少得到了妥善的解决？' },
+      { hid: 'og:image', name: 'og:image', content: 'https://assets.v2land.net/twitter-icon.png' },
+      { hid: 'og:site_name', name: 'og:site_name', content: '浪潮' }
     ],
-    link: [{
-      rel: 'icon',
-      type: 'image/x-icon',
-      href: '/favicon.ico'
-    }],
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+    ],
     publicPath: config.publicPath
   },
   /*
    ** Customize the progress bar color
    */
-  loading: {
-    color: '#19B5FE'
-  },
-
+  loading: { color: '#19B5FE' },
   /*
    ** Build configuration
    */
   build: {
-    filenames: {
-      css: 'vendor.css',
-      manifest: 'manifest.js',
-      vendor: 'vendor.js',
-      app: 'app.js',
-      chunk: '[name].js'
-    },
     /*
      ** Run ESLint on save
      */
@@ -154,10 +92,7 @@ module.exports = {
     '~/plugins/element.js',
     '~/plugins/components.js',
     '~/plugins/clipboard.js',
-    {
-      src: '~/plugins/typekit',
-      ssr: false
-    }
+    { src: '~/plugins/typekit', ssr: false }
   ],
 
   router: {
@@ -166,86 +101,112 @@ module.exports = {
   },
 
   modules: [
-    ['@nuxtjs/google-analytics',
-      {
-        id: config.ga
-      },
-      '@nuxtjs/onesignal',
-      '@nuxtjs/pwa'
-    ]
+    ['@nuxtjs/google-analytics', {
+      id: config.ga
+    }],
+    '@nuxtjs/pwa'
   ],
   manifest: {
     name: '浪潮',
+    short_name: '浪潮',
     lang: 'zh-CN',
     description: '浪潮 - 渴望重回土地',
     start_url: '/',
+    background_color: '#1e8bc3',
+    theme_color: '#1e8bc3',
     display: 'standalone',
-    theme_color: '#313131',
-    background_color: '#313131',
     icons: [
       {
-        src: '/static/icon/icon-36x36.png',
+        src: '/icon-36x36.png',
         sizes: '36x36',
         type: 'image/png',
         density: '0.75'
       },
       {
-        src: '/static/icon/icon-48x48.png',
+        src: '/icon-48x48.png',
         sizes: '48x48',
         type: 'image/png',
         density: '1.0'
       },
       {
-        src: '/static/icon/icon-72x72.png',
+        src: '/icon-72x72.png',
         sizes: '72x72',
         type: 'image/png',
         density: '1.5'
       },
       {
-        src: '/static/icon/icon-96x96.png',
+        src: '/icon-96x96.png',
         sizes: '96x96',
         type: 'image/png',
         density: '2.0'
       },
       {
-        src: '/static/icon/icon-144x144.png',
+        src: '/icon-144x144.png',
         sizes: '144x144',
         type: 'image/png',
         density: '3.0'
       },
       {
-        src: '/static/icon/icon-192x192.png',
+        src: '/icon-192x192.png',
         sizes: '192x192',
         type: 'image/png',
         density: '4.0'
       },
       {
-        src: '/static/icon/icon.png',
+        src: '/icon.png',
         sizes: '512x512',
         type: 'image/png',
         density: '5.0'
       }
-    ]
+    ],
+    version: {
+      name: '0.0.1',
+      code: '1'
+    },
+    plus: {
+      distribute: {
+        orientation: ['portrait-primary', 'portrait-secondary'],
+        icons: {
+          ios: {
+            prerendered: true,
+            auto: '512x512',
+            iphone: {
+              normal: '72x72',
+              retina: '144x144',
+              retina7: '144x144',
+              retina8: '192x192'
+            },
+            ipad: {
+              normal: '72x72',
+              retina: '144x144',
+              normal7: '72x72',
+              retina7: '192x192'
+            }
+          },
+          android: {
+            mdpi: '48x48',
+            ldpi: '48x48',
+            hdpi: '72x72',
+            xhdpi: '96x96',
+            xxhdpi: '144x144'
+          }
+        }
+      }
+    }
   },
   workbox: {
-    dev: true,
+    dev: process.env.NODE_ENV === 'development',
     importScripts: [
       'custom-sw.js'
     ],
     runtimeCaching: [{
-      urlPattern: 'https://langchao.co/.*',
+      urlPattern: 'https://assets.v2land.net/.*',
+      handler: 'cacheFirst',
+      method: 'GET'
+    }, {
+      urlPattern: 'https://static.v2land.net/.*',
       handler: 'cacheFirst',
       method: 'GET'
     }]
-  },
-  oneSignal: {
-    cdn: true,
-    init: {
-      allowLocalhostAsSecureOrigin: true,
-      appId: 'd7784264-e626-46cf-b8f1-d7d892264ca2',
-      welcomeNotification: {
-        disable: false
-      }
-    }
   }
 }
