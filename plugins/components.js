@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import LoadingIndicator from '~/components/LoadingIndicator.vue'
 import PageFoot from '~/components/PageFoot.vue'
 import Logo from '~/components/Logo.vue'
 import Background from '~/components/Background.vue'
@@ -13,6 +14,7 @@ import EventCard from '~/components/EventCard.vue'
 import Markdown from '~/components/Markdown.vue'
 import LoginMethod from '~/components/LoginMethod.vue'
 
+Vue.component('loading-indicator', LoadingIndicator)
 Vue.component('page-foot', PageFoot)
 Vue.component('logo', Logo)
 Vue.component('background', Background)
