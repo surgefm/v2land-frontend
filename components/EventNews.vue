@@ -125,8 +125,8 @@
 
   .title {
     font-size: 1.25rem;
-    font-weight: 500;
-    line-height: 1.5;
+    font-weight: bold;
+    line-height: 1.25;
     word-wrap: break-word;
   }
 

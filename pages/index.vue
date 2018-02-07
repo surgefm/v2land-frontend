@@ -1,8 +1,9 @@
 <template>
   <div class="homepage-container">
+    <logo class="logo" />
     <card class="title-container hover">
       <img
-        src="https://s.langchao.co/750x200/default.jpg"
+        src="https://assets.v2land.net/750x200/default.jpg"
         onload="this.id = 'show'"
       >
       <event-title>浪潮</event-title>
@@ -28,8 +29,7 @@
       :event="event"
     />
     <page-foot class="page-foot" />
-    <logo class="logo"></logo>
-    <event-action></event-action>
+    <event-action />
   </div>
 </template>
 

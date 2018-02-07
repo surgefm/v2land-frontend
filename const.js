@@ -1,6 +1,8 @@
 module.exports = {
   baseUrl: 'https://langchao.co/',
   api: 'https://a.langchao.co/',
-  static: 'https://s.langchao.co/',
-  ga: 'UA-109441031-1' // Google Analytics
+  static: 'https://assets.v2land.net/',
+  ga: 'UA-109441031-1', // Google Analytics
+  typekit: 'zmq2epg',
+  publicPath: 'https://static.v2land.net/_nuxt/'
 }

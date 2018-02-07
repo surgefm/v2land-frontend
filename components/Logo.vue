@@ -9,12 +9,12 @@
           effect="light"
         >
           <img
-            src="//s.langchao.co/icon.svg"
+            src="https://assets.v2land.net/icon.svg"
             height="54px"
           >
         </el-tooltip>
         <img
-          src="//s.langchao.co/icon.svg"
+          src="https://assets.v2land.net/icon.svg"
           height="40px"
           class="small-screen"
         >
@@ -50,7 +50,7 @@
   
   img {
     visibility: visible;
-    opacity: 1;
+    opacity: 1 !important;
   }
 
   @media (max-width: 600px) {
