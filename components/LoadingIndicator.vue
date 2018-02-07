@@ -1,5 +1,5 @@
 <template>
-  <svg :width="width || 200" viewBox="0 0 800 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <svg :class="width ? '' : 'loading'" :width="width || 150" viewBox="0 0 800 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
       <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
         <polygon id="wave-1" fill="#2574A9" points="281.901478 0 140.950739 0 0 273.960591 140.950739 273.960591"></polygon>
         <polygon id="wave-2" fill="#19B5FE" points="281.901478 0 140.950739 0 0 273.960591 140.950739 273.960591"></polygon>
@@ -17,35 +17,45 @@
 </script>
 
 <style lang="scss" scoped>
+  .loading {
+    width: 10rem;
+  }
+
+  @media (max-width: 600px) {
+  .loading {
+    width: 6rem;
+  }
+}
+
   polygon {
     transition: all .5s;
   }
 
   #wave-1 {
-    animation: wave1 ease-in-out 4s infinite;
+    animation: wave1 ease-in-out 2.5s infinite;
   }
 
   #wave-2 {
-    animation: wave2 ease-in-out 4s infinite;
+    animation: wave2 ease-in-out 2.5s infinite;
   }
 
   #wave-3 {
-    animation: wave3 ease-in-out 4s infinite;
+    animation: wave3 ease-in-out 2.5s infinite;
   }
 
   @keyframes wave1 {
     0% {
-      transform: translate(-5.3116%, 13.37%);
+      transform: translate(-5.3116%, 9.48%);
       opacity: 0;
     }
 
     30%, 70% {
-      transform: translate(24.6884%, 13.37%);
+      transform: translate(24.6884%, 9.48%);
       opacity: 1;
     }
 
     100% {
-      transform: translate(44.6884%, 13.37%);
+      transform: translate(44.6884%, 9.48%);
       opacity: 0;
     }
   }
@@ -79,17 +89,17 @@
     }
     
     40% {
-      transform: translate(9.0738%, 33.13%);
+      transform: translate(9.0738%, 37.01%);
       opacity: 0;
     }
 
     70% {
-      transform: translate(39.0738%, 33.13%);
+      transform: translate(39.0738%, 37.01%);
       opacity: 1;
     }
 
     100% {
-      transform: translate(59.0738%, 33.13%);
+      transform: translate(59.0738%, 37.01%);
       opacity: 0;
     }
   }
