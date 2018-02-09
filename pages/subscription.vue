@@ -30,14 +30,6 @@
         return this.$store.getters.getSubscriptionList
       }
     },
-    beforeRouteEnter: (to, from, next) => {
-      next(vm => {
-        if (!vm.$store.getters.isLoggedIn) {
-          vm.$router.push('/')
-          vm.$message('未登录用户无法查看其关注列表')
-        }
-      })
-    },
     components: {
       'subscription-card': SubscriptionCard
     }

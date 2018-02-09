@@ -26,13 +26,10 @@
         return ''
       }
     },
-    beforeRouteEnter: (to, from, next) => {
-      next(vm => {
-        if (vm.$store.state.client.username) {
-          vm.$message('你是已登录用户')
-          vm.$router.push(vm.$route.query.redirect || '/')
-        }
-      })
+    created () {
+      if (this.$route.query.status === 'auth_required') {
+        this.$message.error('请在登录后尝试访问该页面')
+      }
     }
   }
 </script>

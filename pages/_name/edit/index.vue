@@ -12,9 +12,9 @@
       >
       </event-information-form>
     </card>
-    <event-action></event-action>
-    <logo class="logo"></logo>
-    <page-foot/>
+    <event-action />
+    <logo class="logo" />
+    <page-foot />
   </background>
 </template>
 
@@ -41,14 +41,6 @@
             this.$router.push(url)
           })
       }
-    },
-    beforeRouteEnter: (to, from, next) => {
-      next(vm => {
-        if (!vm.$store.getters.isClientAdmin) {
-          vm.$message.error('你无权访问该页面')
-          vm.$router.push('/' + vm.$route.params.name)
-        }
-      })
     },
     async asyncData ({ route, store }) {
       return store.dispatch('getEvent', route.params.name)
