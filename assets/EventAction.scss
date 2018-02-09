@@ -73,7 +73,7 @@
     height: 3rem !important;
   }
 
-  .subscribe-container .text {
+  .subscribe-container:not(.dropdown) .text {
     line-height: 1.25;
     letter-spacing: .25rem;
     width: 2.5rem;

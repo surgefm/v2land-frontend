@@ -15,7 +15,7 @@
             class="subscribe-container dropdown-trigger light-font el-icon-more"
           />
         </a>
-        <el-dropdown-menu slot="dropdown" class="action-dropdown">
+        <el-dropdown-menu slot="dropdown" class="action-dropdown large">
           <el-dropdown-item v-for="item of displayList.dropdown" :key="item">
             <action-item :action="`event-action-${item}`" type="dropdown" />
           </el-dropdown-item>
@@ -165,6 +165,12 @@
   @media (max-width: 780px) {
     .center {
       max-width: 50rem;
+    }
+  }
+
+  @media (min-width: 600px) {
+    .large {
+      display: none;
     }
   }
 
