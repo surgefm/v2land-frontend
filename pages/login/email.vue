@@ -37,8 +37,9 @@
         </el-form>
       </div>
     </card>
-    <logo class="logo"></logo>
-    <page-foot/>
+    <logo class="logo" />
+    <page-foot />
+    <event-action />
   </background>
 </template>
 

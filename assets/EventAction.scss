@@ -61,6 +61,11 @@
     top: -.5rem !important;
     z-index: 3000;
   }
+
+  .action-dropdown .subscribe-container:hover {
+    background-color: transparent;
+    box-shadow: none;
+  }
 }
 
 @media (max-width: 350px) {

@@ -1,57 +1,70 @@
 <template>
   <div class="action-set-container">
     <div class="center">
-      <event-action-admin-event v-if="showAdminEvent" class="action" />
-      <event-action-admin-admit v-if="showAdminAdmit" class="action" />
-      <event-action-create-event v-if="showCreateEvent" class="action small" />
-      <event-action-subscribe v-if="showSubscribe" class="action" />
-      <event-action-post v-if="showPost" class="action" />
-      <event-action-admit v-if="showAdmit" class="action" />
-      <event-action-edit v-if="showEdit" class="action small" />
-      <event-action-edit-image v-if="showEditImage" class="action small" />
-      <event-action-subscription-list v-if="showSubscriptionList" class="action small" />
-      <event-action-client v-if="showClient" class="action small" />
-      <event-action-return v-if="showReturn" class="action" />
-      <event-action-homepage v-if="showHomepage" class="action" />
+      <action-item v-for="tab of displayList.tab" :action="`event-action-${tab}`" :key="tab" />
+      <action-item
+        v-for="tab of displayList.dropdown"
+        :action="`event-action-${tab}`"
+        class="small"
+        :key="tab"
+      />
+      <el-dropdown trigger="click" placement="top-end">
+        <a>
+          <i
+            v-if="displayList.dropdown.length > 0"
+            class="subscribe-container dropdown-trigger light-font el-icon-more"
+          />
+        </a>
+        <el-dropdown-menu slot="dropdown" class="action-dropdown">
+          <el-dropdown-item v-for="item of displayList.dropdown" :key="item">
+            <action-item :action="`event-action-${item}`" type="dropdown" />
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </div>
   </div>
 </template>
 
 <script>
-  import EventActionAdminEvent from './EventActionAdminEvent.vue'
-  import EventActionAdminAdmit from './EventActionAdminAdmit.vue'
-  import EventActionCreateEvent from './EventActionCreateEvent.vue'
-  import EventActionSubscribe from './EventActionSubscribe.vue'
-  import EventActionPost from './EventActionPost.vue'
-  import EventActionAdmit from './EventActionAdmit.vue'
-  import EventActionEdit from './EventActionEdit.vue'
-  import EventActionEditImage from './EventActionEditImage.vue'
-  import EventActionSubscriptionList from './EventActionSubscriptionList'
-  import EventActionClient from './EventActionClient.vue'
-  import EventActionReturn from './EventActionReturn.vue'
-  import EventActionHomepage from './EventActionHomepage.vue'
+  import EventActionItem from './EventActionItem.vue'
 
   export default {
     components: {
-      'event-action-admin-event': EventActionAdminEvent,
-      'event-action-admin-admit': EventActionAdminAdmit,
-      'event-action-create-event': EventActionCreateEvent,
-      'event-action-subscribe': EventActionSubscribe,
-      'event-action-post': EventActionPost,
-      'event-action-admit': EventActionAdmit,
-      'event-action-edit': EventActionEdit,
-      'event-action-edit-image': EventActionEditImage,
-      'event-action-subscription-list': EventActionSubscriptionList,
-      'event-action-client': EventActionClient,
-      'event-action-return': EventActionReturn,
-      'event-action-homepage': EventActionHomepage
+      'action-item': EventActionItem
     },
     computed: {
+      displayList () {
+        const tab = []
+        const dropdown = []
+        for (const i of [
+          'admin-event', 'admin-admit', 'create-event', 'subscribe', 'post',
+          'admit', 'edit', 'edit-image', 'subscription-list', 'client',
+          'return', 'homepage'
+        ]) {
+          let action = i.split('-')
+          for (let j = 0; j < action.length; j++) {
+            action[j] = action[j][0].toUpperCase() + action[j].slice(1)
+          }
+          action = action.join('')
+          if (this[`show${action}`]) {
+            if (tab.length < 3) {
+              tab.push(i)
+            } else {
+              dropdown.push(i)
+            }
+          }
+        }
+
+        return { tab, dropdown }
+      },
       isClientAdmin () {
         return this.$store.getters.isClientAdmin
       },
       isHomepage () {
         return this.$route.path === '/'
+      },
+      isLoggingIn () {
+        return this.$route.path.includes('login') || this.$route.path.includes('register')
       },
       isAdminDir () {
         return this.$route.path.includes('/admin')
@@ -77,13 +90,13 @@
       },
       showSubscribe () {
         return !this.isHomepage && !this.isAdminDir &&
-          !this.isSubscriptionPage && !this.isClientPage
+          !this.isSubscriptionPage && !this.isClientPage && !this.isLoggingIn
       },
       showPost () {
-        return this.showSubscribe
+        return this.showSubscribe && !this.isLoggingIn
       },
       showAdmit () {
-        return this.isClientAdmin && !this.isHomepage &&
+        return this.isClientAdmin && !this.isHomepage && !this.isLoggingIn &&
           !this.isAdminDir && !this.isSubscriptionPage && !this.isClientPage
       },
       showEdit () {
@@ -96,14 +109,12 @@
         return this.isLoggedIn && (this.isHomepage || this.isClientPage)
       },
       showClient () {
-        return true
+        return !this.isLoggingIn
       },
       showReturn () {
-        return this.$route.name !== 'name' &&
-          !this.isHomepage &&
-          !this.isAdminDir &&
-          !this.isSubscriptionPage &&
-          !this.isClientPage
+        return this.$route.name !== 'name' && !this.isHomepage &&
+          !this.isAdminDir && !this.isSubscriptionPage &&
+          !this.isClientPage && !this.isLoggingIn
       },
       showHomepage () {
         return !this.showReturn && !this.isHomepage
@@ -184,6 +195,22 @@
 
     .small {
       display: none;
+    }
+
+    .subscribe-container {
+      display: auto;
+      align-items: auto;
+      padding: auto;
+    }
+
+    .dropdown-trigger {
+      width: 3.5rem;
+      height: 2.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer !important;
+      user-select: none;
     }
   }
 </style>

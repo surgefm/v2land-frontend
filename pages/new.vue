@@ -2,7 +2,7 @@
   <background>
     <card>
       <p class="tag light-font">{{ $route.params.name }}</p>
-      <event-title>新建事件</event-title>
+      <event-title>创建事件</event-title>
       <event-information-form
         :data="'CreateEvent'"
         class="event-form"
@@ -11,8 +11,9 @@
       >
       </event-information-form>
     </card>
-    <logo class="logo"></logo>
-    <page-foot/>
+    <logo class="logo" />
+    <page-foot />
+    <event-action />
   </background>
 </template>
 
