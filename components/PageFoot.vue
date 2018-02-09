@@ -1,23 +1,21 @@
 <template>
   <div class="footer">
-    <span>
-      © {{ new Date().getFullYear() }} Langchao.co
-    </span>
-    <nuxt-link to="/about" class="link">
-      关于浪潮
-    </nuxt-link>
-    <nuxt-link to="/subscription" class="link" v-if="isLoggedIn">
-      关注列表
-    </nuxt-link>
-    <nuxt-link to="/me" class="link" v-if="isLoggedIn">
-      账号信息
-    </nuxt-link>
-    <nuxt-link :to="`/login?redirect=${$route.path}`" class="link" v-if="!isLoggedIn">
-      登录
-    </nuxt-link>
-    <span v-else class="link" @click="logout">
-      退出登录
-    </span>
+    <logotype color="#0083a8" :height="48" class="logotype"/>
+    <div class="content">
+      <div class="about-v2land">
+        <nuxt-link to="/about" class="link">关于浪潮</nuxt-link>
+        <span>·</span>
+        <a href="https://handbook.langchao.co" target="_blank">加入浪潮社区</a>
+        <span>·</span>
+        <a href="https://github.com/v2land" target="_blank">参与项目开发</a>
+      </div>
+      <b>
+        本站与<a href="http://langchao.com" target="_blank">浪潮集团有限公司</a>毫无关联
+      </b>
+      <span>
+        Langchao.co {{ new Date().getFullYear() }}
+      </span>
+    </div>
   </div>
 </template>
 
@@ -43,15 +41,53 @@
     font-size: .75rem;
     color: #586069 !important;
     margin: 1rem 0 3rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .link {
+  .content {
+    margin-left: .75rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .content * {
+    line-height: 1.5;
+  }
+
+  .content span {
+    margin-right: .25rem;
+  }
+
+  .link, a {
     color: #586069 !important;
-    padding: .25rem;
     background-color: transparent !important;
     box-shadow: none !important;
-    margin-left: .25rem;
     cursor: pointer;
     white-space: nowrap;
+  }
+
+  .link, a:not(:last-child) {
+    margin-right: .25rem;
+  }
+
+  @media (max-width: 600px) {
+    .footer {
+      flex-direction: column;
+    }
+
+    .content {
+      margin-top: .5rem;
+      align-items: center;
+    }
+
+    .content * {
+      line-height: 1.75;
+    }
+
+    .logotype {
+      height: 2rem;
+    }
   }
 </style>

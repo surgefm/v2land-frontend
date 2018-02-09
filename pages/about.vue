@@ -43,7 +43,8 @@
   }
 
   .tag {
-    margin-top: 0;
+    line-height: 1;
+    margin-top: .75rem;
   }
 
   .image-container {

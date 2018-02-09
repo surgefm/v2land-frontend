@@ -78,6 +78,9 @@
       isLoggedIn () {
         return this.$store.getters.isLoggedIn
       },
+      isCreatingEvent () {
+        return this.$route.name === 'new'
+      },
       showAdminEvent () {
         return ((this.isHomepage || this.isSubscriptionPage || this.isClientPage) &&
           this.isClientAdmin) || this.isAdminDir
@@ -89,7 +92,7 @@
         return this.isHomepage || this.isAdminDir
       },
       showSubscribe () {
-        return !this.isHomepage && !this.isAdminDir &&
+        return !this.isHomepage && !this.isAdminDir && !this.isCreatingEvent &&
           !this.isSubscriptionPage && !this.isClientPage && !this.isLoggingIn
       },
       showPost () {
@@ -97,7 +100,8 @@
       },
       showAdmit () {
         return this.isClientAdmin && !this.isHomepage && !this.isLoggingIn &&
-          !this.isAdminDir && !this.isSubscriptionPage && !this.isClientPage
+          !this.isAdminDir && !this.isSubscriptionPage && !this.isClientPage &&
+          !this.isCreatingEvent
       },
       showEdit () {
         return this.showAdmit
@@ -114,7 +118,7 @@
       showReturn () {
         return this.$route.name !== 'name' && !this.isHomepage &&
           !this.isAdminDir && !this.isSubscriptionPage &&
-          !this.isClientPage && !this.isLoggingIn
+          !this.isClientPage && !this.isLoggingIn && !this.isCreatingEvent
       },
       showHomepage () {
         return !this.showReturn && !this.isHomepage

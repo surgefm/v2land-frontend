@@ -162,7 +162,7 @@
     transition: all .2s;
   }
 
-  @media (min-width: 500px) {
+  @media (min-width: 600px) {
     .above-cover .order {
       text-shadow: -.25rem 0 0 #000;
       background-color: #1e8bc3;
@@ -174,7 +174,7 @@
     }
   }
 
-  @media (max-width: 500px) {
+  @media (max-width: 600px) {
     .bottom {
       flex-direction: column;
       align-items: flex-end;
