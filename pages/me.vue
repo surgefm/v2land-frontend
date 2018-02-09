@@ -204,14 +204,6 @@
     },
     created () {
       this.updateForm()
-    },
-    beforeRouteEnter: (to, from, next) => {
-      next(vm => {
-        if (!vm.$store.getters.isLoggedIn) {
-          vm.$router.push('/login?redirect=/me')
-          vm.$message('未登录用户无法查看此页面')
-        }
-      })
     }
   }
 </script>

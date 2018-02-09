@@ -12,9 +12,9 @@
       >
       </event-news-information-form>
     </card>
-    <event-action></event-action>
-    <logo class="logo"></logo>
-    <page-foot/>
+    <event-action />
+    <logo class="logo" />
+    <page-foot />
   </background>
 </template>
 
@@ -47,11 +47,6 @@
       'event-news-information-form': EventNewsInformationForm
     },
     beforeCreate () {
-      if (!this.$store.getters.isClientAdmin) {
-        this.$message.error('你无权访问该页面')
-        this.$router.push('/' + this.$route.params.name)
-      }
-
       let news = this.$store.getters.getNews({
         name: this.$route.params.name,
         id: this.$route.params.id
