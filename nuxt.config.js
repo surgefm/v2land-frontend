@@ -84,7 +84,10 @@ module.exports = {
     '~/static/element/upload.css',
     '~/static/element/checkbox.css',
     '~/static/element/checkbox-group.css',
-    '~/static/element/popover.css'
+    '~/static/element/popover.css',
+    '~/static/element/dropdown.css',
+    '~/static/element/dropdown-menu.css',
+    '~/static/element/dropdown-item.css'
   ],
 
   plugins: [

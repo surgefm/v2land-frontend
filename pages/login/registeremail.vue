@@ -26,8 +26,9 @@
 
     <p class="finish-hint">注册已完成，请确认邮箱地址，否则将无法使用邮件提醒功能及新闻事件修改功能</p>
 
-    <logo class="logo"></logo>
-    <page-foot/>
+    <logo class="logo" />
+    <page-foot />
+    <event-action />
   </background>
 </template>
 

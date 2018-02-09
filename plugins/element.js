@@ -9,6 +9,9 @@ import FormItem from 'element-ui/lib/form-item'
 import Icon from 'element-ui/lib/icon'
 import Message from 'element-ui/lib/message'
 import Popover from 'element-ui/lib/popover'
+import DropDown from 'element-ui/lib/dropdown'
+import DropDownMenu from 'element-ui/lib/dropdown-menu'
+import DropDownItem from 'element-ui/lib/dropdown-item'
 
 Vue.use(Button)
 Vue.use(Tooltip)
@@ -19,5 +22,8 @@ Vue.use(Form)
 Vue.use(FormItem)
 Vue.use(Icon)
 Vue.use(Popover)
+Vue.use(DropDown)
+Vue.use(DropDownMenu)
+Vue.use(DropDownItem)
 
 Vue.prototype.$message = Message
