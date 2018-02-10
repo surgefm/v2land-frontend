@@ -1,6 +1,9 @@
 <template>
   <div class="footer">
-    <logotype color="#0083a8" :height="48" class="logotype"/>
+    <div class="logo-container">
+      <logo class="logo-image" mode="simple" />
+      <logotype color="#0083a8" :height="32" class="logotype"/>
+    </div>
     <div class="content">
       <div class="about-v2land">
         <nuxt-link to="/about" class="link">关于浪潮</nuxt-link>
@@ -42,21 +45,33 @@
     color: #586069 !important;
     margin: 1rem 0 3rem 0;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     justify-content: center;
   }
 
+  .logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .logo-image {
+    height: 2rem;
+    margin-right: .5rem;
+  }
+
   .content {
-    margin-left: .75rem;
     display: flex;
     flex-direction: column;
+    margin-top: .5rem;
+    align-items: center;
   }
 
   .content * {
-    line-height: 1.5;
+    line-height: 1.75;
   }
 
-  .content span {
+  .content span:not(:last-child) {
     margin-right: .25rem;
   }
 
@@ -73,20 +88,7 @@
   }
 
   @media (max-width: 600px) {
-    .footer {
-      flex-direction: column;
-    }
-
-    .content {
-      margin-top: .5rem;
-      align-items: center;
-    }
-
-    .content * {
-      line-height: 1.75;
-    }
-
-    .logotype {
+    .logo-image, .logotype {
       height: 2rem;
     }
   }

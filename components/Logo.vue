@@ -1,5 +1,6 @@
 <template>
-  <div class="icon-container">
+  <img v-if="mode === 'simple'" :src="src" onload="this.id='show'" />
+  <div v-else class="icon-container">
     <div class="center">
       <nuxt-link to="/">
         <el-tooltip
@@ -8,20 +9,28 @@
           placement="right"
           effect="light"
         >
-          <img
-            src="https://assets.v2land.net/icon.svg"
-            height="54px"
-          >
+          <img :src="src" height="54px" />
         </el-tooltip>
-        <img
-          src="https://assets.v2land.net/icon.svg"
-          height="40px"
-          class="small-screen"
-        >
+        <img :src="src" height="40px" class="small-screen" />
       </nuxt-link>
     </div>
   </div>
 </template>
+
+<script>
+import config from '~/const'
+
+export default {
+  props: {
+    'mode': String
+  },
+  computed: {
+    src () {
+      return config.static + 'icon.svg'
+    }
+  }
+}
+</script>
 
 <style lang="scss" scoped>
   .icon-container {
