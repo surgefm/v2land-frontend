@@ -1,7 +1,7 @@
 <template>
   <div class="description">
     <span class="light-font">
-      <slot></slot>
+      <slot />
     </span>
   </div>
 </template>

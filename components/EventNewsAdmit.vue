@@ -1,7 +1,7 @@
 <template>
   <div class="share">
-    <i class="el-icon-error border-color" @click="admit('rejected')"></i>
-    <i class="el-icon-success border-color" @click="admit('admitted')"></i>
+    <i class="el-icon-error border-color" @click="admit('rejected')" />
+    <i class="el-icon-success border-color" @click="admit('admitted')" />
   </div>
 </template>
 

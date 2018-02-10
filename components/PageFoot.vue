@@ -2,7 +2,7 @@
   <div class="footer">
     <div class="logo-container">
       <logo class="logo-image" mode="simple" />
-      <logotype color="#0083a8" :height="32" class="logotype"/>
+      <logotype color="#0083a8" :height="32" class="logotype" />
     </div>
     <div class="content">
       <div class="about-v2land">

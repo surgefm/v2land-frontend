@@ -22,9 +22,9 @@
       >
       </event-news>
     </div>
-    <event-action></event-action>
-    <logo class="logo"></logo>
-    <page-foot/>
+    <event-action />
+    <logo class="logo" />
+    <page-foot />
   </background>
 </template>
 

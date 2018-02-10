@@ -9,8 +9,7 @@
         v-on:submit="submit"
         ref="form"
         mode="edit"
-      >
-      </event-news-information-form>
+      />
     </card>
     <event-action />
     <logo class="logo" />

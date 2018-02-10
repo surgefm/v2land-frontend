@@ -1,11 +1,11 @@
 <template>
   <el-form :model="form" :rules="rules" ref="form" label-width="90px">
     <el-form-item label="事件名" prop="name">
-      <el-input v-model="form.name"></el-input>
+      <el-input v-model="form.name" />
     </el-form-item>
 
     <el-form-item label="简介" prop="description">
-      <el-input v-model="form.description" type="textarea" autosize></el-input>
+      <el-input v-model="form.description" type="textarea" autosize />
     </el-form-item>
 
     <el-form-item label="事件状态" v-if="isAdmin">
@@ -14,8 +14,8 @@
           v-for="item in status"
           :key="item.value"
           :label="item.label"
-          :value="item.value">
-        </el-option>
+          :value="item.value"
+        />
       </el-select>
     </el-form-item>
 

@@ -18,8 +18,8 @@
         </nuxt-link>
       </div>
     </card>
-    <logo class="logo"></logo>
-    <page-foot/>
+    <logo class="logo" />
+    <page-foot />
   </background>
 </template>
 

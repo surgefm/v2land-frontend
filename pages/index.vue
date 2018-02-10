@@ -6,7 +6,7 @@
         src="https://assets.v2land.net/750x200/default.jpg"
         onload="this.id = 'show'"
         class="header-image"
-      >
+      />
       <logotype color="#333" />
       <event-description class="title-description">
         你的社会事件追踪工具

@@ -8,13 +8,14 @@
         :action="config.api + 'upload'"
         :show-file-list="false"
         :on-success="handleimageSuccess"
-        :before-upload="beforeimageUpload">
+        :before-upload="beforeimageUpload"
+      >
         <img
           v-if="imageUrl"
           :src="imageUrl"
           class="image"
           onload="this.id = 'show'"
-        >
+        />
         <i v-else class="el-icon-plus image-uploader-icon" />
       </el-upload>
       <div class="form-container">

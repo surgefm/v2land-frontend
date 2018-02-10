@@ -6,10 +6,10 @@
           v-for="item in statusCollection"
           :key="item.value"
           :label="item.label"
-          :value="item.value">
-        </el-option>
+          :value="item.value"
+        />
       </el-select>
-      <i class="el-icon-edit border-color" @click="edit"></i>
+      <i class="el-icon-edit border-color" @click="edit" />
     </div>
   </div>
 </template>
