@@ -14,12 +14,12 @@
       <p>浪潮，或许此刻退下沙滩，可我们知道，它终将重回土地。</p>
       <div class="image-container">
         <nuxt-link to="/">
-          <img src="//assets.v2land.net/icon.svg" onload="this.id = 'show'">
+          <logo mode="simple" />
         </nuxt-link>
       </div>
     </card>
-    <logo class="logo"></logo>
-    <page-foot/>
+    <logo class="logo" />
+    <page-foot />
   </background>
 </template>
 
@@ -43,7 +43,8 @@
   }
 
   .tag {
-    margin-top: 0;
+    line-height: 1;
+    margin-top: .75rem;
   }
 
   .image-container {

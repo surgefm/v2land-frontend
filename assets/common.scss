@@ -152,6 +152,10 @@ img {
   .action-dropdown .icon {
     display: none;
   }
+
+  .hover:hover {
+    transform: none !important;
+  }
 }
 
 @keyframes emphasize {

@@ -12,8 +12,7 @@
             :key="method.value"
             :label="method.label"
             :value="method.value"
-          >
-          </el-option>
+          />
         </el-select>
       </el-form-item>
 
@@ -32,7 +31,7 @@
       </el-form-item>
     </el-form>
 
-    <p v-if="showText" class="el-form-item__label show-text">{{ showText}}</p>
+    <p v-if="showText" class="el-form-item__label show-text">{{ showText }}</p>
 
     <div class="submit-button-group-separate">
       <el-button type="primary" @click="lastStep">上一步</el-button>

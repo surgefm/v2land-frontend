@@ -13,6 +13,7 @@ import EventDescription from '~/components/EventAbstractDescription.vue'
 import EventCard from '~/components/EventCard.vue'
 import Markdown from '~/components/Markdown.vue'
 import LoginMethod from '~/components/LoginMethod.vue'
+import LogoType from '~/components/LogoType.vue'
 
 Vue.component('loading-indicator', LoadingIndicator)
 Vue.component('page-foot', PageFoot)
@@ -28,3 +29,4 @@ Vue.component('event-description', EventDescription)
 Vue.component('event-card', EventCard)
 Vue.component('markdown', Markdown)
 Vue.component('login-method', LoginMethod)
+Vue.component('logotype', LogoType)

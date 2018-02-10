@@ -8,8 +8,7 @@
         class="event-form"
         v-on:submit="submit"
         ref="event-form"
-      >
-      </event-information-form>
+      />
     </card>
     <logo class="logo" />
     <page-foot />

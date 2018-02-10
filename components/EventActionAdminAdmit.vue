@@ -5,7 +5,7 @@
   >
     <span v-if="pendingNews" class="event-action-badge">{{ pendingNews }}</span>
     <span class="text light-font">审核队列</span>
-    <i class="icon icon-event_available light-font"></i>
+    <i class="icon icon-event_available light-font" />
   </nuxt-link>
 </template>
 

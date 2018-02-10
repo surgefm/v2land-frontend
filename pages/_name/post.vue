@@ -8,12 +8,11 @@
         data="addNews"
         v-on:submit="submit"
         ref="form"
-      >
-      </event-news-information-form>
+      />
     </card>
-    <event-action></event-action>
-    <logo class="logo"></logo>
-    <page-foot/>
+    <event-action />
+    <logo class="logo" />
+    <page-foot />
   </background>
 </template>
 

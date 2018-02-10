@@ -9,8 +9,7 @@
         :name="$route.params.name"
         class="event-form"
         v-on:submit="submit"
-      >
-      </event-information-form>
+      />
     </card>
     <event-action />
     <logo class="logo" />

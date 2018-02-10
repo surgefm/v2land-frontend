@@ -12,13 +12,13 @@
           class="form"
         >
           <el-form-item label="昵称" prop="nickname">
-            <el-input v-model="form.nickname"></el-input>
+            <el-input v-model="form.nickname" />
           </el-form-item>
           <el-form-item label="邮箱" prop="email">
-            <el-input v-model="form.email"></el-input>
+            <el-input v-model="form.email" />
           </el-form-item>
           <el-form-item label="密码" prop="password">
-            <el-input type="password" v-model="form.password"></el-input>
+            <el-input type="password" v-model="form.password" />
           </el-form-item>
 
           <div class="submit-button-group-separate">
