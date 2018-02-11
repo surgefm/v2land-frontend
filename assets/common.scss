@@ -158,6 +158,14 @@ img {
   }
 }
 
+@media (max-width: 390px) {
+  .el-message {
+    width: 97% !important;
+    min-width: 0 !important;
+    top: .5rem !important;
+  }
+}
+
 @keyframes emphasize {
   0% {
     box-shadow: 0;

@@ -31,6 +31,10 @@
       if (this.$route.query.status === 'auth_required') {
         this.$message.error('请在登录后尝试访问该页面')
       }
+
+      this.$router.push({
+        query: { ...this.$route.query, status: undefined }
+      })
     }
   }
 </script>

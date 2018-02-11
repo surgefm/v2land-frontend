@@ -14,21 +14,17 @@
             <el-input v-model="form.username" />
           </el-form-item>
           <el-form-item label="密码" prop="password">
-            <el-input type="password" v-model="form.password" />
+            <el-input
+              type="password"
+              v-model="form.password"
+              @keyup.enter.native="submit"
+            />
           </el-form-item>
 
           <div class="submit-button-group-separate">
-            <div class="third-party">
-              <span>第三方登录：</span>
-              <i
-                class="icon-twitter border-color icon-container"
-                @click="loginTwitter"
-              />
-              <i
-                class="icon-weibo border-color icon-container"
-                @click="loginWeibo"
-              />
-            </div>
+            <a class="third-party" @click="thirdParty">
+              第三方账号登录
+            </a>
             <div>
               <el-button type="text" disabled>忘记密码</el-button>
               <el-button type="primary" @click="submit">登录</el-button>
@@ -46,7 +42,6 @@
 <script>
   import Cookie from 'cookie'
   import axios from '~/plugins/axios'
-  import config from '~/const'
 
   export default {
     data () {
@@ -105,11 +100,12 @@
           window.location.replace(window.location.origin + (this.$route.query.redirect || ''))
         } catch (err) {}
       },
-      loginTwitter () {
-        window.location = config.api + 'auth/twitter?redirect=' + this.redirect
-      },
-      loginWeibo () {
-        window.location = config.api + 'auth/weibo?redirect=' + this.redirect
+      thirdParty () {
+        let path = '/login'
+        if (this.$route.query.redirect) {
+          path += '?redirect=' + this.$route.query.redirect
+        }
+        this.$router.push(path)
       }
     }
   }
@@ -135,6 +131,7 @@
     line-height: 1;
     font-size: 14px;
     font-weight: 500;
+    cursor: pointer;
   }
 
   .border-color {
