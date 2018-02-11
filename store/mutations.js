@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import cleanState from '~/store/state'
 
 export default {
   setEvent (state, { name, detail }) {
@@ -30,10 +31,18 @@ export default {
   },
 
   setSubscriptionList (state, list) {
-    Vue.set(state.client, 'subscriptionList', Array.from(list))
+    Vue.set(state.client, 'subscriptions', Array.from(list))
   },
 
   setTemp (state, { label, temp }) {
     Vue.set(state.temp, label, Object.assign({}, temp))
+  },
+
+  cleanAll (state) {
+    for (const i in cleanState) {
+      if (typeof i === 'string') {
+        Vue.set(state[i], { ...cleanState[i] })
+      }
+    }
   }
 }
