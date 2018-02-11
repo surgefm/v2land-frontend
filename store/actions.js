@@ -81,16 +81,20 @@ export default {
 
   async getClient ({ commit }) {
     let url = $.encode('client/me')
-    let { data } = await this.$axios.get(url, {
-      withCredentials: true
-    })
-    commit('setClient', data.client)
-    return data.client
+    try {
+      let { data } = await this.$axios.get(url)
+      commit('setClient', data.client)
+      return data.client
+    } catch (err) {
+      return null
+    }
   },
 
   async getSubscriptions ({ commit, dispatch }) {
     let url = $.encode('client/me')
     let { data } = await this.$axios.get(url)
+    commit('setSubscriptionList', data.client.subscriptions)
+    return data.client.subscriptionList
   },
 
   async logout ({ commit }) {
