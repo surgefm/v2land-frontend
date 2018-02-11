@@ -18,7 +18,6 @@
 
 <script>
   import EventNewsInformationForm from '~/components/EventNewsInformationForm'
-  import axios from '~/plugins/axios'
   import $ from 'postman-url-encoder'
 
   export default {
@@ -27,7 +26,7 @@
         let data = this.$store.state.temp.addNews
         let url = $.encode('events/' +
           this.$route.params.name + (this.isAdmin ? '/news' : '/news/add'))
-        axios.put(url, data)
+        this.$axios.put(url, data)
           .then(() => {
             if (this.isAdmin) {
               this.$store.dispatch('fetchEvent', this.name)

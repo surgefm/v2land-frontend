@@ -34,7 +34,6 @@
 
 <script>
   import Cookie from 'cookie'
-  import axios from '~/plugins/axios'
   import config from '~/const'
 
   export default {
@@ -71,7 +70,7 @@
       submit () {
         this.$refs.form.validate((valid) => {
           if (valid) {
-            axios.post('clients/login', this.form)
+            this.$axios.post('clients/login', this.form)
               .then((res) => {
                 let expireTime = new Date(new Date(res.data.created).getTime() + res.data.ttl * 1000)
                 this.saveAccessToken(res.data.id, expireTime)

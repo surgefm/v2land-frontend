@@ -51,7 +51,6 @@ module.exports = {
     vendor: [
       'postman-url-encoder',
       'cookie',
-      '~/plugins/axios',
       '~/const'
     ]
   },
@@ -105,6 +104,12 @@ module.exports = {
   modules: [
     ['@nuxtjs/google-analytics', {
       id: config.ga
-    }]
-  ]
+    }],
+    '@nuxtjs/axios'
+  ],
+
+  axios: {
+    baseURL: config.api,
+    credentials: true
+  }
 }

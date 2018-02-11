@@ -1,4 +1,3 @@
-import axios from '~/plugins/axios'
 import $ from 'postman-url-encoder'
 
 export default {
@@ -13,7 +12,7 @@ export default {
   async fetchEvent ({ commit }, name) {
     let url = $.encode(`events/${name}/detail`)
     try {
-      let { data } = await axios.get(url)
+      let { data } = await this.$axios.get(url)
       commit('setEvent', {
         name: data.detail.name,
         detail: data.detail
@@ -27,7 +26,7 @@ export default {
   async getEventList ({ commit }, mode = 'latest') {
     let url = $.encode(`events` + (mode === 'latest' ? '/latest' : ''))
     try {
-      let { data } = await axios.get(url)
+      let { data } = await this.$axios.get(url)
       for (let event of (data.eventCollection || data)) {
         event.image = event['header_image']
         commit('setEvent', {
@@ -48,7 +47,7 @@ export default {
   async getPendingNews ({ commit }, name) {
     if (name) {
       let url = $.encode(`events/${name}/pending_news`)
-      let { data } = await axios.get(url)
+      let { data } = await this.$axios.get(url)
 
       commit('setPendingNews', {
         name,
@@ -58,7 +57,7 @@ export default {
       return data.newsCollection
     } else {
       let url = $.encode(`events/pending_news`)
-      let { data } = await axios.get(url)
+      let { data } = await this.$axios.get(url)
       commit('setAllPendingNews', data.newsCollection)
 
       return data.newsCollection
@@ -67,41 +66,35 @@ export default {
 
   async editEvent ({ dispatch }, { name, data }) {
     let url = $.encode(`events/${name}`)
-    return axios.put(url, data)
+    return this.$axios.put(url, data)
   },
 
   async createEvent ({ dispatch, getters }, { data }) {
     let url = $.encode(getters.isClientAdmin ? 'events' : 'events/add')
-    return axios.post(url, data)
+    return this.$axios.post(url, data)
   },
 
   async editNews ({ dispatch }, { id, data }) {
     let url = $.encode(`news/${id}/edit`)
-    return axios.patch(url, data)
+    return this.$axios.patch(url, data)
   },
 
   async getClient ({ commit }) {
-    let url = $.encode('clients/detail')
-    let { data } = await axios.get(url)
-    commit('setClient', data.detail)
-    console.log(data)
-    return data.detail
+    let url = $.encode('client/me')
+    let { data } = await this.$axios.get(url, {
+      withCredentials: true
+    })
+    commit('setClient', data.client)
+    return data.client
   },
 
   async getSubscriptions ({ commit, dispatch }) {
-    let url = $.encode('clients/detail')
-    let { data } = await axios.get(url)
-    console.log(data)
-    commit('setSubscriptionList', data.detail.subscriptionList)
-    return data.detail.subscriptionList
+    let url = $.encode('client/me')
+    let { data } = await this.$axios.get(url)
   },
 
-  async logout () {
-    try {
-      axios.get('clients/logout')
-        .then(() => { window.location = window.location })
-        .catch(() => { window.location = window.location })
-      document.cookie = 'accessToken=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
-    } catch (err) { }
+  async logout ({ commit }) {
+    commit('setClient', {})
+    return this.$axios.get('client/logout')
   }
 }

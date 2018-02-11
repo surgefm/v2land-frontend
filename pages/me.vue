@@ -76,7 +76,6 @@
 </template>
 
 <script>
-  import axios from '~/plugins/axios'
   import config from '~/const'
   import Cookie from 'cookie'
   import $ from 'postman-url-encoder'
@@ -161,7 +160,7 @@
       },
       unauthorize (auth) {
         if (this.isUnauthorizable) {
-          axios.post('auth/unauthorize', {
+          this.$axios.post('auth/unauthorize', {
             site: auth.site,
             profileId: auth.profileId
           })
