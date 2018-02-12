@@ -55,7 +55,6 @@
 <script>
   import config from '~/const'
   import $ from 'postman-url-encoder'
-  import axios from '~/plugins/axios'
   import Upload from 'element-ui/lib/upload'
 
   let url = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/
@@ -112,7 +111,7 @@
         this.$refs.form.validate((valid) => {
           if (valid) {
             let url = $.encode(`events/${this.$route.params.name}/image`)
-            axios[this.isNew ? 'post' : 'patch'](url, this.form)
+            this.$axios[this.isNew ? 'post' : 'patch'](url, this.form)
               .then(() => {
                 this.$store.dispatch('fetchEvent', this.$route.params.name)
               })
