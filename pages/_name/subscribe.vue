@@ -34,7 +34,6 @@
   import EventSubscribeMethod from '~/components/EventSubscribeMethod'
   import EventSubscribeSuccess from '~/components/EventSubscribeSuccess'
 
-  import axios from '~/plugins/axios'
   import $ from 'postman-url-encoder'
 
   export default {
@@ -70,7 +69,7 @@
       },
       submit () {
         let url = $.encode(`events/${this.$route.params.name}/subscribe`)
-        axios.post(url, {
+        this.$axios.post(url, {
           mode: this.$store.state.subscribe.mode,
           contact: this.$store.state.subscribe.contact
         })

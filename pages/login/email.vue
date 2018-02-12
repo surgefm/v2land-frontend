@@ -40,9 +40,6 @@
 </template>
 
 <script>
-  import Cookie from 'cookie'
-  import axios from '~/plugins/axios'
-
   export default {
     data () {
       return {
@@ -63,42 +60,24 @@
     computed: {
       redirect () {
         let redirect = this.$route.query.redirect
-        if (redirect) {
-          if (redirect[0] === '/') {
-            return redirect.slice(1)
-          } else {
-            return redirect
-          }
-        }
-        return ''
+        return redirect || '/'
       }
     },
     methods: {
       submit () {
         this.$refs.form.validate((valid) => {
           if (valid) {
-            axios.post('clients/login', this.form)
-              .then((res) => {
-                let expireTime = new Date(new Date(res.data.created).getTime() + res.data.ttl * 1000)
-                this.saveAccessToken(res.data.id, expireTime)
+            this.$axios.post('client/login', this.form, { withCredentials: true })
+              .then(({ data }) => {
+                this.$store.commit('setClient', data.client)
+                this.$message.success('登录成功')
+                this.$router.push(this.redirect)
               })
-              .catch(() => {
-                this.$message.error('用户名或密码错误')
+              .catch((err) => {
+                this.$message.error(err.response.data.message)
               })
           }
         })
-      },
-      saveAccessToken (token, expireTime) {
-        try {
-          let cookie = Cookie.serialize('accessToken', token, {
-            expires: expireTime
-          })
-
-          document.cookie = cookie
-
-          this.$message.success('登录成功')
-          window.location.replace(window.location.origin + (this.$route.query.redirect || ''))
-        } catch (err) {}
       },
       thirdParty () {
         let path = '/login'

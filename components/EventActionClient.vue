@@ -23,6 +23,7 @@
     methods: {
       logout () {
         this.$store.dispatch('logout')
+        this.$message.success('成功退出登录')
       }
     }
   }

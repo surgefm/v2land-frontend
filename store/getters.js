@@ -4,7 +4,7 @@ export default {
   },
 
   isLoggedIn (state) {
-    return !!state.client.username
+    return !!state.client.id
   },
 
   getClient (state) {
@@ -39,7 +39,7 @@ export default {
 
   getSubscriptionList (state, getters) {
     if (getters.isLoggedIn) {
-      return state.client.subscriptionList.filter(s => s.status === 'active')
+      return state.client.subscriptions.filter(s => s.status === 'active')
     } else {
       return []
     }
