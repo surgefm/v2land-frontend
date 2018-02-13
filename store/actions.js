@@ -11,7 +11,7 @@ export default {
   },
 
   async fetchEvent ({ commit }, name) {
-    let url = $.encode(`events/${name}/detail`)
+    let url = $.encode(`event/${name}/detail`)
     try {
       let { data } = await axios.get(url)
       commit('setEvent', {
@@ -25,7 +25,7 @@ export default {
   },
 
   async getEventList ({ commit }, mode = 'latest') {
-    let url = $.encode(`events` + (mode === 'latest' ? '/latest' : ''))
+    let url = $.encode(`event` + (mode === 'latest' ? '/latest' : ''))
     try {
       let { data } = await axios.get(url)
       for (let event of (data.eventCollection || data)) {
@@ -47,7 +47,7 @@ export default {
 
   async getPendingNews ({ commit }, name) {
     if (name) {
-      let url = $.encode(`events/${name}/pending_news`)
+      let url = $.encode(`event/${name}/pending`)
       let { data } = await axios.get(url)
 
       commit('setPendingNews', {
@@ -57,7 +57,7 @@ export default {
 
       return data.newsCollection
     } else {
-      let url = $.encode(`events/pending_news`)
+      let url = $.encode(`event/pending`)
       let { data } = await axios.get(url)
       commit('setAllPendingNews', data.newsCollection)
 
@@ -66,12 +66,12 @@ export default {
   },
 
   async editEvent ({ dispatch }, { name, data }) {
-    let url = $.encode(`events/${name}`)
+    let url = $.encode(`event/${name}`)
     return axios.put(url, data)
   },
 
   async createEvent ({ dispatch, getters }, { data }) {
-    let url = $.encode(getters.isClientAdmin ? 'events' : 'events/add')
+    let url = $.encode(getters.isClientAdmin ? 'event' : 'event/add')
     return axios.post(url, data)
   },
 
