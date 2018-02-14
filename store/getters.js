@@ -73,5 +73,9 @@ export default {
     }
 
     return null
+  },
+
+  getAvailableAuths (state) {
+    return state.availableAuths
   }
 }

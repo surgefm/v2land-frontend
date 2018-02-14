@@ -99,8 +99,33 @@ export default {
   },
 
   async logout ({ commit }) {
+    await this.$axios.get('client/logout')
     this.app.$ga.set('userId', null)
     commit('setClient', {})
-    return this.$axios.get('client/logout')
+  },
+
+  async getAvailableAuthMethod ({ state, commit }) {
+    let isServer
+    try {
+      isServer = document.getElementById
+      isServer = false
+    } catch (err) {
+      isServer = true
+    }
+
+    if (state.availableAuths.length > 0 && !isServer) {
+      return state.availableAuths
+    } else {
+      let { data } = await this.$axios.get('auth/options')
+      state.availableAuths = ['fetched']
+
+      for (let property in data) {
+        if (data[property] === true) {
+          state.availableAuths.push(property)
+        }
+      }
+
+      return state.availableAuths
+    }
   }
 }

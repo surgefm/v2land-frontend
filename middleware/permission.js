@@ -10,7 +10,7 @@ export default function ({ route, store, app, redirect, component }) {
   ]
 
   const shouldNotBeLoggedIn = [
-    'login', 'login-email'
+    'login', 'login-email', 'register'
   ]
 
   const managerOnly = [

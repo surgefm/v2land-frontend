@@ -1,7 +1,7 @@
 <template>
   <div class="login-method">
     <div class="flex-container">
-      <div class="method-item">
+      <div class="method-item" v-if="availableMethods.includes('weibo')">
         <div @click="loginWeibo" class="item">
           <div class="oval red"> 
             <div class="inner-oval">
@@ -12,7 +12,7 @@
         </div>
       </div>
 
-      <div class="method-item">
+      <div class="method-item" v-if="availableMethods.includes('twitter')">
         <div @click="loginTwitter" class="item">
           <div class="oval blue">
             <div class="inner-oval twitter">
@@ -45,6 +45,10 @@ export default {
     redirect: {
       type: String,
       default: ''
+    },
+    availableMethods: {
+      type: Array,
+      default: []
     }
   },
 

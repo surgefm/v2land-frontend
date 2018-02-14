@@ -3,7 +3,10 @@
     <card>
       <event-title>登录浪潮</event-title>
       <div class="login-method-container">
-        <login-method :redirect="redirect" />
+        <login-method
+          :availableMethods="availableMethods"
+          :redirect="redirect"
+        />
       </div>
     </card>
     <logo class="logo" />
@@ -16,6 +19,11 @@
   import config from '~/const'
 
   export default {
+    data () {
+      return {
+        availableMethods: []
+      }
+    },
     computed: {
       redirect () {
         let base = config.baseUrl + 'login/auth?redirect='
@@ -30,16 +38,18 @@
         return base
       }
     },
-    created () {
-      if (this.$route.query.status === 'auth_required') {
-        this.$message.error('请在登录后尝试访问该页面')
-      } else if (this.$route.query.status === 'auth_failed') {
-        this.$message.error('在验证绑定状况时发生了错误')
+    async asyncData ({ store, query, redirect }) {
+      let options = await store.dispatch('getAvailableAuthMethod')
+      if (options.length === 1) {
+        let path = '/login/email'
+        if (query.redirect) {
+          path += '?redirect=' + query.redirect
+        }
+        redirect(path)
       }
-
-      this.$router.push({
-        query: { ...this.$route.query, status: undefined }
-      })
+      return {
+        availableMethods: options
+      }
     }
   }
 </script>

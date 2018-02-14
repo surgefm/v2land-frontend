@@ -21,6 +21,10 @@
         />
       </el-form-item>
 
+      <p class="light-font notice">
+        注意：为改进用户的使用体验，本站会采集您的部分使用数据
+      </p>
+
       <div class="finish-button-group">
         <el-button type="primary" @click="submit">创建</el-button>
       </div>
@@ -107,6 +111,11 @@
     max-width: 25rem;
   }
 
+  .notice {
+    font-size: .9rem;
+    line-height: 1.75;
+  }
+
   .third-party {
     display: flex;
     align-items: center;
@@ -116,55 +125,12 @@
     font-weight: 500;
   }
 
-  .border-color {
-    padding: .4rem;
-    margin: 0 .2rem;
-    transition: all .2s;
-    cursor: pointer;
-    border: transparent .25rem solid;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    height: 2rem;
-  }
-
-  .icon-container {
-    display: flex;
-    align-items: center;
-    border: none;
-    font-size: 1.25rem;
-  }
-
-  .border-color:before {
-    color: rgb(129, 207, 224);
-    transition: all .2s;
-  }
-
-  .icon-weibo:hover:before {
-    color: #e6162d;
-  }
-
-  .icon-twitter:hover:before {
-    color: #1da1f2;
-  }
-
   .el-form-item.is-required:before {
     content: ""
   }
 
-  @media (max-width: 350px) {
-    .third-party span {
-      display: none;
-    }
-  }
-
   .finish-button-group {
     text-align: right;
-  }
-
-  .finish-hint {
-    background-color: #6FCF97;
-    padding: 9px;
-    max-width: 530px;
+    margin-top: 1rem;
   }
 </style>

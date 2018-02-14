@@ -2,6 +2,7 @@ export default async function (ctx) {
   if (ctx.req) {
     ctx.store.commit('cleanAll')
   }
+
   await getClientData(ctx)
 }
 

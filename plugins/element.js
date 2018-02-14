@@ -27,3 +27,7 @@ Vue.use(DropDownMenu)
 Vue.use(DropDownItem)
 
 Vue.prototype.$message = Message
+
+export default ({ app, route }) => {
+  app.$message = Vue.prototype.$message
+}

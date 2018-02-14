@@ -3,10 +3,36 @@
     <card class="auth-container">
       <event-title>绑定账号</event-title>
       <span v-if="showForms">
-        {{ sitename }}账号连接成功，请创建或登录浪潮账号以完成绑定。
+        {{ siteinfo }}连接成功，请创建或登录浪潮账号以完成绑定。
       </span>
+      <div class="switch-form" v-if="showForms">
+        <span
+          :class="[
+            'switch-title',
+            !register || 'light-font'
+          ]"
+          @click="register = true"
+        >
+          创建账号
+        </span>
+        <span class="switch-form-divider">/</span>
+        <span
+          :class="[
+            'switch-title',
+            register || 'light-font'
+          ]"
+          @click="register = false"
+        >
+          登录浪潮
+        </span>
+      </div>
       <div class="register-or-login" v-if="showForms">
-        <div class="registration-container">
+        <div 
+          :class="[
+            'registration-container',
+            !register || 'form-active'
+          ]"
+        >
           <span class="registration-title">创建账号</span>
           <registration-form
             :username="username"
@@ -14,7 +40,12 @@
             v-on:registered="connect"
           />
         </div>
-        <div class="login-container">
+        <div
+          :class="[
+            'login-container',
+            register || 'form-active'
+          ]"
+        >
           <div class="divider" />
           <div>
             <span class="login-title">登录浪潮</span>
@@ -48,7 +79,8 @@
         username: null,
         email: null,
         site: null,
-        auth: {}
+        auth: {},
+        register: true
       }
     },
     computed: {
@@ -63,30 +95,32 @@
         }
         return ''
       },
-      sitename () {
+      siteinfo () {
+        let text = ''
         switch (this.site) {
           case 'twitter':
-            return 'Twitter '
+            text += `Twitter 账号 @${this.auth.profile.screen_name} `
+            break
           case 'weibo':
-            return '微博'
+            text += `微博账号 @${this.auth.profile.screen_name} `
         }
 
-        return ''
+        return text
       }
     },
     methods: {
       async connect () {
         this.showForms = false
         try {
-          const response = await this.$axios.post('/auth', {
-            authId: this.auth.id
-          })
-          this.$message.success(response.data.message)
-          let redirect = this.$route.query.redirect || '/'
-          while (redirect && redirect.length > 1 && redirect[1] === '/') {
-            redirect = redirect.slice(1)
+          await this.$axios.post('/auth', { authId: this.auth.id })
+          this.$message.success(
+            `你的账号${this.$store.getters.getClient.username}已与 ${this.siteinfo}绑定成功`
+          )
+          let path = this.$route.query.redirect || '/'
+          if (path[0] !== '/') {
+            path = '/' + path
           }
-          this.$router.push(redirect)
+          this.$router.push(path)
         } catch (err) {
           this.$message.error(err)
           this.$router.push({
@@ -104,17 +138,31 @@
     },
     async asyncData ({ $axios, query, redirect, store }) {
       let path = `auth/${query.site}/redirect?`
-      path += `token=${query.token}&verifier=${query.verifier}`
+      if (query.site === 'twitter') {
+        path += `token=${query.token}&verifier=${query.verifier}`
+      } else if (query.site === 'weibo') {
+        path += `code=${query.code}&authId=${query.authId}`
+      } else {
+        redirect('/')
+      }
 
       try {
         let response = await $axios.get(path)
-        if (response.status === 201) {
+        if ([200, 201].includes(response.status)) {
           await store.dispatch('getClient')
           let redirectUrl = '/'
           redirectUrl += query.redirect ? ((query.redirect[0] === '/')
             ? query.redirect.slice(1)
             : query.redirect) : ''
-          redirect(redirectUrl)
+          redirect(
+            redirectUrl,
+            response.status === 200
+              ? { status: 'logged_in_successfully' }
+              : {
+                status: 'authenticate_successfully',
+                auth_name: response.data.profile.name
+              }
+          )
         } else if (response.status === 202) {
           return {
             showForms: true,
@@ -139,6 +187,24 @@
     flex-direction: column;
   }
 
+  .switch-form {
+    width: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    color: #888;
+    margin-top: .5rem;
+  }
+
+  .switch-title {
+    cursor: pointer;
+  }
+
+  .switch-form-divider {
+    margin: 0 .5rem;
+    user-select: none;
+  }
+
   .register-or-login, .login-container {
     display: flex;
     position: relative;
@@ -152,6 +218,7 @@
   .registration-container {
     position: relative;
     left: -1rem;
+    width: 50%;
   }
 
   .registration-title {
@@ -169,12 +236,12 @@
   }
 
   .login-container .divider {
-    height: 80%;
+    height: 90%;
     width: 1px;
     background-color: #aaa;
     position: absolute;
     left: .25rem;
-    margin: 10% 0;
+    margin: 5% 0;
   }
 
   .connecting {
@@ -185,5 +252,23 @@
 
   .connecting * {
     font-size: 1rem !important;
+  }
+
+  @media (max-width: 600px) {
+    .switch-form {
+      display: flex;
+    }
+
+    .login-container, .registration-container, .divider,
+      .login-title, .registration-title {
+      display: none;
+      width: 100%;
+    }
+
+    .form-active {
+      display: flex;
+      flex-direction: column;
+      left: 0;
+    }
   }
 </style>

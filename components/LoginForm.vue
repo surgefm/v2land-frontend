@@ -19,7 +19,7 @@
       </el-form-item>
 
       <div class="submit-button-group-separate">
-        <div v-if="authorizing" />
+        <div v-if="authorizing || $store.getters.getAvailableAuths.length <= 1" />
         <a v-else class="third-party" @click="thirdParty">
           第三方账号登录
         </a>
@@ -74,8 +74,8 @@
             this.$axios.post('client/login', this.form)
               .then(({ data }) => {
                 this.$store.commit('setClient', data.client)
-                this.$message.success('登录成功')
                 this.$ga.set('userId', data.client.id)
+                this.$message.success(`你好，${data.client.username}`)
                 if (this.authorizing) {
                   this.$emit('logged-in')
                 } else {
