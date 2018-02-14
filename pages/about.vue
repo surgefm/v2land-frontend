@@ -1,6 +1,5 @@
 <template>
   <background>
-    <el-button @click="$store.dispatch('getClient')">233</el-button>
     <card>
       <p class="tag light-font">从一首诗开始</p>
       <event-title>关于浪潮</event-title>

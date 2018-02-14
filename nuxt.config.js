@@ -93,6 +93,8 @@ module.exports = {
     '~/plugins/element.js',
     '~/plugins/components.js',
     '~/plugins/clipboard.js',
+    { src: '~/plugins/statusHandler', ssr: false },
+    { src: '~/plugins/ga', ssr: false },
     { src: '~/plugins/typekit', ssr: false }
   ],
 
@@ -102,9 +104,6 @@ module.exports = {
   },
 
   modules: [
-    ['@nuxtjs/google-analytics', {
-      id: config.ga
-    }],
     '@nuxtjs/axios'
   ],
 

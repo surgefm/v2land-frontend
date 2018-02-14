@@ -158,6 +158,19 @@ img {
   }
 }
 
+@media (max-width: 390px) {
+  .el-message {
+    width: 97% !important;
+    min-width: 0 !important;
+    top: .5rem !important;
+    text-align: left !important;
+  }
+
+  .el-message * {
+    line-height: 1.25 !important;
+  }
+}
+
 @keyframes emphasize {
   0% {
     box-shadow: 0;

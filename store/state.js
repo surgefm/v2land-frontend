@@ -6,6 +6,7 @@ export default {
     subscriptions: [],
     events: []
   },
+  availableAuths: [],
   event: {},
   pendingNews: {},
   allPendingNews: [],

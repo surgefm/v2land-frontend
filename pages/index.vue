@@ -41,17 +41,6 @@
         eventCollection: []
       }
     },
-    created () {
-      if (this.$route.query.status === 'logged_in') {
-        this.$message.error('登录用户不可访问该页面')
-      } else if (this.$route.query.status === 'permission_denied') {
-        this.$message.error('您所在用户组无法访问该页面')
-      }
-
-      this.$router.push({
-        query: { ...this.$route.query, status: undefined }
-      })
-    },
     async asyncData ({ store }) {
       return {
         eventCollection: await store.dispatch('getEventList')
