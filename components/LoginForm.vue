@@ -75,6 +75,7 @@
               .then(({ data }) => {
                 this.$store.commit('setClient', data.client)
                 this.$message.success('登录成功')
+                this.$ga.set('userId', data.client.id)
                 if (this.authorizing) {
                   this.$emit('logged-in')
                 } else {
