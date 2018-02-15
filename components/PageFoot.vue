@@ -12,9 +12,9 @@
         <span>·</span>
         <a href="https://github.com/v2land" target="_blank">参与项目开发</a>
       </div>
-      <b>
-        本站与<a href="http://langchao.com" target="_blank">浪潮集团有限公司</a>毫无关联
-      </b>
+      <span>
+        本站与<a href="http://langchao.com" target="_blank">浪潮集团有限公司</a>无关
+      </span>
       <span>
         Langchao.co {{ new Date().getFullYear() }}
       </span>
