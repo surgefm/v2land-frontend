@@ -1,7 +1,12 @@
 <template>
   <div class="action-set-container">
     <div class="center">
-      <action-item v-for="tab of displayList.tab" :action="`event-action-${tab}`" :key="tab" />
+      <action-item
+        v-for="tab of displayList.tab"
+        :action="`event-action-${tab}`"
+        :key="tab"
+        :class="[displayList.tab.length > 2 || 'two-tabs']"
+      />
       <action-item
         v-for="tab of displayList.dropdown"
         :action="`event-action-${tab}`"
