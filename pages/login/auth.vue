@@ -2,10 +2,10 @@
   <background>
     <card class="auth-container">
       <event-title>绑定账号</event-title>
-      <span v-if="showForms">
+      <span v-if="mode === 'registerOrLogin'">
         {{ siteinfo }}连接成功，请创建或登录浪潮账号以完成绑定。
       </span>
-      <div class="switch-form" v-if="showForms">
+      <div class="switch-form" v-if="mode === 'registerOrLogin'">
         <span
           :class="[
             'switch-title',
@@ -26,7 +26,7 @@
           登录浪潮
         </span>
       </div>
-      <div class="register-or-login" v-if="showForms">
+      <div class="register-or-login" v-if="mode === 'registerOrLogin'">
         <div 
           :class="[
             'registration-container',
@@ -56,7 +56,14 @@
           </div>
         </div>
       </div>
-      <div v-else class="connecting">
+      <span v-if="mode === 'switchAccount'" class="switch-account">
+        {{ siteinfo }}已于浪潮账号「{{ conflictClient }}」绑定，是否解绑并与您现在的账号绑定？
+      </span>
+      <div v-if="mode === 'switchAccount'" class="submit-button-group-separate">
+        <el-button @click="$router.push(redirect)">取消</el-button>
+        <el-button type="primary" @click="connect">确定解绑</el-button>
+      </div>
+      <div v-if="mode === 'loading'" class="connecting">
         <loading-indicator />
         <span>正在绑定</span>
       </div>
@@ -75,25 +82,22 @@
   export default {
     data () {
       return {
-        showForms: false,
+        mode: 'loading',
         username: null,
         email: null,
         site: null,
         auth: {},
+        conflictClient: null,
         register: true
       }
     },
     computed: {
       redirect () {
-        let redirect = this.$route.query.redirect
-        if (redirect) {
-          if (redirect[0] === '/') {
-            return redirect.slice(1)
-          } else {
-            return redirect
-          }
+        let path = this.$route.query.redirect || '/'
+        if (path[0] !== '/') {
+          path = '/' + path
         }
-        return ''
+        return path
       },
       siteinfo () {
         let text = ''
@@ -110,17 +114,14 @@
     },
     methods: {
       async connect () {
-        this.showForms = false
+        this.mode = 'connecting'
         try {
           await this.$axios.post('/auth', { authId: this.auth.id })
           this.$message.success(
             `你的账号${this.$store.getters.getClient.username}已与 ${this.siteinfo}绑定成功`
           )
-          let path = this.$route.query.redirect || '/'
-          if (path[0] !== '/') {
-            path = '/' + path
-          }
-          this.$router.push(path)
+          await this.$store.dispatch('getClient')
+          this.$router.push(this.redirect)
         } catch (err) {
           this.$message.error(err)
           this.$router.push({
@@ -163,12 +164,22 @@
                 auth_name: response.data.profile.name
               }
           )
-        } else if (response.status === 202) {
+        } else if (response.status === 202 &&
+          response.data.name === 'authentication required') {
           return {
-            showForms: true,
+            mode: 'registerOrLogin',
             username: response.data.auth.profile.name,
             site: query.site,
             auth: response.data.auth
+          }
+        } else if (response.status === 202 &&
+          response.data.name === 'already connected') {
+          return {
+            mode: 'switchAccount',
+            username: response.data.auth.profile.name,
+            site: query.site,
+            auth: response.data.auth,
+            conflictClient: response.data.conflict
           }
         }
       } catch (err) {
@@ -242,6 +253,10 @@
     position: absolute;
     left: .25rem;
     margin: 5% 0;
+  }
+
+  .switch-account {
+    margin-bottom: 1rem;
   }
 
   .connecting {
