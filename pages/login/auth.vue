@@ -78,6 +78,7 @@
 <script>
   import RegistrationForm from '~/components/RegistrationForm.vue'
   import LoginForm from '~/components/LoginForm.vue'
+  import $ from 'postman-url-encoder'
 
   export default {
     data () {
@@ -155,15 +156,13 @@
           redirectUrl += query.redirect ? ((query.redirect[0] === '/')
             ? query.redirect.slice(1)
             : query.redirect) : ''
-          redirect(
-            redirectUrl,
-            response.status === 200
-              ? { status: 'logged_in_successfully' }
-              : {
-                status: 'authenticate_successfully',
-                auth_name: response.data.profile.name
-              }
-          )
+          redirectUrl += redirectUrl.includes('?') ? '&' : '?'
+          if (response.status === 200) {
+            redirectUrl += 'status=logged_in_successfully'
+          } else {
+            redirectUrl += `status=authenticate_successfully&auth_name=${response.data.profile.name}`
+          }
+          redirect($.encode(redirectUrl))
         } else if (response.status === 202 &&
           response.data.name === 'authentication required') {
           return {

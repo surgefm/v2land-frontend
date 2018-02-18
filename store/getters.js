@@ -66,7 +66,7 @@ export default {
 
   getAuth: (state, getters) => (site) => {
     if (getters.isLoggedIn) {
-      let auths = state.client.authList.filter(a => a.site === site)
+      let auths = state.client.auths.filter(a => a.site === site)
       if (auths.length > 0) {
         return auths[0]
       }

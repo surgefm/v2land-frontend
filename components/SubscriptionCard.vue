@@ -36,7 +36,7 @@
       <el-button
         type="text"
         v-popover:popover
-        :disabled="isSubmitting"
+        :loading="isSubmitting"
       >
         取消关注
       </el-button>
