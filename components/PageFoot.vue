@@ -1,9 +1,9 @@
 <template>
   <div class="footer">
-    <div class="logo-container">
+    <nuxt-link to="/" class="logo-container">
       <logo class="logo-image" mode="simple" />
       <logotype color="#0083a8" :height="32" class="logotype" />
-    </div>
+    </nuxt-link>
     <div class="content">
       <div class="about-v2land">
         <nuxt-link to="/about" class="link">关于浪潮</nuxt-link>

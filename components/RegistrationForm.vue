@@ -26,7 +26,13 @@
       </p>
 
       <div class="finish-button-group">
-        <el-button type="primary" @click="submit">创建</el-button>
+        <el-button
+          type="primary"
+          @click="submit"
+          :loading="isSubmitting"
+        >
+          创建
+        </el-button>
       </div>
     </el-form>
   </div>
@@ -46,6 +52,7 @@
           email: '',
           password: ''
         },
+        isSubmitting: false,
         rules: {
           username: [
             { required: true, message: '请输入用户名', trigger: 'blur' }
@@ -77,14 +84,17 @@
       submit () {
         this.$refs.form.validate((valid) => {
           if (valid) {
+            this.isSubmitting = true
             this.$axios.post('client/register', this.form)
               .then(async (res) => {
                 this.$message.success('创建成功')
                 await this.$store.dispatch('getClient')
                 this.$emit('registered')
+                this.isSubmitting = false
               })
               .catch(err => {
                 this.$message.error(err.response.data.message)
+                this.isSubmitting = false
               })
           }
         })

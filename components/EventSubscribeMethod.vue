@@ -53,7 +53,6 @@
 <script>
   import config from '~/const'
   import $ from 'postman-url-encoder'
-  import Cookie from 'cookie'
 
   export default {
     data () {
@@ -122,6 +121,13 @@
       },
       isSubmittable () {
         return this.form.method && this.form[this.form.method]
+      },
+      redirect () {
+        let base = config.baseUrl +
+          `login/auth?redirect=${this.$route.params.name}/subscribe?` +
+          `mode=${this.$store.state.subscribe.mode}%2526` +
+          `method=${this.form.method}`
+        return base
       }
     },
     methods: {
@@ -140,28 +146,10 @@
         })
       },
       connectTwitter () {
-        let accessToken
-        try {
-          let cookies = Cookie.parse(document.cookie)
-          accessToken = cookies.accessToken
-        } catch (err) {}
-        let url = $.encode(config.api + 'auth/twitter?r=' + Math.random() * 10000 +
-          (accessToken ? '&access_token=' + accessToken : '') +
-          '&redirect=' + this.$route.params.name + '/subscribe?' +
-          'mode=' + this.$store.state.subscribe.mode)
-        window.location = url
+        window.location = $.encode(config.api + 'auth/twitter?redirect=' + this.redirect)
       },
       connectWeibo () {
-        let accessToken
-        try {
-          let cookies = Cookie.parse(document.cookie)
-          accessToken = cookies.accessToken
-        } catch (err) {}
-        let url = $.encode(config.api + 'auth/weibo?' +
-          (accessToken ? 'access_token=' + accessToken + '&' : '') +
-          'redirect=' + this.$route.params.name + '/subscribe?mode=' +
-          this.$store.state.subscribe.mode)
-        window.location = url
+        window.location = $.encode(config.api + 'auth/weibo?redirect=' + this.redirect)
       }
     },
     created () {

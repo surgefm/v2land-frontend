@@ -31,7 +31,13 @@
           >
             忘记密码
           </el-button>
-          <el-button type="primary" @click="submit">登录</el-button>
+          <el-button
+            type="primary"
+            @click="submit"
+            :loading="isSubmitting"
+          >
+            登录
+          </el-button>
         </div>
       </div>
     </el-form>
@@ -51,6 +57,7 @@
           username: '',
           password: ''
         },
+        isSubmitting: false,
         rules: {
           username: [
             { required: true, message: '请输入用户名', trigger: 'blur' }
@@ -71,6 +78,7 @@
       submit () {
         this.$refs.form.validate((valid) => {
           if (valid) {
+            this.isSubmitting = true
             this.$axios.post('client/login', this.form)
               .then(({ data }) => {
                 this.$store.commit('setClient', data.client)
@@ -81,9 +89,11 @@
                 } else {
                   this.$router.push(this.redirect)
                 }
+                this.isSubmitting = false
               })
               .catch((err) => {
                 this.$message.error(err.response.data.message)
+                this.isSubmitting = false
               })
           }
         })
