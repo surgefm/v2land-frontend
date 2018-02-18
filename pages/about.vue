@@ -50,10 +50,10 @@
   .image-container {
     display: flex;
     justify-content: flex-end;
+    margin: 1rem 1rem 1.5rem 1rem;
   }
 
-  img {
+  .image-container * {
     height: 1.5rem;
-    margin: 1rem;
   }
 </style>

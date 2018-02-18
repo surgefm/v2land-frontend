@@ -3,7 +3,7 @@
     <logo class="logo" />
     <card class="title-container hover">
       <img
-        src="https://assets.v2land.net/750x200/default.jpg"
+        :src="config.static + '560x144/default.jpg'"
         onload="this.id = 'show'"
         class="header-image"
       />
@@ -35,10 +35,13 @@
 </template>
 
 <script>
+  import config from '~/const'
+
   export default {
     data () {
       return {
-        eventCollection: []
+        eventCollection: [],
+        config
       }
     },
     async asyncData ({ store }) {
