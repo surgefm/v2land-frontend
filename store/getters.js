@@ -17,13 +17,13 @@ export default {
 
   getNewsCollection: (state) => (name) => {
     return state.event[name]
-      ? state.event[name].newsCollection
+      ? state.event[name].news
       : []
   },
 
   getNews: (state) => ({name, id}) => {
     let newsSet = state.event[name]
-      ? state.event[name].newsCollection.filter(news => news.id === id)
+      ? state.event[name].news.filter(news => news.id === id)
       : []
 
     return newsSet.length > 0 ? newsSet[0] : null

@@ -110,7 +110,7 @@
       submit () {
         this.$refs.form.validate((valid) => {
           if (valid) {
-            let url = $.encode(`events/${this.$route.params.name}/image`)
+            let url = $.encode(`event/${this.$route.params.name}/header_image`)
             this.$axios[this.isNew ? 'post' : 'patch'](url, this.form)
               .then(() => {
                 this.$store.dispatch('fetchEvent', this.$route.params.name)

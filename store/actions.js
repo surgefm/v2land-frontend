@@ -2,39 +2,38 @@ import $ from 'postman-url-encoder'
 
 export default {
   async getEvent ({ dispatch, state }, name) {
-    if (state.event[name] && state.event[name].newsCollection) {
+    if (state.event[name] && state.event[name].news) {
       return state.event[name]
     }
-
     return dispatch('fetchEvent', name)
   },
 
   async fetchEvent ({ commit }, name) {
-    let url = $.encode(`events/${name}/detail`)
+    let url = $.encode(`event/${name}`)
     try {
       let { data } = await this.$axios.get(url)
       commit('setEvent', {
-        name: data.detail.name,
-        detail: data.detail
+        name: data.name,
+        detail: data
       })
-      return data.detail
+      return data
     } catch (err) {
       return null
     }
   },
 
   async getEventList ({ commit }, mode = 'latest') {
-    let url = $.encode(`events` + (mode === 'latest' ? '/latest' : ''))
+    let url = $.encode(`event` + (mode === 'latest' ? '/' : '/'))
     try {
       let { data } = await this.$axios.get(url)
-      for (let event of (data.eventCollection || data)) {
+      for (let event of (data.eventList || data)) {
         event.image = event['header_image']
         commit('setEvent', {
           name: event.name,
           detail: event
         })
       }
-      return data.eventCollection || data
+      return data.eventList || data
     } catch (err) {
       return []
     }
@@ -46,31 +45,31 @@ export default {
 
   async getPendingNews ({ commit }, name) {
     if (name) {
-      let url = $.encode(`events/${name}/pending_news`)
+      let url = $.encode(`event/${name}/pending`)
       let { data } = await this.$axios.get(url)
 
       commit('setPendingNews', {
         name,
-        newsCollection: data.newsCollection
+        newsCollection: data.eventCollection
       })
 
       return data.newsCollection
     } else {
-      let url = $.encode(`events/pending_news`)
+      let url = $.encode(`event/pending`)
       let { data } = await this.$axios.get(url)
-      commit('setAllPendingNews', data.newsCollection)
+      commit('setAllPendingNews', data.eventCollection)
 
       return data.newsCollection
     }
   },
 
   async editEvent ({ dispatch }, { name, data }) {
-    let url = $.encode(`events/${name}`)
+    let url = $.encode(`event/${name}`)
     return this.$axios.put(url, data)
   },
 
   async createEvent ({ dispatch, getters }, { data }) {
-    let url = $.encode(getters.isClientAdmin ? 'events' : 'events/add')
+    let url = $.encode(getters.isClientAdmin ? 'event' : 'event/news')
     return this.$axios.post(url, data)
   },
 
