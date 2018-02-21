@@ -22,20 +22,24 @@ export default {
     }
   },
 
-  async getEventList ({ commit }, mode = 'latest') {
-    let url = $.encode(`event` + (mode === 'latest' ? '/' : '/'))
-    try {
-      let { data } = await this.$axios.get(url)
-      for (let event of (data.eventList || data)) {
-        event.image = event['header_image']
-        commit('setEvent', {
-          name: event.name,
-          detail: event
-        })
+  async getEventList ({ commit, state }, mode = 'latest') {
+    if (mode === 'latest' || !state.event) {
+      let url = $.encode('event/')
+      try {
+        let { data } = await this.$axios.get(url)
+        for (let event of (data.eventList || data)) {
+          event.image = event['header_image']
+          commit('setEvent', {
+            name: event.name,
+            detail: event
+          })
+        }
+        return data.eventList || data
+      } catch (err) {
+        return []
       }
-      return data.eventList || data
-    } catch (err) {
-      return []
+    } else {
+      return Object.keys(state.event).map(key => state.event[key])
     }
   },
 
@@ -69,7 +73,7 @@ export default {
   },
 
   async createEvent ({ dispatch, getters }, { data }) {
-    let url = $.encode(getters.isClientAdmin ? 'event' : 'event/news')
+    let url = $.encode('event/')
     return this.$axios.post(url, data)
   },
 
