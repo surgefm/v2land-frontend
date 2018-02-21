@@ -16,7 +16,7 @@
       >
         {{ news.event.name }}
       </nuxt-link>
-      <span v-if="order === 1 && !news.event" class="tag light-font">
+      <span v-if="order === 1 && !showEventName" class="tag light-font">
         最新消息
       </span>
       <span v-if="news.tag" class="tag light-font">
@@ -73,7 +73,7 @@
           return false
         }
 
-        if (this.event) return true
+        if (this.event) return false
 
         let event = this.$store.getters.getNews({
           name: this.$route.params.name,

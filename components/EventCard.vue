@@ -20,7 +20,7 @@
     </nuxt-link>
     <div v-else class="event-container">
       <div class="event-text">
-        <nuxt-link class="event-title link" :to="'/' + event.name">
+        <nuxt-link class="event-title" :to="'/' + event.name">
           {{ event.name }}
         </nuxt-link>
         <event-description class="event-description">
@@ -42,11 +42,15 @@
     },
     computed: {
       description () {
-        let text = this.event.description.slice(0, 60)
-        if (this.event.description.length > 60) {
-          text += '……'
+        if (this.isAdminEvent) {
+          return this.event.description
+        } else {
+          let text = this.event.description.slice(0, 60)
+          if (this.event.description.length > 60) {
+            text += '……'
+          }
+          return text
         }
-        return text
       },
       image () {
         return config.static + '240x240/' + this.event.headerImage.imageUrl
@@ -64,10 +68,6 @@
 <style lang="scss" scoped>
   .card {
     padding: 0 !important;
-  }
-
-  .link {
-    color: black;
   }
 
   .event-container {
@@ -88,6 +88,7 @@
     font-size: 1.25rem;
     font-weight: bold;
     line-height: 1.5;
+    color: black;
   }
 
   .event-description {

@@ -22,9 +22,13 @@ export default {
     }
   },
 
-  async getEventList ({ commit, state }, mode = 'latest') {
+  async getEventList ({ commit, state }, { mode = 'latest', where } = {}) {
     if (mode === 'latest' || !state.event) {
-      let url = $.encode('event/')
+      let url = $.encode('event')
+      if (where) {
+        url += '?where=' + encodeURIComponent(JSON.stringify(where))
+      }
+
       try {
         let { data } = await this.$axios.get(url)
         for (let event of (data.eventList || data)) {
@@ -44,7 +48,7 @@ export default {
   },
 
   async getAllEventList ({ dispatch }) {
-    return dispatch('getEventList', 'all')
+    return dispatch('getEventList', { mode: 'all' })
   },
 
   async getPendingNews ({ commit }, name) {

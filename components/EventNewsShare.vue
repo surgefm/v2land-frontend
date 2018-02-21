@@ -40,7 +40,8 @@
         let url = config.baseUrl + this.event.id + '?news=i' + this.news.id
         let message = this.news.title + ' - ' +
           this.news.abstract.slice(0, 50) +
-          (this.news.abstract.length > 50 ? '… ' : ' ')
+          (this.news.abstract.length > 50 ? '… ' : ' ') +
+          '来源：' + this.news.source + ' '
 
         switch (site) {
           case 'twitter':
@@ -53,6 +54,7 @@
           case 'google-plus':
             return $.encode('https://plus.google.com/share?url=' + url)
           case 'weibo':
+            message += `%23${this.$route.params.name}%23 %23浪潮，你的社会事件追踪工具%23`
             return $.encode('http://service.weibo.com/share/share.php?url=' + url + '&title=' + message)
         }
       },
