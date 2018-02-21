@@ -14,6 +14,27 @@ export default {
     Vue.set(state, 'subscribe', { ...state.subscribe, contact })
   },
 
+  setNews (state, news) {
+    let event = news.event
+    if (!state.event[event.name]) {
+      event.news = []
+      Vue.set(state.event, event.name, event)
+    }
+
+    event = state.event[event.name]
+    for (let i = 0; i < event.news.length; i++) {
+      if (event.news[i].id === news.id) {
+        event.news[i] = { ...news }
+        break
+      }
+      if (i === event.news.length - 1) {
+        event.news.push(news)
+      }
+    }
+
+    Vue.set(state.event[event.name], 'news', event.news)
+  },
+
   setPendingNews (state, { name, newsCollection }) {
     if (newsCollection) {
       Vue.set(state.pendingNews, name, Array.from(newsCollection))

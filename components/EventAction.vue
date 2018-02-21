@@ -13,7 +13,7 @@
         class="small"
         :key="tab"
       />
-      <el-dropdown trigger="click" placement="top-end">
+      <el-dropdown trigger="click" placement="top-end" :show-timeout="0">
         <a>
           <i
             v-if="displayList.dropdown.length > 0"

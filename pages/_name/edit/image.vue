@@ -100,18 +100,18 @@
         const isLt2M = file.size / 1024 / 1024 < 4
 
         if (!isJPG) {
-          this.$message.error('image picture must be .jpg/.png format!')
+          this.$message.error('只支持 .jpg 或 .png 格式的图片')
         }
         if (!isLt2M) {
-          this.$message.error('image picture size can not exceed 4MB!')
+          this.$message.error('图片大小不得超过 4Mb')
         }
         return isJPG && isLt2M
       },
       submit () {
         this.$refs.form.validate((valid) => {
           if (valid) {
-            let url = $.encode(`events/${this.$route.params.name}/image`)
-            this.$axios[this.isNew ? 'post' : 'patch'](url, this.form)
+            let url = $.encode(`event/${this.$route.params.name}/header_image`)
+            this.$axios[this.isNew ? 'post' : 'put'](url, this.form)
               .then(() => {
                 this.$store.dispatch('fetchEvent', this.$route.params.name)
               })

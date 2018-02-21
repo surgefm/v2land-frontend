@@ -45,19 +45,9 @@
     components: {
       'event-news-information-form': EventNewsInformationForm
     },
-    beforeCreate () {
-      let news = this.$store.getters.getNews({
-        name: this.$route.params.name,
-        id: this.$route.params.id
-      })
-
-      if (!news) {
-        this.$message('未找到该新闻')
-        this.$router.push('/' + this.$route.params.name)
-      }
-    },
     async asyncData ({ store, route }) {
-      return store.dispatch('getEvent', route.params.name)
+      await store.dispatch('getEvent', route.params.name)
+      return store.dispatch('getNews', route.params.id)
     }
   }
 </script>

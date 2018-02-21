@@ -1,62 +1,79 @@
 import $ from 'postman-url-encoder'
 
 export default {
-  async getEvent ({ dispatch, state }, name) {
-    if (state.event[name] && state.event[name].newsCollection) {
+  async getEvent ({ dispatch, state, getters }, name) {
+    if (!getters.isServer && state.event[name] && state.event[name].news) {
       return state.event[name]
     }
-
     return dispatch('fetchEvent', name)
   },
 
   async fetchEvent ({ commit }, name) {
-    let url = $.encode(`events/${name}/detail`)
+    let url = $.encode(`event/${name}`)
     try {
       let { data } = await this.$axios.get(url)
       commit('setEvent', {
-        name: data.detail.name,
-        detail: data.detail
+        name: data.name,
+        detail: data
       })
-      return data.detail
+      return data
     } catch (err) {
+      if (err.response) {
+        this.app.$message.error(err.response.data.message)
+      } else {
+        this.app.$message.error('服务器连接失败')
+      }
       return null
     }
   },
 
-  async getEventList ({ commit }, mode = 'latest') {
-    let url = $.encode(`events` + (mode === 'latest' ? '/latest' : ''))
-    try {
-      let { data } = await this.$axios.get(url)
-      for (let event of (data.eventCollection || data)) {
-        event.image = event['header_image']
-        commit('setEvent', {
-          name: event.name,
-          detail: event
-        })
+  async getEventList ({ commit, state }, { mode = 'latest', where } = {}) {
+    if (mode === 'latest' || !state.event) {
+      let url = $.encode('event')
+      if (where) {
+        url += '?where=' + encodeURIComponent(JSON.stringify(where))
       }
-      return data.eventCollection || data
-    } catch (err) {
-      return []
+
+      try {
+        let { data } = await this.$axios.get(url)
+        for (let event of (data.eventList || data)) {
+          event.image = event['header_image']
+          commit('setEvent', {
+            name: event.name,
+            detail: event
+          })
+        }
+        return data.eventList || data
+      } catch (err) {
+        if (err.response) {
+          this.app.$message.error(err.response.data.message)
+        } else {
+          this.app.$message.error('服务器连接失败')
+        }
+        return []
+      }
+    } else {
+      return Object.keys(state.event).map(key => state.event[key])
     }
   },
 
   async getAllEventList ({ dispatch }) {
-    return dispatch('getEventList', 'all')
+    return dispatch('getEventList', { mode: 'all' })
   },
 
   async getPendingNews ({ commit }, name) {
     if (name) {
-      let url = $.encode(`events/${name}/pending_news`)
+      let url = $.encode(`event/${name}/pending`)
       let { data } = await this.$axios.get(url)
 
       commit('setPendingNews', {
         name,
-        newsCollection: data.newsCollection
+        ...data
       })
 
       return data.newsCollection
     } else {
-      let url = $.encode(`events/pending_news`)
+      let url = $.encode(`news/pending`)
       let { data } = await this.$axios.get(url)
       commit('setAllPendingNews', data.newsCollection)
 
@@ -65,18 +82,25 @@ export default {
   },
 
   async editEvent ({ dispatch }, { name, data }) {
-    let url = $.encode(`events/${name}`)
+    let url = $.encode(`event/${name}`)
     return this.$axios.put(url, data)
   },
 
   async createEvent ({ dispatch, getters }, { data }) {
-    let url = $.encode(getters.isClientAdmin ? 'events' : 'events/add')
+    let url = $.encode('event/')
     return this.$axios.post(url, data)
   },
 
+  async getNews ({ commit }, id) {
+    let url = $.encode('news/' + id)
+    let { data: news } = await this.$axios.get(url)
+    commit('setNews', news)
+    return news
+  },
+
   async editNews ({ dispatch }, { id, data }) {
-    let url = $.encode(`news/${id}/edit`)
-    return this.$axios.patch(url, data)
+    let url = $.encode(`news/${id}`)
+    return this.$axios.put(url, data)
   },
 
   async getClient ({ commit }) {
@@ -104,16 +128,8 @@ export default {
     commit('setClient', {})
   },
 
-  async getAvailableAuthMethod ({ state, commit }) {
-    let isServer
-    try {
-      isServer = document.getElementById
-      isServer = false
-    } catch (err) {
-      isServer = true
-    }
-
-    if (state.availableAuths.length > 0 && !isServer) {
+  async getAvailableAuthMethod ({ state, commit, getters }) {
+    if (state.availableAuths.length > 0 && !getters.isServer) {
       return state.availableAuths
     } else {
       let { data } = await this.$axios.get('auth/options')
