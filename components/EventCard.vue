@@ -2,7 +2,7 @@
   <card class="card hover">
     <nuxt-link :to="'/' + event.name" class="link" v-if="!isAdminEvent">
       <div class="event-container">
-        <div :class="['event-text', !event.image || 'event-text-image']">
+        <div :class="['event-text', !event.headerImage || 'event-text-image']">
           <p class="event-title">
             {{ event.name }}
           </p>
@@ -11,7 +11,7 @@
           </event-description>
           <img
             class="event-image-container"
-            v-if="event.image"
+            v-if="event.headerImage"
             :src="image"
             onload="this.id='show'"
           />
@@ -49,7 +49,7 @@
         return text
       },
       image () {
-        return config.static + '240x240/' + this.event.image.imageUrl
+        return config.static + '240x240/' + this.event.headerImage.imageUrl
       },
       isAdminEvent () {
         return this.$route.path === '/admin/event'

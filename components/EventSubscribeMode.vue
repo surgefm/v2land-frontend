@@ -12,8 +12,7 @@
             :key="mode.value"
             :label="mode.label"
             :value="mode.value"
-          >
-          </el-option>
+          />
         </el-select>
       </el-form-item>
     </el-form>

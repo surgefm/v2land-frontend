@@ -3,10 +3,11 @@
     <logo class="logo" />
     <card class="title-container hover">
       <img
-        src="https://assets.v2land.net/750x200/default.jpg"
+        :src="config.static + '560x144/default.jpg'"
         onload="this.id = 'show'"
-      >
-      <event-title>浪潮</event-title>
+        class="header-image"
+      />
+      <logotype color="#333" />
       <event-description class="title-description">
         你的社会事件追踪工具
       </event-description>
@@ -34,10 +35,13 @@
 </template>
 
 <script>
+  import config from '~/const'
+
   export default {
     data () {
       return {
-        eventCollection: []
+        eventCollection: [],
+        config
       }
     },
     async asyncData ({ store }) {
@@ -65,7 +69,7 @@
     padding: 10.5rem 1.5rem .5rem 1.5rem !important;
   }
 
-  .title-container img {
+  .title-container .header-image {
     width: 100%;
     height: 9rem;
     object-fit: cover;

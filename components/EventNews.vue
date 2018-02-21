@@ -11,9 +11,11 @@
       </span>
       <nuxt-link
         class="tag light-font"
-        v-if="news.event"
+        v-if="showEventName"
         :to="`/${news.event.name}`"
-      >{{ news.event.name }}</nuxt-link>
+      >
+        {{ news.event.name }}
+      </nuxt-link>
       <span v-if="order === 1 && !news.event" class="tag light-font">
         最新消息
       </span>
@@ -61,11 +63,31 @@
     props: {
       news: Object,
       order: Number,
-      mode: String
+      mode: String,
+      event: Object
     },
     computed: {
+      showEventName () {
+        if (this.news.event === this.$route.params.name ||
+          this.news.event === this.event.id) {
+          return false
+        }
+
+        if (this.event) return true
+
+        let event = this.$store.getters.getNews({
+          name: this.$route.params.name,
+          id: this.$route.params.id
+        })
+
+        if (this.news.event === event.id) {
+          return false
+        }
+
+        return true
+      },
       newsUrl () {
-        return config.baseUrl + this.$route.params.name + '?news=i' + this.news.id
+        return config.baseUrl + this.$route.params.name + '?news=' + this.news.id
       }
     },
     components: {
@@ -162,7 +184,7 @@
     transition: all .2s;
   }
 
-  @media (min-width: 500px) {
+  @media (min-width: 600px) {
     .above-cover .order {
       text-shadow: -.25rem 0 0 #000;
       background-color: #1e8bc3;
@@ -174,7 +196,7 @@
     }
   }
 
-  @media (max-width: 500px) {
+  @media (max-width: 600px) {
     .bottom {
       flex-direction: column;
       align-items: flex-end;

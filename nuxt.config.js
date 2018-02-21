@@ -51,7 +51,6 @@ module.exports = {
     vendor: [
       'postman-url-encoder',
       'cookie',
-      '~/plugins/axios',
       '~/const'
     ]
   },
@@ -84,24 +83,32 @@ module.exports = {
     '~/static/element/upload.css',
     '~/static/element/checkbox.css',
     '~/static/element/checkbox-group.css',
-    '~/static/element/popover.css'
+    '~/static/element/popover.css',
+    '~/static/element/dropdown.css',
+    '~/static/element/dropdown-menu.css',
+    '~/static/element/dropdown-item.css'
   ],
 
   plugins: [
     '~/plugins/element.js',
     '~/plugins/components.js',
     '~/plugins/clipboard.js',
+    { src: '~/plugins/statusHandler', ssr: false },
+    { src: '~/plugins/ga', ssr: false },
     { src: '~/plugins/typekit', ssr: false }
   ],
 
   router: {
-    middleware: 'auth',
+    middleware: ['auth', 'permission'],
     linkExactActiveClass: 'exact-active-link'
   },
 
   modules: [
-    ['@nuxtjs/google-analytics', {
-      id: config.ga
-    }]
-  ]
+    '@nuxtjs/axios'
+  ],
+
+  axios: {
+    baseURL: config.api,
+    credentials: true
+  }
 }

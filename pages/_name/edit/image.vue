@@ -8,13 +8,14 @@
         :action="config.api + 'upload'"
         :show-file-list="false"
         :on-success="handleimageSuccess"
-        :before-upload="beforeimageUpload">
+        :before-upload="beforeimageUpload"
+      >
         <img
           v-if="imageUrl"
           :src="imageUrl"
           class="image"
           onload="this.id = 'show'"
-        >
+        />
         <i v-else class="el-icon-plus image-uploader-icon" />
       </el-upload>
       <div class="form-container">
@@ -47,14 +48,13 @@
     </card>
     <event-action />
     <logo class="logo" />
-    <page-foot/>
+    <page-foot />
   </background>
 </template>
 
 <script>
   import config from '~/const'
   import $ from 'postman-url-encoder'
-  import axios from '~/plugins/axios'
   import Upload from 'element-ui/lib/upload'
 
   let url = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/
@@ -100,10 +100,10 @@
         const isLt2M = file.size / 1024 / 1024 < 4
 
         if (!isJPG) {
-          this.$message.error('image picture must be .jpg/.png format!')
+          this.$message.error('只支持 .jpg 或 .png 格式的图片')
         }
         if (!isLt2M) {
-          this.$message.error('image picture size can not exceed 4MB!')
+          this.$message.error('图片大小不得超过 4Mb')
         }
         return isJPG && isLt2M
       },
@@ -111,7 +111,7 @@
         this.$refs.form.validate((valid) => {
           if (valid) {
             let url = $.encode(`event/${this.$route.params.name}/header_image`)
-            axios[this.isNew ? 'post' : 'patch'](url, this.form)
+            this.$axios[this.isNew ? 'post' : 'put'](url, this.form)
               .then(() => {
                 this.$store.dispatch('fetchEvent', this.$route.params.name)
               })
@@ -135,14 +135,6 @@
     },
     components: {
       'el-upload': Upload
-    },
-    beforeRouteEnter: (to, from, next) => {
-      next(vm => {
-        if (!vm.$store.getters.isClientAdmin) {
-          vm.$message.error('你无权访问该页面')
-          vm.$router.push('/' + vm.$route.params.name)
-        }
-      })
     },
     async asyncData ({ route, store }) {
       return store.dispatch('getEvent', route.params.name)

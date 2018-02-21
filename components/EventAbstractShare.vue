@@ -6,7 +6,7 @@
       :key="event.id + ': ' + site"
       onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
     >
-      <span :class="['icon-' + site, 'border-color', 'icon-container']"></span>
+      <span :class="['icon-' + site, 'border-color', 'icon-container']" />
     </a>
   </div>
 </template>

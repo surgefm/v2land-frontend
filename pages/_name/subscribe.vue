@@ -34,7 +34,6 @@
   import EventSubscribeMethod from '~/components/EventSubscribeMethod'
   import EventSubscribeSuccess from '~/components/EventSubscribeSuccess'
 
-  import axios from '~/plugins/axios'
   import $ from 'postman-url-encoder'
 
   export default {
@@ -70,7 +69,7 @@
       },
       submit () {
         let url = $.encode(`events/${this.$route.params.name}/subscribe`)
-        axios.post(url, {
+        this.$axios.post(url, {
           mode: this.$store.state.subscribe.mode,
           contact: this.$store.state.subscribe.contact
         })
@@ -84,23 +83,27 @@
     },
     created () {
       let lastSubscription = this.$store.getters.getLastSubscription
-
-      if (this.$route.query.mode) {
-        this.$store.commit('setSubscribeMode', this.$route.query.mode)
+      let query = this.$route.query
+      if (query.data) {
+        query.data = JSON.parse(decodeURIComponent(query.data))
+        query = {
+          ...query,
+          ...query.data
+        }
       }
 
-      if (this.$route.query.method &&
-        (this.$route.query[this.$route.query.method + '_id'])) {
+      if (query.mode) {
+        this.$store.commit('setSubscribeMode', query.mode)
+      }
+
+      if (query.method) {
         this.$store.commit('setSubscribeMethod', {
-          method: this.$route.query.method,
-          address: this.$route.query[this.$route.query.method + '_id']
+          method: query.method
         })
       }
 
       // 针对第三方账户跳转回来的情况，如果信息都已齐全，那就直接提交
-      if (this.$route.query.mode &&
-        this.$route.query.method &&
-        this.$route.query[this.$route.query.method + '_id']) {
+      if (query.mode && query.method && query[this.$route.query.method + '_id']) {
         this.submit()
       } else if (lastSubscription) {
         this.$store.commit('setSubscribeMode', lastSubscription.mode)

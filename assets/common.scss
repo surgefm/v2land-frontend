@@ -1,6 +1,7 @@
 @import "variables";
 
 * {
+  outline: 0;
   line-height: 2;
   text-align: justify;
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
@@ -147,6 +148,27 @@ img {
     left: auto;
     right: 1.5rem;
     top: 2.5rem;
+  }
+
+  .action-dropdown .icon {
+    display: none;
+  }
+
+  .hover:hover {
+    transform: none !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .el-message {
+    width: 97% !important;
+    min-width: 0 !important;
+    top: .5rem !important;
+    text-align: left !important;
+  }
+
+  .el-message * {
+    line-height: 1.25 !important;
   }
 }
 

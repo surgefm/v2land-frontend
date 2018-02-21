@@ -13,6 +13,7 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
+    "@nuxtjs/axios": "^5.0.1",
     "@nuxtjs/google-analytics": "^2.0.1",
     "@nuxtjs/pwa": "^2.0.5",
     "@xkeshi/vue-qrcode": "^0.3.0",
@@ -23,6 +24,7 @@
     "nuxt": "^1.0.0-rc11",
     "postman-url-encoder": "^1.0.1",
     "vue": "^2.5.2",
+    "vue-analytics": "^5.8.0",
     "vue-clipboards": "^1.2.0",
     "vue-server-renderer": "^2.5.2",
     "vue-template-compiler": "^2.5.2",

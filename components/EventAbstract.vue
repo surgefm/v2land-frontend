@@ -25,7 +25,7 @@
     },
     computed: {
       time () {
-        let news = this.detail.newsCollection
+        let news = this.detail.news
         if (!news || news.length === 0) {
           return {}
         }

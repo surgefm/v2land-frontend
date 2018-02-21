@@ -27,7 +27,7 @@
           <el-input v-else v-model="form.email" disabled />
         </el-form-item>
         <el-form-item
-          v-for="auth of form.authList"
+          v-for="auth of form.auths"
           :key="auth.site + auth.profileId"
           :label="authInfo(auth).site"
         >
@@ -76,10 +76,7 @@
 </template>
 
 <script>
-  import axios from '~/plugins/axios'
   import config from '~/const'
-  import Cookie from 'cookie'
-  import $ from 'postman-url-encoder'
 
   export default {
     data () {
@@ -110,16 +107,16 @@
         }
       },
       showConnectTwitter () {
-        if (!this.client.authList) {
+        if (!this.client.auths) {
           return 0
         }
-        return (this.client.authList.filter(a => a.site === 'twitter').length < 1)
+        return (this.client.auths.filter(a => a.site === 'twitter').length < 1)
       },
       showConnectWeibo () {
-        if (!this.client.authList) {
+        if (!this.client.auths) {
           return 0
         }
-        return (this.client.authList.filter(a => a.site === 'weibo').length < 1)
+        return (this.client.auths.filter(a => a.site === 'weibo').length < 1)
       },
       isUnauthorizable () {
         let isClientHavingEmail = false
@@ -128,7 +125,10 @@
           isClientHavingEmail = true
         }
 
-        return (this.client.authList.length > 1 || isClientHavingEmail)
+        return (this.client.auths.length > 1 || isClientHavingEmail)
+      },
+      redirect () {
+        return config.baseUrl + 'login/auth?redirect=/me'
       }
     },
     methods: {
@@ -159,59 +159,29 @@
           this.$set(this.form, 'email', '未设定')
         }
       },
-      unauthorize (auth) {
+      async unauthorize (auth) {
         if (this.isUnauthorizable) {
-          axios.post('auth/unauthorize', {
-            site: auth.site,
-            profileId: auth.profileId
-          })
-            .then(() => {
-              return this.$store.dispatch('getClient')
-            })
-            .then(() => {
-              this.updateForm()
-              this.$message.success('解绑成功')
-            })
-            .catch(() => {
-              this.$message.error('解绑失败')
-            })
+          try {
+            await this.$axios.delete(`auth/${auth.id}`)
+            await this.$store.dispatch('getClient')
+            this.updateForm()
+            this.$message.success('解绑成功')
+          } catch (err) {
+            this.$message.error('解绑失败')
+          }
         } else {
           this.$message('你必须验证邮箱或绑定超过一个第三方账号方可解绑')
         }
       },
       connectTwitter () {
-        let accessToken
-        try {
-          let cookies = Cookie.parse(document.cookie)
-          accessToken = cookies.accessToken
-        } catch (err) {}
-        let url = $.encode(config.api + 'auth/twitter?' +
-          (accessToken ? '&access_token=' + accessToken : '') +
-          '&redirect=me')
-        window.location = url
+        window.location = config.api + 'auth/twitter?redirect=' + this.redirect
       },
       connectWeibo () {
-        let accessToken
-        try {
-          let cookies = Cookie.parse(document.cookie)
-          accessToken = cookies.accessToken
-        } catch (err) {}
-        let url = $.encode(config.api + 'auth/weibo?' +
-          (accessToken ? '&access_token=' + accessToken : '') +
-          '&redirect=me')
-        window.location = url
+        window.location = config.api + 'auth/weibo?redirect=' + this.redirect
       }
     },
     created () {
       this.updateForm()
-    },
-    beforeRouteEnter: (to, from, next) => {
-      next(vm => {
-        if (!vm.$store.getters.isLoggedIn) {
-          vm.$router.push('/login?redirect=/me')
-          vm.$message('未登录用户无法查看此页面')
-        }
-      })
     }
   }
 </script>

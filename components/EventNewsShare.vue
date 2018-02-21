@@ -5,11 +5,11 @@
       :href="shareTo(site)"
       :key="news.id + ': ' + site"
       onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
-      <span :class="['icon-' + site, 'border-color', 'icon-container']"></span>
+      <span :class="['icon-' + site, 'border-color', 'icon-container']" />
     </a>
     <div class="icon-container" v-if="isClientAdmin">
-      <i class="el-icon-edit border-color" @click="edit"></i>
-      <i class="el-icon-delete border-color" @click="remove"></i>
+      <i class="el-icon-edit border-color" @click="edit" />
+      <i class="el-icon-delete border-color" @click="remove" />
     </div>
   </div>
 </template>

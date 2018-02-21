@@ -22,9 +22,9 @@
       >
       </event-news>
     </div>
-    <event-action></event-action>
-    <logo class="logo"></logo>
-    <page-foot/>
+    <event-action />
+    <logo class="logo" />
+    <page-foot />
   </background>
 </template>
 
@@ -76,14 +76,6 @@
       } else {
         return store.dispatch('getPendingNews', route.params.name)
       }
-    },
-    beforeRouteEnter: (to, from, next) => {
-      next(vm => {
-        if (!vm.$store.getters.isClientAdmin) {
-          vm.$message.error('你无权访问该页面')
-          vm.$router.push('/' + vm.$route.params.name)
-        }
-      })
     }
   }
 </script>

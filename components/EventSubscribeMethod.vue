@@ -12,8 +12,7 @@
             :key="method.value"
             :label="method.label"
             :value="method.value"
-          >
-          </el-option>
+          />
         </el-select>
       </el-form-item>
 
@@ -32,7 +31,7 @@
       </el-form-item>
     </el-form>
 
-    <p v-if="showText" class="el-form-item__label show-text">{{ showText}}</p>
+    <p v-if="showText" class="el-form-item__label show-text">{{ showText }}</p>
 
     <div class="submit-button-group-separate">
       <el-button type="primary" @click="lastStep">上一步</el-button>
@@ -54,7 +53,6 @@
 <script>
   import config from '~/const'
   import $ from 'postman-url-encoder'
-  import Cookie from 'cookie'
 
   export default {
     data () {
@@ -123,6 +121,13 @@
       },
       isSubmittable () {
         return this.form.method && this.form[this.form.method]
+      },
+      redirect () {
+        let base = config.baseUrl +
+          `login/auth?redirect=${this.$route.params.name}/subscribe?` +
+          `mode=${this.$store.state.subscribe.mode}%2526` +
+          `method=${this.form.method}`
+        return base
       }
     },
     methods: {
@@ -141,28 +146,10 @@
         })
       },
       connectTwitter () {
-        let accessToken
-        try {
-          let cookies = Cookie.parse(document.cookie)
-          accessToken = cookies.accessToken
-        } catch (err) {}
-        let url = $.encode(config.api + 'auth/twitter?r=' + Math.random() * 10000 +
-          (accessToken ? '&access_token=' + accessToken : '') +
-          '&redirect=' + this.$route.params.name + '/subscribe?' +
-          'mode=' + this.$store.state.subscribe.mode)
-        window.location = url
+        window.location = $.encode(config.api + 'auth/twitter?redirect=' + this.redirect)
       },
       connectWeibo () {
-        let accessToken
-        try {
-          let cookies = Cookie.parse(document.cookie)
-          accessToken = cookies.accessToken
-        } catch (err) {}
-        let url = $.encode(config.api + 'auth/weibo?' +
-          (accessToken ? 'access_token=' + accessToken + '&' : '') +
-          'redirect=' + this.$route.params.name + '/subscribe?mode=' +
-          this.$store.state.subscribe.mode)
-        window.location = url
+        window.location = $.encode(config.api + 'auth/weibo?redirect=' + this.redirect)
       }
     },
     created () {

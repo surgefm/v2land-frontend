@@ -61,14 +61,19 @@
     top: -.5rem !important;
     z-index: 3000;
   }
+
+  .action-dropdown .subscribe-container:hover {
+    background-color: transparent;
+    box-shadow: none;
+  }
 }
 
 @media (max-width: 350px) {
-  .subscribe-container {
+  .subscribe-container:not(.two-tabs) {
     height: 3rem !important;
   }
 
-  .subscribe-container .text {
+  .subscribe-container:not(.two-tabs):not(.dropdown) .text {
     line-height: 1.25;
     letter-spacing: .25rem;
     width: 2.5rem;

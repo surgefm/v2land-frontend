@@ -1,41 +1,39 @@
-import axios from '~/plugins/axios'
 import $ from 'postman-url-encoder'
 
 export default {
-  async getEvent ({ dispatch, state }, name) {
-    if (state.event[name] && state.event[name].newsCollection) {
+  async getEvent ({ dispatch, state, getters }, name) {
+    if (!getters.isServer && state.event[name] && state.event[name].news) {
       return state.event[name]
     }
-
     return dispatch('fetchEvent', name)
   },
 
   async fetchEvent ({ commit }, name) {
-    let url = $.encode(`event/${name}/detail`)
+    let url = $.encode(`event/${name}`)
     try {
-      let { data } = await axios.get(url)
+      let { data } = await this.$axios.get(url)
       commit('setEvent', {
-        name: data.detail.name,
-        detail: data.detail
+        name: data.name,
+        detail: data
       })
-      return data.detail
+      return data
     } catch (err) {
       return null
     }
   },
 
   async getEventList ({ commit }, mode = 'latest') {
-    let url = $.encode(`event` + (mode === 'latest' ? '/latest' : ''))
+    let url = $.encode(`event` + (mode === 'latest' ? '/' : '/'))
     try {
-      let { data } = await axios.get(url)
-      for (let event of (data.eventCollection || data)) {
+      let { data } = await this.$axios.get(url)
+      for (let event of (data.eventList || data)) {
         event.image = event['header_image']
         commit('setEvent', {
           name: event.name,
           detail: event
         })
       }
-      return data.eventCollection || data
+      return data.eventList || data
     } catch (err) {
       return []
     }
@@ -48,17 +46,17 @@ export default {
   async getPendingNews ({ commit }, name) {
     if (name) {
       let url = $.encode(`event/${name}/pending`)
-      let { data } = await axios.get(url)
+      let { data } = await this.$axios.get(url)
 
       commit('setPendingNews', {
         name,
-        newsCollection: data.newsCollection
+        ...data
       })
 
       return data.newsCollection
     } else {
-      let url = $.encode(`event/pending`)
-      let { data } = await axios.get(url)
+      let url = $.encode(`news/pending`)
+      let { data } = await this.$axios.get(url)
       commit('setAllPendingNews', data.newsCollection)
 
       return data.newsCollection
@@ -67,41 +65,65 @@ export default {
 
   async editEvent ({ dispatch }, { name, data }) {
     let url = $.encode(`event/${name}`)
-    return axios.put(url, data)
+    return this.$axios.put(url, data)
   },
 
   async createEvent ({ dispatch, getters }, { data }) {
-    let url = $.encode(getters.isClientAdmin ? 'event' : 'event/add')
-    return axios.post(url, data)
+    let url = $.encode(getters.isClientAdmin ? 'event' : 'event/news')
+    return this.$axios.post(url, data)
+  },
+
+  async getNews ({ commit }, id) {
+    let url = $.encode('news/' + id)
+    let { data: news } = await this.$axios.get(url)
+    commit('setNews', news)
+    return news
   },
 
   async editNews ({ dispatch }, { id, data }) {
-    let url = $.encode(`news/${id}/edit`)
-    return axios.patch(url, data)
+    let url = $.encode(`news/${id}`)
+    return this.$axios.put(url, data)
   },
 
   async getClient ({ commit }) {
-    let url = $.encode('clients/detail')
-    let { data } = await axios.get(url)
-    commit('setClient', data.detail)
-    console.log(data)
-    return data.detail
+    let url = $.encode('client/me')
+    try {
+      let { data } = await this.$axios.get(url)
+      commit('setClient', data.client)
+      this.app.$ga.set('userId', data.client.id)
+      return data.client
+    } catch (err) {
+      return null
+    }
   },
 
   async getSubscriptions ({ commit, dispatch }) {
-    let url = $.encode('clients/detail')
-    let { data } = await axios.get(url)
-    console.log(data)
-    commit('setSubscriptionList', data.detail.subscriptionList)
-    return data.detail.subscriptionList
+    let url = $.encode('client/me')
+    let { data } = await this.$axios.get(url)
+    commit('setSubscriptionList', data.client.subscriptions)
+    return data.client.subscriptionList
   },
 
-  async logout () {
-    try {
-      axios.get('clients/logout')
-        .then(() => { window.location = window.location })
-        .catch(() => { window.location = window.location })
-      document.cookie = 'accessToken=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
-    } catch (err) { }
+  async logout ({ commit }) {
+    await this.$axios.get('client/logout')
+    this.app.$ga.set('userId', null)
+    commit('setClient', {})
+  },
+
+  async getAvailableAuthMethod ({ state, commit, getters }) {
+    if (state.availableAuths.length > 0 && !getters.isServer) {
+      return state.availableAuths
+    } else {
+      let { data } = await this.$axios.get('auth/options')
+      state.availableAuths = ['fetched']
+
+      for (let property in data) {
+        if (data[property] === true) {
+          state.availableAuths.push(property)
+        }
+      }
+
+      return state.availableAuths
+    }
   }
 }

@@ -21,8 +21,7 @@
         v-model="form.time"
         type="datetime"
         placeholder="请使用北京时间"
-      >
-      </el-date-picker>
+      />
     </el-form-item>
     <el-form-item label="备注" prop="comment">
       <el-input

@@ -18,6 +18,7 @@
             :news="news"
             :order="i + 1"
             :id="'main-i' + news.id"
+            :event="event"
           />
         </div>
         <div

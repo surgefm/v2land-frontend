@@ -4,7 +4,17 @@ export default {
   },
 
   isLoggedIn (state) {
-    return !!state.client.username
+    return !!state.client.id
+  },
+
+  isServer () {
+    try {
+      // eslint-disable-next-line
+      document.getElementById
+      return false
+    } catch (err) {
+      return true
+    }
   },
 
   getClient (state) {
@@ -17,13 +27,13 @@ export default {
 
   getNewsCollection: (state) => (name) => {
     return state.event[name]
-      ? state.event[name].newsCollection
+      ? state.event[name].news
       : []
   },
 
-  getNews: (state) => ({name, id}) => {
+  getNews: (state) => ({ name, id }) => {
     let newsSet = state.event[name]
-      ? state.event[name].newsCollection.filter(news => news.id === id)
+      ? state.event[name].news.filter(news => news.id.toString() === id.toString())
       : []
 
     return newsSet.length > 0 ? newsSet[0] : null
@@ -39,7 +49,7 @@ export default {
 
   getSubscriptionList (state, getters) {
     if (getters.isLoggedIn) {
-      return state.client.subscriptionList.filter(s => s.status === 'active')
+      return state.client.subscriptions.filter(s => s.status === 'active')
     } else {
       return []
     }
@@ -66,12 +76,16 @@ export default {
 
   getAuth: (state, getters) => (site) => {
     if (getters.isLoggedIn) {
-      let auths = state.client.authList.filter(a => a.site === site)
+      let auths = state.client.auths.filter(a => a.site === site)
       if (auths.length > 0) {
         return auths[0]
       }
     }
 
     return null
+  },
+
+  getAvailableAuths (state) {
+    return state.availableAuths
   }
 }
