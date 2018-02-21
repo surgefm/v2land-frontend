@@ -18,6 +18,11 @@ export default {
       })
       return data
     } catch (err) {
+      if (err.response) {
+        this.app.$message.error(err.response.data.message)
+      } else {
+        this.app.$message.error('服务器连接失败')
+      }
       return null
     }
   },
@@ -40,6 +45,11 @@ export default {
         }
         return data.eventList || data
       } catch (err) {
+        if (err.response) {
+          this.app.$message.error(err.response.data.message)
+        } else {
+          this.app.$message.error('服务器连接失败')
+        }
         return []
       }
     } else {
