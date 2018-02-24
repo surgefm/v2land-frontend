@@ -66,6 +66,10 @@
     background-color: transparent;
     box-shadow: none;
   }
+
+  .subscription-tooltip {
+    display: none;
+  }
 }
 
 @media (max-width: 350px) {

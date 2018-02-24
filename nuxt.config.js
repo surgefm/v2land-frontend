@@ -50,7 +50,7 @@ module.exports = {
     },
     vendor: [
       'postman-url-encoder',
-      'cookie',
+      'js-cookie',
       '~/const'
     ]
   },
