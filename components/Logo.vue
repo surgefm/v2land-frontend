@@ -6,7 +6,7 @@
         If we don't write in this way, large-touch-screen users would have to
         click twice on the icon to get redirected.
       -->
-      <div class="large-screen">
+      <div class="icon-large-screen">
         <el-tooltip
           content="浪潮 - 渴望重回土地"
           placement="right"
@@ -27,7 +27,12 @@
           @touchstart="touched"
         />
       </div>
-      <img @click="$router.push('/')" :src="src" height="40px" class="small-screen" />
+      <img
+        @click="$router.push('/')"
+        :src="src"
+        height="40px"
+        class="icon-small-screen"
+      />
     </div>
   </div>
 </template>
@@ -83,7 +88,7 @@ export default {
     justify-content: flex-start;
   }
 
-  .large-screen {
+  .icon-large-screen {
     position: relative;
   }
 
@@ -96,7 +101,7 @@ export default {
     top: 0;
   }
 
-  .small-screen {
+  .icon-small-screen {
     display: none;
   }
   
@@ -107,11 +112,11 @@ export default {
   }
 
   @media (max-width: 600px) {
-    .small-screen {
+    .icon-small-screen {
       display: block;
     }
 
-    .large-screen {
+    .icon-large-screen {
       display: none;
     }
 

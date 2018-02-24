@@ -66,20 +66,14 @@ export default {
 
   getEventSubscriptionList: (state, getters) => (name) => {
     let subscriptionList = getters.getSubscriptionList
-    let eventSubscriptionList = (subscriptionList || []).filter(s => s.eventName === name)
-    if (eventSubscriptionList.length > 0) {
-      return eventSubscriptionList
-    } else {
-      return null
-    }
+    let event = getters.getEvent(name)
+    let eventSubscriptionList = (subscriptionList || []).filter(s => s.event === event.id)
+    return eventSubscriptionList
   },
 
   getAuth: (state, getters) => (site) => {
     if (getters.isLoggedIn) {
-      let auths = state.client.auths.filter(a => a.site === site)
-      if (auths.length > 0) {
-        return auths[0]
-      }
+      return state.client.auths.filter(a => a.site === site)
     }
 
     return null

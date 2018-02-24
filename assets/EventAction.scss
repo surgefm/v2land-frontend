@@ -1,7 +1,16 @@
 @import "variables";
 
 .subscribe-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: .5rem .75rem;
   transition: all .2s;
+  cursor: pointer;
+}
+
+.subscribe-container * {
+  user-select: none;
 }
 
 .subscribe-container:hover, .exact-active-link {
@@ -26,6 +35,35 @@
   margin-left: .5rem;
 }
 
+.event-action-badge {
+  position: absolute;
+  right: .125rem;
+  top: .125rem;
+  font-size: .75rem;
+  border-radius: 1rem;
+  white-space: nowrap;
+  padding: 0 .25rem;
+  background-color: #fa5555;
+  color: #fff;
+  text-align: center;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  line-height: 1.75;
+}
+
+.subscribe-container .el-loading-spinner {
+  margin-top: -1rem !important;
+}
+
+.subscribe-container .circular {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.disabled-tab {
+  cursor: wait;
+}
+
 @media (max-width: 780px) {
   .subscribe-container .text {
     visibility: hidden;
@@ -39,6 +77,12 @@
 }
 
 @media (max-width: 600px) {
+  .subscribe-container {
+    display: auto;
+    align-items: auto;
+    padding: auto;
+  }
+
   .subscribe-container .text {
     visibility: visible;
     opacity: 1;
@@ -69,6 +113,16 @@
 
   .subscription-tooltip {
     display: none;
+  }
+
+  .action:not(.subscribe-container) {
+    padding: 0 !important;
+    height: auto !important;
+  }
+
+  .action .subscribe-container {
+    padding: .25rem;
+    height: 100%;
   }
 }
 
