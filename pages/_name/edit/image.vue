@@ -7,6 +7,7 @@
         class="image-uploader"
         :action="config.api + 'upload'"
         :show-file-list="false"
+        :with-credentials="true"
         :on-success="handleimageSuccess"
         :before-upload="beforeimageUpload"
       >
@@ -84,7 +85,7 @@
     },
     computed: {
       orig () {
-        return this.$store.getters.getEvent(this.$route.params.name).image
+        return this.$store.getters.getEvent(this.$route.params.name).headerImage
       },
       isNew () {
         return !this.orig
