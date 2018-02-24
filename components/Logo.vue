@@ -13,6 +13,7 @@
           effect="light"
           :manual="true"
           :value="showTooltip"
+          :visible-arrow="false"
         >
           <div class="large-screen-touch" />
         </el-tooltip>
