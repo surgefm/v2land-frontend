@@ -11,10 +11,11 @@ COPY . .
 
 # Install app dependencies
 RUN npm install -g yarn
+RUN npm install -g cross-env
 RUN yarn
 RUN yarn run build
 
 LABEL name="frontend"
 
 EXPOSE 3000
-CMD [ "yarn", "start" ]
+CMD [ "cross-env", "HOST=0.0.0.0", "yarn", "start" ]
