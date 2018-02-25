@@ -30,7 +30,7 @@
               <logo mode="simple" class="email-logo" />
             </div>
           </div>
-          <div class="login-text email-login unselectable">浪潮账号登录</div>
+          <div class="login-text email-login unselectable">邮箱账号登录</div>
         </div>
       </div>
     </div>

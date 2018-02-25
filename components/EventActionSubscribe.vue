@@ -61,6 +61,7 @@
         <el-button
           @click="editSubscription"
           v-if="showEditButton"
+          type="text"
         >
           添加其他关注方式
         </el-button>
@@ -69,6 +70,7 @@
           @click="submit"
           :disabled="!showEditButton && !isSubmittable"
           :loading="submitting"
+          v-if="$store.getters.isLoggedIn"
         >
           {{
             showEditButton

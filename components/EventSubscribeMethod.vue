@@ -39,7 +39,7 @@
             :value="account.id"
           />
         </el-select>
-        <el-button v-else @click="connectTwitter">
+        <el-button v-else @click="connectTwitter" type="primary" plain>
           绑定 Twitter 账号
         </el-button>
       </el-form-item>
@@ -62,12 +62,7 @@
             :value="account.id"
           />
         </el-select>
-        <el-button
-          v-else
-          @click="connectWeibo"
-          type="danger"
-          plain
-        >
+        <el-button v-else @click="connectWeibo" type="primary" plain>
           绑定微博账号
         </el-button>
       </el-form-item>
