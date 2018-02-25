@@ -23,8 +23,7 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ],
-    publicPath: config.publicPath
+    ]
   },
   /*
   ** Customize the progress bar color
@@ -52,7 +51,8 @@ module.exports = {
       'postman-url-encoder',
       'js-cookie',
       '~/const'
-    ]
+    ],
+    publicPath: config.publicPath
   },
 
   css: [
