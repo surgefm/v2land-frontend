@@ -133,7 +133,6 @@
           this.showDialog = true
         }
 
-        Cookie.remove('v2land-isSubscriptionTooltipShown')
         if (this.$store.getters.getClient.subscriptions[0] ||
           this.showDialog) {
           return
