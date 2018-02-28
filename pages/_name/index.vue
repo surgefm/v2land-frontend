@@ -63,7 +63,7 @@
         return this.$store.getters.getNewsCollection(this.name)
       },
       image () {
-        return config.static + this.event.image.imageUrl
+        return config.static + this.event.headerImage.imageUrl
       },
       showCover () {
         return this.activeNews &&
@@ -158,7 +158,7 @@
     head () {
       let title = this.name + ' - 浪潮，渴望重回土地'
       let image = this.event
-        ? (this.event.image ? this.image : null)
+        ? (this.event.headerImage ? this.image : null)
         : null
       let description = this.event
         ? this.event.description
