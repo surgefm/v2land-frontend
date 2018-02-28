@@ -47,9 +47,6 @@ module.exports = {
         })
       }
     },
-    babel: {
-      presets: ['vue-app']
-    },
     vendor: [
       'postman-url-encoder',
       'js-cookie',
@@ -96,6 +93,7 @@ module.exports = {
     '~/plugins/element.js',
     '~/plugins/components.js',
     '~/plugins/clipboard.js',
+    '~/plugins/polyfills.js',
     { src: '~/plugins/statusHandler', ssr: false },
     { src: '~/plugins/ga', ssr: false },
     { src: '~/plugins/typekit', ssr: false }
