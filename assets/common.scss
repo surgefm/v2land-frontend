@@ -75,20 +75,14 @@ img {
   justify-content: space-between;
 }
 
-.event-action-badge {
-  position: absolute;
-  right: .125rem;
-  top: .125rem;
-  font-size: .75rem;
-  border-radius: 1rem;
-  white-space: nowrap;
-  padding: 0 .25rem;
-  background-color: #fa5555;
-  color: #fff;
-  text-align: center;
-  min-width: 1.25rem;
-  height: 1.25rem;
-  line-height: 1.75;
+.large-screen {
+  visibility: visible;
+}
+
+.small-screen {
+  visibility: collapse;
+  width: 0;
+  height: 0;
 }
 
 .emphasize {
@@ -157,6 +151,22 @@ img {
   .hover:hover {
     transform: none !important;
   }
+
+  .el-dialog {
+    width: 85% !important;
+  }
+
+  .small-screen {
+    visibility: visible;
+    width: auto;
+    height: auto;
+  }
+  
+  .large-screen {
+    visibility: hidden;
+    width: 0;
+    height: 0;
+  }
 }
 
 @media (max-width: 390px) {
@@ -169,6 +179,10 @@ img {
 
   .el-message * {
     line-height: 1.25 !important;
+  }
+
+  .el-dialog {
+    width: 95% !important;
   }
 }
 

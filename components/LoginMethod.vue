@@ -30,7 +30,7 @@
               <logo mode="simple" class="email-logo" />
             </div>
           </div>
-          <div class="login-text email-login unselectable">浪潮账号登录</div>
+          <div class="login-text email-login unselectable">邮箱账号登录</div>
         </div>
       </div>
     </div>
@@ -68,8 +68,8 @@ export default {
     },
     loginEmail () {
       let path = '/login/email'
-      if (this.$route.query.redirect) {
-        path += '?redirect=' + this.$route.query.redirect
+      if (this.$route.query.redirect || this.redirect) {
+        path += '?redirect=' + (this.$route.query.redirect || this.redirect)
       }
       this.$router.push(path)
     }

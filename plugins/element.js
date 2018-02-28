@@ -12,6 +12,8 @@ import Popover from 'element-ui/lib/popover'
 import DropDown from 'element-ui/lib/dropdown'
 import DropDownMenu from 'element-ui/lib/dropdown-menu'
 import DropDownItem from 'element-ui/lib/dropdown-item'
+import Dialog from 'element-ui/lib/dialog'
+import Loading from 'element-ui/lib/loading'
 
 Vue.use(Button)
 Vue.use(Tooltip)
@@ -25,6 +27,8 @@ Vue.use(Popover)
 Vue.use(DropDown)
 Vue.use(DropDownMenu)
 Vue.use(DropDownItem)
+Vue.use(Dialog)
+Vue.use(Loading)
 
 Vue.prototype.$message = Message
 

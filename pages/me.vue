@@ -120,7 +120,8 @@
       },
       isUnauthorizable () {
         let isClientHavingEmail = false
-        if (!this.client.email.includes('.langchao.co') &&
+        if (this.client.email &&
+          !this.client.email.includes('.langchao.co') &&
           this.client.emailVerified) {
           isClientHavingEmail = true
         }
