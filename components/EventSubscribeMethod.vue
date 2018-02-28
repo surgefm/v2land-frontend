@@ -71,109 +71,109 @@
 </template>
 
 <script>
-  import config from '~/const'
-  import $ from 'postman-url-encoder'
+  import config from '~/const';
+  import $ from 'postman-url-encoder';
 
   export default {
-    data () {
+    data() {
       return {
         form: {
           method: 'weiboAt',
           email: '',
           twitter: '',
-          weibo: ''
+          weibo: '',
         },
         rules: {
           method: [
-            { required: true, message: '请选择提醒方法', trigger: 'blur' }
+            { required: true, message: '请选择提醒方法', trigger: 'blur' },
           ],
           email: [
             { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-            { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
-          ]
+            { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' },
+          ],
         },
         methodCollection: [
           {
             label: '在微博上 @ 我',
-            value: 'weiboAt'
+            value: 'weiboAt',
           },
           {
             label: '在 Twitter 上 @ 我',
-            value: 'twitterAt'
+            value: 'twitterAt',
           },
           {
             label: '通过我的微博账号发布微博',
-            value: 'weibo'
+            value: 'weibo',
           },
           {
             label: '通过我的 Twitter 账号发推',
-            value: 'twitter'
+            value: 'twitter',
           },
           {
             label: '邮件推送',
-            value: 'email'
-          }
-        ]
-      }
+            value: 'email',
+          },
+        ],
+      };
     },
     computed: {
-      getTwitter () {
-        return this.$store.getters.getAuth('twitter')
+      getTwitter() {
+        return this.$store.getters.getAuth('twitter');
       },
-      getWeibo () {
-        return this.$store.getters.getAuth('weibo')
+      getWeibo() {
+        return this.$store.getters.getAuth('weibo');
       },
-      isSubmittable () {
-        return this.form.method && this.form[this.form.method]
+      isSubmittable() {
+        return this.form.method && this.form[this.form.method];
       },
-      redirect () {
-        let base = config.baseUrl +
+      redirect() {
+        const base = config.baseUrl +
           `login/auth?redirect=${this.$route.params.name}?subscribe=1%2526` +
           `mode=${this.$store.state.subscribe.mode}%2526` +
           `method=${this.form.method}%2526` +
-          `edit=1`
-        return base
-      }
+          `edit=1`;
+        return base;
+      },
     },
     methods: {
-      lastStep () {
-        this.save()
-        this.$emit('goToMode')
+      lastStep() {
+        this.save();
+        this.$emit('goToMode');
       },
-      submit () {
-        this.save()
-        this.$emit('methodSelected')
+      submit() {
+        this.save();
+        this.$emit('methodSelected');
       },
-      save () {
-        this.$store.commit('setSubscribeMethod', { ...this.form })
+      save() {
+        this.$store.commit('setSubscribeMethod', { ...this.form });
       },
-      connectTwitter () {
-        window.location = $.encode(config.api + 'auth/twitter?redirect=' + this.redirect)
+      connectTwitter() {
+        window.location = $.encode(config.api + 'auth/twitter?redirect=' + this.redirect);
       },
-      connectWeibo () {
-        window.location = $.encode(config.api + 'auth/weibo?redirect=' + this.redirect)
-      }
+      connectWeibo() {
+        window.location = $.encode(config.api + 'auth/weibo?redirect=' + this.redirect);
+      },
     },
-    created () {
+    created() {
       this.form.method = this.$route.query.method ||
         this.$store.state.subscribe.contact.method ||
-        this.form.method
+        this.form.method;
       this.form[this.form.method] = this.$route.query.address ||
-        this.$store.state.subscribe.contact.address
+        this.$store.state.subscribe.contact.address;
 
       if (this.getTwitter[0]) {
-        this.form.twitter = this.getTwitter[0].id
+        this.form.twitter = this.getTwitter[0].id;
       }
 
       if (this.getWeibo[0]) {
-        this.form.weibo = this.getWeibo[0].id
+        this.form.weibo = this.getWeibo[0].id;
       }
 
-      this.form.email = this.$store.getters.getClient.email
+      this.form.email = this.$store.getters.getClient.email;
 
-      this.save()
-    }
-  }
+      this.save();
+    },
+  };
 </script>
 
 <style lang="scss" scoped>

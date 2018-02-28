@@ -20,7 +20,7 @@
 export default {
   props: {
     color: String,
-    height: Number
-  }
-}
+    height: Number,
+  },
+};
 </script>

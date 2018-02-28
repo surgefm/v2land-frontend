@@ -43,69 +43,69 @@
     props: {
       username: String,
       password: String,
-      email: String
+      email: String,
     },
-    data () {
+    data() {
       return {
         form: {
           username: '',
           email: '',
-          password: ''
+          password: '',
         },
         isSubmitting: false,
         rules: {
           username: [
-            { required: true, message: '请输入用户名', trigger: 'blur' }
+            { required: true, message: '请输入用户名', trigger: 'blur' },
           ],
           email: [
             { required: true, message: '请输入邮箱', trigger: 'blur' },
-            { type: 'email', message: '请输入正确的邮箱', trigger: 'blur,change' }
+            { type: 'email', message: '请输入正确的邮箱', trigger: 'blur,change' },
           ],
           password: [
-            { required: true, message: '请输入密码', trigger: 'blur' }
-          ]
-        }
-      }
+            { required: true, message: '请输入密码', trigger: 'blur' },
+          ],
+        },
+      };
     },
     computed: {
-      redirect () {
-        let redirect = this.$route.query.redirect
+      redirect() {
+        const redirect = this.$route.query.redirect;
         if (redirect) {
           if (redirect[0] === '/') {
-            return redirect.slice(1)
+            return redirect.slice(1);
           } else {
-            return redirect
+            return redirect;
           }
         }
-        return ''
-      }
+        return '';
+      },
     },
     methods: {
-      submit () {
+      submit() {
         this.$refs.form.validate((valid) => {
           if (valid) {
-            this.isSubmitting = true
+            this.isSubmitting = true;
             this.$axios.post('client/register', this.form)
               .then(async (res) => {
-                this.$message.success('创建成功')
-                await this.$store.dispatch('getClient')
-                this.$emit('registered')
-                this.isSubmitting = false
+                this.$message.success('创建成功');
+                await this.$store.dispatch('getClient');
+                this.$emit('registered');
+                this.isSubmitting = false;
               })
-              .catch(err => {
-                this.$message.error(err.response.data.message)
-                this.isSubmitting = false
-              })
+              .catch((err) => {
+                this.$message.error(err.response.data.message);
+                this.isSubmitting = false;
+              });
           }
-        })
+        });
+      },
+    },
+    created() {
+      for (const i of ['username', 'password', 'email']) {
+        this.$set(this.form, i, this[i] || this.form[i]);
       }
     },
-    created () {
-      for (let i of ['username', 'password', 'email']) {
-        this.$set(this.form, i, this[i] || this.form[i])
-      }
-    }
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

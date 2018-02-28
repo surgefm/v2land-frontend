@@ -33,36 +33,36 @@
 </template>
 
 <script>
-  import config from '~/const'
-  import EventCardAction from '~/components/EventCardAction.vue'
+  import config from '~/const';
+  import EventCardAction from '~/components/EventCardAction.vue';
 
   export default {
     props: {
-      event: Object
+      event: Object,
     },
     computed: {
-      description () {
+      description() {
         if (this.isAdminEvent) {
-          return this.event.description
+          return this.event.description;
         } else {
-          let text = this.event.description.slice(0, 60)
+          let text = this.event.description.slice(0, 60);
           if (this.event.description.length > 60) {
-            text += '……'
+            text += '……';
           }
-          return text
+          return text;
         }
       },
-      image () {
-        return config.static + '240x240/' + this.event.headerImage.imageUrl
+      image() {
+        return config.static + '240x240/' + this.event.headerImage.imageUrl;
       },
-      isAdminEvent () {
-        return this.$route.path === '/admin/event'
-      }
+      isAdminEvent() {
+        return this.$route.path === '/admin/event';
+      },
     },
     components: {
-      'event-card-action': EventCardAction
-    }
-  }
+      'event-card-action': EventCardAction,
+    },
+  };
 </script>
 
 <style lang="scss" scoped>

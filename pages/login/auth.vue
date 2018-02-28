@@ -76,12 +76,12 @@
 </template>
 
 <script>
-  import RegistrationForm from '~/components/RegistrationForm.vue'
-  import LoginForm from '~/components/LoginForm.vue'
-  import $ from 'postman-url-encoder'
+  import RegistrationForm from '~/components/RegistrationForm.vue';
+  import LoginForm from '~/components/LoginForm.vue';
+  import $ from 'postman-url-encoder';
 
   export default {
-    data () {
+    data() {
       return {
         mode: 'loading',
         username: null,
@@ -89,88 +89,88 @@
         site: null,
         auth: {},
         conflictClient: null,
-        register: true
-      }
+        register: true,
+      };
     },
     computed: {
-      redirect () {
-        let path = this.$route.query.redirect || '/'
+      redirect() {
+        let path = this.$route.query.redirect || '/';
         if (path[0] !== '/') {
-          path = '/' + path
+          path = '/' + path;
         }
-        return path
+        return path;
       },
-      siteinfo () {
-        let text = ''
+      siteinfo() {
+        let text = '';
         switch (this.site) {
-          case 'twitter':
-            text += `Twitter 账号 @${this.auth.profile.screen_name} `
-            break
-          case 'weibo':
-            text += `微博账号 @${this.auth.profile.screen_name} `
+        case 'twitter':
+          text += `Twitter 账号 @${this.auth.profile.screen_name} `;
+          break;
+        case 'weibo':
+          text += `微博账号 @${this.auth.profile.screen_name} `;
         }
 
-        return text
-      }
+        return text;
+      },
     },
     methods: {
-      async connect () {
-        this.mode = 'connecting'
+      async connect() {
+        this.mode = 'connecting';
         try {
-          await this.$axios.post('/auth', { authId: this.auth.id })
+          await this.$axios.post('/auth', { authId: this.auth.id });
           this.$message.success(
             `你的账号${this.$store.getters.getClient.username}已与 ${this.siteinfo}绑定成功`
-          )
-          await this.$store.dispatch('getClient')
-          this.$router.push(this.redirect)
+          );
+          await this.$store.dispatch('getClient');
+          this.$router.push(this.redirect);
         } catch (err) {
-          this.$message.error(err)
+          this.$message.error(err);
           this.$router.push({
             path: 'login',
             query: {
-              redirect: this.$route.query.redirect
-            }
-          })
+              redirect: this.$route.query.redirect,
+            },
+          });
         }
-      }
+      },
     },
     components: {
       'registration-form': RegistrationForm,
-      'login-form': LoginForm
+      'login-form': LoginForm,
     },
-    async asyncData ({ $axios, query, redirect, store }) {
-      let path = `auth/${query.site}/redirect?`
+    async asyncData({ $axios, query, redirect, store }) {
+      let path = `auth/${query.site}/redirect?`;
       if (query.site === 'twitter') {
-        path += `token=${query.token}&verifier=${query.verifier}`
+        path += `token=${query.token}&verifier=${query.verifier}`;
       } else if (query.site === 'weibo') {
-        path += `code=${query.code}&authId=${query.authId}`
+        path += `code=${query.code}&authId=${query.authId}`;
       } else {
-        redirect('/')
+        redirect('/');
       }
 
       try {
-        let response = await $axios.get(path)
+        const response = await $axios.get(path);
         if ([200, 201].includes(response.status)) {
-          await store.dispatch('getClient')
-          let redirectUrl = '/'
+          await store.dispatch('getClient');
+          let redirectUrl = '/';
           redirectUrl += query.redirect ? ((query.redirect[0] === '/')
             ? query.redirect.slice(1)
-            : query.redirect) : ''
-          redirectUrl += redirectUrl.includes('?') ? '&' : '?'
+            : query.redirect) : '';
+          redirectUrl += redirectUrl.includes('?') ? '&' : '?';
           if (response.status === 200) {
-            redirectUrl += 'status=logged_in_successfully'
+            redirectUrl += 'status=logged_in_successfully';
           } else {
-            redirectUrl += `status=authenticate_successfully&auth_name=${response.data.profile.name}`
+            redirectUrl += `status=authenticate_successfully&auth_name=${response.data.profile.name}`;
           }
-          redirect($.encode(redirectUrl))
+          redirect($.encode(redirectUrl));
         } else if (response.status === 202 &&
           response.data.name === 'authentication required') {
           return {
             mode: 'registerOrLogin',
             username: response.data.auth.profile.name,
             site: query.site,
-            auth: response.data.auth
-          }
+            auth: response.data.auth,
+          };
         } else if (response.status === 202 &&
           response.data.name === 'already connected') {
           return {
@@ -178,17 +178,17 @@
             username: response.data.auth.profile.name,
             site: query.site,
             auth: response.data.auth,
-            conflictClient: response.data.conflict
-          }
+            conflictClient: response.data.conflict,
+          };
         }
       } catch (err) {
         redirect('/login', {
           status: 'auth_failed',
-          redirect: query.redirect
-        })
+          redirect: query.redirect,
+        });
       }
-    }
-  }
+    },
+  };
 </script>
 
 <style lang="scss" scoped>

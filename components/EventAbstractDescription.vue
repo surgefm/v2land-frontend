@@ -9,9 +9,9 @@
 <script>
   export default {
     props: {
-      description: String
-    }
-  }
+      description: String,
+    },
+  };
 </script>
 
 <style lang="scss" scoped>

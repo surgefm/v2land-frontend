@@ -45,86 +45,86 @@
 </template>
 
 <script>
-  import $ from 'postman-url-encoder'
+  import $ from 'postman-url-encoder';
 
   export default {
     props: {
-      subscription: Object
+      subscription: Object,
     },
-    data () {
+    data() {
       return {
         isSubmitting: false,
-        isPopoverVisible: false
-      }
+        isPopoverVisible: false,
+      };
     },
     computed: {
-      mode () {
-        let cases = [{
+      mode() {
+        const cases = [{
           label: '每当有新的新闻时提醒我',
-          value: 'new'
+          value: 'new',
         }, {
           label: '从现在起每周提醒我',
-          value: 'weekly'
+          value: 'weekly',
         }, {
           label: '每当事件有七天没有新的新闻时提醒我',
-          value: '7DaysSinceLatestNews'
-        }]
+          value: '7DaysSinceLatestNews',
+        }];
 
-        let mode = cases.filter(c => c.value === this.subscription.mode)
+        const mode = cases.filter((c) => c.value === this.subscription.mode);
         if (mode.length > 0) {
-          return mode[0].label
+          return mode[0].label;
         } else {
-          return this.subscription.mode
+          return this.subscription.mode;
         }
       },
-      method () {
-        let methods = [
+      method() {
+        const methods = [
           {
             label: '邮件推送',
-            value: 'email'
+            value: 'email',
           },
           {
             label: '通过我的 Twitter 账号发推',
-            value: 'twitter'
+            value: 'twitter',
           },
           {
             label: '在 Twitter 上 @ 我',
-            value: 'twitterAt'
+            value: 'twitterAt',
           },
           {
             label: '通过我的微博账号发布微博',
-            value: 'weibo'
-          }
-        ]
+            value: 'weibo',
+          },
+        ];
 
-        let method = methods.filter(m => m.value === this.subscription.contact.method)
+        const method = methods.filter((m) => m.value === this.subscription.contact.method);
         if (method.length > 0) {
-          return method[0].label
+          return method[0].label;
         } else {
-          return this.subscription.contact.method
+          return this.subscription.contact.method;
         }
-      }
+      },
     },
     methods: {
-      unsubscribe () {
-        this.isPopoverVisible = false
-        this.isSubmitting = true
-        let url = 'subscriptions/unsubscribe?id=' + this.subscription.unsubscribeId
+      unsubscribe() {
+        this.isPopoverVisible = false;
+        this.isSubmitting = true;
+        const url = 'subscriptions/unsubscribe?id=' + this.subscription.unsubscribeId;
         this.$axios.get($.encode(url))
           .then(() => {
             this.$store.dispatch('getSubscriptions')
               .then(() => {
-                this.$message.success('成功取消关注')
-                this.isSubmitting = false
-              })
+                this.$message.success('成功取消关注');
+                this.isSubmitting = false;
+              });
           })
           .catch(() => {
-            this.$message.error('取消关注失败')
-            this.isSubmitting = false
-          })
-      }
-    }
-  }
+            this.$message.error('取消关注失败');
+            this.isSubmitting = false;
+          });
+      },
+    },
+  };
 </script>
 
 <style lang="scss" scoped>

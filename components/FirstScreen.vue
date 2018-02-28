@@ -21,18 +21,18 @@
 </template>
 
 <script>
-  import config from '~/const'
+  import config from '~/const';
 
   export default {
     props: {
-      background: Object
+      background: Object,
     },
     computed: {
-      backgroundUrl () {
-        return config.static + this.background.imageUrl
-      }
-    }
-  }
+      backgroundUrl() {
+        return config.static + this.background.imageUrl;
+      },
+    },
+  };
 </script>
 
 <style lang="scss" scoped>

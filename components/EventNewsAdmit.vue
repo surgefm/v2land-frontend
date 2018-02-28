@@ -8,19 +8,19 @@
 <script>
   export default {
     props: {
-      news: Object
+      news: Object,
     },
     methods: {
-      admit (result) {
+      admit(result) {
         this.$store.dispatch('editNews', {
           data: { status: result },
-          id: this.news.id
+          id: this.news.id,
         }).then(() => {
-          this.$emit(result)
-        })
-      }
-    }
-  }
+          this.$emit(result);
+        });
+      },
+    },
+  };
 </script>
 
 <style lang="scss" scoped>

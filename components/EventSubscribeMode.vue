@@ -20,41 +20,41 @@
 
 <script>
   export default {
-    data () {
+    data() {
       return {
         form: {
-          mode: '7DaysSinceLatestNews'
+          mode: '7DaysSinceLatestNews',
         },
         rules: {
           mode: [
-            { required: true, message: '请选择关注模式', trigger: 'blur' }
-          ]
+            { required: true, message: '请选择关注模式', trigger: 'blur' },
+          ],
         },
         simpleMode: [
           {
             label: '每当有新的新闻时提醒我',
-            value: 'new'
+            value: 'new',
           }, {
             label: '从现在起每周提醒我',
-            value: 'weekly'
+            value: 'weekly',
           }, {
             label: '每当事件有七天没有新的新闻时提醒我',
-            value: '7DaysSinceLatestNews'
-          }
-        ]
-      }
+            value: '7DaysSinceLatestNews',
+          },
+        ],
+      };
     },
     methods: {
-      submit () {
-        this.$store.commit('setSubscribeMode', this.form.mode)
-        this.$emit('modeSelected')
-      }
+      submit() {
+        this.$store.commit('setSubscribeMode', this.form.mode);
+        this.$emit('modeSelected');
+      },
     },
-    created () {
-      this.form.mode = this.$store.state.subscribe.mode || this.form.mode
-      this.submit()
-    }
-  }
+    created() {
+      this.form.mode = this.$store.state.subscribe.mode || this.form.mode;
+      this.submit();
+    },
+  };
 </script>
 
 <style lang="scss" scoped>

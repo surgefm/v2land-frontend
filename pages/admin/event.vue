@@ -29,45 +29,49 @@
 </template>
 
 <script>
-  import Checkbox from 'element-ui/lib/checkbox'
-  import CheckboxGroup from 'element-ui/lib/checkbox-group'
+  import Checkbox from 'element-ui/lib/checkbox';
+  import CheckboxGroup from 'element-ui/lib/checkbox-group';
 
   export default {
-    data () {
+    data() {
       return {
         eventCollection: [],
         filterName: '',
-        filterStatus: ['pending', 'admitted']
-      }
+        filterStatus: ['pending', 'admitted'],
+      };
     },
     methods: {
-      async update () {
-        let query = { where: {} }
+      async update() {
+        const query = { where: {} };
         if (this.filterStatus.length > 0) {
-          query.where.status = this.filterStatus
+          query.where.status = this.filterStatus;
         }
         if (this.filterName) {
-          query.where.name = { contains: this.filterName }
+          query.where.name = { contains: this.filterName };
         }
-        this.eventCollection = await this.$store.dispatch('getEventList', query)
-      }
+        this.eventCollection = await this.$store.dispatch('getEventList', query);
+      },
     },
     components: {
       'el-checkbox': Checkbox,
-      'el-checkbox-group': CheckboxGroup
+      'el-checkbox-group': CheckboxGroup,
     },
-    async asyncData ({ store }) {
+    async asyncData({ store }) {
       return {
         eventCollection: await store.dispatch('getEventList', {
-          where: { status: ['pending', 'admitted'] }
-        })
-      }
+          where: { status: ['pending', 'admitted'] },
+        }),
+      };
     },
     watch: {
-      filterStatus: function () { this.update() },
-      filterName: function () { this.update() }
-    }
-  }
+      filterStatus: function() {
+        this.update();
+      },
+      filterName: function() {
+        this.update();
+      },
+    },
+  };
 </script>
 
 <style lang="scss" scoped>

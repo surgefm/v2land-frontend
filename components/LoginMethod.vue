@@ -38,43 +38,43 @@
 </template>
 
 <script>
-import config from '~/const'
+import config from '~/const';
 
 export default {
   props: {
     redirect: {
       type: String,
-      default: ''
+      default: '',
     },
     availableMethods: {
       type: Array,
-      default: []
-    }
+      default: [],
+    },
   },
 
   methods: {
-    getSource (path) {
-      const publicPath = config.publicPath
+    getSource(path) {
+      const publicPath = config.publicPath;
       if (publicPath && publicPath.slice(-6) === '_nuxt/') {
-        return publicPath.slice(0, -6) + path
+        return publicPath.slice(0, -6) + path;
       }
-      return (publicPath || '/') + path
+      return (publicPath || '/') + path;
     },
-    loginTwitter () {
-      window.location = config.api + 'auth/twitter?redirect=' + this.redirect
+    loginTwitter() {
+      window.location = config.api + 'auth/twitter?redirect=' + this.redirect;
     },
-    loginWeibo () {
-      window.location = config.api + 'auth/weibo?redirect=' + this.redirect
+    loginWeibo() {
+      window.location = config.api + 'auth/weibo?redirect=' + this.redirect;
     },
-    loginEmail () {
-      let path = '/login/email'
+    loginEmail() {
+      let path = '/login/email';
       if (this.$route.query.redirect || this.redirect) {
-        path += '?redirect=' + (this.$route.query.redirect || this.redirect)
+        path += '?redirect=' + (this.$route.query.redirect || this.redirect);
       }
-      this.$router.push(path)
-    }
-  }
-}
+      this.$router.push(path);
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

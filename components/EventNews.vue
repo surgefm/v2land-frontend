@@ -55,64 +55,64 @@
 </template>
 
 <script>
-  import EventNewsAdmit from '~/components/EventNewsAdmit.vue'
-  import EventNewsShare from '~/components/EventNewsShare.vue'
-  import config from '~/const'
+  import EventNewsAdmit from '~/components/EventNewsAdmit.vue';
+  import EventNewsShare from '~/components/EventNewsShare.vue';
+  import config from '~/const';
 
   export default {
     props: {
       news: Object,
       order: Number,
       mode: String,
-      event: Object
+      event: Object,
     },
     computed: {
-      showEventName () {
+      showEventName() {
         if (this.news.event === this.$route.params.name ||
           this.news.event === this.event.id) {
-          return false
+          return false;
         }
 
-        if (this.event) return false
+        if (this.event) return false;
 
-        let event = this.$store.getters.getNews({
+        const event = this.$store.getters.getNews({
           name: this.$route.params.name,
-          id: this.$route.params.id
-        })
+          id: this.$route.params.id,
+        });
 
         if (this.news.event === event.id) {
-          return false
+          return false;
         }
 
-        return true
+        return true;
       },
-      newsUrl () {
-        return config.baseUrl + this.$route.params.name + '?news=' + this.news.id
-      }
+      newsUrl() {
+        return config.baseUrl + this.$route.params.name + '?news=' + this.news.id;
+      },
     },
     components: {
       'event-news-admit': EventNewsAdmit,
-      'event-news-share': EventNewsShare
+      'event-news-share': EventNewsShare,
     },
     methods: {
-      getString (input) {
-        let date = new Date(input)
+      getString(input) {
+        const date = new Date(input);
         if (isNaN(date.getTime())) {
-          return ''
+          return '';
         }
 
-        let string = ''
-        string += date.getFullYear() + ' 年 '
-        string += (date.getMonth() + 1) + ' 月 '
-        string += date.getDate() + ' 日'
+        let string = '';
+        string += date.getFullYear() + ' 年 ';
+        string += (date.getMonth() + 1) + ' 月 ';
+        string += date.getDate() + ' 日';
 
-        return string
+        return string;
       },
-      copySuccess () {
-        this.$message('已将该新闻分享链接拷贝至剪贴板')
-      }
-    }
-  }
+      copySuccess() {
+        this.$message('已将该新闻分享链接拷贝至剪贴板');
+      },
+    },
+  };
 </script>
 
 <style lang="scss" scoped>

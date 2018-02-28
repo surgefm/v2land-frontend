@@ -17,33 +17,33 @@
 <script>
   export default {
     props: {
-      event: Object
+      event: Object,
     },
-    data () {
+    data() {
       return {
         statusCollection: [
           { value: 'admitted', label: '公开' },
           { value: 'pending', label: '待审核' },
           { value: 'rejected', label: '拒绝' },
-          { value: 'hidden', label: '隐藏' }
+          { value: 'hidden', label: '隐藏' },
         ],
-        status: this.event.status
-      }
+        status: this.event.status,
+      };
     },
     methods: {
-      updateStatus () {
+      updateStatus() {
         this.$store.dispatch('editEvent', {
           name: this.event.name,
-          data: { status: this.status }
+          data: { status: this.status },
         }).then(() => {
-          this.$emit('update')
-        })
+          this.$emit('update');
+        });
       },
-      edit () {
-        this.$router.push(`/${this.event.name}/edit?redirect=/admin/event`)
-      }
-    }
-  }
+      edit() {
+        this.$router.push(`/${this.event.name}/edit?redirect=/admin/event`);
+      },
+    },
+  };
 </script>
 
 <style lang="scss" scoped>

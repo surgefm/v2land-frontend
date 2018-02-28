@@ -15,64 +15,64 @@
 </template>
 
 <script>
-  import config from '~/const'
-  import $ from 'postman-url-encoder'
+  import config from '~/const';
+  import $ from 'postman-url-encoder';
 
   export default {
     props: {
-      news: Object
+      news: Object,
     },
-    data () {
+    data() {
       return {
-        share: ['twitter', 'facebook', 'google-plus', 'weibo']
-      }
+        share: ['twitter', 'facebook', 'google-plus', 'weibo'],
+      };
     },
     computed: {
-      isClientAdmin () {
-        return this.$store.getters.isClientAdmin
+      isClientAdmin() {
+        return this.$store.getters.isClientAdmin;
       },
-      event () {
-        return this.$store.getters.getEvent(this.$route.params.name)
-      }
+      event() {
+        return this.$store.getters.getEvent(this.$route.params.name);
+      },
     },
     methods: {
-      shareTo (site) {
-        let url = config.baseUrl + this.event.id + '?news=i' + this.news.id
+      shareTo(site) {
+        const url = config.baseUrl + this.event.id + '?news=i' + this.news.id;
         let message = this.news.title + ' - ' +
           this.news.abstract.slice(0, 50) +
           (this.news.abstract.length > 50 ? '… ' : ' ') +
-          '来源：' + this.news.source + ' '
+          '来源：' + this.news.source + ' ';
 
         switch (site) {
-          case 'twitter':
-            return $.encode('https://twitter.com/intent/tweet?text=' + message +
+        case 'twitter':
+          return $.encode('https://twitter.com/intent/tweet?text=' + message +
               '&url=' + url +
               '&hashtags=' + this.$route.params.name + ',浪潮'
-            )
-          case 'facebook':
-            return $.encode('https://www.facebook.com/sharer/sharer.php?u=' + url)
-          case 'google-plus':
-            return $.encode('https://plus.google.com/share?url=' + url)
-          case 'weibo':
-            message += `%23${this.$route.params.name}%23 %23浪潮，你的社会事件追踪工具%23`
-            return $.encode('http://service.weibo.com/share/share.php?url=' + url + '&title=' + message)
+          );
+        case 'facebook':
+          return $.encode('https://www.facebook.com/sharer/sharer.php?u=' + url);
+        case 'google-plus':
+          return $.encode('https://plus.google.com/share?url=' + url);
+        case 'weibo':
+          message += `%23${this.$route.params.name}%23 %23浪潮，你的社会事件追踪工具%23`;
+          return $.encode('http://service.weibo.com/share/share.php?url=' + url + '&title=' + message);
         }
       },
-      remove () {
+      remove() {
         this.$store.dispatch('editNews', {
           id: this.news.id,
-          data: { status: 'removed' }
+          data: { status: 'removed' },
         }).then(() => {
-          this.$store.dispatch('fetchEvent', this.$route.params.name)
+          this.$store.dispatch('fetchEvent', this.$route.params.name);
         }).then(() => {
-          this.$message('已删除该新闻')
-        })
+          this.$message('已删除该新闻');
+        });
       },
-      edit () {
-        this.$router.push(`/${this.$route.params.name}/edit/${this.news.id}`)
-      }
-    }
-  }
+      edit() {
+        this.$router.push(`/${this.$route.params.name}/edit/${this.news.id}`);
+      },
+    },
+  };
 </script>
 
 <style lang="scss" scoped>

@@ -21,24 +21,24 @@
 <script>
   export default {
     props: {
-      time: Object
+      time: Object,
     },
     methods: {
-      getString (input) {
-        let date = new Date(input)
+      getString(input) {
+        const date = new Date(input);
         if (isNaN(date.getTime())) {
-          return null
+          return null;
         }
 
-        let string = ''
-        string += date.getFullYear() + ' 年 '
-        string += (date.getMonth() + 1) + ' 月 '
-        string += date.getDate() + ' 日'
+        let string = '';
+        string += date.getFullYear() + ' 年 ';
+        string += (date.getMonth() + 1) + ' 月 ';
+        string += date.getDate() + ' 日';
 
-        return string
-      }
-    }
-  }
+        return string;
+      },
+    },
+  };
 </script>
 
 <style lang="scss" scoped>

@@ -12,42 +12,42 @@
 </template>
 
 <script>
-  import config from '~/const'
-  import $ from 'postman-url-encoder'
+  import config from '~/const';
+  import $ from 'postman-url-encoder';
 
   export default {
     props: {
-      event: Object
+      event: Object,
     },
-    data () {
+    data() {
       return {
-        share: ['twitter', 'facebook', 'google-plus', 'weibo']
-      }
+        share: ['twitter', 'facebook', 'google-plus', 'weibo'],
+      };
     },
     methods: {
-      shareTo (site) {
-        let url = $.encode(config.baseUrl + this.event.id)
+      shareTo(site) {
+        const url = $.encode(config.baseUrl + this.event.id);
         let message = this.event.name + ' - ' +
           this.event.description.slice(0, 50) +
-          (this.event.description.length > 50 ? '… ' : ' ')
+          (this.event.description.length > 50 ? '… ' : ' ');
 
         switch (site) {
-          case 'twitter':
-            return $.encode('https://twitter.com/intent/tweet?text=' + message +
+        case 'twitter':
+          return $.encode('https://twitter.com/intent/tweet?text=' + message +
               '&url=' + url +
               '&hashtags=' + this.$route.params.name + ',浪潮'
-            )
-          case 'facebook':
-            return $.encode('https://www.facebook.com/sharer/sharer.php?u=' + url)
-          case 'google-plus':
-            return $.encode('https://plus.google.com/share?url=' + url)
-          case 'weibo':
-            message += `%23${this.$route.params.name}%23 %23浪潮，你的社会事件追踪工具%23`
-            return $.encode('http://service.weibo.com/share/share.php?url=' + url + '&title=' + message)
+          );
+        case 'facebook':
+          return $.encode('https://www.facebook.com/sharer/sharer.php?u=' + url);
+        case 'google-plus':
+          return $.encode('https://plus.google.com/share?url=' + url);
+        case 'weibo':
+          message += `%23${this.$route.params.name}%23 %23浪潮，你的社会事件追踪工具%23`;
+          return $.encode('http://service.weibo.com/share/share.php?url=' + url + '&title=' + message);
         }
-      }
-    }
-  }
+      },
+    },
+  };
 </script>
 
 <style lang="scss" scoped>

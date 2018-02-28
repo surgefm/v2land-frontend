@@ -31,105 +31,105 @@
 </template>
 
 <script>
-  import EventActionItem from './EventActionItem.vue'
+  import EventActionItem from './EventActionItem.vue';
 
   export default {
     components: {
-      'action-item': EventActionItem
+      'action-item': EventActionItem,
     },
     computed: {
-      displayList () {
-        const tab = []
-        const dropdown = []
+      displayList() {
+        const tab = [];
+        const dropdown = [];
         for (const i of [
           'admin-event', 'admin-admit', 'create-event', 'subscribe', 'post',
           'admit', 'edit', 'edit-image', 'subscription-list', 'client',
-          'return', 'homepage'
+          'return', 'homepage',
         ]) {
-          let action = i.split('-')
+          let action = i.split('-');
           for (let j = 0; j < action.length; j++) {
-            action[j] = action[j][0].toUpperCase() + action[j].slice(1)
+            action[j] = action[j][0].toUpperCase() + action[j].slice(1);
           }
-          action = action.join('')
+          action = action.join('');
           if (this[`show${action}`]) {
             if (tab.length < 3) {
-              tab.push(i)
+              tab.push(i);
             } else {
-              dropdown.push(i)
+              dropdown.push(i);
             }
           }
         }
 
-        return { tab, dropdown }
+        return { tab, dropdown };
       },
-      isClientAdmin () {
-        return this.$store.getters.isClientAdmin
+      isClientAdmin() {
+        return this.$store.getters.isClientAdmin;
       },
-      isHomepage () {
-        return this.$route.path === '/'
+      isHomepage() {
+        return this.$route.path === '/';
       },
-      isLoggingIn () {
-        return this.$route.path.includes('login') || this.$route.path.includes('register')
+      isLoggingIn() {
+        return this.$route.path.includes('login') || this.$route.path.includes('register');
       },
-      isAdminDir () {
-        return this.$route.path.includes('/admin')
+      isAdminDir() {
+        return this.$route.path.includes('/admin');
       },
-      isSubscriptionPage () {
-        return this.$route.path === '/subscription'
+      isSubscriptionPage() {
+        return this.$route.path === '/subscription';
       },
-      isClientPage () {
-        return this.$route.path === '/me'
+      isClientPage() {
+        return this.$route.path === '/me';
       },
-      isLoggedIn () {
-        return this.$store.getters.isLoggedIn
+      isLoggedIn() {
+        return this.$store.getters.isLoggedIn;
       },
-      isCreatingEvent () {
-        return this.$route.name === 'new'
+      isCreatingEvent() {
+        return this.$route.name === 'new';
       },
-      showAdminEvent () {
+      showAdminEvent() {
         return ((this.isHomepage || this.isSubscriptionPage || this.isClientPage) &&
-          this.isClientAdmin) || this.isAdminDir
+          this.isClientAdmin) || this.isAdminDir;
       },
-      showAdminAdmit () {
-        return this.showAdminEvent
+      showAdminAdmit() {
+        return this.showAdminEvent;
       },
-      showCreateEvent () {
-        return this.isHomepage || this.isAdminDir
+      showCreateEvent() {
+        return this.isHomepage || this.isAdminDir;
       },
-      showSubscribe () {
+      showSubscribe() {
         return !this.isHomepage && !this.isAdminDir && !this.isCreatingEvent &&
-          !this.isSubscriptionPage && !this.isClientPage && !this.isLoggingIn
+          !this.isSubscriptionPage && !this.isClientPage && !this.isLoggingIn;
       },
-      showPost () {
-        return this.showSubscribe && !this.isLoggingIn
+      showPost() {
+        return this.showSubscribe && !this.isLoggingIn;
       },
-      showAdmit () {
+      showAdmit() {
         return this.isClientAdmin && !this.isHomepage && !this.isLoggingIn &&
           !this.isAdminDir && !this.isSubscriptionPage && !this.isClientPage &&
-          !this.isCreatingEvent
+          !this.isCreatingEvent;
       },
-      showEdit () {
-        return this.showAdmit
+      showEdit() {
+        return this.showAdmit;
       },
-      showEditImage () {
-        return this.showAdmit
+      showEditImage() {
+        return this.showAdmit;
       },
-      showSubscriptionList () {
-        return this.isLoggedIn && (this.isHomepage || this.isClientPage)
+      showSubscriptionList() {
+        return this.isLoggedIn && (this.isHomepage || this.isClientPage);
       },
-      showClient () {
-        return !this.isLoggingIn
+      showClient() {
+        return !this.isLoggingIn;
       },
-      showReturn () {
+      showReturn() {
         return this.$route.name !== 'name' && !this.isHomepage &&
           !this.isAdminDir && !this.isSubscriptionPage &&
-          !this.isClientPage && !this.isLoggingIn && !this.isCreatingEvent
+          !this.isClientPage && !this.isLoggingIn && !this.isCreatingEvent;
       },
-      showHomepage () {
-        return !this.showReturn && !this.isHomepage
-      }
-    }
-  }
+      showHomepage() {
+        return !this.showReturn && !this.isHomepage;
+      },
+    },
+  };
 </script>
 
 <style lang="scss" scoped>

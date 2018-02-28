@@ -1,4 +1,8 @@
-export default function ({ route, store, app, redirect, component }) {
+
+/**
+ *  doc here
+ */
+export default function({ route, store, app, redirect, component }) {
   const shouldBeLoggedIn = [
     'name-edit-id',
     'name-edit-image',
@@ -6,44 +10,44 @@ export default function ({ route, store, app, redirect, component }) {
     'name-admit',
     'admin-event',
     'me',
-    'subscription'
-  ]
+    'subscription',
+  ];
 
   const shouldNotBeLoggedIn = [
-    'login', 'login-email', 'register'
-  ]
+    'login', 'login-email', 'register',
+  ];
 
   const managerOnly = [
     'name-edit-id',
     'name-edit-image',
     'name-edit',
     'name-admit',
-    'admin-event'
-  ]
+    'admin-event',
+  ];
 
-  const manager = ['manager', 'admin']
-  let from
+  const manager = ['manager', 'admin'];
+  let from;
 
   if (component) {
-    store = component.$store
-    route = component.$route
+    store = component.$store;
+    route = component.$route;
     redirect = (path) => {
-      return path
-    }
+      return path;
+    };
   } else {
-    from = app.context.from
+    from = app.context.from;
     if (from && from.name.includes('login')) {
-      from = '/'
+      from = '/';
     }
   }
 
   if (!store.state.client.id && shouldBeLoggedIn.includes(route.name)) {
-    return redirect((from || `/login`) + `?status=auth_required&redirect=/${route.path}`)
+    return redirect((from || `/login`) + `?status=auth_required&redirect=/${route.path}`);
   } else if (store.state.client.id && shouldNotBeLoggedIn.includes(route.name)) {
-    return redirect((from || '/') + '?status=logged_in')
+    return redirect((from || '/') + '?status=logged_in');
   } else if (managerOnly.includes(route.name) && !manager.includes(store.state.client.role)) {
-    return redirect((from || '/') + '?status=permission_denied')
+    return redirect((from || '/') + '?status=permission_denied');
   }
 
-  return null
+  return null;
 }

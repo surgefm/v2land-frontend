@@ -46,99 +46,99 @@
 </template>
 
 <script>
-  import DatePicker from 'element-ui/lib/date-picker'
+  import DatePicker from 'element-ui/lib/date-picker';
 
   export default {
     props: {
       data: String,
-      mode: String
+      mode: String,
     },
-    data () {
-      let url = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/
+    data() {
+      const url = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/;
       return {
         form: {
           url: '',
           title: '',
           source: '',
           abstract: '',
-          time: ''
+          time: '',
         },
         rules: {
           url: [
             { required: true, message: '请输入新闻链接', trigger: 'blur' },
-            { pattern: url, message: '请输入正确的链接', trigger: 'blur' }
+            { pattern: url, message: '请输入正确的链接', trigger: 'blur' },
           ],
           title: [
-            { required: true, message: '请输入新闻标题', trigger: 'blur' }
+            { required: true, message: '请输入新闻标题', trigger: 'blur' },
           ],
           source: [
-            { required: true, message: '请输入新闻来源', trigger: 'blur' }
+            { required: true, message: '请输入新闻来源', trigger: 'blur' },
           ],
           abstract: [
             { required: true, message: '请输入新闻摘要', trigger: 'blur' },
-            { max: 150, message: '摘要字数不得超过 150 字', trigger: 'blur' }
+            { max: 150, message: '摘要字数不得超过 150 字', trigger: 'blur' },
           ],
           time: [
-            { type: 'date', required: true, message: '请选择新闻发布时间', trigger: 'change' }
-          ]
+            { type: 'date', required: true, message: '请选择新闻发布时间', trigger: 'change' },
+          ],
         },
-        isSubmitting: false
-      }
+        isSubmitting: false,
+      };
     },
     computed: {
-      origData () {
+      origData() {
         return this.$store.getters.getNews({
           name: this.$route.params.name,
-          id: this.$route.params.id
-        })
-      }
+          id: this.$route.params.id,
+        });
+      },
     },
     methods: {
-      submitForm (formName) {
+      submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            this.isSubmitting = true
+            this.isSubmitting = true;
             // 调整时间
-            let newTime = this.form.time.getTime()
-            let minutesOffset = this.form.time.getTimezoneOffset() + 480
-            newTime += minutesOffset * 60000
-            this.form.time = new Date(newTime)
+            let newTime = this.form.time.getTime();
+            const minutesOffset = this.form.time.getTimezoneOffset() + 480;
+            newTime += minutesOffset * 60000;
+            this.form.time = new Date(newTime);
 
             this.$store.commit('setTemp', {
               label: this.data,
-              temp: this.form
-            })
-            this.$emit('submit')
+              temp: this.form,
+            });
+            this.$emit('submit');
           }
-        })
+        });
       },
-      resetForm (formName = 'form') {
+      resetForm(formName = 'form') {
         if (this.mode === 'edit' && this.origData) {
-          this.form = Object.assign({}, this.origData)
-          this.$set(this.form, 'time', new Date(this.origData.time))
+          this.form = Object.assign({}, this.origData);
+          this.$set(this.form, 'time', new Date(this.origData.time));
         } else {
-          this.$refs[formName].resetFields()
+          this.$refs[formName].resetFields();
         }
       },
-      resetButton () {
-        this.isSubmitting = false
-      }
+      resetButton() {
+        this.isSubmitting = false;
+      },
     },
     components: {
-      'el-date-picker': DatePicker
+      'el-date-picker': DatePicker,
     },
-    created () {
+    created() {
       if (this.mode === 'edit' && this.origData) {
-        this.form = Object.assign({}, this.origData)
-        this.$set(this.form, 'time', new Date(this.origData.time))
+        this.form = Object.assign({}, this.origData);
+        this.$set(this.form, 'time', new Date(this.origData.time));
       }
     },
     watch: {
-      'form.time' () {
+      'form.time'() {
         if (this.form.time && this.form.time.getTime) {
-          this.form.time.setSeconds(0)
+          this.form.time.setSeconds(0);
         }
-      }
-    }
-  }
+      },
+    },
+  };
 </script>

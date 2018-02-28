@@ -25,16 +25,16 @@
 <script>
   export default {
     computed: {
-      isLoggedIn () {
-        return this.$store.getters.isLoggedIn
-      }
+      isLoggedIn() {
+        return this.$store.getters.isLoggedIn;
+      },
     },
     methods: {
-      logout () {
-        this.$store.dispatch('logout')
-      }
-    }
-  }
+      logout() {
+        this.$store.dispatch('logout');
+      },
+    },
+  };
 </script>
 
 <style lang="scss" scoped>

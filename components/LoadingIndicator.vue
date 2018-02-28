@@ -11,9 +11,9 @@
 <script>
   export default {
     props: {
-      width: Number
-    }
-  }
+      width: Number,
+    },
+  };
 </script>
 
 <style lang="scss" scoped>
