@@ -48,6 +48,7 @@ module.exports = {
       }
     },
     vendor: [
+      '~/plugins/polyfills',
       'postman-url-encoder',
       'js-cookie',
       '~/const'
@@ -93,7 +94,7 @@ module.exports = {
     '~/plugins/element.js',
     '~/plugins/components.js',
     '~/plugins/clipboard.js',
-    '~/plugins/polyfills.js',
+    // '~/plugins/polyfills.js',
     { src: '~/plugins/statusHandler', ssr: false },
     { src: '~/plugins/ga', ssr: false },
     { src: '~/plugins/typekit', ssr: false }
