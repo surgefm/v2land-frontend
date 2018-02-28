@@ -4,6 +4,7 @@
     viewBox="0 0 109.08 45.36"
     class="logotype"
     :height="height || 48"
+    :width="(height || 48) * 109.08 / 45.36"
   >
     <g id="Layer_2" data-name="Layer 2">
       <g id="logotype">
