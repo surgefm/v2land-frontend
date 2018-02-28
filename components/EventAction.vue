@@ -13,7 +13,7 @@
         class="small"
         :key="tab"
       />
-      <el-dropdown trigger="click" placement="top-end">
+      <el-dropdown trigger="click" placement="top-end" :show-timeout="0">
         <a>
           <i
             v-if="displayList.dropdown.length > 0"
@@ -153,14 +153,6 @@
     visibility: hidden;
   }
 
-  .subscribe-container {
-    display: flex;
-    align-items: center;
-    padding: .5rem .75rem;
-    transition: all .2s;
-    cursor: pointer;
-  }
-
   .action {
     margin-top: .5rem;
     position: relative;
@@ -210,12 +202,6 @@
 
     .small {
       display: none;
-    }
-
-    .subscribe-container {
-      display: auto;
-      align-items: auto;
-      padding: auto;
     }
 
     .dropdown-trigger {

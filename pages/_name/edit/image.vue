@@ -7,6 +7,7 @@
         class="image-uploader"
         :action="config.api + 'upload'"
         :show-file-list="false"
+        :with-credentials="true"
         :on-success="handleimageSuccess"
         :before-upload="beforeimageUpload"
       >
@@ -55,7 +56,6 @@
 <script>
   import config from '~/const'
   import $ from 'postman-url-encoder'
-  import axios from '~/plugins/axios'
   import Upload from 'element-ui/lib/upload'
 
   let url = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/
@@ -85,7 +85,7 @@
     },
     computed: {
       orig () {
-        return this.$store.getters.getEvent(this.$route.params.name).image
+        return this.$store.getters.getEvent(this.$route.params.name).headerImage
       },
       isNew () {
         return !this.orig
@@ -101,18 +101,18 @@
         const isLt2M = file.size / 1024 / 1024 < 4
 
         if (!isJPG) {
-          this.$message.error('image picture must be .jpg/.png format!')
+          this.$message.error('只支持 .jpg 或 .png 格式的图片')
         }
         if (!isLt2M) {
-          this.$message.error('image picture size can not exceed 4MB!')
+          this.$message.error('图片大小不得超过 4Mb')
         }
         return isJPG && isLt2M
       },
       submit () {
         this.$refs.form.validate((valid) => {
           if (valid) {
-            let url = $.encode(`events/${this.$route.params.name}/image`)
-            axios[this.isNew ? 'post' : 'patch'](url, this.form)
+            let url = $.encode(`event/${this.$route.params.name}/header_image`)
+            this.$axios[this.isNew ? 'post' : 'put'](url, this.form)
               .then(() => {
                 this.$store.dispatch('fetchEvent', this.$route.params.name)
               })

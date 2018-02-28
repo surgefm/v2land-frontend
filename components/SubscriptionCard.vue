@@ -36,7 +36,7 @@
       <el-button
         type="text"
         v-popover:popover
-        :disabled="isSubmitting"
+        :loading="isSubmitting"
       >
         取消关注
       </el-button>
@@ -46,7 +46,6 @@
 
 <script>
   import $ from 'postman-url-encoder'
-  import axios from '~/plugins/axios'
 
   export default {
     props: {
@@ -111,7 +110,7 @@
         this.isPopoverVisible = false
         this.isSubmitting = true
         let url = 'subscriptions/unsubscribe?id=' + this.subscription.unsubscribeId
-        axios.get($.encode(url))
+        this.$axios.get($.encode(url))
           .then(() => {
             this.$store.dispatch('getSubscriptions')
               .then(() => {

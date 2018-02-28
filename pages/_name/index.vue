@@ -18,6 +18,7 @@
             :news="news"
             :order="i + 1"
             :id="'main-i' + news.id"
+            :event="event"
           />
         </div>
         <div
@@ -143,8 +144,8 @@
       if (this.$route.query.news && document) {
         window.onload = () => {
           setTimeout(() => {
-            let element = document.getElementById(this.$route.query.news)
-            let news = document.getElementById('main-' + this.$route.query.news)
+            let element = document.getElementById('i' + this.$route.query.news)
+            let news = document.getElementById('main-i' + this.$route.query.news)
             if (element) {
               element.scrollIntoView()
               window.scrollBy(0, -50)

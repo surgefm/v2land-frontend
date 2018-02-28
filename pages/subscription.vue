@@ -3,6 +3,9 @@
     <card>
       <p class="tag light-font">个人中心</p>
       <event-title>关注列表</event-title>
+      <p class="light-font" v-if="!subscriptionList || subscriptionList.length === 0">
+        您没有关注任何事件
+      </p>
     </card>
     <subscription-card
       v-for="subscription of subscriptionList"

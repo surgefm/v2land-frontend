@@ -1,27 +1,21 @@
 <template>
-  <div>
-    <el-form :model="form" :rules="rules" ref="form" label-width="4.5rem">
-      <el-form-item label="关注模式" prop="mode">
-        <el-select
-          v-model="form.mode"
-          placeholder="请选择在什么情况下提醒你"
-          class="mode-selector"
-        >
-          <el-option
-            v-for="mode in simpleMode"
-            :key="mode.value"
-            :label="mode.label"
-            :value="mode.value"
-          />
-        </el-select>
-      </el-form-item>
-    </el-form>
-    <div class="submit-button-group">
-      <el-button type="primary" @click="submit" :disabled="!form.mode">
-        下一步
-      </el-button>
-    </div>
-  </div>
+  <el-form :model="form" :rules="rules" ref="form" label-width="4.5rem">
+    <el-form-item label="关注模式" prop="mode">
+      <el-select
+        v-model="form.mode"
+        placeholder="请选择在什么情况下提醒你"
+        class="mode-selector"
+        @change="submit"
+      >
+        <el-option
+          v-for="mode in simpleMode"
+          :key="mode.value"
+          :label="mode.label"
+          :value="mode.value"
+        />
+      </el-select>
+    </el-form-item>
+  </el-form>
 </template>
 
 <script>
@@ -57,7 +51,8 @@
       }
     },
     created () {
-      this.form.mode = this.$store.state.subscribe.mode
+      this.form.mode = this.$store.state.subscribe.mode || this.form.mode
+      this.submit()
     }
   }
 </script>

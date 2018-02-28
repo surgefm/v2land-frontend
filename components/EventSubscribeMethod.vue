@@ -6,6 +6,7 @@
           v-model="form.method"
           placeholder="请选择通过什么方式提醒你"
           class="method-selector"
+          @change="save"
         >
           <el-option
             v-for="method in methodCollection"
@@ -17,43 +18,61 @@
       </el-form-item>
 
       <el-form-item v-if="form.method === 'email'" label="邮箱地址" prop="email">
-        <el-input v-model="form.email" />
+        <span>{{ $store.getters.getClient.email }}</span>
       </el-form-item>
-      <el-form-item v-if="form.method === 'twitterAt'" label="Twitter ID" prop="twitter">
-        <el-input v-model="form.twitterAt">
-          <template slot="prepend">@</template>
-        </el-input>
-      </el-form-item>
-      <el-form-item v-if="form.method === 'weiboAt'" label="微博账号" prop="weibo">
-        <el-input v-model="form.weiboAt">
-          <template slot="prepend">@</template>
-        </el-input>
-      </el-form-item>
-    </el-form>
-
-    <p v-if="showText" class="el-form-item__label show-text">{{ showText }}</p>
-
-    <div class="submit-button-group-separate">
-      <el-button type="primary" @click="lastStep">上一步</el-button>
-      <div>
-        <el-button v-if="showTwitter" @click="connectTwitter">
+      <el-form-item
+        v-else-if="['twitterAt', 'twitter'].includes(form.method)"
+        label="Twitter ID"
+        prop="twitter"
+      >
+        <el-select
+          v-model="form.twitter"
+          placeholder="请选择 Twitter 账号"
+          class="method-selector"
+          v-if="getTwitter[0]"
+          @change="save"
+        >
+          <el-option
+            v-for="account in getTwitter"
+            :key="account.profileId"
+            :label="`${account.profile.name} @${account.profile.screen_name}`"
+            :value="account.id"
+          />
+        </el-select>
+        <el-button v-else @click="connectTwitter" type="primary" plain>
           绑定 Twitter 账号
         </el-button>
-        <el-button v-else-if="showWeibo" @click="connectWeibo">
-          绑定新浪微博账号
+      </el-form-item>
+      <el-form-item
+        v-else-if="['weiboAt', 'weibo'].includes(form.method)"
+        label="微博账号"
+        prop="weibo"
+      >
+        <el-select
+          v-model="form.weibo"
+          placeholder="请选择微博账号"
+          class="method-selector"
+          v-if="getWeibo[0]"
+          @change="save"
+        >
+          <el-option
+            v-for="account in getWeibo"
+            :key="account.profileId"
+            :label="`@${account.profile.name}`"
+            :value="account.id"
+          />
+        </el-select>
+        <el-button v-else @click="connectWeibo" type="primary" plain>
+          绑定微博账号
         </el-button>
-        <el-button v-else type="primary" @click="submit" :disabled="!isSubmittable">
-          下一步
-        </el-button>
-      </div>
-    </div>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
 <script>
   import config from '~/const'
   import $ from 'postman-url-encoder'
-  import Cookie from 'cookie'
 
   export default {
     data () {
@@ -61,8 +80,8 @@
         form: {
           method: 'weiboAt',
           email: '',
-          twitterAt: '',
-          weiboAt: ''
+          twitter: '',
+          weibo: ''
         },
         rules: {
           method: [
@@ -75,20 +94,20 @@
         },
         methodCollection: [
           {
-            label: '通过我的微博账号发布微博',
-            value: 'weibo'
-          },
-          {
-            label: '通过我的 Twitter 账号发推',
-            value: 'twitter'
+            label: '在微博上 @ 我',
+            value: 'weiboAt'
           },
           {
             label: '在 Twitter 上 @ 我',
             value: 'twitterAt'
           },
           {
-            label: '在微博上 @ 我',
-            value: 'weiboAt'
+            label: '通过我的微博账号发布微博',
+            value: 'weibo'
+          },
+          {
+            label: '通过我的 Twitter 账号发推',
+            value: 'twitter'
           },
           {
             label: '邮件推送',
@@ -98,30 +117,22 @@
       }
     },
     computed: {
-      showTwitter () {
-        return this.form.method === 'twitter' &&
-          !this.$store.getters.getAuth('twitter')
+      getTwitter () {
+        return this.$store.getters.getAuth('twitter')
       },
-      showWeibo () {
-        return this.form.method === 'weibo' &&
-          !this.$store.getters.getAuth('weibo')
-      },
-      showText () {
-        let method = this.form.method
-        let auth = this.$store.getters.getAuth(method)
-        if (auth) {
-          if (method === 'twitter') {
-            this.$set(this.form, 'twitter', auth.profileId)
-            return `Twitter 账号 @${auth.profile.screen_name}`
-          } else if (method === 'weibo') {
-            this.$set(this.form, 'weibo', auth.profileId)
-            return `微博账号 @${auth.profile.screen_name}`
-          }
-        }
-        return null
+      getWeibo () {
+        return this.$store.getters.getAuth('weibo')
       },
       isSubmittable () {
         return this.form.method && this.form[this.form.method]
+      },
+      redirect () {
+        let base = config.baseUrl +
+          `login/auth?redirect=${this.$route.params.name}?subscribe=1%2526` +
+          `mode=${this.$store.state.subscribe.mode}%2526` +
+          `method=${this.form.method}%2526` +
+          `edit=1`
+        return base
       }
     },
     methods: {
@@ -134,34 +145,13 @@
         this.$emit('methodSelected')
       },
       save () {
-        this.$store.commit('setSubscribeMethod', {
-          method: this.form.method,
-          address: this.form[this.form.method]
-        })
+        this.$store.commit('setSubscribeMethod', { ...this.form })
       },
       connectTwitter () {
-        let accessToken
-        try {
-          let cookies = Cookie.parse(document.cookie)
-          accessToken = cookies.accessToken
-        } catch (err) {}
-        let url = $.encode(config.api + 'auth/twitter?r=' + Math.random() * 10000 +
-          (accessToken ? '&access_token=' + accessToken : '') +
-          '&redirect=' + this.$route.params.name + '/subscribe?' +
-          'mode=' + this.$store.state.subscribe.mode)
-        window.location = url
+        window.location = $.encode(config.api + 'auth/twitter?redirect=' + this.redirect)
       },
       connectWeibo () {
-        let accessToken
-        try {
-          let cookies = Cookie.parse(document.cookie)
-          accessToken = cookies.accessToken
-        } catch (err) {}
-        let url = $.encode(config.api + 'auth/weibo?' +
-          (accessToken ? 'access_token=' + accessToken + '&' : '') +
-          'redirect=' + this.$route.params.name + '/subscribe?mode=' +
-          this.$store.state.subscribe.mode)
-        window.location = url
+        window.location = $.encode(config.api + 'auth/weibo?redirect=' + this.redirect)
       }
     },
     created () {
@@ -170,6 +160,18 @@
         this.form.method
       this.form[this.form.method] = this.$route.query.address ||
         this.$store.state.subscribe.contact.address
+
+      if (this.getTwitter[0]) {
+        this.form.twitter = this.getTwitter[0].id
+      }
+
+      if (this.getWeibo[0]) {
+        this.form.weibo = this.getWeibo[0].id
+      }
+
+      this.form.email = this.$store.getters.getClient.email
+
+      this.save()
     }
   }
 </script>

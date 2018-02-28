@@ -17,7 +17,7 @@
       </el-form>
     </card>
     <event-card
-      v-for="event of filteredEvents"
+      v-for="event of eventCollection"
       :key="event.id"
       :event="event"
       v-on:update="update"
@@ -40,30 +40,16 @@
         filterStatus: ['pending', 'admitted']
       }
     },
-    computed: {
-      filteredEvents () {
-        return this.eventCollection.filter(event => {
-          if (''.includes && !event.name.includes(this.filterName)) {
-            return false
-          }
-          if (!this.filterStatus.length) {
-            return true
-          }
-          for (let status of this.filterStatus) {
-            if (event.status === status) {
-              return true
-            }
-          }
-          return false
-        })
-      }
-    },
     methods: {
-      update () {
-        this.$store.dispatch('getAllEventList')
-          .then(eventList => {
-            this.eventCollection = Array.from(eventList)
-          })
+      async update () {
+        let query = { where: {} }
+        if (this.filterStatus.length > 0) {
+          query.where.status = this.filterStatus
+        }
+        if (this.filterName) {
+          query.where.name = { contains: this.filterName }
+        }
+        this.eventCollection = await this.$store.dispatch('getEventList', query)
       }
     },
     components: {
@@ -72,8 +58,14 @@
     },
     async asyncData ({ store }) {
       return {
-        eventCollection: await store.dispatch('getAllEventList')
+        eventCollection: await store.dispatch('getEventList', {
+          where: { status: ['pending', 'admitted'] }
+        })
       }
+    },
+    watch: {
+      filterStatus: function () { this.update() },
+      filterName: function () { this.update() }
     }
   }
 </script>

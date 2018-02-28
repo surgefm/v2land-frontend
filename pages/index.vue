@@ -3,7 +3,7 @@
     <logo class="logo" />
     <card class="title-container hover">
       <img
-        src="https://assets.v2land.net/750x200/default.jpg"
+        :src="config.static + '560x144/default.jpg'"
         onload="this.id = 'show'"
         class="header-image"
       />
@@ -35,17 +35,13 @@
 </template>
 
 <script>
+  import config from '~/const'
+
   export default {
     data () {
       return {
-        eventCollection: []
-      }
-    },
-    created () {
-      if (this.$route.query.status === 'logged_in') {
-        this.$message.error('登录用户不可访问该页面')
-      } else if (this.$route.query.status === 'permission_denied') {
-        this.$message.error('您所在用户组无法访问该页面')
+        eventCollection: [],
+        config
       }
     },
     async asyncData ({ store }) {

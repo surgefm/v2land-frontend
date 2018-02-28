@@ -23,8 +23,7 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ],
-    publicPath: config.publicPath
+    ]
   },
   /*
   ** Customize the progress bar color
@@ -50,10 +49,10 @@ module.exports = {
     },
     vendor: [
       'postman-url-encoder',
-      'cookie',
-      '~/plugins/axios',
+      'js-cookie',
       '~/const'
-    ]
+    ],
+    publicPath: config.publicPath
   },
 
   css: [
@@ -79,21 +78,23 @@ module.exports = {
     '~/static/element/spinner.css',
     '~/static/element/scrollbar.css',
     '~/static/element/message.css',
-    '~/static/element/step.css',
-    '~/static/element/steps.css',
     '~/static/element/upload.css',
     '~/static/element/checkbox.css',
     '~/static/element/checkbox-group.css',
     '~/static/element/popover.css',
     '~/static/element/dropdown.css',
     '~/static/element/dropdown-menu.css',
-    '~/static/element/dropdown-item.css'
+    '~/static/element/dropdown-item.css',
+    '~/static/element/dialog.css',
+    '~/static/element/loading.css'
   ],
 
   plugins: [
     '~/plugins/element.js',
     '~/plugins/components.js',
     '~/plugins/clipboard.js',
+    { src: '~/plugins/statusHandler', ssr: false },
+    { src: '~/plugins/ga', ssr: false },
     { src: '~/plugins/typekit', ssr: false }
   ],
 
@@ -103,8 +104,11 @@ module.exports = {
   },
 
   modules: [
-    ['@nuxtjs/google-analytics', {
-      id: config.ga
-    }]
-  ]
+    '@nuxtjs/axios'
+  ],
+
+  axios: {
+    baseURL: config.api,
+    credentials: true
+  }
 }

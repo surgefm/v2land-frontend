@@ -18,16 +18,14 @@
 
 <script>
   import EventNewsInformationForm from '~/components/EventNewsInformationForm'
-  import axios from '~/plugins/axios'
   import $ from 'postman-url-encoder'
 
   export default {
     methods: {
       async submit () {
         let data = this.$store.state.temp.addNews
-        let url = $.encode('events/' +
-          this.$route.params.name + (this.isAdmin ? '/news' : '/news/add'))
-        axios.put(url, data)
+        let url = $.encode(`event/${this.$route.params.name}/news`)
+        this.$axios.post(url, data)
           .then(() => {
             if (this.isAdmin) {
               this.$store.dispatch('fetchEvent', this.name)
@@ -42,8 +40,10 @@
               this.$refs.form.resetButton()
             }
           })
-          .catch(() => {
+          .catch(err => {
+            console.log(err)
             this.$message.error('服务器开小差了，神秘')
+            this.$refs.form.resetButton()
           })
       }
     },

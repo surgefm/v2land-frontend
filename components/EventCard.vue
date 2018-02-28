@@ -2,7 +2,7 @@
   <card class="card hover">
     <nuxt-link :to="'/' + event.name" class="link" v-if="!isAdminEvent">
       <div class="event-container">
-        <div :class="['event-text', !event.image || 'event-text-image']">
+        <div :class="['event-text', !event.headerImage || 'event-text-image']">
           <p class="event-title">
             {{ event.name }}
           </p>
@@ -11,7 +11,7 @@
           </event-description>
           <img
             class="event-image-container"
-            v-if="event.image"
+            v-if="event.headerImage"
             :src="image"
             onload="this.id='show'"
           />
@@ -20,7 +20,7 @@
     </nuxt-link>
     <div v-else class="event-container">
       <div class="event-text">
-        <nuxt-link class="event-title link" :to="'/' + event.name">
+        <nuxt-link class="event-title" :to="'/' + event.name">
           {{ event.name }}
         </nuxt-link>
         <event-description class="event-description">
@@ -42,14 +42,18 @@
     },
     computed: {
       description () {
-        let text = this.event.description.slice(0, 60)
-        if (this.event.description.length > 60) {
-          text += '……'
+        if (this.isAdminEvent) {
+          return this.event.description
+        } else {
+          let text = this.event.description.slice(0, 60)
+          if (this.event.description.length > 60) {
+            text += '……'
+          }
+          return text
         }
-        return text
       },
       image () {
-        return config.static + '240x240/' + this.event.image.imageUrl
+        return config.static + '240x240/' + this.event.headerImage.imageUrl
       },
       isAdminEvent () {
         return this.$route.path === '/admin/event'
@@ -64,10 +68,6 @@
 <style lang="scss" scoped>
   .card {
     padding: 0 !important;
-  }
-
-  .link {
-    color: black;
   }
 
   .event-container {
@@ -88,6 +88,7 @@
     font-size: 1.25rem;
     font-weight: bold;
     line-height: 1.5;
+    color: black;
   }
 
   .event-description {

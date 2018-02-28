@@ -76,6 +76,7 @@
     },
     methods: {
       validateName (rule, value, callback) {
+        if (this.$route.params.name === value) return callback()
         this.$store.dispatch('getEvent', value)
           .then((event) => {
             if (event) {

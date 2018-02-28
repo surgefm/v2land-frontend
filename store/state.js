@@ -3,9 +3,10 @@ export default {
     username: '',
     email: '',
     role: '',
-    subscriptionList: [],
-    eventList: []
+    subscriptions: [],
+    events: []
   },
+  availableAuths: [],
   event: {},
   pendingNews: {},
   allPendingNews: [],

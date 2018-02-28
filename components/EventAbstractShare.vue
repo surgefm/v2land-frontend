@@ -42,6 +42,7 @@
           case 'google-plus':
             return $.encode('https://plus.google.com/share?url=' + url)
           case 'weibo':
+            message += `%23${this.$route.params.name}%23 %23浪潮，你的社会事件追踪工具%23`
             return $.encode('http://service.weibo.com/share/share.php?url=' + url + '&title=' + message)
         }
       }
