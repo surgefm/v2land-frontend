@@ -1,85 +1,85 @@
 export default {
-  isClientAdmin (state) {
-    return state.client.role === 'admin'
+  isClientAdmin(state) {
+    return state.client.role === 'admin';
   },
 
-  isLoggedIn (state) {
-    return !!state.client.id
+  isLoggedIn(state) {
+    return !!state.client.id;
   },
 
-  isServer () {
+  isServer() {
     try {
       // eslint-disable-next-line
       document.getElementById
-      return false
+      return false;
     } catch (err) {
-      return true
+      return true;
     }
   },
 
-  getClient (state) {
-    return state.client
+  getClient(state) {
+    return state.client;
   },
 
   getEvent: (state) => (name) => {
-    return state.event[name]
+    return state.event[name];
   },
 
   getNewsCollection: (state) => (name) => {
     return state.event[name]
       ? state.event[name].news
-      : []
+      : [];
   },
 
   getNews: (state) => ({ name, id }) => {
-    let newsSet = state.event[name]
-      ? state.event[name].news.filter(news => news.id.toString() === id.toString())
-      : []
+    const newsSet = state.event[name]
+      ? state.event[name].news.filter((news) => news.id.toString() === id.toString())
+      : [];
 
-    return newsSet.length > 0 ? newsSet[0] : null
+    return newsSet.length > 0 ? newsSet[0] : null;
   },
 
   getPendingNews: (state) => (name) => {
     if (name) {
-      return state.pendingNews[name] || []
+      return state.pendingNews[name] || [];
     } else {
-      return state.allPendingNews
+      return state.allPendingNews;
     }
   },
 
-  getSubscriptionList (state, getters) {
+  getSubscriptionList(state, getters) {
     if (getters.isLoggedIn) {
-      return state.client.subscriptions.filter(s => s.status === 'active')
+      return state.client.subscriptions.filter((s) => s.status === 'active');
     } else {
-      return []
+      return [];
     }
   },
 
-  getLastSubscription (state, getters) {
-    let subscriptionList = getters.getSubscriptionList
+  getLastSubscription(state, getters) {
+    const subscriptionList = getters.getSubscriptionList;
     if (subscriptionList.length > 0) {
-      return subscriptionList[0]
+      return subscriptionList[0];
     } else {
-      return null
+      return null;
     }
   },
 
   getEventSubscriptionList: (state, getters) => (name) => {
-    let subscriptionList = getters.getSubscriptionList
-    let event = getters.getEvent(name)
-    let eventSubscriptionList = (subscriptionList || []).filter(s => s.event === event.id)
-    return eventSubscriptionList
+    const subscriptionList = getters.getSubscriptionList;
+    const event = getters.getEvent(name);
+    const eventSubscriptionList = (subscriptionList || []).filter((s) => s.event === event.id);
+    return eventSubscriptionList;
   },
 
   getAuth: (state, getters) => (site) => {
     if (getters.isLoggedIn) {
-      return state.client.auths.filter(a => a.site === site)
+      return state.client.auths.filter((a) => a.site === site);
     }
 
-    return null
+    return null;
   },
 
-  getAvailableAuths (state) {
-    return state.availableAuths
-  }
-}
+  getAvailableAuths(state) {
+    return state.availableAuths;
+  },
+};

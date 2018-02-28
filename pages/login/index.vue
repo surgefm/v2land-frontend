@@ -16,42 +16,42 @@
 </template>
 
 <script>
-  import config from '~/const'
+  import config from '~/const';
 
   export default {
-    data () {
+    data() {
       return {
-        availableMethods: []
-      }
+        availableMethods: [],
+      };
     },
     computed: {
-      redirect () {
-        let base = config.baseUrl + 'login/auth?redirect='
-        let redirect = this.$route.query.redirect
+      redirect() {
+        const base = config.baseUrl + 'login/auth?redirect=';
+        const redirect = this.$route.query.redirect;
         if (redirect) {
           if (redirect[0] === '/') {
-            return base + redirect.slice(1)
+            return base + redirect.slice(1);
           } else {
-            return base + redirect
+            return base + redirect;
           }
         }
-        return base
-      }
+        return base;
+      },
     },
-    async asyncData ({ store, query, redirect }) {
-      let options = await store.dispatch('getAvailableAuthMethod')
+    async asyncData({ store, query, redirect }) {
+      const options = await store.dispatch('getAvailableAuthMethod');
       if (options.length === 1) {
-        let path = '/login/email'
+        let path = '/login/email';
         if (query.redirect) {
-          path += '?redirect=' + query.redirect
+          path += '?redirect=' + query.redirect;
         }
-        redirect(path)
+        redirect(path);
       }
       return {
-        availableMethods: options
-      }
-    }
-  }
+        availableMethods: options,
+      };
+    },
+  };
 </script>
 
 <style lang="scss" scoped>

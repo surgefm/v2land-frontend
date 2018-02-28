@@ -84,13 +84,13 @@
 </template>
 
 <script>
-  import config from '~/const'
-  import Cookie from 'js-cookie'
-  import $ from 'postman-url-encoder'
-  import EventSubscribe from '~/components/EventSubscribe.vue'
+  import config from '~/const';
+  import Cookie from 'js-cookie';
+  import $ from 'postman-url-encoder';
+  import EventSubscribe from '~/components/EventSubscribe.vue';
 
   export default {
-    data () {
+    data() {
       return {
         availableMethods: [],
         subscribed: false,
@@ -99,132 +99,132 @@
         showEditButton: true,
         tabLoading: false,
         submitting: false,
-        config
-      }
+        config,
+      };
     },
     computed: {
-      redirect () {
-        let redirect = config.baseUrl + 'login/auth?redirect='
-        return redirect + `${this.$route.path}?subscribe=1`
+      redirect() {
+        const redirect = config.baseUrl + 'login/auth?redirect=';
+        return redirect + `${this.$route.path}?subscribe=1`;
       },
-      subscriptions () {
+      subscriptions() {
         return this.$store.getters.getEventSubscriptionList(
           this.$route.params.name
-        )
+        );
       },
-      isSubmittable () {
-        let { mode, contact } = this.$store.state.subscribe
-        let subscription = this.subscriptions.filter(s => {
-          let method = 'email'
+      isSubmittable() {
+        const { mode, contact } = this.$store.state.subscribe;
+        const subscription = this.subscriptions.filter((s) => {
+          let method = 'email';
           if (s.contact.method.includes('weibo')) {
-            method = 'weibo'
+            method = 'weibo';
           } else if (s.contact.method.includes('twitter')) {
-            method = 'twitter'
+            method = 'twitter';
           }
 
           return s.mode === mode &&
             s.contact.method === contact.method &&
-            s.contact[method] === contact[method]
-        })
-        return subscription.length === 0
-      }
+            s.contact[method] === contact[method];
+        });
+        return subscription.length === 0;
+      },
     },
     methods: {
-      activate () {
+      activate() {
         if (this.$route.query.subscribe === '1') {
-          this.showDialog = true
+          this.showDialog = true;
         }
 
         if (this.$store.getters.getClient.subscriptions[0] ||
           this.showDialog) {
-          return
+          return;
         }
         if (!Cookie.get('v2land-isSubscriptionTooltipShown')) {
-          this.showTooltip = true
+          this.showTooltip = true;
           setTimeout(() => {
-            this.showTooltip = false
-          }, 6000)
+            this.showTooltip = false;
+          }, 6000);
           setTimeout(() => {
             Cookie.set('v2land-isSubscriptionTooltipShown', 1, {
-              expires: 60 * 60 * 24 * 3
-            })
-          }, 3000)
+              expires: 60 * 60 * 24 * 3,
+            });
+          }, 3000);
         }
       },
-      editSubscription () {
-        this.showEditButton = false
+      editSubscription() {
+        this.showEditButton = false;
       },
-      async openDialog () {
-        if (this.tabLoading) return
+      async openDialog() {
+        if (this.tabLoading) return;
         if (this.$store.getters.isLoggedIn) {
-          let subscription = this.subscriptions.filter(s => {
-            return s.mode === 'new' && s.contact.method === 'email'
-          })
+          const subscription = this.subscriptions.filter((s) => {
+            return s.mode === 'new' && s.contact.method === 'email';
+          });
           if (!this.subscriptions[0] && subscription.length === 0) {
-            this.tabLoading = true
-            let url = $.encode(`subscription/${this.$route.params.name}`)
+            this.tabLoading = true;
+            const url = $.encode(`subscription/${this.$route.params.name}`);
             await this.$axios.post(url, {
               mode: 'new',
               contact: {
                 method: 'email',
-                email: this.$store.getters.getClient.email
-              }
-            })
-            await this.$store.dispatch('getClient')
-            this.tabLoading = false
+                email: this.$store.getters.getClient.email,
+              },
+            });
+            await this.$store.dispatch('getClient');
+            this.tabLoading = false;
           }
         }
 
-        this.showDialog = true
-        this.showTooltip = false
+        this.showDialog = true;
+        this.showTooltip = false;
       },
-      closeDialog () {
-        this.showDialog = false
-        this.showEditButton = true
+      closeDialog() {
+        this.showDialog = false;
+        this.showEditButton = true;
       },
-      async submit () {
+      async submit() {
         if (this.showEditButton) {
-          this.closeDialog()
+          this.closeDialog();
         } else {
           try {
-            this.submitting = true
-            let { mode, contact } = this.$store.state.subscribe
-            let url = $.encode(`subscription/${this.$route.params.name}`)
-            await this.$axios.post(url, { mode, contact })
-            this.closeDialog()
-            this.$message.success('关注成功')
-            this.$store.commit('setSubscribeMode', '')
-            this.$store.commit('setSubscribeMethod', { method: '', address: '' })
-            await this.$store.dispatch('getClient')
-            this.submitting = false
+            this.submitting = true;
+            const { mode, contact } = this.$store.state.subscribe;
+            const url = $.encode(`subscription/${this.$route.params.name}`);
+            await this.$axios.post(url, { mode, contact });
+            this.closeDialog();
+            this.$message.success('关注成功');
+            this.$store.commit('setSubscribeMode', '');
+            this.$store.commit('setSubscribeMethod', { method: '', address: '' });
+            await this.$store.dispatch('getClient');
+            this.submitting = false;
           } catch (err) {
-            this.$message.error(err.message || '发生了未知错误')
-            this.submitting = false
+            this.$message.error(err.message || '发生了未知错误');
+            this.submitting = false;
           }
         }
-      }
+      },
     },
     components: {
-      'event-subscribe': EventSubscribe
+      'event-subscribe': EventSubscribe,
     },
-    async created () {
+    async created() {
       if (this.$store.getters.getEventSubscriptionList(
         this.$route.params.name
       )[0]) {
-        this.subscribed = true
+        this.subscribed = true;
       }
 
       if (this.$route.query.edit === '1') {
-        this.showEditButton = false
+        this.showEditButton = false;
       }
 
       if (!this.$store.getters.isLoggedIn) {
-        let methods = await this.$store.dispatch('getAvailableAuthMethod')
-        this.availableMethods = methods.slice()
-        this.showEditButton = false
+        const methods = await this.$store.dispatch('getAvailableAuthMethod');
+        this.availableMethods = methods.slice();
+        this.showEditButton = false;
       }
-    }
-  }
+    },
+  };
 </script>
 
 <style lang="scss" scoped>

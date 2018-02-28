@@ -18,33 +18,33 @@
 </template>
 
 <script>
-  import EventInformationForm from '~/components/EventInformationForm.vue'
+  import EventInformationForm from '~/components/EventInformationForm.vue';
 
   export default {
     components: {
-      'event-information-form': EventInformationForm
+      'event-information-form': EventInformationForm,
     },
     methods: {
-      submit () {
-        let data = this.$store.state.temp['EditEvent-' + this.$route.params.name]
+      submit() {
+        const data = this.$store.state.temp['EditEvent-' + this.$route.params.name];
         this.$store.dispatch('editEvent', {
           name: this.$route.params.name,
-          data
+          data,
         })
           .then(() => {
-            this.$store.dispatch('fetchEvent', this.$route.params.name)
+            this.$store.dispatch('fetchEvent', this.$route.params.name);
           })
           .then(() => {
-            this.$message('修改成功')
-            let url = this.$route.query.redirect || `/${this.$route.params.name}`
-            this.$router.push(url)
-          })
-      }
+            this.$message('修改成功');
+            const url = this.$route.query.redirect || `/${this.$route.params.name}`;
+            this.$router.push(url);
+          });
+      },
     },
-    async asyncData ({ route, store }) {
-      return store.dispatch('getEvent', route.params.name)
-    }
-  }
+    async asyncData({ route, store }) {
+      return store.dispatch('getEvent', route.params.name);
+    },
+  };
 </script>
 
 <style lang="scss" scoped>

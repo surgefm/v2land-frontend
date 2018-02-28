@@ -31,53 +31,53 @@
 <script>
   export default {
     computed: {
-      name () {
-        return this.$route.params.name
+      name() {
+        return this.$route.params.name;
       },
-      newsCollection () {
+      newsCollection() {
         if (this.isAdminAdmit) {
-          return this.$store.getters.getPendingNews()
+          return this.$store.getters.getPendingNews();
         } else {
-          return this.$store.getters.getPendingNews(this.name)
+          return this.$store.getters.getPendingNews(this.name);
         }
       },
-      isAdminAdmit () {
-        return this.name === 'admin'
-      }
+      isAdminAdmit() {
+        return this.name === 'admin';
+      },
     },
     methods: {
-      update (status) {
+      update(status) {
         if (this.isAdminAdmit) {
           this.$store.dispatch('getPendingNews')
             .then(() => {
-              this.response(status)
-            })
+              this.response(status);
+            });
         } else {
           this.$store.dispatch('getPendingNews', this.$route.params.name)
             .then(() => {
-              this.$store.dispatch('fetchEvent', this.$route.params.name)
+              this.$store.dispatch('fetchEvent', this.$route.params.name);
             })
             .then(() => {
-              this.response(status)
-            })
+              this.response(status);
+            });
         }
       },
-      response (status) {
+      response(status) {
         if (status === 'admitted') {
-          this.$message('已将该新闻放入事件新闻合辑内')
+          this.$message('已将该新闻放入事件新闻合辑内');
         } else {
-          this.$message('已拒绝该新闻')
+          this.$message('已拒绝该新闻');
         }
+      },
+    },
+    async asyncData({ store, route }) {
+      if (route.params.name === 'admin') {
+        return store.dispatch('getPendingNews');
+      } else {
+        return store.dispatch('getPendingNews', route.params.name);
       }
     },
-    async asyncData ({ store, route }) {
-      if (route.params.name === 'admin') {
-        return store.dispatch('getPendingNews')
-      } else {
-        return store.dispatch('getPendingNews', route.params.name)
-      }
-    }
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

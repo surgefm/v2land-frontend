@@ -43,126 +43,128 @@
 </template>
 
 <script>
-  import $ from 'postman-url-encoder'
-  import config from '~/const'
+  import $ from 'postman-url-encoder';
+  import config from '~/const';
 
   export default {
-    data () {
+    data() {
       return {
-        activeNews: null
-      }
+        activeNews: null,
+      };
     },
     computed: {
-      name () {
-        return this.$route.params.name
+      name() {
+        return this.$route.params.name;
       },
-      event () {
-        return this.$store.getters.getEvent(this.name)
+      event() {
+        return this.$store.getters.getEvent(this.name);
       },
-      newsCollection () {
-        return this.$store.getters.getNewsCollection(this.name)
+      newsCollection() {
+        return this.$store.getters.getNewsCollection(this.name);
       },
-      image () {
-        return config.static + this.event.headerImage.imageUrl
+      image() {
+        return config.static + this.event.headerImage.imageUrl;
       },
-      showCover () {
+      showCover() {
         return this.activeNews &&
           this.$route.hash &&
-          this.$route.hash !== '#timeline'
+          this.$route.hash !== '#timeline';
       },
-      hash () {
+      hash() {
         if (this.$route.hash) {
-          return this.$route.hash.slice(1)
+          return this.$route.hash.slice(1);
         } else {
-          return null
+          return null;
         }
       },
-      anchoredNews () {
-        let hash = this.$route.hash
+      anchoredNews() {
+        let hash = this.$route.hash;
         if (hash) {
-          hash = hash.slice(1)
-          let name = this.$route.params.name
-          let news = this.$store.getters.getNews({
+          hash = hash.slice(1);
+          const name = this.$route.params.name;
+          const news = this.$store.getters.getNews({
             name,
-            id: hash
-          })
+            id: hash,
+          });
           if (news) {
-            let copy = Object.assign({}, news)
-            copy.tag = '相关新闻'
-            return copy
+            const copy = Object.assign({}, news);
+            copy.tag = '相关新闻';
+            return copy;
           }
         }
-        return null
-      }
+        return null;
+      },
     },
     methods: {
-      showNewsAboveCover (news) {
-        let show = this.showCover && news.id === this.activeNews
+      showNewsAboveCover(news) {
+        const show = this.showCover && news.id === this.activeNews;
         if (show) {
           try {
             setTimeout(() => {
-              let element = document.getElementById('i' + this.activeNews)
+              const element = document.getElementById('i' + this.activeNews);
               if (element) {
-                element.scrollIntoView()
-                window.scrollBy(0, -50)
+                element.scrollIntoView();
+                window.scrollBy(0, -50);
               }
-            }, 50)
-          } catch (e) {}
+            }, 50);
+          } catch (e) {
+            // do nothing here
+          }
         }
 
-        return show
+        return show;
       },
-      hideNews (news) {
-        return this.showCover && news.id === this.$route.hash.slice(1)
+      hideNews(news) {
+        return this.showCover && news.id === this.$route.hash.slice(1);
       },
-      clickAnchoredNews (news) {
+      clickAnchoredNews(news) {
         setTimeout(() => {
           if (this.hash !== news.id) {
-            this.activeNews = news.id
+            this.activeNews = news.id;
           }
-        }, 50)
+        }, 50);
       },
-      removeCover () {
-        this.activeNews = null
-        window.location.hash = 'timeline'
-      }
+      removeCover() {
+        this.activeNews = null;
+        window.location.hash = 'timeline';
+      },
     },
-    async asyncData ({ store, params, redirect, route }) {
-      let event = await store.dispatch('getEvent', params.name)
+    async asyncData({ store, params, redirect, route }) {
+      const event = await store.dispatch('getEvent', params.name);
       if (!event) {
-        return redirect('/')
+        return redirect('/');
       }
       if (event.name !== params.name) {
         return redirect($.encode('/' + event.name +
           (route.query.news ? ('?news=' + route.query.news) : '')
-        ))
+        ));
       }
-      return {}
+      return {};
     },
-    mounted () {
-      window.location.hash = 'timeline'
+    mounted() {
+      window.location.hash = 'timeline';
       if (this.$route.query.news && document) {
         window.onload = () => {
           setTimeout(() => {
-            let element = document.getElementById('i' + this.$route.query.news)
-            let news = document.getElementById('main-i' + this.$route.query.news)
+            const element = document.getElementById('i' + this.$route.query.news);
+            const news = document.getElementById('main-i' + this.$route.query.news);
             if (element) {
-              element.scrollIntoView()
-              window.scrollBy(0, -50)
-              news.className += ' emphasize'
+              element.scrollIntoView();
+              window.scrollBy(0, -50);
+              news.className += ' emphasize';
             }
-          }, 100)
-        }
+          }, 100);
+        };
       }
     },
-    head () {
-      let title = this.name + ' - 浪潮，渴望重回土地'
-      let image = this.event
+    head() {
+      const title = this.name + ' - 浪潮，渴望重回土地';
+      const image = this.event
         ? (this.event.headerImage ? this.image : null)
-        : null
-      let description = this.event
+        : null;
+      const description = this.event
         ? this.event.description
-        : null
+        : null;
       return {
         title,
         meta: [
@@ -171,11 +173,11 @@
           description ? { hid: 't:description', name: 'twitter:description', content: description } : {},
           description ? { hid: 'og:description', property: 'og:description', content: description } : {},
           image ? { hid: 't:image', name: 'twitter:image', content: image } : {},
-          image ? { hid: 'og:image', property: 'og:image', content: image } : {}
-        ]
-      }
-    }
-  }
+          image ? { hid: 'og:image', property: 'og:image', content: image } : {},
+        ],
+      };
+    },
+  };
 </script>
 
 <style lang="scss" scoped>

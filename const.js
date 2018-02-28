@@ -4,5 +4,5 @@ module.exports = {
   static: 'https://assets.v2land.net/',
   ga: 'UA-109441031-1', // Google Analytics
   typekit: 'zmq2epg',
-  publicPath: 'https://cdn.v2land.net/_nuxt/'
-}
+  publicPath: 'https://cdn.v2land.net/_nuxt/',
+};

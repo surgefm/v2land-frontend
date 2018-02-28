@@ -19,24 +19,24 @@
 </template>
 
 <script>
-  import SubscriptionCard from '~/components/SubscriptionCard.vue'
+  import SubscriptionCard from '~/components/SubscriptionCard.vue';
 
   export default {
     computed: {
-      isAdmin () {
-        return this.$store.getters.isClientAdmin
+      isAdmin() {
+        return this.$store.getters.isClientAdmin;
       },
-      isLoggedIn () {
-        return this.$store.getters.isLoggedIn
+      isLoggedIn() {
+        return this.$store.getters.isLoggedIn;
       },
-      subscriptionList () {
-        return this.$store.getters.getSubscriptionList
-      }
+      subscriptionList() {
+        return this.$store.getters.getSubscriptionList;
+      },
     },
     components: {
-      'subscription-card': SubscriptionCard
-    }
-  }
+      'subscription-card': SubscriptionCard,
+    },
+  };
 </script>
 
 <style lang="scss" scoped>

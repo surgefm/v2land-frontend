@@ -38,33 +38,33 @@
 </template>
 
 <script>
-import config from '~/const'
+import config from '~/const';
 
 export default {
   props: {
-    'mode': String
+    'mode': String,
   },
-  data () {
+  data() {
     return {
       showTooltip: false,
-      touch: false
-    }
+      touch: false,
+    };
   },
   computed: {
-    src () {
-      return config.static + 'icon.svg'
+    src() {
+      return config.static + 'icon.svg';
     },
-    isHomepage () {
-      return this.$route.name === 'index'
-    }
+    isHomepage() {
+      return this.$route.name === 'index';
+    },
   },
   methods: {
-    touched () {
-      this.showTooltip = this.isHomepage ? !this.showTooltip : false
-      this.touch = !this.isHomepage
-    }
-  }
-}
+    touched() {
+      this.showTooltip = this.isHomepage ? !this.showTooltip : false;
+      this.touch = !this.isHomepage;
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

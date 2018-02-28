@@ -35,21 +35,21 @@
 </template>
 
 <script>
-  import config from '~/const'
+  import config from '~/const';
 
   export default {
-    data () {
+    data() {
       return {
         eventCollection: [],
-        config
-      }
+        config,
+      };
     },
-    async asyncData ({ store }) {
+    async asyncData({ store }) {
       return {
-        eventCollection: await store.dispatch('getEventList')
-      }
-    }
-  }
+        eventCollection: await store.dispatch('getEventList'),
+      };
+    },
+  };
 </script>
 
 <style lang="scss" scoped>

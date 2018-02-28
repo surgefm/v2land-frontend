@@ -15,38 +15,38 @@
 </template>
 
 <script>
-  import redirect from '~/middleware/permission'
+  import redirect from '~/middleware/permission';
 
   export default {
-    data () {
+    data() {
       return {
-        loading: false
-      }
+        loading: false,
+      };
     },
     computed: {
-      isLoggedIn () {
-        return this.$store.getters.isLoggedIn
-      }
+      isLoggedIn() {
+        return this.$store.getters.isLoggedIn;
+      },
     },
     methods: {
-      login () {
+      login() {
         this.$router.push({
           path: '/login',
           query: {
-            redirect: this.$route.path
-          }
-        })
+            redirect: this.$route.path,
+          },
+        });
       },
-      async logout () {
-        this.loading = true
-        await this.$store.dispatch('logout')
-        this.$message.success('成功退出登录')
-        let path = redirect({ component: this })
+      async logout() {
+        this.loading = true;
+        await this.$store.dispatch('logout');
+        this.$message.success('成功退出登录');
+        const path = redirect({ component: this });
         if (path) {
-          this.$router.push('/')
+          this.$router.push('/');
         }
-        this.loading = false
-      }
-    }
-  }
+        this.loading = false;
+      },
+    },
+  };
 </script>

@@ -12,15 +12,15 @@
 <script>
   export default {
     computed: {
-      name () {
-        return this.$route.params.name
+      name() {
+        return this.$route.params.name;
       },
-      pendingNews () {
-        return this.$store.getters.getPendingNews(this.name).length
-      }
+      pendingNews() {
+        return this.$store.getters.getPendingNews(this.name).length;
+      },
     },
-    created () {
-      this.$store.dispatch('getPendingNews', this.$route.params.name)
-    }
-  }
+    created() {
+      this.$store.dispatch('getPendingNews', this.$route.params.name);
+    },
+  };
 </script>

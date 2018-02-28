@@ -11,14 +11,14 @@
 </template>
 
 <script>
-  import LoginForm from '~/components/LoginForm.vue'
+  import LoginForm from '~/components/LoginForm.vue';
 
   export default {
     components: {
-      'login-form': LoginForm
+      'login-form': LoginForm,
     },
-    async asyncData ({ store }) {
-      await store.dispatch('getAvailableAuthMethod')
-    }
-  }
+    async asyncData({ store }) {
+      await store.dispatch('getAvailableAuthMethod');
+    },
+  };
 </script>

@@ -4,7 +4,7 @@ export default {
     email: '',
     role: '',
     subscriptions: [],
-    events: []
+    events: [],
   },
   availableAuths: [],
   event: {},
@@ -15,7 +15,7 @@ export default {
     mode: '',
     contact: {
       method: '',
-      address: ''
-    }
-  }
-}
+      address: '',
+    },
+  },
+};

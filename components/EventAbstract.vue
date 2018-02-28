@@ -12,33 +12,33 @@
 </template>
 
 <script>
-  import EventTitle from '~/components/EventTitle.vue'
-  import EventShare from '~/components/EventAbstractShare.vue'
+  import EventTitle from '~/components/EventTitle.vue';
+  import EventShare from '~/components/EventAbstractShare.vue';
 
   export default {
     components: {
       'event-title': EventTitle,
-      'event-share': EventShare
+      'event-share': EventShare,
     },
     props: {
-      detail: Object
+      detail: Object,
     },
     computed: {
-      time () {
-        let news = this.detail.news
+      time() {
+        const news = this.detail.news;
         if (!news || news.length === 0) {
-          return {}
+          return {};
         }
 
-        let startTime = news[news.length - 1].time
-        let lastTime = news[0].time
+        const startTime = news[news.length - 1].time;
+        const lastTime = news[0].time;
 
         return news.length === 1
           ? { startTime }
-          : { startTime, lastTime }
-      }
-    }
-  }
+          : { startTime, lastTime };
+      },
+    },
+  };
 </script>
 
 <style lang="scss" scoped>

@@ -11,11 +11,11 @@
 </template>
 
 <script>
-  import RegistrationForm from '~/components/RegistrationForm.vue'
+  import RegistrationForm from '~/components/RegistrationForm.vue';
 
   export default {
     components: {
-      'registration-form': RegistrationForm
-    }
-  }
+      'registration-form': RegistrationForm,
+    },
+  };
 </script>

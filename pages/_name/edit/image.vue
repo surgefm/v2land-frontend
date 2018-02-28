@@ -54,96 +54,96 @@
 </template>
 
 <script>
-  import config from '~/const'
-  import $ from 'postman-url-encoder'
-  import Upload from 'element-ui/lib/upload'
+  import config from '~/const';
+  import $ from 'postman-url-encoder';
+  import Upload from 'element-ui/lib/upload';
 
-  let url = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/
+  const url = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/;
   
   export default {
-    data () {
+    data() {
       return {
         config,
         imageUrl: '',
         form: {
           imageUrl: '',
           source: '',
-          sourceUrl: ''
+          sourceUrl: '',
         },
         rules: {
           imageUrl: [
-            { required: true, message: '请上传图片', trigger: 'change' }
+            { required: true, message: '请上传图片', trigger: 'change' },
           ],
           source: [
-            { required: true, message: '请输入图片来源', trigger: 'blur' }
+            { required: true, message: '请输入图片来源', trigger: 'blur' },
           ],
           sourceUrl: [
-            { pattern: url, message: '请输入正确的链接', trigger: 'blur' }
-          ]
-        }
-      }
+            { pattern: url, message: '请输入正确的链接', trigger: 'blur' },
+          ],
+        },
+      };
     },
     computed: {
-      orig () {
-        return this.$store.getters.getEvent(this.$route.params.name).headerImage
+      orig() {
+        return this.$store.getters.getEvent(this.$route.params.name).headerImage;
       },
-      isNew () {
-        return !this.orig
-      }
+      isNew() {
+        return !this.orig;
+      },
     },
     methods: {
-      handleimageSuccess (res, file) {
-        this.imageUrl = config.static + res.name
-        this.form.imageUrl = res.name
+      handleimageSuccess(res, file) {
+        this.imageUrl = config.static + res.name;
+        this.form.imageUrl = res.name;
       },
-      beforeimageUpload (file) {
-        const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png')
-        const isLt2M = file.size / 1024 / 1024 < 4
+      beforeimageUpload(file) {
+        const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png');
+        const isLt2M = file.size / 1024 / 1024 < 4;
 
         if (!isJPG) {
-          this.$message.error('只支持 .jpg 或 .png 格式的图片')
+          this.$message.error('只支持 .jpg 或 .png 格式的图片');
         }
         if (!isLt2M) {
-          this.$message.error('图片大小不得超过 4Mb')
+          this.$message.error('图片大小不得超过 4Mb');
         }
-        return isJPG && isLt2M
+        return isJPG && isLt2M;
       },
-      submit () {
+      submit() {
         this.$refs.form.validate((valid) => {
           if (valid) {
-            let url = $.encode(`event/${this.$route.params.name}/header_image`)
+            const url = $.encode(`event/${this.$route.params.name}/header_image`);
             this.$axios[this.isNew ? 'post' : 'put'](url, this.form)
               .then(() => {
-                this.$store.dispatch('fetchEvent', this.$route.params.name)
+                this.$store.dispatch('fetchEvent', this.$route.params.name);
               })
               .then(() => {
-                this.$message.success('设置成功')
+                this.$message.success('设置成功');
               })
-              .catch(err => {
-                this.$message.error(err.message)
-              })
+              .catch((err) => {
+                this.$message.error(err.message);
+              });
           }
-        })
+        });
       },
-      reset () {
+      reset() {
         if (this.isNew && this.$refs.form) {
-          this.$refs.form.resetFields()
+          this.$refs.form.resetFields();
         } else if (!this.isNew) {
-          this.imageUrl = config.static + this.orig.imageUrl
-          this.form = Object.assign({}, this.orig)
+          this.imageUrl = config.static + this.orig.imageUrl;
+          this.form = Object.assign({}, this.orig);
         }
-      }
+      },
     },
     components: {
-      'el-upload': Upload
+      'el-upload': Upload,
     },
-    async asyncData ({ route, store }) {
-      return store.dispatch('getEvent', route.params.name)
+    async asyncData({ route, store }) {
+      return store.dispatch('getEvent', route.params.name);
     },
-    created () {
-      this.reset()
-    }
-  }
+    created() {
+      this.reset();
+    },
+  };
 </script>
 
 <style lang="scss" scoped>

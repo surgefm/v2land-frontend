@@ -49,64 +49,64 @@
     props: {
       hideThirdParty: Boolean,
       hideFindPassword: Boolean,
-      authorizing: Boolean
+      authorizing: Boolean,
     },
-    data () {
+    data() {
       return {
         form: {
           username: '',
-          password: ''
+          password: '',
         },
         isSubmitting: false,
         rules: {
           username: [
-            { required: true, message: '请输入用户名', trigger: 'blur' }
+            { required: true, message: '请输入用户名', trigger: 'blur' },
           ],
           password: [
-            { required: true, message: '请输入密码', trigger: 'blur' }
-          ]
-        }
-      }
+            { required: true, message: '请输入密码', trigger: 'blur' },
+          ],
+        },
+      };
     },
     computed: {
-      redirect () {
-        let redirect = this.$route.query.redirect
-        return redirect || '/'
-      }
+      redirect() {
+        const redirect = this.$route.query.redirect;
+        return redirect || '/';
+      },
     },
     methods: {
-      submit () {
+      submit() {
         this.$refs.form.validate((valid) => {
           if (valid) {
-            this.isSubmitting = true
+            this.isSubmitting = true;
             this.$axios.post('client/login', this.form)
               .then(({ data }) => {
-                this.$store.commit('setClient', data.client)
-                this.$ga.set('userId', data.client.id)
-                this.$message.success(`你好，${data.client.username}`)
+                this.$store.commit('setClient', data.client);
+                this.$ga.set('userId', data.client.id);
+                this.$message.success(`你好，${data.client.username}`);
                 if (this.authorizing) {
-                  this.$emit('logged-in')
+                  this.$emit('logged-in');
                 } else {
-                  this.$router.push(this.redirect)
+                  this.$router.push(this.redirect);
                 }
-                this.isSubmitting = false
+                this.isSubmitting = false;
               })
               .catch((err) => {
-                this.$message.error(err.response.data.message)
-                this.isSubmitting = false
-              })
+                this.$message.error(err.response.data.message);
+                this.isSubmitting = false;
+              });
           }
-        })
+        });
       },
-      thirdParty () {
-        let path = '/login'
+      thirdParty() {
+        let path = '/login';
         if (this.$route.query.redirect) {
-          path += '?redirect=' + this.$route.query.redirect
+          path += '?redirect=' + this.$route.query.redirect;
         }
-        this.$router.push(path)
-      }
-    }
-  }
+        this.$router.push(path);
+      },
+    },
+  };
 </script>
 
 <style lang="scss" scoped>
