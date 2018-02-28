@@ -138,6 +138,7 @@
     justify-content: center;
     position: fixed;
     top: 7rem;
+    left: 0;
     width: 100%;
     z-index: 1100;
     visibility: hidden;
