@@ -12,9 +12,9 @@
       <nuxt-link
         class="tag light-font"
         v-if="showEventName"
-        :to="`/${news.event.name}`"
+        :to="`/${eventName}`"
       >
-        {{ news.event.name }}
+        {{ eventName }}
       </nuxt-link>
       <span v-if="order === 1 && !showEventName" class="tag light-font">
         最新消息
@@ -66,28 +66,31 @@
       mode: String,
       event: Object,
     },
+    data() {
+      return {
+        eventName: this.event ? this.event.name : '',
+      };
+    },
     computed: {
       showEventName() {
         if (this.news.event === this.$route.params.name ||
-          this.news.event === this.event.id) {
+          (this.event && this.news.event === this.event.id)) {
           return false;
         }
 
-        if (this.event) return false;
+        if (this.event) return true;
 
-        const event = this.$store.getters.getNews({
-          name: this.$route.params.name,
-          id: this.$route.params.id,
-        });
+        const event = this.$store.getters.getNews(this.news.event);
 
-        if (this.news.event === event.id) {
-          return false;
+        if (event) {
+          this.eventName = event.name;
+          return true;
         }
 
-        return true;
+        return false;
       },
       newsUrl() {
-        return config.baseUrl + this.$route.params.name + '?news=' + this.news.id;
+        return config.baseUrl + this.news.event + '?news=' + this.news.id;
       },
     },
     components: {
