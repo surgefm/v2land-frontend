@@ -6,7 +6,7 @@
           <p class="event-title">
             {{ event.name }}
           </p>
-          <event-description class="event-description">
+          <event-description class="event-description light-font">
             {{ description }}
           </event-description>
           <img
