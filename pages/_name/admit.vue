@@ -15,12 +15,12 @@
     >
       <event-news
         :news="news"
+        :event="event"
         mode="admit"
         :order="Number(i) + 1"
         v-on:admitted="update('admitted')"
         v-on:rejected="update('rejected')"
-      >
-      </event-news>
+      />
     </div>
     <event-action />
     <logo class="logo" />
@@ -33,6 +33,9 @@
     computed: {
       name() {
         return this.$route.params.name;
+      },
+      event() {
+        return this.$store.getters.getEvent(this.$route.params.name);
       },
       newsCollection() {
         if (this.isAdminAdmit) {
@@ -74,6 +77,7 @@
       if (route.params.name === 'admin') {
         return store.dispatch('getPendingNews');
       } else {
+        await store.dispatch('getEvent', route.params.name);
         return store.dispatch('getPendingNews', route.params.name);
       }
     },

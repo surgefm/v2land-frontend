@@ -22,7 +22,17 @@ export default {
   },
 
   getEvent: (state) => (name) => {
-    return state.event[name];
+    if (state.event[name]) {
+      return state.event[name];
+    }
+
+    for (const i in state.event) {
+      if (state.event[i].id === name) {
+        return state.event[i];
+      }
+    }
+
+    return null;
   },
 
   getNewsCollection: (state) => (name) => {
