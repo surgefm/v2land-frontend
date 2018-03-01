@@ -37,7 +37,7 @@
 
 .event-action-badge {
   position: absolute;
-  right: .125rem;
+  left: calc(100% - 1.25rem);
   top: .125rem;
   font-size: .75rem;
   border-radius: 1rem;
@@ -46,9 +46,9 @@
   background-color: #fa5555;
   color: #fff;
   text-align: center;
-  min-width: 1.25rem;
-  height: 1.25rem;
-  line-height: 1.75;
+  min-width: 1.125rem;
+  height: 1.125rem;
+  line-height: 1.5;
 }
 
 .subscribe-container .el-loading-spinner {
@@ -104,6 +104,12 @@
     right: 0 !important;
     top: -.5rem !important;
     z-index: 3000;
+  }
+
+  .event-action-badge {
+    left: auto;
+    right: .125rem;
+    top: -.5625rem;
   }
 
   .action-dropdown .subscribe-container:hover {

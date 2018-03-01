@@ -8,7 +8,7 @@
         class="header-image"
       />
       <logotype color="#333" />
-      <event-description class="title-description">
+      <event-description class="title-description light-font">
         你的社会事件追踪工具
       </event-description>
       <div class="title-button-container">

@@ -1,6 +1,6 @@
 <template>
   <div class="description">
-    <span class="light-font">
+    <span>
       <slot />
     </span>
   </div>
@@ -16,6 +16,7 @@
 
 <style lang="scss" scoped>
   .description {
+    color: #333;
     padding: 0;
     margin-top: 1rem;
   }
