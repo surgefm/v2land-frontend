@@ -136,7 +136,7 @@ module.exports = {
       handler: 'cacheFirst',
       method: 'GET',
     }, {
-      urlPattern: 'https://static.v2land.net/.*',
+      urlPattern: 'https://cdn.v2land.net/.*',
       handler: 'cacheFirst',
       method: 'GET',
     }],
