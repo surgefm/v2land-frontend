@@ -55,8 +55,8 @@
 </template>
 
 <script>
-  import EventNewsAdmit from '~/components/EventNewsAdmit.vue';
-  import EventNewsShare from '~/components/EventNewsShare.vue';
+  import EventNewsAdmit from '~/components/EventNews/EventNewsAdmit.vue';
+  import EventNewsShare from '~/components/EventNews/EventNewsShare.vue';
   import config from '~/const';
 
   export default {
@@ -119,7 +119,7 @@
 </script>
 
 <style lang="scss" scoped>
-  @import "../assets/variables.scss";
+  @import "../../assets/variables.scss";
 
   a {
     color: black;

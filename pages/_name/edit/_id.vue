@@ -18,8 +18,8 @@
 </template>
 
 <script>
-  import EventNewsInformationForm from '~/components/EventNewsInformationForm';
-  
+  import EventNewsInformationForm from '~/components/EventNews/EventNewsInformationForm';
+
   export default {
     methods: {
       async submit() {

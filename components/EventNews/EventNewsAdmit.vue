@@ -24,7 +24,7 @@
 </script>
 
 <style lang="scss" scoped>
-  @import "../assets/variables.scss";
+  @import "../../assets/variables.scss";
 
   .share {
     display: flex;
@@ -55,7 +55,7 @@
   .el-icon-close:hover:before {
     color: #fa5555;
   }
-  
+
   .el-icon-check:hover:before {
     color: #67c23a;
   }

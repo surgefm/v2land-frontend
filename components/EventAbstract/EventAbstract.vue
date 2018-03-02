@@ -13,7 +13,7 @@
 
 <script>
   import EventTitle from '~/components/EventTitle.vue';
-  import EventShare from '~/components/EventAbstractShare.vue';
+  import EventShare from '~/components/EventAbstract/EventAbstractShare.vue';
 
   export default {
     components: {
