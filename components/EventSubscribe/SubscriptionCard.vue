@@ -109,7 +109,8 @@
       unsubscribe() {
         this.isPopoverVisible = false;
         this.isSubmitting = true;
-        const url = 'subscriptions/unsubscribe?id=' + this.subscription.unsubscribeId;
+        const url = 'subscription/unsubscribe?id=' + this.subscription.id +
+          '&unsubscribeId=' + this.subscription.unsubscribeId;
         this.$axios.get($.encode(url))
           .then(() => {
             this.$store.dispatch('getSubscriptions')
