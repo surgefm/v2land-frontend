@@ -1,0 +1,49 @@
+<template>
+  <card class="hover">
+    <event-title>{{ detail.name }}</event-title>
+    <event-status :time="time" />
+    <event-description v-if="detail.description">
+      {{ detail.description }}
+    </event-description>
+    <div class="event-share">
+      <event-share :event="detail" />
+    </div>
+  </card>
+</template>
+
+<script>
+  import EventTitle from '~/components/EventTitle.vue';
+  import EventShare from '~/components/EventAbstract/EventAbstractShare.vue';
+
+  export default {
+    components: {
+      'event-title': EventTitle,
+      'event-share': EventShare,
+    },
+    props: {
+      detail: Object,
+    },
+    computed: {
+      time() {
+        const news = this.detail.news;
+        if (!news || news.length === 0) {
+          return {};
+        }
+
+        const startTime = news[news.length - 1].time;
+        const lastTime = news[0].time;
+
+        return news.length === 1
+          ? { startTime }
+          : { startTime, lastTime };
+      },
+    },
+  };
+</script>
+
+<style lang="scss" scoped>
+  .event-share {
+    display: flex;
+    justify-content: flex-end;
+  }
+</style>

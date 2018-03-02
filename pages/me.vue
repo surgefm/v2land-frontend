@@ -27,7 +27,7 @@
           <el-input v-else v-model="form.email" disabled />
         </el-form-item>
         <el-form-item
-          v-for="auth of form.authList"
+          v-for="auth of form.auths"
           :key="auth.site + auth.profileId"
           :label="authInfo(auth).site"
         >
@@ -76,144 +76,115 @@
 </template>
 
 <script>
-  import axios from '~/plugins/axios'
-  import config from '~/const'
-  import Cookie from 'cookie'
-  import $ from 'postman-url-encoder'
+  import config from '~/const';
 
   export default {
-    data () {
+    data() {
       return {
         form: {
           username: '',
           role: '',
           email: '',
-          authList: []
+          authList: [],
         },
-        isEditting: false
-      }
+        isEditting: false,
+      };
     },
     computed: {
-      client () {
-        return this.$store.getters.getClient
+      client() {
+        return this.$store.getters.getClient;
       },
-      role () {
+      role() {
         switch (this.form.role) {
-          case 'admin':
-            return '超级管理员'
-          case 'manager':
-            return '管理员'
-          case 'contributor':
-            return '协作者'
-          default:
-            return '浪潮用户'
+        case 'admin':
+          return '超级管理员';
+        case 'manager':
+          return '管理员';
+        case 'contributor':
+          return '协作者';
+        default:
+          return '浪潮用户';
         }
       },
-      showConnectTwitter () {
-        if (!this.client.authList) {
-          return 0
+      showConnectTwitter() {
+        if (!this.client.auths) {
+          return 0;
         }
-        return (this.client.authList.filter(a => a.site === 'twitter').length < 1)
+        return (this.client.auths.filter((a) => a.site === 'twitter').length < 1);
       },
-      showConnectWeibo () {
-        if (!this.client.authList) {
-          return 0
+      showConnectWeibo() {
+        if (!this.client.auths) {
+          return 0;
         }
-        return (this.client.authList.filter(a => a.site === 'weibo').length < 1)
+        return (this.client.auths.filter((a) => a.site === 'weibo').length < 1);
       },
-      isUnauthorizable () {
-        let isClientHavingEmail = false
-        if (!this.client.email.includes('.langchao.co') &&
+      isUnauthorizable() {
+        let isClientHavingEmail = false;
+        if (this.client.email &&
+          !this.client.email.includes('.langchao.co') &&
           this.client.emailVerified) {
-          isClientHavingEmail = true
+          isClientHavingEmail = true;
         }
 
-        return (this.client.authList.length > 1 || isClientHavingEmail)
-      }
+        return (this.client.auths.length > 1 || isClientHavingEmail);
+      },
+      redirect() {
+        return config.baseUrl + 'login/auth?redirect=/me';
+      },
     },
     methods: {
-      authInfo (auth) {
+      authInfo(auth) {
         if (auth.profile) {
           switch (auth.site) {
-            case 'weibo':
-              return {
-                site: '新浪微博',
-                username: '@' + auth.profile.screen_name
-              }
-            case 'twitter':
-              return {
-                site: 'Twitter',
-                username: '@' + auth.profile.screen_name
-              }
+          case 'weibo':
+            return {
+              site: '新浪微博',
+              username: '@' + auth.profile.screen_name,
+            };
+          case 'twitter':
+            return {
+              site: 'Twitter',
+              username: '@' + auth.profile.screen_name,
+            };
           }
         }
 
-        return {}
+        return {};
       },
-      updateForm () {
-        this.$set(this, 'form', this.client)
+      updateForm() {
+        this.$set(this, 'form', this.client);
         if ((this.form.username || '').includes(':')) {
-          this.$set(this.form, 'username', '未设定')
+          this.$set(this.form, 'username', '未设定');
         }
         if ((this.form.email || '').includes('.langchao.co')) {
-          this.$set(this.form, 'email', '未设定')
+          this.$set(this.form, 'email', '未设定');
         }
       },
-      unauthorize (auth) {
+      async unauthorize(auth) {
         if (this.isUnauthorizable) {
-          axios.post('auth/unauthorize', {
-            site: auth.site,
-            profileId: auth.profileId
-          })
-            .then(() => {
-              return this.$store.dispatch('getClient')
-            })
-            .then(() => {
-              this.updateForm()
-              this.$message.success('解绑成功')
-            })
-            .catch(() => {
-              this.$message.error('解绑失败')
-            })
+          try {
+            await this.$axios.delete(`auth/${auth.id}`);
+            await this.$store.dispatch('getClient');
+            this.updateForm();
+            this.$message.success('解绑成功');
+          } catch (err) {
+            this.$message.error('解绑失败');
+          }
         } else {
-          this.$message('你必须验证邮箱或绑定超过一个第三方账号方可解绑')
+          this.$message('你必须验证邮箱或绑定超过一个第三方账号方可解绑');
         }
       },
-      connectTwitter () {
-        let accessToken
-        try {
-          let cookies = Cookie.parse(document.cookie)
-          accessToken = cookies.accessToken
-        } catch (err) {}
-        let url = $.encode(config.api + 'auth/twitter?' +
-          (accessToken ? '&access_token=' + accessToken : '') +
-          '&redirect=me')
-        window.location = url
+      connectTwitter() {
+        window.location = config.api + 'auth/twitter?redirect=' + this.redirect;
       },
-      connectWeibo () {
-        let accessToken
-        try {
-          let cookies = Cookie.parse(document.cookie)
-          accessToken = cookies.accessToken
-        } catch (err) {}
-        let url = $.encode(config.api + 'auth/weibo?' +
-          (accessToken ? '&access_token=' + accessToken : '') +
-          '&redirect=me')
-        window.location = url
-      }
+      connectWeibo() {
+        window.location = config.api + 'auth/weibo?redirect=' + this.redirect;
+      },
     },
-    created () {
-      this.updateForm()
+    created() {
+      this.updateForm();
     },
-    beforeRouteEnter: (to, from, next) => {
-      next(vm => {
-        if (!vm.$store.getters.isLoggedIn) {
-          vm.$router.push('/login?redirect=/me')
-          vm.$message('未登录用户无法查看此页面')
-        }
-      })
-    }
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

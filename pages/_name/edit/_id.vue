@@ -9,63 +9,47 @@
         v-on:submit="submit"
         ref="form"
         mode="edit"
-      >
-      </event-news-information-form>
+      />
     </card>
-    <event-action></event-action>
-    <logo class="logo"></logo>
-    <page-foot/>
+    <event-action />
+    <logo class="logo" />
+    <page-foot />
   </background>
 </template>
 
 <script>
-  import EventNewsInformationForm from '~/components/EventNewsInformationForm'
-  
+  import EventNewsInformationForm from '~/components/EventNews/EventNewsInformationForm';
+
   export default {
     methods: {
-      async submit () {
-        let data = this.$store.state.temp[this.uid]
+      async submit() {
+        const data = this.$store.state.temp[this.uid];
         this.$store.dispatch('editNews', {
           id: this.$route.params.id,
-          data
+          data,
         })
           .then(() => {
-            this.$store.dispatch('fetchEvent', this.$route.params.name)
+            this.$store.dispatch('fetchEvent', this.$route.params.name);
           })
           .then(() => {
-            this.$message('修改成功')
-            this.$router.push(`/${this.$route.params.name}?news=${this.$route.params.id}`)
-          })
-      }
+            this.$message('修改成功');
+            this.$router.push(`/${this.$route.params.name}?news=${this.$route.params.id}`);
+          });
+      },
     },
     computed: {
-      uid () {
-        return 'editNews-' + this.$route.params.id
-      }
+      uid() {
+        return 'editNews-' + this.$route.params.id;
+      },
     },
     components: {
-      'event-news-information-form': EventNewsInformationForm
+      'event-news-information-form': EventNewsInformationForm,
     },
-    beforeCreate () {
-      if (!this.$store.getters.isClientAdmin) {
-        this.$message.error('你无权访问该页面')
-        this.$router.push('/' + this.$route.params.name)
-      }
-
-      let news = this.$store.getters.getNews({
-        name: this.$route.params.name,
-        id: this.$route.params.id
-      })
-
-      if (!news) {
-        this.$message('未找到该新闻')
-        this.$router.push('/' + this.$route.params.name)
-      }
+    async asyncData({ store, route }) {
+      await store.dispatch('getEvent', route.params.name);
+      return store.dispatch('getNews', route.params.id);
     },
-    async asyncData ({ store, route }) {
-      return store.dispatch('getEvent', route.params.name)
-    }
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

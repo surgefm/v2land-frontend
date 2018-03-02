@@ -1,4 +1,4 @@
-const config = require('./const')
+const config = require('./const');
 
 module.exports = {
   srcDir: __dirname,
@@ -7,26 +7,27 @@ module.exports = {
    ** Headers of the page
    */
   head: {
-    title: '浪潮 - 渴望重回土地',
+    title: '浪潮 - 你的社会事件追踪工具',
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=no', 'user-scalable': 'no' },
-      { hid: 'description', name: 'description', content: '回想一下，你曾关注的社会事件中，有多少得到了妥善的解决？' },
+      { 'name': 'viewport', 'content': 'width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=no', 'user-scalable': 'no' },
+      { name: 'lang', property: 'lang', content: 'zh-hans' },
+      { name: 'keywords', content: '浪潮,社会事件,事件,中国,追踪,社会,关注' },
+      { hid: 'description', name: 'description', content: '浪潮是一个社会事件追踪工具。我们帮助你跟进社会事件的最新动态。你也可参与到信息整合的过程中，与社区成员一起添加社会事件与相关资讯，协助他人追踪事件进展。' },
       { hid: 't:card', name: 'twitter:card', content: 'summary' },
       { hid: 't:site', name: 'twitter:site', content: '@Wave2Land' },
       { hid: 't:title', name: 'twitter:title', content: '浪潮 - 渴望重回土地' },
-      { hid: 't:description', name: 'twitter:description', content: '回想一下，你曾关注的社会事件中，有多少得到了妥善的解决？' },
+      { hid: 't:description', name: 'twitter:description', content: '浪潮是一个社会事件追踪工具。我们帮助你跟进社会事件的最新动态。你也可参与到信息整合的过程中，与社区成员一起添加社会事件与相关资讯，协助他人追踪事件进展。' },
       { hid: 't:image', name: 'twitter:image', content: 'https://assets.v2land.net/twitter-icon.png' },
       { hid: 'og:title', property: 'og:title', content: '浪潮 - 渴望重回土地' },
       { hid: 'og:type', property: 'og:type', content: 'website' },
-      { hid: 'og:description', property: 'og:description', content: '回想一下，你曾关注的社会事件中，有多少得到了妥善的解决？' },
+      { hid: 'og:description', property: 'og:description', content: '浪潮是一个社会事件追踪工具。我们帮助你跟进社会事件的最新动态。你也可参与到信息整合的过程中，与社区成员一起添加社会事件与相关资讯，协助他人追踪事件进展。' },
       { hid: 'og:image', name: 'og:image', content: 'https://assets.v2land.net/twitter-icon.png' },
-      { hid: 'og:site_name', name: 'og:site_name', content: '浪潮' }
+      { hid: 'og:site_name', name: 'og:site_name', content: '浪潮' },
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
     ],
-    publicPath: config.publicPath
   },
   /*
    ** Customize the progress bar color
@@ -37,24 +38,24 @@ module.exports = {
    */
   build: {
     /*
-     ** Run ESLint on save
-     */
-    extend (config, ctx) {
+    ** Run ESLint on save
+    */
+    extend(config, ctx) {
       if (ctx.dev && ctx.isClient) {
         config.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
           loader: 'eslint-loader',
-          exclude: /(node_modules)/
-        })
+          exclude: /(node_modules)/,
+        });
       }
     },
     vendor: [
       'postman-url-encoder',
-      'cookie',
-      '~/plugins/axios',
-      '~/const'
-    ]
+      'js-cookie',
+      '~/const',
+    ],
+    publicPath: config.publicPath,
   },
 
   css: [
@@ -80,32 +81,40 @@ module.exports = {
     '~/static/element/spinner.css',
     '~/static/element/scrollbar.css',
     '~/static/element/message.css',
-    '~/static/element/step.css',
-    '~/static/element/steps.css',
     '~/static/element/upload.css',
     '~/static/element/checkbox.css',
     '~/static/element/checkbox-group.css',
-    '~/static/element/popover.css'
+    '~/static/element/popover.css',
+    '~/static/element/dropdown.css',
+    '~/static/element/dropdown-menu.css',
+    '~/static/element/dropdown-item.css',
+    '~/static/element/dialog.css',
+    '~/static/element/loading.css',
   ],
 
   plugins: [
     '~/plugins/element.js',
     '~/plugins/components.js',
     '~/plugins/clipboard.js',
-    { src: '~/plugins/typekit', ssr: false }
+    '~/plugins/polyfills',
+    { src: '~/plugins/statusHandler', ssr: false },
+    { src: '~/plugins/ga', ssr: false },
+    { src: '~/plugins/typekit', ssr: false },
   ],
 
   router: {
-    middleware: 'auth',
-    linkExactActiveClass: 'exact-active-link'
+    middleware: ['auth', 'permission'],
+    linkExactActiveClass: 'exact-active-link',
   },
 
   modules: [
+    '@nuxtjs/axios',
     ['@nuxtjs/google-analytics', {
-      id: config.ga
+      id: config.ga,
     }],
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
   ],
+
   manifest: {
     name: '浪潮',
     short_name: '浪潮',
@@ -114,21 +123,27 @@ module.exports = {
     start_url: '/',
     background_color: '#1e8bc3',
     theme_color: '#1e8bc3',
-    display: 'standalone'
+    display: 'standalone',
   },
+
   workbox: {
     dev: process.env.NODE_ENV === 'development',
     importScripts: [
-      'custom-sw.js'
+      'custom-sw.js',
     ],
     runtimeCaching: [{
       urlPattern: 'https://assets.v2land.net/.*',
       handler: 'cacheFirst',
-      method: 'GET'
+      method: 'GET',
     }, {
       urlPattern: 'https://static.v2land.net/.*',
       handler: 'cacheFirst',
-      method: 'GET'
-    }]
-  }
-}
+      method: 'GET',
+    }],
+  },
+
+  axios: {
+    baseURL: config.api,
+    credentials: true,
+  },
+};

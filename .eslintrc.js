@@ -5,7 +5,10 @@ module.exports = {
     browser: true,
     node: true
   },
-  extends: 'standard',
+  extends: [
+    "eslint:recommended",
+    "v2land",
+  ],
   // required to lint *.vue files
   plugins: [
     'html'

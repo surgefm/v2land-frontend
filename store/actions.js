@@ -1,107 +1,137 @@
-import axios from '~/plugins/axios'
-import $ from 'postman-url-encoder'
+import $ from 'postman-url-encoder';
 
 export default {
-  async getEvent ({ dispatch, state }, name) {
-    if (state.event[name] && state.event[name].newsCollection) {
-      return state.event[name]
+  async getEvent({ dispatch, state, getters }, name) {
+    if (!getters.isServer && state.event[name] && state.event[name].news) {
+      return state.event[name];
     }
-
-    return dispatch('fetchEvent', name)
+    return dispatch('fetchEvent', name);
   },
 
-  async fetchEvent ({ commit }, name) {
-    let url = $.encode(`events/${name}/detail`)
+  async fetchEvent({ commit }, name) {
+    const url = $.encode(`event/${name}`);
     try {
-      let { data } = await axios.get(url)
+      const { data } = await this.$axios.get(url);
       commit('setEvent', {
-        name: data.detail.name,
-        detail: data.detail
-      })
-      return data.detail
+        name: data.name,
+        detail: data,
+      });
+      return data;
     } catch (err) {
-      return null
+      return null;
     }
   },
 
-  async getEventList ({ commit }, mode = 'latest') {
-    let url = $.encode(`events` + (mode === 'latest' ? '/latest' : ''))
-    try {
-      let { data } = await axios.get(url)
-      for (let event of (data.eventCollection || data)) {
-        event.image = event['header_image']
-        commit('setEvent', {
-          name: event.name,
-          detail: event
-        })
+  async getEventList({ commit, state }, { mode = 'latest', where } = {}) {
+    if (mode === 'latest' || !state.event) {
+      let url = $.encode('event');
+      if (where) {
+        url += '?where=' + encodeURIComponent(JSON.stringify(where));
       }
-      return data.eventCollection || data
-    } catch (err) {
-      return []
+
+      try {
+        const { data } = await this.$axios.get(url);
+        for (const event of (data.eventList || data)) {
+          event.image = event['header_image'];
+          commit('setEvent', {
+            name: event.name,
+            detail: event,
+          });
+        }
+        return data.eventList || data;
+      } catch (err) {
+        return [];
+      }
+    } else {
+      return Object.keys(state.event).map((key) => state.event[key]);
     }
   },
 
-  async getAllEventList ({ dispatch }) {
-    return dispatch('getEventList', 'all')
+  async getAllEventList({ dispatch }) {
+    return dispatch('getEventList', { mode: 'all' });
   },
 
-  async getPendingNews ({ commit }, name) {
+  async getPendingNews({ commit }, name) {
     if (name) {
-      let url = $.encode(`events/${name}/pending_news`)
-      let { data } = await axios.get(url)
+      const url = $.encode(`event/${name}/pending`);
+      const { data } = await this.$axios.get(url);
 
       commit('setPendingNews', {
         name,
-        newsCollection: data.newsCollection
-      })
+        ...data,
+      });
 
-      return data.newsCollection
+      return data.newsCollection;
     } else {
-      let url = $.encode(`events/pending_news`)
-      let { data } = await axios.get(url)
-      commit('setAllPendingNews', data.newsCollection)
+      const url = $.encode(`news/pending`);
+      const { data } = await this.$axios.get(url);
+      commit('setAllPendingNews', data.newsCollection);
 
-      return data.newsCollection
+      return data.newsCollection;
     }
   },
 
-  async editEvent ({ dispatch }, { name, data }) {
-    let url = $.encode(`events/${name}`)
-    return axios.put(url, data)
+  async editEvent({ dispatch }, { name, data }) {
+    const url = $.encode(`event/${name}`);
+    return this.$axios.put(url, data);
   },
 
-  async createEvent ({ dispatch, getters }, { data }) {
-    let url = $.encode(getters.isClientAdmin ? 'events' : 'events/add')
-    return axios.post(url, data)
+  async createEvent({ dispatch, getters }, { data }) {
+    const url = $.encode('event/');
+    return this.$axios.post(url, data);
   },
 
-  async editNews ({ dispatch }, { id, data }) {
-    let url = $.encode(`news/${id}/edit`)
-    return axios.patch(url, data)
+  async getNews({ commit }, id) {
+    const url = $.encode('news/' + id);
+    const { data: news } = await this.$axios.get(url);
+    commit('setNews', news);
+    return news;
   },
 
-  async getClient ({ commit }) {
-    let url = $.encode('clients/detail')
-    let { data } = await axios.get(url)
-    commit('setClient', data.detail)
-    console.log(data)
-    return data.detail
+  async editNews({ dispatch }, { id, data }) {
+    const url = $.encode(`news/${id}`);
+    return this.$axios.put(url, data);
   },
 
-  async getSubscriptions ({ commit, dispatch }) {
-    let url = $.encode('clients/detail')
-    let { data } = await axios.get(url)
-    console.log(data)
-    commit('setSubscriptionList', data.detail.subscriptionList)
-    return data.detail.subscriptionList
-  },
-
-  async logout () {
+  async getClient({ commit }) {
+    const url = $.encode('client/me');
     try {
-      axios.get('clients/logout')
-        .then(() => { window.location = window.location })
-        .catch(() => { window.location = window.location })
-      document.cookie = 'accessToken=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
-    } catch (err) { }
-  }
-}
+      const { data } = await this.$axios.get(url);
+      commit('setClient', data.client);
+      this.app.$ga.set('userId', data.client.id);
+      return data.client;
+    } catch (err) {
+      return null;
+    }
+  },
+
+  async getSubscriptions({ commit, dispatch }) {
+    const url = $.encode('client/me');
+    const { data } = await this.$axios.get(url);
+    commit('setSubscriptionList', data.client.subscriptions);
+    return data.client.subscriptionList;
+  },
+
+  async logout({ commit }) {
+    await this.$axios.get('client/logout');
+    this.app.$ga.set('userId', null);
+    commit('setClient', {});
+  },
+
+  async getAvailableAuthMethod({ state, commit, getters }) {
+    if (state.availableAuths.length > 0 && !getters.isServer) {
+      return state.availableAuths;
+    } else {
+      const { data } = await this.$axios.get('auth/options');
+      state.availableAuths = ['fetched'];
+
+      for (const property in data) {
+        if (data[property] === true) {
+          state.availableAuths.push(property);
+        }
+      }
+
+      return state.availableAuths;
+    }
+  },
+};

@@ -15,77 +15,73 @@
     >
       <event-news
         :news="news"
+        :event="event"
         mode="admit"
         :order="Number(i) + 1"
         v-on:admitted="update('admitted')"
         v-on:rejected="update('rejected')"
-      >
-      </event-news>
+      />
     </div>
-    <event-action></event-action>
-    <logo class="logo"></logo>
-    <page-foot/>
+    <event-action />
+    <logo class="logo" />
+    <page-foot />
   </background>
 </template>
 
 <script>
   export default {
     computed: {
-      name () {
-        return this.$route.params.name
+      name() {
+        return this.$route.params.name;
       },
-      newsCollection () {
+      event() {
+        return this.$store.getters.getEvent(this.$route.params.name);
+      },
+      newsCollection() {
         if (this.isAdminAdmit) {
-          return this.$store.getters.getPendingNews()
+          return this.$store.getters.getPendingNews();
         } else {
-          return this.$store.getters.getPendingNews(this.name)
+          return this.$store.getters.getPendingNews(this.name);
         }
       },
-      isAdminAdmit () {
-        return this.name === 'admin'
-      }
+      isAdminAdmit() {
+        return this.name === 'admin';
+      },
     },
     methods: {
-      update (status) {
+      update(status) {
         if (this.isAdminAdmit) {
           this.$store.dispatch('getPendingNews')
             .then(() => {
-              this.response(status)
-            })
+              this.response(status);
+            });
         } else {
           this.$store.dispatch('getPendingNews', this.$route.params.name)
             .then(() => {
-              this.$store.dispatch('fetchEvent', this.$route.params.name)
+              this.$store.dispatch('fetchEvent', this.$route.params.name);
             })
             .then(() => {
-              this.response(status)
-            })
+              this.response(status);
+            });
         }
       },
-      response (status) {
+      response(status) {
         if (status === 'admitted') {
-          this.$message('已将该新闻放入事件新闻合辑内')
+          this.$message('已将该新闻放入事件新闻合辑内');
         } else {
-          this.$message('已拒绝该新闻')
+          this.$message('已拒绝该新闻');
         }
-      }
+      },
     },
-    async asyncData ({ store, route }) {
+    async asyncData({ store, route }) {
       if (route.params.name === 'admin') {
-        return store.dispatch('getPendingNews')
+        return store.dispatch('getPendingNews');
       } else {
-        return store.dispatch('getPendingNews', route.params.name)
+        await store.dispatch('getEvent', route.params.name);
+        return store.dispatch('getPendingNews', route.params.name);
       }
     },
-    beforeRouteEnter: (to, from, next) => {
-      next(vm => {
-        if (!vm.$store.getters.isClientAdmin) {
-          vm.$message.error('你无权访问该页面')
-          vm.$router.push('/' + vm.$route.params.name)
-        }
-      })
-    }
-  }
+  };
 </script>
 
 <style lang="scss" scoped>

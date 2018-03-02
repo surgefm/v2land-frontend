@@ -17,7 +17,7 @@
       </el-form>
     </card>
     <event-card
-      v-for="event of filteredEvents"
+      v-for="event of eventCollection"
       :key="event.id"
       :event="event"
       v-on:update="update"
@@ -29,53 +29,49 @@
 </template>
 
 <script>
-  import Checkbox from 'element-ui/lib/checkbox'
-  import CheckboxGroup from 'element-ui/lib/checkbox-group'
+  import Checkbox from 'element-ui/lib/checkbox';
+  import CheckboxGroup from 'element-ui/lib/checkbox-group';
 
   export default {
-    data () {
+    data() {
       return {
         eventCollection: [],
         filterName: '',
-        filterStatus: ['pending', 'admitted']
-      }
-    },
-    computed: {
-      filteredEvents () {
-        return this.eventCollection.filter(event => {
-          if (''.includes && !event.name.includes(this.filterName)) {
-            return false
-          }
-          if (!this.filterStatus.length) {
-            return true
-          }
-          for (let status of this.filterStatus) {
-            if (event.status === status) {
-              return true
-            }
-          }
-          return false
-        })
-      }
+        filterStatus: ['pending', 'admitted'],
+      };
     },
     methods: {
-      update () {
-        this.$store.dispatch('getAllEventList')
-          .then(eventList => {
-            this.eventCollection = Array.from(eventList)
-          })
-      }
+      async update() {
+        const query = { where: {} };
+        if (this.filterStatus.length > 0) {
+          query.where.status = this.filterStatus;
+        }
+        if (this.filterName) {
+          query.where.name = { contains: this.filterName };
+        }
+        this.eventCollection = await this.$store.dispatch('getEventList', query);
+      },
     },
     components: {
       'el-checkbox': Checkbox,
-      'el-checkbox-group': CheckboxGroup
+      'el-checkbox-group': CheckboxGroup,
     },
-    async asyncData ({ store }) {
+    async asyncData({ store }) {
       return {
-        eventCollection: await store.dispatch('getAllEventList')
-      }
-    }
-  }
+        eventCollection: await store.dispatch('getEventList', {
+          where: { status: ['pending', 'admitted'] },
+        }),
+      };
+    },
+    watch: {
+      filterStatus: function() {
+        this.update();
+      },
+      filterName: function() {
+        this.update();
+      },
+    },
+  };
 </script>
 
 <style lang="scss" scoped>

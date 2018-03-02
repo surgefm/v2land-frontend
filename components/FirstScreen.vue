@@ -6,34 +6,33 @@
         :style="'background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.0), \
           rgba(0, 0, 0, 0.0) 50%, rgba(0, 0, 0, 1)), url(' +
           backgroundUrl + ')'"
-      >
-      </div>
+      />
       
       <div v-if="background && background.imageUrl" class="header">
-        <slot name="header"></slot>
+        <slot name="header" />
       </div>
     </div>
 
     <div v-else class="blank-top">
-      <slot name="header"></slot>
+      <slot name="header" />
     </div>
   </div>
   
 </template>
 
 <script>
-  import config from '~/const'
+  import config from '~/const';
 
   export default {
     props: {
-      background: Object
+      background: Object,
     },
     computed: {
-      backgroundUrl () {
-        return config.static + this.background.imageUrl
-      }
-    }
-  }
+      backgroundUrl() {
+        return config.static + this.background.imageUrl;
+      },
+    },
+  };
 </script>
 
 <style lang="scss" scoped>
