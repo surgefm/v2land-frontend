@@ -48,15 +48,15 @@
       <event-subscribe v-else-if="!showEditButton" />
       <div v-else>
         <span>
-          你已成功关注 
+          你已成功关注
           <span class="text-underline">{{ $route.params.name }}</span>
           ，我们会在获得最新消息时通过邮箱的方式通知你。
         </span>
       </div>
-      
+
       <span slot="footer" class="dialog-footer">
         <span v-if="!isSubmittable">
-          
+
         </span>
         <el-button
           @click="editSubscription"
@@ -87,7 +87,7 @@
   import config from '~/const';
   import Cookie from 'js-cookie';
   import $ from 'postman-url-encoder';
-  import EventSubscribe from '~/components/EventSubscribe.vue';
+  import EventSubscribe from '~/components/EventSubscribe/EventSubscribe.vue';
 
   export default {
     data() {

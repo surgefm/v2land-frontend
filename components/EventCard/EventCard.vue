@@ -34,7 +34,7 @@
 
 <script>
   import config from '~/const';
-  import EventCardAction from '~/components/EventCardAction.vue';
+  import EventCardAction from '~/components/EventCard/EventCardAction.vue';
 
   export default {
     props: {

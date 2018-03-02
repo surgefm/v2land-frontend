@@ -76,7 +76,7 @@
 </script>
 
 <style lang="scss" scoped>
-  @import "../assets/variables.scss";
+  @import "../../assets/variables.scss";
 
   .share {
     display: flex;

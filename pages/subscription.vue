@@ -19,7 +19,7 @@
 </template>
 
 <script>
-  import SubscriptionCard from '~/components/SubscriptionCard.vue';
+  import SubscriptionCard from '~/components/EventSubscribe/SubscriptionCard.vue';
 
   export default {
     computed: {

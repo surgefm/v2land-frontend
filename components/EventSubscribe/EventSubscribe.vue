@@ -6,8 +6,8 @@
 </template>
 
 <script>
-  import EventSubscribeMode from '~/components/EventSubscribeMode';
-  import EventSubscribeMethod from '~/components/EventSubscribeMethod';
+  import EventSubscribeMode from '~/components/EventSubscribe/EventSubscribeMode';
+  import EventSubscribeMethod from '~/components/EventSubscribe/EventSubscribeMethod';
 
   export default {
     components: {

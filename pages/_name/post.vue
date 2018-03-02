@@ -17,7 +17,7 @@
 </template>
 
 <script>
-  import EventNewsInformationForm from '~/components/EventNewsInformationForm';
+  import EventNewsInformationForm from '~/components/EventNews/EventNewsInformationForm';
   import $ from 'postman-url-encoder';
 
   export default {
