@@ -16,7 +16,7 @@
         本站与<a href="http://langchao.com" target="_blank">浪潮集团有限公司</a>无关
       </span>
       <span>
-        Langchao.co {{ new Date().getFullYear() }}
+        Langchao.org {{ new Date().getFullYear() }}
       </span>
     </div>
   </div>
