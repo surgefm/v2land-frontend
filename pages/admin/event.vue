@@ -23,8 +23,6 @@
       v-on:update="update"
     />
     <page-foot class="page-foot" />
-    <logo class="logo" />
-    <event-action />
   </background>
 </template>
 

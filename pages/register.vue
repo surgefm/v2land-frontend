@@ -4,9 +4,7 @@
       <event-title>创建浪潮账户</event-title>
       <registration-form />
     </card>
-    <logo class="logo" />
     <page-foot />
-    <event-action />
   </background>
 </template>
 

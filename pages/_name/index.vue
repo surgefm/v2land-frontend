@@ -1,6 +1,5 @@
 <template>
   <div v-if="event">
-    <logo class="logo" />
     <background>
       <event-abstract :detail="event" />
       <div 
@@ -38,7 +37,6 @@
       />
       <page-foot />
     </background>
-    <event-action />
   </div>
 </template>
 

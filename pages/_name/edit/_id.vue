@@ -11,8 +11,6 @@
         mode="edit"
       />
     </card>
-    <event-action />
-    <logo class="logo" />
     <page-foot />
   </background>
 </template>

@@ -1,6 +1,5 @@
 <template>
   <div class="homepage-container">
-    <logo class="logo" />
     <card class="title-container hover">
       <img
         :src="config.static + '560x144/default.jpg'"
@@ -30,7 +29,6 @@
       :event="event"
     />
     <page-foot class="page-foot" />
-    <event-action />
   </div>
 </template>
 

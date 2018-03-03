@@ -8,7 +8,7 @@
       <div class="about-v2land">
         <nuxt-link to="/about" class="link">关于浪潮</nuxt-link>
         <span>·</span>
-        <a href="https://handbook.langchao.co" target="_blank">加入浪潮社区</a>
+        <a href="https://handbook.langchao.co" target="_blank">浪潮社区指南</a>
         <span>·</span>
         <a href="https://github.com/v2land" target="_blank">参与项目开发</a>
       </div>

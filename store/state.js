@@ -10,6 +10,7 @@ export default {
   event: {},
   pendingNews: {},
   allPendingNews: [],
+  clientList: [],
   temp: {},
   subscribe: {
     mode: '',

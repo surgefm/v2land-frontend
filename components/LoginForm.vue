@@ -70,7 +70,10 @@
     },
     computed: {
       redirect() {
-        const redirect = this.$route.query.redirect;
+        let redirect = this.$route.query.redirect;
+        while (redirect.slice(0, 2) === '//') {
+          redirect = redirect.slice(1);
+        }
         return redirect || '/';
       },
     },
@@ -81,7 +84,7 @@
             this.isSubmitting = true;
             this.$axios.post('client/login', this.form)
               .then(({ data }) => {
-                this.$store.commit('setClient', data.client);
+                this.$store.commit('setClient', { client: data.client });
                 this.$ga.set('userId', data.client.id);
                 this.$message.success(`你好，${data.client.username}`);
                 if (this.authorizing) {

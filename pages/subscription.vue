@@ -12,9 +12,7 @@
       :key="subscription.id"
       :subscription="subscription"
     />
-    <logo class="logo" />
     <page-foot />
-    <event-action />
   </background>
 </template>
 
