@@ -15,5 +15,10 @@
     components: {
       'registration-form': RegistrationForm,
     },
+    head() {
+      return {
+        title: '创建浪潮账户',
+      };
+    },
   };
 </script>

@@ -58,10 +58,11 @@
     },
     head() {
       return {
-        title: '提交新闻 - ' + this.name,
+        title: '添加新闻 - ' + this.name,
         meta: [
-          { hid: 't:title', name: 'twitter:title', content: '提交新闻 - ' + this.name },
-          { hid: 'og:title', property: 'og:title', content: '提交新闻 - ' + this.name },
+          { hid: 'description', name: 'description', content: description },
+          { hid: 't:title', name: 'twitter:title', content: '添加新闻 - ' + this.name },
+          { hid: 'og:title', property: 'og:title', content: '添加新闻 - ' + this.name },
           { hid: 't:description', name: 'twitter:description', content: `在浪潮上为${this.name}提交新闻` },
           { hid: 'og:description', property: 'og:description', content: `在浪潮上为${this.name}提交新闻` },
           { hid: 't:image', name: 'twitter:image', content: 'https://s.langchao.co/twitter-icon.png' },

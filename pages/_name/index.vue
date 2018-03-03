@@ -156,7 +156,7 @@
       }
     },
     head() {
-      const title = this.name + ' - 浪潮，渴望重回土地';
+      const title = this.name + ' - 浪潮，你的社会事件追踪工具';
       const image = this.event
         ? (this.event.headerImage ? this.image : null)
         : null;
@@ -166,6 +166,7 @@
       return {
         title,
         meta: [
+          description ? { hid: 'description', name: 'description', content: description } : {},
           { hid: 't:title', name: 'twitter:title', content: title },
           { hid: 'og:title', property: 'og:title', content: title },
           description ? { hid: 't:description', name: 'twitter:description', content: description } : {},

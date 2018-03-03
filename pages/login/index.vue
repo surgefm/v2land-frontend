@@ -49,6 +49,11 @@
         availableMethods: options,
       };
     },
+    head() {
+      return {
+        title: '登录浪潮',
+      };
+    },
   };
 </script>
 
