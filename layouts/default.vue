@@ -1,6 +1,8 @@
 <template>
   <div>
     <nuxt/>
+    <logo class="logo" />
+    <event-action />
   </div>
 </template>
 

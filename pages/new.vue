@@ -10,9 +10,7 @@
         ref="event-form"
       />
     </card>
-    <logo class="logo" />
     <page-foot />
-    <event-action />
   </background>
 </template>
 

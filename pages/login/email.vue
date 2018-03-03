@@ -4,9 +4,7 @@
       <event-title>登录浪潮</event-title>
       <login-form />
     </card>
-    <logo class="logo" />
     <page-foot />
-    <event-action />
   </background>
 </template>
 

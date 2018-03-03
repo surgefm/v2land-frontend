@@ -4,8 +4,6 @@
       <event-title>用户信息</event-title>
       <client-information-form />
     </card>
-    <logo class="logo" />
-    <event-action />
     <page-foot />
   </background>
 </template>

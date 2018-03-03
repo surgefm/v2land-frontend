@@ -9,9 +9,7 @@
         />
       </div>
     </card>
-    <logo class="logo" />
     <page-foot />
-    <event-action />
   </background>
 </template>
 

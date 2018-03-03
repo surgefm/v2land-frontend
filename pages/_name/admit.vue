@@ -22,8 +22,6 @@
         v-on:rejected="update('rejected')"
       />
     </div>
-    <event-action />
-    <logo class="logo" />
     <page-foot />
   </background>
 </template>

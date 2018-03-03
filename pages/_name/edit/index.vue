@@ -11,8 +11,6 @@
         v-on:submit="submit"
       />
     </card>
-    <event-action />
-    <logo class="logo" />
     <page-foot />
   </background>
 </template>

@@ -20,7 +20,7 @@
         :class="!isAdmin || 'edit'"
         prop="role"
       >
-        <el-select v-if="isAdmin" v-model="role" placeholder="请选择">
+        <el-select v-if="isAdmin && !isSelf" v-model="role" placeholder="请选择">
           <el-option
             v-for="item in roles"
             :key="item.value"
@@ -178,7 +178,7 @@
         return (this.client.auths.filter((a) => a.site === 'weibo').length < 1);
       },
       redirect() {
-        return config.baseUrl + 'login/auth?redirect=/me';
+        return config.baseUrl + 'login/auth?redirect=/setting';
       },
     },
     methods: {

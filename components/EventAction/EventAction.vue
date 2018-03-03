@@ -62,8 +62,8 @@
 
         return { tab, dropdown };
       },
-      isClientAdmin() {
-        return this.$store.getters.isClientAdmin;
+      isClientManager() {
+        return this.$store.getters.isClientManager;
       },
       isHomepage() {
         return this.$route.path === '/';
@@ -88,7 +88,7 @@
       },
       showAdminEvent() {
         return ((this.isHomepage || this.isSubscriptionPage || this.isClientPage) &&
-          this.isClientAdmin) || this.isAdminDir;
+          this.isClientManager) || this.isAdminDir;
       },
       showAdminAdmit() {
         return this.showAdminEvent;
@@ -97,13 +97,14 @@
         return this.isHomepage || this.isAdminDir;
       },
       showSubscribe() {
-        return this.$route.name.includes('name');
+        return this.$route.name && this.$route.name.includes('name');
       },
       showPost() {
         return this.showSubscribe && !this.isLoggingIn;
       },
       showAdmit() {
-        return this.$route.name.includes('name');
+        return this.$route.name && this.$route.name.includes('name') &&
+          this.isClientManager;
       },
       showEdit() {
         return this.showAdmit;
