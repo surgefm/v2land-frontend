@@ -96,6 +96,7 @@ module.exports = {
     '~/plugins/components.js',
     '~/plugins/clipboard.js',
     '~/plugins/polyfills',
+    '~/plugins/qrcode',
     { src: '~/plugins/statusHandler', ssr: false },
     { src: '~/plugins/ga', ssr: false },
     { src: '~/plugins/typekit', ssr: false },

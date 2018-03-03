@@ -48,7 +48,8 @@
       <event-news-share
         v-else
         class="news-share"
-        :news="news"
+        :object="news"
+        type="news"
       />
     </div>
   </card>
@@ -56,7 +57,7 @@
 
 <script>
   import EventNewsAdmit from '~/components/EventNews/EventNewsAdmit.vue';
-  import EventNewsShare from '~/components/EventNews/EventNewsShare.vue';
+  import EventNewsShare from '~/components/EventShare.vue';
   import config from '~/const';
 
   export default {

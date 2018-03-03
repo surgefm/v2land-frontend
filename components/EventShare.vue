@@ -1,15 +1,41 @@
 <template>
   <div class="share">
+    <el-popover
+      ref="wechat-popover"
+      placement="bottom"
+      width="160"
+      trigger="click"
+    >
+      <qrcode
+        :value="url"
+        :options="{ size: 480, foreground: '#333', level: 'H' }"
+        tag="img"
+        class="qrcode"
+      />
+      <p class="qrcode-text">微信扫码分享</p>
+      <p class="qrcode-text light-font">iOS 用户可直接使用浏览器的分享功能进行分享</p>
+    </el-popover>
+
     <a
       v-for="site of share"
       :href="shareTo(site)"
-      :key="news.id + ': ' + site"
+      :key="object.id + ': ' + site"
       onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
-      <span :class="['icon-' + site, 'border-color', 'icon-container']" />
+      <span
+        :class="[
+          'icon-' + site,
+          type,
+          'border-color',
+          'icon-container'
+        ]"
+      />
     </a>
-    <div class="icon-container" v-if="isClientAdmin">
-      <i class="el-icon-edit border-color" @click="edit" />
-      <i class="el-icon-delete border-color" @click="remove" />
+    <a v-popover:wechat-popover>
+      <span :class="['icon-wechat', type, 'border-color', 'icon-container']" />
+    </a>
+    <div class="icon-container" v-if="type === 'news' && isClientAdmin">
+      <i class="news el-icon-edit border-color" @click="edit" />
+      <i class="news el-icon-delete border-color" @click="remove" />
     </div>
   </div>
 </template>
@@ -20,7 +46,8 @@
 
   export default {
     props: {
-      news: Object,
+      object: Object,
+      type: String,
     },
     data() {
       return {
@@ -34,14 +61,25 @@
       event() {
         return this.$store.getters.getEvent(this.$route.params.name);
       },
+      url() {
+        if (this.type === 'event') {
+          return config.baseUrl + this.object.id;
+        } else if (this.type === 'news') {
+          return config.baseUrl + this.event.id + '?news=' + this.object.id;
+        }
+      },
     },
     methods: {
       shareTo(site) {
-        const url = config.baseUrl + this.event.id + '?news=i' + this.news.id;
-        let message = this.news.title + ' - ' +
-          this.news.abstract.slice(0, 50) +
-          (this.news.abstract.length > 50 ? '… ' : ' ') +
-          '来源：' + this.news.source + ' ';
+        const url = this.url;
+        let message = this.type === 'event'
+          ? this.object.name + ' - ' +
+            this.object.description.slice(0, 50) +
+            (this.object.description.length > 50 ? '… ' : ' ')
+          : this.object.title + ' - ' +
+            this.object.abstract.slice(0, 50) +
+            (this.object.abstract.length > 50 ? '… ' : ' ') +
+            '来源：' + this.object.source + ' ';
 
         switch (site) {
         case 'twitter':
@@ -60,7 +98,7 @@
       },
       remove() {
         this.$store.dispatch('editNews', {
-          id: this.news.id,
+          id: this.object.id,
           data: { status: 'removed' },
         }).then(() => {
           this.$store.dispatch('fetchEvent', this.$route.params.name);
@@ -69,14 +107,14 @@
         });
       },
       edit() {
-        this.$router.push(`/${this.$route.params.name}/edit/${this.news.id}`);
+        this.$router.push(`/${this.$route.params.name}/edit/${this.object.id}`);
       },
     },
   };
 </script>
 
 <style lang="scss" scoped>
-  @import "../../assets/variables.scss";
+  @import "../assets/variables.scss";
 
   .share {
     display: flex;
@@ -100,7 +138,28 @@
     align-items: center;
   }
 
-  .border-color:before {
+  .qrcode-text {
+    text-align: center;
+    user-select: none;
+  }
+
+  .light-font {
+    font-size: .75rem;
+    line-height: 1.5;
+  }
+
+  .qrcode {
+    width: 100%;
+    height: auto;
+    opacity: 1;
+  }
+
+  .event {
+    margin-top: 1rem;
+    font-size: 1.25rem;
+  }
+
+  .news.border-color:before {
     color: rgb(129, 207, 224);
     transition: all .2s;
   }
@@ -115,19 +174,23 @@
     color: #336e7b;
   }
 
-  .icon-weibo:hover:before {
+  .news.icon-weibo:hover:before {
     color: #e6162d;
   }
 
-  .icon-google-plus:hover:before {
+  .news.icon-wechat:hover:before {
+    color: #3eb94e;
+  }
+
+  .news.icon-google-plus:hover:before {
     color: #dc4e41;
   }
 
-  .icon-facebook:hover:before {
+  .news.icon-facebook:hover:before {
     color: #3b5998;
   }
 
-  .icon-twitter:hover:before {
+  .news.icon-twitter:hover:before {
     color: #1da1f2;
   }
 </style>
