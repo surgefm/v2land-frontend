@@ -102,7 +102,7 @@ module.exports = {
   ],
 
   router: {
-    middleware: ['auth', 'permission'],
+    middleware: ['auth', 'checkEvent', 'permission'],
     linkExactActiveClass: 'exact-active-link',
   },
 

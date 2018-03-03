@@ -18,5 +18,10 @@
     async asyncData({ store }) {
       await store.dispatch('getAvailableAuthMethod');
     },
+    head() {
+      return {
+        title: '登录浪潮',
+      };
+    },
   };
 </script>
