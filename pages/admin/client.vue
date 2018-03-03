@@ -2,7 +2,7 @@
   <background class="admin-client-container">
     <card>
       <event-title>管理用户</event-title>
-      <el-form class="form" ref="form" label-width="120px">
+      <el-form class="form" ref="form" label-width="60px">
         <el-form-item label="用户组">
           <el-checkbox-group v-model="filterRole" class="align-center">
             <el-checkbox label="contributor">协作者</el-checkbox>

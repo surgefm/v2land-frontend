@@ -12,12 +12,10 @@
 </template>
 
 <script>
-  import EventTitle from '~/components/EventTitle.vue';
   import EventShare from '~/components/EventAbstract/EventAbstractShare.vue';
 
   export default {
     components: {
-      'event-title': EventTitle,
       'event-share': EventShare,
     },
     props: {
