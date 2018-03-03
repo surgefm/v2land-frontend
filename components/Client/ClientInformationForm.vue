@@ -26,6 +26,7 @@
             :key="item.value"
             :label="item.name"
             :value="item.value"
+            :disabled="item.value === 'admin'"
           >
           </el-option>
         </el-select>
@@ -239,13 +240,12 @@
             this.$emit('clientUpdated');
           });
         } catch (err) {
-          console.log(err);
           this.$message.error(err.message || '修改失败');
           this.submitting = false;
         }
       },
       updateForm() {
-        for (const attr of ['username', 'role', 'email']) {
+        for (const attr of ['username', 'role', 'email', 'auths']) {
           this.$set(this.form, attr, this.orig[attr]);
         }
       },

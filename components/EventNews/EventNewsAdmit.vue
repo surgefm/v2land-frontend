@@ -37,10 +37,6 @@
     margin: 0 .2rem;
     transition: all .2s;
     cursor: pointer;
-    border: transparent .25rem solid;
-    border-top: none;
-    border-left: none;
-    border-right: none;
   }
 
   .border-color:before {
@@ -48,15 +44,11 @@
     transition: all .2s;
   }
 
-  .border-color:hover {
-    border-color: $light-color;
-  }
-
-  .el-icon-close:hover:before {
+  .el-icon-error:hover:before {
     color: #fa5555;
   }
 
-  .el-icon-check:hover:before {
+  .el-icon-success:hover:before {
     color: #67c23a;
   }
 </style>
