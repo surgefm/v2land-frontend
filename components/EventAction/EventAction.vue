@@ -77,6 +77,10 @@
       isSubscriptionPage() {
         return this.$route.path === '/subscription';
       },
+      isEventPage() {
+        return this.$route.name && this.$route.name.includes('name') &&
+          this.$route.path.slice(0, 7) !== '/admin/';
+      },
       isClientPage() {
         return this.$route.path === '/me';
       },
@@ -97,14 +101,13 @@
         return this.isHomepage || this.isAdminDir;
       },
       showSubscribe() {
-        return this.$route.name && this.$route.name.includes('name');
+        return this.isEventPage;
       },
       showPost() {
         return this.showSubscribe && !this.isLoggingIn;
       },
       showAdmit() {
-        return this.$route.name && this.$route.name.includes('name') &&
-          this.isClientManager;
+        return this.isEventPage && this.isClientManager;
       },
       showEdit() {
         return this.showAdmit;
