@@ -123,9 +123,6 @@
       getWeibo() {
         return this.$store.getters.getAuth('weibo');
       },
-      isSubmittable() {
-        return this.form.method && this.form[this.form.method];
-      },
       redirect() {
         const base = config.baseUrl +
           `login/auth?redirect=${this.$route.params.name}?subscribe=1%2526` +
@@ -136,10 +133,6 @@
       },
     },
     methods: {
-      lastStep() {
-        this.save();
-        this.$emit('goToMode');
-      },
       submit() {
         this.save();
         this.$emit('methodSelected');

@@ -43,8 +43,8 @@
         const dropdown = [];
         for (const i of [
           'admin-event', 'admin-admit', 'create-event', 'subscribe', 'post',
-          'admit', 'edit', 'edit-image', 'subscription-list', 'client',
-          'return', 'homepage',
+          'admit', 'edit', 'edit-image', 'subscription-list', 'client-setting',
+          'client', 'return', 'homepage',
         ]) {
           let action = i.split('-');
           for (let j = 0; j < action.length; j++) {
@@ -97,16 +97,13 @@
         return this.isHomepage || this.isAdminDir;
       },
       showSubscribe() {
-        return !this.isHomepage && !this.isAdminDir && !this.isCreatingEvent &&
-          !this.isSubscriptionPage && !this.isClientPage && !this.isLoggingIn;
+        return this.$route.name.includes('name');
       },
       showPost() {
         return this.showSubscribe && !this.isLoggingIn;
       },
       showAdmit() {
-        return this.isClientAdmin && !this.isHomepage && !this.isLoggingIn &&
-          !this.isAdminDir && !this.isSubscriptionPage && !this.isClientPage &&
-          !this.isCreatingEvent;
+        return this.$route.name.includes('name');
       },
       showEdit() {
         return this.showAdmit;
@@ -117,13 +114,15 @@
       showSubscriptionList() {
         return this.isLoggedIn && (this.isHomepage || this.isClientPage);
       },
+      showClientSetting() {
+        return this.isLoggedIn && !this.isLoggingIn;
+      },
       showClient() {
         return !this.isLoggingIn;
       },
       showReturn() {
-        return this.$route.name !== 'name' && !this.isHomepage &&
-          !this.isAdminDir && !this.isSubscriptionPage &&
-          !this.isClientPage && !this.isLoggingIn && !this.isCreatingEvent;
+        return this.$route.name !== 'name' &&
+          this.$route.name.includes('name');
       },
       showHomepage() {
         return !this.showReturn && !this.isHomepage;

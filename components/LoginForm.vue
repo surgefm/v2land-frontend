@@ -70,7 +70,10 @@
     },
     computed: {
       redirect() {
-        const redirect = this.$route.query.redirect;
+        let redirect = this.$route.query.redirect;
+        while (redirect.slice(0, 2) === '//') {
+          redirect = redirect.slice(1);
+        }
         return redirect || '/';
       },
     },

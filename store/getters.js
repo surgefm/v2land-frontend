@@ -3,6 +3,10 @@ export default {
     return state.client.role === 'admin';
   },
 
+  isClientManager(state) {
+    return ['admin', 'manager'].includes(state.client.role);
+  },
+
   isLoggedIn(state) {
     return !!state.client.id;
   },
@@ -75,6 +79,7 @@ export default {
   },
 
   getEventSubscriptionList: (state, getters) => (name) => {
+    if (!name) return;
     const subscriptionList = getters.getSubscriptionList;
     const event = getters.getEvent(name);
     const eventSubscriptionList = (subscriptionList || []).filter((s) => s.event === event.id);

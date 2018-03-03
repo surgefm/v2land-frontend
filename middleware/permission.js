@@ -9,7 +9,7 @@ export default function({ route, store, app, redirect, component }) {
     'name-edit',
     'name-admit',
     'admin-event',
-    'me',
+    'setting',
     'subscription',
   ];
 
@@ -38,11 +38,15 @@ export default function({ route, store, app, redirect, component }) {
     from = app.context.from;
     if (from && from.name.includes('login')) {
       from = '/';
+    } else if (from && from.fullPath) {
+      from = from.fullPath;
+    } else {
+      from = null;
     }
   }
 
   if (!store.state.client.id && shouldBeLoggedIn.includes(route.name)) {
-    return redirect((from || `/login`) + `?status=auth_required&redirect=/${route.path}`);
+    return redirect(`/login?status=auth_required&redirect=/${route.path}`);
   } else if (store.state.client.id && shouldNotBeLoggedIn.includes(route.name)) {
     return redirect((from || '/') + '?status=logged_in');
   } else if (managerOnly.includes(route.name) && !manager.includes(store.state.client.role)) {
