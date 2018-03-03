@@ -47,7 +47,7 @@ export default {
     }
   },
 
-  setClient(state, { client, id = 'me' }) {
+  setClient(state, { client = {}, id = 'me' }) {
     if (id === 'me') {
       Vue.set(state, 'client', Object.assign({}, client));
     }

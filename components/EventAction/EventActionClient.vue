@@ -41,11 +41,11 @@
         this.loading = true;
         await this.$store.dispatch('logout');
         this.$message.success('成功退出登录');
+        this.loading = false;
         const path = redirect({ component: this });
         if (path) {
           this.$router.push('/');
         }
-        this.loading = false;
       },
     },
   };
