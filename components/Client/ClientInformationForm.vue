@@ -20,12 +20,13 @@
         :class="!isAdmin || 'edit'"
         prop="role"
       >
-        <el-select v-if="isAdmin && !isSelf" v-model="role" placeholder="请选择">
+        <el-select v-if="isAdmin && !isSelf" v-model="form.role" placeholder="请选择">
           <el-option
             v-for="item in roles"
             :key="item.value"
             :label="item.name"
-            :value="item.value">
+            :value="item.value"
+          >
           </el-option>
         </el-select>
         <span v-else>{{ role }}</span>
@@ -50,6 +51,12 @@
 
       <div class="divider" />
 
+      <span
+        v-if="(!form.auths || form.auths.length === 0) && isAdmin && !isSelf"
+      >
+        该用户没有绑定信息
+      </span>
+
       <el-form-item
         v-for="auth of form.auths"
         :key="auth.site + auth.profileId"
@@ -71,7 +78,8 @@
           type="primary"
           class="connect"
           plain
-          @click="connectTwitter">
+          @click="connectTwitter"
+        >
           绑定 Twitter
         </el-button>
       </el-form-item>
@@ -121,7 +129,6 @@
           role: '',
           email: '',
           authList: [],
-          orig: {},
         },
         rules: {
           username: [
@@ -138,6 +145,7 @@
         },
         roles,
         submitting: false,
+        orig: {},
       };
     },
     props: {
@@ -166,13 +174,13 @@
         }
       },
       showConnectTwitter() {
-        if (!this.client.auths) {
+        if (!this.client.auths || !this.isSelf) {
           return 0;
         }
         return (this.client.auths.filter((a) => a.site === 'twitter').length < 1);
       },
       showConnectWeibo() {
-        if (!this.client.auths) {
+        if (!this.client.auths || !this.isSelf) {
           return 0;
         }
         return (this.client.auths.filter((a) => a.site === 'weibo').length < 1);
@@ -222,12 +230,13 @@
               });
             }
 
-            await this.$store.dispatch('getClient');
+            const client = await this.$store.dispatch('getClient', this.client.id);
             this.$message.success(response.data.message);
-            this.orig = { ...this.client };
+            this.orig = { ...client };
             this.submitting = false;
             this.$refs.form.resetFields();
             this.updateForm();
+            this.$emit('clientUpdated');
           });
         } catch (err) {
           console.log(err);
@@ -236,7 +245,9 @@
         }
       },
       updateForm() {
-        this.$set(this, 'form', this.client);
+        for (const attr of ['username', 'role', 'email']) {
+          this.$set(this.form, attr, this.orig[attr]);
+        }
       },
       async unauthorize(auth) {
         try {
@@ -264,6 +275,7 @@
       },
     },
     created() {
+      this.orig = this.client;
       this.updateForm();
       this.orig = { ...this.client };
     },

@@ -93,15 +93,27 @@ export default {
     return this.$axios.put(url, data);
   },
 
-  async getClient({ commit }) {
-    const url = $.encode('client/me');
+  async getClient({ commit }, id = 'me') {
+    const url = $.encode('client/' + id);
     try {
       const { data } = await this.$axios.get(url);
-      commit('setClient', data.client);
-      this.app.$ga.set('userId', data.client.id);
+      commit('setClient', { client: data.client, id });
+      if (id === 'me') {
+        this.app.$ga.set('userId', data.client.id);
+      }
       return data.client;
     } catch (err) {
       return null;
+    }
+  },
+
+  async getClientList({ commit }, where) {
+    try {
+      const { data } = await this.$axios.post('client', { where });
+      commit('setClientList', data.clientList);
+      return data.clientList;
+    } catch (err) {
+      throw err;
     }
   },
 

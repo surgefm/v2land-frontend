@@ -14,10 +14,10 @@
           :manual="true"
           :value="showTooltip"
         >
-          <div class="large-screen-touch-beta" />
+          <div class="large-screen-touch" />
         </el-tooltip>
         <img
-          class="large-screen-touch-beta"
+          class="large-screen-touch"
           :src="src('icon-beta.svg')"
           height="54px"
           @click="$router.push('/')"
@@ -100,15 +100,6 @@ export default {
     top: 0;
   }
 
-  .large-screen-touch-beta {
-    visibility: visible;
-    width: 94.83px;
-    height: 54px;
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
-
   .icon-small-screen {
     display: none;
   }
@@ -124,7 +115,7 @@ export default {
       display: block;
     }
 
-    .icon-large-screen, .icon-large-screen-beta {
+    .icon-large-screen{
       display: none;
     }
 

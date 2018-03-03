@@ -25,6 +25,20 @@ export default {
     return state.client;
   },
 
+  findClient: (state) => (id) => {
+    for (const client of state.clientList) {
+      if (client.id === id || client.username === id) {
+        return client;
+      }
+    }
+
+    return null;
+  },
+
+  clientList(state) {
+    return state.clientList;
+  },
+
   getEvent: (state) => (name) => {
     if (state.event[name]) {
       return state.event[name];

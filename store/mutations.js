@@ -47,8 +47,31 @@ export default {
     }
   },
 
-  setClient(state, client) {
-    Vue.set(state, 'client', Object.assign({}, client));
+  setClient(state, { client, id = 'me' }) {
+    if (id === 'me') {
+      Vue.set(state, 'client', Object.assign({}, client));
+    }
+
+    for (let i = 0; i < state.clientList.length; i++) {
+      if (state.clientList[i].id === client.id) {
+        return Vue.set(state.clientList, i, client);
+      }
+    }
+
+    state.clientList.push(client);
+  },
+
+  setClientList(state, clientList) {
+    for (const client of clientList) {
+      for (let i = 0; i < state.clientList.length; i++) {
+        if (state.clientList[i].id === client.id) {
+          Vue.set(state.clientList, i, client);
+          break;
+        }
+      }
+
+      state.clientList.push(client);
+    }
   },
 
   setSubscriptionList(state, list) {

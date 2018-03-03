@@ -42,9 +42,9 @@
         const tab = [];
         const dropdown = [];
         for (const i of [
-          'admin-event', 'admin-admit', 'create-event', 'subscribe', 'post',
-          'admit', 'edit', 'edit-image', 'subscription-list', 'client-setting',
-          'client', 'return', 'homepage',
+          'admin-event', 'admin-admit', 'admin-client', 'create-event',
+          'subscribe', 'post', 'admit', 'edit', 'edit-image', 'subscription-list',
+          'client-setting', 'client', 'return', 'homepage',
         ]) {
           let action = i.split('-');
           for (let j = 0; j < action.length; j++) {
@@ -61,6 +61,9 @@
         }
 
         return { tab, dropdown };
+      },
+      isClientAdmin() {
+        return this.$store.getters.isClientAdmin;
       },
       isClientManager() {
         return this.$store.getters.isClientManager;
@@ -96,6 +99,10 @@
       },
       showAdminAdmit() {
         return this.showAdminEvent;
+      },
+      showAdminClient() {
+        return ((this.isHomepage || this.isSubscriptionPage || this.isClientPage) &&
+          this.isClientAdmin) || this.isAdminDir;
       },
       showCreateEvent() {
         return this.isHomepage || this.isAdminDir;
