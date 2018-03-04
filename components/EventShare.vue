@@ -63,7 +63,7 @@
     },
     data() {
       return {
-        share: ['twitter', 'facebook', 'google-plus', 'weibo'],
+        share: ['twitter', 'facebook', 'telegram', 'weibo'],
       };
     },
     computed: {
@@ -101,8 +101,8 @@
           );
         case 'facebook':
           return $.encode('https://www.facebook.com/sharer/sharer.php?u=' + url);
-        case 'google-plus':
-          return $.encode('https://plus.google.com/share?url=' + url);
+        case 'telegram':
+          return $.encode('https://telegram.me/share?url=' + url + '&text=' + message);
         case 'weibo':
           message += `%23${this.$route.params.name}%23 %23浪潮，你的社会事件追踪工具%23`;
           return $.encode('http://service.weibo.com/share/share.php?url=' + url + '&title=' + message);
@@ -207,8 +207,8 @@
     color: #3eb94e;
   }
 
-  .news.icon-google-plus:hover:before {
-    color: #dc4e41;
+  .news.icon-telegram:hover:before {
+    color: #2ca5e0;
   }
 
   .news.icon-facebook:hover:before {
@@ -229,9 +229,9 @@
     border-color: rgba(62, 185, 78, .1);
   }
 
-  .icon-google-plus:hover {
-    background-color: rgba(255, 106, 52, .1);
-    border-color: rgba(255, 106, 52, .1);
+  .icon-telegram:hover {
+    background-color: rgba(44, 165, 224, .1);
+    border-color: rgba(44, 165, 224, .1);
   }
 
   .icon-facebook:hover {

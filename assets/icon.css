@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?rbkxrk');
-  src:  url('fonts/icomoon.eot?rbkxrk#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?rbkxrk') format('truetype'),
-    url('fonts/icomoon.woff?rbkxrk') format('woff'),
-    url('fonts/icomoon.svg?rbkxrk#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?n6lxqt');
+  src:  url('fonts/icomoon.eot?n6lxqt#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?n6lxqt') format('truetype'),
+    url('fonts/icomoon.woff?n6lxqt') format('woff'),
+    url('fonts/icomoon.svg?n6lxqt#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -25,40 +25,40 @@
 }
 
 .icon-event_available:before {
+  content: "\e900";
+}
+.icon-home:before {
+  content: "\e90b";
+}
+.icon-log-out:before {
+  content: "\e901";
+}
+.icon-log-in:before {
   content: "\e902";
 }
 .icon-user:before {
-  content: "\e905";
-}
-.icon-log-out:before {
-  content: "\e906";
-}
-.icon-log-in:before {
-  content: "\e907";
-}
-.icon-home:before {
-  content: "\e908";
-}
-.icon-wechat:before {
-  content: "\e904";
-  color: #7bb32e;
+  content: "\e903";
 }
 .icon-weibo:before {
-  content: "\e900";
+  content: "\e904";
   color: #e6162d;
 }
-.icon-google-plus:before {
-  content: "\e901";
-  color: #dc4e41;
+.icon-wechat:before {
+  content: "\e905";
+  color: #7bb32e;
+}
+.icon-telegram:before {
+  content: "\e906";
+  color: #2ca5e0;
 }
 .icon-facebook:before {
   content: "\fb";
   color: #3b5998;
 }
 .icon-twitter:before {
-  content: "\e903";
+  content: "\e908";
   color: #1da1f2;
 }
 .icon-newspaper:before {
-  content: "\e909";
+  content: "\e90a";
 }
