@@ -41,7 +41,6 @@
 </template>
 
 <script>
-  import $ from 'postman-url-encoder';
   import config from '~/const';
 
   export default {
@@ -133,9 +132,10 @@
         return redirect('/');
       }
       if (event.name !== params.name) {
-        return redirect($.encode('/' + event.name +
-          (route.query.news ? ('?news=' + route.query.news) : '')
-        ));
+        return redirect({
+          ...route,
+          params: { name: event.name },
+        });
       }
       return {};
     },

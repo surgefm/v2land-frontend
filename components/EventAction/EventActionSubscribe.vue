@@ -13,7 +13,7 @@
       >
         <div slot="content" class="tooltip">
           <p class="large-screen">
-            <b>关注事件</b>后，我们会在获得最新消息时经邮件、微博、Twitter 等方式通知您
+            <b>关注事件</b>后，我们会在获得最新消息时经邮件、微博、Twitter 等方式通知你
           </p>
           <p class="small-screen">
             通过邮件／微博获取最新消息
@@ -55,16 +55,20 @@
       </div>
 
       <span slot="footer" class="dialog-footer">
-        <span v-if="!isSubmittable">
-
-        </span>
-        <el-button
-          @click="editSubscription"
-          v-if="showEditButton"
-          type="text"
+        <el-tooltip
+          placement="bottom"
+          :manual="true"
+          :value="showTooltipOfOtherSubscriptions"
+          content="你还可通过微博、Twitter 等方式进行关注"
         >
-          添加其他关注方式
-        </el-button>
+          <el-button
+            @click="editSubscription"
+            v-if="showEditButton"
+            type="text"
+          >
+            添加其他关注方式
+          </el-button>
+        </el-tooltip>
         <el-button
           type="primary"
           @click="submit"
@@ -75,7 +79,7 @@
           {{
             showEditButton
               ? '确 认'
-              : (isSubmittable ? '添加关注' : '您已有相同的关注方式')
+              : (isSubmittable ? '添加关注' : '你已有相同的关注方式')
           }}
         </el-button>
       </span>
@@ -97,6 +101,7 @@
         showTooltip: false,
         showDialog: false,
         showEditButton: true,
+        showTooltipOfOtherSubscriptions: false,
         tabLoading: false,
         submitting: false,
         config,
@@ -104,8 +109,7 @@
     },
     computed: {
       redirect() {
-        const redirect = config.baseUrl + 'login/auth?redirect=';
-        return redirect + `${this.$route.path}?subscribe=1`;
+        return `${this.$route.path}?subscribe=1`;
       },
       subscriptions() {
         return this.$store.getters.getEventSubscriptionList(
@@ -155,32 +159,46 @@
         this.showEditButton = false;
       },
       async openDialog() {
+        let firstSubscription = false;
+
         if (this.tabLoading) return;
-        if (this.$store.getters.isLoggedIn) {
-          const subscription = this.subscriptions.filter((s) => {
-            return s.mode === 'new' && s.contact.method === 'email';
+        if (this.$store.getters.isLoggedIn && !this.subscriptions[0]) {
+          firstSubscription = true;
+          this.tabLoading = true;
+          const url = $.encode(`subscription/${this.$route.params.name}`);
+          await this.$axios.post(url, {
+            mode: 'new',
+            contact: {
+              method: 'email',
+              email: this.$store.getters.getClient.email,
+            },
           });
-          if (!this.subscriptions[0] && subscription.length === 0) {
-            this.tabLoading = true;
-            const url = $.encode(`subscription/${this.$route.params.name}`);
-            await this.$axios.post(url, {
-              mode: 'new',
-              contact: {
-                method: 'email',
-                email: this.$store.getters.getClient.email,
-              },
-            });
-            await this.$store.dispatch('getClient');
-            this.tabLoading = false;
-          }
+          await this.$store.dispatch('getClient');
+          this.tabLoading = false;
         }
 
         this.showDialog = true;
         this.showTooltip = false;
+        if (!firstSubscription) return;
+
+        setTimeout(() => {
+          if (!Cookie.get('v2land-isMoreSubscriptionsTooltipShown')) {
+            this.showTooltipOfOtherSubscriptions = true;
+            setTimeout(() => {
+              this.showTooltipOfOtherSubscriptions = false;
+            }, 6000);
+            setTimeout(() => {
+              Cookie.set('v2land-isMoreSubscriptionsTooltipShown', 1, {
+                expires: 60 * 60 * 24 * 3,
+              });
+            }, 3000);
+          }
+        }, 500);
       },
       closeDialog() {
         this.showDialog = false;
         this.showEditButton = true;
+        this.showTooltipOfOtherSubscriptions = false;
       },
       async submit() {
         if (this.showEditButton) {
@@ -203,26 +221,34 @@
           }
         }
       },
+      async initialize() {
+        if (this.$store.getters.getEventSubscriptionList(
+          this.$route.params.name
+        )[0]) {
+          this.subscribed = true;
+        }
+
+        if (this.$route.query.edit === '1') {
+          this.showEditButton = false;
+        }
+
+        if (!this.$store.getters.isLoggedIn) {
+          const methods = await this.$store.dispatch('getAvailableAuthMethod');
+          this.availableMethods = methods.slice();
+          this.showEditButton = false;
+        }
+      },
     },
     components: {
       'event-subscribe': EventSubscribe,
     },
     async created() {
-      if (this.$store.getters.getEventSubscriptionList(
-        this.$route.params.name
-      )[0]) {
-        this.subscribed = true;
-      }
-
-      if (this.$route.query.edit === '1') {
-        this.showEditButton = false;
-      }
-
-      if (!this.$store.getters.isLoggedIn) {
-        const methods = await this.$store.dispatch('getAvailableAuthMethod');
-        this.availableMethods = methods.slice();
-        this.showEditButton = false;
-      }
+      await this.initialize();
+    },
+    watch: {
+      '$store.getters.getClient': async function() {
+        await this.initialize();
+      },
     },
   };
 </script>

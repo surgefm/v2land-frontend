@@ -5,7 +5,7 @@
     </el-form-item>
 
     <el-form-item label="简介" prop="description">
-      <el-input v-model="form.description" type="textarea" autosize />
+      <el-input v-model="form.description" type="textarea" />
     </el-form-item>
 
     <el-form-item label="事件状态" v-if="isAdmin">
