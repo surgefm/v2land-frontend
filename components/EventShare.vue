@@ -133,6 +133,19 @@
     height: 2rem;
   }
 
+  .news.border-color {
+    background-color: none !important;
+  }
+
+  .event.border-color {
+    border-radius: 100%;
+    margin: 1rem .2rem 0 .2rem;
+    padding: 14px;
+    height: 3rem;
+    width: 3rem;
+    border: none;
+  }
+
   .icon-container {
     display: flex;
     align-items: center;
@@ -155,17 +168,12 @@
   }
 
   .event {
-    margin-top: 1rem;
     font-size: 1.25rem;
   }
 
   .news.border-color:before {
     color: rgb(129, 207, 224);
     transition: all .2s;
-  }
-
-  .border-color:hover {
-    border-color: $light-color;
   }
 
   .el-icon-document:hover:before,
@@ -192,5 +200,30 @@
 
   .news.icon-twitter:hover:before {
     color: #1da1f2;
+  }
+
+  .icon-weibo:hover {
+    background-color: rgba(230, 22, 46, .1);
+    border-color: rgba(230, 22, 46, .1);
+  }
+
+  .icon-wechat:hover {
+    background-color: rgba(62, 185, 78, .1);
+    border-color: rgba(62, 185, 78, .1);
+  }
+
+  .icon-google-plus:hover {
+    background-color: rgba(220, 78, 65, .1);
+    border-color: rgba(220, 78, 65, .1);
+  }
+
+  .icon-facebook:hover {
+    background-color: rgba(76, 119, 210, .1);
+    border-color: rgba(76, 119, 210, .1);
+  }
+
+  .icon-twitter:hover {
+    background-color: rgba(29, 161, 242, .1);
+    border-color: rgba(29, 161, 242, .1);
   }
 </style>
