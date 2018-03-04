@@ -16,7 +16,7 @@
       <div class="wechat-copy-url">
         <span>或</span>
         <el-button
-          v-clipboard="shareUrl"
+          v-clipboard="`上浪潮查看「${event.name}」的最新动态：${shareUrl}`"
           @click="$message.success('链接已复制至剪贴板')"
           size="mini"
           type="primary"
