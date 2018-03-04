@@ -16,7 +16,7 @@
       <div class="wechat-copy-url">
         <span>或</span>
         <el-button
-          v-clipboard="`上浪潮查看「${event.name}」的最新动态：${shareUrl}`"
+          v-clipboard="wechatClipboard"
           @click="$message.success('链接已复制至剪贴板')"
           size="mini"
           type="primary"
@@ -72,6 +72,13 @@
       },
       event() {
         return this.$store.getters.getEvent(this.$route.params.name);
+      },
+      wechatClipboard() {
+        if (this.type === 'event') {
+          return `上浪潮查看「${this.event.name}」的最新动态：${this.shareUrl}`;
+        } else if (this.type === 'news') {
+          return `上浪潮查看「${this.event.name}」的新闻「${this.object.title}」：${this.shareUrl}`;
+        }
       },
       shareUrl() {
         if (this.type === 'event') {
