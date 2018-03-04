@@ -114,11 +114,10 @@
 </script>
 
 <style lang="scss" scoped>
-  @import "../assets/variables.scss";
-
   .share {
     display: flex;
     font-size: 1rem;
+    margin-top: 1rem;
   }
 
   .border-color {
@@ -139,7 +138,7 @@
 
   .event.border-color {
     border-radius: 100%;
-    margin: 1rem 0 0 .1rem;
+    margin: 0 0 0 .1rem;
     padding: 14px;
     height: 3rem;
     width: 3rem;
