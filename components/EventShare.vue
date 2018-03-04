@@ -7,13 +7,25 @@
       trigger="click"
     >
       <qrcode
-        :value="url"
+        :value="wechatUrl"
         :options="{ size: 480, foreground: '#333', level: 'H' }"
         tag="img"
         class="qrcode"
       />
       <p class="qrcode-text">微信扫码分享</p>
-      <p class="qrcode-text light-font">iOS 用户可直接使用浏览器的分享功能进行分享</p>
+      <div class="wechat-copy-url">
+        <span>或</span>
+        <el-button
+          v-clipboard="wechatUrl"
+          @click="$message.success('链接已复制至剪贴板')"
+          size="mini"
+          type="primary"
+          round
+          plain
+        >
+          点击复制链接
+        </el-button>
+      </div>
     </el-popover>
 
     <a
@@ -61,7 +73,14 @@
       event() {
         return this.$store.getters.getEvent(this.$route.params.name);
       },
-      url() {
+      wechatUrl() {
+        if (this.type === 'event') {
+          return config.baseUrl + $.encode(this.object.name);
+        } else if (this.type === 'news') {
+          return config.baseUrl + $.encode(this.event.name) + '?news=' + this.object.id;
+        }
+      },
+      shareUrl() {
         if (this.type === 'event') {
           return config.baseUrl + this.object.id;
         } else if (this.type === 'news') {
@@ -71,7 +90,7 @@
     },
     methods: {
       shareTo(site) {
-        const url = this.url;
+        const url = this.shareUrl;
         let message = this.type === 'event'
           ? this.object.name + ' - ' +
             this.object.description.slice(0, 50) +
@@ -150,20 +169,26 @@
     align-items: center;
   }
 
+  .qrcode {
+    width: 100%;
+    height: auto;
+    opacity: 1;
+  }
+
   .qrcode-text {
     text-align: center;
     user-select: none;
   }
 
-  .light-font {
-    font-size: .75rem;
-    line-height: 1.5;
+  .wechat-copy-url {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .qrcode {
-    width: 100%;
-    height: auto;
-    opacity: 1;
+  .wechat-copy-url span {
+    margin-right: .25rem;
+    font-size: 12px;
   }
 
   .event {
