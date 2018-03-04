@@ -61,16 +61,20 @@ export default {
       return (publicPath || '/') + path;
     },
     loginTwitter() {
-      window.location = config.api + 'auth/twitter?redirect=' + this.redirect;
+      window.location = config.api + 'auth/twitter?redirect=' +
+        config.baseUrl + 'login/auth?redirect=' + this.redirect;
     },
     loginWeibo() {
-      window.location = config.api + 'auth/weibo?redirect=' + this.redirect;
+      window.location = config.api + 'auth/weibo?redirect=' +
+        config.baseUrl + 'login/auth?redirect=' + this.redirect;
     },
     loginEmail() {
       let path = '/login/email';
-      if (this.$route.query.redirect || this.redirect) {
-        path += '?redirect=' + (this.$route.query.redirect || this.redirect);
+      let redirect = this.$route.query.redirect || this.redirect || '/';
+      if (redirect[0] !== '/') {
+        redirect = '/' + redirect;
       }
+      path += '?redirect=' + redirect;
       this.$router.push(path);
     },
   },

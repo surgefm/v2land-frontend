@@ -252,7 +252,8 @@
       async unauthorize(auth) {
         try {
           await this.$axios.delete(`auth/${auth.id}`);
-          await this.$store.dispatch('getClient');
+          const client = await this.$store.dispatch('getClient', this.client.id);
+          this.orig = { ...client };
           this.updateForm();
           this.$message.success('解绑成功');
         } catch (err) {

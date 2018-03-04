@@ -212,8 +212,8 @@
   }
 
   .icon-google-plus:hover {
-    background-color: rgba(220, 78, 65, .1);
-    border-color: rgba(220, 78, 65, .1);
+    background-color: rgba(255, 106, 52, .1);
+    border-color: rgba(255, 106, 52, .1);
   }
 
   .icon-facebook:hover {
