@@ -3,18 +3,25 @@
     <nuxt-link :to="'/' + event.name" class="link" v-if="!isAdminEvent">
       <div class="event-container">
         <div :class="['event-text', !event.headerImage || 'event-text-image']">
+          <div class="event-image-container" v-if="event.headerImage">
+            <img
+              class="event-image"
+              :src="image"
+              onload="this.id='show'"
+            />
+            <a
+              :href="event.headerImage.sourceUrl"
+              onclick="javascript:!this.href || window.open(this.href, '_blank');return false;"
+            >
+              {{ event.headerImage.source }}
+            </a>
+          </div>
           <p class="event-title">
             {{ event.name }}
           </p>
           <event-description class="event-description light-font">
             {{ description }}
           </event-description>
-          <img
-            class="event-image-container"
-            v-if="event.headerImage"
-            :src="image"
-            onload="this.id='show'"
-          />
         </div>
       </div>
     </nuxt-link>
@@ -82,6 +89,7 @@
   .event-text-image {
     padding-right: 13.5rem;
     position: relative;
+    overflow: hidden;
   }
 
   .event-title {
@@ -101,12 +109,31 @@
     margin: 0;
     background-size: cover;
     background-position: center;
-    border-top-right-radius: .5rem;
-    border-bottom-right-radius: .5rem;
     position: absolute;
     right: 0;
     top: 0;
+  }
+
+  .event-image {
     opacity: 0;
+    object-fit: cover;
+    border-top-right-radius: .5rem;
+    border-bottom-right-radius: .5rem;
+    width: 100%;
+    height: 100%;
+  }
+
+  .event-image-container a {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-size: .75rem;
+    padding: .35rem;
+    background-color: #333;
+    color: #fff;
+    line-height: 1;
+    border-top-left-radius: .25rem;
+    border-bottom-right-radius: .5rem;
   }
 
   p {
@@ -119,8 +146,35 @@
       padding-right: 1.5rem;
     }
 
+    .event-text-image {
+      padding: .5rem;
+    }
+
+    .event-text-image p {
+      margin: 1rem .5rem 0 1rem;
+    }
+
+    .event-text-image .description {
+      margin: .5rem 1rem 1rem 1rem;
+    }
+
     .event-image-container {
-      display: none;
+      width: 102px;
+      height: 102px;
+      margin-left: .5rem;
+      position: relative;
+      float: right;
+      border-radius: .25rem;
+    }
+
+    .event-image-container a {
+      border-bottom-right-radius: .25rem;
+      padding: .25rem;
+    }
+
+    .event-image {
+      height: 100%;
+      border-radius: .25rem;
     }
   }
 </style>
