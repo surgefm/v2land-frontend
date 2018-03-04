@@ -7,7 +7,7 @@
       trigger="click"
     >
       <qrcode
-        :value="wechatUrl"
+        :value="shareUrl"
         :options="{ size: 480, foreground: '#333', level: 'H' }"
         tag="img"
         class="qrcode"
@@ -72,13 +72,6 @@
       },
       event() {
         return this.$store.getters.getEvent(this.$route.params.name);
-      },
-      wechatUrl() {
-        if (this.type === 'event') {
-          return config.baseUrl + this.object.name;
-        } else if (this.type === 'news') {
-          return config.baseUrl + this.event.name + '?news=' + this.object.id;
-        }
       },
       shareUrl() {
         if (this.type === 'event') {
