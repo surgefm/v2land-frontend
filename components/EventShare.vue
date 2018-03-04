@@ -16,7 +16,7 @@
       <div class="wechat-copy-url">
         <span>或</span>
         <el-button
-          v-clipboard="wechatUrl"
+          v-clipboard="shareUrl"
           @click="$message.success('链接已复制至剪贴板')"
           size="mini"
           type="primary"
@@ -75,9 +75,9 @@
       },
       wechatUrl() {
         if (this.type === 'event') {
-          return config.baseUrl + $.encode(this.object.name);
+          return config.baseUrl + this.object.name;
         } else if (this.type === 'news') {
-          return config.baseUrl + $.encode(this.event.name) + '?news=' + this.object.id;
+          return config.baseUrl + this.event.name + '?news=' + this.object.id;
         }
       },
       shareUrl() {
