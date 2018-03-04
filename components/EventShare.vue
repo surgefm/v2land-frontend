@@ -139,7 +139,7 @@
 
   .event.border-color {
     border-radius: 100%;
-    margin: 1rem .2rem 0 .2rem;
+    margin: 1rem 0 0 .1rem;
     padding: 14px;
     height: 3rem;
     width: 3rem;
