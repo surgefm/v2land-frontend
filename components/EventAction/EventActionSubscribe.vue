@@ -13,7 +13,7 @@
       >
         <div slot="content" class="tooltip">
           <p class="large-screen">
-            <b>关注事件</b>后，我们会在获得最新消息时经邮件、微博、Twitter 等方式通知您
+            <b>关注事件</b>后，我们会在获得最新消息时经邮件、微博、Twitter 等方式通知你
           </p>
           <p class="small-screen">
             通过邮件／微博获取最新消息
@@ -59,12 +59,11 @@
           placement="bottom"
           :manual="true"
           :value="showTooltipOfOtherSubscriptions"
-          content="您还可通过微博、Twitter 等方式进行关注"
+          content="你还可通过微博、Twitter 等方式进行关注"
         >
           <el-button
             @click="editSubscription"
             v-if="showEditButton"
-            style="height: 38px;"
             type="text"
           >
             添加其他关注方式
@@ -80,7 +79,7 @@
           {{
             showEditButton
               ? '确 认'
-              : (isSubmittable ? '添加关注' : '您已有相同的关注方式')
+              : (isSubmittable ? '添加关注' : '你已有相同的关注方式')
           }}
         </el-button>
       </span>
