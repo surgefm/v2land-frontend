@@ -1,5 +1,5 @@
 <template>
-  <div class="share">
+  <div :class="['share', type + '-share']">
     <el-popover
       ref="wechat-popover"
       placement="bottom"
@@ -136,6 +136,9 @@
   .share {
     display: flex;
     font-size: 1rem;
+  }
+
+  .event-share {
     margin-top: 1rem;
   }
 
