@@ -1,6 +1,6 @@
 <template>
   <card class="card hover">
-    <nuxt-link :to="'/' + event.name" class="link" v-if="!isAdminEvent">
+    <div @click="cardClicked" class="link" v-if="!isAdminEvent">
       <div class="event-container">
         <div :class="['event-text', !event.headerImage || 'event-text-image']">
           <div class="event-image-container" v-if="event.headerImage">
@@ -11,7 +11,8 @@
             />
             <a
               :href="event.headerImage.sourceUrl"
-              onclick="javascript:!this.href || window.open(this.href, '_blank');return false;"
+              onclick="javascript:return false;"
+              @click="openImageSource(event.headerImage.sourceUrl)"
             >
               {{ event.headerImage.source }}
             </a>
@@ -24,7 +25,7 @@
           </event-description>
         </div>
       </div>
-    </nuxt-link>
+    </div>
     <div v-else class="event-container">
       <div class="event-text">
         <nuxt-link class="event-title" :to="'/' + event.name">
@@ -47,6 +48,11 @@
     props: {
       event: Object,
     },
+    data() {
+      return {
+        imageClicked: false,
+      };
+    },
     computed: {
       description() {
         if (this.isAdminEvent) {
@@ -66,6 +72,21 @@
         return this.$route.path === '/admin/event';
       },
     },
+    methods: {
+      cardClicked() {
+        if (!this.imageClicked) {
+          this.$router.push('/' + this.event.name);
+        }
+
+        this.imageClicked = false;
+      },
+      openImageSource(url) {
+        this.imageClicked = true;
+        if (url) {
+          window.open(url, '_blank');
+        }
+      },
+    },
     components: {
       'event-card-action': EventCardAction,
     },
@@ -75,6 +96,7 @@
 <style lang="scss" scoped>
   .card {
     padding: 0 !important;
+    cursor: pointer;
   }
 
   .event-container {
@@ -134,6 +156,7 @@
     line-height: 1;
     border-top-left-radius: .25rem;
     border-bottom-right-radius: .5rem;
+    user-select: none;
   }
 
   p {
