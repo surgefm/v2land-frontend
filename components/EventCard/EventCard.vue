@@ -1,6 +1,13 @@
 <template>
   <card class="card hover">
-    <div @click="cardClicked" class="link" v-if="!isAdminEvent">
+    <a
+      :href="'/' + event.name"
+      :pageReady="pageReady ? 1 : 0"
+      onclick="javascript:return this.attributes.pageready.value == 0"
+      @click="cardClicked"
+      class="link"
+      v-if="!isAdminEvent"
+    >
       <div class="event-container">
         <div :class="['event-text', !event.headerImage || 'event-text-image']">
           <div class="event-image-container" v-if="event.headerImage">
@@ -9,13 +16,9 @@
               :src="image"
               onload="this.id='show'"
             />
-            <a
-              :href="event.headerImage.sourceUrl"
-              onclick="javascript:return false;"
-              @click="openImageSource(event.headerImage.sourceUrl)"
-            >
+            <span @click="openImageSource(event.headerImage.sourceUrl)">
               {{ event.headerImage.source }}
-            </a>
+            </span>
           </div>
           <p class="event-title">
             {{ event.name }}
@@ -25,7 +28,7 @@
           </event-description>
         </div>
       </div>
-    </div>
+    </a>
     <div v-else class="event-container">
       <div class="event-text">
         <nuxt-link class="event-title" :to="'/' + event.name">
@@ -51,6 +54,7 @@
     data() {
       return {
         imageClicked: false,
+        pageReady: false,
       };
     },
     computed: {
@@ -69,13 +73,13 @@
         return config.static + '240x240/' + this.event.headerImage.imageUrl;
       },
       isAdminEvent() {
-        return this.$route.path === '/admin/event';
+        return this.$route.name === 'admin-event';
       },
     },
     methods: {
       cardClicked() {
         if (!this.imageClicked) {
-          this.$router.push('/' + this.event.name);
+          return this.$router.push('/' + this.event.name);
         }
 
         this.imageClicked = false;
@@ -86,6 +90,9 @@
           window.open(url, '_blank');
         }
       },
+    },
+    mounted() {
+      this.pageReady = 1;
     },
     components: {
       'event-card-action': EventCardAction,
@@ -145,7 +152,7 @@
     height: 100%;
   }
 
-  .event-image-container a {
+  .event-image-container span {
     position: absolute;
     right: 0;
     bottom: 0;
@@ -190,7 +197,7 @@
       border-radius: .25rem;
     }
 
-    .event-image-container a {
+    .event-image-container span {
       border-bottom-right-radius: .25rem;
       padding: .25rem;
     }
