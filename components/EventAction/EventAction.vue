@@ -201,6 +201,7 @@
       background-color: rgba(256, 256, 256, .95);
       justify-content: space-between;
       padding-right: 0;
+      padding-bottom: env(safe-area-inset-bottom);
     }
 
     .action {
