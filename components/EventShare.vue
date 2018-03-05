@@ -73,11 +73,11 @@
       event() {
         return this.$store.getters.getEvent(this.$route.params.name);
       },
-      wechatClipboard() {
+      shareMessage() {
         if (this.type === 'event') {
-          return `上浪潮查看「${this.event.name}」的最新动态：${this.shareUrl}`;
+          return `上浪潮查看「${this.event.name}」的最新动态`;
         } else if (this.type === 'news') {
-          return `上浪潮查看「${this.event.name}」的新闻「${this.object.title}」：${this.shareUrl}`;
+          return `上浪潮查看「${this.event.name}」的新闻「${this.object.title}」`;
         }
       },
       shareUrl() {
@@ -86,6 +86,9 @@
         } else if (this.type === 'news') {
           return config.baseUrl + this.event.id + '?news=' + this.object.id;
         }
+      },
+      wechatClipboard() {
+        return `${this.shareMessage}：${this.shareUrl}`;
       },
     },
     methods: {
@@ -109,7 +112,7 @@
         case 'facebook':
           return $.encode('https://www.facebook.com/sharer/sharer.php?u=' + url);
         case 'telegram':
-          return $.encode('https://telegram.me/share?url=' + url + '&text=' + message);
+          return $.encode('https://telegram.me/share?url=' + url + '&text=' + this.shareMessage);
         case 'weibo':
           message += `%23${this.$route.params.name}%23 %23浪潮，你的社会事件追踪工具%23`;
           return $.encode('http://service.weibo.com/share/share.php?url=' + url + '&title=' + message);
