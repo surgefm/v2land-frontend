@@ -359,7 +359,7 @@
             });
             this.passSubmitting = false;
             if (response.status === 201) {
-              this.$message.success('提交成功');
+              this.$message.success('密码修改成功');
               this.$refs.passForm.resetFields();
             } else {
               this.$message.error(response.message);
