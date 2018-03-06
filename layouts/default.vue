@@ -20,6 +20,11 @@
     overflow-y: scroll;
   }
 
+  body {
+    overflow: auto !important;
+    padding-right: inherit !important;
+  }
+
   *, *:before, *:after {
     box-sizing: border-box;
     margin: 0;
