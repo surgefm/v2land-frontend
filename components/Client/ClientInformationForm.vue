@@ -96,6 +96,48 @@
         </el-button>
       </el-form-item>
     </el-form>
+    <div class="divider" />
+    <el-form
+      ref="passForm"
+      :model="passForm"
+      label-width="80px"
+      class="form view"
+      :rules="passRules"
+      status-icon
+    >
+      <el-form-item 
+        class="edit" 
+        label="新密码" 
+        prop="newPass"
+      >
+        <el-input 
+          type="password" 
+          v-model="passForm.newPass" 
+          auto-complete="off"
+        />
+      </el-form-item>
+      <el-form-item 
+        class="edit" 
+        label="确认密码" 
+        prop="checkNewPass">
+        <el-input 
+          type="password" 
+          v-model="passForm.checkNewPass" 
+          auto-complete="off"
+          />
+      </el-form-item>
+      <el-form-item class="edit">
+        <div class="submit-button-group">
+        <el-button
+          type="primary"
+          :loading="passSubmitting"
+          @click="submitChangePass"
+        >
+          确认
+        </el-button>
+      </div>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
@@ -124,6 +166,23 @@
         }
       };
 
+      const validateNewPass = (rule, value, callback) => {
+        if (value === '') {
+          return callback(new Error('请输入新密码'));
+        } else {
+          return callback();
+        }
+      };
+
+      const validateSurePass = (rule, value, callback) => {
+        if (value === '') {
+          return callback(new Error('请输入确认密码'));
+        } else if (value !== this.passForm.newPass) {
+          return callback(new Error('确认密码和新密码不一致!'));
+        } else {
+          return callback();
+        }
+      };
       return {
         form: {
           username: '',
@@ -144,8 +203,21 @@
             { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' },
           ],
         },
+        passForm: {
+          newPass: '',
+          checkNewPass: '',
+        },
+        passRules: {
+          newPass: [
+            { validator: validateNewPass, trigger: 'blur' },
+          ],
+          checkNewPass: [
+            { validator: validateSurePass, trigger: 'blur' },
+          ],
+        },
         roles,
         submitting: false,
+        passSubmitting: false,
         orig: {},
       };
     },
@@ -273,6 +345,25 @@
           }
         }
         return false;
+      },
+      async submitChangePass() {
+        this.$refs['passForm'].validate( async (valid) => {
+          if (valid) {
+            this.passSubmitting = true;
+            const url = '/client/password';
+            const response = await this.$axios.put(url, {
+              id: this.client.id,
+              password: this.passForm.newPass,
+            });
+            this.passSubmitting = false;
+            if (response.status === 201) {
+              this.$message.success('提交成功');
+              this.$refs['passForm'].resetFields();
+            } else {
+              this.$message.error(response.message);
+            }
+          }
+        });
       },
     },
     created() {
