@@ -7,6 +7,7 @@
       class="form view"
       :rules="rules"
     >
+      <div class="sorter">基本信息</div>
       <el-form-item
         label="用户名"
         :class="!(isAdmin ||isSelf) || 'edit'"
@@ -51,7 +52,7 @@
       </div>
 
       <div class="divider" />
-
+      <div class="sorter">绑定账户</div>
       <span
         v-if="(!form.auths || form.auths.length === 0) && isAdmin && !isSelf"
       >
@@ -97,6 +98,7 @@
       </el-form-item>
     </el-form>
     <div class="divider" />
+    <div class="sorter">修改密码</div>
     <el-form
       ref="passForm"
       :model="passForm"
@@ -128,14 +130,14 @@
       </el-form-item>
       <el-form-item class="edit">
         <div class="submit-button-group">
-        <el-button
-          type="primary"
-          :loading="passSubmitting"
-          @click="submitChangePass"
-        >
-          确认
-        </el-button>
-      </div>
+          <el-button
+            type="primary"
+            :loading="passSubmitting"
+            @click="submitChangePass"
+          >
+            确认
+          </el-button>
+        </div>
       </el-form-item>
     </el-form>
   </div>
@@ -174,7 +176,7 @@
         }
       };
 
-      const validateSurePass = (rule, value, callback) => {
+      const validateComfirmationPass = (rule, value, callback) => {
         if (value === '') {
           return callback(new Error('请输入确认密码'));
         } else if (value !== this.passForm.newPass) {
@@ -212,7 +214,7 @@
             { validator: validateNewPass, trigger: 'blur' },
           ],
           checkNewPass: [
-            { validator: validateSurePass, trigger: 'blur' },
+            { validator: validateComfirmationPass, trigger: 'blur' },
           ],
         },
         roles,
@@ -347,7 +349,7 @@
         return false;
       },
       async submitChangePass() {
-        this.$refs['passForm'].validate( async (valid) => {
+        this.$refs.passForm.validate( async (valid) => {
           if (valid) {
             this.passSubmitting = true;
             const url = '/client/password';
@@ -358,7 +360,7 @@
             this.passSubmitting = false;
             if (response.status === 201) {
               this.$message.success('提交成功');
-              this.$refs['passForm'].resetFields();
+              this.$refs.passForm.resetFields();
             } else {
               this.$message.error(response.message);
             }
@@ -388,6 +390,14 @@
     height: .125rem;
     background-color: #eee;
     margin: 1rem 0;
+  }
+
+  .sorter {
+    width: 5rem;
+    font-size: 1.0rem;
+    margin: 1rem 0;
+    padding: 0 0.875rem 0 0;
+    text-align: right;
   }
 
   .disconnect {
