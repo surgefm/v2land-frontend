@@ -4,7 +4,8 @@
 export default async function({ route, app, store, redirect }) {
   if (route.params.name) {
     const event = await store.dispatch('getEvent', route.params.name);
-    if (!event || event.status !== 'admitted') {
+    const isManager = store.getters.isClientManager;
+    if (!event || (event.status !== 'admitted' && !isManager)) {
       let from = app.context.from;
       if (from && from.name.includes('login')) {
         from = '/';
@@ -14,7 +15,17 @@ export default async function({ route, app, store, redirect }) {
         from = null;
       }
 
-      redirect((from || '/') + '?status=event_not_found');
+      return redirect((from || '/') + '?status=event_not_found');
+    }
+
+    if (event.name !== route.params.name) {
+      return redirect({
+        ...route,
+        params: {
+          ...route.params,
+          name: event.name,
+        },
+      });
     }
   }
 };

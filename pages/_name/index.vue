@@ -127,16 +127,7 @@
       },
     },
     async asyncData({ store, params, redirect, route }) {
-      const event = await store.dispatch('getEvent', params.name);
-      if (!event) {
-        return redirect('/');
-      }
-      if (event.name !== params.name) {
-        return redirect({
-          ...route,
-          params: { name: event.name },
-        });
-      }
+      await store.dispatch('getEvent', params.name);
       return {};
     },
     mounted() {
