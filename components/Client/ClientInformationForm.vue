@@ -7,6 +7,7 @@
       class="form view"
       :rules="rules"
     >
+      <div class="sorter">基本信息</div>
       <el-form-item
         label="用户名"
         :class="!(isAdmin ||isSelf) || 'edit'"
@@ -51,7 +52,7 @@
       </div>
 
       <div class="divider" />
-
+      <div class="sorter">绑定账户</div>
       <span
         v-if="(!form.auths || form.auths.length === 0) && isAdmin && !isSelf"
       >
@@ -96,6 +97,49 @@
         </el-button>
       </el-form-item>
     </el-form>
+    <div class="divider" />
+    <div class="sorter">修改密码</div>
+    <el-form
+      ref="passForm"
+      :model="passForm"
+      label-width="80px"
+      class="form view"
+      :rules="passRules"
+      status-icon
+    >
+      <el-form-item 
+        class="edit" 
+        label="新密码" 
+        prop="newPass"
+      >
+        <el-input 
+          type="password" 
+          v-model="passForm.newPass" 
+          auto-complete="off"
+        />
+      </el-form-item>
+      <el-form-item 
+        class="edit" 
+        label="确认密码" 
+        prop="checkNewPass">
+        <el-input 
+          type="password" 
+          v-model="passForm.checkNewPass" 
+          auto-complete="off"
+          />
+      </el-form-item>
+      <el-form-item class="edit">
+        <div class="submit-button-group">
+          <el-button
+            type="primary"
+            :loading="passSubmitting"
+            @click="submitChangePass"
+          >
+            确认
+          </el-button>
+        </div>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
@@ -124,6 +168,23 @@
         }
       };
 
+      const validateNewPass = (rule, value, callback) => {
+        if (value === '') {
+          return callback(new Error('请输入新密码'));
+        } else {
+          return callback();
+        }
+      };
+
+      const validateConfirmationPass = (rule, value, callback) => {
+        if (value === '') {
+          return callback(new Error('请输入确认密码'));
+        } else if (value !== this.passForm.newPass) {
+          return callback(new Error('确认密码和新密码不一致'));
+        } else {
+          return callback();
+        }
+      };
       return {
         form: {
           username: '',
@@ -144,8 +205,21 @@
             { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' },
           ],
         },
+        passForm: {
+          newPass: '',
+          checkNewPass: '',
+        },
+        passRules: {
+          newPass: [
+            { validator: validateNewPass, trigger: 'blur' },
+          ],
+          checkNewPass: [
+            { validator: validateConfirmationPass, trigger: 'blur' },
+          ],
+        },
         roles,
         submitting: false,
+        passSubmitting: false,
         orig: {},
       };
     },
@@ -274,6 +348,25 @@
         }
         return false;
       },
+      async submitChangePass() {
+        this.$refs.passForm.validate( async (valid) => {
+          if (valid) {
+            this.passSubmitting = true;
+            const url = '/client/password';
+            const response = await this.$axios.put(url, {
+              id: this.client.id,
+              password: this.passForm.newPass,
+            });
+            this.passSubmitting = false;
+            if (response.status === 201) {
+              this.$message.success('密码修改成功');
+              this.$refs.passForm.resetFields();
+            } else {
+              this.$message.error(response.message);
+            }
+          }
+        });
+      },
     },
     created() {
       this.orig = this.client;
@@ -297,6 +390,14 @@
     height: .125rem;
     background-color: #eee;
     margin: 1rem 0;
+  }
+
+  .sorter {
+    width: 5rem;
+    font-size: 1.0rem;
+    margin: 1rem 0;
+    padding: 0 0.875rem 0 0;
+    text-align: right;
   }
 
   .disconnect {
