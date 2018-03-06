@@ -176,11 +176,11 @@
         }
       };
 
-      const validateComfirmationPass = (rule, value, callback) => {
+      const validateConfirmationPass = (rule, value, callback) => {
         if (value === '') {
           return callback(new Error('请输入确认密码'));
         } else if (value !== this.passForm.newPass) {
-          return callback(new Error('确认密码和新密码不一致!'));
+          return callback(new Error('确认密码和新密码不一致'));
         } else {
           return callback();
         }
@@ -214,7 +214,7 @@
             { validator: validateNewPass, trigger: 'blur' },
           ],
           checkNewPass: [
-            { validator: validateComfirmationPass, trigger: 'blur' },
+            { validator: validateConfirmationPass, trigger: 'blur' },
           ],
         },
         roles,
