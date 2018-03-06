@@ -17,6 +17,7 @@
     -webkit-font-smoothing: antialiased;
     box-sizing: border-box;
     background-color: rgb(247, 246, 247);
+    overflow-y: scroll;
   }
 
   *, *:before, *:after {
