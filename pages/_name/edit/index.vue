@@ -57,11 +57,6 @@
 </script>
 
 <style lang="scss" scoped>
-  .tag {
-    line-height: 1;
-    margin-top: .75rem;
-  }
-
   .sorter {
     width: 100%;
     text-align: left;

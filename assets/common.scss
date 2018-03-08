@@ -100,8 +100,13 @@ img {
   width: 5rem;
   font-size: 1.0rem;
   margin: 1rem 0;
-  padding: 0 0.875rem 0 0;
+  padding: 0 .875rem 0 0;
   text-align: right;
+}
+
+.tag {
+  line-height: 1;
+  margin-top: .75rem;
 }
 
 .page-enter-active, .page-leave-active {
