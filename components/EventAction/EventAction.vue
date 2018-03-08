@@ -120,7 +120,8 @@
         return this.showAdmit;
       },
       showSubscriptionList() {
-        return this.isLoggedIn && (this.isHomepage || this.isClientPage);
+        return this.isLoggedIn &&
+          (this.isHomepage || this.isClientPage || this.$route.name === 'subscription');
       },
       showClientSetting() {
         return this.isLoggedIn && !this.isLoggingIn;
