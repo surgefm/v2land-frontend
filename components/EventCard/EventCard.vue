@@ -154,15 +154,14 @@
 
   .event-image-container span {
     position: absolute;
-    right: 0;
-    bottom: 0;
+    right: .25rem;
+    bottom: .25rem;
     font-size: .75rem;
     padding: .35rem;
     background-color: #333;
     color: #fff;
     line-height: 1;
-    border-top-left-radius: .25rem;
-    border-bottom-right-radius: .5rem;
+    border-radius: .25rem;
     user-select: none;
   }
 
@@ -198,7 +197,10 @@
     }
 
     .event-image-container span {
-      border-bottom-right-radius: .25rem;
+      border-top-right-radius: 0;
+      border-bottom-left-radius: 0;
+      right: 0;
+      bottom: 0;
       padding: .25rem;
     }
 

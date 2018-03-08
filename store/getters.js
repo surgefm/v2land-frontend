@@ -77,7 +77,7 @@ export default {
 
   getSubscriptionList(state, getters) {
     if (getters.isLoggedIn) {
-      return state.client.subscriptions.filter((s) => s.status === 'active');
+      return state.client.subscriptions;
     } else {
       return [];
     }

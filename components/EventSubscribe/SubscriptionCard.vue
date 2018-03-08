@@ -25,8 +25,8 @@
       </div>
     </el-popover>
 
-    <nuxt-link class="subscription-title link" :to="'/' + subscription.eventName">
-      {{ subscription.eventName }}
+    <nuxt-link class="subscription-title link" :to="'/' + event.name">
+      {{ event.name }}
     </nuxt-link>
     <div class="subscription-description">
       <p>订阅模式：{{ mode }}</p>
@@ -55,6 +55,7 @@
       return {
         isSubmitting: false,
         isPopoverVisible: false,
+        event: {},
       };
     },
     computed: {
@@ -106,6 +107,9 @@
       },
     },
     methods: {
+      async getEvent() {
+        this.event = await this.$store.dispatch('getEvent', this.subscription.event);
+      },
       unsubscribe() {
         this.isPopoverVisible = false;
         this.isSubmitting = true;
@@ -124,6 +128,9 @@
             this.isSubmitting = false;
           });
       },
+    },
+    async created() {
+      await this.getEvent();
     },
   };
 </script>

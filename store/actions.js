@@ -2,8 +2,12 @@ import $ from 'postman-url-encoder';
 
 export default {
   async getEvent({ dispatch, state, getters }, name) {
-    if (!getters.isServer && state.event[name] && state.event[name].news) {
-      return state.event[name];
+    if (!getters.isServer) {
+      for (const i in state.event) {
+        if (state.event[i].id === name || state.event[i].name === name) {
+          return state.event[i];
+        }
+      }
     }
     return dispatch('fetchEvent', name);
   },

@@ -82,7 +82,7 @@
       },
       isEventPage() {
         return this.$route.name && this.$route.name.includes('name') &&
-          this.$route.path.slice(0, 7) !== '/admin/';
+          this.$route.params.name !== 'admin';
       },
       isClientPage() {
         return this.$route.path === '/me';
@@ -133,7 +133,8 @@
       },
       showReturn() {
         return this.$route.name !== 'name' &&
-          this.$route.name.includes('name');
+          this.$route.name.includes('name') &&
+          this.$route.params.name !== 'admin';
       },
       showHomepage() {
         return !this.showReturn && !this.isHomepage;

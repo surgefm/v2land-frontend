@@ -176,6 +176,10 @@ img {
     width: 0;
     height: 0;
   }
+
+  .el-dialog {
+    margin-top: 7.5vh !important;
+  }
 }
 
 @media (max-width: 390px) {
