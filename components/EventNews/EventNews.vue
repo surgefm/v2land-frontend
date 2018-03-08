@@ -113,7 +113,7 @@
         return string;
       },
       copySuccess() {
-        this.$message('已将该新闻分享链接拷贝至剪贴板');
+        this.$message.success('已将该新闻分享链接拷贝至剪贴板');
       },
     },
   };

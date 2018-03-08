@@ -108,6 +108,9 @@
       resetButton() {
         this.isSubmitting = false;
       },
+      submitted() {
+        this.isSubmitting = false;
+      },
     },
     created() {
       if (this.mode === 'edit' && this.origData) {

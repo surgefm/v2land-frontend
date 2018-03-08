@@ -10,6 +10,7 @@
         :name="$route.params.name"
         class="event-form"
         v-on:submit="submit"
+        ref="information"
       />
       <div class="divider" />
       <div class="sorter">修改事件题图</div>
@@ -39,9 +40,13 @@
             this.$store.dispatch('fetchEvent', this.$route.params.name);
           })
           .then(() => {
-            this.$message('修改成功');
-            const url = this.$route.query.redirect || `/${this.$route.params.name}`;
-            this.$router.push(url);
+            this.$message.success('修改成功');
+            this.$refs.information.submitted();
+          })
+          .catch((err) => {
+            console.error(err);
+            this.$message.error(err.message || '发生了未知错误');
+            this.$refs.information.submitted();
           });
       },
     },

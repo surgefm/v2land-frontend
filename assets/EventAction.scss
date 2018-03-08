@@ -130,6 +130,11 @@
     padding: .25rem;
     height: 100%;
   }
+
+  .subscribe-container:hover, .exact-active-link {
+    box-shadow: initial;
+    background-color: initial;
+  }
 }
 
 @media (max-width: 350px) {
