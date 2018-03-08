@@ -43,7 +43,7 @@
         const dropdown = [];
         for (const i of [
           'admin-event', 'admin-admit', 'admin-client', 'create-event',
-          'subscribe', 'post', 'admit', 'edit', 'edit-image', 'subscription-list',
+          'subscribe', 'post', 'admit', 'edit', 'subscription-list',
           'client-setting', 'client', 'return', 'homepage',
         ]) {
           let action = i.split('-');
@@ -117,9 +117,6 @@
         return this.isEventPage && this.isClientManager;
       },
       showEdit() {
-        return this.showAdmit;
-      },
-      showEditImage() {
         return this.showAdmit;
       },
       showSubscriptionList() {
