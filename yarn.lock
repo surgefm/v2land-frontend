@@ -18,9 +18,9 @@
   dependencies:
     vue-analytics "^5.4.0"
 
-"@nuxtjs/icon@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/icon/-/icon-2.0.2.tgz#a560ea96644e575c2a51ae320aa31af025c4e2ad"
+"@nuxtjs/icon@^2.1.0":
+  version "2.1.0"
+  resolved "http://r.cnpmjs.org/@nuxtjs/icon/download/@nuxtjs/icon-2.1.0.tgz#d06ff69778d54a65506a39862fe12ab2bba627b5"
   dependencies:
     fs-extra "^5.0.0"
     hash-sum "^1.0.2"
@@ -32,9 +32,9 @@
   dependencies:
     hash-sum "^1.0.2"
 
-"@nuxtjs/meta@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/meta/-/meta-2.0.2.tgz#48f450913f638ae16711d0c8a8798f5f80376d21"
+"@nuxtjs/meta@^2.2.1":
+  version "2.2.1"
+  resolved "http://r.cnpmjs.org/@nuxtjs/meta/download/@nuxtjs/meta-2.2.1.tgz#ad7c8658ef0357cdef56856a9ff21d595102e089"
 
 "@nuxtjs/proxy@^1.1.4":
   version "1.1.4"
@@ -42,18 +42,18 @@
   dependencies:
     http-proxy-middleware "^0.17.4"
 
-"@nuxtjs/pwa@^2.0.5":
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/pwa/-/pwa-2.0.5.tgz#2685ad7ba95184b30750143f085819b06b45aee0"
+"@nuxtjs/pwa@^2.0.8":
+  version "2.0.8"
+  resolved "http://r.cnpmjs.org/@nuxtjs/pwa/download/@nuxtjs/pwa-2.0.8.tgz#0e36ea1e3a63c1531f4e9e6b1d03a9390b09f8b5"
   dependencies:
-    "@nuxtjs/icon" "^2.0.2"
+    "@nuxtjs/icon" "^2.1.0"
     "@nuxtjs/manifest" "^2.1.0"
-    "@nuxtjs/meta" "^2.0.2"
-    "@nuxtjs/workbox" "^2.1.1"
+    "@nuxtjs/meta" "^2.2.1"
+    "@nuxtjs/workbox" "^2.2.0"
 
-"@nuxtjs/workbox@^2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@nuxtjs/workbox/-/workbox-2.1.1.tgz#e690c3c384dcd73e8a236d03b2d018949543e345"
+"@nuxtjs/workbox@^2.2.0":
+  version "2.2.0"
+  resolved "http://r.cnpmjs.org/@nuxtjs/workbox/download/@nuxtjs/workbox-2.2.0.tgz#c8f0df77afe029ded7783806b77ec950f792d3c3"
   dependencies:
     workbox-build "^2.1.2"
 

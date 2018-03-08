@@ -135,6 +135,10 @@ module.exports = {
       urlPattern: 'https://assets.v2land.net/.*',
       handler: 'cacheFirst',
       method: 'GET',
+      strategyOptions: {
+        cacheName: 'images',
+        cacheableResponse: { statuses: [0, 200] }
+      }
     }, {
       urlPattern: 'https://cdn.v2land.net/.*',
       handler: 'cacheFirst',
