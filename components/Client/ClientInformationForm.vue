@@ -385,21 +385,6 @@
     margin-bottom: 0;
   }
 
-  .divider {
-    width: 100%;
-    height: .125rem;
-    background-color: #eee;
-    margin: 1rem 0;
-  }
-
-  .sorter {
-    width: 5rem;
-    font-size: 1.0rem;
-    margin: 1rem 0;
-    padding: 0 0.875rem 0 0;
-    text-align: right;
-  }
-
   .disconnect {
     margin-left: .5rem;
   }

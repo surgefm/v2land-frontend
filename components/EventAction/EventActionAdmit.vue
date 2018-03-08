@@ -1,6 +1,9 @@
 <template>
   <nuxt-link
-    class="subscribe-container"
+    :class="[
+      'subscribe-container',
+      $route.name !== 'name-admit' || 'exact-active-link'
+    ]"
     :to="'/' + this.$route.params.name + '/admit'"
   >
     <span v-if="pendingNews" class="event-action-badge">{{ pendingNews }}</span>

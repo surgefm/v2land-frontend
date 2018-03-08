@@ -26,7 +26,6 @@
         @click="submitForm('form')"
         size="medium"
         :loading="isSubmitting"
-        :disabled="true"
       >
         提交
       </el-button>

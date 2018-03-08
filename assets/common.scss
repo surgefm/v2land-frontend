@@ -89,6 +89,21 @@ img {
   animation: 1s linear 0s alternate emphasize;
 }
 
+.divider {
+  width: 100%;
+  height: .125rem;
+  background-color: #eee;
+  margin: 1rem 0;
+}
+
+.sorter {
+  width: 5rem;
+  font-size: 1.0rem;
+  margin: 1rem 0;
+  padding: 0 0.875rem 0 0;
+  text-align: right;
+}
+
 .page-enter-active, .page-leave-active {
   transition: opacity .2s;
 }

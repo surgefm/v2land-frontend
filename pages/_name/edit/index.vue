@@ -2,7 +2,8 @@
   <background>
     <card>
       <p class="tag light-font">{{ $route.params.name }}</p>
-      <event-title>修改事件</event-title>
+      <event-title>管理事件</event-title>
+      <div class="sorter">修改基本信息</div>
       <event-information-form
         mode="edit"
         :data="'EditEvent-' + $route.params.name"
@@ -10,6 +11,9 @@
         class="event-form"
         v-on:submit="submit"
       />
+      <div class="divider" />
+      <div class="sorter">修改事件题图</div>
+      <event-image-form :name="$route.params.name" />
     </card>
     <page-foot />
   </background>
@@ -17,10 +21,12 @@
 
 <script>
   import EventInformationForm from '~/components/EventInformationForm.vue';
+  import EventImageForm from '~/components/EventCard/EventImageForm.vue';
 
   export default {
     components: {
       'event-information-form': EventInformationForm,
+      'event-image-form': EventImageForm,
     },
     methods: {
       submit() {
@@ -42,13 +48,23 @@
     async asyncData({ route, store }) {
       return store.dispatch('getEvent', route.params.name);
     },
+    head() {
+      return {
+        title: '管理事件 - ' + this.$route.params.name,
+      };
+    },
   };
 </script>
 
 <style lang="scss" scoped>
   .tag {
-    font-size: .9rem;
-    margin-right: .5rem;
+    line-height: 1;
+    margin-top: .75rem;
+  }
+
+  .sorter {
+    width: 100%;
+    text-align: left;
   }
 
   .event-form {

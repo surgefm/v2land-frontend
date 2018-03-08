@@ -4,7 +4,8 @@ export default {
   async getEvent({ dispatch, state, getters }, name) {
     if (!getters.isServer) {
       for (const i in state.event) {
-        if (state.event[i].id === name || state.event[i].name === name) {
+        if ((state.event[i].id === name || state.event[i].name === name) &&
+          state.event[i].news) {
           return state.event[i];
         }
       }
