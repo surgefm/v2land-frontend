@@ -1,7 +1,6 @@
 <template>
   <background>
     <card>
-      <p class="tag light-font">{{ $route.params.name }}</p>
       <event-title>创建事件</event-title>
       <event-information-form
         :data="'CreateEvent'"
@@ -63,11 +62,6 @@
 </script>
 
 <style lang="scss" scoped>
-  .tag {
-    font-size: .9rem;
-    margin-right: .5rem;
-  }
-
   .event-form {
     margin-top: 1rem;
   }

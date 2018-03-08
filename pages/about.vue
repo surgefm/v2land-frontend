@@ -41,11 +41,6 @@
     margin-top: 1rem;
   }
 
-  .tag {
-    line-height: 1;
-    margin-top: .75rem;
-  }
-
   .image-container {
     display: flex;
     justify-content: flex-end;

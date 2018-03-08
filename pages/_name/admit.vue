@@ -91,9 +91,4 @@
   .news-0 {
     margin-top: 1rem;
   }
-
-  .tag {
-    font-size: .9rem;
-    margin-right: .5rem;
-  }
 </style>

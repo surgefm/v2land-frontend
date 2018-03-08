@@ -78,11 +78,6 @@
 </script>
 
 <style lang="scss" scoped>
-  .tag {
-    font-size: .9rem;
-    margin-right: .5rem;
-  }
-
   .news-form {
     margin-top: 1rem;
   }
