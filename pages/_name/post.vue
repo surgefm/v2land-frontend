@@ -57,6 +57,9 @@
       'event-news-information-form': EventNewsInformationForm,
     },
     head() {
+      const description = this.event
+        ? this.event.description
+        : null;
       return {
         title: '添加新闻 - ' + this.name,
         meta: [
