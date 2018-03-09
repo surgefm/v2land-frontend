@@ -57,6 +57,8 @@ export default {
     padding: .25rem;
     margin: 0;
     cursor: pointer;
+    padding-bottom: .1125rem;
+    border-bottom: .1125rem solid transparent;
   }
 
   .event.error {
@@ -65,10 +67,9 @@ export default {
   }
 
   .event:hover {
-    padding-bottom: .1125rem;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    border-bottom: .1125rem solid $light-color;
+    border-bottom-color: $light-color;
   }
 
   .event.error:hover {

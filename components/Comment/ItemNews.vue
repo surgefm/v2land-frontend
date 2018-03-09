@@ -49,6 +49,8 @@ export default {
     padding: .25rem;
     margin: 0;
     cursor: pointer;
+    padding-bottom: .1125rem;
+    border-bottom: .1125rem solid transparent;
   }
 
   .news.error {
@@ -57,10 +59,9 @@ export default {
   }
 
   .news:hover {
-    padding-bottom: .1125rem;
+    border-bottom-color: $light-color;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    border-bottom: .1125rem solid $light-color;
   }
 
   .news.error:hover {
