@@ -6,35 +6,16 @@
         v-for="(news, i) of newsCollection"
         :key="news.id"
         :id="'i' + news.id"
-        :class="[
-          'news',
-          showNewsAboveCover(news) ? 'above-cover' : '',
-          hideNews(news) ? 'hide-news' : ''
-        ]"
+        class="news"
       >
-        <div class="news" @click="activeNews = news.id">
-          <event-news
-            :news="news"
-            :order="i + 1"
-            :id="'main-i' + news.id"
-            :event="event"
-          />
-        </div>
-        <div
-          class="news"
-          v-if="showNewsAboveCover(news)"
-          @click="clickAnchoredNews(anchoredNews)"
-        >
-          <event-news :news="anchoredNews" />
-        </div>
+        <event-news
+          class="news" 
+          :news="news"
+          :order="i + 1"
+          :id="'main-i' + news.id"
+          :event="event"
+        />
       </div>
-      <div
-        :class="[
-          'cover',
-          showCover ? 'shadow-cover' : ''
-        ]"
-        @click="removeCover"
-      />
       <page-foot />
     </background>
   </div>
@@ -46,7 +27,6 @@
   export default {
     data() {
       return {
-        activeNews: null,
         hasScrolled: false,
       };
     },
@@ -63,73 +43,11 @@
       image() {
         return config.static + this.event.headerImage.imageUrl;
       },
-      showCover() {
-        return this.activeNews &&
-          this.$route.hash &&
-          this.$route.hash !== '#timeline';
-      },
-      hash() {
-        if (this.$route.hash) {
-          return this.$route.hash.slice(1);
-        } else {
-          return null;
-        }
-      },
-      anchoredNews() {
-        let hash = this.$route.hash;
-        if (hash) {
-          hash = hash.slice(1);
-          const name = this.$route.params.name;
-          const news = this.$store.getters.getNews({
-            name,
-            id: hash,
-          });
-          if (news) {
-            const copy = Object.assign({}, news);
-            copy.tag = '相关新闻';
-            return copy;
-          }
-        }
-        return null;
-      },
     },
     methods: {
-      showNewsAboveCover(news) {
-        const show = this.showCover && news.id === this.activeNews;
-        if (show) {
-          try {
-            setTimeout(() => {
-              const element = document.getElementById('i' + this.activeNews);
-              if (element) {
-                element.scrollIntoView();
-                window.scrollBy(0, -50);
-              }
-            }, 50);
-          } catch (e) {
-            // do nothing here
-          }
-        }
-
-        return show;
-      },
-      hideNews(news) {
-        return this.showCover && news.id === this.$route.hash.slice(1);
-      },
-      clickAnchoredNews(news) {
-        setTimeout(() => {
-          if (this.hash !== news.id) {
-            this.activeNews = news.id;
-          }
-        }, 50);
-      },
-      removeCover() {
-        this.activeNews = null;
-        window.location.hash = 'timeline';
-      },
       scrollToNews() {
         if (this.hasScrolled) return;
         this.hasScrolled = true;
-        window.location.hash = 'timeline';
         if (this.$route.query.news && document) {
           setTimeout(() => {
             const element = document.getElementById('i' + this.$route.query.news);
