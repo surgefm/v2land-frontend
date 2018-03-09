@@ -1,5 +1,5 @@
 <template>
-  <card v-if="news" class="news-container hover">
+  <card v-if="news" class="news-container">
     <span
       v-if="order"
       v-clipboard="newsUrl"
