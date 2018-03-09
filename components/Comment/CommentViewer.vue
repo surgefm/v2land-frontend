@@ -41,6 +41,7 @@ export default {
         const regs = {
           event: new RegExp(/({{{ event:[0-9]+ }}})/g),
           news: new RegExp(/({{{ news:[0-9]+ }}})/g),
+          link: new RegExp(/({{{ link:https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)) }}}/g),
         };
 
         for (const reg of Object.getOwnPropertyNames(regs)) {
@@ -60,10 +61,18 @@ export default {
             content: temp.slice(start, lastIndex - text.length),
           });
 
-          parts.push({
-            type: type,
-            content: parseInt(/([0-9]+)/g.exec(text)[0]),
-          });
+          console.log(type);
+          if (['event', 'news'].includes(type)) {
+            parts.push({
+              type: type,
+              content: parseInt(/([0-9]+)/g.exec(text)[0]),
+            });
+          } else if (type === 'link') {
+            parts.push({
+              type: 'link',
+              content: /(https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*))/g.exec(text)[0],
+            });
+          }
 
           temp = temp.slice(lastIndex);
         } else {
