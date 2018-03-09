@@ -18,7 +18,8 @@
 .editor .text,
 .editor .news,
 .editor .event,
-.editor .inline {
+.editor .inline,
+.editor .link {
   margin-right: .25rem;
 }
 
@@ -27,7 +28,8 @@
 }
 
 .editor .event,
-.editor .news {
+.editor .news,
+.editor .link {
   box-decoration-break: clone;
 }
 
