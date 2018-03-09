@@ -35,7 +35,6 @@ export default {
     border-bottom: .1125rem solid transparent;
     padding: .25rem;
     padding-bottom: .1125rem;
-    margin: 0;
     transition: all .2s;
     cursor: pointer;
   }
