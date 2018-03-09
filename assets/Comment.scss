@@ -15,8 +15,20 @@
   display: inline;
 }
 
+.editor .text,
+.editor .news,
+.editor .event,
+.editor .inline {
+  margin-right: .25rem;
+}
+
 .editor .inline * {
   line-height: 1.5;
+}
+
+.editor .event,
+.editor .news {
+  box-decoration-break: clone;
 }
 
 .editor .text {
@@ -29,10 +41,19 @@
   font-size: .8rem;
 }
 
-.comment-news .el-dialog__body {
+.comment-news .el-dialog__body,
+.comment-event .el-dialog__body {
   padding: 0 2rem 1rem 2rem;
 }
 
-.comment-news .el-dialog__headerbtn {
+.comment-news .el-dialog__headerbtn,
+.comment-event .el-dialog__headerbtn {
   z-index: 3000;
+}
+
+@media (max-width: 600px) {
+  .comment-news .el-dialog__body,
+  .comment-event .el-dialog__body {
+    padding: 0 1rem 1rem 1rem;
+  }
 }

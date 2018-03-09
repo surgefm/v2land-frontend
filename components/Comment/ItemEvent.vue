@@ -1,33 +1,29 @@
 <template>
   <div class="inline">
-    <el-popover
-      ref="pop"
-      width="400"
-      trigger="click"
-      :disabled="!event"
+    <el-dialog
+      :visible.sync="dialogVisible"
+      :append-to-body="true"
+      class="comment-event"
     >
-      <div class="event-popover">
-        <span class="title" v-if="event">{{ event.name }}</span>
-        <event-description v-if="event" class="description">
-          {{ event.description }}
-        </event-description>
-        <div class="submit-button-group" v-if="event">
-          <el-button
-            type="primary"
-            size="small"
-            @click="$router.push('/' + event.name)"
-          >
-            前往事件
-          </el-button>
-        </div>
+      <div slot="title" />
+      <span class="title" v-if="event">{{ event.name }}</span>
+      <event-description v-if="event" class="description">
+        {{ event.description }}
+      </event-description>
+      <div class="submit-button-group" v-if="event">
+        <el-button
+          type="primary"
+          size="small"
+          @click="$router.push('/' + event.name)"
+        >
+          前往事件
+        </el-button>
       </div>
-    </el-popover>
+    </el-dialog>
 
-    <div class="inline" v-popover:pop>
-      <span class="event" v-if="event">{{ event.name }}</span>
-      <span class="event error" v-else-if="error">该事件不存在或未被公开</span>
-      <span class="event" v-else><i class="el-icon-loading" /> 事件加载中</span>
-    </div>
+    <span class="event" v-if="event" @click="dialogVisible = true">{{ event.name }}</span>
+    <span class="event error" v-else-if="error">该事件不存在或未被公开</span>
+    <span class="event" v-else><i class="el-icon-loading" /> 事件加载中</span>
   </div>
 </template>
 
@@ -39,6 +35,7 @@ export default {
   data() {
     return {
       event: null,
+      dialogVisible: false,
       error: false,
     };
   },
@@ -60,7 +57,7 @@ export default {
     background-color: $light-background;
     border-radius: .125rem;
     padding: .25rem .35rem;
-    margin: 0 .25rem;
+    margin: 0;
     cursor: pointer;
   }
 
@@ -80,22 +77,18 @@ export default {
     border-bottom-color: $error-color;
   }
 
-  .event-popover {
-    padding: .25rem .5rem;
-  }
-
-  .event-popover * {
+  .comment-event * {
     line-height: 1.5 !important;
   }
 
-  .event-popover .title {
+  .comment-event .title {
     font-size: 1.25rem;
     font-weight: bold;
     line-height: 1.25;
     word-wrap: break-word;
   }
 
-  .event-popover .description {
-    margin-top: .5rem;
+  .comment-event .description {
+    margin: .5rem 0 1rem 0;
   }
 </style>

@@ -166,6 +166,10 @@ img {
   border-radius: .5rem !important;
 }
 
+.el-popover {
+  max-width: 95%;
+}
+
 @media (max-width: 600px) {
   .logo {
     left: auto;

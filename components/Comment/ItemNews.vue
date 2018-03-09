@@ -46,11 +46,9 @@ export default {
     font-size: .8rem;
     background-color: $light-background;
     border-radius: .125rem;
-    padding: .25rem 0;
-    margin: 0 .25rem;
+    padding: .25rem;
+    margin: 0;
     cursor: pointer;
-    white-space: pre-wrap;
-    // box-decoration-break: clone;
   }
 
   .news.loading {

@@ -1,5 +1,5 @@
 <template>
-  <div class="news-container">
+  <div class="news-container" :class="[mode]">
     <div class="top-container">
       <nuxt-link
         class="tag light-font"
@@ -180,6 +180,11 @@
     .bottom {
       flex-direction: column;
       align-items: flex-end;
+    }
+
+    .quote .bottom {
+      flex-direction: row;
+      align-items: center;
     }
 
     .news-share {
