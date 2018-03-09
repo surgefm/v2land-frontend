@@ -48,15 +48,20 @@ export default {
     border-bottom-color: $warning-color;
   }
 
-  .link span {
-    display: none;
-    word-break: break-word;
+  .link, .link * {
+    word-break: break-all;
     overflow-wrap: break-word;
     word-wrap: break-word;
   }
 
+  .link span {
+    display: none;
+    color: $light-color;
+  }
+
   .link:hover span {
     display: inline;
+    color: $warning-color;
   }
 
   @media (max-width: 600px) {
@@ -67,6 +72,7 @@ export default {
 
     .link span {
       display: inline;
+      color: $warning-color;
     }
   }
 </style>
