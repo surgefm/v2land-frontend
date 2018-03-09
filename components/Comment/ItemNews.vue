@@ -6,7 +6,12 @@
       class="comment-news"
     >
       <div slot="title" />
-      <event-news-content v-if="news" :news="news" mode="quote" />
+      <event-news-content
+        v-if="news"
+        :news="news"
+        mode="quote"
+        v-on:redirect="dialogVisible = false"
+      />
     </el-dialog>
 
     <span class="news" v-if="news" @click="dialogVisible = true">《{{ news.title }}》</span>

@@ -44,7 +44,11 @@
         :to="`/${news.event.id || news.event}?news=${news.id}`"
         class="link"
       >
-        <el-button type="primary" size="medium">
+        <el-button
+          type="primary"
+          size="medium"
+          @click="$emit('redirect')"
+        >
           前往新闻
         </el-button>
       </nuxt-link>
