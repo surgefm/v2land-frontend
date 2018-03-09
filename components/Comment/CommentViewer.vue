@@ -61,7 +61,6 @@ export default {
             content: temp.slice(start, lastIndex - text.length),
           });
 
-          console.log(type);
           if (['event', 'news'].includes(type)) {
             parts.push({
               type: type,
