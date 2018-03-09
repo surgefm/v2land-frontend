@@ -51,21 +51,16 @@ export default {
     cursor: pointer;
   }
 
-  .news.loading {
-    padding: .25rem .35rem;
-  }
-
   .news.error {
     background-color: $error-background;
-    padding: .25rem .35rem;
     color: $error-color;
   }
 
   .news:hover {
-    padding-bottom: .125rem;
+    padding-bottom: .1125rem;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    border-bottom: .125rem solid $light-color;
+    border-bottom: .1125rem solid $light-color;
   }
 
   .news.error:hover {

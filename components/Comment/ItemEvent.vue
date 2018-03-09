@@ -54,7 +54,7 @@ export default {
     font-size: .8rem;
     background-color: $light-background;
     border-radius: .125rem;
-    padding: .25rem .35rem;
+    padding: .25rem;
     margin: 0;
     cursor: pointer;
   }
@@ -65,10 +65,10 @@ export default {
   }
 
   .event:hover {
-    padding-bottom: .125rem;
+    padding-bottom: .1125rem;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    border-bottom: .125rem solid $light-color;
+    border-bottom: .1125rem solid $light-color;
   }
 
   .event.error:hover {
