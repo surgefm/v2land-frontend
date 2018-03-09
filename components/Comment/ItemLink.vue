@@ -16,9 +16,18 @@ export default {
   computed: {
     url() {
       let url = this.content;
-      if (url.length > 40) {
-        url = url.slice(0, 40) + '...';
+
+      for (const pattern of ['https://www.', 'https://', 'http://www.', 'http://']) {
+        if (url.slice(0, pattern.length) === pattern) {
+          url = url.slice(pattern.length);
+          break;
+        }
       }
+
+      if (url.length > 24) {
+        url = url.slice(0, 24) + '...';
+      }
+
       return url;
     },
   },
