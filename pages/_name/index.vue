@@ -47,6 +47,7 @@
     data() {
       return {
         activeNews: null,
+        hasScrolled: false,
       };
     },
     computed: {
@@ -125,15 +126,11 @@
         this.activeNews = null;
         window.location.hash = 'timeline';
       },
-    },
-    async asyncData({ store, params, redirect, route }) {
-      await store.dispatch('getEvent', params.name);
-      return {};
-    },
-    mounted() {
-      window.location.hash = 'timeline';
-      if (this.$route.query.news && document) {
-        window.onload = () => {
+      scrollToNews() {
+        if (this.hasScrolled) return;
+        this.hasScrolled = true;
+        window.location.hash = 'timeline';
+        if (this.$route.query.news && document) {
           setTimeout(() => {
             const element = document.getElementById('i' + this.$route.query.news);
             const news = document.getElementById('main-i' + this.$route.query.news);
@@ -142,9 +139,16 @@
               window.scrollBy(0, -50);
               news.className += ' emphasize';
             }
-          }, 100);
-        };
-      }
+          }, 50);
+        }
+      },
+    },
+    async asyncData({ store, params, redirect, route }) {
+      await store.dispatch('getEvent', params.name);
+      return {};
+    },
+    mounted() {
+      this.scrollToNews();
     },
     head() {
       const title = this.name + ' - 浪潮，你的社会事件追踪工具';

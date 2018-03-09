@@ -1,39 +1,38 @@
 @import "variables";
 
 .editor {
-  padding: .5rem 0rem;
-  width: 100%;
+  overflow: hidden;
+  line-height: 1.75;
+  display: block;
+}
+
+.editor * {
+  transition: background-color .2s, color .2s;
+  line-height: 1.5;
+}
+
+.editor .inline {
+  display: inline;
+}
+
+.editor .inline * {
+  line-height: 1.5;
+}
+
+.editor .text {
   font-size: .8rem;
   line-height: 1.5;
 }
 
-.editor * {
-  max-width: 100%;
-  text-align: left;
-  line-height: 1.5 !important;
-  color: #888;
-}
-
-.editor em:first-child {
+.editor .remark {
   color: $light-color;
-  font-style: normal;
+  font-size: .8rem;
 }
 
-.editor img {
-  opacity: 1 !important;
+.comment-news .el-dialog__body {
+  padding: 0 2rem 1rem 2rem;
 }
 
-.editor a {
-  color: #888;
-  padding-bottom: .125rem;
-  border-bottom: #888 solid 1px;
-}
-
-.editor ul {
-  list-style-type: circle;
-  padding-left: 1rem;
-}
-
-.editor ol {
-  padding-left: 1.6rem;
+.comment-news .el-dialog__headerbtn {
+  z-index: 3000;
 }

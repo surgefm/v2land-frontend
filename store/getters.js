@@ -45,7 +45,7 @@ export default {
     }
 
     for (const i in state.event) {
-      if (state.event[i].id === name) {
+      if (state.event[i] && state.event[i].id === name) {
         return state.event[i];
       }
     }
