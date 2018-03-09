@@ -11,13 +11,11 @@
         {{ event.description }}
       </event-description>
       <div class="submit-button-group" v-if="event">
-        <el-button
-          type="primary"
-          size="small"
-          @click="$router.push('/' + event.name)"
-        >
-          前往事件
-        </el-button>
+        <nuxt-link :to="'/' + event.name">
+          <el-button type="primary" size="small">
+            前往事件
+          </el-button>
+        </nuxt-link>
       </div>
     </el-dialog>
 
@@ -86,6 +84,7 @@ export default {
     font-weight: bold;
     line-height: 1.25;
     word-wrap: break-word;
+    color: #000;
   }
 
   .comment-event .description {

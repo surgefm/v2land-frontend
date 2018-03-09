@@ -5,9 +5,7 @@
         class="tag light-font"
         v-if="showEventName"
         :to="`/${eventName}`"
-      >
-        {{ eventName }}
-      </nuxt-link>
+      >{{ eventName }}</nuxt-link>
       <span v-if="order === 1 && !showEventName" class="tag light-font">
         最新消息
       </span>
@@ -133,13 +131,14 @@
 
   a:hover:not(.link) {
     border-bottom: .125rem #000 solid;
-    padding-bottom: .125rem;
+    padding-bottom: .05rem;
   }
 
   .tag {
     font-size: .9rem;
     margin-right: .5rem;
     text-decoration: none !important;
+    border-bottom-width: .1rem !important;
   }
 
   a.tag:hover {
