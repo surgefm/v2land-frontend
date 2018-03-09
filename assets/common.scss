@@ -24,10 +24,6 @@ img {
   opacity: 1;
 }
 
-.hover:hover {
-  transform: translateY(-.2rem) !important;
-}
-
 .el-scrollbar .hover {
   transform: none !important;
 }
@@ -166,6 +162,10 @@ img {
   border-radius: .5rem !important;
 }
 
+.el-popover {
+  max-width: 95%;
+}
+
 @media (max-width: 600px) {
   .logo {
     left: auto;
@@ -175,10 +175,6 @@ img {
 
   .action-dropdown .icon {
     display: none;
-  }
-
-  .hover:hover {
-    transform: none !important;
   }
 
   .el-dialog {

@@ -1,0 +1,98 @@
+<template>
+  <div class="editor">
+    <span v-if="mode === 'remark'" class="remark">备注：</span>
+    <comment-item
+      v-for="(part, i) of parts"
+      :key="part.type + i + part.content"
+      :type="part.type"
+      :content="part.content"
+    />
+  </div>
+</template>
+
+<script>
+import CommentItem from './CommentItem.vue';
+
+export default {
+  props: {
+    input: String,
+    mode: String,
+  },
+  data() {
+    return {
+      parts: [],
+      timeout: null,
+    };
+  },
+  methods: {
+    analyzeInput() {
+      if (!this.input) return [];
+
+      let temp = this.input.slice();
+      const parts = [];
+      let start = 0;
+
+      while (start < temp.length) {
+        let matched = false;
+        let lastIndex = -1;
+        let type;
+        let text;
+
+        const regs = {
+          event: new RegExp(/({{{ event:[0-9]+ }}})/g),
+          news: new RegExp(/({{{ news:[0-9]+ }}})/g),
+        };
+
+        for (const reg of Object.getOwnPropertyNames(regs)) {
+          const match = regs[reg].exec(temp);
+
+          if (match && (lastIndex < 0 || regs[reg].lastIndex < lastIndex)) {
+            matched = true;
+            type = reg;
+            text = match[0];
+            lastIndex = regs[reg].lastIndex;
+          }
+        }
+
+        if (matched) {
+          parts.push({
+            type: 'text',
+            content: temp.slice(start, lastIndex - text.length),
+          });
+
+          parts.push({
+            type: type,
+            content: parseInt(/([0-9]+)/g.exec(text)[0]),
+          });
+
+          temp = temp.slice(lastIndex);
+        } else {
+          parts.push({
+            type: 'text',
+            content: temp.slice(start),
+          });
+          start = temp.length;
+        }
+      }
+
+      this.parts = parts;
+    },
+  },
+  components: {
+    'comment-item': CommentItem,
+  },
+  created() {
+    this.analyzeInput();
+  },
+  watch: {
+    input() {
+      if (this.timeout) {
+        clearTimeout(this.timeout);
+      }
+      this.timeout = setTimeout(() => {
+        this.analyzeInput();
+      }, 100);
+    },
+  },
+};
+</script>

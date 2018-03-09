@@ -1,5 +1,5 @@
 <template>
-  <card class="card hover">
+  <card class="card">
     <a
       :href="'/' + event.name"
       :pageReady="pageReady ? 1 : 0"

@@ -28,9 +28,13 @@
       <el-input
         v-model="form.comment"
         type="textarea"
-        placeholder="选填，支持 Markdown 语法"
+        placeholder="选填"
       />
-      <markdown v-if="form.comment" :input="form.comment" />
+      <comment-viewer
+        v-if="form.comment"
+        :input="form.comment"
+        mode="remark"
+      />
     </el-form-item>
     <div class="submit-button-group">
       <el-button @click="resetForm('form')">重置</el-button>
@@ -48,6 +52,7 @@
 
 <script>
   import DatePicker from 'element-ui/lib/date-picker';
+  import CommentViewer from '~/components/Comment/CommentViewer.vue';
 
   export default {
     props: {
@@ -127,6 +132,7 @@
     },
     components: {
       'el-date-picker': DatePicker,
+      'comment-viewer': CommentViewer,
     },
     created() {
       if (this.mode === 'edit' && this.origData) {

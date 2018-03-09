@@ -70,8 +70,14 @@
       isClientAdmin() {
         return this.$store.getters.isClientAdmin;
       },
+      eventId() {
+        return (this.object.event ? this.object.event.id : null) ||
+          this.object.event ||
+          this.object.id ||
+          this.$route.params.name;
+      },
       event() {
-        return this.$store.getters.getEvent(this.$route.params.name);
+        return this.$store.getters.getEvent(this.eventId);
       },
       shareMessage() {
         if (this.type === 'event') {
@@ -84,7 +90,7 @@
         if (this.type === 'event') {
           return config.baseUrl + this.object.id;
         } else if (this.type === 'news') {
-          return config.baseUrl + this.event.id + '?news=' + this.object.id;
+          return config.baseUrl + this.eventId + '?news=' + this.object.id;
         }
       },
       wechatClipboard() {
@@ -131,6 +137,9 @@
       edit() {
         this.$router.push(`/${this.$route.params.name}/edit/${this.object.id}`);
       },
+    },
+    async created() {
+      await this.$store.dispatch('getEvent', this.eventId);
     },
   };
 </script>
