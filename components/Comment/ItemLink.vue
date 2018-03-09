@@ -3,9 +3,7 @@
     :href="content"
     target="_blank"
     class="link"
-  >外部链接<i class="el-icon-caret-right" />
-    <span>{{ url }}</span>
-  </a>
+  >外部链接<i class="el-icon-caret-right" />{{ url }}</a>
 </template>
 
 <script>
@@ -38,9 +36,9 @@ export default {
   @import '../../assets/variables.scss';
 
   .link {
-    color: $light-color;
+    color: $warning-color;
     font-size: .8rem;
-    background-color: $light-background;
+    background-color: $warning-background;
     border-radius: .125rem;
     border-bottom: .1125rem solid transparent;
     padding: .25rem;
@@ -52,37 +50,13 @@ export default {
   .link:hover {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    background-color: $warning-background;
-    color: $warning-color;
     border-bottom-color: $warning-color;
   }
 
-  .link, .link * {
+  .link {
     word-break: break-all;
     overflow-wrap: break-word;
     word-wrap: break-word;
-  }
-
-  .link span {
-    display: none;
-    color: $light-color;
-  }
-
-  .link:hover span {
-    display: inline;
-    color: $warning-color;
-  }
-
-  @media (max-width: 600px) {
-    .link {
-      background-color: $warning-background;
-      color: $warning-color;
-    }
-
-    .link span {
-      display: inline;
-      color: $warning-color;
-    }
   }
 </style>
 
