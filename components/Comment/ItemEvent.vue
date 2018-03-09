@@ -12,7 +12,7 @@
       </event-description>
       <div class="submit-button-group" v-if="event">
         <nuxt-link :to="'/' + event.name">
-          <el-button type="primary" size="small">
+          <el-button type="primary" size="medium">
             前往事件
           </el-button>
         </nuxt-link>
