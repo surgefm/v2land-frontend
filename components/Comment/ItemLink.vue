@@ -1,10 +1,11 @@
 <template>
-  <el-tooltip
+  <a
+    :href="content"
+    target="_blank"
     class="link"
-    :content="url"
-  >
-    <a :href="content" target="_blank">外部链接<i class="el-icon-caret-right" /></a>
-  </el-tooltip>
+  >外部链接<i class="el-icon-caret-right" />
+    <span>{{ url }}</span>
+  </a>
 </template>
 
 <script>
@@ -15,8 +16,8 @@ export default {
   computed: {
     url() {
       let url = this.content;
-      if (url.length > 50) {
-        url = url.slice(0, 50) + '...';
+      if (url.length > 40) {
+        url = url.slice(0, 40) + '...';
       }
       return url;
     },
@@ -45,6 +46,28 @@ export default {
     background-color: $warning-background;
     color: $warning-color;
     border-bottom-color: $warning-color;
+  }
+
+  .link span {
+    display: none;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+
+  .link:hover span {
+    display: inline;
+  }
+
+  @media (max-width: 600px) {
+    .link {
+      background-color: $warning-background;
+      color: $warning-color;
+    }
+
+    .link span {
+      display: inline;
+    }
   }
 </style>
 
