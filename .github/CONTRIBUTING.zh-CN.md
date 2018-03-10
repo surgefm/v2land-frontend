@@ -1,28 +1,62 @@
 # 浪潮网页前端贡献指南
 
-嗷！感谢使用本项目。
+- [前言](#前言)
+- [开发](#开发)
+  - [开发环境](#开发环境)
+  - [开始开发](#开始开发)
+  - [分支](#分支)
+- [提交 Pull Request](#提交-pull-request)
 
-浪潮的成长离不开社区成员的协作，如果你愿意为浪潮贡献代码或提供建议，请阅读以下内容。
+## 前言
 
-## Issue 规范
-- Issue 仅用于提交 bug 或 feature 及设计相关的内容，其它内容可能会被直接关闭。
+浪潮是一个开放的社区，欢迎各位有心人士前来贡献代码，也欢迎加入我们的 Slack 群进行交流：
 
-- 在提交 issue 之前，请搜索相关内容是否已被提出。
+- [Slack](https://join.slack.com/t/v2land/shared_invite/enQtMzA4NTE1ODQzODU2LTMzNjMyZjdiYWU3OGQyZTI1YzA2ZTliNDBlMzY1MTA0N2RhYjBmZDJhNTY2N2IxMDdmMmJkNWY1NjcwZmY0NGQ)
 
-- 推荐使用 [JSFiddle](https://jsfiddle.net/) 生成在线 demo，这能够更直观地重现问题。
 
-## Pull Request 规范
-- 请先 fork 一份到自己的项目下，不要直接在仓库下建分支。
+## 开发
 
-- Commit 信息要求简单明了，能说明改动的主要目的。
+v2land-frontend 是浪潮项目的前端部分，主要基于 [Vue.js](http://cn.vuejs.org/) 和 [Nuxt.js](https://zh.nuxtjs.org/) 技术栈开发。
 
-- 执行 `npm run build` 后可以正确打包文件。
+如果您想参与到 frontend 部分的开发当中，您可以做的事情有：
 
-- 提交 PR 前请 rebase，确保 commit 记录的整洁。
+- 用代码实现我们设计好的 UI 图
+- 和后端的 API 进行对接
+- PWA
+- 测试的编写
+- 文档的改善
 
-- 确保 PR 是提交到 `dev` 分支，而不是 `master` 分支。
+开发前，我们希望您可以加入我们的 [Slack](https://join.slack.com/t/v2land/shared_invite/enQtMzA4NTE1ODQzODU2LTMzNjMyZjdiYWU3OGQyZTI1YzA2ZTliNDBlMzY1MTA0N2RhYjBmZDJhNTY2N2IxMDdmMmJkNWY1NjcwZmY0NGQ) 群和我们充分沟通
 
-- 如果是修复 bug，请在 PR 中给出描述信息。
+### 开发环境
 
-## 代码规范
-通过 ESLint 检测即可
+- Node.js 8.9 或以上
+- Yarn 1.32 或以上
+
+### 开始开发
+
+开始开发前，您必须确保您已经 clone 下了代码到您的计算机，在安装完相关依赖后可以成功运行：
+
+```sh
+$ git clone https://github.com/v2land/v2land-frontend.git
+$ cd v2land-frontend/
+$ git checkout -b develop origin/develop
+$ yarn install
+$ yarn dev
+```
+
+### 分支
+
+开发时，新分支的命名应该保持规范。大部分情况下，新分支应基于 `develop` 分支建立。
+
+所有和 features 有关的分支以 feature 命名，如此类推：
+
+- feature 相关 -> feature/xxx
+- 测试相关 -> test/xxx
+- 文档相关 -> doc/xxx
+- API 对接相关 -> api/xxx
+- 修复 bugs 相关 -> fix/xxx
+
+## 提交 Pull Request
+
+当您完成开发之后，您就可以给我们的 `develop` 分支提交 PR，我们感谢您的付出和支持。
