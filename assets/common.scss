@@ -29,7 +29,7 @@ img {
 }
 
 .logo {
-  position: absolute;
+  position: fixed;
   top: 2rem;
   z-index: 1001;
   left: 0;
@@ -169,6 +169,7 @@ img {
 @media (max-width: 600px) {
   .logo {
     left: auto;
+    position: absolute;
     right: 1.5rem;
     top: 2.5rem;
   }

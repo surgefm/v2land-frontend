@@ -50,7 +50,7 @@ export default {
   .link:hover {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    border-bottom-color: $warning-color;
+    border-bottom-color: $warning-border;
   }
 
   .link {

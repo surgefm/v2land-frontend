@@ -65,13 +65,13 @@ export default {
   }
 
   .news:hover {
-    border-bottom-color: $light-color;
+    border-bottom-color: $light-border;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
   }
 
   .news.error:hover {
-    border-bottom-color: $error-color;
+    border-bottom-color: $error-border;
   }
 
   .icon-newspaper {

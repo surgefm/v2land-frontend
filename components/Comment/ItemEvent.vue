@@ -70,11 +70,11 @@ export default {
   .event:hover {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    border-bottom-color: $light-color;
+    border-bottom-color: $light-border;
   }
 
   .event.error:hover {
-    border-bottom-color: $error-color;
+    border-bottom-color: $error-border;
   }
 
   .comment-event * {
