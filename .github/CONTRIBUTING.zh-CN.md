@@ -40,6 +40,7 @@ v2land-frontend 是浪潮项目的前端部分，主要基于 [Vue.js](http://cn
 ```sh
 $ git clone https://github.com/v2land/v2land-frontend.git
 $ cd v2land-frontend/
+$ git checkout -b develop origin/develop
 $ yarn install
 $ yarn dev
 ```
