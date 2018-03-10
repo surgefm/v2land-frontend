@@ -14,7 +14,8 @@
       />
     </el-dialog>
 
-    <span class="news" v-if="news" @click="dialogVisible = true">《{{ news.title }}》</span>
+    <span class="news" v-if="news" @click="dialogVisible = true">
+    <i class="icon-newspaper" />{{ news.title }}</span>
     <span class="news error" v-else-if="error">该新闻不存在或被隐藏</span>
     <span class="news loading" v-else><i class="el-icon-loading" /> 新闻加载中</span>
   </div>
@@ -71,5 +72,12 @@ export default {
 
   .news.error:hover {
     border-bottom-color: $error-color;
+  }
+
+  .icon-newspaper {
+    position: relative;
+    margin-left: .125rem;
+    margin-right: .25rem;
+    top: 1px;
   }
 </style>
