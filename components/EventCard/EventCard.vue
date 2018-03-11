@@ -13,7 +13,7 @@
           <div class="event-image-container" v-if="event.headerImage">
             <img
               class="event-image"
-              :src="image"
+              v-lazy="image"
               onload="this.id='show'"
             />
             <span @click="openImageSource(event.headerImage.sourceUrl)">

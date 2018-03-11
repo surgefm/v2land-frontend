@@ -1,8 +1,8 @@
-const cdn = 'https://cdn.v2land.net/';
+const cdn = 'http://localhost:3000/';
 const publicPath = cdn ? (cdn + '_nuxt/') : null;
 
 module.exports = {
-  baseUrl: 'https://langchao.org/',
+  baseUrl: 'http://localhost:3000/',
   api: 'https://api.langchao.org/',
   static: 'https://assets.v2land.net/',
   ga: 'UA-109441031-1', // Google Analytics

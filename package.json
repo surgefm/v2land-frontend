@@ -27,6 +27,7 @@
     "vue": "^2.5.2",
     "vue-analytics": "^5.8.0",
     "vue-clipboards": "^1.2.0",
+    "vue-lazyload": "^1.2.2",
     "vue-server-renderer": "^2.5.2",
     "vue-template-compiler": "^2.5.2"
   },
