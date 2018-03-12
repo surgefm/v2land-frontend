@@ -15,12 +15,19 @@ a {
   font-family: "source-han-serif-sc", "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif !important;
 }
 
+.img-background {
+  background-color: rgba(0, 131, 168, .035);
+}
+
 img {
-  opacity: 0;
   transition: opacity .2s;
 }
 
-#show {
+img[lazy=loading] {
+  opacity: 0;
+}
+
+img[lazy=loaded] {
   opacity: 1;
 }
 

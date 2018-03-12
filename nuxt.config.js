@@ -95,6 +95,7 @@ module.exports = {
     '~/plugins/element.js',
     '~/plugins/components.js',
     '~/plugins/clipboard.js',
+    '~/plugins/lazyload.js',
     '~/plugins/polyfills',
     '~/plugins/qrcode',
     { src: '~/plugins/statusHandler', ssr: false },
