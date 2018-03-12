@@ -144,7 +144,6 @@
   }
 
   .event-image {
-    opacity: 0;
     object-fit: cover;
     border-top-right-radius: .5rem;
     border-bottom-right-radius: .5rem;

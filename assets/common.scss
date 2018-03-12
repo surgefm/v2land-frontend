@@ -16,11 +16,14 @@ a {
 }
 
 img {
-  opacity: 0;
   transition: opacity .2s;
 }
 
-#show {
+img[lazy=loading] {
+  opacity: 0;
+}
+
+img[lazy=loaded] {
   opacity: 1;
 }
 

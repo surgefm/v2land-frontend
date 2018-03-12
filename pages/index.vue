@@ -2,7 +2,7 @@
   <div class="homepage-container">
     <card class="title-container hover">
       <img
-        :src="config.static + '560x144/default.jpg'"
+        v-lazy="config.static + '560x144/default.jpg'"
         onload="this.id = 'show'"
         class="header-image"
       />
