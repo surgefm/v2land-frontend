@@ -10,7 +10,7 @@
     >
       <div class="event-container">
         <div :class="['event-text', !event.headerImage || 'event-text-image']">
-          <div class="event-image-container" v-if="event.headerImage">
+          <div class="event-image-container img-background" v-if="event.headerImage">
             <img
               class="event-image"
               v-lazy="image"
@@ -193,6 +193,7 @@
       position: relative;
       float: right;
       border-radius: .25rem;
+      top: .5rem;
     }
 
     .event-image-container span {
