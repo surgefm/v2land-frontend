@@ -16,8 +16,6 @@ module.exports = {
   // add your custom rules here
   rules: {
     "no-useless-escape": 0,
-    "linebreak-style": 0,
-    "global-require": 0
   },
   globals: {}
 }
