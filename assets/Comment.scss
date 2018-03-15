@@ -6,9 +6,10 @@
   display: block;
 }
 
-.editor * {
+.editor, .editor * {
   transition: all .2s;
-  line-height: 1.5;
+  line-height: 1.75;
+  text-align: left;
 }
 
 .editor .inline {

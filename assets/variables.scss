@@ -1,7 +1,10 @@
 $light-color: rgb(30, 139, 195);
-$light-background: rgba(30, 139, 195, .125);
+$light-background: rgba(30, 139, 195, .075);
+$light-border: rgba(30, 139, 195, .5);
 $background-color: #fff;
 $error-color: rgb(245, 108, 108);
-$error-background: rgba(245, 108, 108, .125);
+$error-background: rgba(245, 108, 108, .075);
+$error-border: rgba(245, 108, 108, .5);
 $warning-color: rgb(230, 162, 20);
-$warning-background: rgba(230, 162, 20, .125);
+$warning-background: rgba(230, 162, 20, .075);
+$warning-border: rgba(230, 162, 20, .5);

@@ -25,11 +25,6 @@
   import config from '~/const';
 
   export default {
-    data() {
-      return {
-        hasScrolled: false,
-      };
-    },
     computed: {
       name() {
         return this.$route.params.name;
@@ -46,8 +41,6 @@
     },
     methods: {
       scrollToNews() {
-        if (this.hasScrolled) return;
-        this.hasScrolled = true;
         if (this.$route.query.news && document) {
           setTimeout(() => {
             const element = document.getElementById('i' + this.$route.query.news);
@@ -67,6 +60,11 @@
     },
     mounted() {
       this.scrollToNews();
+    },
+    watch: {
+      '$route.query.news'() {
+        this.scrollToNews();
+      },
     },
     head() {
       const title = this.name + ' - 浪潮，你的社会事件追踪工具';

@@ -19,7 +19,8 @@
       </div>
     </el-dialog>
 
-    <span class="event" v-if="event" @click="dialogVisible = true">{{ event.name }}</span>
+    <span class="event" v-if="event" @click="dialogVisible = true">
+      <i class="icon-event_available" />{{ event.name }}</span>
     <span class="event error" v-else-if="error">该事件不存在或未被公开</span>
     <span class="event" v-else><i class="el-icon-loading" /> 事件加载中</span>
   </div>
@@ -69,11 +70,11 @@ export default {
   .event:hover {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    border-bottom-color: $light-color;
+    border-bottom-color: $light-border;
   }
 
   .event.error:hover {
-    border-bottom-color: $error-color;
+    border-bottom-color: $error-border;
   }
 
   .comment-event * {
@@ -90,5 +91,11 @@ export default {
 
   .comment-event .description {
     margin: .5rem 0 1rem 0;
+  }
+
+  .icon-event_available {
+    position: relative;
+    margin-right: .2rem;
+    top: 1px;
   }
 </style>
