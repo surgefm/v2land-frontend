@@ -15,7 +15,7 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
-    "no-useless-escape": 0
+    "no-useless-escape": 0,
   },
   globals: {}
 }

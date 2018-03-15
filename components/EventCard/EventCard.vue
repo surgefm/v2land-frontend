@@ -10,10 +10,10 @@
     >
       <div class="event-container">
         <div :class="['event-text', !event.headerImage || 'event-text-image']">
-          <div class="event-image-container" v-if="event.headerImage">
+          <div class="event-image-container img-background" v-if="event.headerImage">
             <img
               class="event-image"
-              :src="image"
+              v-lazy="image"
               onload="this.id='show'"
             />
             <span @click="openImageSource(event.headerImage.sourceUrl)">
@@ -144,7 +144,6 @@
   }
 
   .event-image {
-    opacity: 0;
     object-fit: cover;
     border-top-right-radius: .5rem;
     border-bottom-right-radius: .5rem;
@@ -194,6 +193,7 @@
       position: relative;
       float: right;
       border-radius: .25rem;
+      top: .5rem;
     }
 
     .event-image-container span {
