@@ -125,7 +125,7 @@ module.exports = {
     short_name: '浪潮',
     lang: 'zh-CN',
     description,
-    start_url: '/',
+    start_url: config.baseUrl,
     background_color: '#1e8bc3',
     theme_color: '#1e8bc3',
     display: 'standalone',

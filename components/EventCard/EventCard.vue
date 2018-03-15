@@ -93,7 +93,6 @@
     },
     mounted() {
       this.pageReady = 1;
-      console.log(123);
     },
     components: {
       'event-card-action': EventCardAction,
