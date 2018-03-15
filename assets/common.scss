@@ -36,7 +36,7 @@ img[lazy=loaded] {
 }
 
 .logo {
-  position: absolute;
+  position: fixed;
   top: 2rem;
   z-index: 1001;
   left: 0;
@@ -175,6 +175,7 @@ img[lazy=loaded] {
 
 @media (max-width: 600px) {
   .logo {
+    position: absolute;
     left: auto;
     right: 1.5rem;
     top: 2.5rem;
