@@ -4,6 +4,12 @@ import cleanState from '~/store/state';
 export default {
   setEvent(state, { name, detail }) {
     Vue.set(state.event, name, Object.assign({}, detail));
+
+    if (detail.news) {
+      for (const news of detail.news) {
+        Vue.set(state.news, news.id, detail.name);
+      }
+    }
   },
 
   setSubscribeMode(state, mode) {
@@ -22,6 +28,10 @@ export default {
     }
 
     event = state.event[event.name];
+    if (!event.news) {
+      Vue.set(event, 'news', []);
+    }
+
     for (let i = 0; i < event.news.length; i++) {
       if (event.news[i].id === news.id) {
         event.news[i] = { ...news };
@@ -32,6 +42,7 @@ export default {
       }
     }
 
+    Vue.set(state.news, news.id, event.name);
     Vue.set(state.event[event.name], 'news', event.news);
   },
 
@@ -47,8 +58,31 @@ export default {
     }
   },
 
-  setClient(state, client) {
-    Vue.set(state, 'client', Object.assign({}, client));
+  setClient(state, { client = {}, id = 'me' }) {
+    if (id === 'me') {
+      Vue.set(state, 'client', Object.assign({}, client));
+    }
+
+    for (let i = 0; i < state.clientList.length; i++) {
+      if (state.clientList[i].id === client.id) {
+        return Vue.set(state.clientList, i, client);
+      }
+    }
+
+    state.clientList.push(client);
+  },
+
+  setClientList(state, clientList) {
+    for (const client of clientList) {
+      for (let i = 0; i < state.clientList.length; i++) {
+        if (state.clientList[i].id === client.id) {
+          Vue.set(state.clientList, i, client);
+          break;
+        }
+      }
+
+      state.clientList.push(client);
+    }
   },
 
   setSubscriptionList(state, list) {

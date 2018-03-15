@@ -2,6 +2,9 @@ export default async ({ app, route, redirect, store }) => {
   const checkStatus = (route, next = redirect) => {
     const query = route.query;
     switch (query.status) {
+    case 'event_not_found':
+      app.$message.error('该事件不存在或未被公开');
+      break;
     case 'logged_in':
       app.$message.error('登录用户不可访问该页面');
       break;

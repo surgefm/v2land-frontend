@@ -1,56 +1,49 @@
 <template>
-  <background>
-    <card>
-      <p class="tag light-font">{{ $route.params.name }}</p>
-      <event-title>修改事件题图</event-title>
-      <el-upload
-        class="image-uploader"
-        :action="config.api + 'upload'"
-        :show-file-list="false"
-        :with-credentials="true"
-        :on-success="handleimageSuccess"
-        :before-upload="beforeimageUpload"
+  <div>
+    <el-upload
+      class="image-uploader"
+      :action="config.api + 'upload'"
+      :show-file-list="false"
+      :with-credentials="true"
+      :on-success="handleimageSuccess"
+      :before-upload="beforeimageUpload"
+    >
+      <img
+        v-if="imageUrl"
+        :src="imageUrl"
+        class="image"
+        onload="this.id = 'show'"
+      />
+      <i v-else class="el-icon-plus image-uploader-icon" />
+    </el-upload>
+    <div class="form-container">
+      <el-form
+        :model="form"
+        :rules="rules"
+        ref="form"
+        label-width="80px"
+        class="form"
       >
-        <img
-          v-if="imageUrl"
-          :src="imageUrl"
-          class="image"
-          onload="this.id = 'show'"
-        />
-        <i v-else class="el-icon-plus image-uploader-icon" />
-      </el-upload>
-      <div class="form-container">
-        <el-form
-          :model="form"
-          :rules="rules"
-          ref="form"
-          label-width="80px"
-          class="form"
-        >
-          <el-form-item label="图片来源" prop="source">
-            <el-input v-model="form.source" placeholder="如新京报、人民日报等" />
-          </el-form-item>
-          <el-form-item label="来源链接" prop="sourceUrl">
-            <el-input v-model="form.sourceUrl" placeholder="（选填）" />
-          </el-form-item>
+        <el-form-item label="图片来源" prop="source">
+          <el-input v-model="form.source" placeholder="如新京报、人民日报等" />
+        </el-form-item>
+        <el-form-item label="来源链接" prop="sourceUrl">
+          <el-input v-model="form.sourceUrl" placeholder="（选填）" />
+        </el-form-item>
 
-          <div class="submit-button-group">
-            <el-button type="text" @click="reset">重置表单</el-button>
-            <el-button
-              type="primary"
-              @click="submit"
-              :disabled="!form.imageUrl"
-            >
-              提交
-            </el-button>
-          </div>
-        </el-form>
-      </div>
-    </card>
-    <event-action />
-    <logo class="logo" />
-    <page-foot />
-  </background>
+        <div class="submit-button-group">
+          <el-button type="text" @click="reset">重置表单</el-button>
+          <el-button
+            type="primary"
+            @click="submit"
+            :disabled="!form.imageUrl"
+          >
+            提交
+          </el-button>
+        </div>
+      </el-form>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -83,9 +76,12 @@
         },
       };
     },
+    props: {
+      'name': String,
+    },
     computed: {
       orig() {
-        return this.$store.getters.getEvent(this.$route.params.name).headerImage;
+        return this.$store.getters.getEvent(this.name).headerImage;
       },
       isNew() {
         return !this.orig;
@@ -111,10 +107,10 @@
       submit() {
         this.$refs.form.validate((valid) => {
           if (valid) {
-            const url = $.encode(`event/${this.$route.params.name}/header_image`);
+            const url = $.encode(`event/${this.name}/header_image`);
             this.$axios[this.isNew ? 'post' : 'put'](url, this.form)
               .then(() => {
-                this.$store.dispatch('fetchEvent', this.$route.params.name);
+                this.$store.dispatch('fetchEvent', this.name);
               })
               .then(() => {
                 this.$message.success('设置成功');
@@ -133,12 +129,14 @@
           this.form = Object.assign({}, this.orig);
         }
       },
+      async create() {
+        if (!this.$store.getters.getEvent(this.name)) {
+          await this.$store.dispatch('getEvent', this.name);
+        }
+      },
     },
     components: {
       'el-upload': Upload,
-    },
-    async asyncData({ route, store }) {
-      return store.dispatch('getEvent', route.params.name);
     },
     created() {
       this.reset();

@@ -3,6 +3,10 @@ export default {
     return state.client.role === 'admin';
   },
 
+  isClientManager(state) {
+    return ['admin', 'manager'].includes(state.client.role);
+  },
+
   isLoggedIn(state) {
     return !!state.client.id;
   },
@@ -21,13 +25,27 @@ export default {
     return state.client;
   },
 
+  findClient: (state) => (id) => {
+    for (const client of state.clientList) {
+      if (client.id === id || client.username === id) {
+        return client;
+      }
+    }
+
+    return null;
+  },
+
+  clientList(state) {
+    return state.clientList;
+  },
+
   getEvent: (state) => (name) => {
     if (state.event[name]) {
       return state.event[name];
     }
 
     for (const i in state.event) {
-      if (state.event[i].id === name) {
+      if (state.event[i] && state.event[i].id === name) {
         return state.event[i];
       }
     }
@@ -59,7 +77,7 @@ export default {
 
   getSubscriptionList(state, getters) {
     if (getters.isLoggedIn) {
-      return state.client.subscriptions.filter((s) => s.status === 'active');
+      return state.client.subscriptions;
     } else {
       return [];
     }
@@ -75,6 +93,7 @@ export default {
   },
 
   getEventSubscriptionList: (state, getters) => (name) => {
+    if (!name) return;
     const subscriptionList = getters.getSubscriptionList;
     const event = getters.getEvent(name);
     const eventSubscriptionList = (subscriptionList || []).filter((s) => s.event === event.id);

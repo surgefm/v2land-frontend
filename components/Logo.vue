@@ -1,5 +1,5 @@
 <template>
-  <img v-if="mode === 'simple'" :src="src" onload="this.id='show'" />
+  <img v-if="mode === 'simple'" :src="src('icon.svg')" onload="this.id='show'" />
   <div v-else class="icon-container">
     <div class="center">
       <!--
@@ -13,13 +13,12 @@
           effect="light"
           :manual="true"
           :value="showTooltip"
-          :visible-arrow="false"
         >
           <div class="large-screen-touch" />
         </el-tooltip>
         <img
           class="large-screen-touch"
-          :src="src"
+          :src="src('icon-beta.svg')"
           height="54px"
           @click="$router.push('/')"
           @mouseover="showTooltip = touch ? false : true"
@@ -29,7 +28,7 @@
       </div>
       <img
         @click="$router.push('/')"
-        :src="src"
+        :src="src('icon-beta-small.svg')"
         height="40px"
         class="icon-small-screen"
       />
@@ -51,14 +50,14 @@ export default {
     };
   },
   computed: {
-    src() {
-      return config.static + 'icon.svg';
-    },
     isHomepage() {
       return this.$route.name === 'index';
     },
   },
   methods: {
+    src(dir) {
+      return config.cdn + dir;
+    },
     touched() {
       this.showTooltip = this.isHomepage ? !this.showTooltip : false;
       this.touch = !this.isHomepage;
@@ -116,7 +115,7 @@ export default {
       display: block;
     }
 
-    .icon-large-screen {
+    .icon-large-screen{
       display: none;
     }
 

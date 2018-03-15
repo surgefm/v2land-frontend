@@ -4,9 +4,7 @@
       <event-title>创建浪潮账户</event-title>
       <registration-form />
     </card>
-    <logo class="logo" />
     <page-foot />
-    <event-action />
   </background>
 </template>
 
@@ -16,6 +14,11 @@
   export default {
     components: {
       'registration-form': RegistrationForm,
+    },
+    head() {
+      return {
+        title: '创建浪潮账户',
+      };
     },
   };
 </script>

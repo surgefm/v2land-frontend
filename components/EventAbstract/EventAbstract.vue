@@ -6,18 +6,19 @@
       {{ detail.description }}
     </event-description>
     <div class="event-share">
-      <event-share :event="detail" />
+      <event-share
+        :object="detail"
+        type="event"
+      />
     </div>
   </card>
 </template>
 
 <script>
-  import EventTitle from '~/components/EventTitle.vue';
-  import EventShare from '~/components/EventAbstract/EventAbstractShare.vue';
+  import EventShare from '~/components/EventShare.vue';
 
   export default {
     components: {
-      'event-title': EventTitle,
       'event-share': EventShare,
     },
     props: {

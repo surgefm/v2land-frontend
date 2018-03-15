@@ -1,55 +1,33 @@
 <template>
   <div v-if="event">
-    <logo class="logo" />
     <background>
       <event-abstract :detail="event" />
       <div 
         v-for="(news, i) of newsCollection"
         :key="news.id"
         :id="'i' + news.id"
-        :class="[
-          'news',
-          showNewsAboveCover(news) ? 'above-cover' : '',
-          hideNews(news) ? 'hide-news' : ''
-        ]"
+        class="news"
       >
-        <div class="news" @click="activeNews = news.id">
-          <event-news
-            :news="news"
-            :order="i + 1"
-            :id="'main-i' + news.id"
-            :event="event"
-          />
-        </div>
-        <div
-          class="news"
-          v-if="showNewsAboveCover(news)"
-          @click="clickAnchoredNews(anchoredNews)"
-        >
-          <event-news :news="anchoredNews" />
-        </div>
+        <event-news
+          class="news" 
+          :news="news"
+          :order="i + 1"
+          :id="'main-i' + news.id"
+          :event="event"
+        />
       </div>
-      <div
-        :class="[
-          'cover',
-          showCover ? 'shadow-cover' : ''
-        ]"
-        @click="removeCover"
-      />
       <page-foot />
     </background>
-    <event-action />
   </div>
 </template>
 
 <script>
-  import $ from 'postman-url-encoder';
   import config from '~/const';
 
   export default {
     data() {
       return {
-        activeNews: null,
+        hasScrolled: false,
       };
     },
     computed: {
@@ -65,86 +43,12 @@
       image() {
         return config.static + this.event.headerImage.imageUrl;
       },
-      showCover() {
-        return this.activeNews &&
-          this.$route.hash &&
-          this.$route.hash !== '#timeline';
-      },
-      hash() {
-        if (this.$route.hash) {
-          return this.$route.hash.slice(1);
-        } else {
-          return null;
-        }
-      },
-      anchoredNews() {
-        let hash = this.$route.hash;
-        if (hash) {
-          hash = hash.slice(1);
-          const name = this.$route.params.name;
-          const news = this.$store.getters.getNews({
-            name,
-            id: hash,
-          });
-          if (news) {
-            const copy = Object.assign({}, news);
-            copy.tag = '相关新闻';
-            return copy;
-          }
-        }
-        return null;
-      },
     },
     methods: {
-      showNewsAboveCover(news) {
-        const show = this.showCover && news.id === this.activeNews;
-        if (show) {
-          try {
-            setTimeout(() => {
-              const element = document.getElementById('i' + this.activeNews);
-              if (element) {
-                element.scrollIntoView();
-                window.scrollBy(0, -50);
-              }
-            }, 50);
-          } catch (e) {
-            // do nothing here
-          }
-        }
-
-        return show;
-      },
-      hideNews(news) {
-        return this.showCover && news.id === this.$route.hash.slice(1);
-      },
-      clickAnchoredNews(news) {
-        setTimeout(() => {
-          if (this.hash !== news.id) {
-            this.activeNews = news.id;
-          }
-        }, 50);
-      },
-      removeCover() {
-        this.activeNews = null;
-        window.location.hash = 'timeline';
-      },
-    },
-    async asyncData({ store, params, redirect, route }) {
-      const event = await store.dispatch('getEvent', params.name);
-      if (!event) {
-        return redirect('/');
-      }
-      if (event.name !== params.name) {
-        return redirect($.encode('/' + event.name +
-          (route.query.news ? ('?news=' + route.query.news) : '')
-        ));
-      }
-      return {};
-    },
-    mounted() {
-      window.location.hash = 'timeline';
-      if (this.$route.query.news && document) {
-        window.onload = () => {
+      scrollToNews() {
+        if (this.hasScrolled) return;
+        this.hasScrolled = true;
+        if (this.$route.query.news && document) {
           setTimeout(() => {
             const element = document.getElementById('i' + this.$route.query.news);
             const news = document.getElementById('main-i' + this.$route.query.news);
@@ -153,12 +57,19 @@
               window.scrollBy(0, -50);
               news.className += ' emphasize';
             }
-          }, 100);
-        };
-      }
+          }, 50);
+        }
+      },
+    },
+    async asyncData({ store, params, redirect, route }) {
+      await store.dispatch('getEvent', params.name);
+      return {};
+    },
+    mounted() {
+      this.scrollToNews();
     },
     head() {
-      const title = this.name + ' - 浪潮，渴望重回土地';
+      const title = this.name + ' - 浪潮，你的社会事件追踪工具';
       const image = this.event
         ? (this.event.headerImage ? this.image : null)
         : null;
@@ -168,6 +79,7 @@
       return {
         title,
         meta: [
+          description ? { hid: 'description', name: 'description', content: description } : {},
           { hid: 't:title', name: 'twitter:title', content: title },
           { hid: 'og:title', property: 'og:title', content: title },
           description ? { hid: 't:description', name: 'twitter:description', content: description } : {},

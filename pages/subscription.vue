@@ -12,9 +12,7 @@
       :key="subscription.id"
       :subscription="subscription"
     />
-    <logo class="logo" />
     <page-foot />
-    <event-action />
   </background>
 </template>
 
@@ -38,10 +36,3 @@
     },
   };
 </script>
-
-<style lang="scss" scoped>
-  .tag {
-    font-size: .9rem;
-    margin-right: .5rem;
-  }
-</style>

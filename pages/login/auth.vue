@@ -69,9 +69,7 @@
       </div>
     </card>
 
-    <logo class="logo" />
     <page-foot />
-    <event-action />
   </background>
 </template>
 
@@ -187,6 +185,11 @@
           redirect: query.redirect,
         });
       }
+    },
+    head() {
+      return {
+        title: '绑定第三方账户',
+      };
     },
   };
 </script>

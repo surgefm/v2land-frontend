@@ -1,7 +1,6 @@
 <template>
   <background>
     <card>
-      <p class="tag light-font">{{ $route.params.name }}</p>
       <event-title>创建事件</event-title>
       <event-information-form
         :data="'CreateEvent'"
@@ -10,9 +9,7 @@
         ref="event-form"
       />
     </card>
-    <logo class="logo" />
     <page-foot />
-    <event-action />
   </background>
 </template>
 
@@ -56,15 +53,15 @@
         }
       },
     },
+    head() {
+      return {
+        title: '添加新事件 - 浪潮，你的社会事件追踪工具',
+      };
+    },
   };
 </script>
 
 <style lang="scss" scoped>
-  .tag {
-    font-size: .9rem;
-    margin-right: .5rem;
-  }
-
   .event-form {
     margin-top: 1rem;
   }

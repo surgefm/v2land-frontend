@@ -22,8 +22,6 @@
         v-on:rejected="update('rejected')"
       />
     </div>
-    <event-action />
-    <logo class="logo" />
     <page-foot />
   </background>
 </template>
@@ -92,10 +90,5 @@
 
   .news-0 {
     margin-top: 1rem;
-  }
-
-  .tag {
-    font-size: .9rem;
-    margin-right: .5rem;
   }
 </style>

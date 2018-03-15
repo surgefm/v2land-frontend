@@ -8,18 +8,19 @@
       <el-input v-model="form.title" />
     </el-form-item>
 
-    <el-form-item label="来源" prop="source">
+    <el-form-item label="来源媒体" prop="source">
       <el-input v-model="form.source" />
     </el-form-item>
 
     <el-form-item label="摘要" prop="abstract">
-      <el-input v-model="form.abstract" type="textarea" autosize />
+      <el-input v-model="form.abstract" type="textarea" />
     </el-form-item>
 
     <el-form-item label="发布时间" prop="time">
       <el-date-picker
         v-model="form.time"
         type="datetime"
+        :editable="false"
         placeholder="请使用北京时间"
       />
     </el-form-item>
@@ -27,9 +28,13 @@
       <el-input
         v-model="form.comment"
         type="textarea"
-        placeholder="选填，支持 Markdown 语法"
+        placeholder="选填"
       />
-      <markdown v-if="form.comment" :input="form.comment" />
+      <comment-viewer
+        v-if="form.comment"
+        :input="form.comment"
+        mode="remark"
+      />
     </el-form-item>
     <div class="submit-button-group">
       <el-button @click="resetForm('form')">重置</el-button>
@@ -47,6 +52,7 @@
 
 <script>
   import DatePicker from 'element-ui/lib/date-picker';
+  import CommentViewer from '~/components/Comment/CommentViewer.vue';
 
   export default {
     props: {
@@ -126,6 +132,7 @@
     },
     components: {
       'el-date-picker': DatePicker,
+      'comment-viewer': CommentViewer,
     },
     created() {
       if (this.mode === 'edit' && this.origData) {
@@ -134,9 +141,13 @@
       }
     },
     watch: {
-      'form.time'() {
+      'form.time'(newValue, oldValue) {
         if (this.form.time && this.form.time.getTime) {
           this.form.time.setSeconds(0);
+          if (this.form.time > Date.now()) {
+            this.$set(this.form, 'time', oldValue);
+            this.$message.error('新闻发布时间如何才能比现在还晚？');
+          }
         }
       },
     },

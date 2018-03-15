@@ -18,7 +18,6 @@
         </nuxt-link>
       </div>
     </card>
-    <logo class="logo" />
     <page-foot />
   </background>
 </template>
@@ -40,11 +39,6 @@
 <style lang="scss" scoped>
   p, ol {
     margin-top: 1rem;
-  }
-
-  .tag {
-    line-height: 1;
-    margin-top: .75rem;
   }
 
   .image-container {

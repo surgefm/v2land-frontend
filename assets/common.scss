@@ -15,17 +15,20 @@ a {
   font-family: "source-han-serif-sc", "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif !important;
 }
 
+.img-background {
+  background-color: rgba(0, 131, 168, .035);
+}
+
 img {
-  opacity: 0;
   transition: opacity .2s;
 }
 
-#show {
-  opacity: 1;
+img[lazy=loading] {
+  opacity: 0;
 }
 
-.hover:hover {
-  transform: translateY(-.2rem) !important;
+img[lazy=loaded] {
+  opacity: 1;
 }
 
 .el-scrollbar .hover {
@@ -89,6 +92,26 @@ img {
   animation: 1s linear 0s alternate emphasize;
 }
 
+.divider {
+  width: 100%;
+  height: .125rem;
+  background-color: #eee;
+  margin: 1rem 0;
+}
+
+.sorter {
+  width: 5rem;
+  font-size: 1.0rem;
+  margin: 1rem 0;
+  padding: 0 .875rem 0 0;
+  text-align: right;
+}
+
+.tag {
+  line-height: 1;
+  margin-top: .75rem;
+}
+
 .page-enter-active, .page-leave-active {
   transition: opacity .2s;
 }
@@ -137,6 +160,19 @@ img {
   border-color: #22a7f0 !important;
 }
 
+.el-checkbox {
+  margin-left: 0 !important;
+  margin-right: 2rem !important;
+}
+
+.el-dialog {
+  border-radius: .5rem !important;
+}
+
+.el-popover {
+  max-width: 95%;
+}
+
 @media (max-width: 600px) {
   .logo {
     left: auto;
@@ -146,10 +182,6 @@ img {
 
   .action-dropdown .icon {
     display: none;
-  }
-
-  .hover:hover {
-    transform: none !important;
   }
 
   .el-dialog {
@@ -166,6 +198,10 @@ img {
     visibility: hidden;
     width: 0;
     height: 0;
+  }
+
+  .el-dialog {
+    margin-top: 7.5vh !important;
   }
 }
 

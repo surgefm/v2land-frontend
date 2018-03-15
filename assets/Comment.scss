@@ -1,0 +1,61 @@
+@import "variables";
+
+.editor {
+  overflow: hidden;
+  line-height: 1.85;
+  display: block;
+}
+
+.editor * {
+  transition: all .2s;
+  line-height: 1.5;
+}
+
+.editor .inline {
+  display: inline;
+}
+
+.editor .text,
+.editor .news,
+.editor .event,
+.editor .inline,
+.editor .link {
+  margin-right: .25rem;
+}
+
+.editor .inline * {
+  line-height: 1.5;
+}
+
+.editor .event,
+.editor .news,
+.editor .link {
+  box-decoration-break: clone;
+}
+
+.editor .text {
+  font-size: .8rem;
+  line-height: 1.5;
+}
+
+.editor .remark {
+  color: $light-color;
+  font-size: .8rem;
+}
+
+.comment-news .el-dialog__body,
+.comment-event .el-dialog__body {
+  padding: 0 2rem 1rem 2rem;
+}
+
+.comment-news .el-dialog__headerbtn,
+.comment-event .el-dialog__headerbtn {
+  z-index: 3000;
+}
+
+@media (max-width: 600px) {
+  .comment-news .el-dialog__body,
+  .comment-event .el-dialog__body {
+    padding: 0 1rem 1rem 1rem;
+  }
+}

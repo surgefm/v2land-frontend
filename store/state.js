@@ -8,8 +8,10 @@ export default {
   },
   availableAuths: [],
   event: {},
+  news: {},
   pendingNews: {},
   allPendingNews: [],
+  clientList: [],
   temp: {},
   subscribe: {
     mode: '',

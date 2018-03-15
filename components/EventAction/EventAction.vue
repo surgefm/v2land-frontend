@@ -42,9 +42,9 @@
         const tab = [];
         const dropdown = [];
         for (const i of [
-          'admin-event', 'admin-admit', 'create-event', 'subscribe', 'post',
-          'admit', 'edit', 'edit-image', 'subscription-list', 'client',
-          'return', 'homepage',
+          'admin-event', 'admin-admit', 'admin-client', 'create-event',
+          'subscribe', 'post', 'admit', 'edit', 'subscription-list',
+          'client-setting', 'client', 'return', 'homepage',
         ]) {
           let action = i.split('-');
           for (let j = 0; j < action.length; j++) {
@@ -65,6 +65,9 @@
       isClientAdmin() {
         return this.$store.getters.isClientAdmin;
       },
+      isClientManager() {
+        return this.$store.getters.isClientManager;
+      },
       isHomepage() {
         return this.$route.path === '/';
       },
@@ -77,6 +80,10 @@
       isSubscriptionPage() {
         return this.$route.path === '/subscription';
       },
+      isEventPage() {
+        return this.$route.name && this.$route.name.includes('name') &&
+          this.$route.params.name !== 'admin';
+      },
       isClientPage() {
         return this.$route.path === '/me';
       },
@@ -88,42 +95,44 @@
       },
       showAdminEvent() {
         return ((this.isHomepage || this.isSubscriptionPage || this.isClientPage) &&
-          this.isClientAdmin) || this.isAdminDir;
+          this.isClientManager) || this.isAdminDir;
       },
       showAdminAdmit() {
         return this.showAdminEvent;
+      },
+      showAdminClient() {
+        return ((this.isHomepage || this.isSubscriptionPage || this.isClientPage) &&
+          this.isClientAdmin) || this.isAdminDir;
       },
       showCreateEvent() {
         return this.isHomepage || this.isAdminDir;
       },
       showSubscribe() {
-        return !this.isHomepage && !this.isAdminDir && !this.isCreatingEvent &&
-          !this.isSubscriptionPage && !this.isClientPage && !this.isLoggingIn;
+        return this.isEventPage;
       },
       showPost() {
         return this.showSubscribe && !this.isLoggingIn;
       },
       showAdmit() {
-        return this.isClientAdmin && !this.isHomepage && !this.isLoggingIn &&
-          !this.isAdminDir && !this.isSubscriptionPage && !this.isClientPage &&
-          !this.isCreatingEvent;
+        return this.isEventPage && this.isClientManager;
       },
       showEdit() {
         return this.showAdmit;
       },
-      showEditImage() {
-        return this.showAdmit;
-      },
       showSubscriptionList() {
-        return this.isLoggedIn && (this.isHomepage || this.isClientPage);
+        return this.isLoggedIn &&
+          (this.isHomepage || this.isClientPage || this.$route.name === 'subscription');
+      },
+      showClientSetting() {
+        return this.isLoggedIn && !this.isLoggingIn;
       },
       showClient() {
         return !this.isLoggingIn;
       },
       showReturn() {
-        return this.$route.name !== 'name' && !this.isHomepage &&
-          !this.isAdminDir && !this.isSubscriptionPage &&
-          !this.isClientPage && !this.isLoggingIn && !this.isCreatingEvent;
+        return this.$route.name !== 'name' &&
+          this.$route.name.includes('name') &&
+          this.$route.params.name !== 'admin';
       },
       showHomepage() {
         return !this.showReturn && !this.isHomepage;
@@ -191,6 +200,7 @@
       background-color: rgba(256, 256, 256, .95);
       justify-content: space-between;
       padding-right: 0;
+      padding-bottom: env(safe-area-inset-bottom);
     }
 
     .action {

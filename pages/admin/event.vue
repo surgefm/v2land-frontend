@@ -2,7 +2,7 @@
   <background class="admin-event-container">
     <card>
       <event-title>管理事件</event-title>
-      <el-form class="form" ref="form" label-width="120px">
+      <el-form class="form" ref="form" label-width="72px">
         <el-form-item label="事件状态">
           <el-checkbox-group v-model="filterStatus" class="align-center">
             <el-checkbox label="pending">待审核</el-checkbox>
@@ -23,8 +23,6 @@
       v-on:update="update"
     />
     <page-foot class="page-foot" />
-    <logo class="logo" />
-    <event-action />
   </background>
 </template>
 

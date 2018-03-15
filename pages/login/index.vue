@@ -9,14 +9,12 @@
         />
       </div>
     </card>
-    <logo class="logo" />
     <page-foot />
-    <event-action />
   </background>
 </template>
 
 <script>
-  import config from '~/const';
+  // import config from '~/const';
 
   export default {
     data() {
@@ -26,16 +24,15 @@
     },
     computed: {
       redirect() {
-        const base = config.baseUrl + 'login/auth?redirect=';
-        const redirect = this.$route.query.redirect;
+        let redirect = this.$route.query.redirect;
         if (redirect) {
-          if (redirect[0] === '/') {
-            return base + redirect.slice(1);
-          } else {
-            return base + redirect;
+          while (redirect.slice(0, 2) === '//') {
+            redirect = redirect.slice(1);
           }
+
+          return redirect;
         }
-        return base;
+        return '/';
       },
     },
     async asyncData({ store, query, redirect }) {
@@ -49,6 +46,11 @@
       }
       return {
         availableMethods: options,
+      };
+    },
+    head() {
+      return {
+        title: '登录浪潮',
       };
     },
   };

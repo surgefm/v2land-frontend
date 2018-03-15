@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="403px" height="427px" viewBox="0 0 403 427" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49 (51002) - http://www.bohemiancoding.com/sketch -->
+    <title>Custom Preset 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Custom-Preset-2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(2.000000, 0.000000)">
+            <polygon id="Path-2" fill="#2574A9" transform="translate(140.950739, 136.980296) scale(-1, 1) translate(-140.950739, -136.980296) " points="0 0 140.950739 0 281.901478 273.960591 140.950739 273.960591"></polygon>
+            <polygon id="Path-2" fill="#19B5FE" transform="translate(202.492611, 212.418719) scale(-1, 1) translate(-202.492611, -212.418719) " points="61.5418719 75.4384236 202.492611 75.4384236 343.44335 349.399015 202.492611 349.399015"></polygon>
+            <polygon id="Path-2" fill="#81CFE0" transform="translate(262.049261, 289.842365) scale(-1, 1) translate(-262.049261, -289.842365) " points="121.098522 152.862069 262.049261 152.862069 403 426.82266 262.049261 426.82266"></polygon>
+            <text id="Beta" transform="translate(259.932786, 321.340668) rotate(-63.000000) translate(-259.932786, -321.340668) " font-family="SourceHanSerifCN-Heavy, Source Han Serif CN" font-size="70" font-weight="600" letter-spacing="4.66666651" fill="#FFFFFF">
+                <tspan x="168.932786" y="351.840668">Beta</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

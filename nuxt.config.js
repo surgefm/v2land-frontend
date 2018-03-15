@@ -10,7 +10,7 @@ module.exports = {
     title: '浪潮 - 你的社会事件追踪工具',
     meta: [
       { charset: 'utf-8' },
-      { 'name': 'viewport', 'content': 'width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=no', 'user-scalable': 'no' },
+      { 'name': 'viewport', 'content': 'width=device-width, initial-scale=1.0, shrink-to-fit=no, maximum-scale=1.0, user-scalable=no, viewport-fit=cover' },
       { name: 'lang', property: 'lang', content: 'zh-hans' },
       { name: 'keywords', content: '浪潮,社会事件,事件,中国,追踪,社会,关注' },
       { hid: 'description', name: 'description', content: '浪潮是一个社会事件追踪工具。我们帮助你跟进社会事件的最新动态。你也可参与到信息整合的过程中，与社区成员一起添加社会事件与相关资讯，协助他人追踪事件进展。' },
@@ -61,7 +61,7 @@ module.exports = {
   css: [
     '~/assets/common.scss',
     '~/assets/EventAction.scss',
-    '~/assets/editor.scss',
+    '~/assets/Comment.scss',
     '~/assets/icon.css',
     '~/static/element/tooltip.css',
     '~/static/element/base.css',
@@ -96,14 +96,16 @@ module.exports = {
     '~/plugins/element.js',
     '~/plugins/components.js',
     '~/plugins/clipboard.js',
+    '~/plugins/lazyload.js',
     '~/plugins/polyfills',
+    '~/plugins/qrcode',
     { src: '~/plugins/statusHandler', ssr: false },
     { src: '~/plugins/ga', ssr: false },
     { src: '~/plugins/typekit', ssr: false },
   ],
 
   router: {
-    middleware: ['auth', 'permission'],
+    middleware: ['auth', 'checkEvent', 'permission'],
     linkExactActiveClass: 'exact-active-link',
   },
 
