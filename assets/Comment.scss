@@ -1,5 +1,6 @@
 @import "variables";
 
+/** Viewer **/
 .editor {
   overflow: hidden;
   line-height: 1.85;
@@ -59,4 +60,49 @@
   .comment-event .el-dialog__body {
     padding: 0 1rem 1rem 1rem;
   }
+}
+
+/** Editor **/
+.editor-container .el-button-group .el-button {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  padding: 9px;
+}
+
+.editor-container .el-button-group .el-button:hover {
+  border-color: #d8dce5;
+}
+
+.editor-container .el-button-group:first-child .el-button,
+.editor-container .el-button-group:last-child .el-button:not(:last-child) {
+  border-top-right-radius: 0;
+  border-right: 0;
+}
+
+.editor-container .el-button-group:last-child .el-button,
+.editor-container .el-button-group:first-child .el-button:not(:first-child) {
+  border-top-left-radius: 0;
+  border-left: 0;
+}
+
+.editor-container .textarea .el-textarea__inner {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  position: relative;
+  bottom: 1px;
+  z-index: 10;
+}
+
+.editor-quote-form {
+  display: flex;
+}
+
+
+.editor-quote-form .el-input:first-child,
+.editor-quote-form .el-autocomplete:first-child {
+  margin-right: .25rem;
+}
+
+.editor-quote-form .el-button-small {
+  padding: 9px;
 }
