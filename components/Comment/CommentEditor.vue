@@ -102,12 +102,25 @@
         >
           插入链接
         </el-button>
-        <el-button
-          size="small"
+        <el-dropdown
           v-if="mode === 'editNews'"
+          @command="insertText"
+          trigger="click"
         >
-          模板
-        </el-button>
+          <span class="template-trigger">
+            模板
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item
+              v-for="item of templates"
+              :key="item.label"
+              :command="item.template"
+              class="small-item"
+            >
+              {{ item.label }}
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
       </el-button-group>
       <div class="expand" />
       <el-button-group class="group-button">
@@ -166,6 +179,21 @@ export default {
       news: null,
       link: null,
       comment: null,
+      cursorPosition: {},
+      templates: [
+        {
+          label: '可疑信息',
+          template: '该消息中的（部分）事实与【媒体名】的【在此引用新闻】有冲突，请谨慎对待',
+        },
+        {
+          label: '广泛流传',
+          template: '该消息受到广泛传播，但来自不可信来源，请谨慎对待',
+        },
+        {
+          label: '被证实的消息',
+          template: '该消息由不可信来源发表，后由【媒体名】的【在此引用新闻】佐证',
+        },
+      ],
     };
   },
   methods: {
@@ -191,12 +219,10 @@ export default {
         return this.$message.error('未找到该事件');
       }
 
-      this.comment += `{{{ event: ${event.id} }}}`;
-      this.updateInput();
+      this.insertText(`{{{ event: ${event.id} }}}`);
       this.event = null;
       this.$refs.event.doClose();
       this.$refs.eventField.close();
-      this.$refs.input.focus();
     },
     async findNews(news, cb) {
       const query = { where: {} };
@@ -220,27 +246,47 @@ export default {
         return this.$message.error('未找到该新闻');
       }
 
-      this.comment += `{{{ news: ${news.id} }}}`;
-      this.updateInput();
+      this.insertText(`{{{ news: ${news.id} }}}`);
       this.news = null;
       this.$refs.news.doClose();
       this.$refs.newsField.close();
-      this.$refs.input.focus();
     },
     addLink() {
-      setTimeout(() => {
-        if (!regs.link.test(this.link)) {
-          return this.$message.error('请输入符合正确格式的链接');
-        }
+      const reg = new RegExp(regs.link);
+      if (!reg.test(this.link)) {
+        return this.$message.error('请输入符合正确格式的链接');
+      }
 
-        this.comment += `{{{ link: ${this.link} }}}`;
+      this.insertText(`{{{ link: ${this.link} }}}`);
+      this.link = null;
+      this.$refs.link.doClose();
+    },
+    insertText(text) {
+      this.$refs.input.focus();
+      if (this.cursorPosition.start) {
+        const { start, end } = this.cursorPosition;
+        this.comment = this.comment.slice(0, start) +
+          text + this.comment.slice(end);
+        const el = this.$refs.input.$el.firstChild;
+        const position = start + text.length;
+        setTimeout(() => {
+          el.setSelectionRange(position, position);
+          this.recordCursorPosition();
+        }, 50);
+      } else {
+        this.comment += text;
         this.updateInput();
-        this.link = null;
-        this.$refs.link.doClose();
-        this.$refs.input.focus();
-      }, 50);
+      }
+    },
+    recordCursorPosition() {
+      const el = this.$refs.input.$el.firstChild;
+      this.cursorPosition = {
+        start: el.selectionStart,
+        end: el.selectionEnd,
+      };
     },
     focusField(name) {
+      this.recordCursorPosition();
       setTimeout(this.$refs[name + 'Field'].focus, 0);
     },
     updateInput(value) {
@@ -271,9 +317,28 @@ export default {
 
   .viewer {
     border: 1px solid #d8dce5;
+    border-radius: 3px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-top: none;
     padding: 5px 15px;
     position: relative;
-    bottom: 1px;
+    bottom: 2px;
+  }
+
+  .template-trigger {
+    font-size: 12px;
+    color: #5a5e66;
+    white-space: nowrap;
+    cursor: pointer;
+    font-weight: 500;
+    line-height: 1;
+    padding: 9px;
+  }
+
+  .template-trigger:hover {
+    color: #22a7f0 !important;
+    background-color: rgb(233, 246, 254);
   }
 
   .left-border {
@@ -283,5 +348,6 @@ export default {
 
   .preview {
     transition: all .2s;
+    border-color: #d8dce5;
   }
 </style>

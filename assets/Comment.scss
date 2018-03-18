@@ -3,7 +3,6 @@
 /** Viewer **/
 .editor {
   overflow: hidden;
-  line-height: 1.85;
   display: block;
 }
 
@@ -38,6 +37,7 @@
 .editor .text {
   font-size: .8rem;
   line-height: 1.5;
+  color: #333;
 }
 
 .editor .remark {
@@ -69,6 +69,12 @@
   padding: 9px;
 }
 
+.editor-container .el-button-group .el-dropdown {
+  line-height: 1;
+  display: flex;
+  border-top: solid #d8dce5 1px;
+}
+
 .editor-container .el-button-group .el-button:hover {
   border-color: #d8dce5;
 }
@@ -95,6 +101,9 @@
   position: relative;
   bottom: 1px;
   z-index: 10;
+  font-size: .8rem;
+  line-height: 1.75;
+  color: #333;
 }
 
 .editor-quote-form {

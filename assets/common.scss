@@ -173,6 +173,12 @@ img[lazy=loaded] {
   max-width: 95%;
 }
 
+.el-dropdown-menu__item.small-item {
+  padding: 0 12px;
+  line-height: 28px;
+  font-size: 12px
+}
+
 @media (max-width: 600px) {
   .logo {
     position: absolute;
