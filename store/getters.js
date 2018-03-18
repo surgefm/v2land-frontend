@@ -60,11 +60,29 @@ export default {
   },
 
   getNews: (state) => ({ name, id }) => {
-    const newsSet = state.event[name]
-      ? state.event[name].news.filter((news) => news.id.toString() === id.toString())
-      : [];
+    if (!name) {
+      name = state.news[id];
+    }
 
-    return newsSet.length > 0 ? newsSet[0] : null;
+    if (name) {
+      const newsSet = state.event[name]
+        ? state.event[name].news.filter((news) => news.id.toString() === id.toString())
+        : [];
+
+      return newsSet.length > 0 ? newsSet[0] : null;
+    } else {
+      for (const item of Object.getOwnPropertyNames(state.event)) {
+        const event = state.event[item];
+        const newsList = event.news || [];
+        for (const news of newsList) {
+          if (news.id.toString() === id.toString() || news.title === id) {
+            return news;
+          }
+        }
+      }
+    }
+
+    return null;
   },
 
   getPendingNews: (state) => (name) => {

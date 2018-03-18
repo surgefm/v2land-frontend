@@ -12,7 +12,6 @@
 
 <script>
 import CommentItem from './CommentItem.vue';
-import regs from '~/utils/regex';
 
 export default {
   props: {
@@ -39,14 +38,20 @@ export default {
         let type;
         let text;
 
-        for (const reg of Object.getOwnPropertyNames(regs.editor)) {
-          const match = regs.editor[reg].exec(temp);
+        const regs = {
+          event: /({{{( )?event( )?:( )?[0-9]+( )?}}})/g,
+          news: /({{{( )?news( )?:( )?[0-9]+( )?}}})/g,
+          link: /({{{( )?link( )?:( )?https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-z]{2,10}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*))( )?}}}/g,
+        };
 
-          if (match && (lastIndex < 0 || regs.editor[reg].lastIndex < lastIndex)) {
+        for (const reg of Object.getOwnPropertyNames(regs)) {
+          const match = regs[reg].exec(temp);
+
+          if (match && (lastIndex < 0 || regs[reg].lastIndex < lastIndex)) {
             matched = true;
             type = reg;
             text = match[0];
-            lastIndex = regs.editor[reg].lastIndex;
+            lastIndex = regs[reg].lastIndex;
           }
         }
 
@@ -64,7 +69,7 @@ export default {
           } else if (type === 'link') {
             parts.push({
               type: 'link',
-              content: /(https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*))/g.exec(text)[0],
+              content: /(https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-z]{2,10}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*))/g.exec(text)[0],
             });
           }
 

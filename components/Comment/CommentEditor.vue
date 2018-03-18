@@ -33,12 +33,22 @@
       trigger="click"
     >
       <div class="editor-quote-form">
-        <el-input
+        <el-autocomplete
           v-model="news"
-          placeholder="新闻 ID"
+          placeholder="新闻标题或 ID"
           size="small"
+          :fetch-suggestions="findNews"
+          :trigger-on-focus="false"
+          @keyup.enter.native="addNews"
+          ref="newsField"
         />
-        <el-button size="small" @click="addNews">引用</el-button>
+        <el-button
+          size="small"
+          @click="addNews"
+          type="primary"
+        >
+          引用
+        </el-button>
       </div>
     </el-popover>
 
@@ -78,7 +88,13 @@
         >
           引用事件
         </el-button>
-        <el-button size="small" v-popover:news>引用新闻</el-button>
+        <el-button
+          size="small"
+          v-popover:news
+          @click="focusField('news')"
+        >
+          引用新闻
+        </el-button>
         <el-button
           size="small"
           v-popover:link
@@ -100,6 +116,7 @@
           @click="showPreview = true"
           v-if="!showPreview"
           :disabled="!this.comment"
+          class="preview"
         >
           预览
         </el-button>
@@ -181,15 +198,39 @@ export default {
       this.$refs.eventField.close();
       this.$refs.input.focus();
     },
-    addNews() {
-      this.comment += `{{{ news: ${this.news} }}}`;
+    async findNews(news, cb) {
+      const query = { where: {} };
+      if (news) {
+        query.where.or = [
+          { title: { contains: news } },
+          { id: parseInt(news) > -1 ? parseInt(news) : -1 },
+        ];
+      }
+      const newsList = await this.$store.dispatch('getNewsList', query);
+      const results = [];
+      for (const item of newsList) {
+        results.push({ value: item.title });
+      }
+
+      cb(results);
+    },
+    async addNews() {
+      const news = await this.$store.dispatch('getNews', this.news);
+      if (!news) {
+        return this.$message.error('未找到该新闻');
+      }
+
+      this.comment += `{{{ news: ${news.id} }}}`;
       this.updateInput();
       this.news = null;
+      this.$refs.news.doClose();
+      this.$refs.newsField.close();
+      this.$refs.input.focus();
     },
     addLink() {
       setTimeout(() => {
         if (!regs.link.test(this.link)) {
-          return this.$message.error('请输入正确格式的链接');
+          return this.$message.error('请输入符合正确格式的链接');
         }
 
         this.comment += `{{{ link: ${this.link} }}}`;
@@ -238,5 +279,9 @@ export default {
   .left-border {
     border-left: 1px solid #d8dce5;
     border-top-left-radius: 3px;
+  }
+
+  .preview {
+    transition: all .2s;
   }
 </style>
