@@ -64,7 +64,7 @@
         <el-button type="primary" @click="connect">确定解绑</el-button>
       </div>
       <div v-if="mode === 'loading'" class="connecting">
-        <loading-indicator />
+        <logo mode="simple" />
         <span>正在绑定</span>
       </div>
     </card>
