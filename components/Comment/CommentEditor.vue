@@ -99,6 +99,7 @@
           size="small"
           @click="showPreview = true"
           v-if="!showPreview"
+          :disabled="!this.comment"
         >
           预览
         </el-button>

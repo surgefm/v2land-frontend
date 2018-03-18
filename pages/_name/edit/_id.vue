@@ -47,6 +47,11 @@
       await store.dispatch('getEvent', route.params.name);
       return store.dispatch('getNews', route.params.id);
     },
+    head() {
+      return {
+        title: '修改新闻 - ' + this.$route.params.name,
+      };
+    },
   };
 </script>
 

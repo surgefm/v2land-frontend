@@ -79,6 +79,10 @@
   border-right: 0;
 }
 
+.editor-container .el-button-group:last-child .el-button:last-child {
+  border-top-right-radius: 3px;
+}
+
 .editor-container .el-button-group:last-child .el-button,
 .editor-container .el-button-group:first-child .el-button:not(:first-child) {
   border-top-left-radius: 0;
@@ -96,7 +100,6 @@
 .editor-quote-form {
   display: flex;
 }
-
 
 .editor-quote-form .el-input:first-child,
 .editor-quote-form .el-autocomplete:first-child {
