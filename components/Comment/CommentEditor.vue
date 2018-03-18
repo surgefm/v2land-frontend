@@ -9,13 +9,20 @@
       <div class="editor-quote-form">
         <el-autocomplete
           v-model="event"
-          placeholder="事件 ID"
+          placeholder="事件名或 ID"
           size="small"
           :fetch-suggestions="findEvent"
           :trigger-on-focus="false"
           @keyup.enter.native="addEvent"
+          ref="eventField"
         />
-        <el-button size="small" @click="addEvent">引用</el-button>
+        <el-button
+          size="small"
+          @click="addEvent"
+          type="primary"
+        >
+          引用
+        </el-button>
       </div>
     </el-popover>
 
@@ -26,7 +33,11 @@
       trigger="click"
     >
       <div class="editor-quote-form">
-        <el-input v-model="news" placeholder="新闻 ID" size="small" />
+        <el-input
+          v-model="news"
+          placeholder="新闻 ID"
+          size="small"
+        />
         <el-button size="small" @click="addNews">引用</el-button>
       </div>
     </el-popover>
@@ -38,8 +49,20 @@
       trigger="click"
     >
       <div class="editor-quote-form">
-        <el-input v-model="link" placeholder="站外链接" size="small" />
-        <el-button size="small" @click="addLink">插入</el-button>
+        <el-input
+          v-model="link"
+          placeholder="站外链接"
+          size="small"
+          @keyup.enter.native="addLink"
+          ref="linkField"
+        />
+        <el-button
+          size="small"
+          @click="addLink"
+          type="primary"
+        >
+          插入
+        </el-button>
       </div>
     </el-popover>
 
@@ -48,9 +71,21 @@
       :class="[!showPreview || 'left-border']"
     >
       <el-button-group class="group-button" v-show="!showPreview">
-        <el-button size="small" v-popover:event>引用事件</el-button>
+        <el-button
+          size="small"
+          v-popover:event
+          @click="focusField('event')"
+        >
+          引用事件
+        </el-button>
         <el-button size="small" v-popover:news>引用新闻</el-button>
-        <el-button size="small" v-popover:link>插入链接</el-button>
+        <el-button
+          size="small"
+          v-popover:link
+          @click="focusField('link')"
+        >
+          插入链接
+        </el-button>
         <el-button
           size="small"
           v-if="mode === 'editNews'"
@@ -85,6 +120,7 @@
       @input="updateInput"
       class="textarea"
       v-if="!showPreview"
+      ref="input"
     />
     <comment-viewer
       :input="value"
@@ -97,6 +133,7 @@
 <script>
 import CommentViewer from '~/components/Comment/CommentViewer.vue';
 import Autocomplete from 'element-ui/lib/autocomplete';
+import regs from '~/utils/regex';
 
 export default {
   props: {
@@ -140,6 +177,8 @@ export default {
       this.updateInput();
       this.event = null;
       this.$refs.event.doClose();
+      this.$refs.eventField.close();
+      this.$refs.input.focus();
     },
     addNews() {
       this.comment += `{{{ news: ${this.news} }}}`;
@@ -147,9 +186,20 @@ export default {
       this.news = null;
     },
     addLink() {
-      this.comment += `{{{ link: ${this.link} }}}`;
-      this.updateInput();
-      this.link = null;
+      setTimeout(() => {
+        if (!regs.link.test(this.link)) {
+          return this.$message.error('请输入正确格式的链接');
+        }
+
+        this.comment += `{{{ link: ${this.link} }}}`;
+        this.updateInput();
+        this.link = null;
+        this.$refs.link.doClose();
+        this.$refs.input.focus();
+      }, 50);
+    },
+    focusField(name) {
+      setTimeout(this.$refs[name + 'Field'].focus, 0);
     },
     updateInput(value) {
       this.$emit('input', value || this.comment);

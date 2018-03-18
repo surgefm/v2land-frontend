@@ -12,6 +12,7 @@
 
 <script>
 import CommentItem from './CommentItem.vue';
+import regs from '~/utils/regex';
 
 export default {
   props: {
@@ -38,20 +39,14 @@ export default {
         let type;
         let text;
 
-        const regs = {
-          event: new RegExp(/({{{( )?event( )?:( )?[0-9]+( )?}}})/g),
-          news: new RegExp(/({{{( )?news( )?:( )?[0-9]+( )?}}})/g),
-          link: new RegExp(/({{{( )?link( )?:( )?https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*))( )?}}}/g),
-        };
+        for (const reg of Object.getOwnPropertyNames(regs.editor)) {
+          const match = regs.editor[reg].exec(temp);
 
-        for (const reg of Object.getOwnPropertyNames(regs)) {
-          const match = regs[reg].exec(temp);
-
-          if (match && (lastIndex < 0 || regs[reg].lastIndex < lastIndex)) {
+          if (match && (lastIndex < 0 || regs.editor[reg].lastIndex < lastIndex)) {
             matched = true;
             type = reg;
             text = match[0];
-            lastIndex = regs[reg].lastIndex;
+            lastIndex = regs.editor[reg].lastIndex;
           }
         }
 

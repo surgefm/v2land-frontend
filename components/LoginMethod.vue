@@ -5,7 +5,7 @@
         <div @click="loginWeibo" class="item">
           <div class="oval red"> 
             <div class="inner-oval">
-              <img width="64" height="52" :src="getSource('Sina_Weibo.svg')" />
+              <img width="64" height="52" src="~/static/Sina_Weibo.svg" />
             </div>
           </div>
           <div class="login-text weibo-login unselectable">微博登录</div>

@@ -30,7 +30,6 @@
         placeholder="选填"
         mode="editNews"
       />
-      <span>{{ form.comment }}</span>
     </el-form-item>
     <div class="submit-button-group">
       <el-button @click="resetForm('form')">重置</el-button>

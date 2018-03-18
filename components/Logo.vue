@@ -1,5 +1,5 @@
 <template>
-  <img v-if="mode === 'simple'" :src="src('icon.svg')" onload="this.id='show'" />
+  <img v-if="mode === 'simple'" src="~/static/icon.svg" onload="this.id='show'" />
   <div v-else class="icon-container">
     <div class="center">
       <!--
