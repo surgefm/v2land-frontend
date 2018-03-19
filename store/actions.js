@@ -29,13 +29,10 @@ export default {
 
   async getEventList({ commit, state }, { mode = 'latest', where } = {}) {
     if (mode === 'latest' || !state.event) {
-      let url = $.encode('event');
-      if (where) {
-        url += '?where=' + encodeURIComponent(JSON.stringify(where));
-      }
+      const url = $.encode('event/list');
 
       try {
-        const { data } = await this.$axios.get(url);
+        const { data } = await this.$axios.post(url, { where });
         for (const event of (data.eventList || data)) {
           event.image = event['header_image'];
           commit('setEvent', {
@@ -54,6 +51,18 @@ export default {
 
   async getAllEventList({ dispatch }) {
     return dispatch('getEventList', { mode: 'all' });
+  },
+
+  async getNewsList({ commit, dispatch }, { where }) {
+    try {
+      const { data } = await this.$axios.post('news', { where });
+      for (const news of (data.newsList || data)) {
+        await dispatch('setNews', news);
+      }
+      return data.newsList || data;
+    } catch (err) {
+      return [];
+    }
   },
 
   async getPendingNews({ commit }, name) {
@@ -86,11 +95,24 @@ export default {
     return this.$axios.post(url, data);
   },
 
-  async getNews({ commit }, id) {
+  async getNews({ state, commit, getters }, id) {
+    const found = getters.getNews({ id });
+    if (found) {
+      return found;
+    }
+
     const url = $.encode('news/' + id);
     const { data: news } = await this.$axios.get(url);
     commit('setNews', news);
     return news;
+  },
+
+  async setNews({ state, commit, dispatch }, news) {
+    if (typeof news.event === 'number') {
+      news.event = await dispatch('getEvent', news.event);
+    }
+
+    commit('setNews', news);
   },
 
   async editNews({ dispatch }, { id, data }) {

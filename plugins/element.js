@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Button from 'element-ui/lib/button';
+import ButtonGroup from 'element-ui/lib/button-group';
 import Tooltip from 'element-ui/lib/tooltip';
 import Input from 'element-ui/lib/input';
 import Select from 'element-ui/lib/select';
@@ -16,6 +17,7 @@ import Dialog from 'element-ui/lib/dialog';
 import Loading from 'element-ui/lib/loading';
 
 Vue.use(Button);
+Vue.use(ButtonGroup);
 Vue.use(Tooltip);
 Vue.use(Input);
 Vue.use(Select);

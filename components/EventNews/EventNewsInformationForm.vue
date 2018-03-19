@@ -13,7 +13,11 @@
     </el-form-item>
 
     <el-form-item label="摘要" prop="abstract">
-      <el-input v-model="form.abstract" type="textarea" />
+      <el-input
+        v-model="form.abstract"
+        type="textarea"
+        :autosize="{ minRows: 3 }"
+      />
     </el-form-item>
 
     <el-form-item label="发布时间" prop="time">
@@ -25,15 +29,10 @@
       />
     </el-form-item>
     <el-form-item label="备注" prop="comment">
-      <el-input
+      <comment-editor
         v-model="form.comment"
-        type="textarea"
         placeholder="选填"
-      />
-      <comment-viewer
-        v-if="form.comment"
-        :input="form.comment"
-        mode="remark"
+        mode="editNews"
       />
     </el-form-item>
     <div class="submit-button-group">
@@ -52,7 +51,7 @@
 
 <script>
   import DatePicker from 'element-ui/lib/date-picker';
-  import CommentViewer from '~/components/Comment/CommentViewer.vue';
+  import CommentEditor from '~/components/Comment/CommentEditor.vue';
 
   export default {
     props: {
@@ -132,7 +131,7 @@
     },
     components: {
       'el-date-picker': DatePicker,
-      'comment-viewer': CommentViewer,
+      'comment-editor': CommentEditor,
     },
     created() {
       if (this.mode === 'edit' && this.origData) {
