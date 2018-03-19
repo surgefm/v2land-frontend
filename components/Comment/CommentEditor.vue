@@ -275,8 +275,8 @@ export default {
         }, 50);
       } else {
         this.comment += text;
-        this.updateInput();
       }
+      this.updateInput();
     },
     recordCursorPosition() {
       const el = this.$refs.input.$el.firstChild;
