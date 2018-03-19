@@ -3,7 +3,7 @@
     <el-popover
       ref="event"
       placement="top"
-      width="250"
+      width="280"
       trigger="click"
     >
       <div class="editor-quote-form">
@@ -21,7 +21,7 @@
           @click="addEvent"
           type="primary"
         >
-          引用
+          引用事件
         </el-button>
       </div>
     </el-popover>
@@ -29,7 +29,7 @@
     <el-popover
       ref="news"
       placement="top"
-      width="250"
+      width="280"
       trigger="click"
     >
       <div class="editor-quote-form">
@@ -47,7 +47,7 @@
           @click="addNews"
           type="primary"
         >
-          引用
+          引用新闻
         </el-button>
       </div>
     </el-popover>
@@ -55,7 +55,7 @@
     <el-popover
       ref="link"
       placement="top"
-      width="250"
+      width="280"
       trigger="click"
     >
       <div class="editor-quote-form">
@@ -71,7 +71,7 @@
           @click="addLink"
           type="primary"
         >
-          插入
+          插入链接
         </el-button>
       </div>
     </el-popover>
@@ -86,21 +86,21 @@
           v-popover:event
           @click="focusField('event')"
         >
-          引用事件
+          事件
         </el-button>
         <el-button
           size="small"
           v-popover:news
           @click="focusField('news')"
         >
-          引用新闻
+          新闻
         </el-button>
         <el-button
           size="small"
           v-popover:link
           @click="focusField('link')"
         >
-          插入链接
+          链接
         </el-button>
         <el-dropdown
           v-if="mode === 'editNews'"

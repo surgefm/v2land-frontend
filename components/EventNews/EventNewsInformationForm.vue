@@ -13,7 +13,11 @@
     </el-form-item>
 
     <el-form-item label="摘要" prop="abstract">
-      <el-input v-model="form.abstract" type="textarea" />
+      <el-input
+        v-model="form.abstract"
+        type="textarea"
+        :autosize="{ minRows: 3 }"
+      />
     </el-form-item>
 
     <el-form-item label="发布时间" prop="time">
