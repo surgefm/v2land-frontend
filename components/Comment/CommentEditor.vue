@@ -296,6 +296,11 @@ export default {
   created() {
     this.comment = this.value ? this.value.slice() : '';
   },
+  watch: {
+    'value'(value) {
+      this.comment = value;
+    },
+  },
   components: {
     'comment-viewer': CommentViewer,
     'el-autocomplete': Autocomplete,
