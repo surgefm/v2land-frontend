@@ -25,6 +25,7 @@
     "marked": "^0.3.7",
     "node-sass": "^4.7.2",
     "nuxt": "^1.0.0-rc11",
+    "orderedmap": "^1.0.0",
     "postman-url-encoder": "^1.0.1",
     "prosemirror-history": "^1.0.2",
     "prosemirror-keymap": "^1.0.1",

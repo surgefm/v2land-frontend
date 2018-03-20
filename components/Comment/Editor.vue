@@ -3,14 +3,22 @@
 </template>
 
 <script>
-import { schema } from 'prosemirror-schema-basic';
+import schema from './Schema';
 import { EditorState } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { undo, redo, history } from 'prosemirror-history';
 import { keymap } from 'prosemirror-keymap';
 import bar from './Bar/EditorBar';
+import { EventView } from './View';
+
+let view;
 
 export default {
+  data() {
+    return {
+      view: null,
+    };
+  },
   mounted() {
     const state = EditorState.create({
       schema,
@@ -20,14 +28,21 @@ export default {
         bar(),
       ],
     });
-    const view = new EditorView(this.$refs.editor, {
+
+    state.vue = this;
+
+    view = new EditorView(this.$refs.editor, {
       state,
       dispatchTransaction(transaction) {
         const newState = view.state.apply(transaction);
         view.updateState(newState);
       },
+      nodeViews: {
+        event(node) {
+          return new EventView(node, state);
+        },
+      },
     });
-    console.log(view);
   },
 };
 </script>
