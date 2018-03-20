@@ -38,11 +38,21 @@ export default {
       error: false,
     };
   },
+  methods: {
+    async fetchData(id) {
+      const event = id || this.content;
+      if (event === 0) {
+        return;
+      }
+      this.event = await this.$store.dispatch('getEvent', event);
+      if (!this.event) {
+        this.error = true;
+      }
+      return;
+    },
+  },
   async created() {
-    this.event = await this.$store.dispatch('getEvent', this.content);
-    if (!this.event) {
-      this.error = true;
-    }
+    await this.fetchData();
   },
 };
 </script>

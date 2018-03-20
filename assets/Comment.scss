@@ -4,10 +4,11 @@
 .editor {
   overflow: hidden;
   display: block;
+  padding: 5px 15px;
 }
 
 .editor, .editor * {
-  transition: all .2s;
+  transition: background-color .2s, border-color .2s, border-radius .2s;
   line-height: 1.75;
   text-align: left;
 }
@@ -22,6 +23,14 @@
 .editor .inline,
 .editor .link {
   margin-right: .25rem;
+}
+
+.ProseMirror-selectednode {
+  margin-right: .25rem;
+}
+
+.ProseMirror-selectednode .inline {
+  margin-right: 0;
 }
 
 .editor .inline * {

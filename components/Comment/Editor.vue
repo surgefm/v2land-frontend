@@ -1,23 +1,59 @@
 <template>
-  <div ref="editor" />
+  <div>
+    <div style="display: none">
+      <comment-item
+        v-for="item of itemList"
+        :key="item.type + '-' + item.key"
+        :content="item.attrs ? item.attrs.content : 0"
+        :ref="item.type + '-' + item.key"
+        type="event"
+      />
+    </div>
+    <div ref="editor" class="editor" />
+    <el-button @click="triggerEvent">引用事件</el-button>
+  </div>
 </template>
 
 <script>
 import schema from './Schema';
+import 'prosemirror-view/style/prosemirror.css';
 import { EditorState } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { undo, redo, history } from 'prosemirror-history';
 import { keymap } from 'prosemirror-keymap';
-import bar from './Bar/EditorBar';
 import { EventView } from './View';
+import CommentItem from './CommentItem';
 
 let view;
+let _this;
 
 export default {
   data() {
     return {
       view: null,
+      items: {
+        event: [{ key: 0 }],
+        news: [{ key: 1 }],
+        link: [{ key: 2 }],
+      },
+      count: 3,
+      uid: [],
     };
+  },
+  computed: {
+    itemList() {
+      const list = [];
+      for (const type of Object.getOwnPropertyNames(this.items)) {
+        if (!this.items[type][0]) break;
+        for (const item of this.items[type]) {
+          list.push({
+            ...item,
+            type,
+          });
+        }
+      }
+      return list;
+    },
   },
   mounted() {
     const state = EditorState.create({
@@ -25,11 +61,10 @@ export default {
       plugins: [
         history(),
         keymap({ 'Mod-z': undo, 'Mod-y': redo }),
-        bar(),
       ],
     });
 
-    state.vue = this;
+    _this = this;
 
     view = new EditorView(this.$refs.editor, {
       state,
@@ -39,10 +74,52 @@ export default {
       },
       nodeViews: {
         event(node) {
-          return new EventView(node, state);
+          return new EventView(node, _this);
         },
       },
     });
+  },
+  methods: {
+    async addItem(type, content, uid) {
+      if (!type || !content) return;
+      const items = this.items[type];
+      const key = this.uid[uid] < 0 ? (items.length - 1) : this.uid[uid];
+      const item = items[key];
+      this.$set(
+        this.items[type],
+        key,
+        {
+          ...item,
+          content,
+          type,
+        },
+      );
+
+      if (this.uid[uid] < 0 || !this.$refs[type + '-' + item.key][0]) {
+        await new Promise((resolve) => {
+          setTimeout(resolve, 100);
+        });
+      }
+
+      const comp = this.$refs[type + '-' + item.key][0].$children[0];
+      comp.fetchData(content);
+      if (this.uid[uid] < 0) {
+        this.items[type].push({ key: items.length });
+        this.uid[uid] = item.key;
+      }
+
+      return comp;
+    },
+    triggerEvent() {
+      _this.uid[_this.uid.length] = -1;
+      view.dispatch(view.state.tr.replaceWith(1, 1, schema.nodes.event.create({
+        content: Math.round(Math.random() * 10),
+        uid: _this.uid.length - 1,
+      })));
+    },
+  },
+  components: {
+    'comment-item': CommentItem,
   },
 };
 </script>
