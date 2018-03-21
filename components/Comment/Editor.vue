@@ -16,13 +16,17 @@
 
 <script>
 import schema from './Schema';
-import 'prosemirror-view/style/prosemirror.css';
 import { EditorState } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { undo, redo, history } from 'prosemirror-history';
+import { dropCursor } from 'prosemirror-dropcursor';
+import { gapCursor } from 'prosemirror-gapcursor';
 import { keymap } from 'prosemirror-keymap';
 import { EventView } from './View';
 import CommentItem from './CommentItem';
+
+import 'prosemirror-view/style/prosemirror.css';
+import 'prosemirror-gapcursor/style/gapcursor.css';
 
 let view;
 let _this;
@@ -61,6 +65,8 @@ export default {
       schema,
       plugins: [
         history(),
+        dropCursor(),
+        gapCursor(),
         keymap({ 'Mod-z': undo, 'Mod-y': redo }),
       ],
     });
