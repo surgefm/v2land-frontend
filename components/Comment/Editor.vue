@@ -38,6 +38,7 @@ export default {
       },
       count: 3,
       uid: [],
+      components: {},
     };
   },
   computed: {
@@ -95,9 +96,9 @@ export default {
         },
       );
 
-      if (this.uid[uid] < 0 || !this.$refs[type + '-' + item.key][0]) {
+      while (!this.$refs[type + '-' + item.key]) {
         await new Promise((resolve) => {
-          setTimeout(resolve, 100);
+          setTimeout(resolve, 50);
         });
       }
 
@@ -108,13 +109,21 @@ export default {
         this.uid[uid] = item.key;
       }
 
+      this.components[uid] = comp;
+
       return comp;
     },
-    triggerEvent() {
-      _this.uid[_this.uid.length] = -1;
+    getComponent(uid) {
+      return this.components[uid];
+    },
+    async triggerEvent() {
+      const id = Math.round(Math.random() * 10);
+      const uid = this.uid.length;
+      this.uid[uid] = -1;
+      await this.addItem('event', id, uid);
       view.dispatch(view.state.tr.replaceWith(1, 1, schema.nodes.event.create({
-        content: Math.round(Math.random() * 10),
-        uid: _this.uid.length - 1,
+        content: id,
+        uid,
       })));
     },
   },

@@ -1,5 +1,5 @@
 <template>
-  <div class="inline">
+  <div class="inline event-tag">
     <el-dialog
       :visible.sync="dialogVisible"
       :append-to-body="true"
@@ -70,6 +70,7 @@ export default {
     cursor: pointer;
     padding-bottom: .1125rem;
     border-bottom: .1125rem solid transparent;
+    user-select: none;
   }
 
   .event.error {
