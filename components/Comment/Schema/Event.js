@@ -13,9 +13,7 @@ const eventSpec = {
     'class': 'event-tag',
     'style': 'display: inline;',
   }],
-  parseDOM: [
-    { tag: 'span.event-tag' },
-  ],
+  parseDOM: [{ tag: 'span.event-tag' }],
 };
 
 export default eventSpec;
