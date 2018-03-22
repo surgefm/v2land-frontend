@@ -37,7 +37,12 @@ export default {
       while (doc.doc) {
         doc = doc.doc;
       }
-      const content = doc.content[0].content;
+      let content = doc.content[0];
+      if (!content.content) {
+        this.error = true;
+        return;
+      }
+      content = content.content;
       for (const item of content) {
         if (item.type === 'text') {
           parts.push({ type: 'text', content: item.text });

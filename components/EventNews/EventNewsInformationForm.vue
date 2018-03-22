@@ -138,10 +138,11 @@
         if (!this.$refs.comment) {
           if (this.commentTimeout) {
             clearTimeout(this.commentTimeout);
-            this.commentTimeout = setTimeout(() => {
-              this.setComment(doc);
-            }, 100);
           }
+
+          this.commentTimeout = setTimeout(() => {
+            this.setComment(doc);
+          }, 100);
         } else {
           this.$refs.comment.setDoc(doc);
         }
