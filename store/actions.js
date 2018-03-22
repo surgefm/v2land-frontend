@@ -95,7 +95,7 @@ export default {
     return this.$axios.post(url, data);
   },
 
-  async getNews({ state, commit, getters }, id) {
+  async getNews({ state, dispatch, getters }, id) {
     const found = getters.getNews({ id });
     if (found) {
       return found;
@@ -103,7 +103,7 @@ export default {
 
     const url = $.encode('news/' + id);
     const { data: news } = await this.$axios.get(url);
-    commit('setNews', news);
+    await dispatch('setNews', news);
     return news;
   },
 
