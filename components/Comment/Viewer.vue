@@ -1,5 +1,5 @@
 <template>
-  <div class="editor" v-if="!error">
+  <div class="editor viewer" v-if="!error">
     <span v-if="mode === 'remark'" class="remark">备注：</span>
     <comment-item
       v-for="(part, i) of parts"
