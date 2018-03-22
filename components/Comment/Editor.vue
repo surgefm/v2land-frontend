@@ -57,7 +57,7 @@
         v-popover:event
         @click="focusField('event')"
       >
-        <i class="icon-event_available" /><span>事件</span></span>
+        <i class="icon-flag" /><span>事件</span></span>
       <span
         class="control-button"
         v-popover:news
@@ -69,14 +69,14 @@
         v-popover:link
         @click="focusField('link')"
       >
-        <i class="el-icon-circle-plus-outline" /><span>链接</span></span>
+        <i class="icon-link" /><span>链接</span></span>
       <el-dropdown
         v-if="mode === 'editNews'"
         @command="insertText"
         trigger="click"
       >
         <span class="control-button">
-          <i class="el-icon-more" /><span>模板</span></span>
+          <i class="icon-template" /><span>模板</span></span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item
             v-for="item of templates"

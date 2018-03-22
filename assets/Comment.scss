@@ -101,7 +101,7 @@
 }
 
 .editor-control .control-button {
-  padding: 6px 8px;
+  padding: 4px 8px;
   margin-right: 4px;
   font-size: 14px;
   color: #5a5e66;
@@ -115,10 +115,11 @@
 
 .editor-control .control-button i {
   margin-right: .25rem;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .editor-control .control-button .icon-newspaper {
+  font-size: 18px;
   margin-right: .4rem;
 }
 
@@ -145,16 +146,7 @@
     padding: 0 1rem 1rem 1rem;
   }
 
-  .editor-control .control-button {
-    margin-right: 1rem;
-    padding: 6px 12px !important;
-  }
-
-  .editor-control .control-button span {
-    display: none;
-  }
-
-  .editor-control .control-button i {
-    margin-right: 0 !important;
+  .editor-control .control-button * {
+    font-size: .7rem !important;
   }
 }
