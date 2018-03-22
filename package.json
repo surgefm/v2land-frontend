@@ -24,7 +24,7 @@
     "js-cookie": "^2.2.0",
     "marked": "^0.3.7",
     "node-sass": "^4.7.2",
-    "nuxt": "^1.0.0-rc11",
+    "nuxt": "^1.4.0",
     "orderedmap": "^1.0.0",
     "postman-url-encoder": "^1.0.1",
     "prosemirror-commands": "^1.0.5",
