@@ -1,3 +1,3 @@
-import EventView from './Event';
+import ItemView from './Item';
 
-export { EventView };
+export { ItemView };

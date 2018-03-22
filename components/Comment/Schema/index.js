@@ -1,9 +1,9 @@
 import { schema } from 'prosemirror-schema-basic';
 import { Schema } from 'prosemirror-model';
-import eventSpec from './Event.js';
+import itemSpec from './item.js';
 
 const editorSchema = new Schema({
-  nodes: schema.spec.nodes.addToEnd('event', eventSpec),
+  nodes: schema.spec.nodes.addToEnd('item', itemSpec),
   marks: schema.spec.marks,
 });
 

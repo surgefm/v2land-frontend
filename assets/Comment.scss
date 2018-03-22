@@ -4,7 +4,41 @@
 .editor {
   overflow: hidden;
   display: block;
+  margin-bottom: .25rem;
+}
+
+.ProseMirror {
+  width: 100%;
   padding: 5px 15px;
+  border: 1px solid #d8dce5;
+  border-radius: 4px;
+  min-height: 85.5px;
+  font-size: 14px;
+  color: #5a5e66;
+}
+
+.ProseMirror:hover {
+  border-color: #b3bccc;
+}
+
+.ProseMirror:focus {
+  border-color: #22A7F0;
+}
+
+.ProseMirror .empty-editor::before,
+.ProseMirror .empty-comment::before {
+  float: left;
+  color: #aaa;
+  pointer-events: none;
+  height: 0;
+}
+
+.ProseMirror p.empty-editor:first-child::before {
+  content: '（选填）请输入新闻备注';
+}
+
+.ProseMirror p.empty-comment:first-child::before {
+  content: '有什么想法想和大家讨论？';
 }
 
 .editor, .editor * {
@@ -15,6 +49,10 @@
 
 .editor .inline {
   display: inline;
+}
+
+.editor .text {
+  font-size: 14px;
 }
 
 .editor .text,
@@ -43,12 +81,6 @@
   box-decoration-break: clone;
 }
 
-.editor .text {
-  font-size: .8rem;
-  line-height: 1.5;
-  color: #333;
-}
-
 .editor .remark {
   color: $light-color;
   font-size: .8rem;
@@ -64,52 +96,37 @@
   z-index: 3000;
 }
 
+.editor-control {
+  display: flex;
+}
+
+.editor-control .control-button {
+  padding: 6px 8px;
+  margin-right: 4px;
+  font-size: 14px;
+  color: #5a5e66;
+  user-select: none;
+  border-radius: 4px;
+  transition: all .1s;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.editor-control .control-button i {
+  margin-right: .25rem;
+  font-size: 18px;
+}
+
+.editor-control .control-button:hover {
+  background-color: #f7f8fb;
+}
+
 @media (max-width: 600px) {
   .comment-news .el-dialog__body,
   .comment-event .el-dialog__body {
     padding: 0 1rem 1rem 1rem;
   }
-}
-
-/** Editor **/
-.editor-container .el-button-group .el-button {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  padding: 9px;
-}
-
-.editor-container .el-button-group .el-dropdown {
-  line-height: 1;
-  display: flex;
-  border-top: solid #d8dce5 1px;
-}
-
-.editor-container .el-button-group .el-button:hover {
-  border-color: #d8dce5;
-}
-
-.editor-container .el-button-group:first-child .el-button,
-.editor-container .el-button-group:last-child .el-button:not(:last-child) {
-  border-top-right-radius: 0;
-  border-right: 0;
-}
-
-.editor-container .el-button-group:last-child .el-button:last-child {
-  border-top-right-radius: 3px;
-}
-
-.editor-container .el-button-group:last-child .el-button,
-.editor-container .el-button-group:first-child .el-button:not(:first-child) {
-  border-top-left-radius: 0;
-  border-left: 0;
-}
-
-.editor-container .textarea .el-textarea__inner {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  position: relative;
-  bottom: 1px;
-  z-index: 10;
 }
 
 .editor-quote-form {

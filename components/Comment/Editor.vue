@@ -1,140 +1,320 @@
 <template>
   <div>
-    <div style="display: none">
-      <comment-item
-        v-for="item of itemList"
-        :key="item.type + '-' + item.key"
-        :content="item.attrs ? item.attrs.content : 0"
-        :ref="item.type + '-' + item.key"
-        type="event"
-      />
+    <el-popover ref="event" placement="bottom" width="280" trigger="click">
+      <div class="editor-quote-form">
+        <el-autocomplete
+          v-model="event"
+          placeholder="事件名或 ID"
+          size="small"
+          :fetch-suggestions="findEvent"
+          :trigger-on-focus="false"
+          @keyup.enter.native="addEvent"
+          ref="eventField"
+        />
+        <el-button size="small" @click="addEvent" type="primary">
+          引用事件
+        </el-button>
+      </div>
+    </el-popover>
+
+    <el-popover ref="news" placement="bottom" width="280" trigger="click">
+      <div class="editor-quote-form">
+        <el-autocomplete
+          v-model="news"
+          placeholder="新闻标题或 ID"
+          size="small"
+          :fetch-suggestions="findNews"
+          :trigger-on-focus="false"
+          @keyup.enter.native="addNews"
+          ref="newsField"
+        />
+        <el-button size="small" @click="addNews" type="primary">
+          引用新闻
+        </el-button>
+      </div>
+    </el-popover>
+
+    <el-popover ref="link" placement="bottom" width="280" trigger="click">
+      <div class="editor-quote-form">
+        <el-input
+          v-model="link"
+          placeholder="站外链接"
+          size="small"
+          @keyup.enter.native="addLink"
+          ref="linkField"
+        />
+        <el-button size="small" @click="addLink" type="primary">
+          插入链接
+        </el-button>
+      </div>
+    </el-popover>
+
+    <div ref="editor" spellcheck="false" class="editor" />
+
+    <div class="editor-control">
+      <span
+        class="control-button"
+        v-popover:event
+        @click="focusField('event')"
+      >
+        <i class="icon-event_available" /><span>事件</span></span>
+      <span
+        class="control-button"
+        v-popover:news
+        @click="focusField('news')"
+      >
+        <i class="icon-newspaper" /><span>新闻</span></span>
+      <span
+        class="control-button"
+        v-popover:link
+        @click="focusField('link')"
+      >
+        <i class="el-icon-circle-plus-outline" /><span>链接</span></span>
+      <el-dropdown
+        v-if="mode === 'editNews'"
+        @command="insertText"
+        trigger="click"
+      >
+        <span class="control-button">
+          <i class="el-icon-more" /><span>模板</span></span>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item
+            v-for="item of templates"
+            :key="item.label"
+            :command="item.template"
+            class="small-item"
+          >
+            {{ item.label }}
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </div>
-    <div ref="editor" class="editor" />
-    <el-button @click="triggerEvent">引用事件</el-button>
   </div>
 </template>
 
 <script>
 import schema from './Schema';
-import { EditorState } from 'prosemirror-state';
-import { EditorView } from 'prosemirror-view';
+import { EditorState, Plugin } from 'prosemirror-state';
+import { EditorView, DecorationSet, Decoration } from 'prosemirror-view';
 import { undo, redo, history } from 'prosemirror-history';
 import { dropCursor } from 'prosemirror-dropcursor';
 import { gapCursor } from 'prosemirror-gapcursor';
 import { keymap } from 'prosemirror-keymap';
-import { EventView } from './View';
-import CommentItem from './CommentItem';
+import { baseKeymap } from 'prosemirror-commands';
+import { ItemView } from '~/components/Comment/View';
+import Autocomplete from 'element-ui/lib/autocomplete';
 
 import 'prosemirror-view/style/prosemirror.css';
 import 'prosemirror-gapcursor/style/gapcursor.css';
+
+import regs from '~/utils/regex';
 
 let view;
 let _this;
 
 export default {
+  props: ['doc'],
   data() {
     return {
-      view: null,
-      items: {
-        event: [{ key: 0 }],
-        news: [{ key: 1 }],
-        link: [{ key: 2 }],
+      event: null,
+      news: null,
+      link: null,
+      mode: 'editNews',
+      templates: [{
+        label: '可疑信息',
+        template: '该消息中的（部分）事实与【媒体名】的【在此引用新闻】有冲突，请谨慎对待',
       },
-      count: 3,
-      uid: [],
-      components: {},
+      {
+        label: '广泛流传',
+        template: '该消息受到广泛传播，但来自不可信来源，请谨慎对待',
+      },
+      {
+        label: '被证实的消息',
+        template: '该消息由不可信来源发表，后由【媒体名】的【在此引用新闻】佐证',
+      }],
     };
   },
-  computed: {
-    itemList() {
-      const list = [];
-      for (const type of Object.getOwnPropertyNames(this.items)) {
-        if (!this.items[type][0]) break;
-        for (const item of this.items[type]) {
-          list.push({
-            ...item,
-            type,
-          });
-        }
-      }
-      return list;
-    },
+  components: {
+    'el-autocomplete': Autocomplete,
   },
   mounted() {
-    const state = EditorState.create({
+    _this = this;
+
+    const placeholder = (text) => {
+      return new Plugin({
+        props: {
+          decorations(state) {
+            const decorations = [];
+
+            const decorate = (node, pos) => {
+              if (node.type.isBlock && node.childCount === 0) {
+                decorations.push(
+                  Decoration.node(pos, pos + node.nodeSize, {
+                    class: _this.mode === 'editNews'
+                      ? 'empty-editor'
+                      : 'empty-comment',
+                  })
+                );
+              }
+            };
+
+            state.doc.descendants(decorate);
+
+            return DecorationSet.create(state.doc, decorations);
+          },
+        },
+      });
+    };
+
+    const initialState = {
       schema,
       plugins: [
         history(),
         dropCursor(),
         gapCursor(),
-        keymap({ 'Mod-z': undo, 'Mod-y': redo }),
+        placeholder(),
+        keymap({
+          'Mod-z': undo,
+          'Mod-y': redo,
+          'Mod-s-z': redo,
+        }),
+        keymap(baseKeymap),
       ],
-    });
+    };
 
-    _this = this;
+    if (this.doc) initialState.doc = this.getInitialDoc();
+
+    const state = EditorState.create(initialState);
 
     view = new EditorView(this.$refs.editor, {
       state,
       dispatchTransaction(transaction) {
         const newState = view.state.apply(transaction);
         view.updateState(newState);
+        let firstNode = view.state.doc.content;
+        while ((!firstNode.type || firstNode.type.name === 'paragraph') &&
+          firstNode.content && (firstNode.content[0] || firstNode.content.size > 0)) {
+          firstNode = firstNode.content[0] || firstNode.content.content[0];
+        }
+        if (firstNode.type.name === 'hard_break') {
+          view.dispatch(view.state.tr.delete(1, 2));
+        }
+        console.log(_this.toJSON());
       },
       nodeViews: {
-        event(node) {
-          return new EventView(node, _this);
+        item(node) {
+          return new ItemView(node, _this);
         },
       },
     });
   },
   methods: {
-    async addItem(type, content, uid) {
-      if (!type || !content) return;
-      const items = this.items[type];
-      const key = this.uid[uid] < 0 ? (items.length - 1) : this.uid[uid];
-      const item = items[key];
-      this.$set(
-        this.items[type],
-        key,
-        {
-          ...item,
-          content,
-          type,
-        },
-      );
-
-      while (!this.$refs[type + '-' + item.key]) {
-        await new Promise((resolve) => {
-          setTimeout(resolve, 50);
-        });
+    getCursorPos() {
+      const range = view.state.selection.ranges[0];
+      const from = range.$from.pos;
+      const to = range.$to.pos;
+      return { from, to };
+    },
+    addItem(type, content) {
+      const { from, to } = this.getCursorPos();
+      view.dispatch(view.state.tr.replaceWith(
+        from,
+        to,
+        schema.nodes.item.create({ content, type })
+      ));
+      view.focus();
+    },
+    insertText(text) {
+      const { from, to } = this.getCursorPos();
+      view.dispatch(view.state.tr.replaceWith(
+        from,
+        to,
+        schema.text(text),
+      ));
+      view.focus();
+    },
+    async findEvent(event, cb) {
+      const query = { where: {} };
+      if (event) {
+        query.where.or = [
+          { name: { contains: event } },
+          { id: parseInt(event) > -1 ? parseInt(event) : -1 },
+        ];
+      }
+      const events = await this.$store.dispatch('getEventList', query);
+      const results = [];
+      for (const item of events) {
+        results.push({ value: item.name });
       }
 
-      const comp = this.$refs[type + '-' + item.key][0].$children[0];
-      comp.fetchData(content);
-      if (this.uid[uid] < 0) {
-        this.items[type].push({ key: items.length });
-        this.uid[uid] = item.key;
+      cb(results);
+    },
+    async addEvent() {
+      const event = await this.$store.dispatch('getEvent', this.event);
+      if (!event) {
+        return this.$message.error('未找到该事件');
       }
 
-      this.components[uid] = comp;
+      this.addItem('event', event.id);
+      this.event = null;
+      this.$refs.event.doClose();
+      this.$refs.eventField.close();
+    },
+    async findNews(news, cb) {
+      const query = { where: {} };
+      if (news) {
+        query.where.or = [
+          { title: { contains: news } },
+          { id: parseInt(news) > -1 ? parseInt(news) : -1 },
+        ];
+      }
+      const newsList = await this.$store.dispatch('getNewsList', query);
+      const results = [];
+      for (const item of newsList) {
+        results.push({ value: item.title });
+      }
 
-      return comp;
+      cb(results);
     },
-    getComponent(uid) {
-      return this.components[uid];
+    async addNews() {
+      const news = await this.$store.dispatch('getNews', this.news);
+      if (!news) {
+        return this.$message.error('未找到该新闻');
+      }
+
+      this.addItem('news', news.id);
+      this.news = null;
+      this.$refs.news.doClose();
+      this.$refs.newsField.close();
     },
-    async triggerEvent() {
-      const id = Math.round(Math.random() * 10);
-      const uid = this.uid.length;
-      this.uid[uid] = -1;
-      await this.addItem('event', id, uid);
-      view.dispatch(view.state.tr.replaceWith(1, 1, schema.nodes.event.create({
-        content: id,
-        uid,
-      })));
+    addLink() {
+      const reg = new RegExp(regs.link);
+      if (!reg.test(this.link)) {
+        return this.$message.error('请输入符合正确格式的链接');
+      }
+
+      this.addItem('link', this.link);
+      this.link = null;
+      this.$refs.link.doClose();
     },
-  },
-  components: {
-    'comment-item': CommentItem,
+    focusField(name) {
+      setTimeout(this.$refs[name + 'Field'].focus, 0);
+    },
+    getInitialDoc() {
+      if (this.doc) {
+        let doc = typeof this.doc === 'string'
+          ? JSON.parse(this.doc)
+          : this.doc;
+
+        while (doc.doc) {
+          doc = doc.doc;
+        }
+        return schema.nodeFromJSON(doc);
+      }
+    },
+    toJSON() {
+      return view.state.toJSON();
+    },
   },
 };
 </script>

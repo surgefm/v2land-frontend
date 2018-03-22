@@ -1,11 +1,11 @@
 <template>
   <div class="news-container" :class="[mode]">
     <div class="top-container">
-      <nuxt-link
-        class="tag light-font"
+      <span
+        class="tag light-font event-tag"
         v-if="showEventName"
-        :to="`/${eventName}`"
-      >{{ eventName }}</nuxt-link>
+        @click="redirectEvent"
+      >{{ eventName }}</span>
       <span v-if="order === 1 && !showEventName" class="tag light-font">
         最新消息
       </span>
@@ -39,19 +39,15 @@
         v-on:admitted="$emit('admitted')"
         v-on:rejected="$emit('rejected')"
       />
-      <nuxt-link
+      <el-button
         v-else-if="mode === 'quote'"
-        :to="`/${news.event.id || news.event}?news=${news.id}`"
+        type="primary"
+        size="medium"
+        @click="redirect"
         class="link"
       >
-        <el-button
-          type="primary"
-          size="medium"
-          @click="$emit('redirect')"
-        >
-          前往新闻
-        </el-button>
-      </nuxt-link>
+        前往新闻
+      </el-button>
         
       <event-news-share
         v-else
@@ -66,7 +62,7 @@
 <script>
   import EventNewsAdmit from '~/components/EventNews/EventNewsAdmit.vue';
   import EventNewsShare from '~/components/EventShare.vue';
-  import CommentViewer from '~/components/Comment/CommentViewer.vue';
+  import CommentViewer from '~/components/Comment/Viewer.vue';
 
   export default {
     props: {
@@ -82,21 +78,26 @@
     },
     computed: {
       showEventName() {
-        if (this.news.event === this.$route.params.name ||
+        if (this.news.event === this.route.params.name ||
           (this.event && this.news.event === this.event.id)) {
           return false;
         }
 
         if (this.event) return true;
 
-        const event = this.$store.getters.getNews(this.news.event);
-
+        const event = this.$store.getters.getEvent(this.news.event);
         if (event) {
           this.eventName = event.name;
           return true;
         }
 
         return false;
+      },
+      route() {
+        return this.$mockroute || this.$route;
+      },
+      router() {
+        return this.$mockrouter || this.$router;
       },
     },
     components: {
@@ -117,6 +118,14 @@
         string += date.getDate() + ' 日';
 
         return string;
+      },
+      redirect() {
+        this.router.push(`/${this.news.event.id || this.news.event}?news=${this.news.id}`);
+        this.$emit('redirect');
+      },
+      redirectEvent() {
+        this.router.push(`/${this.eventName}`);
+        this.$emit('redirect');
       },
     },
     async created() {
@@ -142,11 +151,15 @@
     font-size: .9rem;
     margin-right: .5rem;
     text-decoration: none !important;
-    border-bottom-width: .1rem !important;
+    border-bottom: .1rem solid transparent !important;
   }
 
-  a.tag:hover {
-    border-color: $light-color;
+  .event-tag {
+    cursor: pointer;
+  }
+
+  .event-tag:hover {
+    border-color: $light-color !important;
   }
 
   .source {
