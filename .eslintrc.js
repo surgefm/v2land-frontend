@@ -16,6 +16,7 @@ module.exports = {
   // add your custom rules here
   rules: {
     "no-useless-escape": 0,
+    "require-jsdoc": 0,
   },
   globals: {}
 }

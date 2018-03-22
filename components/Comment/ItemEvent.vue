@@ -1,5 +1,10 @@
 <template>
-  <div class="inline">
+  <div class="inline event-tag">
+    <span class="event" v-if="event" @click="dialogVisible = true">
+      <i class="icon-flag" /> {{ event.name }}</span>
+    <span class="event error" v-else-if="error">该事件不存在或未被公开</span>
+    <span class="event" v-else><i class="el-icon-loading" /> 事件加载中</span>
+
     <el-dialog
       :visible.sync="dialogVisible"
       :append-to-body="true"
@@ -11,18 +16,15 @@
         {{ event.description }}
       </event-description>
       <div class="submit-button-group" v-if="event">
-        <nuxt-link :to="'/' + event.name">
-          <el-button type="primary" size="medium">
-            前往事件
-          </el-button>
-        </nuxt-link>
+        <el-button
+          type="primary"
+          size="medium"
+          @click="redirect"
+        >
+          前往事件
+        </el-button>
       </div>
     </el-dialog>
-
-    <span class="event" v-if="event" @click="dialogVisible = true">
-      <i class="icon-event_available" />{{ event.name }}</span>
-    <span class="event error" v-else-if="error">该事件不存在或未被公开</span>
-    <span class="event" v-else><i class="el-icon-loading" /> 事件加载中</span>
   </div>
 </template>
 
@@ -38,11 +40,26 @@ export default {
       error: false,
     };
   },
+  methods: {
+    redirect() {
+      const router = this.$mockrouter || this.$router;
+      router.push('/' + this.event.name);
+      this.dialogVisible = false;
+    },
+    async getEvent() {
+      const event = this.content;
+      if (event === 0) {
+        return;
+      }
+      this.event = await this.$store.dispatch('getEvent', event);
+      if (!this.event) {
+        this.error = true;
+      }
+      return;
+    },
+  },
   async created() {
-    this.event = await this.$store.dispatch('getEvent', this.content);
-    if (!this.event) {
-      this.error = true;
-    }
+    await this.getEvent();
   },
 };
 </script>
@@ -60,6 +77,7 @@ export default {
     cursor: pointer;
     padding-bottom: .1125rem;
     border-bottom: .1125rem solid transparent;
+    user-select: none;
   }
 
   .event.error {

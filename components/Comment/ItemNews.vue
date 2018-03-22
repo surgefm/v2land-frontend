@@ -1,5 +1,10 @@
 <template>
   <div class="inline">
+    <span class="news" v-if="news" @click="dialogVisible = true">
+    <i class="icon-newspaper" />{{ news.title }}</span>
+    <span class="news error" v-else-if="error">该新闻不存在或被隐藏</span>
+    <span class="news loading" v-else><i class="el-icon-loading" /> 新闻加载中</span>
+
     <el-dialog
       :visible.sync="dialogVisible"
       :append-to-body="true"
@@ -13,11 +18,6 @@
         v-on:redirect="dialogVisible = false"
       />
     </el-dialog>
-
-    <span class="news" v-if="news" @click="dialogVisible = true">
-    <i class="icon-newspaper" />{{ news.title }}</span>
-    <span class="news error" v-else-if="error">该新闻不存在或被隐藏</span>
-    <span class="news loading" v-else><i class="el-icon-loading" /> 新闻加载中</span>
   </div>
 </template>
 
@@ -33,13 +33,18 @@ export default {
       dialogVisible: false,
     };
   },
+  methods: {
+    async getNews() {
+      try {
+        this.news = await this.$store.dispatch('getNews', this.content);
+      } catch (err) {
+        console.error(err);
+        this.error = true;
+      }
+    },
+  },
   async created() {
-    try {
-      this.news = await this.$store.dispatch('getNews', this.content);
-    } catch (err) {
-      console.error(err);
-      this.error = true;
-    }
+    await this.getNews();
   },
 };
 </script>

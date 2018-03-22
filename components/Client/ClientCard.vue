@@ -59,7 +59,6 @@
       },
       clientUpdated() {
         this.showDialog = false;
-        console.log(123);
         this.$emit('clientUpdated');
       },
     },

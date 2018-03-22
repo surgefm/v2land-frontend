@@ -40,19 +40,6 @@ module.exports = {
    ** Build configuration
    */
   build: {
-    /*
-    ** Run ESLint on save
-    */
-    extend(config, ctx) {
-      if (ctx.dev && ctx.isClient) {
-        config.module.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
-          exclude: /(node_modules)/,
-        });
-      }
-    },
     vendor: [
       'postman-url-encoder',
       'js-cookie',
@@ -64,7 +51,6 @@ module.exports = {
   css: [
     '~/assets/common.scss',
     '~/assets/EventAction.scss',
-    '~/assets/Comment.scss',
     '~/assets/icon.css',
     '~/static/element/tooltip.css',
     '~/static/element/base.css',
@@ -78,22 +64,15 @@ module.exports = {
     '~/static/element/select-dropdown.css',
     '~/static/element/button.css',
     '~/static/element/button-group.css',
-    '~/static/element/date-picker.css',
-    '~/static/element/time-picker.css',
-    '~/static/element/time-select.css',
     '~/static/element/spinner.css',
     '~/static/element/scrollbar.css',
     '~/static/element/message.css',
-    '~/static/element/upload.css',
-    '~/static/element/checkbox.css',
-    '~/static/element/checkbox-group.css',
     '~/static/element/popover.css',
     '~/static/element/dropdown.css',
     '~/static/element/dropdown-menu.css',
     '~/static/element/dropdown-item.css',
     '~/static/element/dialog.css',
     '~/static/element/loading.css',
-    '~/static/element/autocomplete.css',
   ],
 
   plugins: [
@@ -102,7 +81,6 @@ module.exports = {
     '~/plugins/clipboard.js',
     '~/plugins/lazyload.js',
     '~/plugins/polyfills',
-    '~/plugins/qrcode',
     { src: '~/plugins/statusHandler', ssr: false },
     { src: '~/plugins/ga', ssr: false },
     { src: '~/plugins/typekit', ssr: false },

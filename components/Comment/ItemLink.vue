@@ -3,7 +3,7 @@
     :href="content"
     target="_blank"
     class="link"
-  >外部链接<i class="el-icon-caret-right" />{{ url }}</a>
+  ><i class="icon-link" /> {{ url }}</a>
 </template>
 
 <script>

@@ -29,6 +29,8 @@
   import Checkbox from 'element-ui/lib/checkbox';
   import CheckboxGroup from 'element-ui/lib/checkbox-group';
   import ClientCard from '~/components/Client/ClientCard.vue';
+  import '~/static/element/checkbox.css';
+  import '~/static/element/checkbox-group.css';
 
   export default {
     data() {
