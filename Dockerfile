@@ -1,4 +1,4 @@
-FROM node:carbon-slim
+FROM node:carbon
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -12,7 +12,7 @@ COPY . .
 # Install app dependencies
 RUN npm install -g yarn
 RUN npm install -g cross-env
-RUN yarn --pure-lockfile
+RUN yarn
 RUN yarn run build
 
 LABEL name="frontend"
