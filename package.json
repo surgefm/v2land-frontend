@@ -27,6 +27,7 @@
     "nuxt": "^1.0.0-rc11",
     "orderedmap": "^1.0.0",
     "postman-url-encoder": "^1.0.1",
+    "prosemirror-commands": "^1.0.5",
     "prosemirror-dropcursor": "^1.0.0",
     "prosemirror-gapcursor": "^1.0.2",
     "prosemirror-history": "^1.0.2",
