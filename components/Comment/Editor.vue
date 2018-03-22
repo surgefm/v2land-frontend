@@ -106,6 +106,8 @@ import Autocomplete from 'element-ui/lib/autocomplete';
 
 import 'prosemirror-view/style/prosemirror.css';
 import 'prosemirror-gapcursor/style/gapcursor.css';
+import '~/assets/Comment.scss';
+import '~/static/element/autocomplete.css';
 
 import regs from '~/utils/regex';
 

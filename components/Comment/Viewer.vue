@@ -12,6 +12,7 @@
 
 <script>
 import CommentItem from './CommentItem.vue';
+import '~/assets/Comment.scss';
 
 export default {
   props: ['mode', 'input'],

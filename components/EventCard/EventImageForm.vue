@@ -50,6 +50,7 @@
   import config from '~/const';
   import $ from 'postman-url-encoder';
   import Upload from 'element-ui/lib/upload';
+  import '~/static/element/upload.css';
 
   const url = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/;
   

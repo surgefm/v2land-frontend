@@ -53,6 +53,9 @@
 
 <script>
   import DatePicker from 'element-ui/lib/date-picker';
+  import '~/static/element/date-picker.css';
+  import '~/static/element/time-picker.css';
+  import '~/static/element/time-select.css';
 
   export default {
     props: {

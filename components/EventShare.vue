@@ -55,6 +55,7 @@
 <script>
   import config from '~/const';
   import $ from 'postman-url-encoder';
+  import VueQrcode from '@xkeshi/vue-qrcode';
 
   export default {
     props: {
@@ -140,6 +141,9 @@
     },
     async created() {
       await this.$store.dispatch('getEvent', this.eventId);
+    },
+    components: {
+      qrcode: VueQrcode,
     },
   };
 </script>
