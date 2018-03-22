@@ -1,7 +1,6 @@
 <template>
   <background>
     <card>
-      <editor />
       <p class="tag light-font">从一首诗开始</p>
       <event-title>关于浪潮</event-title>
       <p>当下的社会事件在打一场擂台赛，今天是「百度魏则西」赢得万众瞩目，明天是「人大硕士雷洋」站上冠军台。被人们热切关注的事件如虎添翼，很快有积极进展。可一旦有「新生代实力小将」登场，便立刻成为昨日黄花。失去公众关注的事件寸步难行，甚至节节败退 —— 回想一下，你曾关注的社会事件中，有多少得到了妥善的解决？</p>
@@ -33,9 +32,6 @@
           { hid: 'og:title', property: 'og:title', content: '关于浪潮' },
         ],
       };
-    },
-    components: {
-      'editor': () => import(/* webpackChunkName:'editor' */ '~/components/Comment/Editor'),
     },
   };
 </script>
