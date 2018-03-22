@@ -35,7 +35,6 @@
       };
     },
     components: {
-      'viewer': CommentViewer,
       'editor': () => import(/* webpackChunkName:'editor' */ '~/components/Comment/Editor'),
     },
   };
