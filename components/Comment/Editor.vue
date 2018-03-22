@@ -113,7 +113,6 @@ let view;
 let _this;
 
 export default {
-  props: ['doc'],
   data() {
     return {
       event: null,
@@ -182,8 +181,6 @@ export default {
       ],
     };
 
-    if (this.doc) initialState.doc = this.getInitialDoc();
-
     const state = EditorState.create(initialState);
 
     view = new EditorView(this.$refs.editor, {
@@ -199,7 +196,6 @@ export default {
         if (firstNode.type.name === 'hard_break') {
           view.dispatch(view.state.tr.delete(1, 2));
         }
-        console.log(_this.toJSON());
       },
       nodeViews: {
         item(node) {
@@ -300,17 +296,37 @@ export default {
     focusField(name) {
       setTimeout(this.$refs[name + 'Field'].focus, 0);
     },
-    getInitialDoc() {
-      if (this.doc) {
-        let doc = typeof this.doc === 'string'
-          ? JSON.parse(this.doc)
-          : this.doc;
+    setDoc(content) {
+      if (!content) return this.clearDoc();
 
-        while (doc.doc) {
-          doc = doc.doc;
-        }
-        return schema.nodeFromJSON(doc);
+      let doc;
+      try {
+        doc = typeof content === 'string'
+          ? JSON.parse(content)
+          : content;
+      } catch (err) {
+        return null;
       }
+
+      while (doc.doc) {
+        doc = doc.doc;
+      }
+
+      const newState = EditorState.create({
+        schema,
+        doc: schema.nodeFromJSON(doc),
+        plugins: view.state.plugins,
+      });
+
+      view.updateState(newState);
+    },
+    clearDoc() {
+      const newState = EditorState.create({
+        schema,
+        plugins: view.state.plugins,
+      });
+
+      view.updateState(newState);
     },
     toJSON() {
       return view.state.toJSON();

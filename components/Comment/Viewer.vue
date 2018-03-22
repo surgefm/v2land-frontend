@@ -1,5 +1,5 @@
 <template>
-  <div class="editor">
+  <div class="editor" v-if="!error">
     <span v-if="mode === 'remark'" class="remark">备注：</span>
     <comment-item
       v-for="(part, i) of parts"
@@ -18,6 +18,7 @@ export default {
   data() {
     return {
       parts: [],
+      error: false,
     };
   },
   methods: {
@@ -26,7 +27,12 @@ export default {
       let doc = this.input;
       if (!doc) return;
       if (typeof doc === 'string') {
-        doc = JSON.parse(doc);
+        try {
+          doc = JSON.parse(doc);
+        } catch (err) {
+          this.error = true;
+          return;
+        }
       }
       while (doc.doc) {
         doc = doc.doc;

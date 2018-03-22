@@ -1,5 +1,5 @@
 <template>
-  <el-form :model="form" :rules="rules" ref="form" label-width="90px">
+  <el-form :model="form" :rules="rules" ref="form" label-width="72px">
     <el-form-item label="新闻链接" prop="url">
       <el-input v-model="form.url" />
     </el-form-item>
@@ -28,13 +28,15 @@
         placeholder="请使用北京时间"
       />
     </el-form-item>
+
     <el-form-item label="备注" prop="comment">
       <comment-editor
-        v-model="form.comment"
-        placeholder="选填"
         mode="editNews"
+        :content="form.comment"
+        ref="comment"
       />
     </el-form-item>
+
     <div class="submit-button-group">
       <el-button @click="resetForm('form')">重置</el-button>
       <el-button
@@ -51,7 +53,6 @@
 
 <script>
   import DatePicker from 'element-ui/lib/date-picker';
-  import CommentEditor from '~/components/Comment/CommentEditor.vue';
 
   export default {
     props: {
@@ -67,6 +68,7 @@
           source: '',
           abstract: '',
           time: '',
+          comment: null,
         },
         rules: {
           url: [
@@ -88,6 +90,7 @@
           ],
         },
         isSubmitting: false,
+        commentTimeout: null,
       };
     },
     computed: {
@@ -100,6 +103,7 @@
     },
     methods: {
       submitForm(formName) {
+        this.form.comment = JSON.stringify(this.$refs.comment.toJSON().doc);
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.isSubmitting = true;
@@ -121,23 +125,40 @@
         if (this.mode === 'edit' && this.origData) {
           this.form = Object.assign({}, this.origData);
           this.$set(this.form, 'time', new Date(this.origData.time));
+          this.setComment(this.origData.comment);
         } else {
           this.$refs[formName].resetFields();
+          this.setComment();
         }
       },
       resetButton() {
         this.isSubmitting = false;
       },
+      setComment(doc) {
+        if (!this.$refs.comment) {
+          if (this.commentTimeout) {
+            clearTimeout(this.commentTimeout);
+            this.commentTimeout = setTimeout(() => {
+              this.setComment(doc);
+            }, 100);
+          }
+        } else {
+          this.$refs.comment.setDoc(doc);
+        }
+      },
     },
     components: {
       'el-date-picker': DatePicker,
-      'comment-editor': CommentEditor,
+      'comment-editor': () => import(/* webpackChunkName:'editor' */ '~/components/Comment/Editor'),
     },
     created() {
       if (this.mode === 'edit' && this.origData) {
         this.form = Object.assign({}, this.origData);
         this.$set(this.form, 'time', new Date(this.origData.time));
       }
+    },
+    mounted() {
+      this.setComment(this.form.comment);
     },
     watch: {
       'form.time'(newValue, oldValue) {
