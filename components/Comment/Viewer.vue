@@ -60,5 +60,10 @@ export default {
   created() {
     this.analyzeInput();
   },
+  watch: {
+    input() {
+      this.analyzeInput();
+    },
+  },
 };
 </script>
