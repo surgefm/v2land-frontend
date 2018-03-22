@@ -118,6 +118,10 @@
   font-size: 18px;
 }
 
+.editor-control .control-button .icon-newspaper {
+  margin-right: .4rem;
+}
+
 .editor-control .control-button:hover {
   background-color: #f7f8fb;
 }
@@ -141,16 +145,15 @@
     padding: 0 1rem 1rem 1rem;
   }
 
-  .editor-control {
-    justify-content: space-between;
-  }
-
-  .editor-control .control-button,
-  .editor-control .control-button i {
-    margin-right: 0;
+  .editor-control .control-button {
+    margin-right: 1rem;
   }
 
   .editor-control .control-button span {
     display: none;
+  }
+
+  .editor-control .control-button i {
+    margin: 0;
   }
 }
