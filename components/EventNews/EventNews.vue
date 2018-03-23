@@ -19,6 +19,7 @@
 
 <script>
   import config from '~/const';
+  import EventNewsContent from '~/components/EventNews/EventNewsContent.vue';
 
   export default {
     props: {
@@ -39,6 +40,9 @@
         this.$message.success('已将该新闻分享链接拷贝至剪贴板');
       },
     },
+    components: {
+      'event-news-content': EventNewsContent,
+    }
   };
 </script>
 

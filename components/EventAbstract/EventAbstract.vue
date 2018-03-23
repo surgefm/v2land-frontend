@@ -16,10 +16,14 @@
 
 <script>
   import EventShare from '~/components/EventShare.vue';
+  import EventDescription from '~/components/EventAbstract/EventAbstractDescription.vue';
+  import EventStatus from '~/components/EventAbstract/EventAbstractStatus.vue';
 
   export default {
     components: {
       'event-share': EventShare,
+      'event-status': EventStatus,
+      'event-description': EventDescription,
     },
     props: {
       detail: Object,

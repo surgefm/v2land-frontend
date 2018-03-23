@@ -14,7 +14,7 @@
 </template>
 
 <script>
-  // import config from '~/const';
+  import LoginMethod from '~/components/LoginMethod.vue';
 
   export default {
     data() {
@@ -53,6 +53,9 @@
         title: '登录浪潮',
       };
     },
+    components: {
+      'login-method': LoginMethod,
+    }
   };
 </script>
 

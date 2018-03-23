@@ -91,6 +91,7 @@
   import config from '~/const';
   import Cookie from 'js-cookie';
   import $ from 'postman-url-encoder';
+  import LoginMethod from '~/components/LoginMethod.vue';
   import EventSubscribe from '~/components/EventSubscribe/EventSubscribe.vue';
 
   export default {
@@ -240,6 +241,7 @@
       },
     },
     components: {
+      'login-method': LoginMethod,
       'event-subscribe': EventSubscribe,
     },
     async created() {

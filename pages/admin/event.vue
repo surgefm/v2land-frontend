@@ -27,6 +27,7 @@
 </template>
 
 <script>
+  import EventCard from '~/components/EventCard/EventCard.vue';
   import Checkbox from 'element-ui/lib/checkbox';
   import CheckboxGroup from 'element-ui/lib/checkbox-group';
   import '~/static/element/checkbox.css';
@@ -53,6 +54,7 @@
       },
     },
     components: {
+      'event-card': EventCard,
       'el-checkbox': Checkbox,
       'el-checkbox-group': CheckboxGroup,
     },
