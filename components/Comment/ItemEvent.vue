@@ -1,7 +1,12 @@
 <template>
   <div class="inline event-tag">
-    <span class="event" v-if="event" @click="dialogVisible = true">
-      <i class="icon-flag" /> {{ event.name }}</span>
+    <a
+      :href="'/' + event.name"
+      onclick="return false;"
+      class="event"
+      v-if="event"
+      @click="dialogVisible = true"
+    ><i class="icon-flag" /> {{ event.name }}</a>
     <span class="event error" v-else-if="error">该事件不存在或未被公开</span>
     <span class="event" v-else><i class="el-icon-loading" /> 事件加载中</span>
 
@@ -16,13 +21,15 @@
         {{ event.description }}
       </event-description>
       <div class="submit-button-group" v-if="event">
-        <el-button
-          type="primary"
-          size="medium"
-          @click="redirect"
-        >
-          前往事件
-        </el-button>
+        <a :href="'/' + event.name" onclick="return false;">
+          <el-button
+            type="primary"
+            size="medium"
+            @click="redirect"
+          >
+            前往事件
+          </el-button>
+        </a>
       </div>
     </el-dialog>
   </div>
@@ -40,11 +47,21 @@ export default {
       error: false,
     };
   },
+  compoted: {
+    route() {
+      return this.$mockroute || this.$route;
+    },
+  },
   methods: {
     redirect() {
-      const router = this.$mockrouter || this.$router;
-      router.push('/' + this.event.name);
       this.dialogVisible = false;
+      const router = this.$mockrouter || this.$router;
+      router.push({
+        name: 'name',
+        params: {
+          name: this.event.name,
+        },
+      });
     },
     async getEvent() {
       const event = this.content;

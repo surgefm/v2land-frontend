@@ -1,7 +1,11 @@
 <template>
   <div class="inline">
-    <span class="news" v-if="news" @click="dialogVisible = true">
-    <i class="icon-newspaper" />{{ news.title }}</span>
+    <a v-if="news"
+      class="news"
+      @click="dialogVisible = true"
+      :href="`/${news.event.id || news.event}?news=${news.id}`"
+      onclick="return false;"
+    ><i class="icon-newspaper" />{{ news.title }}</a>
     <span class="news error" v-else-if="error">该新闻不存在或被隐藏</span>
     <span class="news loading" v-else><i class="el-icon-loading" /> 新闻加载中</span>
 

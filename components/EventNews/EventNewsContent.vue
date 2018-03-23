@@ -39,15 +39,17 @@
         v-on:admitted="$emit('admitted')"
         v-on:rejected="$emit('rejected')"
       />
-      <el-button
+
+      <a
         v-else-if="mode === 'quote'"
-        type="primary"
-        size="medium"
-        @click="redirect"
+        :href="`/${news.event.id || news.event}?news=${news.id}`"
+        onclick="return false;"
         class="link"
       >
-        前往新闻
-      </el-button>
+        <el-button type="primary" size="medium" @click="redirect">
+          前往新闻
+        </el-button>
+      </a>
         
       <event-news-share
         v-else
