@@ -36,6 +36,8 @@
 </template>
 
 <script>
+import EventDescription from '~/components/EventAbstract/EventAbstractDescription.vue';
+
 export default {
   props: {
     content: Number,
@@ -77,6 +79,9 @@ export default {
   },
   async created() {
     await this.getEvent();
+  },
+  components: {
+    'event-description': EventDescription,
   },
 };
 </script>
