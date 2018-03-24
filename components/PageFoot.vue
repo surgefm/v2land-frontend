@@ -1,9 +1,11 @@
 <template>
   <div class="footer">
-    <nuxt-link to="/" class="logo-container">
-      <logo class="logo-image" mode="simple" />
-      <logotype color="#0083a8" :height="32" class="logotype" />
-    </nuxt-link>
+    <div class="logo-container">
+      <nuxt-link to="/">
+        <logo class="logo-image" mode="simple" />
+        <logotype color="#0083a8" :height="32" class="logotype" />
+      </nuxt-link>
+    </div>
     <div class="content">
       <div class="about-v2land">
         <nuxt-link to="/about" class="link">关于浪潮</nuxt-link>
@@ -50,14 +52,12 @@
   }
 
   .logo-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    text-align: center;
   }
 
   .logo-image {
     height: 2rem;
-    margin-right: .5rem;
+    padding-right: .5rem;
   }
 
   .content {
