@@ -23,6 +23,8 @@
 
 <script>
   import config from '~/const';
+  import EventAbstract from '~/components/EventAbstract/EventAbstract.vue';
+  import EventNews from '~/components/EventNews/EventNews.vue';
 
   export default {
     computed: {
@@ -86,6 +88,10 @@
           image ? { hid: 'og:image', property: 'og:image', content: image } : {},
         ],
       };
+    },
+    components: {
+      'event-abstract': EventAbstract,
+      'event-news': EventNews,
     },
   };
 </script>

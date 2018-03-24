@@ -35,6 +35,8 @@
 
 <script>
   import config from '~/const';
+  import EventCard from '~/components/EventCard/EventCard.vue';
+  import EventDescription from '~/components/EventAbstract/EventAbstractDescription.vue';
 
   export default {
     data() {
@@ -47,6 +49,10 @@
       return {
         eventCollection: await store.dispatch('getEventList'),
       };
+    },
+    components: {
+      'event-card': EventCard,
+      'event-description': EventDescription,
     },
   };
 </script>

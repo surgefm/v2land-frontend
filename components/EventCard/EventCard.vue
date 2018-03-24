@@ -45,6 +45,7 @@
 
 <script>
   import config from '~/const';
+  import EventDescription from '~/components/EventAbstract/EventAbstractDescription.vue';
   import EventCardAction from '~/components/EventCard/EventCardAction.vue';
 
   export default {
@@ -95,6 +96,7 @@
       this.pageReady = 1;
     },
     components: {
+      'event-description': EventDescription,
       'event-card-action': EventCardAction,
     },
   };
