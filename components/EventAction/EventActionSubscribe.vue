@@ -2,7 +2,6 @@
   <div>
     <div
       :class="['subscribe-container', !tabLoading || 'disabled-tab']"
-      :to="'/' + this.$route.params.name + '/subscribe'"
       @click="openDialog"
       v-loading="tabLoading"
     >

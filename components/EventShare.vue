@@ -136,7 +136,13 @@
         });
       },
       edit() {
-        this.$router.push(`/${this.$route.params.name}/edit/${this.object.id}`);
+        this.$router.push({
+          name: 'name-edit-id',
+          params: {
+            name: this.event.name,
+            id: this.object.id,
+          },
+        });
       },
     },
     async created() {

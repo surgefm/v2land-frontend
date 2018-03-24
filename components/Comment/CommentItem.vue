@@ -5,6 +5,7 @@ import News from './ItemNews.vue';
 import Link from './ItemLink.vue';
 
 export default {
+  name: 'CommentItem',
   props: ['type', 'content'],
   render: function(createElement) {
     return createElement(this.type + '-item', {

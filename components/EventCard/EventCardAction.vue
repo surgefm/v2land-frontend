@@ -40,7 +40,11 @@
         });
       },
       edit() {
-        this.$router.push(`/${this.event.name}/edit?redirect=/admin/event`);
+        this.$router.push({
+          name: 'name-edit',
+          params: { name: this.event.name },
+          query: { redirect: '/admin/event' },
+        });
       },
     },
   };

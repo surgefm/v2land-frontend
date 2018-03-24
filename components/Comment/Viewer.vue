@@ -15,6 +15,7 @@ import CommentItem from './CommentItem.vue';
 import '~/assets/Comment.scss';
 
 export default {
+  name: 'CommentViewer',
   props: ['mode', 'input'],
   data() {
     return {

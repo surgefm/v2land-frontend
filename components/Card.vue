@@ -4,6 +4,10 @@
   </div>
 </template>
 
+<script>
+export default { name: 'Card' };
+</script>
+
 <style lang="scss" scoped>
   .card {
     max-width: 35rem;

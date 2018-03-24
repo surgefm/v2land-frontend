@@ -4,7 +4,7 @@
       'subscribe-container',
       $route.name !== 'name-admit' || 'exact-active-link'
     ]"
-    :to="'/' + this.$route.params.name + '/admit'"
+    :to="{ name: 'name-admit', params: { name } }"
   >
     <span v-if="pendingNews" class="event-action-badge">{{ pendingNews }}</span>
     <span class="text light-font">审核队列</span>

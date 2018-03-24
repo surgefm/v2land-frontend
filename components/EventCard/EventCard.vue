@@ -80,7 +80,10 @@
     methods: {
       cardClicked() {
         if (!this.imageClicked) {
-          return this.$router.push('/' + this.event.name);
+          return this.$router.push({
+            name: 'name',
+            params: { name: this.event.name },
+          });
         }
 
         this.imageClicked = false;

@@ -27,6 +27,7 @@
 
 <script>
 export default {
+  name: 'CommentItemNews',
   props: {
     content: Number,
   },

@@ -67,6 +67,7 @@
   import CommentViewer from '~/components/Comment/Viewer.vue';
 
   export default {
+    name: 'EventNewsContent',
     props: {
       news: Object,
       order: Number,
@@ -122,11 +123,18 @@
         return string;
       },
       redirect() {
-        this.router.push(`/${this.news.event.id || this.news.event}?news=${this.news.id}`);
+        this.router.push({
+          name: 'name',
+          params: { name: this.eventName },
+          query: { news: this.news.id },
+        });
         this.$emit('redirect');
       },
       redirectEvent() {
-        this.router.push(`/${this.eventName}`);
+        this.router.push({
+          name: 'name',
+          params: { name: this.eventName },
+        });
         this.$emit('redirect');
       },
     },
