@@ -39,8 +39,11 @@
             }
           })
           .catch((err) => {
-            console.log(err);
-            this.$message.error('服务器开小差了，神秘');
+            let message = '服务器开小差了，神秘';
+            if (err.response && err.response.data) {
+              message = err.response.data.message || message;
+            }
+            this.$message.error(message);
             this.$refs.form.resetButton();
           });
       },

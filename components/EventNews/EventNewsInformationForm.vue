@@ -114,11 +114,10 @@
             let newTime = this.form.time.getTime();
             const minutesOffset = this.form.time.getTimezoneOffset() + 480;
             newTime += minutesOffset * 60000;
-            this.form.time = new Date(newTime);
 
             this.$store.commit('setTemp', {
               label: this.data,
-              temp: this.form,
+              temp: { ...this.form, time: new Date(newTime) },
             });
             this.$emit('submit');
           }
@@ -158,7 +157,10 @@
     created() {
       if (this.mode === 'edit' && this.origData) {
         this.form = Object.assign({}, this.origData);
-        this.$set(this.form, 'time', new Date(this.origData.time));
+        let newTime = new Date(this.origData.time).getTime();
+        const minutesOffset = new Date().getTimezoneOffset() + 480;
+        newTime += minutesOffset * 60000;
+        this.$set(this.form, 'time', new Date(newTime));
       }
     },
     mounted() {

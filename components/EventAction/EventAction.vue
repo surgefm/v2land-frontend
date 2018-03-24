@@ -130,7 +130,8 @@
         return !this.isLoggingIn;
       },
       showReturn() {
-        return this.$route.name !== 'name' &&
+        return this.$route.name &&
+          this.$route.name !== 'name' &&
           this.$route.name.includes('name') &&
           this.$route.params.name !== 'admin';
       },
