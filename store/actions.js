@@ -5,7 +5,7 @@ export default {
     if (!getters.isServer) {
       for (const i in state.event) {
         if ((state.event[i].id === name || state.event[i].name === name) &&
-          state.event[i].news) {
+          state.event[i].news && state.event[i].news.length > 0) {
           return state.event[i];
         }
       }
