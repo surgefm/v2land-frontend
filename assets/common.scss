@@ -23,6 +23,10 @@ img {
   transition: opacity .2s;
 }
 
+img[src=""], img:not([src]) {
+  opacity: 0 !important;
+}
+
 img[lazy=loading] {
   opacity: 0;
 }
