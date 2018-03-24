@@ -170,7 +170,8 @@
       'form.time'(newValue, oldValue) {
         if (this.form.time && this.form.time.getTime) {
           this.form.time.setSeconds(0);
-          if (this.form.time > Date.now()) {
+          const offset = (new Date().getTimezoneOffset() + 480) * 60000 * 2;
+          if (this.form.time.getTime() > Date.now() + offset) {
             this.$set(this.form, 'time', oldValue);
             this.$message.error('新闻发布时间如何才能比现在还晚？');
           }
