@@ -23,7 +23,7 @@
           <p class="event-title">
             {{ event.name }}
           </p>
-          <event-description class="event-description light-font">
+          <event-description class="event-description light-font" :fade="true">
             {{ description }}
           </event-description>
         </div>
@@ -34,7 +34,7 @@
         <nuxt-link class="event-title" :to="'/' + event.name">
           {{ event.name }}
         </nuxt-link>
-        <event-description class="event-description">
+        <event-description class="event-description" :fade="true">
           {{ description }}
         </event-description>
         <event-card-action :event="event" v-on:update="$emit('update')" />
@@ -60,15 +60,7 @@
     },
     computed: {
       description() {
-        if (this.isAdminEvent) {
-          return this.event.description;
-        } else {
-          let text = this.event.description.slice(0, 60);
-          if (this.event.description.length > 60) {
-            text += '……';
-          }
-          return text;
-        }
+        return this.event.description;
       },
       image() {
         return config.static + '240x240/' + this.event.headerImage.imageUrl;
@@ -135,6 +127,7 @@
 
   .event-description {
     margin-top: .5rem;
+    max-height: 6rem;
   }
 
   .event-image-container {
@@ -189,6 +182,10 @@
 
     .event-text-image .description {
       margin: .5rem 1rem 1rem 1rem;
+    }
+
+    .event-description {
+      max-height: 10rem;
     }
 
     .event-image-container {
