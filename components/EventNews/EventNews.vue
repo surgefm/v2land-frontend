@@ -42,7 +42,7 @@
     },
     components: {
       'event-news-content': EventNewsContent,
-    }
+    },
   };
 </script>
 

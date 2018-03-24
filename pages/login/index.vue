@@ -55,7 +55,7 @@
     },
     components: {
       'login-method': LoginMethod,
-    }
+    },
   };
 </script>
 
