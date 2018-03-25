@@ -56,6 +56,7 @@
         rules: {
           username: [
             { required: true, message: '请输入用户名', trigger: 'blur' },
+            { validator: this.validateName, trigger: 'blur' },
           ],
           email: [
             { required: true, message: '请输入邮箱', trigger: 'blur' },
@@ -63,6 +64,7 @@
           ],
           password: [
             { required: true, message: '请输入密码', trigger: 'blur' },
+            { validator: this.validatePassword, trigger: 'blur' },
           ],
         },
       };
@@ -81,13 +83,50 @@
       },
     },
     methods: {
+      validateName(rule, value, callback) {
+        if (value.length < 2 || value.length > 16) {
+          return callback(new Error('用户名长度必须在 2-16 字符间'));
+        }
+
+        if (/\r?\n|\r| |@/.test(value)) {
+          return callback(new Error('用户名不得含回车、空格或 @ 字符'));
+        }
+
+        let allDigit = true;
+        for (const char of value) {
+          if (!/\d/.test(char)) {
+            allDigit = false;
+            break;
+          }
+        }
+        if (allDigit) {
+          return callback(new Error('用户名不得全为数字'));
+        }
+
+        callback();
+      },
+      validatePassword(rule, value, callback) {
+        if (value.length < 6) {
+          return callback(new Error('密码长度必须大于 6 个字符'));
+        }
+
+        if (!value.match(/[A-z]/i)) {
+          return callback(new Error('密码必须含有至少 1 个英文字符'));
+        }
+
+        if (!value.match(/[0-9]/)) {
+          return callback(new Error('密码必须含有至少 1 个数字'));
+        }
+
+        callback();
+      },
       submit() {
         this.$refs.form.validate((valid) => {
           if (valid) {
             this.isSubmitting = true;
             this.$axios.post('client/register', this.form)
               .then(async (res) => {
-                this.$message.success('创建成功');
+                this.$message.success('账号创建成功，请留意查收验证邮件');
                 await this.$store.dispatch('getClient');
                 this.$emit('registered');
                 this.isSubmitting = false;

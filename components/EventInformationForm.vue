@@ -77,6 +77,21 @@
     methods: {
       validateName(rule, value, callback) {
         if (this.$route.params.name === value) return callback();
+        if (/\r?\n|\r| /.test(value)) {
+          return callback(new Error('事件名不得含回车或空格'));
+        }
+
+        let allDigit = true;
+        for (const char of value) {
+          if (!/\d/.test(char)) {
+            allDigit = false;
+            break;
+          }
+        }
+        if (allDigit) {
+          return callback(new Error('事件名不得全为数字'));
+        }
+
         this.$store.dispatch('getEvent', value)
           .then((event) => {
             if (event) {
