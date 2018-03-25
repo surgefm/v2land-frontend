@@ -1,21 +1,31 @@
 <template>
   <el-form :model="form" :rules="rules" ref="form" label-width="72px">
     <el-form-item label="新闻链接" prop="url">
-      <el-input v-model="form.url" />
+      <el-input
+        v-model="form.url"
+        placeholder="http://tech.sina.com.cn/i/2017-10-27/doc-ifynfvar4544789.shtml"
+      />
     </el-form-item>
 
     <el-form-item label="标题" prop="title">
-      <el-input v-model="form.title" />
+      <el-input
+        v-model="form.title"
+        placeholder="百度财报解读:摆脱魏则西影响 两项重要指标未达预期"
+      />
     </el-form-item>
 
     <el-form-item label="来源媒体" prop="source">
-      <el-input v-model="form.source" />
+      <el-input
+        v-model="form.source"
+        placeholder="新浪科技"
+      />
     </el-form-item>
 
     <el-form-item label="摘要" prop="abstract">
       <el-input
         v-model="form.abstract"
         type="textarea"
+        placeholder="百度最终在第二季度走出了监管阴影，这也成为自2016年第一季度以来百度首次真正实现同比增长…"
         :autosize="{ minRows: 3 }"
       />
     </el-form-item>

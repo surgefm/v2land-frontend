@@ -8,16 +8,30 @@
       class="form"
     >
       <el-form-item label="用户名" prop="username">
-        <el-input v-model="form.username" />
+        <el-input
+          v-model="form.username"
+          placeholder="浪小花"
+        />
       </el-form-item>
       <el-form-item label="邮箱" prop="email">
-        <el-input v-model="form.email" />
+        <el-input
+          v-model="form.email"
+          placeholder="flower@langchao.org"
+        />
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input type="password" v-model="form.password" />
+        <el-input
+          type="password"
+          v-model="form.password"
+          placeholder="********"
+        />
       </el-form-item>
       <el-form-item label="邀请码" prop="code">
-        <el-input v-model="form.code" @keyup.enter.native="submit" />
+        <el-input
+          v-model="form.code"
+          placeholder="只有输入正确的邀请码方可创建账号"
+          @keyup.enter.native="submit"
+        />
       </el-form-item>
 
       <p class="light-font notice">

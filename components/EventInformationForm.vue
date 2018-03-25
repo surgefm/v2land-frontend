@@ -1,11 +1,19 @@
 <template>
   <el-form :model="form" :rules="rules" ref="form" label-width="90px">
     <el-form-item label="事件名" prop="name">
-      <el-input v-model="form.name" />
+      <el-input
+        v-model="form.name"
+        placeholder="百度魏则西事件"
+      />
     </el-form-item>
 
     <el-form-item label="简介" prop="description">
-      <el-input v-model="form.description" type="textarea" />
+      <el-input
+        v-model="form.description"
+        placeholder="2016 年 4 月 12 日，21 岁的魏则西因滑膜肉瘤去世，在其生前求医过程中，通过百度搜索到武警北京总队第二医院..."
+        type="textarea"
+        :autosize="{ minRows: 3 }"
+      />
     </el-form-item>
 
     <el-form-item label="事件状态" v-if="isAdmin">
