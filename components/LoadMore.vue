@@ -97,7 +97,7 @@ export default {
   }
 
   @media (max-width: 600px) {
-    .card[data-v-f883d62a] {
+    .card {
       padding: 1.5rem 1rem;
       box-shadow: 0 5px 5px rgba(0, 0, 0, .025) !important;
     }
