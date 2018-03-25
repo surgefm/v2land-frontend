@@ -25,10 +25,11 @@
       </div>
     </card>
     <event-card
-      v-for="event of eventCollection"
+      v-for="event of eventList"
       :key="event.id"
       :event="event"
     />
+    <load-more :type="'event'">加载更多</load-more>
     <page-foot class="page-foot" />
   </div>
 </template>
@@ -37,6 +38,7 @@
   import config from '~/const';
   import EventCard from '~/components/EventCard/EventCard.vue';
   import EventDescription from '~/components/EventAbstract/EventAbstractDescription.vue';
+  import LoadMore from '~/components/LoadMore.vue'
 
   export default {
     data() {
@@ -45,14 +47,18 @@
         config,
       };
     },
+    computed: {
+      eventList() {
+        return this.$store.getters.getEventList() || [];
+      },
+    },
     async asyncData({ store }) {
-      return {
-        eventCollection: await store.dispatch('getEventList'),
-      };
+      await store.dispatch('getEventList');
     },
     components: {
       'event-card': EventCard,
       'event-description': EventDescription,
+      'load-more': LoadMore,
     },
   };
 </script>

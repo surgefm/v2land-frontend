@@ -53,6 +53,10 @@ export default {
     return null;
   },
 
+  getEventList: (state) => () => {
+    return state.eventList;
+  },
+
   getNewsCollection: (state) => (name) => {
     return state.event[name]
       ? state.event[name].news

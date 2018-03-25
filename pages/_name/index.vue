@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div v-if="event">
     <background>
       <event-abstract :detail="event" />
@@ -16,6 +16,7 @@
           :event="event"
         />
       </div>
+      <load-more :type="'news'">加载更多</load-more>
       <page-foot />
     </background>
   </div>
@@ -25,6 +26,7 @@
   import config from '~/const';
   import EventAbstract from '~/components/EventAbstract/EventAbstract.vue';
   import EventNews from '~/components/EventNews/EventNews.vue';
+  import LoadMore from '~/components/LoadMore.vue'
 
   export default {
     computed: {
@@ -92,6 +94,7 @@
     components: {
       'event-abstract': EventAbstract,
       'event-news': EventNews,
+      'load-more': LoadMore,
     },
   };
 </script>

@@ -5,7 +5,7 @@ export default {
     if (!getters.isServer) {
       for (const i in state.event) {
         if ((state.event[i].id === name || state.event[i].name === name) &&
-          state.event[i].news && state.event[i].news.length > 0) {
+          state.event[i].news) {
           return state.event[i];
         }
       }
@@ -28,6 +28,7 @@ export default {
   },
 
   async getEventList({ commit, state }, { mode = 'latest', where } = {}) {
+    let eventList;
     if (mode === 'latest' || !state.event) {
       const url = $.encode('event/list');
 
@@ -40,17 +41,31 @@ export default {
             detail: event,
           });
         }
-        return data.eventList || data;
+        eventList = data.eventList || data;
       } catch (err) {
-        return [];
+        eventList = [];
       }
     } else {
-      return Object.keys(state.event).map((key) => state.event[key]);
+      eventList = Object.keys(state.event).map((key) => state.event[key]);
     }
+    commit('setEventList', eventList);
   },
 
   async getAllEventList({ dispatch }) {
     return dispatch('getEventList', { mode: 'all' });
+  },
+
+  async addEventList({commit,state}, eventList) {
+    for (const event of eventList) {
+      event.image = event['header_image'];
+      commit('setEvent', {
+        name: event.name,
+        detail: event,
+      });
+    }
+    commit('setEventList', eventList);
+    console.log(state)
+    return eventList;
   },
 
   async getNewsList({ commit, dispatch }, { where }) {
@@ -63,6 +78,17 @@ export default {
     } catch (err) {
       return [];
     }
+  },
+
+  async addNewList({commit, state}, news) {
+    const event = Object.keys(state.event);
+    const oldNew = state.event[event[0]].news;
+    const newNews = oldNew.concat(news);
+    const detail = Object.assign({},state.event[event[0]],{news: newNews});
+    commit('setEvent', {
+      name: detail.name,
+      detail: detail,
+    });
   },
 
   async getPendingNews({ commit }, name) {
