@@ -15,7 +15,7 @@ module.exports = {
       { charset: 'utf-8' },
       { 'name': 'viewport', 'content': 'width=device-width, initial-scale=1.0, shrink-to-fit=no, maximum-scale=1.0, user-scalable=no, viewport-fit=cover' },
       { name: 'lang', property: 'lang', content: 'zh-hans' },
-      { name: 'keywords', content: '浪潮,社会事件,事件,中国,追踪,社会,关注' },
+      { name: 'keywords', content: '浪潮,社会事件,事件,中国,追踪,社会,关注,langchao,v2land' },
       { hid: 'description', name: 'description', content: description },
       { hid: 't:card', name: 'twitter:card', content: 'summary' },
       { hid: 't:site', name: 'twitter:site', content: '@Wave2Land' },
@@ -29,7 +29,7 @@ module.exports = {
       { hid: 'og:site_name', name: 'og:site_name', content: '浪潮' },
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'icon', type: 'image/x-icon', href: '/icon.ico' },
     ],
   },
   /*
