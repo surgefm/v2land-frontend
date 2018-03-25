@@ -14,11 +14,10 @@
         <el-input v-model="form.email" />
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input
-          type="password"
-          v-model="form.password"
-          @keyup.enter.native="submit"
-        />
+        <el-input type="password" v-model="form.password" />
+      </el-form-item>
+      <el-form-item label="邀请码" prop="code">
+        <el-input v-model="form.code" @keyup.enter.native="submit" />
       </el-form-item>
 
       <p class="light-font notice">
@@ -66,6 +65,10 @@
             { required: true, message: '请输入密码', trigger: 'blur' },
             { validator: this.validatePassword, trigger: 'blur' },
           ],
+          code: [
+            { required: true, message: '请输入邀请码', trigger: 'blur' },
+            { validator: this.validateCode, trigger: 'blur' },
+          ],
         },
       };
     },
@@ -107,7 +110,7 @@
       },
       validatePassword(rule, value, callback) {
         if (value.length < 6) {
-          return callback(new Error('密码长度必须大于 6 个字符'));
+          return callback(new Error('密码长度必须大于 5 个字符'));
         }
 
         if (!value.match(/[A-z]/i)) {
@@ -119,6 +122,14 @@
         }
 
         callback();
+      },
+      async validateCode(rule, value, callback) {
+        try {
+          await this.$axios.get('/code?code=' + value);
+          callback();
+        } catch (err) {
+          callback(new Error('邀请码错误'));
+        }
       },
       submit() {
         this.$refs.form.validate((valid) => {
