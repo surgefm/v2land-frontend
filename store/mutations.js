@@ -12,10 +12,6 @@ export default {
     }
   },
 
-  setEventList(state, eventList) {
-    Vue.set(state,'eventList', Array.from(eventList));
-  },
-
   setSubscribeMode(state, mode) {
     Vue.set(state, 'subscribe', { ...state.subscribe, mode });
   },

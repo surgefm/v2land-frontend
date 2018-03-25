@@ -26,7 +26,7 @@
   import config from '~/const';
   import EventAbstract from '~/components/EventAbstract/EventAbstract.vue';
   import EventNews from '~/components/EventNews/EventNews.vue';
-  import LoadMore from '~/components/LoadMore.vue'
+  import LoadMore from '~/components/LoadMore.vue';
 
   export default {
     computed: {

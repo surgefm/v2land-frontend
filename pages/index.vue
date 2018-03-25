@@ -38,7 +38,7 @@
   import config from '~/const';
   import EventCard from '~/components/EventCard/EventCard.vue';
   import EventDescription from '~/components/EventAbstract/EventAbstractDescription.vue';
-  import LoadMore from '~/components/LoadMore.vue'
+  import LoadMore from '~/components/LoadMore.vue';
 
   export default {
     data() {

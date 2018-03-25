@@ -1,13 +1,21 @@
 <template>
-  <div 
-    class="news card background-color news load-more"
-    v-show="loadFlag"
+  <card
+    class="load-more"
+    v-if="isMoreAvailable"
     @click="loadMethod"
   >
     <span>
-      <slot></slot>
-      <i :class="loadIconClass?'el-icon-loading':'el-icon-refresh'"></i>
+      <slot />
+      <i :class="loading ? 'el-icon-loading' : 'el-icon-refresh'" />
     </span>
+  </card>
+  <div v-else class="ending-wrapper">
+    <div class="ending">
+      <div class="bar" />
+      <span v-if="type === 'event'">你已加载所有事件</span>
+      <span v-else>事件自此发端</span>
+      <div class="bar" />
+    </div>
   </div>
 </template>
 
@@ -16,90 +24,117 @@ export default {
   data() {
     return {
       page: 2,
-      loadIconClass: false,
+      loading: false,
       loadFlag: true,
-    }
+    };
   },
   props: {
+    event: Object,
     type: String,
+  },
+  computed: {
+    routeEvent() {
+      if (this.$route.params.name) {
+        return this.$store.getters.getEvent(this.$route.params.name);
+      }
+
+      return false;
+    },
+    isMoreAvailable() {
+      if (this.type !== 'news') return this.loadFlag;
+      if (!this.loadFlag) return false;
+
+      let event = this.event;
+      if (!event && this.routeEvent) {
+        event = this.routeEvent;
+      }
+      if (!event) return false;
+      if ((event.news || []).length < 15) return false;
+      if (!event.newsCount) return true;
+      return (event.news || []).length === event.newsCount;
+    },
   },
   methods: {
     loadMethod() {
       if (this.type === 'news') {
         this.loadNews();
-      } else if(this.type === 'event'){
+      } else if (this.type === 'event') {
         this.loadEvent();
       }
     },
     async loadNews() {
-      this.loadIconClass = true;
-      const event = Object.keys(this.$store.state.event);
-      const id = this.$store.state.event[event[0]].id;
-      const res = await this.$axios.post('/news',{
-        page: this.page,
+      this.loading = true;
+      const newsList = await this.$store.dispatch('getNewsList', {
         where: {
-          event: id,
+          event: (this.event || this.routeEvent).id,
           status: 'admitted',
-        }
+        },
+        page: this.page,
       });
-      this.loadIconClass = false;
-      if (res.data.newsList.length!=0) {
-        await this.$store.dispatch('addNewList', res.data.newsList);
+      this.loading = false;
+      if (newsList.length > 0) {
+        await this.$store.dispatch('addNewList', newsList);
         this.page++;
-      } else{
-        this.$message.warning("己加载到底部!");
+      } else {
+        this.$message.success('你已加载全部新闻');
         this.loadFlag = false;
       }
     },
     async loadEvent() {
-      this.loadIconClass = true;
-      const res = await this.$axios.post('/event/list',{
+      this.loading = true;
+      const moreEvents = await this.$store.dispatch('getEventList', {
         page: this.page,
-        where: {
-          status: 'admitted',
-        }
       });
-      this.loadIconClass = false;
-      if (res.data.eventList.length!=0) {
-        await this.$store.dispatch('addEventList', res.data.eventList);
-        this.page ++;
-      } else{
-        this.$message.warning("己加载到底部!");
+      this.loading = false;
+      if (moreEvents.length > 0) {
+        this.page++;
+      } else {
         this.loadFlag = false;
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-  .news {
-    width: 100%;
-    max-width: 35rem;
-  }
-
   .load-more {
-    max-width: 35rem;
-    width: 100%;
-    display: block;
     padding: 0.5rem 2rem;
-    margin-bottom: 1.25rem;
-    border-radius: .5rem;
-    z-index: 1000;
-    box-shadow: none;
-    transition: all .2s;
     text-align: center;
     cursor: pointer;
   }
 
-  .load-more:hover {
-    box-shadow: 0 10px 40px rgba(0, 0, 0, .075), 0 2.5px 10px rgba(0, 0, 0, .0375);
+  .load-more i {
+    margin-left: .35rem;
   }
 
-  @media (max-width: 600px) {
-    .card {
-      padding: 1.5rem 1rem;
-      box-shadow: 0 5px 5px rgba(0, 0, 0, .025) !important;
-    }
+  .ending-wrapper {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .ending {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .ending span {
+    color: #606266;
+    line-height: 1;
+    font-size: .9rem;
+  }
+
+  .bar {
+    width: 4rem;
+    height: 1.5px;
+    background-color: #c0c4cc;
+  }
+
+  .bar:first-child {
+    margin-right: .5rem;
+  }
+
+  .bar:last-child {
+    margin-left: .5rem;
   }
 </style>
