@@ -109,7 +109,7 @@ export default {
 
   .ending-wrapper {
     width: 100%;
-    margin-bottom: 1rem;
+    margin: .5rem 0 1.5rem 0;
   }
 
   .ending {
