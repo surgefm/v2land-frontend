@@ -128,7 +128,7 @@
 
   .event-description {
     margin-top: .5rem;
-    max-height: 6rem;
+    max-height: 7.2rem;
   }
 
   .event-image-container {
@@ -186,7 +186,7 @@
     }
 
     .event-description {
-      max-height: 10rem;
+      max-height: 9rem;
     }
 
     .event-image-container {

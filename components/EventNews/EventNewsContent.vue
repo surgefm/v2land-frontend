@@ -192,6 +192,7 @@
 
   .news {
     padding-top: .5rem;
+    line-height: 1.8;
   }
 
   .bottom {
