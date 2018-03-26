@@ -1,6 +1,6 @@
 <template>
   <a
-    :href="content"
+    :href="href"
     target="_blank"
     class="link"
   ><i class="icon-link" /> {{ url }}</a>
@@ -10,6 +10,9 @@
 export default {
   props: {
     content: String,
+  },
+  data() {
+    return { href: null };
   },
   computed: {
     url() {
@@ -28,6 +31,9 @@ export default {
 
       return url;
     },
+  },
+  created() {
+    this.href = '/redirect.html?to=' + encodeURIComponent(this.content);
   },
 };
 </script>
