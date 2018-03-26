@@ -23,7 +23,11 @@
           <p class="event-title">
             {{ event.name }}
           </p>
-          <event-description class="event-description light-font" :fade="true">
+          <event-description
+            class="event-description light-font"
+            :class="!fade || 'limit'"
+            :fade="fade"
+          >
             {{ description }}
           </event-description>
         </div>
@@ -34,7 +38,10 @@
         <nuxt-link class="event-title" :to="'/' + event.name">
           {{ event.name }}
         </nuxt-link>
-        <event-description class="event-description" :fade="true">
+        <event-description
+          :fade="fade"
+          :class="['event-description', !fade || 'limit']"
+        >
           {{ description }}
         </event-description>
         <event-card-action :event="event" v-on:update="$emit('update')" />
@@ -51,6 +58,7 @@
   export default {
     props: {
       event: Object,
+      fade: Boolean,
     },
     data() {
       return {
@@ -128,6 +136,9 @@
 
   .event-description {
     margin-top: .5rem;
+  }
+
+  .event-description.limit {
     max-height: 7.2rem;
   }
 
@@ -185,7 +196,7 @@
       margin: .5rem 1rem 1rem 1rem;
     }
 
-    .event-description {
+    .event-description.limit {
       max-height: 9rem;
     }
 

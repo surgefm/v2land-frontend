@@ -28,6 +28,7 @@
       v-for="event of eventList"
       :key="event.id"
       :event="event"
+      :fade="true"
     />
     <load-more :type="'event'">加载更多</load-more>
     <page-foot class="page-foot" />
