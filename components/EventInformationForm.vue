@@ -27,7 +27,7 @@
       </el-select>
     </el-form-item>
 
-    <div class="submit-button-group">
+    <div class="submit-button-group" v-if="!hideButtons">
       <el-button @click="resetForm('form')">重置</el-button>
       <el-button
         type="primary"
@@ -47,6 +47,7 @@
       data: String,
       mode: String,
       name: String,
+      hideButtons: Boolean,
     },
     data() {
       return {
@@ -109,16 +110,20 @@
             }
           });
       },
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            this.isSubmitting = true;
-            this.$store.commit('setTemp', {
-              label: this.data,
-              temp: this.form,
-            });
-            this.$emit('submit');
-          }
+      async submitForm(formName = 'form') {
+        return new Promise((resolve, reject) => {
+          this.$refs[formName].validate((valid) => {
+            if (valid) {
+              this.isSubmitting = true;
+              this.$store.commit('setTemp', {
+                label: this.data,
+                temp: this.form,
+              });
+              this.$emit('submit');
+              return resolve(true);
+            }
+            resolve(false);
+          });
         });
       },
       resetForm(formName = 'form') {

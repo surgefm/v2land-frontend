@@ -31,7 +31,7 @@
           <el-input v-model="form.sourceUrl" placeholder="（选填）" />
         </el-form-item>
 
-        <div class="submit-button-group">
+        <div class="submit-button-group" v-if="!hideButtons">
           <el-button type="text" @click="reset">重置表单</el-button>
           <el-button
             type="primary"
@@ -79,6 +79,7 @@
     },
     props: {
       'name': String,
+      'hideButtons': Boolean,
     },
     computed: {
       orig() {
@@ -105,21 +106,26 @@
         }
         return isJPG && isLt2M;
       },
-      submit() {
-        this.$refs.form.validate((valid) => {
-          if (valid) {
-            const url = $.encode(`event/${this.name}/header_image`);
-            this.$axios[this.isNew ? 'post' : 'put'](url, this.form)
-              .then(() => {
-                this.$store.dispatch('fetchEvent', this.name);
-              })
-              .then(() => {
-                this.$message.success('设置成功');
-              })
-              .catch((err) => {
-                this.$message.error(err.message);
-              });
-          }
+      async submit() {
+        return new Promise((resolve, reject) => {
+          this.$refs.form.validate((valid) => {
+            if (valid) {
+              const url = $.encode(`event/${this.name}/header_image`);
+              this.$axios[this.isNew ? 'post' : 'put'](url, this.form)
+                .then(() => {
+                  this.$store.dispatch('fetchEvent', this.name);
+                })
+                .then(() => {
+                  resolve(true);
+                })
+                .catch((err) => {
+                  this.$message.error(err.message);
+                  return resolve(false);
+                });
+            } else {
+              resolve(false);
+            }
+          });
         });
       },
       reset() {
