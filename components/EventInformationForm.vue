@@ -28,7 +28,12 @@
     </el-form-item>
 
     <div class="submit-button-group" v-if="!hideButtons">
-      <el-button @click="resetForm('form')">重置</el-button>
+      <el-button
+        @click="resetForm('form')"
+        type="text"
+      >
+        重置表单
+      </el-button>
       <el-button
         type="primary"
         @click="submitForm('form')"
