@@ -31,6 +31,7 @@
       v-if="news.comment"
       :input="news.comment"
       mode="remark"
+      class="comment-viewer"
     />
     <div class="bottom">
       <span class="bottom-date">
@@ -195,6 +196,10 @@
     line-height: 1.8 !important;
     font-size: 1rem !important;
     color: #333;
+  }
+
+  .comment-viewer {
+    padding-top: .25rem;
   }
 
   .bottom {
