@@ -31,6 +31,7 @@
       v-if="news.comment"
       :input="news.comment"
       mode="remark"
+      class="comment-viewer"
     />
     <div class="bottom">
       <span class="bottom-date">
@@ -192,6 +193,10 @@
 
   .news {
     padding-top: .5rem;
+  }
+
+  .comment-viewer {
+    padding-top: .25rem;
   }
 
   .bottom {
