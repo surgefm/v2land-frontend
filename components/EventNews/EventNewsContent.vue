@@ -16,7 +16,11 @@
         {{ news.source }}
       </span>
       <br v-if="news.source || news.tag">
-      <a v-if="news.title" :href="news.url" target="_blank" class="title">
+      <a
+        v-if="news.title"
+        :href="href"
+        target="_blank" class="title"
+      >
         {{ news.title }}
       </a>
     </div>
@@ -95,6 +99,9 @@
         }
 
         return false;
+      },
+      href() {
+        return '/redirect.html?to=' + encodeURIComponent(this.news.url);
       },
       route() {
         return this.$mockroute || this.$route;

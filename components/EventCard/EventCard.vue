@@ -83,6 +83,7 @@
       openImageSource(url) {
         this.imageClicked = true;
         if (url) {
+          url = '/redirect.html?to=' + encodeURIComponent(url);
           window.open(url, '_blank');
         }
       },
