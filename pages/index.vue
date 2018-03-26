@@ -28,6 +28,7 @@
       v-for="event of eventCollection"
       :key="event.id"
       :event="event"
+      :fade="true"
     />
     <page-foot class="page-foot" />
   </div>
