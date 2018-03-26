@@ -118,7 +118,7 @@ export default {
     const { data } = await this.$axios.get(url);
     if (!data) return false;
     await dispatch('setNews', data.news);
-    return news;
+    return data.news;
   },
 
   async setNews({ state, commit, dispatch }, news) {

@@ -192,7 +192,9 @@
 
   .news {
     padding-top: .5rem;
-    line-height: 1.8;
+    line-height: 1.8 !important;
+    font-size: 1rem !important;
+    color: #333;
   }
 
   .bottom {
