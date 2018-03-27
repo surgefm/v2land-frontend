@@ -51,4 +51,8 @@
     display: flex;
     justify-content: flex-end;
   }
+
+  .hover {
+    padding-bottom: 1.25rem;
+  }
 </style>
