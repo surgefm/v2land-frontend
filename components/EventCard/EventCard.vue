@@ -203,11 +203,12 @@
     .event-image-container {
       width: 102px;
       height: 102px;
-      margin-left: .5rem;
+      margin-left: 1rem;
       position: relative;
       float: right;
       border-radius: .25rem;
       top: .5rem;
+      right: .5rem;
     }
 
     .event-image-container span {

@@ -218,7 +218,13 @@
   }
 
   @media (max-width: 600px) {
+
+    .news {
+      padding-top: 0;
+    }
+    
     .bottom {
+      margin-top: 0;
       flex-direction: column;
       align-items: flex-end;
     }
