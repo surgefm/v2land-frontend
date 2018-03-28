@@ -253,6 +253,7 @@
     width: 1px;
     background-color: #aaa;
     position: absolute;
+    left: -.25rem;
     margin: 5% 0;
   }
 
