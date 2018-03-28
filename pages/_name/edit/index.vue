@@ -2,64 +2,93 @@
   <background>
     <card>
       <p class="tag light-font">{{ $route.params.name }}</p>
-      <event-title>修改事件</event-title>
+      <event-title>管理事件</event-title>
+      <div class="sorter">修改基本信息</div>
       <event-information-form
         mode="edit"
         :data="'EditEvent-' + $route.params.name"
         :name="$route.params.name"
+        :hideButtons="true"
         class="event-form"
-        v-on:submit="submit"
-      >
-      </event-information-form>
+        ref="information"
+      />
+      <div class="divider" />
+      <div class="sorter">修改事件题图</div>
+      <event-image-form
+        ref="image"
+        :name="$route.params.name"
+        :hideButtons="true"
+      />
+      <div class="submit-button-group">
+        <el-button type="text" @click="reset">重置表单</el-button>
+        <el-button
+          type="primary"
+          @click="submit"
+        >
+          提交
+        </el-button>
+      </div>
     </card>
-    <event-action></event-action>
-    <logo class="logo"></logo>
-    <page-foot/>
+    <page-foot />
   </background>
 </template>
 
 <script>
-  import EventInformationForm from '~/components/EventInformationForm.vue'
+  import EventInformationForm from '~/components/EventInformationForm.vue';
+  import EventImageForm from '~/components/EventCard/EventImageForm.vue';
 
   export default {
     components: {
-      'event-information-form': EventInformationForm
+      'event-information-form': EventInformationForm,
+      'event-image-form': EventImageForm,
     },
     methods: {
-      submit () {
-        let data = this.$store.state.temp['EditEvent-' + this.$route.params.name]
-        this.$store.dispatch('editEvent', {
-          name: this.$route.params.name,
-          data
-        })
-          .then(() => {
-            this.$store.dispatch('fetchEvent', this.$route.params.name)
+      async submit() {
+        const info = await this.$refs.information.submitForm();
+        const image = await this.$refs.image.submit();
+        if (info) {
+          const data = this.$store.state.temp['EditEvent-' + this.$route.params.name];
+          this.$store.dispatch('editEvent', {
+            name: this.$route.params.name,
+            data,
           })
-          .then(() => {
-            this.$message('修改成功')
-            let url = this.$route.query.redirect || `/${this.$route.params.name}`
-            this.$router.push(url)
-          })
-      }
-    },
-    beforeRouteEnter: (to, from, next) => {
-      next(vm => {
-        if (!vm.$store.getters.isClientAdmin) {
-          vm.$message.error('你无权访问该页面')
-          vm.$router.push('/' + vm.$route.params.name)
+            .then(() => {
+              this.$store.dispatch('fetchEvent', this.$route.params.name);
+            })
+            .then(() => {
+              this.$message.success('修改成功');
+              this.$refs.information.submitted();
+            })
+            .catch((err) => {
+              console.error(err);
+              this.$message.error(err.message || '发生了未知错误');
+              this.$refs.information.submitted();
+            });
         }
-      })
+        if (image && !info) {
+          this.$message.success('修改成功');
+        }
+      },
+      reset() {
+        this.$refs.information.resetForm();
+        this.$refs.image.reset();
+      },
     },
-    async asyncData ({ route, store }) {
-      return store.dispatch('getEvent', route.params.name)
-    }
-  }
+    async asyncData({ route, store }) {
+      return store.dispatch('getEvent', route.params.name);
+    },
+    head() {
+      return {
+        title: '管理事件 - ' + this.$route.params.name,
+      };
+    },
+  };
 </script>
 
 <style lang="scss" scoped>
-  .tag {
-    font-size: .9rem;
-    margin-right: .5rem;
+  .sorter {
+    width: 100%;
+    text-align: left;
   }
 
   .event-form {

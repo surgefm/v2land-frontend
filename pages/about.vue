@@ -14,45 +14,45 @@
       <p>浪潮，或许此刻退下沙滩，可我们知道，它终将重回土地。</p>
       <div class="image-container">
         <nuxt-link to="/">
-          <img src="//assets.v2land.net/icon.svg" onload="this.id = 'show'">
+          <logo mode="simple" />
         </nuxt-link>
       </div>
     </card>
-    <logo class="logo"></logo>
-    <page-foot/>
+    <page-foot />
   </background>
 </template>
 
 <script>
   export default {
-    head () {
+    head() {
       return {
         title: '关于浪潮',
         meta: [
           { hid: 't:title', name: 'twitter:title', content: '关于浪潮' },
-          { hid: 'og:title', property: 'og:title', content: '关于浪潮' }
-        ]
-      }
-    }
-  }
+          { hid: 'og:title', property: 'og:title', content: '关于浪潮' },
+        ],
+      };
+    },
+  };
 </script>
 
 <style lang="scss" scoped>
   p, ol {
-    margin-top: 1rem;
+    margin-top: .75rem;
+    line-height: 1.8;
   }
 
   .tag {
-    margin-top: 0;
+    line-height: 1;
   }
 
   .image-container {
     display: flex;
     justify-content: flex-end;
+    margin: 1rem 1rem 1.5rem 1rem;
   }
 
-  img {
+  .image-container * {
     height: 1.5rem;
-    margin: 1rem;
   }
 </style>

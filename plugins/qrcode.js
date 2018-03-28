@@ -1,4 +1,4 @@
-import Vue from 'vue'
-import VueQrcode from '@xkeshi/vue-qrcode'
+import Vue from 'vue';
+import VueQrcode from '@xkeshi/vue-qrcode';
 
-Vue.component('qrcode', VueQrcode)
+Vue.component('qrcode', VueQrcode);

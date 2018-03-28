@@ -1,0 +1,159 @@
+@import "variables";
+
+/** Viewer **/
+.editor {
+  overflow: hidden;
+  display: block;
+  margin-bottom: .25rem;
+  min-height: 85.5px;
+}
+
+.editor.viewer {
+  min-height: 0;
+  font-size: 1rem;
+  color: #333;
+}
+
+.ProseMirror {
+  width: 100%;
+  padding: 5px 15px;
+  border: 1px solid #d8dce5;
+  border-radius: 4px;
+  min-height: 85.5px;
+  font-size: 14px;
+  color: #5a5e66;
+}
+
+.ProseMirror:hover {
+  border-color: #b3bccc;
+}
+
+.ProseMirror:focus {
+  border-color: #22A7F0;
+}
+
+.ProseMirror .empty-editor::before,
+.ProseMirror .empty-comment::before {
+  float: left;
+  color: #d8dce5;
+  pointer-events: none;
+  height: 0;
+}
+
+.ProseMirror p.empty-editor:first-child::before {
+  content: '（选填）请输入新闻备注';
+}
+
+.ProseMirror p.empty-comment:first-child::before {
+  content: '有什么想法想和大家讨论？';
+}
+
+.editor, .editor * {
+  transition: background-color .2s, border-color .2s, border-radius .2s;
+  line-height: 1.6 !important;
+  text-align: left;
+}
+
+.editor .inline {
+  display: inline;
+}
+
+.editor .text {
+  font-size: 14px;
+}
+
+.editor .text,
+.editor .news,
+.editor .event,
+.editor .inline,
+.editor .link {
+  margin-right: .25rem;
+}
+
+.ProseMirror-selectednode {
+  margin-right: .25rem;
+}
+
+.ProseMirror-selectednode .inline {
+  margin-right: 0;
+}
+
+.editor .inline * {
+  line-height: 1.5;
+}
+
+.editor .event,
+.editor .news,
+.editor .link {
+  box-decoration-break: clone;
+}
+
+.editor .remark {
+  color: $light-color;
+  font-size: .8rem;
+}
+
+.comment-news .el-dialog__body,
+.comment-event .el-dialog__body {
+  padding: 0 2rem 1rem 2rem;
+}
+
+.comment-news .el-dialog__headerbtn,
+.comment-event .el-dialog__headerbtn {
+  z-index: 3000;
+}
+
+.editor-control {
+  display: flex;
+}
+
+.editor-control .control-button {
+  padding: 4px 8px;
+  margin-right: 4px;
+  font-size: 14px;
+  color: #5a5e66;
+  user-select: none;
+  border-radius: 4px;
+  transition: all .1s;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.editor-control .control-button i {
+  margin-right: .25rem;
+  font-size: 16px;
+}
+
+.editor-control .control-button .icon-newspaper {
+  font-size: 18px;
+  margin-right: .4rem;
+}
+
+.editor-control .control-button:hover {
+  background-color: #f7f8fb;
+}
+
+.editor-quote-form {
+  display: flex;
+}
+
+.editor-quote-form .el-input:first-child,
+.editor-quote-form .el-autocomplete:first-child {
+  margin-right: .25rem;
+}
+
+.editor-quote-form .el-button-small {
+  padding: 9px;
+}
+
+@media (max-width: 600px) {
+  .comment-news .el-dialog__body,
+  .comment-event .el-dialog__body {
+    padding: 0 1rem 1rem 1rem;
+  }
+
+  .editor-control .control-button * {
+    font-size: .7rem !important;
+  }
+}

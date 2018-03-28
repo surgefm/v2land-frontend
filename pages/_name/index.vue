@@ -1,180 +1,102 @@
-<template>
+﻿<template>
   <div v-if="event">
-    <logo class="logo" />
     <background>
       <event-abstract :detail="event" />
       <div 
         v-for="(news, i) of newsCollection"
         :key="news.id"
         :id="'i' + news.id"
-        :class="[
-          'news',
-          showNewsAboveCover(news) ? 'above-cover' : '',
-          hideNews(news) ? 'hide-news' : ''
-        ]"
+        class="news"
       >
-        <div class="news" @click="activeNews = news.id">
-          <event-news
-            :news="news"
-            :order="i + 1"
-            :id="'main-i' + news.id"
-          />
-        </div>
-        <div
-          class="news"
-          v-if="showNewsAboveCover(news)"
-          @click="clickAnchoredNews(anchoredNews)"
-        >
-          <event-news :news="anchoredNews" />
-        </div>
+        <event-news
+          class="news" 
+          :news="news"
+          :order="i + 1"
+          :id="'main-i' + news.id"
+          :event="event"
+        />
       </div>
-      <div
-        :class="[
-          'cover',
-          showCover ? 'shadow-cover' : ''
-        ]"
-        @click="removeCover"
-      />
+      <load-more :type="'news'">加载更多</load-more>
       <page-foot />
     </background>
-    <event-action />
   </div>
 </template>
 
 <script>
-  import $ from 'postman-url-encoder'
-  import config from '~/const'
+  import config from '~/const';
+  import EventAbstract from '~/components/EventAbstract/EventAbstract.vue';
+  import EventNews from '~/components/EventNews/EventNews.vue';
+  import LoadMore from '~/components/LoadMore.vue';
 
   export default {
-    data () {
-      return {
-        activeNews: null
-      }
-    },
     computed: {
-      name () {
-        return this.$route.params.name
+      name() {
+        return this.$route.params.name;
       },
-      event () {
-        return this.$store.getters.getEvent(this.name)
+      event() {
+        return this.$store.getters.getEvent(this.name);
       },
-      newsCollection () {
-        return this.$store.getters.getNewsCollection(this.name)
+      newsCollection() {
+        return this.$store.getters.getNewsCollection(this.name);
       },
-      image () {
-        return config.static + this.event.image.imageUrl
+      image() {
+        return config.static + this.event.headerImage.imageUrl;
       },
-      showCover () {
-        return this.activeNews &&
-          this.$route.hash &&
-          this.$route.hash !== '#timeline'
-      },
-      hash () {
-        if (this.$route.hash) {
-          return this.$route.hash.slice(1)
-        } else {
-          return null
-        }
-      },
-      anchoredNews () {
-        let hash = this.$route.hash
-        if (hash) {
-          hash = hash.slice(1)
-          let name = this.$route.params.name
-          let news = this.$store.getters.getNews({
-            name,
-            id: hash
-          })
-          if (news) {
-            let copy = Object.assign({}, news)
-            copy.tag = '相关新闻'
-            return copy
-          }
-        }
-        return null
-      }
     },
     methods: {
-      showNewsAboveCover (news) {
-        let show = this.showCover && news.id === this.activeNews
-        if (show) {
-          try {
-            setTimeout(() => {
-              let element = document.getElementById('i' + this.activeNews)
-              if (element) {
-                element.scrollIntoView()
-                window.scrollBy(0, -50)
-              }
-            }, 50)
-          } catch (e) {}
-        }
-
-        return show
-      },
-      hideNews (news) {
-        return this.showCover && news.id === this.$route.hash.slice(1)
-      },
-      clickAnchoredNews (news) {
-        setTimeout(() => {
-          if (this.hash !== news.id) {
-            this.activeNews = news.id
-          }
-        }, 50)
-      },
-      removeCover () {
-        this.activeNews = null
-        window.location.hash = 'timeline'
-      }
-    },
-    async asyncData ({ store, params, redirect, route }) {
-      let event = await store.dispatch('getEvent', params.name)
-      if (!event) {
-        return redirect('/')
-      }
-      if (event.name !== params.name) {
-        return redirect($.encode('/' + event.name +
-          (route.query.news ? ('?news=' + route.query.news) : '')
-        ))
-      }
-      return {}
-    },
-    mounted () {
-      window.location.hash = 'timeline'
-      if (this.$route.query.news && document) {
-        window.onload = () => {
+      scrollToNews() {
+        if (this.$route.query.news && document) {
           setTimeout(() => {
-            let element = document.getElementById(this.$route.query.news)
-            let news = document.getElementById('main-' + this.$route.query.news)
+            const element = document.getElementById('i' + this.$route.query.news);
+            const news = document.getElementById('main-i' + this.$route.query.news);
             if (element) {
-              element.scrollIntoView()
-              window.scrollBy(0, -50)
-              news.className += ' emphasize'
+              element.scrollIntoView();
+              window.scrollBy(0, -50);
+              news.className += ' emphasize';
             }
-          }, 100)
+          }, 50);
         }
-      }
+      },
     },
-    head () {
-      let title = this.name + ' - 浪潮，渴望重回土地'
-      let image = this.event
-        ? (this.event.image ? this.image : null)
-        : null
-      let description = this.event
+    async asyncData({ store, params, redirect, route }) {
+      await store.dispatch('getEvent', params.name);
+      return {};
+    },
+    mounted() {
+      this.scrollToNews();
+    },
+    watch: {
+      '$route.query.news'() {
+        this.scrollToNews();
+      },
+    },
+    head() {
+      const title = this.name + ' - 浪潮，你的社会事件追踪工具';
+      const image = this.event
+        ? (this.event.headerImage ? this.image : null)
+        : null;
+      const description = this.event
         ? this.event.description
-        : null
+        : null;
       return {
         title,
         meta: [
+          description ? { hid: 'description', name: 'description', content: description } : {},
           { hid: 't:title', name: 'twitter:title', content: title },
           { hid: 'og:title', property: 'og:title', content: title },
           description ? { hid: 't:description', name: 'twitter:description', content: description } : {},
           description ? { hid: 'og:description', property: 'og:description', content: description } : {},
           image ? { hid: 't:image', name: 'twitter:image', content: image } : {},
-          image ? { hid: 'og:image', property: 'og:image', content: image } : {}
-        ]
-      }
-    }
-  }
+          image ? { hid: 'og:image', property: 'og:image', content: image } : {},
+        ],
+      };
+    },
+    components: {
+      'event-abstract': EventAbstract,
+      'event-news': EventNews,
+      'load-more': LoadMore,
+    },
+  };
 </script>
 
 <style lang="scss" scoped>
