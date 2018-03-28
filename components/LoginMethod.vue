@@ -6,9 +6,10 @@
           <div class="oval red"> 
             <div class="inner-oval">
               <img width="64" height="52" :src="getSource('Sina_Weibo.svg')" />
+              <div class="small-screen login-text weibo-login unselectable">微博登录</div>
             </div>
           </div>
-          <div class="login-text weibo-login unselectable">微博登录</div>
+          <div class="large-screen login-text weibo-login unselectable">微博登录</div>
         </div>
       </div>
 
@@ -17,9 +18,10 @@
           <div class="oval blue">
             <div class="inner-oval twitter">
               <i class="icon-twitter" />
+              <div class="small-screen login-text twitter-login unselectable">Twitter 登录</div>
             </div>
           </div>
-          <div class="login-text twitter-login unselectable">Twitter 登录</div>
+          <div class="large-screen login-text twitter-login unselectable">Twitter 登录</div>
         </div>
       </div>
 
@@ -28,11 +30,23 @@
           <div class="oval grey">
             <div class="inner-oval email">
               <logo mode="simple" class="email-logo" />
+              <div class="small-screen login-text email-login unselectable">邮箱账号登录</div>
             </div>
           </div>
-          <div class="login-text email-login unselectable">邮箱账号登录</div>
+          <div class="large-screen login-text email-login unselectable">邮箱账号登录</div>
         </div>
       </div>
+    </div>
+
+    <div class="register">
+      <nuxt-link class="register-link" :to="{
+        name: 'register',
+        query: {
+          redirect: redirectTo,
+        },
+      }">
+        新用户？创建账号<i class="el-icon-caret-right" />
+      </nuxt-link>
     </div>
   </div>
 </template>
@@ -49,6 +63,16 @@ export default {
     availableMethods: {
       type: Array,
       default: [],
+    },
+  },
+
+  computed: {
+    redirectTo() {
+      let redirect = this.$route.query.redirect || this.redirect || '/';
+      if (redirect[0] !== '/') {
+        redirect = '/' + redirect;
+      }
+      return redirect;
     },
   },
 
@@ -70,11 +94,7 @@ export default {
     },
     loginEmail() {
       let path = '/login/email';
-      let redirect = this.$route.query.redirect || this.redirect || '/';
-      if (redirect[0] !== '/') {
-        redirect = '/' + redirect;
-      }
-      path += '?redirect=' + redirect;
+      path += '?redirect=' + this.redirectTo;
       this.$router.push(path);
     },
   },
@@ -196,5 +216,58 @@ export default {
     align-content: center;
     justify-content: space-around;
     margin-bottom: 12px;
+  }
+
+  .register {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .register-link {
+    color: #888 !important;
+    font-size: 14px;
+  }
+
+  @media (max-width: 600px) {
+    .large-screen {
+      display: none;
+    }
+
+    .method-item {
+      width: 100%;
+      margin-bottom: .25rem;
+    }
+
+    .method-item .oval {
+      height: 3.5rem;
+    }
+
+    .method-item .oval,
+    .method-item .inner-oval {
+      width: 100%;
+      border-radius: .125rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: .25rem;
+    }
+
+    .method-item .inner-oval {
+      margin: 0;
+      height: 3rem;
+    }
+
+    .inner-oval i, .inner-oval img {
+      height: 1.5rem;
+      font-size: 1.5rem;
+      line-height: 1;
+      width: 2rem;
+      text-align: center;
+    }
+
+    .inner-oval .login-text {
+      margin: 0;
+      min-width: 7rem;
+    }
   }
 </style>
