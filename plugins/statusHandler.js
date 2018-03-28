@@ -24,6 +24,16 @@ export default async ({ app, route, redirect, store }) => {
       app.$message.success(`成功绑定账号 @${query.auth_name}`);
       delete query.auth_name;
       break;
+    case 'verify_successfully':
+      app.$message.success('成功验证邮箱');
+      break;
+    case 'missing_verification_parameter':
+      app.$message.error('缺少验证参数，请确认链接是否正确并完整');
+      break;
+    case 'verification_failed':
+      app.$message.error('邮箱验证失败：' + query.error_message);
+      delete query.error_message;
+      break;
     }
 
     delete query.status;
