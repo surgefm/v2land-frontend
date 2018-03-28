@@ -4,7 +4,7 @@
       :model="form"
       :rules="rules"
       ref="form"
-      label-width="80px"
+      label-width="58px"
       class="form"
     >
       <el-form-item label="用户名" prop="username">

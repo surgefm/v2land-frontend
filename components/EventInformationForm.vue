@@ -1,5 +1,5 @@
 <template>
-  <el-form :model="form" :rules="rules" ref="form" label-width="90px">
+  <el-form :model="form" :rules="rules" ref="form" label-width="80px">
     <el-form-item label="事件名" prop="name">
       <el-input
         v-model="form.name"

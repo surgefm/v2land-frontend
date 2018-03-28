@@ -131,6 +131,7 @@ export default {
 
   .comment-event .description {
     margin: .5rem 0 1rem 0;
+    font-size: 1rem;
   }
 
   .icon-event_available {

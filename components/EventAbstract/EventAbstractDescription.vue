@@ -23,6 +23,11 @@
     position: relative;
   }
 
+  span {
+    line-height: 1.8 !important;
+    display: block;
+  }
+
   .fade {
     content: "";
     text-align: right;
@@ -30,7 +35,7 @@
     bottom: 0;
     right: 0;
     width: 5rem;
-    height: 2rem;
+    height: 1.8rem;
     background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 90%);
   }
 

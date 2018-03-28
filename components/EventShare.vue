@@ -161,7 +161,7 @@
   }
 
   .event-share {
-    margin-top: 1rem;
+    margin-top: .5rem;
   }
 
   .border-color {

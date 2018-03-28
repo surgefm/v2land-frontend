@@ -10,6 +10,8 @@
 
 .editor.viewer {
   min-height: 0;
+  font-size: 1rem;
+  color: #333;
 }
 
 .ProseMirror {
@@ -48,7 +50,7 @@
 
 .editor, .editor * {
   transition: background-color .2s, border-color .2s, border-radius .2s;
-  line-height: 1.55;
+  line-height: 1.6 !important;
   text-align: left;
 }
 

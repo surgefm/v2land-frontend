@@ -193,6 +193,9 @@
 
   .news {
     padding-top: .5rem;
+    line-height: 1.8 !important;
+    font-size: 1rem !important;
+    color: #333;
   }
 
   .comment-viewer {
@@ -215,7 +218,13 @@
   }
 
   @media (max-width: 600px) {
+
+    .news {
+      padding-top: 0;
+    }
+    
     .bottom {
+      margin-top: 0;
       flex-direction: column;
       align-items: flex-end;
     }

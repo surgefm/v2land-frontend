@@ -95,8 +95,10 @@ export default {
 
   cleanAll(state) {
     for (const i in cleanState) {
-      if (typeof i === 'string') {
-        Vue.set(state[i], { ...cleanState[i] });
+      if (Array.isArray(cleanState[i])) {
+        Vue.set(state, i, Array.from(cleanState[i]));
+      } else {
+        Vue.set(state, i, { ...cleanState[i] });
       }
     }
   },

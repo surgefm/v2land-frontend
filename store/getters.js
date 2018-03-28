@@ -53,6 +53,20 @@ export default {
     return null;
   },
 
+  getEventList: (state) => (filter = () => true) => {
+    const eventList = [];
+    for (const name of Object.keys(state.event)) {
+      if (typeof state.event[name] === 'object' &&
+        state.event[name].name && filter(state.event[name])) {
+        eventList.push(state.event[name]);
+      }
+    }
+    eventList.sort((a, b) => {
+      return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+    });
+    return eventList;
+  },
+
   getNewsCollection: (state) => (name) => {
     return state.event[name]
       ? state.event[name].news

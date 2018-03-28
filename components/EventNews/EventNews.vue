@@ -1,5 +1,5 @@
 <template>
-  <card v-if="news" class="news-container">
+  <card v-if="news" class="news-wrapper">
     <span
       v-if="order"
       v-clipboard="newsUrl"
@@ -46,8 +46,9 @@
 <style lang="scss" scoped>
   @import "../../assets/variables.scss";
 
-  .news-container {
+  .news-wrapper {
     position: relative;
+    padding: 1rem 2rem;
   }
 
   .order {
@@ -56,7 +57,7 @@
     line-height: 1;
     position: absolute;
     right: calc(100% - 1.25rem);
-    top: 1.5rem;
+    top: 1rem;
     font-family: 'Times New Roman', Times, serif;
     cursor: pointer;
     font-weight: 900;
@@ -84,6 +85,10 @@
       height: 4rem;
       float: left;
       text-shadow: none !important;
+    }
+
+    .news-wrapper {
+      padding: .75rem 1rem;
     }
   }
 </style>

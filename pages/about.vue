@@ -38,7 +38,12 @@
 
 <style lang="scss" scoped>
   p, ol {
-    margin-top: 1rem;
+    margin-top: .75rem;
+    line-height: 1.8;
+  }
+
+  .tag {
+    line-height: 1;
   }
 
   .image-container {

@@ -1,5 +1,5 @@
 <template>
-  <div class="card background-color">
+  <div class="card background-color" @click="$emit('click')">
     <slot />
   </div>
 </template>
@@ -27,7 +27,7 @@ export default { name: 'Card' };
 
   @media (max-width: 600px) {
     .card {
-      padding: 1.5rem 1rem;
+      padding: .75rem 1rem;
       box-shadow: 0 5px 5px rgba(0,0,0,.025) !important;
     }
   }

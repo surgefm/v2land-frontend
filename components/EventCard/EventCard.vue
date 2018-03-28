@@ -119,12 +119,12 @@
   .event-text {
     width: 100%;
     padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
   }
 
   .event-text-image {
     padding-right: 13.5rem;
-    position: relative;
-    overflow: hidden;
   }
 
   .event-title {
@@ -139,7 +139,7 @@
   }
 
   .event-description.limit {
-    max-height: 6rem;
+    max-height: 7.2rem;
   }
 
   .event-image-container {
@@ -197,17 +197,18 @@
     }
 
     .event-description.limit {
-      max-height: 10rem;
+      max-height: 9rem;
     }
 
     .event-image-container {
       width: 102px;
       height: 102px;
-      margin-left: .5rem;
+      margin-left: 1rem;
       position: relative;
       float: right;
       border-radius: .25rem;
       top: .5rem;
+      right: .5rem;
     }
 
     .event-image-container span {
