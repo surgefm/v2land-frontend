@@ -119,12 +119,12 @@
   .event-text {
     width: 100%;
     padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
   }
 
   .event-text-image {
     padding-right: 13.5rem;
-    position: relative;
-    overflow: hidden;
   }
 
   .event-title {

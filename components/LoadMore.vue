@@ -49,9 +49,8 @@ export default {
         event = this.routeEvent;
       }
       if (!event) return false;
-      if ((event.news || []).length < 15) return false;
       if (!event.newsCount) return true;
-      return (event.news || []).length === event.newsCount;
+      return (event.news || []).length < event.newsCount;
     },
   },
   methods: {
@@ -88,7 +87,8 @@ export default {
       this.loading = false;
       if (moreEvents.length > 0) {
         this.page++;
-      } else {
+      }
+      if (moreEvents.length < 10) {
         this.loadFlag = false;
       }
     },
