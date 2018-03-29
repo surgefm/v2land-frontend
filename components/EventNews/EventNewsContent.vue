@@ -288,7 +288,7 @@
     }
     
     .bottom {
-      margin-top: 0;
+      margin-top: .25rem;
       flex-direction: column;
       align-items: flex-end;
     }
