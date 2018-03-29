@@ -27,6 +27,8 @@
 </template>
 
 <script>
+  import EventNews from '~/components/EventNews/EventNews.vue';
+
   export default {
     computed: {
       name() {
@@ -78,6 +80,9 @@
         await store.dispatch('getEvent', route.params.name);
         return store.dispatch('getPendingNews', route.params.name);
       }
+    },
+    components: {
+      'event-news': EventNews,
     },
   };
 </script>
