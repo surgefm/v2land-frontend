@@ -173,6 +173,10 @@ img[lazy=loaded] {
   border-radius: .5rem !important;
 }
 
+.el-dialog__body {
+  padding: 15px 30px !important;
+}
+
 .el-popover {
   max-width: 95%;
 }
@@ -196,10 +200,6 @@ img[lazy=loaded] {
     display: none;
   }
 
-  .el-dialog {
-    width: 85% !important;
-  }
-
   .small-screen {
     visibility: visible;
     width: auto;
@@ -213,6 +213,7 @@ img[lazy=loaded] {
   }
 
   .el-dialog {
+    width: 85% !important;
     margin-top: 7.5vh !important;
   }
 }
