@@ -169,7 +169,7 @@ export default {
   }
 
   .line:first-child {
-    height: .65rem;
+    height: .67rem;
   }
 
   .line:last-child {
