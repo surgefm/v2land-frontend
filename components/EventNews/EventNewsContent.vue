@@ -20,6 +20,11 @@
         v-if="news.title"
         :href="href"
         target="_blank" class="title"
+        v-analytics="{
+          action: 'linkClick',
+          label: 'newsUrl',
+          value: news.id,
+        }"
       >
         {{ news.title }}
       </a>
@@ -50,6 +55,11 @@
         <span
           class="bottom-history"
           @click="contribDialogVisible = true"
+          v-analytics="{
+            action: 'buttonClick',
+            label: 'newsContributionRecord',
+            value: news.id,
+          }"
         >
           编辑记录
         </span>

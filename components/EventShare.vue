@@ -32,6 +32,12 @@
       v-for="site of share"
       :href="shareTo(site)"
       :key="object.id + ': ' + site"
+      v-analytics="{
+        type: 'social',
+        network: site,
+        action: 'share',
+        target: shareUrl,
+      }"
       onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
       <span
         :class="[
@@ -42,7 +48,15 @@
         ]"
       />
     </a>
-    <a v-popover:wechat-popover>
+    <a
+      v-popover:wechat-popover
+      v-analytics="{
+        type: 'social',
+        network: 'wechat',
+        action: 'share',
+        target: shareUrl,
+      }"
+    >
       <span :class="['icon-wechat', type, 'border-color', 'icon-container']" />
     </a>
     <div class="icon-container" v-if="type === 'news' && isClientAdmin">

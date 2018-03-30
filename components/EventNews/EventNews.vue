@@ -3,6 +3,11 @@
     <span
       v-if="order"
       v-clipboard="newsUrl"
+      v-analytics="{
+        action: 'buttonClick',
+        label: 'newsOrderNumber',
+        value: news.id
+      }"
       @success="copySuccess"
       class="order light-font"
     >

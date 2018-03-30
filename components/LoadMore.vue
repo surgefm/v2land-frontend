@@ -3,6 +3,11 @@
     class="load-more"
     v-if="isMoreAvailable"
     @click="loadMethod"
+    v-analytics="{
+      action: 'buttonClick',
+      label: type + 'LoadMore',
+      value: type === 'event' ? page : (`${routeEvent} ${page}`)
+    }"
   >
     <span>
       <slot />

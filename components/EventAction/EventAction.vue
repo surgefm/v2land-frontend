@@ -6,12 +6,14 @@
         :action="`event-action-${tab}`"
         :key="tab"
         :class="[displayList.tab.length > 2 || 'two-tabs']"
+        v-analytics="{ action: 'tabClick', label: tab }"
       />
       <action-item
         v-for="tab of displayList.dropdown"
         :action="`event-action-${tab}`"
         class="small"
         :key="tab"
+        v-analytics="{ action: 'tabClick', label: tab }"
       />
       <el-dropdown trigger="click" placement="top-end" :show-timeout="0">
         <a>
@@ -22,7 +24,11 @@
         </a>
         <el-dropdown-menu slot="dropdown" class="action-dropdown large">
           <el-dropdown-item v-for="item of displayList.dropdown" :key="item">
-            <action-item :action="`event-action-${item}`" type="dropdown" />
+            <action-item
+              :action="`event-action-${item}`"
+              type="dropdown"
+              v-analytics="{ action: 'tabClick', label: item }"
+            />
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>

@@ -7,6 +7,11 @@
       @click="cardClicked"
       class="link"
       v-if="!isAdminEvent"
+      v-analytics="{
+        action: 'buttonClick',
+        label: 'goToEvent',
+        value: event.id,
+      }"
     >
       <div class="event-container">
         <div :class="['event-text', !event.headerImage || 'event-text-image']">

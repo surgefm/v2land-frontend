@@ -13,12 +13,19 @@
       </event-description>
       <div class="title-button-container">
         <nuxt-link to="/new">
-          <el-button class="title-button">
+          <el-button
+            class="title-button"
+            v-analytics="{ action: 'buttonClick', label: 'postEvent' }"
+          >
             创建事件
           </el-button>
         </nuxt-link>
         <nuxt-link to="/about">
-          <el-button class="title-button" type="primary">
+          <el-button
+            class="title-button"
+            type="primary"
+            v-analytics="{ action: 'buttonClick', label: 'aboutV2land' }"
+          >
             了解浪潮
           </el-button>
         </nuxt-link>
