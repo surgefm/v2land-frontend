@@ -110,7 +110,8 @@ export default {
 
   async getNews({ state, dispatch, getters }, id) {
     const found = getters.getNews({ id });
-    if (found) {
+    if (found && found.contribution && found.contribution[0] &&
+      found.contribution[0].data) {
       return found;
     }
 

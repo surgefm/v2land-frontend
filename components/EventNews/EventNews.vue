@@ -13,6 +13,8 @@
       :order="order"
       :mode="mode"
       :event="event"
+      v-on:admitted="$emit('admitted')"
+      v-on:rejected="$emit('rejected')"
     />
   </card>
 </template>

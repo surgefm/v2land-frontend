@@ -34,9 +34,26 @@
       class="comment-viewer"
     />
     <div class="bottom">
-      <span class="bottom-date">
-        {{ getString(news.time) }}
-      </span>
+      <div class="bottom-left">
+        <el-tooltip
+          :content="getString('ymdhm')"
+          placement="bottom"
+        >
+          <span
+            class="bottom-date"
+            v-clipboard="newsUrl"
+            @success="$message.success('已将该新闻分享链接拷贝至剪贴板')"
+          >
+            {{ getString() }}
+          </span>
+        </el-tooltip>
+        <span
+          class="bottom-history"
+          @click="contribDialogVisible = true"
+        >
+          编辑记录
+        </span>
+      </div>
       <event-news-admit
         class="news-share"
         v-if="mode === 'admit'"
@@ -63,13 +80,26 @@
         type="news"
       />
     </div>
+
+    <el-dialog
+      title="新闻编辑记录"
+      :visible.sync="contribDialogVisible"
+      :append-to-body="true"
+    >
+      <event-news-contribution :news="news" />
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="contribDialogVisible = false">关闭</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+  import EventNewsContribution from '~/components/EventNews/EventNewsContribution.vue';
   import EventNewsAdmit from '~/components/EventNews/EventNewsAdmit.vue';
   import EventNewsShare from '~/components/EventShare.vue';
   import CommentViewer from '~/components/Comment/Viewer.vue';
+  import config from '~/const';
 
   export default {
     name: 'EventNewsContent',
@@ -82,6 +112,7 @@
     data() {
       return {
         eventName: this.event ? this.event.name : '',
+        contribDialogVisible: false,
       };
     },
     computed: {
@@ -101,6 +132,17 @@
 
         return false;
       },
+      date() {
+        let newTime = new Date(this.news.time).getTime();
+        const minutesOffset = new Date().getTimezoneOffset() + 480;
+        newTime += minutesOffset * 60000;
+        return new Date(newTime);
+      },
+      newsUrl() {
+        return config.baseUrl +
+          (this.news.event.id || this.news.event) +
+          '?news=' + this.news.id;
+      },
       href() {
         return '/redirect.html?to=' + encodeURIComponent(this.news.url);
       },
@@ -112,13 +154,14 @@
       },
     },
     components: {
+      'event-news-contribution': EventNewsContribution,
       'event-news-admit': EventNewsAdmit,
       'event-news-share': EventNewsShare,
       'comment-viewer': CommentViewer,
     },
     methods: {
-      getString(input) {
-        const date = new Date(input);
+      getString(mode = 'ymd') {
+        const date = this.date;
         if (isNaN(date.getTime())) {
           return '';
         }
@@ -128,6 +171,13 @@
         string += (date.getMonth() + 1) + ' 月 ';
         string += date.getDate() + ' 日';
 
+        if (mode === 'ymd') {
+          return string;
+        }
+
+        string = '北京时间 ' + string + ' ';
+        string += date.getHours() + ' 时 ';
+        string += date.getMinutes() + ' 分';
         return string;
       },
       redirect() {
@@ -210,21 +260,35 @@
     align-items: center;
   }
 
-  .bottom-date {
-    font-size: .9rem;
+  .bottom-left {
+    margin-bottom: 3px;
+    display: flex;
+  }
+
+  .bottom-date, .bottom-history {
+    font-size: 14px;
     color: #888;
     font-weight: 500;
-    padding-bottom: .25rem;
+    cursor: pointer;
+    line-height: 1.3;
+    border-bottom: 1px transparent solid;
+  }
+
+  .bottom-date {
+    margin-right: .5rem;
+  }
+
+  .bottom-history:hover {
+    border-bottom: 1px #888 solid;
   }
 
   @media (max-width: 600px) {
-
     .news {
       padding-top: 0;
     }
     
     .bottom {
-      margin-top: 0;
+      margin-top: .25rem;
       flex-direction: column;
       align-items: flex-end;
     }
@@ -232,6 +296,18 @@
     .quote .bottom {
       flex-direction: row;
       align-items: center;
+    }
+
+    .bottom-left {
+      flex-direction: row-reverse;
+    }
+
+    .bottom-date {
+      margin-right: 0;
+    }
+
+    .bottom-history {
+      margin-right: .5rem;
     }
 
     .news-share {
