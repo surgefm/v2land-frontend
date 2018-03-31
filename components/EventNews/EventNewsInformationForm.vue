@@ -51,7 +51,7 @@
           class="light-font"
           href="https://handbook.langchao.co/%E6%96%B0%E9%97%BB%E5%BD%95%E7%94%A8%E6%A0%87%E5%87%86.html"
           target="_blank"
-        >社区手册</a> 提交新闻
+        >社区指南</a> 提交新闻
       </span>
     </el-form-item>
 

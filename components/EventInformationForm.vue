@@ -19,7 +19,7 @@
           class="light-font"
           href="https://handbook.langchao.co/%E4%BB%80%E4%B9%88%E6%98%AF%E4%BA%8B%E4%BB%B6.html"
           target="_blank"
-        >社区手册</a> 提交事件
+        >社区指南</a> 提交事件
       </span>
     </el-form-item>
 
