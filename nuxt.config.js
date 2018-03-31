@@ -3,6 +3,20 @@ const config = require('./const');
 const title = '浪潮 - 你的社会事件追踪工具';
 const description = '浪潮是一个社会事件追踪工具。我们帮助你跟进社会事件的最新动态。你也可参与到信息整合的过程中，与社区成员一起添加社会事件与相关资讯，协助他人追踪事件进展。';
 
+const plugins = [
+  '~/plugins/element.js',
+  '~/plugins/components.js',
+  '~/plugins/clipboard.js',
+  '~/plugins/lazyload.js',
+  '~/plugins/polyfills.js',
+  '~/plugins/gaDirective.js',
+  { src: '~/plugins/statusHandler', ssr: false },
+  { src: '~/plugins/ga', ssr: false },
+];
+
+if (config.justfont) plugins.push({ src: '~/plugins/justfont', ssr: false });
+else if (config.typekit) plugins.push({ src: '~/plugins/typekit', ssr: false });
+
 module.exports = {
   srcDir: __dirname,
   dev: true,
@@ -75,17 +89,7 @@ module.exports = {
     '~/static/element/loading.css',
   ],
 
-  plugins: [
-    '~/plugins/element.js',
-    '~/plugins/components.js',
-    '~/plugins/clipboard.js',
-    '~/plugins/lazyload.js',
-    '~/plugins/polyfills.js',
-    '~/plugins/gaDirective.js',
-    { src: '~/plugins/statusHandler', ssr: false },
-    { src: '~/plugins/ga', ssr: false },
-    { src: '~/plugins/typekit', ssr: false },
-  ],
+  plugins,
 
   router: {
     middleware: ['auth', 'checkEvent', 'permission'],

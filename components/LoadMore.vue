@@ -79,6 +79,7 @@ export default {
       if (newsList.length > 0) {
         await this.$store.dispatch('addNewList', newsList);
         this.page++;
+        this.$updateFont();
       } else {
         this.$message.success('你已加载全部新闻');
         this.loadFlag = false;
@@ -92,6 +93,7 @@ export default {
       this.loading = false;
       if (moreEvents.length > 0) {
         this.page++;
+        this.$updateFont();
       }
       if (moreEvents.length < 10) {
         this.loadFlag = false;
