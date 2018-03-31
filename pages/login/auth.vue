@@ -165,7 +165,7 @@
           response.data.name === 'authentication required') {
           return {
             mode: 'registerOrLogin',
-            username: response.data.auth.profile.name,
+            username: response.data.auth.profile.screen_name,
             site: query.site,
             auth: response.data.auth,
           };
@@ -173,7 +173,7 @@
           response.data.name === 'already connected') {
           return {
             mode: 'switchAccount',
-            username: response.data.auth.profile.name,
+            username: response.data.auth.profile.screen_name,
             site: query.site,
             auth: response.data.auth,
             conflictClient: response.data.conflict,

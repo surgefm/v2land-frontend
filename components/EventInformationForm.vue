@@ -14,6 +14,13 @@
         type="textarea"
         :autosize="{ minRows: 3 }"
       />
+      <span class="handbook" v-if="!isAdmin">请依照 
+        <a
+          class="light-font"
+          href="https://handbook.langchao.co/%E4%BB%80%E4%B9%88%E6%98%AF%E4%BA%8B%E4%BB%B6.html"
+          target="_blank"
+        >社区手册</a> 提交事件
+      </span>
     </el-form-item>
 
     <el-form-item label="事件状态" v-if="isAdmin">

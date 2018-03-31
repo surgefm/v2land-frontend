@@ -29,7 +29,7 @@
       <el-form-item label="邀请码" prop="code">
         <el-input
           v-model="form.code"
-          placeholder="只有输入正确的邀请码方可创建账号"
+          placeholder="输入正确邀请码创建账号"
           @keyup.enter.native="submit"
         />
       </el-form-item>
@@ -106,7 +106,7 @@
         }
 
         if (/\r?\n|\r| |@/.test(value)) {
-          return callback(new Error('用户名不得含回车、空格或 @ 字符'));
+          return callback(new Error('不得含空格或 @ 字符'));
         }
 
         let allDigit = true;
