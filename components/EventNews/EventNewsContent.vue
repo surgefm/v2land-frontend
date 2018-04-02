@@ -288,6 +288,14 @@
     margin-right: .5rem;
   }
 
+  .bottom-history {
+    visibility: hidden;
+  }
+
+  .news-container:hover .bottom-history {
+    visibility: visible;
+  }
+
   .bottom-history:hover {
     border-bottom: 1px #888 solid;
   }
@@ -318,6 +326,7 @@
 
     .bottom-history {
       margin-right: .5rem;
+      visibility: visible;
     }
 
     .news-share {
