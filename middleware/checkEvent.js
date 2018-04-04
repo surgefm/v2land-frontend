@@ -18,13 +18,34 @@ export default async function({ route, app, store, redirect }) {
       return redirect((from || '/') + '?status=event_not_found');
     }
 
-    if (event.name !== route.params.name) {
+    let checkPinyin = true;
+    if (['name-admit', 'name-post'].includes(route.name) ||
+      route.name.includes('name-edit')) {
+      checkPinyin = false;
+    }
+
+    let name = route.name;
+    let news = route.params.news;
+    if (event.pinyin && route.name === 'name') {
+      name = 'name-pinyin';
+    } else if (!news && (+route.params.pinyin || +route.query.news)) {
+      name = 'name-pinyin-news';
+      news = +route.params.pinyin || +route.query.news;
+      delete route.query.news;
+    }
+
+    if (+event.id !== +route.params.name ||
+      (checkPinyin && event.pinyin && event.pinyin !== route.params.pinyin) ||
+      (route.params.news !== news)) {
       return redirect({
         ...route,
         params: {
           ...route.params,
-          name: event.name,
+          name: event.id,
+          pinyin: event.pinyin,
+          news,
         },
+        name,
       });
     }
   }

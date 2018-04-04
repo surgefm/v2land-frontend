@@ -37,9 +37,12 @@
     },
     computed: {
       newsUrl() {
-        return config.baseUrl +
-          (this.news.event.id || this.news.event) +
-          '?news=' + this.news.id;
+        const event = this.event || this.news.event;
+        if (event.id) {
+          return `${config.baseUrl}${event.id}/${event.pinyin}/${this.news.id}`;
+        }
+
+        return `config.baseUrl${event}/${this.news.id}`;
       },
     },
     methods: {

@@ -1,7 +1,7 @@
 <template>
   <background>
     <card>
-      <p class="tag light-font">{{ $route.params.name }}</p>
+      <p class="tag light-font">{{ name }}</p>
       <event-title>修改新闻</event-title>
       <event-news-information-form
         class="news-form"
@@ -31,11 +31,17 @@
           })
           .then(() => {
             this.$message('修改成功');
-            this.$router.push(`/${this.$route.params.name}?news=${this.$route.params.id}`);
+            this.$router.push(`/${this.$route.params.name}/${this.$route.params.id}`);
           });
       },
     },
     computed: {
+      name() {
+        return this.event.name;
+      },
+      event() {
+        return this.$store.getters.getEvent(this.$route.params.name);
+      },
       uid() {
         return 'editNews-' + this.$route.params.id;
       },
@@ -49,7 +55,7 @@
     },
     head() {
       return {
-        title: '修改新闻 - ' + this.$route.params.name,
+        title: '修改新闻 - ' + this.name,
       };
     },
   };

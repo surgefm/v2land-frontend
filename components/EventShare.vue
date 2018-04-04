@@ -103,9 +103,9 @@
       },
       shareUrl() {
         if (this.type === 'event') {
-          return config.baseUrl + this.object.id;
+          return `${config.baseUrl}${this.object.id}/${this.object.pinyin}`;
         } else if (this.type === 'news') {
-          return config.baseUrl + this.eventId + '?news=' + this.object.id;
+          return `${config.baseUrl}${this.eventId}/${this.event.pinyin}/${this.object.id}`;
         }
       },
       wechatClipboard() {
@@ -128,14 +128,14 @@
         case 'twitter':
           return $.encode('https://twitter.com/intent/tweet?text=' + message +
               '&url=' + url +
-              '&hashtags=' + this.$route.params.name + ',浪潮'
+              '&hashtags=' + this.event.name + ',浪潮'
           );
         case 'facebook':
           return $.encode('https://www.facebook.com/sharer/sharer.php?u=' + url);
         case 'telegram':
           return $.encode('https://telegram.me/share?url=' + url + '&text=' + this.shareMessage);
         case 'weibo':
-          message += `%23${this.$route.params.name}%23 %23浪潮，你的社会事件追踪工具%23`;
+          message += `%23${this.event.name}%23 %23浪潮，你的社会事件追踪工具%23`;
           return $.encode('http://service.weibo.com/share/share.php?url=' + url + '&title=' + message);
         }
       },
@@ -153,7 +153,7 @@
         this.$router.push({
           name: 'name-edit-id',
           params: {
-            name: this.event.name,
+            name: this.event.id,
             id: this.object.id,
           },
         });

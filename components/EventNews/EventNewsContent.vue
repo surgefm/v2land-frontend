@@ -149,9 +149,12 @@
         return new Date(newTime);
       },
       newsUrl() {
-        return config.baseUrl +
-          (this.news.event.id || this.news.event) +
-          '?news=' + this.news.id;
+        const event = this.event || this.news.event;
+        if (event.id) {
+          return `${config.baseUrl}${event.id}/${event.pinyin}/${this.news.id}`;
+        }
+
+        return `config.baseUrl${event}/${this.news.id}`;
       },
       href() {
         return '/redirect.html?to=' + encodeURIComponent(this.news.url);
@@ -192,16 +195,22 @@
       },
       redirect() {
         this.router.push({
-          name: 'name',
-          params: { name: this.eventName },
-          query: { news: this.news.id },
+          name: 'name-pinyin-news',
+          params: {
+            name: this.eventName,
+            pinyin: this.event.pinyin,
+            news: this.news.id,
+          },
         });
         this.$emit('redirect');
       },
       redirectEvent() {
         this.router.push({
-          name: 'name',
-          params: { name: this.eventName },
+          name: 'name-pinyin',
+          params: {
+            name: this.eventName,
+            pinyin: this.event.pinyin,
+          },
         });
         this.$emit('redirect');
       },

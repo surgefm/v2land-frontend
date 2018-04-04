@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div v-if="event">
     <background>
       <event-abstract :detail="event" />
@@ -16,6 +16,7 @@
           :event="event"
         />
       </div>
+      <nuxt-child />
       <load-more :type="'news'">加载更多</load-more>
       <page-foot />
     </background>
@@ -37,7 +38,7 @@
         return this.$store.getters.getEvent(this.name);
       },
       newsCollection() {
-        return this.$store.getters.getNewsCollection(this.name);
+        return this.$store.getters.getNewsCollection(this.event.name);
       },
       image() {
         return config.static + this.event.headerImage.imageUrl;
@@ -45,14 +46,18 @@
     },
     methods: {
       scrollToNews() {
-        if (this.$route.query.news && document) {
+        if (this.$route.params.news && document) {
           setTimeout(() => {
-            const element = document.getElementById('i' + this.$route.query.news);
-            const news = document.getElementById('main-i' + this.$route.query.news);
+            const element = document.getElementById('i' + this.$route.params.news);
+            const news = document.getElementById('main-i' + this.$route.params.news);
             if (element) {
               element.scrollIntoView();
               window.scrollBy(0, -50);
               news.className += ' emphasize';
+              delete this.$route.params.news;
+              this.$router.push({
+                ...this.$route,
+              });
             }
           }, 50);
         }
@@ -66,12 +71,12 @@
       this.scrollToNews();
     },
     watch: {
-      '$route.query.news'() {
+      '$route.params.news'() {
         this.scrollToNews();
       },
     },
     head() {
-      const title = this.name + ' - 浪潮，你的社会事件追踪工具';
+      const title = this.event.name + ' - 浪潮，你的社会事件追踪工具';
       const image = this.event
         ? (this.event.headerImage ? this.image : null)
         : null;

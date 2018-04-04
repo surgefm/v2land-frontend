@@ -137,7 +137,7 @@
       },
       showReturn() {
         return this.$route.name &&
-          this.$route.name !== 'name' &&
+          !['name', 'name-pinyin', 'name-pinyin-news'].includes(this.$route.name) &&
           this.$route.name.includes('name') &&
           this.$route.params.name !== 'admin';
       },

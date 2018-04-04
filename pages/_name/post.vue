@@ -1,7 +1,7 @@
 <template>
   <background>
     <card>
-      <p class="tag light-font">{{ $route.params.name }}</p>
+      <p class="tag light-font">{{ name }}</p>
       <event-title>添加新闻</event-title>
       <event-news-information-form
         class="news-form"
@@ -50,7 +50,10 @@
     },
     computed: {
       name() {
-        return this.$route.params.name;
+        return this.event.name;
+      },
+      event() {
+        return this.$store.getters.getEvent(this.$route.params.name);
       },
       isAdmin() {
         return this.$store.getters.isClientAdmin;

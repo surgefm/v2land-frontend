@@ -1,7 +1,7 @@
 <template>
   <card class="card">
     <a
-      :href="'/' + event.name"
+      :href="eventRoute"
       :pageReady="pageReady ? 1 : 0"
       onclick="javascript:return this.attributes.pageready.value == 0"
       @click="cardClicked"
@@ -40,7 +40,7 @@
     </a>
     <div v-else class="event-container">
       <div class="event-text">
-        <nuxt-link class="event-title" :to="'/' + event.name">
+        <nuxt-link class="event-title" :to="eventRoute">
           {{ event.name }}
         </nuxt-link>
         <event-description
@@ -81,13 +81,23 @@
       isAdminEvent() {
         return this.$route.name === 'admin-event';
       },
+      eventRoute() {
+        if (this.event.pinyin) {
+          return `/${this.event.id}/${this.event.pinyin}`;
+        }
+
+        return `/${this.event.id}`;
+      },
     },
     methods: {
       cardClicked() {
         if (!this.imageClicked) {
           return this.$router.push({
-            name: 'name',
-            params: { name: this.event.name },
+            name: 'name-pinyin',
+            params: {
+              name: this.event.id,
+              pinyin: this.event.pinyin,
+            },
           });
         }
 

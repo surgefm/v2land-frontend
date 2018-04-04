@@ -32,7 +32,7 @@
   export default {
     computed: {
       name() {
-        return this.$route.params.name;
+        return this.event.name;
       },
       event() {
         return this.$store.getters.getEvent(this.$route.params.name);

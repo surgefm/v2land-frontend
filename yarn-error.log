@@ -1,5 +1,5 @@
 Arguments: 
-  /Users/Zehua/.nvm/versions/node/v8.9.0/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js lint --fix
+  /Users/Zehua/.nvm/versions/node/v8.9.0/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js lint --fixz
 
 PATH: 
   /Users/Zehua/anaconda3/bin:/Users/Zehua/.nvm/versions/node/v8.9.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
@@ -75,7 +75,7 @@ npm manifest:
     },
     "husky": {
       "hooks": {
-        "pre-commit": "npm run lint"
+        "pre-commit": "npm run lint --fix"
       }
     }
   }
@@ -7590,7 +7590,7 @@ Trace:
   Error: Command failed.
   Exit code: 1
   Command: sh
-  Arguments: -c eslint --ext .js,.vue --ignore-path .gitignore . --fix
+  Arguments: -c eslint --ext .js,.vue --ignore-path .gitignore . --fixz
   Directory: /Users/Zehua/Documents/www/v2land-frontend
   Output:
   

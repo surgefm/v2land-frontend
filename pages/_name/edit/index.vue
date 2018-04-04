@@ -1,13 +1,13 @@
 <template>
   <background>
     <card>
-      <p class="tag light-font">{{ $route.params.name }}</p>
+      <p class="tag light-font">{{ name }}</p>
       <event-title>管理事件</event-title>
       <div class="sorter">修改基本信息</div>
       <event-information-form
         mode="edit"
-        :data="'EditEvent-' + $route.params.name"
-        :name="$route.params.name"
+        :data="'EditEvent-' + name"
+        :name="name"
         :hideButtons="true"
         class="event-form"
         ref="information"
@@ -16,7 +16,7 @@
       <div class="sorter">修改事件题图</div>
       <event-image-form
         ref="image"
-        :name="$route.params.name"
+        :name="name"
         :hideButtons="true"
       />
       <div class="submit-button-group">
@@ -41,6 +41,14 @@
     components: {
       'event-information-form': EventInformationForm,
       'event-image-form': EventImageForm,
+    },
+    computed: {
+      name() {
+        return this.event.name;
+      },
+      event() {
+        return this.$store.getters.getEvent(this.$route.params.name);
+      },
     },
     methods: {
       async submit() {
