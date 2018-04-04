@@ -76,13 +76,21 @@
       },
     },
     head() {
-      const title = this.event.name + ' - 浪潮，你的社会事件追踪工具';
+      let title = this.event.name + ' - 浪潮，你的社会事件追踪工具';
       const image = this.event
         ? (this.event.headerImage ? this.image : null)
         : null;
-      const description = this.event
+      let description = this.event
         ? this.event.description
         : null;
+
+      if (this.$route.params.news) {
+        const news = this.$store.getters.getNews({ id: this.$route.params.news });
+        if (news) {
+          title = `${news.title} - ${this.event.name}`;
+          description = news.abstract || description;
+        }
+      }
       return {
         title,
         meta: [
