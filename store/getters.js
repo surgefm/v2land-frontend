@@ -74,6 +74,8 @@ export default {
   },
 
   getNews: (state) => ({ name, id }) => {
+    if (!id) return;
+
     if (!name) {
       name = state.news[id];
     }
