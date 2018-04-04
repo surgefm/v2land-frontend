@@ -87,7 +87,7 @@
     },
     head() {
       return {
-        title: '管理事件 - ' + this.$route.params.name,
+        title: '管理事件 - ' + this.name,
       };
     },
   };
