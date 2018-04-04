@@ -198,7 +198,6 @@
           name: 'name-pinyin-news',
           params: {
             name: this.eventName,
-            pinyin: this.event.pinyin,
             news: this.news.id,
           },
         });

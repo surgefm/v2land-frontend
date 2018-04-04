@@ -3,7 +3,7 @@
     <a v-if="news"
       class="news"
       @click="dialogVisible = true"
-      :href="`/${news.event.id || news.event}?news=${news.id}`"
+      :href="`/${news.event.id || news.event}/${news.id}`"
       onclick="return false;"
     ><i class="icon-newspaper" />{{ news.title }}</a>
     <span class="news error" v-else-if="error">该新闻不存在或被隐藏</span>
