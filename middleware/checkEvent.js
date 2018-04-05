@@ -56,12 +56,6 @@ export default async function({ route, app, store, redirect }) {
         news: news,
       };
 
-      console.log({
-        ...route,
-        params,
-        name,
-      });
-
       return redirect({
         ...route,
         params,
