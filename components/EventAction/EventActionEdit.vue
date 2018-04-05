@@ -2,9 +2,9 @@
   <nuxt-link
     :class="[
       'subscribe-container',
-      $route.name !== 'name-edit' || 'exact-active-link'
+      $route.name !== 'event-edit' || 'exact-active-link'
     ]"
-    :to="{ name: 'name-edit', params: { name: $route.params.name } }"
+    :to="{ name: 'event-edit', params: { name: $route.params.name } }"
   >
     <span class="text light-font">管理事件</span>
     <i class="icon el-icon-edit-outline light-font" />

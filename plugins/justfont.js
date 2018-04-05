@@ -1,11 +1,13 @@
 import config from '~/const';
 
 const charset = {};
+let $app;
 let current;
 let axios;
 let fontEl;
 
 export default ({ app, $axios }, inject) => {
+  $app = app;
   axios = $axios;
   updateFontFace();
   app.router.afterEach(updateFontFace);
@@ -41,6 +43,19 @@ function getChar(parent = document.getElementsByTagName('body')[0], force = fals
   }
 }
 
+async function stopLoading() {
+  const loading = await getLoading();
+  loading.finish();
+}
+
+async function getLoading() {
+  if (!$app.router.app) {
+    return new Promise((resolve) => getLoading, 200);
+  }
+
+  return $app.router.app.$root.$loading;
+}
+
 async function checkPageLoad() {
   let newset = getChar();
   while (newset === current) {
@@ -73,7 +88,7 @@ async function getWoffUrl() {
   url += `fs=${newset}&`;
   url += 'callback=jfgetData&';
   url += 'fn=notoserifcjktc_bold';
-  let { data } = await axios.get(url);
+  let data = await axios.$get(url, { progress: false });
   data = data.replace('jfgetData(', '');
   data = data.slice(0, data.length - 2);
   const json = JSON.parse(data);
@@ -82,8 +97,9 @@ async function getWoffUrl() {
     woff = 'https:' + woff.slice(5);
   }
 
-  const fontData = await axios.get(woff, { responseType: 'arraybuffer' });
-  const base64String = btoa(String.fromCharCode(...new Uint8Array(fontData.data)));
+  const fontData = await axios.$get(woff, { responseType: 'arraybuffer', progress: false });
+  stopLoading();
+  const base64String = btoa(String.fromCharCode(...new Uint8Array(fontData)));
   return base64String;
 }
 

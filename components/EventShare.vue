@@ -151,7 +151,7 @@
       },
       edit() {
         this.$router.push({
-          name: 'name-edit-id',
+          name: 'event-edit-news',
           params: {
             name: this.event.id,
             id: this.object.id,

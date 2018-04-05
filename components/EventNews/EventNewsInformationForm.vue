@@ -122,7 +122,6 @@
     computed: {
       origData() {
         return this.$store.getters.getNews({
-          name: this.$route.params.name,
           id: this.$route.params.id,
         });
       },

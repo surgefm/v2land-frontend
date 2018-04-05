@@ -20,4 +20,6 @@ dist
 
 .idea/*
 
+yarn-error.log
+
 static/sw.js

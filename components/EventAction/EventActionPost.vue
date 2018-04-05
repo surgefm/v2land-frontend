@@ -2,10 +2,10 @@
   <nuxt-link
     :class="[
       'subscribe-container',
-      $route.name !== 'name-post' || 'exact-active-link'
+      $route.name !== 'event-post' || 'exact-active-link'
     ]"
     :to="{
-      name: 'name-post',
+      name: 'event-post',
       params: { name: $route.params.name },
     }"
   >

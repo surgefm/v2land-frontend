@@ -51,6 +51,10 @@
     "@nuxtjs/meta" "^2.2.1"
     "@nuxtjs/workbox" "^2.2.0"
 
+"@nuxtjs/router@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/router/-/router-1.0.1.tgz#0cd305ab994e701d4e117e677472206d6835f8e7"
+
 "@nuxtjs/workbox@^2.2.0":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@nuxtjs/workbox/-/workbox-2.2.0.tgz#c8f0df77afe029ded7783806b77ec950f792d3c3"
