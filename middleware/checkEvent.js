@@ -31,12 +31,12 @@ export default async function({ route, app, store, redirect }) {
       name = 'event-pinyin';
       change = true;
     } else if (news) {
-      name = +news ? 'event-news-pinyin' : 'event-pinyin';
+      name = +news ? 'event-pinyin-news' : 'event-pinyin';
     }
 
     if (route.query.news) {
       news = route.query.news;
-      name = 'event-news-pinyin';
+      name = 'event-pinyin-news';
       delete route.query.news;
     }
 

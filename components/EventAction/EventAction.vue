@@ -137,7 +137,7 @@
       },
       showReturn() {
         return this.$route.name &&
-          !['event', 'event-news', 'event-pinyin', 'event-news-pinyin'].includes(this.$route.name) &&
+          !['event', 'event-news', 'event-pinyin', 'event-pinyin-news'].includes(this.$route.name) &&
           this.$route.name.includes('event') &&
           this.$route.params.name !== 'admin';
       },

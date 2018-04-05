@@ -71,9 +71,9 @@ export function createRouter() {
             name: 'event-pinyin',
           },
           {
-            path: ':news/:pinyin',
+            path: ':pinyin/:news',
             component: EventPlaceholder,
-            name: 'event-news-pinyin',
+            name: 'event-pinyin-news',
           },
         ],
       },

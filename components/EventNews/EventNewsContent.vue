@@ -151,7 +151,7 @@
       newsUrl() {
         const event = this.event || this.news.event;
         if (event.id) {
-          return `${config.baseUrl}${event.id}/${this.news.id}/${event.pinyin}`;
+          return `${config.baseUrl}${event.id}/${event.pinyin}/${this.news.id}`;
         }
 
         return `config.baseUrl${event}/${this.news.id}`;
@@ -195,7 +195,7 @@
       },
       redirect() {
         this.router.push({
-          name: 'event-news-pinyin',
+          name: 'event-pinyin-news',
           params: {
             name: this.eventName,
             news: this.news.id,

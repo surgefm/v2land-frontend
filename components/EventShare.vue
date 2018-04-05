@@ -105,7 +105,7 @@
         if (this.type === 'event') {
           return `${config.baseUrl}${this.object.id}/${this.object.pinyin}`;
         } else if (this.type === 'news') {
-          return `${config.baseUrl}${this.eventId}/${this.object.id}/${this.event.pinyin}`;
+          return `${config.baseUrl}${this.eventId}/${this.event.pinyin}/${this.object.id}`;
         }
       },
       wechatClipboard() {
