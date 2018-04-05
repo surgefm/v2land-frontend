@@ -54,11 +54,12 @@
               element.scrollIntoView();
               window.scrollBy(0, -50);
               news.className += ' emphasize';
-              this.$router.replace({
-                ...this.$route,
-                name: 'event-pinyin',
-              });
             }
+
+            this.$router.replace({
+              ...this.$route,
+              name: 'event-pinyin',
+            });
           }, 50);
         }
       },
