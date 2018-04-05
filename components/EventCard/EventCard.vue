@@ -93,7 +93,7 @@
       cardClicked() {
         if (!this.imageClicked) {
           return this.$router.push({
-            name: 'name-pinyin',
+            name: 'event-pinyin',
             params: {
               name: this.event.id,
               pinyin: this.event.pinyin,

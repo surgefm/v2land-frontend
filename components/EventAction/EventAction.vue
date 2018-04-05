@@ -87,7 +87,7 @@
         return this.$route.path === '/subscription';
       },
       isEventPage() {
-        return this.$route.name && this.$route.name.includes('name') &&
+        return this.$route.name && this.$route.name.includes('event') &&
           this.$route.params.name !== 'admin';
       },
       isClientPage() {
@@ -137,8 +137,8 @@
       },
       showReturn() {
         return this.$route.name &&
-          !['name', 'name-pinyin', 'name-pinyin-news'].includes(this.$route.name) &&
-          this.$route.name.includes('name') &&
+          !['event', 'event-news', 'event-pinyin', 'event-news-pinyin'].includes(this.$route.name) &&
+          this.$route.name.includes('event') &&
           this.$route.params.name !== 'admin';
       },
       showHomepage() {

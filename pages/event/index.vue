@@ -46,7 +46,7 @@
     },
     methods: {
       scrollToNews() {
-        if (this.$route.params.news && document) {
+        if (+this.$route.params.news && document) {
           setTimeout(() => {
             const element = document.getElementById('i' + this.$route.params.news);
             const news = document.getElementById('main-i' + this.$route.params.news);
@@ -54,9 +54,9 @@
               element.scrollIntoView();
               window.scrollBy(0, -50);
               news.className += ' emphasize';
-              delete this.$route.params.news;
-              this.$router.push({
+              this.$router.replace({
                 ...this.$route,
+                name: 'event-pinyin',
               });
             }
           }, 50);

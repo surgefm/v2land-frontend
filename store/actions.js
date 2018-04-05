@@ -16,7 +16,7 @@ export default {
   async fetchEvent({ commit }, name) {
     const url = $.encode(`event/${name}`);
     try {
-      const { data } = await this.$axios.get(url);
+      const { data } = await this.$axios.get(url, { progress: false });
       commit('setEvent', {
         name: data.name,
         detail: data,

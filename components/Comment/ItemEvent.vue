@@ -1,7 +1,7 @@
 <template>
   <div class="inline event-tag">
     <a
-      :href="'/' + event.name"
+      :href="`/${event.id}/${event.pinyin}`"
       onclick="return false;"
       class="event"
       v-if="event"
@@ -59,9 +59,10 @@ export default {
       this.dialogVisible = false;
       const router = this.$mockrouter || this.$router;
       router.push({
-        name: 'name',
+        name: 'event-pinyin',
         params: {
-          name: this.event.name,
+          name: this.event.id,
+          pinyin: this.event.pinyin,
         },
       });
     },

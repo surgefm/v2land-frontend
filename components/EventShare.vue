@@ -105,7 +105,7 @@
         if (this.type === 'event') {
           return `${config.baseUrl}${this.object.id}/${this.object.pinyin}`;
         } else if (this.type === 'news') {
-          return `${config.baseUrl}${this.eventId}/${this.event.pinyin}/${this.object.id}`;
+          return `${config.baseUrl}${this.eventId}/${this.object.id}/${this.event.pinyin}`;
         }
       },
       wechatClipboard() {
@@ -151,7 +151,7 @@
       },
       edit() {
         this.$router.push({
-          name: 'name-edit-id',
+          name: 'event-edit-news',
           params: {
             name: this.event.id,
             id: this.object.id,

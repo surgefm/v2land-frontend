@@ -2,9 +2,9 @@
   <nuxt-link
     :class="[
       'subscribe-container',
-      $route.name !== 'name-admit' || 'exact-active-link'
+      $route.name !== 'event-admit' || 'exact-active-link'
     ]"
-    :to="{ name: 'name-admit', params: { name } }"
+    :to="{ name: 'event-admit', params: { name } }"
   >
     <span v-if="pendingNews" class="event-action-badge">{{ pendingNews }}</span>
     <span class="text light-font">审核队列</span>

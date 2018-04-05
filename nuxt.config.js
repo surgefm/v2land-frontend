@@ -97,6 +97,7 @@ module.exports = {
   },
 
   modules: [
+    '@nuxtjs/router',
     '@nuxtjs/axios',
     ['@nuxtjs/google-analytics', {
       id: config.ga,

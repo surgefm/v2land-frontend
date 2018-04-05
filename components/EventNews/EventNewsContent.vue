@@ -74,7 +74,7 @@
 
       <a
         v-else-if="mode === 'quote'"
-        :href="`/${news.event.id || news.event}?news=${news.id}`"
+        :href="`/${news.event.id || news.event}/${news.id}`"
         onclick="return false;"
         class="link"
       >
@@ -82,7 +82,7 @@
           前往新闻
         </el-button>
       </a>
-        
+
       <event-news-share
         v-else
         class="news-share"
@@ -151,7 +151,7 @@
       newsUrl() {
         const event = this.event || this.news.event;
         if (event.id) {
-          return `${config.baseUrl}${event.id}/${event.pinyin}/${this.news.id}`;
+          return `${config.baseUrl}${event.id}/${this.news.id}/${event.pinyin}`;
         }
 
         return `config.baseUrl${event}/${this.news.id}`;
@@ -195,20 +195,21 @@
       },
       redirect() {
         this.router.push({
-          name: 'name-pinyin-news',
+          name: 'event-news-pinyin',
           params: {
             name: this.eventName,
             news: this.news.id,
+            pinyin: this.event ? this.event.pinyin : null,
           },
         });
         this.$emit('redirect');
       },
       redirectEvent() {
         this.router.push({
-          name: 'name-pinyin',
+          name: 'event-pinyin',
           params: {
             name: this.eventName,
-            pinyin: this.event.pinyin,
+            pinyin: this.event ? this.event.pinyin : null,
           },
         });
         this.$emit('redirect');

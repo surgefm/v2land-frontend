@@ -4,10 +4,9 @@
  */
 export default function({ route, store, app, redirect, component }) {
   const shouldBeLoggedIn = [
-    'name-edit-id',
-    'name-edit-image',
-    'name-edit',
-    'name-admit',
+    'event-edit-news',
+    'event-edit',
+    'event-admit',
     'admin-event',
     'admin-admit',
     'admin-client',
@@ -20,10 +19,9 @@ export default function({ route, store, app, redirect, component }) {
   ];
 
   const managerOnly = [
-    'name-edit-id',
-    'name-edit-image',
-    'name-edit',
-    'name-admit',
+    'event-edit-news',
+    'event-edit',
+    'event-admit',
     'admin-event',
     'admin-admit',
   ];
