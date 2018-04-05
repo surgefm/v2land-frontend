@@ -21,7 +21,7 @@
         {{ event.description }}
       </event-description>
       <div class="submit-button-group" v-if="event">
-        <a :href="'/' + event.name" onclick="return false;">
+        <a :href="`/${event.id}/${event.pinyin}`" onclick="return false;">
           <el-button
             type="primary"
             size="medium"

@@ -58,6 +58,7 @@ export function createRouter() {
       {
         path: '/:name(\\d+)',
         component: Event,
+        name: 'event',
         children: [
           {
             path: ':news',
