@@ -9,6 +9,7 @@ export default function({ route, store, app, redirect, component }) {
     'event-admit',
     'admin-event',
     'admin-admit',
+    'admin-news-edit',
     'admin-client',
     'setting',
     'subscription',
@@ -24,6 +25,8 @@ export default function({ route, store, app, redirect, component }) {
     'event-admit',
     'admin-event',
     'admin-admit',
+    'admin-news-edit',
+    'admin-client',
   ];
 
   const adminOnly = [

@@ -49,6 +49,7 @@ export function createRouter() {
       // admin
       { path: '/admin/event', component: AdminEvent, name: 'admin-event' },
       { path: '/admin/admit', component: EventAdmit, name: 'admin-admit' },
+      { path: '/admin/news/:id(\\d+)', component: EventEditNews, name: 'admin-news-edit' },
       { path: '/admin/client', component: AdminClient, name: 'admin-client' },
 
       // event

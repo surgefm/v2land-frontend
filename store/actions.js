@@ -133,7 +133,12 @@ export default {
 
   async editNews({ dispatch }, { id, data }) {
     const url = $.encode(`news/${id}`);
-    return this.$axios.put(url, data);
+    const post = {};
+    for (const attr of ['source', 'status', 'time',
+      'title', 'url', 'comment']) {
+      post[attr] = data[attr];
+    }
+    return this.$axios.put(url, post);
   },
 
   async getClient({ commit }, id = 'me') {

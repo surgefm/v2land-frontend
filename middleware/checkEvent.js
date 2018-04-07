@@ -18,11 +18,11 @@ export default async function({ route, app, store, redirect }) {
       return redirect((from || '/') + '?status=event_not_found');
     }
 
-    let checkPinyin = true;
+    const checkPinyin = true;
     let change = false;
     if (['event-admit', 'event-post'].includes(route.name) ||
       route.name.includes('event-edit')) {
-      checkPinyin = false;
+      return;
     }
 
     let name = route.name;

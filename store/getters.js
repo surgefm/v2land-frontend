@@ -98,6 +98,12 @@ export default {
       }
     }
 
+    for (const news of state.allPendingNews) {
+      if (news.id === id) {
+        return news;
+      }
+    }
+
     return null;
   },
 
