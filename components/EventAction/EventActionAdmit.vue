@@ -22,7 +22,7 @@
         return this.$store.getters.getPendingNews(this.name).length;
       },
     },
-    created() {
+    async created() {
       this.$store.dispatch('getPendingNews', this.$route.params.name);
     },
   };

@@ -78,13 +78,14 @@ export default {
     });
   },
 
-  async getPendingNews({ commit }, name) {
+  async getPendingNews({ commit, dispatch }, name) {
     if (name) {
       const url = $.encode(`event/${name}/pending`);
       const { data } = await this.$axios.get(url);
 
+      const event = await dispatch('getEvent', name);
       commit('setPendingNews', {
-        name,
+        name: event.name,
         ...data,
       });
 

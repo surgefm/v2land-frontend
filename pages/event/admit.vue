@@ -32,7 +32,7 @@
   export default {
     computed: {
       name() {
-        return this.event.name;
+        return this.event ? this.event.name : null;
       },
       event() {
         return this.$store.getters.getEvent(this.$route.params.name);
@@ -45,24 +45,18 @@
         }
       },
       isAdminAdmit() {
-        return this.name === 'admin';
+        return this.$route.name === 'admin-admit';
       },
     },
     methods: {
-      update(status) {
+      async update(status) {
         if (this.isAdminAdmit) {
-          this.$store.dispatch('getPendingNews')
-            .then(() => {
-              this.response(status);
-            });
+          await this.$store.dispatch('getPendingNews');
+          this.response(status);
         } else {
-          this.$store.dispatch('getPendingNews', this.$route.params.name)
-            .then(() => {
-              this.$store.dispatch('fetchEvent', this.$route.params.name);
-            })
-            .then(() => {
-              this.response(status);
-            });
+          await this.$store.dispatch('getPendingNews', this.$route.params.name);
+          await this.$store.dispatch('fetchEvent', this.$route.params.name);
+          this.response(status);
         }
       },
       response(status) {
@@ -74,10 +68,9 @@
       },
     },
     async asyncData({ store, route }) {
-      if (route.params.name === 'admin') {
+      if (route.name === 'admin-admit') {
         return store.dispatch('getPendingNews');
       } else {
-        await store.dispatch('getEvent', route.params.name);
         return store.dispatch('getPendingNews', route.params.name);
       }
     },

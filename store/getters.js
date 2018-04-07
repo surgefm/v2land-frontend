@@ -101,9 +101,11 @@ export default {
     return null;
   },
 
-  getPendingNews: (state) => (name) => {
+  getPendingNews: (state, getters) => (name) => {
     if (name) {
-      return state.pendingNews[name] || [];
+      const event = getters.getEvent(name);
+      if (!event) return [];
+      return state.pendingNews[event.name] || [];
     } else {
       return state.allPendingNews;
     }
