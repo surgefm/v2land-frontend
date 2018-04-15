@@ -6,12 +6,11 @@ let current;
 let axios;
 let fontEl;
 
-export default ({ app, $axios }, inject) => {
+export default async ({ app, $axios }, inject) => {
   $app = app;
   axios = $axios;
-  updateFontFace();
-  app.router.afterEach(updateFontFace);
   inject('updateFont', updateFontFace);
+  setInterval(updateFontFace, 500);
 };
 
 function getChar(parent = document.getElementsByTagName('body')[0], force = false) {
@@ -43,25 +42,28 @@ function getChar(parent = document.getElementsByTagName('body')[0], force = fals
   }
 }
 
+function wait(time = 1000) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, time);
+  });
+}
+
 async function stopLoading() {
   const loading = await getLoading();
   loading.finish();
 }
 
 async function getLoading() {
-  if (!$app.router.app) {
-    return new Promise((resolve) => getLoading, 200);
+  while (!$app.router.app) {
+    await wait();
   }
-
   return $app.router.app.$root.$loading;
 }
 
-async function checkPageLoad() {
-  let newset = getChar();
-  while (newset === current) {
-    await new Promise((resolve) => setTimeout(resolve, 200));
-    newset = getChar();
-  }
+function checkPageLoad() {
+  const newset = getChar();
   current = newset;
   return newset;
 }
@@ -78,7 +80,7 @@ function getUniqueCharset(set) {
 }
 
 async function getWoffUrl() {
-  const char = await checkPageLoad();
+  const char = checkPageLoad();
   const newset = getUniqueCharset(char);
   if (!newset.length) return;
   let url = 'https://go.justfont.com/jfont/api?';
@@ -116,7 +118,7 @@ async function updateFontFace() {
     @font-face {
       font-family: 'source-han-serif-sc';
       font-weight: 700;
-      src: local(" "), url(data:font/woff;charset=utf-8;base64,${woff}) format('woff');
+      src: url(data:font/woff;charset=utf-8;base64,${woff}) format('woff');
       unicode-range: ${getUnicodeRange(current)};
     }
   `));
