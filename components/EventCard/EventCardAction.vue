@@ -42,7 +42,7 @@
       edit() {
         this.$router.push({
           name: 'event-edit',
-          params: { name: this.event.name },
+          params: { name: this.event.id },
           query: { redirect: '/admin/event' },
         });
       },
