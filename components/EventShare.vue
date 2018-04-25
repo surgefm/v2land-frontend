@@ -99,13 +99,17 @@
           return `上浪潮查看「${this.event.name}」的最新动态`;
         } else if (this.type === 'news') {
           return `上浪潮查看「${this.event.name}」的新闻「${this.object.title}」`;
+        } else if (this.type === 'stack') {
+          return `上浪潮查看「${this.event.name}」的进展「${this.object.title}」`;
         }
       },
       shareUrl() {
         if (this.type === 'event') {
           return `${config.baseUrl}${this.object.id}/${this.object.pinyin}`;
         } else if (this.type === 'news') {
-          return `${config.baseUrl}${this.eventId}/${this.event.pinyin}/${this.object.id}`;
+          return `${config.baseUrl}${this.eventId}/${this.event.pinyin}/${this.object.stack.id || this.object.stack}/${this.object.id}`;
+        } else if (this.type === 'stack') {
+          `${config.baseUrl}${this.eventId}/${this.event.pinyin}/${this.object.id}`;
         }
       },
       wechatClipboard() {
@@ -115,14 +119,26 @@
     methods: {
       shareTo(site) {
         const url = this.shareUrl;
-        let message = this.type === 'event'
-          ? this.object.name + ' - ' +
-            this.object.description.slice(0, 50) +
-            (this.object.description.length > 50 ? '… ' : ' ')
-          : this.object.title + ' - ' +
-            this.object.abstract.slice(0, 50) +
-            (this.object.abstract.length > 50 ? '… ' : ' ') +
-            '来源：' + this.object.source + ' ';
+        let message;
+  
+        switch (this.type) {
+        case 'event':
+          message = this.object.name + ' - ' +
+              this.object.description.slice(0, 50) +
+              (this.object.description.length > 50 ? '… ' : ' ');
+          break;
+        case 'news':
+          message = this.object.title + ' - ' +
+              this.object.abstract.slice(0, 50) +
+              (this.object.abstract.length > 50 ? '… ' : ' ') +
+              '来源：' + this.object.source + ' ';
+          break;
+        case 'stack':
+          message = this.object.title + ' - ' +
+              this.object.description.slice(0, 50) +
+              (this.object.description.length > 50 ? '… ' : ' ');
+          break;
+        }
 
         switch (site) {
         case 'twitter':
@@ -140,18 +156,20 @@
         }
       },
       remove() {
-        this.$store.dispatch('editNews', {
-          id: this.object.id,
-          data: { status: 'removed' },
-        }).then(() => {
-          this.$store.dispatch('fetchEvent', this.$route.params.name);
-        }).then(() => {
-          this.$message('已删除该新闻');
-        });
+        if (this.type === 'news') {
+          this.$store.dispatch('editNews', {
+            id: this.object.id,
+            data: { status: 'removed' },
+          }).then(() => {
+            this.$store.dispatch('fetchEvent', this.$route.params.name);
+          }).then(() => {
+            this.$message('已删除该新闻');
+          });
+        }
       },
       edit() {
         this.$router.push({
-          name: 'event-edit-news',
+          name: 'event-edit-' + this.type,
           params: {
             name: this.event.id,
             id: this.object.id,

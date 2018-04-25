@@ -49,14 +49,16 @@ export function createRouter() {
       // admin
       { path: '/admin/event', component: AdminEvent, name: 'admin-event' },
       { path: '/admin/admit', component: EventAdmit, name: 'admin-admit' },
-      { path: '/admin/news/:id(\\d+)', component: EventEditNews, name: 'admin-news-edit' },
+      { path: '/news/:id(\\d+)/edit', component: EventEditNews, name: 'admin-news-edit' },
+      { path: '/stack/:id(\\d+)/edit', component: EventEditStack, name: 'admin-stack-edit' },
       { path: '/admin/client', component: AdminClient, name: 'admin-client' },
 
       // event
       { path: '/:name(\\d+)/post', component: EventPost, name: 'event-post' },
       { path: '/:name(\\d+)/admit', component: EventAdmit, name: 'event-admit' },
       { path: '/:name(\\d+)/edit', component: EventEdit, name: 'event-edit' },
-      { path: '/:name(\\d+)/edit/:id(\\d+)', component: EventEditNews, name: 'event-edit-news' },
+      { path: '/:name(\\d+)/edit/news/:id(\\d+)', component: EventEditNews, name: 'event-edit-news' },
+      { path: '/:name(\\d+)/edit/stack/:id(\\d+)', component: EventEditStack, name: 'event-edit-stack' },
       {
         path: '/:name',
         component: Event,
