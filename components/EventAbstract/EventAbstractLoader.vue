@@ -1,10 +1,16 @@
 <template>
   <card class="hover event-abstract-loader">
-    <div class="event-title-loader loader-bar"></div>
-    <div class="event-line-loader loader-bar"></div>
-    <div class="event-line-loader loader-bar"></div>
-    <div class="event-line-loader loader-bar"></div>
-    <div class="loader-bar-placeholder"></div>
+    <div class="event-title-loader loader-bar" />
+    <div>
+      <div
+        v-for="(index) of new Array(4)"
+        :key="index"
+        class="event-line-loader loader-bar"
+      />
+    </div>
+    <div class="event-action-loader">
+      <div class="loader-bar" />
+    </div>
   </card>
 </template>
 
@@ -15,20 +21,32 @@
 
   .event-title-loader {
     height: 2rem;
+    max-width: 18rem;
     width: 100%;
     margin-bottom: .25rem;
     margin-top: .25rem;
   }
 
-  .event-line-loader{
-    height: 0.8rem;
-    margin-top: 1.4rem;
-    margin-bottom: 1.4rem;
+  .event-line-loader {
+    height: 1.2rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
     width: 100%;
   }
 
-  .loader-bar-placeholder {
-    height: 2rem;
+  .event-line-loader:last-child {
+    width: 70%;
+  }
+
+  .event-action-loader {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .event-action-loader .loader-bar {
+    width: 16rem;
+    height: 1.2rem;
+    margin-bottom: .5rem;
   }
 
   .loader-bar {

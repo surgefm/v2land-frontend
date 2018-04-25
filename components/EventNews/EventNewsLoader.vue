@@ -1,35 +1,42 @@
 <template>
   <card class="news-wrapper">
-    <div class="event-line-loader loader-bar"></div>
-    <div class="event-line-loader loader-bar"></div>
-    <div class="event-line-loader loader-bar"></div>
+    <div class="news-title-loader loader-bar" />
+    <div
+      v-for="(index) of new Array(3)"
+      :key="index"
+      class="news-line-loader loader-bar"
+    />
   </card>
 </template>
 
 <style lang="scss" scoped>
-
   .news-wrapper {
     position: relative;
     padding: 1rem 2rem;
-    background: rgba(0, 0, 0, 0);
   }
 
   .card:hover {
     box-shadow: 0 0px 0px;
   }
 
-  .event-title-loader {
-    height: 2rem;
+  .news-title-loader {
+    height: 1.5rem;
     width: 100%;
+    max-width: 18rem;
     margin-bottom: .25rem;
     margin-top: .25rem;
   }
 
-  .event-line-loader{
-    height: 0.8rem;
-    margin-top: 1.4rem;
-    margin-bottom: 1.4rem;
+  .news-line-loader{
+    height: 1rem;
+    margin-top: .8rem;
+    margin-bottom: .8rem;
     width: 100%;
+  }
+
+  .news-line-loader:last-child {
+    width: 70%;
+    margin-bottom: .5rem;
   }
 
   .loader-bar-placeholder {
@@ -61,6 +68,4 @@
       opacity: 0.45;
     }
   }
-
-
 </style>
