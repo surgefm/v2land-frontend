@@ -1,29 +1,27 @@
 <template>
   <div>
     <background>
-      <div v-if="fetchingStatus === 'loaded' || fetchingStatus == 'serverLoaded'">
-        <event-abstract :detail="event" />
-        <div 
-          v-for="(news, i) of newsCollection"
-          :key="news.id"
-          :id="'i' + news.id"
-          class="news"
-        >
-          <event-news
-            class="news" 
-            :news="news"
-            :order="i + 1"
-            :id="'main-i' + news.id"
-            :event="event"
-          />
-        </div>
-        <nuxt-child />
-        <load-more :type="'news'">加载更多</load-more>
-        <page-foot />
+      <event-abstract-loader v-if="showLoader" />
+      <event-news-loader v-if="showLoader" />
+      <event-abstract v-if="!showLoader" :detail="event" />
+      <div 
+        v-if="!showLoader"
+        v-for="(news, i) of newsCollection"
+        :key="news.id"
+        :id="'i' + news.id"
+        class="news"
+      >
+        <event-news
+          class="news" 
+          :news="news"
+          :order="i + 1"
+          :id="'main-i' + news.id"
+          :event="event"
+        />
       </div>
-      <div v-else>
-        <event-abstract-loader />
-      </div>
+      <nuxt-child v-if="!showLoader" />
+      <load-more v-if="!showLoader" :type="'news'">加载更多</load-more>
+      <page-foot />
     </background>
   </div>
 </template>
@@ -33,10 +31,16 @@
   import EventAbstract from '~/components/EventAbstract/EventAbstract.vue';
   import EventAbstractLoader from '~/components/EventAbstract/EventAbstractLoader.vue';
   import EventNews from '~/components/EventNews/EventNews.vue';
+  import EventNewsLoader from '~/components/EventNews/EventNewsLoader.vue';
   import LoadMore from '~/components/LoadMore.vue';
 
   export default {
     computed: {
+      showLoader() {
+        const status = this.fetchingStatus;
+        return status !== 'loaded' &&
+          status !== 'serverLoaded';
+      },
       name() {
         return this.$route.params.name;
       },
@@ -139,6 +143,7 @@
       'event-abstract': EventAbstract,
       'event-abstract-loader': EventAbstractLoader,
       'event-news': EventNews,
+      'event-news-loader': EventNewsLoader,
       'load-more': LoadMore,
     },
   };

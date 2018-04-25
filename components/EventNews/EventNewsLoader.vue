@@ -1,16 +1,21 @@
 <template>
-  <card class="hover event-abstract-loader">
-    <div class="event-title-loader loader-bar"></div>
+  <card class="news-wrapper">
     <div class="event-line-loader loader-bar"></div>
     <div class="event-line-loader loader-bar"></div>
     <div class="event-line-loader loader-bar"></div>
-    <div class="loader-bar-placeholder"></div>
   </card>
 </template>
 
 <style lang="scss" scoped>
-  .hover {
-    padding-bottom: 1.25rem;
+
+  .news-wrapper {
+    position: relative;
+    padding: 1rem 2rem;
+    background: rgba(0, 0, 0, 0);
+  }
+
+  .card:hover {
+    box-shadow: 0 0px 0px;
   }
 
   .event-title-loader {
@@ -56,5 +61,6 @@
       opacity: 0.45;
     }
   }
+
 
 </style>
