@@ -74,7 +74,7 @@
       },
       async init() {
         const status = this.fetchingStatus;
-        if (status == 'loaded') {
+        if (status == 'loaded' || status == 'initial') {
           await this.$store.dispatch('fetchEvent', this.$route.params.name);
         }
         if (status == 'serverLoaded') {
@@ -83,7 +83,7 @@
             status: 'loaded',
           });
         }
-        if (this.$store.getters.isServer) {
+        if (!this.$store.getters.isServer) {
           this.scrollToNews();
         }
       },
@@ -95,7 +95,6 @@
           name: 'getEvent',
           status: 'serverLoaded',
         });
-        console.log(store.getters.getFetchingStatus('getEvent'));
       }
       return {};
     },
