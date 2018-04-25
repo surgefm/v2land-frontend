@@ -145,4 +145,9 @@ export default {
   getAvailableAuths(state) {
     return state.availableAuths;
   },
+
+  getFetchingStatus: (state) => (name) => {
+    return state.fetchingStatus[name];
+  },
+
 };

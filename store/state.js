@@ -6,6 +6,9 @@ export default {
     subscriptions: [],
     events: [],
   },
+  fetchingStatus: {
+    getEvent: 'initial',
+  },
   availableAuths: [],
   event: {},
   eventList: [],

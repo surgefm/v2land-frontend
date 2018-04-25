@@ -90,7 +90,8 @@
       },
     },
     methods: {
-      cardClicked() {
+      cardClicked(e) {
+        e.preventDefault();
         if (!this.imageClicked) {
           return this.$router.push({
             name: 'event-pinyin',

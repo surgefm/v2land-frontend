@@ -10,16 +10,24 @@ export default {
         }
       }
     }
-    return dispatch('fetchEvent', name);
+    // return dispatch('fetchEvent', name);
   },
 
   async fetchEvent({ commit }, name) {
     const url = $.encode(`event/${name}`);
     try {
+      commit('setFetchingStatus', {
+        name: 'getEvent',
+        status: 'loading',
+      });
       const { data } = await this.$axios.get(url, { progress: false });
       commit('setEvent', {
         name: data.name,
         detail: data,
+      });
+      commit('setFetchingStatus', {
+        name: 'getEvent',
+        status: 'loaded',
       });
       return data;
     } catch (err) {
