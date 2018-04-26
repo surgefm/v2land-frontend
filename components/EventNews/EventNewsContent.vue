@@ -157,7 +157,7 @@
         return `config.baseUrl${event}/${this.news.id}`;
       },
       href() {
-        return '/redirect.html?to=' + encodeURIComponent(this.news.url);
+        return '/redirect?to=' + encodeURIComponent(this.news.url);
       },
       route() {
         return this.$mockroute || this.$route;
