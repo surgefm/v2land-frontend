@@ -12,13 +12,7 @@ export default {
   },
 
   isServer() {
-    try {
-      // eslint-disable-next-line
-      document.getElementById
-      return false;
-    } catch (err) {
-      return true;
-    }
+    return typeof document === 'undefined';
   },
 
   getClient(state) {
