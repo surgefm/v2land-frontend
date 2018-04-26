@@ -33,7 +33,7 @@ export default {
     },
   },
   created() {
-    this.href = '/redirect.html?to=' + encodeURIComponent(this.content);
+    this.href = '/redirect?to=' + encodeURIComponent(this.content);
   },
 };
 </script>

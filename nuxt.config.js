@@ -96,6 +96,10 @@ module.exports = {
     linkExactActiveClass: 'exact-active-link',
   },
 
+  serverMiddleware: [
+    '~/serverMiddleware/redirect',
+  ],
+
   modules: [
     '@nuxtjs/router',
     '@nuxtjs/axios',

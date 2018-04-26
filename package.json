@@ -36,6 +36,7 @@
     "prosemirror-schema-basic": "^1.0.0",
     "prosemirror-state": "^1.1.1",
     "prosemirror-view": "^1.2.0",
+    "query-string": "^6.0.0",
     "sass-loader": "^6.0.6",
     "vue": "^2.5.2",
     "vue-analytics": "^5.8.0",
