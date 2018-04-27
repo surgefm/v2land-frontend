@@ -1,8 +1,11 @@
 <template>
-  <div v-if="event">
+  <div>
     <background>
-      <event-abstract :detail="event" />
+      <event-abstract-loader v-if="showLoader" />
+      <event-news-loader v-if="showLoader" />
+      <event-abstract v-if="!showLoader" :detail="event" />
       <div 
+        v-if="!showLoader"
         v-for="(news, i) of newsCollection"
         :key="news.id"
         :id="'i' + news.id"
@@ -16,8 +19,8 @@
           :event="event"
         />
       </div>
-      <nuxt-child />
-      <load-more :type="'news'">加载更多</load-more>
+      <nuxt-child v-if="!showLoader" />
+      <load-more v-if="!showLoader" :type="'news'">加载更多</load-more>
       <page-foot />
     </background>
   </div>
@@ -26,13 +29,23 @@
 <script>
   import config from '~/const';
   import EventAbstract from '~/components/EventAbstract/EventAbstract.vue';
+  import EventAbstractLoader from '~/components/EventAbstract/EventAbstractLoader.vue';
   import EventNews from '~/components/EventNews/EventNews.vue';
+  import EventNewsLoader from '~/components/EventNews/EventNewsLoader.vue';
   import LoadMore from '~/components/LoadMore.vue';
 
   export default {
     computed: {
+      showLoader() {
+        const status = this.fetchingStatus;
+        return status !== 'loaded' &&
+          status !== 'serverLoaded';
+      },
       name() {
         return this.$route.params.name;
+      },
+      fetchingStatus() {
+        return this.$store.getters.getFetchingStatus('getEvent');
       },
       event() {
         return this.$store.getters.getEvent(this.name);
@@ -63,13 +76,34 @@
           }, 50);
         }
       },
+      async init() {
+        const status = this.fetchingStatus;
+        if (status == 'loaded' || status == 'initial') {
+          await this.$store.dispatch('fetchEvent', this.$route.params.name);
+        }
+        if (status == 'serverLoaded') {
+          this.$store.commit('setFetchingStatus', {
+            name: 'getEvent',
+            status: 'loaded',
+          });
+        }
+        if (!this.$store.getters.isServer) {
+          this.scrollToNews();
+        }
+      },
     },
     async asyncData({ store, params, redirect, route }) {
-      await store.dispatch('getEvent', params.name);
+      if (store.getters.isServer) {
+        await store.dispatch('fetchEvent', params.name);
+        store.commit('setFetchingStatus', {
+          name: 'getEvent',
+          status: 'serverLoaded',
+        });
+      }
       return {};
     },
     mounted() {
-      this.scrollToNews();
+      this.init();
     },
     watch: {
       '$route.params.news'() {
@@ -107,7 +141,9 @@
     },
     components: {
       'event-abstract': EventAbstract,
+      'event-abstract-loader': EventAbstractLoader,
       'event-news': EventNews,
+      'event-news-loader': EventNewsLoader,
       'load-more': LoadMore,
     },
   };

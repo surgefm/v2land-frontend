@@ -12,13 +12,7 @@ export default {
   },
 
   isServer() {
-    try {
-      // eslint-disable-next-line
-      document.getElementById
-      return false;
-    } catch (err) {
-      return true;
-    }
+    return typeof document === 'undefined';
   },
 
   getClient(state) {
@@ -145,4 +139,9 @@ export default {
   getAvailableAuths(state) {
     return state.availableAuths;
   },
+
+  getFetchingStatus: (state) => (name) => {
+    return state.fetchingStatus[name];
+  },
+
 };

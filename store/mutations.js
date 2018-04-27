@@ -12,6 +12,10 @@ export default {
     }
   },
 
+  setFetchingStatus(state, { name, status }) {
+    Vue.set(state.fetchingStatus, name, status);
+  },
+
   setSubscribeMode(state, mode) {
     Vue.set(state, 'subscribe', { ...state.subscribe, mode });
   },

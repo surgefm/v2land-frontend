@@ -2,24 +2,31 @@ import $ from 'postman-url-encoder';
 
 export default {
   async getEvent({ dispatch, state, getters }, name) {
-    if (!getters.isServer) {
-      for (const i in state.event) {
-        if ((state.event[i].id === name || state.event[i].name === name) &&
-          state.event[i].news && state.event[i].news.length > 0) {
-          return state.event[i];
-        }
+    for (const i in state.event) {
+      if ((state.event[i].id === name || state.event[i].name === name) &&
+        state.event[i].news && state.event[i].news.length > 0) {
+        return state.event[i];
       }
     }
+
     return dispatch('fetchEvent', name);
   },
 
   async fetchEvent({ commit }, name) {
     const url = $.encode(`event/${name}`);
     try {
+      commit('setFetchingStatus', {
+        name: 'getEvent',
+        status: 'loading',
+      });
       const { data } = await this.$axios.get(url, { progress: false });
       commit('setEvent', {
         name: data.name,
         detail: data,
+      });
+      commit('setFetchingStatus', {
+        name: 'getEvent',
+        status: 'loaded',
       });
       return data;
     } catch (err) {
