@@ -8,6 +8,8 @@ export default {
         return state.event[i];
       }
     }
+
+    return dispatch('fetchEvent', name);
   },
 
   async fetchEvent({ commit }, name) {
