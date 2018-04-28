@@ -78,15 +78,13 @@
       },
       async init() {
         const status = this.fetchingStatus;
-        if (status == 'loaded' || status == 'initial') {
+        if (status === 'loaded' || status === 'initial') {
           await this.$store.dispatch('fetchEvent', this.$route.params.name);
         }
-        if (status == 'serverLoaded') {
-          this.$store.commit('setFetchingStatus', {
-            name: 'getEvent',
-            status: 'loaded',
-          });
-        }
+        this.$store.commit('setFetchingStatus', {
+          name: 'getEvent',
+          status: 'loaded',
+        });
         if (!this.$store.getters.isServer) {
           this.scrollToNews();
         }
