@@ -95,7 +95,6 @@
       }
     },
     mounted() {
-      console.log('home loaded');
       this.init();
     },
     components: {
