@@ -62,7 +62,8 @@ export default {
     }
 
     if (name) {
-      const newsSet = state.event[name] && state.event[name].news ? state.event[name].news.filter(news => news.id.toString() === id.toString()) : [];
+      const newsSet = state.event[name] &&
+        state.event[name].news ? state.event[name].news.filter(news => news.id.toString() === id.toString()) : [];
 
       return newsSet.length > 0 ? newsSet[0] : null;
     } else {
