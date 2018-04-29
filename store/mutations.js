@@ -12,6 +12,14 @@ export default {
     }
   },
 
+  setEventList(state, list) {
+    Vue.set(state, 'eventList', list);
+  },
+
+  appendEventList(state, list) {
+    Vue.set(state, 'eventList', [...state.eventList, ...list]);
+  },
+
   setFetchingStatus(state, { name, status }) {
     Vue.set(state.fetchingStatus, name, status);
   },

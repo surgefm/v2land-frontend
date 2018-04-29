@@ -8,6 +8,7 @@ export default {
   },
   fetchingStatus: {
     getEvent: 'initial',
+    eventList: 'initial',
   },
   availableAuths: [],
   event: {},

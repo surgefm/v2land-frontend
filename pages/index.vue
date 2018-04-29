@@ -61,7 +61,7 @@
       },
     },
     async asyncData({ store }) {
-      await store.dispatch('getEventList');
+      await store.dispatch('fetchEventList');
     },
     components: {
       'event-card': EventCard,

@@ -19,7 +19,7 @@ export default {
     return state.client;
   },
 
-  findClient: (state) => (id) => {
+  findClient: state => id => {
     for (const client of state.clientList) {
       if (client.id === id || client.username === id) {
         return client;
@@ -33,7 +33,7 @@ export default {
     return state.clientList;
   },
 
-  getEvent: (state) => (name) => {
+  getEvent: state => name => {
     if (state.event[name]) {
       return state.event[name];
     }
@@ -47,27 +47,14 @@ export default {
     return null;
   },
 
-  getEventList: (state) => (filter = () => true) => {
-    const eventList = [];
-    for (const name of Object.keys(state.event)) {
-      if (typeof state.event[name] === 'object' &&
-        state.event[name].name && filter(state.event[name])) {
-        eventList.push(state.event[name]);
-      }
-    }
-    eventList.sort((a, b) => {
-      return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
-    });
-    return eventList;
+  getEventList: state => (filter = () => true) =>
+    state.eventList.filter(filter).map(itemName => state.event[itemName]),
+
+  getNewsCollection: state => name => {
+    return state.event[name] ? state.event[name].news : [];
   },
 
-  getNewsCollection: (state) => (name) => {
-    return state.event[name]
-      ? state.event[name].news
-      : [];
-  },
-
-  getNews: (state) => ({ name, id }) => {
+  getNews: state => ({ name, id }) => {
     if (!id) return;
 
     if (!name) {
@@ -75,9 +62,7 @@ export default {
     }
 
     if (name) {
-      const newsSet = (state.event[name] && state.event[name].news)
-        ? state.event[name].news.filter((news) => news.id.toString() === id.toString())
-        : [];
+      const newsSet = state.event[name] && state.event[name].news ? state.event[name].news.filter(news => news.id.toString() === id.toString()) : [];
 
       return newsSet.length > 0 ? newsSet[0] : null;
     } else {
@@ -95,7 +80,7 @@ export default {
     return null;
   },
 
-  getPendingNews: (state) => (name) => {
+  getPendingNews: state => name => {
     if (name) {
       return state.pendingNews[name] || [];
     } else {
@@ -120,17 +105,19 @@ export default {
     }
   },
 
-  getEventSubscriptionList: (state, getters) => (name) => {
+  getEventSubscriptionList: (state, getters) => name => {
     if (!name) return;
     const subscriptionList = getters.getSubscriptionList;
     const event = getters.getEvent(name);
-    const eventSubscriptionList = (subscriptionList || []).filter((s) => s.event === event.id);
+    const eventSubscriptionList = (subscriptionList || []).filter(
+      s => s.event === event.id,
+    );
     return eventSubscriptionList;
   },
 
-  getAuth: (state, getters) => (site) => {
+  getAuth: (state, getters) => site => {
     if (getters.isLoggedIn) {
-      return state.client.auths.filter((a) => a.site === site);
+      return state.client.auths.filter(a => a.site === site);
     }
 
     return null;
@@ -140,8 +127,7 @@ export default {
     return state.availableAuths;
   },
 
-  getFetchingStatus: (state) => (name) => {
+  getFetchingStatus: state => name => {
     return state.fetchingStatus[name];
   },
-
 };

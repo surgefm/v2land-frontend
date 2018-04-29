@@ -30,8 +30,48 @@ export default {
       });
       return data;
     } catch (err) {
+      // FIXME: toast
+      console.error(err);
       return null;
     }
+  },
+
+  async fetchEventList({ commit, state }, { where, page } = {}) {
+    let eventList = [];
+    const url = $.encode('event/list');
+
+    if (!where) where = { status: 'admitted' };
+    if (!page) page = 1;
+
+    try {
+      commit('setFetchingStatus', {
+        name: 'eventList',
+        status: 'loading',
+      });
+      const { data } = await this.$axios.post(url, { where, page });
+      for (const event of data.eventList) {
+        event.image = event['header_image'];
+        commit('setEvent', {
+          name: event.name,
+          detail: event,
+        });
+      }
+      eventList = data.eventList.map(event => event.name);
+      if (page === 1) {
+        commit('setEventList', eventList);
+      } else {
+        commit('appendEventList', eventList);
+      }
+      commit('setFetchingStatus', {
+        name: 'eventList',
+        status: 'loaded',
+      });
+    } catch (err) {
+      // FIXME: toast
+      console.error(err);
+    }
+
+    return eventList;
   },
 
   async getEventList({ commit, state }, { where, page } = {}) {
