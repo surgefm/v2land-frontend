@@ -37,7 +37,7 @@
   export default {
     computed: {
       showLoader() {
-        const status = this.fetchingStatus;
+        const { status } = this.fetchingStatus;
         return status !== 'loaded' &&
           status !== 'serverLoaded';
       },
@@ -77,7 +77,7 @@
         }
       },
       async init() {
-        const status = this.fetchingStatus;
+        const { status } = this.fetchingStatus;
         if (status == 'loaded' || status == 'initial') {
           await this.$store.dispatch('fetchEvent', this.$route.params.name);
         }
@@ -100,7 +100,6 @@
           status: 'serverLoaded',
         });
       }
-      return {};
     },
     mounted() {
       this.init();

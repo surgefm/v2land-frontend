@@ -20,8 +20,13 @@ export default {
     Vue.set(state, 'eventList', [...state.eventList, ...list]);
   },
 
-  setFetchingStatus(state, { name, status }) {
-    Vue.set(state.fetchingStatus, name, status);
+  setFetchingStatus(state, { name, status, page }) {
+    state.fetchingStatus[name].status = status;
+    if (page && page > 1) {
+      state.fetchingStatus[name].isRefresh = false;
+    } else {
+      state.fetchingStatus[name].isRefresh = true;
+    }
   },
 
   setSubscribeMode(state, mode) {

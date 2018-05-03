@@ -66,14 +66,15 @@
         return this.$store.getters.getFetchingStatus('eventList');
       },
       showLoader() {
-        const status = this.fetchingStatus;
+        const { status, isRefresh } = this.fetchingStatus;
         return status !== 'loaded' &&
-          status !== 'serverLoaded';
+          status !== 'serverLoaded' &&
+          isRefresh;
       },
     },
     methods: {
       async init() {
-        const status = this.fetchingStatus;
+        const { status } = this.fetchingStatus;
         if (status == 'loaded' || status == 'initial') {
           await this.$store.dispatch('fetchEventList', this.$route.params.name);
         }

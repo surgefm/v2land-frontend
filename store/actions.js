@@ -47,6 +47,7 @@ export default {
       commit('setFetchingStatus', {
         name: 'eventList',
         status: 'loading',
+        page,
       });
       const { data } = await this.$axios.post(url, { where, page });
       for (const event of data.eventList) {
