@@ -20,6 +20,14 @@ export default {
     Vue.set(state, 'eventList', [...state.eventList, ...list]);
   },
 
+  resetAllStatus(state) {
+    for (const key in state.fetchingStatus) {
+      if (state.fetchingStatus.hasOwnProperty(key)) {
+        state.fetchingStatus[key].status = 'initial';
+      }
+    }
+  },
+
   setFetchingStatus(state, { name, status, page }) {
     state.fetchingStatus[name].status = status;
     if (page && page > 1) {
