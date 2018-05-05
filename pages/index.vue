@@ -75,10 +75,10 @@
     methods: {
       async init() {
         const { status } = this.fetchingStatus;
-        if (status == 'loaded' || status == 'initial') {
+        if (status === 'loaded' || status === 'initial' || !status) {
           await this.$store.dispatch('fetchEventList', this.$route.params.name);
         }
-        if (status == 'serverLoaded') {
+        if (status === 'serverLoaded') {
           this.$store.commit('setFetchingStatus', {
             name: 'eventList',
             status: 'loaded',

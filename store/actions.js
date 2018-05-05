@@ -57,7 +57,7 @@ export default {
           detail: event,
         });
       }
-      eventList = data.eventList.map(event => event.name);
+      eventList = data.eventList.map((event) => event.name);
       if (page === 1) {
         commit('setEventList', eventList);
       } else {
