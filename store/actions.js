@@ -2,6 +2,9 @@ import $ from 'postman-url-encoder';
 
 export default {
   async getEvent({ dispatch, state, getters }, name) {
+    if (typeof name === 'undefined') {
+      throw new TypeError('name should not be undefined');
+    }
     for (const i in state.event) {
       if ((state.event[i].id === name || state.event[i].name === name) &&
         state.event[i].news && state.event[i].news.length > 0) {
@@ -9,25 +12,32 @@ export default {
       }
     }
 
-    return dispatch('fetchEvent', name);
+    return dispatch('fetchEvent', { name });
   },
 
-  async fetchEvent({ commit }, name) {
+  async fetchEvent({ commit }, { name, isEventPage }) {
+    if (typeof name === 'undefined') {
+      throw new TypeError('name should not be undefined');
+    }
     const url = $.encode(`event/${name}`);
     try {
-      commit('setFetchingStatus', {
-        name: 'getEvent',
-        status: 'loading',
-      });
+      if (isEventPage) {
+        commit('setFetchingStatus', {
+          name: 'getEvent',
+          status: 'loading',
+        });
+      }
       const { data } = await this.$axios.get(url, { progress: false });
       commit('setEvent', {
         name: data.name,
         detail: data,
       });
-      commit('setFetchingStatus', {
-        name: 'getEvent',
-        status: 'loaded',
-      });
+      if (isEventPage) {
+        commit('setFetchingStatus', {
+          name: 'getEvent',
+          status: 'loaded',
+        });
+      }
       return data;
     } catch (err) {
       // FIXME: toast

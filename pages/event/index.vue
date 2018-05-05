@@ -77,14 +77,17 @@
         }
       },
       async init() {
-        const { status } = this.fetchingStatus;
-        if (status == 'loaded' || status == 'initial') {
-          await this.$store.dispatch('fetchEvent', this.$route.params.name);
-        }
+        const status = this.fetchingStatus.status;
         if (status == 'serverLoaded') {
           this.$store.commit('setFetchingStatus', {
             name: 'getEvent',
             status: 'loaded',
+          });
+        } else {
+          const { name } = this.$route.params;
+          await this.$store.dispatch('fetchEvent', {
+            name,
+            isEventPage: true,
           });
         }
         if (!this.$store.getters.isServer) {
@@ -94,7 +97,10 @@
     },
     async asyncData({ store, params, redirect, route }) {
       if (store.getters.isServer) {
-        await store.dispatch('fetchEvent', params.name);
+        await store.dispatch('fetchEvent', {
+          name: params.name,
+          isEventPage: true,
+        });
         store.commit('setFetchingStatus', {
           name: 'getEvent',
           status: 'serverLoaded',

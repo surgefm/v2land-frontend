@@ -26,7 +26,9 @@
         this.$axios.post(url, data)
           .then(() => {
             if (this.isAdmin) {
-              this.$store.dispatch('fetchEvent', this.name)
+              this.$store.dispatch('fetchEvent', {
+                name: this.name,
+              })
                 .then(() => {
                   this.$message.success('提交成功，该新闻已放入事件合辑内');
                   this.$refs.form.resetForm();
