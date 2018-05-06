@@ -144,7 +144,8 @@
           id: this.object.id,
           data: { status: 'removed' },
         }).then(() => {
-          this.$store.dispatch('fetchEvent', this.$route.params.name);
+          const { name } = this.$route.params;
+          this.$store.dispatch('fetchEvent', { name });
         }).then(() => {
           this.$message('已删除该新闻');
         });

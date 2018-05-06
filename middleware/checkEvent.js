@@ -2,7 +2,7 @@
  *  doc here
  */
 export default async function({ route, app, store, redirect }) {
-  if (route.params.name && route.params.name !== 'admin') {
+  if (route.params.name && route.params.name !== 'admin' && store.getters.isServer) {
     const event = await store.dispatch('getEvent', route.params.name);
     const isManager = store.getters.isClientManager;
     if (!event || (event.status !== 'admitted' && !isManager)) {

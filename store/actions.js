@@ -2,6 +2,9 @@ import $ from 'postman-url-encoder';
 
 export default {
   async getEvent({ dispatch, state, getters }, name) {
+    if (typeof name === 'undefined') {
+      throw new TypeError('name should not be undefined');
+    }
     for (const i in state.event) {
       if ((state.event[i].id === name || state.event[i].name === name) &&
         state.event[i].news && state.event[i].news.length > 0) {
@@ -9,29 +12,77 @@ export default {
       }
     }
 
-    return dispatch('fetchEvent', name);
+    return dispatch('fetchEvent', { name });
   },
 
-  async fetchEvent({ commit }, name) {
+  async fetchEvent({ commit }, { name, isEventPage }) {
+    if (typeof name === 'undefined') {
+      throw new TypeError('name should not be undefined');
+    }
     const url = $.encode(`event/${name}`);
     try {
-      commit('setFetchingStatus', {
-        name: 'getEvent',
-        status: 'loading',
-      });
+      if (isEventPage) {
+        commit('setFetchingStatus', {
+          name: 'getEvent',
+          status: 'loading',
+        });
+      }
       const { data } = await this.$axios.get(url, { progress: false });
       commit('setEvent', {
         name: data.name,
         detail: data,
       });
-      commit('setFetchingStatus', {
-        name: 'getEvent',
-        status: 'loaded',
-      });
+      if (isEventPage) {
+        commit('setFetchingStatus', {
+          name: 'getEvent',
+          status: 'loaded',
+        });
+      }
       return data;
     } catch (err) {
+      // FIXME: toast
+      console.error(err);
       return null;
     }
+  },
+
+  async fetchEventList({ commit, state }, { where, page } = {}) {
+    let eventList = [];
+    const url = $.encode('event/list');
+
+    if (!where) where = { status: 'admitted' };
+    if (!page) page = 1;
+
+    try {
+      commit('setFetchingStatus', {
+        name: 'eventList',
+        status: 'loading',
+        page,
+      });
+      const { data } = await this.$axios.post(url, { where, page });
+      for (const event of data.eventList) {
+        event.image = event['header_image'];
+        commit('setEvent', {
+          name: event.name,
+          detail: event,
+        });
+      }
+      eventList = data.eventList.map((event) => event.name);
+      if (page === 1) {
+        commit('setEventList', eventList);
+      } else {
+        commit('appendEventList', eventList);
+      }
+      commit('setFetchingStatus', {
+        name: 'eventList',
+        status: 'loaded',
+      });
+    } catch (err) {
+      // FIXME: toast
+      console.error(err);
+    }
+
+    return eventList;
   },
 
   async getEventList({ commit, state }, { where, page } = {}) {

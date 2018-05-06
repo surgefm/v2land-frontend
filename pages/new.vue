@@ -31,7 +31,8 @@
         if (this.isAdmin) {
           this.$store.dispatch('createEvent', { data })
             .then(() => {
-              this.$store.dispatch('fetchEvent', data.name);
+              const { name } = data;
+              this.$store.dispatch('fetchEvent', { name });
             })
             .then(() => {
               this.$message('创建成功');
