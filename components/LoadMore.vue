@@ -87,7 +87,7 @@ export default {
     },
     async loadEvent() {
       this.loading = true;
-      const moreEvents = await this.$store.dispatch('getEventList', {
+      const moreEvents = await this.$store.dispatch('fetchEventList', {
         page: this.page,
       });
       this.loading = false;

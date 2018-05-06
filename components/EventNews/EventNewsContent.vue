@@ -215,10 +215,10 @@
         this.$emit('redirect');
       },
     },
-    async created() {
-      const eventId = this.news.event.id || this.news.event;
-      this.eventName = (await this.$store.dispatch('getEvent', eventId)).name;
-    },
+    // async created() {
+    //   const eventId = this.news.event.id || this.news.event;
+    //   this.eventName = (await this.$store.dispatch('getEvent', eventId)).name;
+    // },
   };
 </script>
 

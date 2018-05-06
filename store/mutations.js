@@ -12,8 +12,29 @@ export default {
     }
   },
 
-  setFetchingStatus(state, { name, status }) {
-    Vue.set(state.fetchingStatus, name, status);
+  setEventList(state, list) {
+    Vue.set(state, 'eventList', list);
+  },
+
+  appendEventList(state, list) {
+    Vue.set(state, 'eventList', [...state.eventList, ...list]);
+  },
+
+  resetAllStatus(state) {
+    for (const key in state.fetchingStatus) {
+      if (state.fetchingStatus.hasOwnProperty(key)) {
+        state.fetchingStatus[key].status = 'initial';
+      }
+    }
+  },
+
+  setFetchingStatus(state, { name, status, page }) {
+    state.fetchingStatus[name].status = status;
+    if (page && page > 1) {
+      state.fetchingStatus[name].isRefresh = false;
+    } else {
+      state.fetchingStatus[name].isRefresh = true;
+    }
   },
 
   setSubscribeMode(state, mode) {

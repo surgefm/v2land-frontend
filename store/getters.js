@@ -47,24 +47,11 @@ export default {
     return null;
   },
 
-  getEventList: (state) => (filter = () => true) => {
-    const eventList = [];
-    for (const name of Object.keys(state.event)) {
-      if (typeof state.event[name] === 'object' &&
-        state.event[name].name && filter(state.event[name])) {
-        eventList.push(state.event[name]);
-      }
-    }
-    eventList.sort((a, b) => {
-      return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
-    });
-    return eventList;
-  },
+  getEventList: (state) => (filter = () => true) =>
+    state.eventList.filter(filter).map((itemName) => state.event[itemName]),
 
   getNewsCollection: (state) => (name) => {
-    return state.event[name]
-      ? state.event[name].news
-      : [];
+    return state.event[name] ? state.event[name].news : [];
   },
 
   getNews: (state) => ({ name, id }) => {
@@ -75,9 +62,8 @@ export default {
     }
 
     if (name) {
-      const newsSet = (state.event[name] && state.event[name].news)
-        ? state.event[name].news.filter((news) => news.id.toString() === id.toString())
-        : [];
+      const newsSet = state.event[name] &&
+        state.event[name].news ? state.event[name].news.filter((news) => news.id.toString() === id.toString()) : [];
 
       return newsSet.length > 0 ? newsSet[0] : null;
     } else {
@@ -124,7 +110,9 @@ export default {
     if (!name) return;
     const subscriptionList = getters.getSubscriptionList;
     const event = getters.getEvent(name);
-    const eventSubscriptionList = (subscriptionList || []).filter((s) => s.event === event.id);
+    const eventSubscriptionList = (subscriptionList || []).filter(
+      (s) => s.event === event.id,
+    );
     return eventSubscriptionList;
   },
 
@@ -143,5 +131,4 @@ export default {
   getFetchingStatus: (state) => (name) => {
     return state.fetchingStatus[name];
   },
-
 };

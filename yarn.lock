@@ -2313,8 +2313,8 @@ eslint-config-standard@^10.2.1:
   resolved "https://registry.yarnpkg.com/eslint-config-standard/-/eslint-config-standard-10.2.1.tgz#c061e4d066f379dc17cd562c64e819b4dd454591"
 
 eslint-config-v2land@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-v2land/-/eslint-config-v2land-1.0.0.tgz#26025670a92896a73c6e7c86139315e7405536e6"
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/eslint-config-v2land/-/eslint-config-v2land-1.0.3.tgz#8d89b791b9f556157b4d6ea745c93e37b056ba71"
   dependencies:
     eslint-config-google "^0.9.1"
 

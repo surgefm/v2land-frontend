@@ -7,7 +7,14 @@ export default {
     events: [],
   },
   fetchingStatus: {
-    getEvent: 'initial',
+    getEvent: {
+      status: 'initial',
+      isRefresh: true,
+    },
+    eventList: {
+      status: 'initial',
+      isRefresh: true,
+    },
   },
   availableAuths: [],
   event: {},
