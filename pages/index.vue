@@ -38,7 +38,11 @@
       :event="event"
       :fade="true"
     />
-    <event-card-shimmer v-if="showLoader" />
+    <event-card-shimmer
+      v-if="showLoader"
+      v-for="(index) of new Array(3)"
+      :key="index"
+    />
     <load-more v-if="!showLoader" :type="'event'">加载更多</load-more>
     <page-foot class="page-foot" />
   </div>

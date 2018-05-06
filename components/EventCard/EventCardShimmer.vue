@@ -3,13 +3,13 @@
     <div class="event-container">
       <div class="event-text event-text-image">
         <div class="event-image-container img-background">
-          <div class="event-image event-image-shimmer shimmer"></div>
+          <div class="event-image event-image-shimmer shimmer" />
         </div>
         <div class="description event-description light-font limit">
-          <div class="title-shimmer shimmer"></div>
-          <div class="line-shimmer shimmer"></div>
-          <div class="line-shimmer shimmer"></div>
-          <div class="line-shimmer shimmer"></div>
+          <div class="title-shimmer shimmer" />
+          <div class="line-shimmer shimmer" />
+          <div class="line-shimmer shimmer" />
+          <div class="line-shimmer shimmer" />
         </div>
       </div>
     </div>
@@ -34,18 +34,12 @@
     padding: 1.5rem;
     position: relative;
     overflow: hidden;
-    height: 240px;
   }
 
   .event-text-image {
     padding-right: 13.5rem;
-  }
-
-  .event-title {
-    font-size: 1.25rem;
-    font-weight: bold;
-    line-height: 1.5;
-    color: black;
+    border-bottom-right-radius: .5rem;
+    border-top-right-radius: .5rem;
   }
 
   .event-description {
@@ -73,71 +67,6 @@
     border-bottom-right-radius: .5rem;
     width: 100%;
     height: 100%;
-  }
-
-  .event-image-container span {
-    position: absolute;
-    right: .25rem;
-    bottom: .25rem;
-    font-size: .75rem;
-    padding: .35rem;
-    background-color: #333;
-    color: #fff;
-    line-height: 1;
-    border-radius: .25rem;
-    user-select: none;
-  }
-
-  p {
-    text-decoration: none;
-    color: black;
-  }
-
-  @media (max-width: 600px) {
-    .event-text {
-      padding-right: 1.5rem;
-    }
-
-    .event-text-image {
-      padding: .5rem;
-    }
-
-    .event-text-image p {
-      margin: 1rem .5rem 0 1rem;
-    }
-
-    .event-text-image .description {
-      margin: .5rem 1rem 1rem 1rem;
-    }
-
-    .event-description.limit {
-      max-height: 9rem;
-    }
-
-    .event-image-container {
-      width: 102px;
-      height: 102px;
-      margin-left: 1rem;
-      position: relative;
-      float: right;
-      border-radius: .25rem;
-      top: .5rem;
-      right: .5rem;
-    }
-
-    .event-image-container span {
-      border-top-right-radius: 0;
-      border-bottom-left-radius: 0;
-      right: 0;
-      bottom: 0;
-      padding: .25rem;
-    }
-
-    .event-image {
-      height: 100%;
-      border-radius: .25rem;
-    }
-
   }
 
   .title-shimmer {
@@ -171,6 +100,20 @@
       rgb(223, 223, 223) 73%,
       #f7f9fa 100%
     );
+  }
+
+  @media (max-width: 600px) {
+    .event-text {
+      padding-right: 1.5rem;
+    }
+
+    .event-description.limit {
+      max-height: 9rem;
+    }
+
+    .event-image-container {
+      display: none;
+    }
   }
 
   @keyframes shimmer-ani {
