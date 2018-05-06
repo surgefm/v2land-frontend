@@ -94,11 +94,17 @@
     },
     async asyncData({ store, params, redirect, route }) {
       if (store.getters.isServer) {
-        await store.dispatch('fetchEvent', params.name);
+        const event = await store.dispatch('fetchEvent', params.name);
         store.commit('setFetchingStatus', {
           name: 'getEvent',
           status: 'serverLoaded',
         });
+        if (!event) {
+          redirect({
+            name: 'not-found',
+            query: { status: 'event_not_found' },
+          });
+        }
       }
       return {};
     },
