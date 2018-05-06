@@ -2,7 +2,11 @@
   <div>
     <background>
       <event-abstract-loader v-if="showLoader" />
-      <event-news-loader v-if="showLoader" />
+      <event-news-loader
+        v-if="showLoader"
+        v-for="(index) of new Array(3)"
+        :key="index"
+      />
       <event-abstract v-if="!showLoader" :detail="event" />
       <div 
         v-if="!showLoader"
@@ -37,7 +41,7 @@
   export default {
     computed: {
       showLoader() {
-        const status = this.fetchingStatus;
+        const { status } = this.fetchingStatus;
         return status !== 'loaded' &&
           status !== 'serverLoaded';
       },
@@ -77,14 +81,19 @@
         }
       },
       async init() {
-        const status = this.fetchingStatus;
-        if (status === 'loaded' || status === 'initial') {
-          await this.$store.dispatch('fetchEvent', this.$route.params.name);
+        const status = this.fetchingStatus.status;
+        if (status == 'serverLoaded') {
+          this.$store.commit('setFetchingStatus', {
+            name: 'getEvent',
+            status: 'loaded',
+          });
+        } else {
+          const { name } = this.$route.params;
+          await this.$store.dispatch('fetchEvent', {
+            name,
+            isEventPage: true,
+          });
         }
-        this.$store.commit('setFetchingStatus', {
-          name: 'getEvent',
-          status: 'loaded',
-        });
         if (!this.$store.getters.isServer) {
           this.scrollToNews();
         }
@@ -92,13 +101,21 @@
     },
     async asyncData({ store, params, redirect, route }) {
       if (store.getters.isServer) {
-        await store.dispatch('fetchEvent', params.name);
+        const event = await store.dispatch('fetchEvent', {
+          name: params.name,
+          isEventPage: true,
+        });
         store.commit('setFetchingStatus', {
           name: 'getEvent',
           status: 'serverLoaded',
         });
+        if (!event) {
+          redirect({
+            name: 'not-found',
+            query: { status: 'event_not_found' },
+          });
+        }
       }
-      return {};
     },
     mounted() {
       this.init();

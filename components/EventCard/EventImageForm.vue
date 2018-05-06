@@ -113,7 +113,9 @@
               const url = $.encode(`event/${this.name}/header_image`);
               this.$axios[this.isNew ? 'post' : 'put'](url, this.form)
                 .then(() => {
-                  this.$store.dispatch('fetchEvent', this.name);
+                  this.$store.dispatch('fetchEvent', {
+                    name: this.name,
+                  });
                 })
                 .then(() => {
                   resolve(true);

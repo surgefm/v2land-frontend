@@ -32,12 +32,18 @@
       </div>
     </card>
     <event-card
+      v-if="!showLoader"
       v-for="event of eventList"
       :key="event.id"
       :event="event"
       :fade="true"
     />
-    <load-more :type="'event'">加载更多</load-more>
+    <event-card-shimmer
+      v-if="showLoader"
+      v-for="(index) of new Array(3)"
+      :key="index"
+    />
+    <load-more v-if="!showLoader" :type="'event'">加载更多</load-more>
     <page-foot class="page-foot" />
   </div>
 </template>
@@ -45,6 +51,7 @@
 <script>
   import config from '~/const';
   import EventCard from '~/components/EventCard/EventCard.vue';
+  import EventCardShimmer from '~/components/EventCard/EventCardShimmer.vue';
   import EventDescription from '~/components/EventAbstract/EventAbstractDescription.vue';
   import LoadMore from '~/components/LoadMore.vue';
 
@@ -59,12 +66,45 @@
       eventList() {
         return this.$store.getters.getEventList() || [];
       },
+      fetchingStatus() {
+        return this.$store.getters.getFetchingStatus('eventList');
+      },
+      showLoader() {
+        const { status, isRefresh } = this.fetchingStatus;
+        return status !== 'loaded' &&
+          status !== 'serverLoaded' &&
+          isRefresh;
+      },
+    },
+    methods: {
+      async init() {
+        const { status } = this.fetchingStatus;
+        if (status === 'serverLoaded') {
+          this.$store.commit('setFetchingStatus', {
+            name: 'eventList',
+            status: 'loaded',
+          });
+        } else {
+          await this.$store.dispatch('fetchEventList', this.$route.params.name);
+        }
+      },
     },
     async asyncData({ store }) {
-      await store.dispatch('getEventList');
+      if (store.getters.isServer) {
+        store.commit('resetAllStatus');
+        await store.dispatch('fetchEventList');
+        store.commit('setFetchingStatus', {
+          name: 'eventList',
+          status: 'serverLoaded',
+        });
+      }
+    },
+    mounted() {
+      this.init();
     },
     components: {
       'event-card': EventCard,
+      'event-card-shimmer': EventCardShimmer,
       'event-description': EventDescription,
       'load-more': LoadMore,
     },

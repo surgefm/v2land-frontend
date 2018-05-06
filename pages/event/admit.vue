@@ -58,7 +58,8 @@
         } else {
           this.$store.dispatch('getPendingNews', this.$route.params.name)
             .then(() => {
-              this.$store.dispatch('fetchEvent', this.$route.params.name);
+              const { name } = this.$route.params;
+              this.$store.dispatch('fetchEvent', { name });
             })
             .then(() => {
               this.response(status);

@@ -23,6 +23,9 @@ const LoginEmail = () => import(/* webpackChunkName: "login" */ '~/pages/login/e
 
 const AdminEvent = () => import(/* webpackChunkName: "admin" */ '~/pages/admin/event.vue').then((m) => m.default || m);
 const AdminClient = () => import(/* webpackChunkName: "admin" */ '~/pages/admin/client.vue').then((m) => m.default || m);
+const NotFound = () =>
+  import( /* webpackChunkName: "404" */ '~/pages/404.vue').then((m) => m.default || m);
+
 
 Vue.use(Router);
 
@@ -49,6 +52,7 @@ export function createRouter() {
       // admin
       { path: '/admin/event', component: AdminEvent, name: 'admin-event' },
       { path: '/admin/client', component: AdminClient, name: 'admin-client' },
+      { path: '/admin/:any(.*)', component: NotFound },
 
       // event
       { path: '/:name(\\d+)/post', component: EventPost, name: 'event-post' },
@@ -77,6 +81,7 @@ export function createRouter() {
           },
         ],
       },
+      { path: '*', component: NotFound, name: 'not-found' },
     ],
   });
 }
