@@ -101,8 +101,7 @@
     },
     async asyncData({ store, params, redirect, route }) {
       if (store.getters.isServer) {
-        store.commit('resetAllStatus');
-        await store.dispatch('fetchEvent', {
+        const event = await store.dispatch('fetchEvent', {
           name: params.name,
           isEventPage: true,
         });
@@ -110,6 +109,12 @@
           name: 'getEvent',
           status: 'serverLoaded',
         });
+        if (!event) {
+          redirect({
+            name: 'not-found',
+            query: { status: 'event_not_found' },
+          });
+        }
       }
     },
     mounted() {

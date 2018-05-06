@@ -16,7 +16,6 @@ export default async function({ route, app, store, redirect }) {
       }
 
       return;
-      // return redirect((from || '/') + '?status=event_not_found');
     }
 
     let checkPinyin = true;
