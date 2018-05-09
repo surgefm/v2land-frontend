@@ -100,7 +100,7 @@
       },
     },
     async asyncData({ store, params, redirect, route }) {
-      if (store.getters.isServer) {
+      if (process.server) {
         const event = await store.dispatch('fetchEvent', {
           name: params.name,
           isEventPage: true,
