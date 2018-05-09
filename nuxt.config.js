@@ -92,7 +92,7 @@ module.exports = {
   plugins,
 
   router: {
-    middleware: ['auth', 'checkEvent', 'permission'],
+    middleware: ['auth', 'checkEvent', 'permission', 'resetAllStatus'],
     linkExactActiveClass: 'exact-active-link',
   },
 

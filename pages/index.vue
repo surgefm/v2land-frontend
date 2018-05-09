@@ -90,8 +90,7 @@
       },
     },
     async asyncData({ store }) {
-      if (store.getters.isServer) {
-        store.commit('resetAllStatus');
+      if (process.server) {
         await store.dispatch('fetchEventList');
         store.commit('setFetchingStatus', {
           name: 'eventList',
