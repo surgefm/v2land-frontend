@@ -36,7 +36,9 @@ module.exports = async function() {
   console.log(chalk.green('Setup main process'));
   global.__PROCESS__ = await startMainProcess();
   console.log(chalk.green('Setup Puppeteer'));
-  const browser = await puppeteer.launch({});
+  const browser = await puppeteer.launch({
+    args: ['--no-sandbox'],
+  });
   global.__BROWSER__ = browser;
   mkdirp.sync(DIR);
   fs.writeFileSync(
