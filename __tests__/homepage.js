@@ -15,9 +15,9 @@ describe(
 
     it('should load without error', async () => {
       const text = await page.evaluate(
-        () => document.head.title.textContent,
+        () => document.body.textContent,
       );
-      expect(text).toContain('浪潮');
+      expect(text).toContain('你的社会事件追踪工具');
     });
   },
   timeout,
