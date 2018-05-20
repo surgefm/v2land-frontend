@@ -18,10 +18,10 @@ export default {
   },
   availableAuths: [],
   event: {},
-  eventList: [],
+  eventName: {},
+  eventId: [],
+  stack: {},
   news: {},
-  pendingNews: {},
-  allPendingNews: [],
   clientList: [],
   temp: {},
   subscribe: {

@@ -34,58 +34,107 @@ export default {
   },
 
   getEvent: (state) => (name) => {
-    if (state.event[name]) {
-      return state.event[name];
-    }
+    if (!name) return null;
 
-    for (const i in state.event) {
-      if (state.event[i] && +state.event[i].id === +name) {
-        return state.event[i];
-      }
-    }
+    if (state.event[name]) return state.event[name];
+    if (state.eventName[name]) return state.event[state.eventName[name]];
 
     return null;
   },
 
-  getEventList: (state) => (filter = () => true) =>
-    state.eventList.filter(filter).map((itemName) => state.event[itemName]),
-
-  getNewsCollection: (state) => (name) => {
-    return state.event[name] ? state.event[name].news : [];
+  getEventList: (state) => (
+    filter = () => true,
+    sort = (a, b) => {
+      return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+    }
+  ) => {
+    const eventList = [];
+    for (const id of state.eventId) {
+      eventList.push(state.event[id]);
+    }
+    return eventList.filter(filter).sort(sort);
   },
 
-  getNews: (state) => ({ name, id }) => {
+  getStack: (state) => (id) => {
+    if (!id) return null;
+    return state.stack[id];
+  },
+
+  getStackCollectionByEvent: (state, getters) => ({ event, isAdmitted = true }) => {
+    const e = getters.getEvent(name);
+
+    const stackList = [];
+    for (const stack of e.stack) {
+      if (state.stack[stack] &&
+        (!isAdmitted || state.stack[stack].status === 'admitted')) {
+        stackList.push(state.stack[stack]);
+      }
+    }
+
+    return stackList;
+  },
+
+  getStackCollection: (state, getters) => ({
+    filter = () => true,
+    sort = (a, b) => b.order - a.order,
+  }) => {
+    return getters.getAllStack.filter(filter).sort(sort);
+  },
+
+  getAllStack: (state) => {
+    const stackList = [];
+    for (const id of Object.keys(state.stack)) {
+      if (typeof + id === 'number') {
+        stackList.push(state.stack[id]);
+      }
+    }
+    return stackList;
+  },
+
+  getNewsCollectionByStack: (state, getters) => ({ stack, isAdmitted = true }) => {
+    const s = getters.getStack(stack);
+    const newsIdList = s.news;
+
+    const newsList = [];
+    for (const news of newsIdList) {
+      if (state.news[news] &&
+        (!isAdmitted || state.news[news].status === 'admitted')) {
+        newsList.push(state.news[news]);
+      }
+    }
+
+    return newsList;
+  },
+
+  getNewsCollection: (state, getters) => ({
+    filter = () => true,
+    sort = (a, b) => {
+      return new Date(b.time).getTime() - new Date(a.time).getTime();
+    },
+  }) => {
+    return getters.getAllNews.filter(filter).sort(sort);
+  },
+
+  getAllNews: (state) => {
+    const newsList = [];
+    for (const id of Object.keys(state.news)) {
+      if (typeof +id === 'number') {
+        newsList.push(state.news[id]);
+      }
+    }
+    return newsList;
+  },
+
+  getNews: (state) => ({ id }) => {
     if (!id) return;
-
-    if (!name) {
-      name = state.news[id];
-    }
-
-    if (name) {
-      const newsSet = state.event[name] &&
-        state.event[name].news ? state.event[name].news.filter((news) => news.id.toString() === id.toString()) : [];
-
-      return newsSet.length > 0 ? newsSet[0] : null;
-    } else {
-      for (const item of Object.getOwnPropertyNames(state.event)) {
-        const event = state.event[item] || {};
-        const newsList = event.news || [];
-        for (const news of newsList) {
-          if (news.id.toString() === id.toString() || news.title === id) {
-            return news;
-          }
-        }
-      }
-    }
-
-    return null;
+    return state.news[id];
   },
 
-  getPendingNews: (state) => (name) => {
-    if (name) {
-      return state.pendingNews[name] || [];
+  getPendingNews: (state) => ({ id }) => {
+    if (id) {
+      return state.news.filter(n => n.event === id && n.status !== 'admitted');
     } else {
-      return state.allPendingNews;
+      return state.news.filter(n => n.status !== 'admitted');
     }
   },
 
