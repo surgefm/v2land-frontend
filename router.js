@@ -52,7 +52,7 @@ export function createRouter() {
       // admin
       { path: '/admin/event', component: AdminEvent, name: 'admin-event' },
       { path: '/admin/client', component: AdminClient, name: 'admin-client' },
-      { path: '/admin/:any(.*)', component: NotFound },
+      { path: '/admin/:any(.*)', component: NotFound, name: 'admin-not-found' },
 
       // event
       { path: '/:name(\\d+)/post', component: EventPost, name: 'event-post' },

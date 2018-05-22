@@ -101,6 +101,7 @@
     },
     async asyncData({ store, params, redirect, route }) {
       if (store.getters.isServer) {
+        store.commit('resetAllStatus');
         const event = await store.dispatch('fetchEvent', {
           name: params.name,
           isEventPage: true,
