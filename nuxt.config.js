@@ -10,6 +10,7 @@ const plugins = [
   '~/plugins/lazyload.js',
   '~/plugins/polyfills.js',
   '~/plugins/gaDirective.js',
+  '~/plugins/enderpearl.js',
   { src: '~/plugins/statusHandler', ssr: false },
   { src: '~/plugins/ga', ssr: false },
 ];
