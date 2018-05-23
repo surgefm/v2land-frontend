@@ -27,5 +27,5 @@ RUN yarn run build
 
 LABEL name="frontend"
 
-EXPOSE 80 3000 8081
+EXPOSE 8080
 CMD /usr/local/openresty/bin/openresty && cross-env HOST=0.0.0.0 yarn start
