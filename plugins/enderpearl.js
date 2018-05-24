@@ -3,7 +3,7 @@ export default () => {
     const scriptElement = document.createElement('script');
     scriptElement.setAttribute(
       'src',
-      'https://enderman.v2land.net/js/enderpearl.js',
+      'https://enderman.v2land.net/enderpearl.js',
     );
     window.__ENDERPEARL_OPTION__ = {
       reportBaseUrl: 'https://enderman.v2land.net/',
