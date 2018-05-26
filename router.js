@@ -30,7 +30,7 @@ const NotFound = () =>
 Vue.use(Router);
 
 export function createRouter() {
-  return new Router({
+  const router = new Router({
     mode: 'history',
     routes: [
       // basic
@@ -84,4 +84,15 @@ export function createRouter() {
       { path: '*', component: NotFound, name: 'not-found' },
     ],
   });
+
+  router.afterEach((to, from) => {
+    // TODO: API change
+    // const fromFullPath = from.fullPath;
+    const toFullPath = to.fullPath;
+    if (typeof __ENDERMAN_REPORTER__ !== 'undefined') {
+      __ENDERMAN_REPORTER__.reportLocationChange(toFullPath);
+    }
+  });
+
+  return router;
 }
