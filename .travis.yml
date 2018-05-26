@@ -11,6 +11,6 @@ deploy:
   script: bash deploy.sh
   skip_cleanup: true
   on:
-    branch: master
+    branch: develop
 notifications:
   slack: v2land:xoeT2IXt8yCaUfMxoBbXrSZD
