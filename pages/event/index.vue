@@ -32,7 +32,7 @@
   import config from '~/const';
   import EventAbstract from '~/components/EventAbstract/EventAbstract.vue';
   import EventAbstractLoader from '~/components/EventAbstract/EventAbstractLoader.vue';
-  import EventStack from '~/components/EventNews/EventStack.vue';
+  import EventStack from '~/components/EventStack/EventStack.vue';
 
   export default {
     computed: {

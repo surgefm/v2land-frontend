@@ -61,7 +61,7 @@ export default {
   },
 
   getStackCollectionByEvent: (state, getters) => ({ event, isAdmitted = true }) => {
-    const e = getters.getEvent(name);
+    const e = getters.getEvent(event);
 
     const stackList = [];
     for (const stack of e.stack) {
