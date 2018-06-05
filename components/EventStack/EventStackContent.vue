@@ -52,7 +52,27 @@
         return this.order === this.event.stackCount - 1 && !this.showEventName;
       },
       newsList() {
-        return this.$store.getters.getNewsCollectionByStack;
+        // return this.$store.getters.getNewsCollectionByStack;
+        return [
+          {
+            title: '123',
+            abstract: '321',
+            url: 'https://google.com',
+            source: '咕果',
+          },
+          {
+            title: '123',
+            abstract: '321',
+            url: 'https://google.com',
+            source: '咕果',
+          },
+          {
+            title: '123',
+            abstract: '321',
+            url: 'https://google.com',
+            source: '咕果',
+          },
+        ];
       },
       route() {
         return this.$mockroute || this.$route;
