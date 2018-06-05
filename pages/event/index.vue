@@ -59,6 +59,7 @@
             title: '最后',
             description: '李白骑鲸鱼',
             order: 3,
+            event: 12,
             news: [
               {
                 title: '123',
@@ -84,6 +85,7 @@
             title: '其次',
             description: '李白骑鲸鱼',
             order: 2,
+            event: 12,
             news: [
               {
                 title: '123',
@@ -109,6 +111,7 @@
             title: '首先',
             description: '李白骑鲸鱼',
             order: 1,
+            event: 12,
             news: [
               {
                 title: '123',
@@ -238,33 +241,8 @@
 </script>
 
 <style lang="scss" scoped>
-  .news {
+  .stack {
     width: 100%;
     max-width: 35rem;
-  }
-
-  .cover {
-    transition: background-color .2s, opacity .2s, z-index 0s;
-    opacity: 0;
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -100;
-  }
-
-  .shadow-cover {
-    z-index: 1900;
-    opacity: 1;
-    background-color: rgba(0, 0, 0, .4);
-  }
-
-  .above-cover {
-    z-index: 1901;
-  }
-
-  .hide-news {
-    display: none;
   }
 </style>

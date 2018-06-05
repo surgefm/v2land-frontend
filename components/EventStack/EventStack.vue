@@ -16,13 +16,13 @@
     <event-stack-content
       :stack="stack"
       :mode="mode"
-      :event="event"
     />
   </card>
 </template>
 
 <script>
   import config from '~/const';
+  import EventStackContent from '~/components/EventStack/EventStackContent.vue';
 
   export default {
     name: 'EventStack',
@@ -46,6 +46,9 @@
       copySuccess() {
         this.$message.success('已将该新闻分享链接拷贝至剪贴板');
       },
+    },
+    components: {
+      'event-stack-content': EventStackContent,
     },
   };
 </script>

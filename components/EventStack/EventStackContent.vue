@@ -36,6 +36,11 @@
       mode: String,
       showEventName: Boolean,
     },
+    data() {
+      return {
+        showNews: false,
+      };
+    },
     computed: {
       event() {
         return this.$store.getters.getEvent(this.stack.event);
@@ -81,6 +86,11 @@
         });
         this.$emit('redirect');
       },
+    },
+    created() {
+      if (this.isLatestStack) {
+        this.showNews = true;
+      }
     },
   };
 </script>
