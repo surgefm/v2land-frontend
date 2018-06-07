@@ -9,14 +9,14 @@
       <span v-if="isLatestStack" class="tag light-font">
         最新进展
       </span>
-      <a v-if="stack.title" class="title">
+      <span v-if="stack.title" class="title">
         {{ stack.title }}
-      </a>
+      </span>
     </div>
     <p v-if="stack.description" class="stack">
       {{ stack.description }}
     </p>
-    <div v-if="showNews">
+    <div v-if="showNews" class="news-list">
       <event-stack-news
         v-for="news of newsList"
         :news="news"
@@ -38,7 +38,7 @@
     },
     data() {
       return {
-        showNews: false,
+        showNews: true,
       };
     },
     computed: {
@@ -55,22 +55,25 @@
         // return this.$store.getters.getNewsCollectionByStack;
         return [
           {
-            title: '123',
+            title: '警方发现李白骑鲸鱼的时候并没有穿内内，场面十分吓人',
             abstract: '321',
             url: 'https://google.com',
             source: '咕果',
+            time: '2018-05-26',
           },
           {
             title: '123',
             abstract: '321',
             url: 'https://google.com',
             source: '咕果',
+            time: '2018-05-26',
           },
           {
             title: '123',
             abstract: '321',
             url: 'https://google.com',
             source: '咕果',
+            time: '2018-05-26',
           },
         ];
       },
@@ -118,13 +121,12 @@
 <style lang="scss" scoped>
   @import "../../assets/variables.scss";
 
-  a {
-    color: black;
+  .top-container {
+    padding: 1rem 2rem 0 2rem;
   }
 
-  a:hover:not(.link) {
-    border-bottom: .125rem #000 solid;
-    padding-bottom: .05rem;
+  a {
+    color: black;
   }
 
   .tag {
@@ -149,10 +151,14 @@
     word-wrap: break-word;
   }
 
-  .stack {
-    padding-top: .5rem;
+  p.stack {
+    padding: .5rem 2rem 1rem 2rem;
     line-height: 1.8 !important;
     font-size: 1rem !important;
     color: #333;
+  }
+
+  .news-list {
+    padding-bottom: 1rem;
   }
 </style>

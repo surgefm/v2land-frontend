@@ -2,11 +2,11 @@
   <div>
     <background>
       <event-abstract-loader v-if="showLoader" />
-      <event-news-loader
+      <!-- <event-news-loader
         v-if="showLoader"
         v-for="(index) of new Array(3)"
         :key="index"
-      />
+      /> -->
       <event-abstract v-if="!showLoader" :detail="event" />
       <div 
         v-if="!showLoader"

@@ -58,7 +58,7 @@
 
   .stack-wrapper {
     position: relative;
-    padding: 1rem 2rem;
+    padding: 0;
   }
 
   .order {

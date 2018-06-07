@@ -6,8 +6,8 @@ module.exports = {
   api: 'https://langchao.org/api/',
   static: 'https://assets.v2land.net/',
   ga: 'UA-109441031-1', // Google Analytics
-  typekit: 'zmq2epg',
-  justfont: '54014',
+  // typekit: 'zmq2epg',
+  // justfont: '54014',
   cdn,
   publicPath,
 };
