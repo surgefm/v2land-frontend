@@ -60,7 +60,7 @@ export default {
       for (const event of data.eventList) {
         commit('setEvent', { event: event });
       }
-      eventList = data.eventList.map((event) => event.name);
+      eventList = data.eventList;
       commit('setFetchingStatus', {
         name: 'eventList',
         status: 'loaded',

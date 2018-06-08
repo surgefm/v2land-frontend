@@ -3,7 +3,7 @@ import cleanState from '~/store/state';
 import getSortedId from '~/utils/getSortedId';
 
 const mutations = {
-  setEvent(state, { event }) {
+  setEvent(state, { event } = {}) {
     event.stack = event.stack || [];
     const stackId = [];
     for (const stack of event.stack) {
@@ -41,7 +41,7 @@ const mutations = {
     return event;
   },
 
-  setStack(state, { stack }) {
+  setStack(state, { stack } = {}) {
     stack.news = stack.news || [];
     const newsId = [];
     for (const news of stack.news) {
@@ -83,20 +83,24 @@ const mutations = {
     return stack;
   },
 
-  setNews(state, { news }) {
-    if (typeof news.event === 'object') {
+  setNews(state, { news } = {}) {
+    if (news.event && typeof news.event === 'object') {
       const event = news.event;
       news.event = +event.id;
       mutations.setEvent(state, { event });
     }
 
-    if (typeof news.stack === 'object') {
+    if (news.stack && typeof news.stack === 'object') {
       const stack = news.stack;
       news.stack = +stack.id;
       mutations.setStack(state, { stack });
     }
 
+    if (!state.news[news.id]) {
+      state.newsId.push(news.id);
+    }
     Vue.set(state.news, news.id, news);
+
 
     const s = state.stack[news.stack];
     if (s && !s.news.includes(news.id)) {
@@ -104,7 +108,7 @@ const mutations = {
     }
   },
 
-  sortStackId(state, { name }) {
+  sortStackId(state, { name } = {}) {
     const event = state.event[name] ||
       state.event[state.eventName[name]];
     if (!event) return;

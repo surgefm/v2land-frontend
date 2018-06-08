@@ -22,6 +22,7 @@ export default {
   eventId: [],
   stack: {},
   news: {},
+  newsId: [],
   clientList: [],
   temp: {},
   subscribe: {
