@@ -16,6 +16,7 @@
     <event-stack-content
       :stack="stack"
       :mode="mode"
+      :isLatestStack="isLatestStack"
     />
   </card>
 </template>
@@ -31,6 +32,7 @@
       order: Number,
       mode: String,
       event: Object,
+      isLatestStack: Boolean,
     },
     computed: {
       stackUrl() {

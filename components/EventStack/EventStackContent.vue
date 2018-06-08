@@ -9,13 +9,17 @@
       <span v-if="isLatestStack" class="tag light-font">
         最新进展
       </span>
-      <span v-if="stack.title" class="title">
+      <p v-if="stack.title" class="title">
         {{ stack.title }}
-      </span>
+      </p>
+      <p v-if="stack.description" class="stack">
+        {{ stack.description }}
+      </p>
     </div>
-    <p v-if="stack.description" class="stack">
-      {{ stack.description }}
-    </p>
+    <el-button type="text" class="news-button" @click="toggleNewsButton">
+      <i :class="showNews ? 'el-icon-caret-top' : 'el-icon-caret-right'" />
+      {{ showNews ? '收起列表' : '3 条相关消息' }}
+    </el-button>
     <div v-if="showNews" class="news-list">
       <event-stack-news
         v-for="news of newsList"
@@ -35,10 +39,11 @@
       stack: Object,
       mode: String,
       showEventName: Boolean,
+      isLatestStack: Boolean,
     },
     data() {
       return {
-        showNews: true,
+        showNews: false,
       };
     },
     computed: {
@@ -48,18 +53,16 @@
       eventName() {
         return this.event ? this.event.name : null;
       },
-      isLatestStack() {
-        return this.order === this.event.stack.length && !this.showEventName;
-      },
       newsList() {
         // return this.$store.getters.getNewsCollectionByStack;
         return [
           {
             title: '警方发现李白骑鲸鱼的时候并没有穿内内，场面十分吓人',
-            abstract: '321',
+            abstract: '李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼',
             url: 'https://google.com',
             source: '新民晚报',
             time: '2018-05-26',
+            event: 12,
           },
           {
             title: '123',
@@ -67,6 +70,7 @@
             url: 'https://google.com',
             source: '咕果',
             time: '2018-05-26',
+            event: 12,
           },
           {
             title: '123',
@@ -74,6 +78,7 @@
             url: 'https://google.com',
             source: '咕果',
             time: '2018-05-26',
+            event: 12,
           },
         ];
       },
@@ -88,6 +93,9 @@
       'event-stack-news': EventStackNews,
     },
     methods: {
+      toggleNewsButton() {
+        this.showNews = !this.showNews;
+      },
       redirect() {
         this.router.push({
           name: 'event-pinyin-stack',
@@ -153,13 +161,17 @@
   }
 
   p.stack {
-    padding: .2rem 2rem .5rem 2rem;
+    padding: .2rem 0 .5rem 0;
     line-height: 1.8 !important;
     font-size: 1rem !important;
     color: #333;
   }
 
-  .news-list {
+  .news-button {
+    margin-left: 1.5rem;
+  }
+
+  .stack-container:last-child {
     padding-bottom: 1rem;
   }
 </style>

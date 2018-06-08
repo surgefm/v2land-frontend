@@ -21,6 +21,7 @@
           :order="stackCollection.length - i"
           :id="'main-i' + stack.id"
           :event="event"
+          :isLatestStack="i === 0"
         />
       </div>
       <page-foot />
@@ -57,7 +58,7 @@
         return [
           {
             title: '最后',
-            description: '李白骑鲸鱼',
+            description: '李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼',
             order: 3,
             event: 12,
             news: [

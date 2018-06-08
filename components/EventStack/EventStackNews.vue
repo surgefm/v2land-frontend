@@ -1,16 +1,28 @@
 <template>
-  <div class="news-item" v-if="news" ref="container">
-    <div class="info" ref="info">
-      <img class="source-icon" v-lazy="'/defaultSource.png'" />
-      <span class="title">{{ news.title }}</span>
-      <span class="abstract">{{ news.abstract }}</span>
-      <div class="shadow" ref="shadow" />
+  <div v-if="news">
+    <div
+      class="news-item"
+      :class="!showDetail || 'detailed'"
+      @click="toggleNews"
+      ref="container"
+    >
+      <div class="info" ref="info">
+        <img class="source-icon" v-lazy="'/defaultSource.png'" />
+        <span class="title">{{ news.title }}</span>
+        <span class="abstract">{{ news.abstract }}</span>
+        <div class="shadow" ref="shadow" />
+      </div>
+      <span class="source" ref="source">{{ news.source }}</span>
     </div>
-    <span class="source" ref="source">{{ news.source }}</span>
+    <div class="news-detail" v-if="showDetail">
+      <event-news-content :news="news" />
+    </div>
   </div>
 </template>
 
 <script>
+import EventNewsContent from '~/components/EventNews/EventNewsContent.vue';
+
 export default {
   name: 'EventStackNews',
   props: {
@@ -18,6 +30,7 @@ export default {
   },
   data() {
     return {
+      showDetail: false,
       lastWidth: null,
     };
   },
@@ -35,13 +48,20 @@ export default {
       const shadowEl = this.$refs.shadow;
       const width = sourceEl.offsetWidth;
       const showShadow = infoEl.offsetWidth >= containerEl.offsetWidth - 32 - width ? 1 : 0;
-      shadowEl.setAttribute('style', `opacity: ${showShadow}; right: ${width + 4}px`);
+      shadowEl.setAttribute('style', `display: block; opacity: ${showShadow}; right: ${width + 4}px`);
       infoEl.setAttribute('style', `max-width:calc(100% - ${width}px)`);
+    },
+    toggleNews() {
+      this.showDetail = !this.showDetail;
+      if (!this.showDetail) this.scale();
     },
   },
   mounted() {
     window.addEventListener('resize', this.scale);
     this.scale();
+  },
+  components: {
+    'event-news-content': EventNewsContent,
   },
 };
 </script>
@@ -59,7 +79,7 @@ export default {
   }
 
   .news-item:hover {
-    background-color: #f6f6f6;
+    background-color: #f4f9ff;
   }
 
   .info {
@@ -96,8 +116,23 @@ export default {
     line-height: 1.8;
   }
 
+  .news-detail {
+    padding: 0 1rem .25rem 1rem;
+    margin: 0 1rem .5rem 1rem;
+    background-color: #f4f9ff;
+    border-bottom-left-radius: .25rem;
+    border-bottom-right-radius: .25rem;
+  }
+
+  .detailed {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    background-color: #e9f3fe !important;
+  }
+
   .shadow {
     content: "";
+    display: none;
     text-align: right;
     position: absolute;
     bottom: 0;
@@ -108,12 +143,20 @@ export default {
   }
 
   .news-item:hover .shadow {
-    background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(246, 246, 246, 1) 90%);
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(244, 249, 255, 1) 90%);
+  }
+
+  .detailed .shadow {
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(233, 243, 254, 1) 90%) !important;
   }
 
   @media (max-width: 600px) {
     .news-item {
       margin: 0;
+    }
+
+    .news-detail {
+      margin: 0 0 .5rem 0;
     }
   }
 </style>
