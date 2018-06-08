@@ -19,11 +19,7 @@
         {{ stack.description }}
       </p>
     </div>
-    <el-button type="text" class="news-button" @click="toggleNewsButton">
-      <i :class="showNews ? 'el-icon-caret-top' : 'el-icon-caret-right'" />
-      {{ showNews ? '收起列表' : '3 条相关消息' }}
-    </el-button>
-    <div v-if="showNews" class="news-list">
+    <div class="news-list">
       <event-stack-news
         v-for="news of newsList"
         :news="news"
@@ -46,7 +42,6 @@
     },
     data() {
       return {
-        showNews: false,
       };
     },
     computed: {
@@ -101,9 +96,6 @@
       'event-stack-news': EventStackNews,
     },
     methods: {
-      toggleNewsButton() {
-        this.showNews = !this.showNews;
-      },
       redirect() {
         this.router.push({
           name: 'event-pinyin-stack',
@@ -140,6 +132,10 @@
   .top-container {
     padding: .9rem 2rem 0 2rem;
     line-height: 1.5;
+  }
+
+  .news-list {
+    margin-top: 12px;
   }
 
   a {
