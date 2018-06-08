@@ -2,26 +2,50 @@
   <div v-if="news">
     <div
       class="news-item"
-      :class="!showDetail || 'detailed'"
-      @click="toggleNews"
-      ref="container"
-    >
+      ref="container">
       <div class="info" ref="info">
         <img class="source-icon" v-lazy="'/defaultSource.png'" />
-        <span class="title">{{ news.title }}</span>
-        <span class="abstract">{{ news.abstract }}</span>
+        <a class="title" :href="url" target="_blank">{{ news.title }}</a>
         <div class="shadow" ref="shadow" />
       </div>
-      <span class="source" ref="source">{{ news.source }}</span>
+      <div class="source" ref="source">
+        <span>{{ news.source }}</span>
+        <el-popover
+          placement="bottom"
+          width="275"
+          v-model="showMore">
+          <div class="more-container">
+            <span class="button-history" @click="contribDialogVisible = true">
+              编辑记录
+            </span>
+            <div class="divider" />
+            <event-news-share
+              class="news-share"
+              :object="news"
+              type="stack-news"
+            />
+          </div>
+          <i class="el-icon-more button-more" slot="reference" />
+        </el-popover>
+      </div>
     </div>
-    <div class="news-detail" v-if="showDetail">
-      <event-news-content :news="news" />
-    </div>
+    <el-dialog
+      title="新闻编辑记录"
+      :visible.sync="contribDialogVisible"
+      :append-to-body="true"
+    >
+      <event-news-contribution :news="news" />
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="contribDialogVisible = false">关闭</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import EventNewsContent from '~/components/EventNews/EventNewsContent.vue';
+import EventNewsContribution from '~/components/EventNews/EventNewsContribution.vue';
+import EventNewsShare from '~/components/EventShare.vue';
 
 export default {
   name: 'EventStackNews',
@@ -30,9 +54,16 @@ export default {
   },
   data() {
     return {
-      showDetail: false,
+      showMore: false,
+      contribDialogVisible: false,
       lastWidth: null,
     };
+  },
+  computed: {
+    url() {
+      if (!this.news.url) return;
+      return '/redirect?to=' + encodeURIComponent(this.news.url);
+    },
   },
   methods: {
     scale() {
@@ -40,19 +71,19 @@ export default {
       if (!containerEl) return;
       if (!this.lastWidth) {
         this.lastWidth = containerEl.offsetWidth;
-      } else if (Math.abs(containerEl.offsetWidth - this.lastWidth) < 14) {
+      } else if (Math.abs(containerEl.offsetWidth - this.lastWidth) < 5) {
         return;
       }
       const sourceEl = this.$refs.source;
       const infoEl = this.$refs.info;
       const shadowEl = this.$refs.shadow;
       const width = sourceEl.offsetWidth;
-      const showShadow = infoEl.offsetWidth >= containerEl.offsetWidth - 32 - width ? 1 : 0;
-      shadowEl.setAttribute('style', `display: block; opacity: ${showShadow}; right: ${width + 4}px`);
+      const showShadow = infoEl.offsetWidth >= containerEl.offsetWidth - 16 - width ? 1 : 0;
+      shadowEl.setAttribute('style', `display: block; opacity: ${showShadow}; right: ${width}px`);
       infoEl.setAttribute('style', `max-width:calc(100% - ${width}px)`);
     },
-    toggleNews() {
-      this.showDetail = !this.showDetail;
+    toggleMore() {
+      this.showMore = !this.showMore;
       if (!this.showDetail) this.scale();
     },
   },
@@ -62,6 +93,8 @@ export default {
   },
   components: {
     'event-news-content': EventNewsContent,
+    'event-news-contribution': EventNewsContribution,
+    'event-news-share': EventNewsShare,
   },
 };
 </script>
@@ -69,17 +102,12 @@ export default {
 <style lang="scss" scoped>
   .news-item {
     display: flex;
-    padding: .25rem .5rem;
-    margin: 0 1rem;
+    padding: .1rem 0;
+    margin: 0 2rem;
     border-radius: .25rem;
     font-size: 14px;
-    cursor: pointer;
     position: relative;
     user-select: none !important;
-  }
-
-  .news-item:hover {
-    background-color: #f4f9ff;
   }
 
   .info {
@@ -90,8 +118,10 @@ export default {
     align-items: center;
   }
 
-  .info * {
-    line-height: 1.8;
+  .info *:not(img) {
+    line-height: 1.75;
+    border-top: 1.5px solid transparent;
+    border-bottom: 1.5px solid transparent;
   }
 
   .source-icon {
@@ -104,30 +134,18 @@ export default {
   .title {
     font-weight: bold;
     margin-right: .25rem;
+    color: #333;
   }
 
-  .abstract {
-    color: #828282;
+  .title:hover {
+    text-decoration: none !important;
+    border-bottom-color: #333;
   }
 
   .source {
     position: absolute;
     right: .5rem;
     line-height: 1.8;
-  }
-
-  .news-detail {
-    padding: 0 1rem .25rem 1rem;
-    margin: 0 1rem .5rem 1rem;
-    background-color: #f4f9ff;
-    border-bottom-left-radius: .25rem;
-    border-bottom-right-radius: .25rem;
-  }
-
-  .detailed {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    background-color: #e9f3fe !important;
   }
 
   .shadow {
@@ -142,21 +160,36 @@ export default {
     background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 90%);
   }
 
-  .news-item:hover .shadow {
-    background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(244, 249, 255, 1) 90%);
+  .button-more {
+    transform: rotate(90deg);
+    margin-left: .25rem;
   }
 
-  .detailed .shadow {
-    background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(233, 243, 254, 1) 90%) !important;
+  .more-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .button-more {
+    cursor: pointer;
+  }
+
+  .button-history {
+    cursor: pointer;
+    margin-left: .25rem;
+  }
+
+  .more-container .divider {
+    width: 1px;
+    height: 1rem;
+    color: #ccc;
+    margin: 0 0 0 .35rem;
   }
 
   @media (max-width: 600px) {
     .news-item {
       margin: 0;
-    }
-
-    .news-detail {
-      margin: 0 0 .5rem 0;
     }
   }
 </style>

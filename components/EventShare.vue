@@ -97,14 +97,14 @@
       shareMessage() {
         if (this.type === 'event') {
           return `上浪潮查看「${this.event.name}」的最新动态`;
-        } else if (this.type === 'news') {
+        } else if (this.type === 'news' || this.type === 'stack-news') {
           return `上浪潮查看「${this.event.name}」的新闻「${this.object.title}」`;
         }
       },
       shareUrl() {
         if (this.type === 'event') {
           return `${config.baseUrl}${this.object.id}/${this.object.pinyin}`;
-        } else if (this.type === 'news') {
+        } else if (this.type === 'news' || this.type === 'stack-news') {
           return `${config.baseUrl}${this.eventId}/${this.event.pinyin}/${this.object.id}`;
         }
       },
@@ -202,6 +202,12 @@
     height: 3rem;
     width: 3rem;
     border: none;
+  }
+
+  .stack-news.border-color {
+    background-color: none;
+    border: none;
+    border-radius: .25rem;
   }
 
   .icon-container {

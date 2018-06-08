@@ -9,6 +9,9 @@
       <span v-if="isLatestStack" class="tag light-font">
         最新进展
       </span>
+      <span v-if="firstTime" class="tag light-font">
+        {{ firstTime }}
+      </span>
       <p v-if="stack.title" class="title">
         {{ stack.title }}
       </p>
@@ -52,6 +55,11 @@
       },
       eventName() {
         return this.event ? this.event.name : null;
+      },
+      firstTime() {
+        if (!this.stack || !this.stack.time) return;
+        const time = new Date(this.stack.time);
+        return `${time.getFullYear()}年${time.getMonth() + 1}月${time.getDay() }日`;
       },
       newsList() {
         // return this.$store.getters.getNewsCollectionByStack;
@@ -168,7 +176,7 @@
   }
 
   .news-button {
-    margin-left: 1.5rem;
+    margin-left: 2rem;
   }
 
   .stack-container:last-child {
