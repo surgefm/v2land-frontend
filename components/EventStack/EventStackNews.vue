@@ -69,8 +69,7 @@ export default {
 <style lang="scss" scoped>
   .news-item {
     display: flex;
-    padding: .25rem .5rem;
-    margin: 0 1rem;
+    padding: 0rem 2rem 0rem 2rem;
     border-radius: .25rem;
     font-size: 14px;
     cursor: pointer;
@@ -112,14 +111,13 @@ export default {
 
   .source {
     position: absolute;
-    right: .5rem;
+    right: 2rem;
     line-height: 1.8;
   }
 
   .news-detail {
     padding: 0 1rem .25rem 1rem;
     margin: 0 1rem .5rem 1rem;
-    background-color: #f4f9ff;
     border-bottom-left-radius: .25rem;
     border-bottom-right-radius: .25rem;
   }
@@ -127,7 +125,6 @@ export default {
   .detailed {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    background-color: #e9f3fe !important;
   }
 
   .shadow {
