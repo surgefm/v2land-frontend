@@ -49,7 +49,7 @@
         return this.event ? this.event.name : null;
       },
       isLatestStack() {
-        return this.order === this.event.stackCount - 1 && !this.showEventName;
+        return this.order === this.event.stack.length && !this.showEventName;
       },
       newsList() {
         // return this.$store.getters.getNewsCollectionByStack;
@@ -58,12 +58,12 @@
             title: '警方发现李白骑鲸鱼的时候并没有穿内内，场面十分吓人',
             abstract: '321',
             url: 'https://google.com',
-            source: '咕果',
+            source: '新民晚报',
             time: '2018-05-26',
           },
           {
             title: '123',
-            abstract: '321',
+            abstract: '警方发现李白骑鲸鱼的时候并没有穿内内，场面十分吓人',
             url: 'https://google.com',
             source: '咕果',
             time: '2018-05-26',
@@ -122,7 +122,8 @@
   @import "../../assets/variables.scss";
 
   .top-container {
-    padding: 1rem 2rem 0 2rem;
+    padding: .9rem 2rem 0 2rem;
+    line-height: 1.5;
   }
 
   a {
@@ -152,7 +153,7 @@
   }
 
   p.stack {
-    padding: .5rem 2rem 1rem 2rem;
+    padding: .2rem 2rem .5rem 2rem;
     line-height: 1.8 !important;
     font-size: 1rem !important;
     color: #333;

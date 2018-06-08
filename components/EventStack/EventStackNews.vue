@@ -24,6 +24,7 @@ export default {
   methods: {
     scale() {
       const containerEl = this.$refs.container;
+      if (!containerEl) return;
       if (!this.lastWidth) {
         this.lastWidth = containerEl.offsetWidth;
       } else if (Math.abs(containerEl.offsetWidth - this.lastWidth) < 14) {
@@ -33,18 +34,14 @@ export default {
       const infoEl = this.$refs.info;
       const shadowEl = this.$refs.shadow;
       const width = sourceEl.offsetWidth;
-      console.log(infoEl.offsetWidth, containerEl.offsetWidth - 32 - width);
-      if (infoEl.offsetWidth >= containerEl.offsetWidth - 32 - width) {
-        shadowEl.setAttribute('style', `opacity: 1; right: ${width}px`);
-      } else {
-        shadowEl.setAttribute('style', 'opacity: 0;');
-      }
+      const showShadow = infoEl.offsetWidth >= containerEl.offsetWidth - 32 - width ? 1 : 0;
+      shadowEl.setAttribute('style', `opacity: ${showShadow}; right: ${width + 4}px`);
       infoEl.setAttribute('style', `max-width:calc(100% - ${width}px)`);
     },
   },
   mounted() {
-    this.scale();
     window.addEventListener('resize', this.scale);
+    this.scale();
   },
 };
 </script>
@@ -52,7 +49,7 @@ export default {
 <style lang="scss" scoped>
   .news-item {
     display: flex;
-    padding: .25rem 1rem;
+    padding: .25rem .5rem;
     margin: 0 1rem;
     border-radius: .25rem;
     font-size: 14px;
@@ -62,7 +59,7 @@ export default {
   }
 
   .news-item:hover {
-    background-color: #eee;
+    background-color: #f6f6f6;
   }
 
   .info {
@@ -104,7 +101,6 @@ export default {
     text-align: right;
     position: absolute;
     bottom: 0;
-    right: 4rem;
     width: 4rem;
     height: 100%;
     transition: opacity .2s;
@@ -112,6 +108,12 @@ export default {
   }
 
   .news-item:hover .shadow {
-    background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(238, 238, 238, 1) 90%);
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(246, 246, 246, 1) 90%);
+  }
+
+  @media (max-width: 600px) {
+    .news-item {
+      margin: 0;
+    }
   }
 </style>

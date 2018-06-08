@@ -67,7 +67,7 @@
     line-height: 1;
     position: absolute;
     right: calc(100% - 1.25rem);
-    top: 1rem;
+    top: .5rem;
     font-family: 'Times New Roman', Times, serif;
     cursor: pointer;
     font-weight: 900;
