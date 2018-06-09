@@ -73,6 +73,22 @@ export default {
     return eventList;
   },
 
+  async fetchStackList({ commit }, { where = { status: 'admitted' } }) {
+    let stackList = [];
+
+    try {
+      const { data } = await this.$axios.post('stack/list', { where });
+      for (const stack of data.stackList) {
+        commit('setStack', { stack });
+      }
+      stackList = data.stackList;
+    } catch (err) {
+      console.error(err);
+    }
+
+    return stackList;
+  },
+
   async getNewsList({ commit, dispatch }, { where, page }) {
     try {
       const { data } = await this.$axios.post('news', { where, page });
