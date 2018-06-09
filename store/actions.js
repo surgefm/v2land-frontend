@@ -118,6 +118,7 @@ export default {
   },
 
   async getNews({ state, commit, getters }, id) {
+    if (!id) return;
     const found = getters.getNews({ id });
     if (found && found.contribution && found.contribution[0] &&
       found.contribution[0].data) {

@@ -51,90 +51,9 @@
         return this.$store.getters.getEvent(this.name);
       },
       stackCollection() {
-        // return this.$store.getters.getStackCollectionByEvent({
-        //   event: this.name,
-        // });
-        return [
-          {
-            title: '最后',
-            description: '李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼',
-            time: '1/1/2018',
-            order: 3,
-            event: 12,
-            news: [
-              {
-                title: '123',
-                abstract: '321',
-                url: 'https://google.com',
-                source: '咕果',
-              },
-              {
-                title: '123',
-                abstract: '321',
-                url: 'https://google.com',
-                source: '咕果',
-              },
-              {
-                title: '123',
-                abstract: '321',
-                url: 'https://google.com',
-                source: '咕果',
-              },
-            ],
-          },
-          {
-            title: '其次',
-            description: '李白骑鲸鱼',
-            order: 2,
-            event: 12,
-            news: [
-              {
-                title: '123',
-                abstract: '321',
-                url: 'https://google.com',
-                source: '咕果',
-              },
-              {
-                title: '123',
-                abstract: '321',
-                url: 'https://google.com',
-                source: '咕果',
-              },
-              {
-                title: '123',
-                abstract: '321',
-                url: 'https://google.com',
-                source: '咕果',
-              },
-            ],
-          },
-          {
-            title: '首先',
-            description: '李白骑鲸鱼',
-            order: 1,
-            event: 12,
-            news: [
-              {
-                title: '123',
-                abstract: '321',
-                url: 'https://google.com',
-                source: '咕果',
-              },
-              {
-                title: '123',
-                abstract: '321',
-                url: 'https://google.com',
-                source: '咕果',
-              },
-              {
-                title: '123',
-                abstract: '321',
-                url: 'https://google.com',
-                source: '咕果',
-              },
-            ],
-          },
-        ];
+        return this.$store.getters.getStackCollectionByEvent({
+          event: this.name,
+        });
       },
       image() {
         return config.static + this.event.headerImage.imageUrl;
