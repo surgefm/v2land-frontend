@@ -43,7 +43,8 @@
     "vue-clipboards": "^1.2.0",
     "vue-lazyload": "^1.2.2",
     "vue-server-renderer": "^2.5.2",
-    "vue-template-compiler": "^2.5.2"
+    "vue-template-compiler": "^2.5.2",
+    "vuedraggable": "^2.16.0"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",

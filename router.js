@@ -9,6 +9,8 @@ const EventPost = () => import(/* webpackChunkName: "basic" */ '~/pages/event/po
 const EventAdmit = () => import(/* webpackChunkName: "basic-manage" */ '~/pages/event/admit.vue').then((m) => m.default || m);
 const EventEdit = () => import(/* webpackChunkName: "basic-manage" */ '~/pages/event/edit/index.vue').then((m) => m.default || m);
 const EventEditNews = () => import(/* webpackChunkName: "basic-manage" */ '~/pages/event/edit/news.vue').then((m) => m.default || m);
+const EventEditStack = () => import( /* webpackChunkName: "basic-manage" */ '~/pages/event/edit/stack.vue').then((m) => m.default || m);
+
 
 const About = () => import(/* webpackChunkName: "basic" */ '~/pages/about.vue').then((m) => m.default || m);
 const New = () => import(/* webpackChunkName: "basic" */ '~/pages/new.vue').then((m) => m.default || m);
@@ -58,7 +60,8 @@ export function createRouter() {
       { path: '/:name(\\d+)/post', component: EventPost, name: 'event-post' },
       { path: '/:name(\\d+)/admit', component: EventAdmit, name: 'event-admit' },
       { path: '/:name(\\d+)/edit', component: EventEdit, name: 'event-edit' },
-      { path: '/:name(\\d+)/edit/:id(\\d+)', component: EventEditNews, name: 'event-edit-news' },
+      { path: '/:name(\\d+)/edit/stack/:id(\\d+)', component: EventEditStack, name: 'event-edit-stack' },
+      { path: '/:name(\\d+)/edit/news/:id(\\d+)', component: EventEditNews, name: 'event-edit-news' },
       {
         path: '/:name',
         component: Event,

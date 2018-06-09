@@ -74,7 +74,7 @@
 
       <a
         v-else-if="mode === 'quote'"
-        :href="`/${news.event.id || news.event}/${news.id}`"
+        :href="`/${news.event.id || news.event}/${news.stack}/${news.id}`"
         onclick="return false;"
         class="link"
       >
