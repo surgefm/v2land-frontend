@@ -1,32 +1,30 @@
 <template>
-  <div>
-    <background>
-      <event-abstract-loader v-if="showLoader" />
-      <!-- <event-news-loader
-        v-if="showLoader"
-        v-for="(index) of new Array(3)"
-        :key="index"
-      /> -->
-      <event-abstract v-if="!showLoader" :detail="event" />
-      <div 
-        v-if="!showLoader"
-        v-for="(stack, i) of stackCollection"
-        :key="stack.id"
-        :id="'i' + stack.id"
-        class="stack"
-      >
-        <event-stack
-          class="stack" 
-          :stack="stack"
-          :order="stackCollection.length - i"
-          :id="'main-i' + stack.id"
-          :event="event"
-          :isLatestStack="i === 0"
-        />
-      </div>
-      <page-foot />
-    </background>
-  </div>
+  <background>
+    <event-abstract-loader v-if="showLoader" />
+    <!-- <event-news-loader
+      v-if="showLoader"
+      v-for="(index) of new Array(3)"
+      :key="index"
+    /> -->
+    <event-abstract v-if="!showLoader" :detail="event" />
+    <div 
+      v-if="!showLoader"
+      v-for="(stack, i) of stackCollection"
+      :key="stack.id"
+      :id="'i' + stack.id"
+      class="stack"
+    >
+      <event-stack
+        class="stack" 
+        :stack="stack"
+        :order="stackCollection.length - i"
+        :id="'main-i' + stack.id"
+        :event="event"
+        :isLatestStack="i === 0"
+      />
+    </div>
+    <page-foot />
+  </background>
 </template>
 
 <script>
@@ -49,6 +47,7 @@
         return this.$store.getters.getFetchingStatus('getEvent');
       },
       event() {
+        console.log(this.name, this.$store.getters.getEvent(this.name));
         return this.$store.getters.getEvent(this.name);
       },
       stackCollection() {

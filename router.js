@@ -69,16 +69,6 @@ export function createRouter() {
             component: EventPlaceholder,
             name: 'event-news',
           },
-          {
-            path: ':pinyin',
-            component: EventPlaceholder,
-            name: 'event-pinyin',
-          },
-          {
-            path: ':pinyin/:news',
-            component: EventPlaceholder,
-            name: 'event-pinyin-news',
-          },
         ],
       },
       { path: '*', component: NotFound, name: 'not-found' },

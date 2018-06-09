@@ -18,48 +18,15 @@ export default async function({ route, app, store, redirect }) {
       return;
     }
 
-    let checkPinyin = true;
-    let change = false;
-    if (['event-admit', 'event-post'].includes(route.name) ||
-      route.name.includes('event-edit')) {
-      checkPinyin = false;
-    }
-
-    let name = route.name;
-    let news = route.params.news;
-    if (event.pinyin && route.name === 'event') {
-      name = 'event-pinyin';
-      change = true;
-    } else if (news) {
-      name = +news ? 'event-pinyin-news' : 'event-pinyin';
-    }
-
-    if (route.query.news) {
-      news = route.query.news;
-      name = 'event-pinyin-news';
-      delete route.query.news;
-    }
-
-    if (name === 'event-news' && !(+news)) {
-      name = 'event-pinyin';
-      change = true;
-    }
-
-    if (change ||
-      (+event.id !== +route.params.name) ||
-      (checkPinyin && event.pinyin && ![route.params.pinyin, route.params.news].includes(event.pinyin)) ||
-      (route.params.news !== news) ||
-      (name === 'event-news' && !+news)) {
+    if (+event.id !== +route.params.name) {
       const params = {
+        ...route.params,
         name: event.id,
-        pinyin: event.pinyin,
-        news: news,
       };
 
       return redirect({
         ...route,
         params,
-        name,
       });
     }
   }

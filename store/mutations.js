@@ -17,6 +17,7 @@ const mutations = {
       event.image = event['header_image'];
       delete event['header_image'];
     }
+    event.description = event.description || '';
 
     // replace pre-existing event if there is one
     for (const id of state.eventId) {
@@ -50,6 +51,7 @@ const mutations = {
     }
     stack.news = newsId;
     stack.id = +stack.id;
+    stack.abstract = stack.abstract || '';
 
     if (typeof stack.event === 'object') {
       const event = stack.event;
@@ -99,8 +101,8 @@ const mutations = {
     if (!state.news[news.id]) {
       state.newsId.push(news.id);
     }
+    news.abstract = news.abstract || '';
     Vue.set(state.news, news.id, news);
-
 
     const s = state.stack[news.stack];
     if (s && !s.news.includes(news.id)) {
