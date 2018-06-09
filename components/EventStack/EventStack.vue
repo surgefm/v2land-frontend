@@ -38,7 +38,7 @@
       stackUrl() {
         const event = this.event || this.stack.event;
         if (event.id) {
-          return `${config.baseUrl}${event.id}/${event.pinyin}/${this.stack.id}`;
+          return `${config.baseUrl}${event.id}/${this.stack.id}`;
         }
 
         return `config.baseUrl${event}/${this.stack.id}`;
