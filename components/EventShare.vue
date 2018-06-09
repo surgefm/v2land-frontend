@@ -116,7 +116,6 @@
     methods: {
       shareTo(site) {
         const url = this.shareUrl;
-        console.log(this.type, this.object);
         let message;
         switch (this.type) {
         case 'event':

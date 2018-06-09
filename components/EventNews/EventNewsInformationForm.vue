@@ -39,6 +39,15 @@
       />
     </el-form-item>
 
+    <el-form-item label="所属进展" prop="stack">
+      <stack-information-form
+        v-model="form.stack"
+        :event="+$route.params.name"
+        @input="updateStack"
+        ref="stack"
+      />
+    </el-form-item>
+
     <el-form-item label="备注" prop="comment">
       <comment-editor
         mode="editNews"
@@ -75,6 +84,7 @@
 </template>
 
 <script>
+  import EventStackInformationForm from '~/components/EventStack/EventStackInformationForm.vue';
   import DatePicker from 'element-ui/lib/date-picker';
   import '~/static/element/date-picker.css';
   import '~/static/element/time-picker.css';
@@ -94,6 +104,7 @@
           source: '',
           abstract: '',
           time: '',
+          stack: null,
           comment: null,
         },
         rules: {
@@ -158,6 +169,9 @@
       resetButton() {
         this.isSubmitting = false;
       },
+      updateStack() {
+        this.$set(this.form, 'stack', this.$refs.stack.value);
+      },
       setComment(doc) {
         if (!this.$refs.comment) {
           if (this.commentTimeout) {
@@ -174,6 +188,7 @@
     },
     components: {
       'el-date-picker': DatePicker,
+      'stack-information-form': EventStackInformationForm,
       'comment-editor': () => import(/* webpackChunkName:'editor' */ '~/components/Comment/Editor'),
     },
     created() {
