@@ -1,9 +1,13 @@
 <template>
   <div :class="['stack-container', stack.status]">
-    <div class="top">
-      <span class="title">{{ stack.title }}</span>
-    </div>
-    <p class="description">{{ stack.description }}</p>
+    <span class="title">{{ stack.title }}</span>
+    <el-tag
+      type="warning"
+      v-if="stack.status === 'pending'"
+      size="mini"
+    >
+      待审核
+    </el-tag>
   </div>
 </template>
 
@@ -12,40 +16,46 @@ export default {
   props: {
     'stack': Object,
   },
+  computed: {
+    type() {
+      switch (this.stack) {
+      case 'pending':
+        return 'warning';
+      case 'rejected':
+        return 'danger';
+      }
+
+      return 'default';
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+  @import '../../assets/variables.scss';
+
   .stack-container {
-    background-color: rgb(244, 249, 255);
-    max-width: 20rem;
+    border: #333 1.5px solid;
     border-radius: .25rem;
-    margin: .25rem 0;
+    margin: .25rem;
+    padding: .25rem .5rem;
     cursor: grab;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
   }
 
-  .top {
-    width: 100%;
-    background-color: rgb(233, 243, 254);
-    padding: 0 .5rem;
-    border-top-left-radius: .25rem;
-    border-top-right-radius: .25rem;
+  .stack-container > *:not(:last-child) {
+    margin-right: .25rem;
   }
 
   .title {
-    font-weight: bold;
-    line-height: 1.8;
-  }
-
-  .description {
-    padding: 0 .5rem;
+    font-size: 14px;
+    line-height: 20px;
+    vertical-align: middle;
   }
 
   .stack-container.pending {
-    background-color: rgba(245, 215, 110, .4)
-  }
-
-  .pending .top {
-    background-color: rgba(244, 208, 63, .5);
+    border-color: rgb(245, 215, 110);
   }
 </style>

@@ -87,6 +87,7 @@ module.exports = {
     '~/static/element/dropdown-item.css',
     '~/static/element/dialog.css',
     '~/static/element/loading.css',
+    '~/static/element/tag.css',
   ],
 
   plugins,
