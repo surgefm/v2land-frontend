@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-collapse class="formal-container">
+    <el-collapse :class="['formal-container', formalStackList.length || 'empty']">
       <p class="draggable-area help" v-if="!formalStackList.length">
         将下方备选进展拖动至该区域编辑事件
       </p>
@@ -125,9 +125,17 @@ export default {
     margin-top: .5rem;
   }
 
+  .formal-container:not(.empty) {
+    border-bottom: none;
+  }
+
   .draggable-area {
     min-height: 3rem;
     width: 100%;
+  }
+
+  .draggable-area:not(.help) {
+    padding-bottom: 1rem;
   }
 
   .draggable-area.help {
