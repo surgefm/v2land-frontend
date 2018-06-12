@@ -47,6 +47,7 @@
             </div>
           </template>
           <p>{{ stack.description }}</p>
+          <el-button type="text" @click="edit(stack)">编辑进展</el-button>
         </el-collapse-item>
       </draggable>
     </el-collapse>
@@ -60,8 +61,22 @@
         v-for="stack of remainingStackList"
         :key="stack.id"
         :stack="stack"
+        @click="edit(stack)"
       />
     </draggable>
+
+    <el-dialog
+      title="编辑进度"
+      :visible.sync="dialogVisible"
+      :append-to-body="true"
+      @close="finishEditing()"
+    >
+      <event-stack-editor
+        :stack="stackEdited"
+        v-if="stackEdited"
+        @edited="finishEditing()"
+      />
+    </el-dialog>
   </div>
 </template>
 
@@ -70,6 +85,7 @@ import draggable from 'vuedraggable';
 import ElCollapse from 'element-ui/lib/collapse';
 import ElCollapseItem from 'element-ui/lib/collapse-item';
 import EventStackCard from '~/components/EventStack/EventStackCard.vue';
+import EventStackEditor from '~/components/EventStack/EventStackEditor.vue';
 
 import '~/static/element/collapse.css';
 import '~/static/element/collapse-item.css';
@@ -83,13 +99,18 @@ export default {
       stackList: [],
       formalStackList: [],
       remainingStackList: [],
+      dialogVisible: false,
+      stackEdited: null,
     };
   },
   methods: {
-    getComponentData() {
-      return {
-        'v-model': this.formalStackList,
-      };
+    edit(stack) {
+      this.stackEdited = { ...stack };
+      this.dialogVisible = true;
+    },
+    finishEditing() {
+      this.dialogVisible = false;
+      this.stackEdited = null;
     },
     getTime(stack) {
       if (!stack || !stack.time) return;
@@ -114,6 +135,7 @@ export default {
     'el-collapse': ElCollapse,
     'el-collapse-item': ElCollapseItem,
     'event-stack-card': EventStackCard,
+    'event-stack-editor': EventStackEditor,
   },
 };
 </script>

@@ -15,11 +15,15 @@ import EventStackArrange from '~/components/EventStack/EventStackArrange.vue';
 export default {
   computed: {
     name() {
+      if (!this.event) return '';
       return this.event.name;
     },
     event() {
       return this.$store.getters.getEvent(this.$route.params.name);
     },
+  },
+  async asyncData({ store, route }) {
+    await store.dispatch('getEvent', route.params.name);
   },
   components: {
     'event-stack-arrange': EventStackArrange,

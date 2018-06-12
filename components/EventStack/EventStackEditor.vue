@@ -20,8 +20,8 @@
         v-model="data.description"
       />
     </el-form-item>
-    <el-form-item>
-      <el-select placeholder="请选择进展状态" prop="status">
+    <el-form-item label="状态" prop="status">
+      <el-select placeholder="请选择进展状态" v-model="data.status">
         <el-option
           v-for="status in options"
           :key="status.value"
@@ -83,7 +83,7 @@ export default {
     };
   },
   methods: {
-    async submit(formName) {
+    async submit() {
       this.$refs.form.validate(async (valid) => {
         if (valid) {
           this.isSubmitting = true;
@@ -93,7 +93,7 @@ export default {
             this.$emit('edited');
           } catch (err) {
             console.error(err);
-            this.$message.error(err.message || '发生了未知错误');
+            this.$message.error(err.response.data.message || '发生了未知错误');
           } finally {
             this.isSubmitting = false;
           }
@@ -106,6 +106,8 @@ export default {
   },
   created() {
     this.origStack = { ...this.stack };
+    this.data = { ...this.stack };
+    console.log({ ...this.stack });
   },
 };
 </script>
