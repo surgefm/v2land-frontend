@@ -103,12 +103,6 @@ export default {
       this.value = this.stackList[0].id;
     }
   },
-  watch: {
-    value: function() {
-      console.log('!');
-      this.$emit('input');
-    },
-  },
 };
 </script>
 

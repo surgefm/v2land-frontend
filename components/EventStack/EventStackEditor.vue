@@ -7,7 +7,7 @@
   >
     <el-form-item label="标题" prop="title">
       <el-input
-        :placeholder="latestStack.title"
+        :placeholder="origStack.title"
         class="input name"
         v-model="data.title"
       />
@@ -16,7 +16,7 @@
       <el-input
         type="textarea"
         :autosize="{ minRows: 2, maxRows: 4}"
-        :placeholder="latestStack.description"
+        :placeholder="origStack.description"
         v-model="data.description"
       />
     </el-form-item>
@@ -30,6 +30,23 @@
         />
       </el-select>
     </el-form-item>
+
+    <div class="submit-button-group">
+      <el-button
+        @click="reset()"
+        type="text"
+      >
+        重置表单
+      </el-button>
+      <el-button
+        type="primary"
+        @click="submit()"
+        size="medium"
+        :loading="isSubmitting"
+      >
+        提交
+      </el-button>
+    </div>
   </el-form>
 </template>
 
@@ -40,6 +57,7 @@ export default {
   },
   data() {
     return {
+      origStack: {},
       data: {
         title: null,
         description: null,
@@ -61,7 +79,33 @@ export default {
         { label: '数据异常', value: 'invalid' },
         { label: '待审核', value: 'pending' },
       ],
+      isSubmitting: false,
     };
+  },
+  methods: {
+    async submit(formName) {
+      this.$refs.form.validate(async (valid) => {
+        if (valid) {
+          this.isSubmitting = true;
+          try {
+            await this.$axios.put('stack/' + this.stack.id, this.data);
+            this.$message.success('修改成功');
+            this.$emit('edited');
+          } catch (err) {
+            console.error(err);
+            this.$message.error(err.message || '发生了未知错误');
+          } finally {
+            this.isSubmitting = false;
+          }
+        }
+      });
+    },
+    reset() {
+      this.data = { ...this.origStack };
+    },
+  },
+  created() {
+    this.origStack = { ...this.stack };
   },
 };
 </script>
