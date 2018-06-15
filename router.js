@@ -60,7 +60,7 @@ export function createRouter() {
       { path: '/:name(\\d+)/post', component: EventPost, name: 'event-post' },
       { path: '/:name(\\d+)/admit', component: EventAdmit, name: 'event-admit' },
       { path: '/:name(\\d+)/edit', component: EventEdit, name: 'event-edit' },
-      { path: '/:name(\\d+)/edit/stack/:id(\\d+)', component: EventEditStack, name: 'event-edit-stack' },
+      { path: '/:name(\\d+)/edit/stack', component: EventEditStack, name: 'event-edit-stack' },
       { path: '/:name(\\d+)/edit/news/:id(\\d+)', component: EventEditNews, name: 'event-edit-news' },
       {
         path: '/:name',
