@@ -40,10 +40,6 @@
       showEventName: Boolean,
       isLatestStack: Boolean,
     },
-    data() {
-      return {
-      };
-    },
     computed: {
       event() {
         return this.$store.getters.getEvent(this.stack.event);
@@ -57,33 +53,7 @@
         return `${time.getFullYear()}年${time.getMonth() + 1}月${time.getDay() }日`;
       },
       newsList() {
-        // return this.$store.getters.getNewsCollectionByStack;
-        return [
-          {
-            title: '警方发现李白骑鲸鱼的时候并没有穿内内，场面十分吓人',
-            abstract: '李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼李白骑鲸鱼',
-            url: 'https://google.com',
-            source: '新民晚报',
-            time: '2018-05-26',
-            event: 12,
-          },
-          {
-            title: '123',
-            abstract: '警方发现李白骑鲸鱼的时候并没有穿内内，场面十分吓人',
-            url: 'https://google.com',
-            source: '咕果',
-            time: '2018-05-26',
-            event: 12,
-          },
-          {
-            title: '123',
-            abstract: '321',
-            url: 'https://google.com',
-            source: '咕果',
-            time: '2018-05-26',
-            event: 12,
-          },
-        ];
+        return this.$store.getters.getNewsCollectionByStack({ stack: this.stack.id });
       },
       route() {
         return this.$mockroute || this.$route;
