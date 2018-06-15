@@ -85,7 +85,7 @@ const mutations = {
     return stack;
   },
 
-  setNews(state, { news } = {}) {
+  setNews(state, { news, sortNeeded = true } = {}) {
     if (news.event && typeof news.event === 'object') {
       const event = news.event;
       news.event = +event.id;
@@ -107,6 +107,9 @@ const mutations = {
     const s = state.stack[news.stack];
     if (s && !s.news.includes(news.id)) {
       s.news.push(news.id);
+      if (sortNeeded) {
+        mutations.sortNewsId({ id: news.stack });
+      }
     }
   },
 
@@ -140,7 +143,10 @@ const mutations = {
       if (state.news[news]) newsList.push(state.news[news]);
     }
 
-    const sortedId = getSortedId({ collection: newsList });
+    const sortedId = getSortedId({
+      collection: newsList,
+      isDecr: false,
+    });
 
     Vue.set(state.stack[id], 'news', sortedId);
   },

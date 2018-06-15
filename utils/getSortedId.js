@@ -3,8 +3,8 @@ export default function getSortedId({
   primaryKey = 'id',
   key = 'time',
   isDecr = true,
+  returnId = true,
 }) {
-  const idList = [];
   const isTime = ['updatedAt', 'createdAt', 'time'].includes(key);
   collection = collection.sort((a, b) => {
     let indexA = a[key];
@@ -19,8 +19,14 @@ export default function getSortedId({
       return indexA - indexB;
     }
   });
-  for (const item of collection) {
-    idList.push(item[primaryKey]);
+
+  if (returnId) {
+    const idList = [];
+    for (const item of collection) {
+      idList.push(item[primaryKey]);
+    }
+    return idList;
+  } else {
+    return collection;
   }
-  return idList;
 }
