@@ -22,7 +22,7 @@ const mutations = {
     // replace pre-existing event if there is one
     for (const id of state.eventId) {
       if (id === event.id) {
-        for (stack of state.event[id].stack) {
+        for (const stack of state.event[id].stack) {
           if (!event.stack.includes(stack)) {
             event.stack.push(stack);
           }
@@ -103,12 +103,13 @@ const mutations = {
     }
     news.abstract = news.abstract || '';
     Vue.set(state.news, news.id, news);
-
     const s = state.stack[news.stack];
     if (s && !s.news.includes(news.id)) {
       s.news.push(news.id);
       if (sortNeeded) {
-        mutations.sortNewsId({ id: news.stack });
+        mutations.sortNewsId(state, {
+          id: news.stack,
+        });
       }
     }
   },
@@ -135,12 +136,14 @@ const mutations = {
   },
 
   sortNewsId(state, { id }) {
-    const news = state.stack[id];
-    if (!news) return;
+    const stack = state.stack[id];
+    if (!stack) return;
 
     const newsList = [];
     for (const news of stack.news) {
-      if (state.news[news]) newsList.push(state.news[news]);
+      if (state.news[news]) {
+        newsList.push(state.news[news]);
+      }
     }
 
     const sortedId = getSortedId({

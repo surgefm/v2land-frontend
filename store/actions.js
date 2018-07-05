@@ -73,11 +73,11 @@ export default {
     return eventList;
   },
 
-  async fetchStackList({ commit }, { where = { status: 'admitted' } }) {
+  async fetchStackList({ commit }, { where = { status: 'admitted' }, page = 1 }) {
     let stackList = [];
 
     try {
-      const { data } = await this.$axios.post('stack/list', { where });
+      const { data } = await this.$axios.post('stack/list', { where, page });
       for (const stack of data.stackList) {
         commit('setStack', { stack });
       }
@@ -89,14 +89,18 @@ export default {
     return stackList;
   },
 
-  async getNewsList({ commit, dispatch }, { where, page }) {
+  async getNewsList({ commit }, { where, page }) {
     try {
       const { data } = await this.$axios.post('news', { where, page });
-      for (const news of (data.newsList || data)) {
-        commit('setNews', news);
+      if (data.newsList && data.newsList.length > 0) {
+        for (const news of (data.newsList)) {
+          commit('setNews', { news, sortNeeded: false });
+        }
+        commit('sortNewsId', { id: data.newsList[0].stack });
       }
-      return data.newsList || data;
+      return data.newsList;
     } catch (err) {
+      console.error('actions.getNewsList: ' + err);
       return [];
     }
   },
@@ -150,7 +154,13 @@ export default {
 
   async editNews({ dispatch }, { id, data }) {
     const url = $.encode(`news/${id}`);
-    return this.$axios.put(url, data);
+    const news = {};
+    for (const attr of ['title', 'abstract', 'time', 'comment', 'status', 'stack', 'source']) {
+      if (data[attr]) {
+        news[attr] = data[attr];
+      }
+    }
+    return this.$axios.put(url, news);
   },
 
   async getClient({ commit }, id = 'me') {
