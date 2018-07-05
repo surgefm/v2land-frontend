@@ -51,6 +51,16 @@
         </el-collapse-item>
       </draggable>
     </el-collapse>
+    <div class="save-button">
+      <el-button
+        size="medium"
+        type="primary"
+        @click="changeOrder"
+        :loading="saving"
+      >
+        保存修改
+      </el-button>
+    </div>
     <h4 class="subtitle">备选进展</h4>
     <draggable
       v-model="remainingStackList"
@@ -109,6 +119,7 @@ export default {
       remainingStackList: [],
       dialogVisible: false,
       stackEdited: null,
+      saving: false,
     };
   },
   methods: {
@@ -118,11 +129,38 @@ export default {
           event: this.event.id,
         },
       });
-      for (const stack of this.stackList) {
-        this.$set(stack, 'enlisted', stack.status === 'admitted');
+      this.formalStackList = this.stackList.filter(s => s.status === 'admitted' && s.order >= 0).slice();
+      this.remainingStackList = this.stackList.filter(s => s.status !== 'admitted' || s.order < 0).slice();
+    },
+    async changeOrder() {
+      this.saving = true;
+      try {
+        const changeList = [];
+        for (let i = this.formalStackList.length - 1; i >= 0; i--) {
+          changeList.push({
+            id: this.formalStackList[this.formalStackList.length - i - 1].id,
+            order: i,
+          });
+        }
+        for (const stack of this.remainingStackList) {
+          if (stack.order >= 0) {
+            changeList.push({
+              id: stack.id,
+              order: -1,
+            });
+          }
+        }
+        await this.$axios.put('stack/list', {
+          stackList: changeList,
+        });
+        await this.updateStackList();
+        this.$message.success('修改成功');
+      } catch (err) {
+        this.$message.error('修改过程中发生错误');
+        console.error(err);
+      } finally {
+        this.saving = false;
       }
-      this.formalStackList = this.stackList.filter(s => s.enlisted).slice();
-      this.remainingStackList = this.stackList.filter(s => !s.enlisted).slice();
     },
     edit(stack) {
       this.stackEdited = { ...stack };
@@ -193,6 +231,11 @@ export default {
 
   .collapse-title > *:not(:last-child) {
     margin-right: .25rem;
+  }
+
+  .save-button {
+    display: flex;
+    justify-content: flex-end;
   }
 
   .subtitle {

@@ -7,7 +7,7 @@ const mutations = {
     event.stack = event.stack || [];
     const stackId = [];
     for (const stack of event.stack) {
-      mutations.setStack(state, { stack });
+      mutations.setStack(state, { stack, updateOrder: false });
       stackId.push(stack.id);
     }
 
@@ -38,11 +38,12 @@ const mutations = {
     state.eventId.push(event.id);
     Vue.set(state.event, event.id, event);
     Vue.set(state.eventName, event.name, event.id);
+    mutations.sortStackId(state, { name: event.id });
 
     return event;
   },
 
-  setStack(state, { stack } = {}) {
+  setStack(state, { stack, updateOrder = true } = {}) {
     stack.news = stack.news || [];
     const newsId = [];
     for (const news of stack.news) {
@@ -69,6 +70,9 @@ const mutations = {
           }
         }
         Vue.set(state.stack, i, stack);
+        if (s.order !== stack.order && updateOrder) {
+          mutations.sortStackId(state, { name: stack.event });
+        }
         mutations.sortNewsId({ id: stack.id });
         return state.stack[i];
       }
@@ -80,6 +84,10 @@ const mutations = {
     const e = state.event[stack.event];
     if (e && !e.stack.includes(stack.id)) {
       e.stack.push(stack.id);
+    }
+
+    if (updateOrder) {
+      mutations.sortStackId(state, { name: stack.event });
     }
 
     return stack;
