@@ -1,4 +1,5 @@
-const cdn = 'https://cdn.v2land.net/';
+const cdn = 'https://langchao.org/';
+// const cdn = 'https://cdn.v2land.net/';
 const publicPath = cdn ? (cdn + '_nuxt/') : null;
 
 module.exports = {
