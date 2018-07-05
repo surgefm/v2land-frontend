@@ -25,6 +25,13 @@
         :news="news"
         :key="news.id"
       />
+      <p
+        v-if="moreToLoad"
+        class="load-more"
+        @click="loadMore"
+      >
+        加载更多相关新闻
+      </p>
     </div>
   </div>
 </template>
@@ -40,6 +47,11 @@
       showEventName: Boolean,
       isLatestStack: Boolean,
     },
+    data() {
+      return {
+        newsList: [],
+      };
+    },
     computed: {
       event() {
         return this.$store.getters.getEvent(this.stack.event);
@@ -52,46 +64,55 @@
         const time = new Date(this.stack.time);
         return `${time.getFullYear()}年${time.getMonth() + 1}月${time.getDay() }日`;
       },
-      newsList() {
-        return this.$store.getters.getNewsCollectionByStack({ stack: this.stack.id });
-      },
       route() {
         return this.$mockroute || this.$route;
       },
       router() {
         return this.$mockrouter || this.$router;
       },
+      moreToLoad() {
+        return this.stack && this.stack.newsCount > this.stack.news.length;
+      },
     },
     components: {
       'event-stack-news': EventStackNews,
     },
     methods: {
+      updateNewsList() {
+        this.newsList = this.$store.getters.getNewsCollectionByStack({ stack: this.stack.id });
+      },
       redirect() {
         this.router.push({
-          name: 'event-pinyin-stack',
+          name: 'event-stack',
           params: {
             name: this.stack.event,
             stack: this.stack.id,
-            pinyin: this.event ? this.event.pinyin : null,
           },
         });
         this.$emit('redirect');
       },
       redirectEvent() {
         this.router.push({
-          name: 'event-pinyin',
-          params: {
-            name: this.eventName,
-            pinyin: this.event ? this.event.pinyin : null,
-          },
+          name: 'event',
+          params: { name: this.eventName },
         });
         this.$emit('redirect');
       },
+      async loadMore() {
+        if (!this.moreToLoad) return;
+        const page = Math.floor(this.stack.news.length / 10) + 1;
+        await this.$store.dispatch('getNewsList', {
+          where: {
+            stack: this.stack.id,
+            status: 'admitted',
+          },
+          page,
+        });
+        this.updateNewsList();
+      },
     },
     created() {
-      if (this.isLatestStack) {
-        this.showNews = true;
-      }
+      this.updateNewsList();
     },
   };
 </script>
@@ -141,11 +162,13 @@
     color: #333;
   }
 
-  .news-button {
-    margin-left: 2rem;
-  }
-
   .stack-container:last-child {
     padding-bottom: 1rem;
+  }
+
+  .load-more {
+    padding: .5rem 2rem .25rem 2rem;
+    font-size: 14px;
+    cursor: pointer;
   }
 </style>
