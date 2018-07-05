@@ -46,7 +46,7 @@
     },
     methods: {
       copySuccess() {
-        this.$message.success('已将该新闻分享链接拷贝至剪贴板');
+        this.$message.success('已将该进展分享链接拷贝至剪贴板');
       },
     },
     components: {
