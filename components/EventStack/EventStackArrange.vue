@@ -71,10 +71,17 @@
       :append-to-body="true"
       @close="finishEditing()"
     >
+      <div class="sorter">修改基本信息</div>
       <event-stack-editor
         :stack="stackEdited"
         v-if="stackEdited"
         @edited="finishEditing()"
+      />
+      <div class="divider" />
+      <div class="sorter">管理进展新闻</div>
+      <event-stack-news-arrange
+        :stack="stackEdited"
+        v-if="stackEdited"
       />
     </el-dialog>
   </div>
@@ -86,6 +93,7 @@ import ElCollapse from 'element-ui/lib/collapse';
 import ElCollapseItem from 'element-ui/lib/collapse-item';
 import EventStackCard from '~/components/EventStack/EventStackCard.vue';
 import EventStackEditor from '~/components/EventStack/EventStackEditor.vue';
+import EventStackNewsArrange from '~/components/EventStack/EventStackNewsArrange.vue';
 
 import '~/static/element/collapse.css';
 import '~/static/element/collapse-item.css';
@@ -104,13 +112,26 @@ export default {
     };
   },
   methods: {
+    async updateStackList() {
+      this.stackList = await this.$store.dispatch('fetchStackList', {
+        where: {
+          event: this.event.id,
+        },
+      });
+      for (const stack of this.stackList) {
+        this.$set(stack, 'enlisted', stack.status === 'admitted');
+      }
+      this.formalStackList = this.stackList.filter(s => s.enlisted).slice();
+      this.remainingStackList = this.stackList.filter(s => !s.enlisted).slice();
+    },
     edit(stack) {
       this.stackEdited = { ...stack };
       this.dialogVisible = true;
     },
-    finishEditing() {
+    async finishEditing() {
       this.dialogVisible = false;
       this.stackEdited = null;
+      await this.updateStackList();
     },
     getTime(stack) {
       if (!stack || !stack.time) return;
@@ -119,16 +140,7 @@ export default {
     },
   },
   async created() {
-    this.stackList = await this.$store.dispatch('fetchStackList', {
-      where: {
-        event: this.event.id,
-      },
-    });
-    for (const stack of this.stackList) {
-      this.$set(stack, 'enlisted', stack.status === 'admitted');
-    }
-    this.formalStackList = this.stackList.filter(s => s.enlisted).slice();
-    this.remainingStackList = this.stackList.filter(s => !s.enlisted).slice();
+    await this.updateStackList();
   },
   components: {
     draggable,
@@ -136,6 +148,7 @@ export default {
     'el-collapse-item': ElCollapseItem,
     'event-stack-card': EventStackCard,
     'event-stack-editor': EventStackEditor,
+    'event-stack-news-arrange': EventStackNewsArrange,
   },
 };
 </script>
@@ -189,5 +202,11 @@ export default {
   .remaining-list {
     display: flex;
     flex-wrap: wrap;
+  }
+
+  .sorter {
+    width: 100%;
+    text-align: left;
+    margin-top: 0;
   }
 </style>
