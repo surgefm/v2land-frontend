@@ -51,7 +51,6 @@
           query.where.name = { contains: this.filterName };
         }
         this.eventCollection = await this.$store.dispatch('fetchEventList', query);
-        console.log(this.eventCollection);
       },
     },
     components: {

@@ -22,18 +22,14 @@
     methods: {
       async submit() {
         const data = this.$store.state.temp[this.uid];
-        this.$store.dispatch('editNews', {
+        await this.$store.dispatch('editNews', {
           id: this.$route.params.id,
           data,
-        })
-          .then(() => {
-            const { name } = this.$route.params;
-            this.$store.dispatch('fetchEvent', { name });
-          })
-          .then(() => {
-            this.$message('修改成功');
-            this.$router.push(`/${this.$route.params.name}/${this.$route.params.id}`);
-          });
+        });
+        const { name } = this.$route.params;
+        this.$store.dispatch('fetchEvent', { name });
+        this.$message('修改成功');
+        this.$router.push(`/${this.$route.params.name}`);
       },
     },
     computed: {

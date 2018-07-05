@@ -23,31 +23,24 @@
       async submit() {
         const data = this.$store.state.temp.addNews;
         const url = $.encode(`event/${this.$route.params.name}/news`);
-        this.$axios.post(url, data)
-          .then(() => {
-            if (this.isAdmin) {
-              this.$store.dispatch('fetchEvent', {
-                name: this.name,
-              })
-                .then(() => {
-                  this.$message.success('提交成功，该新闻已放入事件合辑内');
-                  this.$refs.form.resetForm();
-                  this.$refs.form.resetButton();
-                });
-            } else {
-              this.$message.success('提交成功，该新闻会在通过审核后列入事件合辑内');
-              this.$refs.form.resetForm();
-              this.$refs.form.resetButton();
-            }
-          })
-          .catch((err) => {
-            let message = '服务器开小差了，神秘';
-            if (err.response && err.response.data) {
-              message = err.response.data.message || message;
-            }
-            this.$message.error(message);
-            this.$refs.form.resetButton();
-          });
+        try {
+          await this.$axios.post(url, data);
+          if (this.isAdmin) {
+            await this.$store.dispatch('fetchEvent', { name: this.name });
+            this.$message.success('提交成功，该新闻已放入事件合辑内');
+          } else {
+            this.$message.success('提交成功，该新闻会在通过审核后列入事件合辑内');
+          }
+          this.$refs.form.resetForm();
+          this.$refs.form.resetButton();
+        } catch (err) {
+          let message = '服务器开小差了，神秘';
+          if (err.response && err.response.data) {
+            message = err.response.data.message || message;
+          }
+          this.$message.error(message);
+          this.$refs.form.resetButton();
+        }
       },
     },
     computed: {
