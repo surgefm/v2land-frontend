@@ -50,7 +50,7 @@
         for (const i of [
           'admin-event', 'admin-admit', 'admin-client', 'create-event',
           'subscribe', 'post', 'admit', 'edit', 'subscription-list',
-          'client-setting', 'client', 'return', 'homepage',
+          'edit-stack', 'client-setting', 'client', 'return', 'homepage',
         ]) {
           let action = i.split('-');
           for (let j = 0; j < action.length; j++) {
@@ -127,6 +127,9 @@
       showEdit() {
         return this.showAdmit;
       },
+      showEditStack() {
+        return this.showEdit;
+      },
       showSubscriptionList() {
         return this.isLoggedIn &&
           (this.isHomepage || this.isClientPage || this.$route.name === 'subscription');
@@ -139,7 +142,7 @@
       },
       showReturn() {
         return this.$route.name &&
-          !['event', 'event-news', 'event-pinyin', 'event-pinyin-news', 'admin-event'].includes(this.$route.name) &&
+          !['event', 'event-news', 'admin-event'].includes(this.$route.name) &&
           this.$route.name.includes('event') &&
           this.$route.params.name !== 'admin';
       },

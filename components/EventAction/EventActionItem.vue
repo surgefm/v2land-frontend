@@ -7,6 +7,7 @@
   import EventActionPost from './EventActionPost.vue';
   import EventActionAdmit from './EventActionAdmit.vue';
   import EventActionEdit from './EventActionEdit.vue';
+  import EventActionEditStack from './EventActionEditStack.vue';
   import EventActionSubscriptionList from './EventActionSubscriptionList.vue';
   import EventActionClientSetting from './EventActionClientSetting.vue';
   import EventActionClient from './EventActionClient.vue';
@@ -27,6 +28,7 @@
       'event-action-post': EventActionPost,
       'event-action-admit': EventActionAdmit,
       'event-action-edit': EventActionEdit,
+      'event-action-edit-stack': EventActionEditStack,
       'event-action-subscription-list': EventActionSubscriptionList,
       'event-action-client-setting': EventActionClientSetting,
       'event-action-client': EventActionClient,
