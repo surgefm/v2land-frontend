@@ -107,7 +107,6 @@ export default {
   created() {
     this.origStack = { ...this.stack };
     this.data = { ...this.stack };
-    console.log({ ...this.stack });
   },
 };
 </script>

@@ -27,6 +27,7 @@
           </div>
           <i class="el-icon-more button-more" slot="reference" />
         </el-popover>
+        <i class="el-icon-edit" @click="editNews()" v-if="showEdit" />
       </div>
     </div>
     <el-dialog
@@ -40,6 +41,13 @@
       </span>
     </el-dialog>
   </div>
+  <div
+    class="news-item"
+    ref="container"
+    v-else
+  >
+    <div class="info">未找到相关新闻</div>
+  </div>
 </template>
 
 <script>
@@ -51,6 +59,7 @@ export default {
   name: 'EventStackNews',
   props: {
     'news': Object,
+    'mode': String,
   },
   data() {
     return {
@@ -63,6 +72,9 @@ export default {
     url() {
       if (!this.news.url) return;
       return '/redirect?to=' + encodeURIComponent(this.news.url);
+    },
+    showEdit() {
+      return this.mode === 'edit';
     },
   },
   methods: {
@@ -86,10 +98,21 @@ export default {
       this.showMore = !this.showMore;
       if (!this.showDetail) this.scale();
     },
+    editNews() {
+      this.$store.commit('setTemp', {
+        label: 'newsToEdit',
+        temp: {
+          ...this.news,
+        },
+      });
+      this.$emit('edit');
+    },
   },
   mounted() {
-    window.addEventListener('resize', this.scale);
-    this.scale();
+    if (this.news) {
+      window.addEventListener('resize', this.scale);
+      this.scale();
+    }
   },
   components: {
     'event-news-content': EventNewsContent,
@@ -148,6 +171,10 @@ export default {
     line-height: 1.8;
   }
 
+  .source > * {
+    margin-left: .3rem;
+  }
+
   .shadow {
     content: "";
     display: none;
@@ -162,17 +189,17 @@ export default {
 
   .button-more {
     transform: rotate(90deg);
-    margin-left: .25rem;
+    cursor: pointer;
+  }
+
+  .el-icon-edit {
+    cursor: pointer;
   }
 
   .more-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-  }
-
-  .button-more {
-    cursor: pointer;
   }
 
   .button-history {
