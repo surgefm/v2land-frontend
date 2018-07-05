@@ -129,8 +129,8 @@ export default {
           event: this.event.id,
         },
       });
-      this.formalStackList = this.stackList.filter(s => s.status === 'admitted' && s.order >= 0).slice();
-      this.remainingStackList = this.stackList.filter(s => s.status !== 'admitted' || s.order < 0).slice();
+      this.formalStackList = this.stackList.filter(s => s.status === 'admitted' && s.order >= 0);
+      this.remainingStackList = this.stackList.filter(s => s.status !== 'admitted' || s.order < 0);
       this.formalStackList.sort((a, b) => b.order - a.order);
     },
     async changeOrder() {

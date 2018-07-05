@@ -98,9 +98,7 @@ export default {
         clearTimeout(this.updateTimer);
       }
 
-      this.updateTimer = setTimeout(async () => {
-        await this.fetchNewsList();
-      });
+      this.updateTimer = setTimeout(this.fetchNewsList);
     },
     async fetchNewsList() {
       if (!this.stack) return;
