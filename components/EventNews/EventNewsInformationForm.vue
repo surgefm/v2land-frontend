@@ -52,7 +52,7 @@
 
     <el-form-item label="所属进展" prop="stack">
       <stack-information-form
-        v-if="!stack && !data"
+        v-if="!stack"
         v-model="form.stack"
         :event="+$route.params.name"
         @input="updateStack"
@@ -136,6 +136,9 @@
           abstract: [
             { required: true, message: '请输入新闻摘要', trigger: 'blur' },
             { max: 150, message: '摘要字数不得超过 150 字', trigger: 'blur' },
+          ],
+          stack: [
+            { required: true, message: '请选择新闻所属进展', trigger: 'blur' },
           ],
           time: [
             { type: 'date', required: true, message: '请选择新闻发布时间', trigger: 'change' },

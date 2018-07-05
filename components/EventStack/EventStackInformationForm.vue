@@ -1,7 +1,12 @@
 <template>
   <div>
     <div class="select-stack">
-      <el-select v-model="value" placeholder="请选择新闻所属进展" class="or">
+      <el-select
+        v-model="value"
+        placeholder="请选择新闻所属进展"
+        class="or"
+        @change="$emit('input')"
+      >
         <el-option
           v-for="s of stackList"
           :key="s.id"
@@ -93,15 +98,13 @@ export default {
 
         this.value = data.stack.id;
         this.dialogVisible = false;
+        this.$emit('input');
       });
     },
   },
   async created() {
     await this.$store.dispatch('getEvent', this.event);
     this.stackList = this.$store.getters.getStackCollectionByEvent({ event: this.event }) || [];
-    if (this.stackList[0]) {
-      this.value = this.stackList[0].id;
-    }
   },
 };
 </script>

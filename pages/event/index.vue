@@ -47,7 +47,6 @@
         return this.$store.getters.getFetchingStatus('getEvent');
       },
       event() {
-        console.log(this.name, this.$store.getters.getEvent(this.name));
         return this.$store.getters.getEvent(this.name);
       },
       stackCollection() {

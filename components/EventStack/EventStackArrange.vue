@@ -131,6 +131,7 @@ export default {
       });
       this.formalStackList = this.stackList.filter(s => s.status === 'admitted' && s.order >= 0).slice();
       this.remainingStackList = this.stackList.filter(s => s.status !== 'admitted' || s.order < 0).slice();
+      this.formalStackList.sort((a, b) => b.order - a.order);
     },
     async changeOrder() {
       this.saving = true;
@@ -236,6 +237,7 @@ export default {
   .save-button {
     display: flex;
     justify-content: flex-end;
+    margin-top: .5rem;
   }
 
   .subtitle {
