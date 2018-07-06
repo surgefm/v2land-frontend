@@ -109,7 +109,6 @@ module.exports = {
     }],
   ],
 
-      handler: 'cacheFirst',
   axios: {
     baseURL: config.api,
     credentials: true,
