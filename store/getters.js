@@ -76,9 +76,11 @@ export default {
 
   getStackCollection: (state, getters) => ({
     filter = () => true,
-    sort = (a, b) => b.order - a.order,
+    sort,
   }) => {
-    return getters.getAllStack.filter(filter).sort(sort);
+    return typeof sort === 'undefined'
+      ? getters.getAllStack.filter(filter)
+      : getters.getAllStack.filter(filter).sort(sort);
   },
 
   getAllStack: (state) => {
@@ -108,11 +110,11 @@ export default {
 
   getNewsCollection: (state, getters) => ({
     filter = () => true,
-    sort = (a, b) => {
-      return new Date(b.time).getTime() - new Date(a.time).getTime();
-    },
+    sort,
   }) => {
-    return getters.getAllNews.filter(filter).sort(sort);
+    return typeof sort === 'undefined'
+      ? getters.getAllNews.filter(filter)
+      : getters.getAllNews.filter(filter).sort(sort);
   },
 
   getAllNews: (state) => {
