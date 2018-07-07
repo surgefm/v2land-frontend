@@ -86,7 +86,7 @@ export default {
   getAllStack: (state) => {
     const stackList = [];
     for (const id of Object.keys(state.stack)) {
-      if (typeof + id === 'number') {
+      if (typeof +id === 'number') {
         stackList.push(state.stack[id]);
       }
     }
@@ -95,6 +95,7 @@ export default {
 
   getNewsCollectionByStack: (state, getters) => ({ stack, isAdmitted = true } = {}) => {
     const s = getters.getStack(stack);
+    if (!s) return [];
     const newsIdList = s.news;
 
     const newsList = [];
