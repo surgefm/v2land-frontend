@@ -28,6 +28,11 @@ export default {
   components: {
     'event-stack-arrange': EventStackArrange,
   },
+  head() {
+    return {
+      title: '管理进展 - ' + (this.name || '浪潮'),
+    };
+  },
 };
 </script>
 
