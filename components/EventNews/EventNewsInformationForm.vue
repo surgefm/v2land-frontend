@@ -39,6 +39,28 @@
       />
     </el-form-item>
 
+    <el-form-item label="状态" prop="status" v-if="mode === 'edit'">
+      <el-select placeholder="请选择新闻状态" v-model="form.status">
+        <el-option
+          v-for="status in options"
+          :key="status.value"
+          :label="status.label"
+          :value="status.value"
+        />
+      </el-select>
+    </el-form-item>
+
+    <el-form-item label="所属进展" prop="stack">
+      <stack-information-form
+        v-if="!stack"
+        v-model="form.stack"
+        :event="+$route.params.name"
+        @input="updateStack"
+        ref="stack"
+      />
+      <span v-else>{{ stack.title }}</span>
+    </el-form-item>
+
     <el-form-item label="备注" prop="comment">
       <comment-editor
         mode="editNews"
@@ -75,6 +97,7 @@
 </template>
 
 <script>
+  import EventStackInformationForm from '~/components/EventStack/EventStackInformationForm.vue';
   import DatePicker from 'element-ui/lib/date-picker';
   import '~/static/element/date-picker.css';
   import '~/static/element/time-picker.css';
@@ -83,7 +106,9 @@
   export default {
     props: {
       data: String,
-      mode: String,
+      mode: String, // 'create' or 'edit'
+      stack: Object,
+      news: Object,
     },
     data() {
       const url = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/;
@@ -94,6 +119,7 @@
           source: '',
           abstract: '',
           time: '',
+          stack: null,
           comment: null,
         },
         rules: {
@@ -111,16 +137,26 @@
             { required: true, message: '请输入新闻摘要', trigger: 'blur' },
             { max: 150, message: '摘要字数不得超过 150 字', trigger: 'blur' },
           ],
+          stack: [
+            { required: true, message: '请选择新闻所属进展', trigger: 'blur' },
+          ],
           time: [
             { type: 'date', required: true, message: '请选择新闻发布时间', trigger: 'change' },
           ],
         },
         isSubmitting: false,
         commentTimeout: null,
+        options: [
+          { label: '过审', value: 'admitted' },
+          { label: '拒绝', value: 'rejected' },
+          { label: '移除', value: 'removed' },
+          { label: '待审核', value: 'pending' },
+        ],
       };
     },
     computed: {
       origData() {
+        if (this.news) return this.news;
         return this.$store.getters.getNews({
           id: this.$route.params.id,
         });
@@ -139,7 +175,11 @@
 
             this.$store.commit('setTemp', {
               label: this.data,
-              temp: { ...this.form, time: new Date(newTime) },
+              temp: {
+                ...this.form,
+                time: new Date(newTime),
+                id: (this.origData || {}).id,
+              },
             });
             this.$emit('submit');
           }
@@ -158,6 +198,9 @@
       resetButton() {
         this.isSubmitting = false;
       },
+      updateStack() {
+        this.$set(this.form, 'stack', this.$refs.stack.value);
+      },
       setComment(doc) {
         if (!this.$refs.comment) {
           if (this.commentTimeout) {
@@ -174,6 +217,7 @@
     },
     components: {
       'el-date-picker': DatePicker,
+      'stack-information-form': EventStackInformationForm,
       'comment-editor': () => import(/* webpackChunkName:'editor' */ '~/components/Comment/Editor'),
     },
     created() {
@@ -183,6 +227,9 @@
         const minutesOffset = new Date().getTimezoneOffset() + 480;
         newTime += minutesOffset * 60000;
         this.$set(this.form, 'time', new Date(newTime));
+      }
+      if (this.stack && this.mode !== 'edit') {
+        this.form.stack = this.stack.id;
       }
     },
     mounted() {

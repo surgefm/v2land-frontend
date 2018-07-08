@@ -1,18 +1,20 @@
 <template>
-  <div class="status">
-    <span v-if="time.startTime">
-      起始时间：
-      <span class="light-font">
-        {{ getString(time.startTime) }}
+  <div class="status" v-if="event">
+    <span>事件</span>
+    <span v-if="event.stackCount || event.newsCount">共有</span>
+    <span v-if="event.stackCount">
+      <span class="light-font number">
+        {{ event.stackCount }}
       </span>
-    </span>
-    <span class="margin-left" v-if="time.lastTime">
-      最后更新：
-      <span class="light-font">
-        {{ getString(time.lastTime) }}
+      个进展</span>
+    <span v-if="event.stackCount && event.newsCount">、</span>
+    <span v-if="event.newsCount">
+      <span class="light-font number">
+        {{ event.newsCount }}
       </span>
+      条新闻
     </span>
-    <span class="light-font" v-if="!time.startTime">
+    <span class="light-font" v-if="!event.stackCount && !event.newsCount">
       尚无相关新闻
     </span>
   </div>
@@ -21,22 +23,7 @@
 <script>
   export default {
     props: {
-      time: Object,
-    },
-    methods: {
-      getString(input) {
-        const date = new Date(input);
-        if (isNaN(date.getTime())) {
-          return null;
-        }
-
-        let string = '';
-        string += date.getFullYear() + ' 年 ';
-        string += (date.getMonth() + 1) + ' 月 ';
-        string += date.getDate() + ' 日';
-
-        return string;
-      },
+      event: Object,
     },
   };
 </script>
@@ -44,6 +31,10 @@
 <style lang="scss" scoped>
   .status {
     font-size: .9rem;
+  }
+
+  .number {
+    font-size: bold;
   }
 
   .margin-left {

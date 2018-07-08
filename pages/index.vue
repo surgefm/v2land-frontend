@@ -64,7 +64,7 @@
     },
     computed: {
       eventList() {
-        return this.$store.getters.getEventList() || [];
+        return this.$store.getters.getEventList(((e) => e.status === 'admitted')) || [];
       },
       fetchingStatus() {
         return this.$store.getters.getFetchingStatus('eventList');
@@ -85,7 +85,7 @@
             status: 'loaded',
           });
         } else {
-          await this.$store.dispatch('fetchEventList', this.$route.params.name);
+          await this.$store.dispatch('fetchEventList');
         }
       },
     },
