@@ -50,7 +50,7 @@
         if (this.filterName) {
           query.where.name = { contains: this.filterName };
         }
-        this.eventCollection = await this.$store.dispatch('getEventList', query);
+        this.eventCollection = await this.$store.dispatch('fetchEventList', query);
       },
     },
     components: {
@@ -60,7 +60,7 @@
     },
     async asyncData({ store }) {
       return {
-        eventCollection: await store.dispatch('getEventList', {
+        eventCollection: await store.dispatch('fetchEventList', {
           where: { status: ['pending', 'admitted'] },
         }),
       };

@@ -82,10 +82,6 @@
         return this.$route.name === 'admin-event';
       },
       eventRoute() {
-        if (this.event.pinyin) {
-          return `/${this.event.id}/${this.event.pinyin}`;
-        }
-
         return `/${this.event.id}`;
       },
     },
@@ -94,11 +90,8 @@
         e.preventDefault();
         if (!this.imageClicked) {
           return this.$router.push({
-            name: 'event-pinyin',
-            params: {
-              name: this.event.id,
-              pinyin: this.event.pinyin,
-            },
+            name: 'event',
+            params: { name: this.event.id },
           });
         }
 

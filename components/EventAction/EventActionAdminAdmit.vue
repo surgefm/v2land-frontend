@@ -1,7 +1,7 @@
 <template>
   <nuxt-link
     class="subscribe-container"
-    :to="'/admin/admit'"
+    :to="'/admin/event'"
   >
     <span v-if="pendingNews" class="event-action-badge">{{ pendingNews }}</span>
     <span class="text light-font">审核队列</span>

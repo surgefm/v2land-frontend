@@ -74,7 +74,7 @@
 
       <a
         v-else-if="mode === 'quote'"
-        :href="`/${news.event.id || news.event}/${news.id}`"
+        :href="`/${news.event.id || news.event}/${news.stack}/${news.id}`"
         onclick="return false;"
         class="link"
       >
@@ -117,7 +117,6 @@
       news: Object,
       order: Number,
       mode: String,
-      event: Object,
     },
     data() {
       return {
@@ -127,20 +126,16 @@
     },
     computed: {
       showEventName() {
-        if (this.news.event === this.route.params.name ||
-          (this.event && this.news.event === this.event.id)) {
+        if (!this.event || +this.event.id === +this.route.params.name) {
           return false;
-        }
-
-        if (this.event) return true;
-
-        const event = this.$store.getters.getEvent(this.news.event);
-        if (event) {
-          this.eventName = event.name;
+        } else {
+          this.eventName = this.event.name;
           return true;
         }
-
-        return false;
+      },
+      event() {
+        if (typeof this.news.event === 'object') return this.news.event;
+        return this.$store.getters.getEvent(this.news.event);
       },
       date() {
         let newTime = new Date(this.news.time).getTime();
@@ -150,11 +145,12 @@
       },
       newsUrl() {
         const event = this.event || this.news.event;
+        if (!event) return '';
         if (event.id) {
           return `${config.baseUrl}${event.id}/${event.pinyin}/${this.news.id}`;
         }
 
-        return `config.baseUrl${event}/${this.news.id}`;
+        return `${config.baseUrl}${event}/${this.news.id}`;
       },
       href() {
         return '/redirect?to=' + encodeURIComponent(this.news.url);
@@ -215,10 +211,6 @@
         this.$emit('redirect');
       },
     },
-    // async created() {
-    //   const eventId = this.news.event.id || this.news.event;
-    //   this.eventName = (await this.$store.dispatch('getEvent', eventId)).name;
-    // },
   };
 </script>
 
@@ -254,16 +246,15 @@
   }
 
   .title {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     font-weight: bold;
     line-height: 1.25;
     word-wrap: break-word;
   }
 
   .news {
-    padding-top: .5rem;
     line-height: 1.8 !important;
-    font-size: 1rem !important;
+    font-size: 14px !important;
     color: #333;
   }
 

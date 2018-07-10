@@ -1,7 +1,7 @@
 <template>
   <card class="hover">
     <event-title>{{ detail.name }}</event-title>
-    <event-status :time="time" />
+    <event-status :event="detail" />
     <event-description v-if="detail.description">
       {{ detail.description }}
     </event-description>
@@ -27,21 +27,6 @@
     },
     props: {
       detail: Object,
-    },
-    computed: {
-      time() {
-        const news = this.detail.news;
-        if (!news || news.length === 0) {
-          return {};
-        }
-
-        const startTime = news[news.length - 1].time;
-        const lastTime = news[0].time;
-
-        return news.length === 1
-          ? { startTime }
-          : { startTime, lastTime };
-      },
     },
   };
 </script>

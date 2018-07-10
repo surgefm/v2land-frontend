@@ -15,6 +15,7 @@ import DropDownMenu from 'element-ui/lib/dropdown-menu';
 import DropDownItem from 'element-ui/lib/dropdown-item';
 import Dialog from 'element-ui/lib/dialog';
 import Loading from 'element-ui/lib/loading';
+import Tag from 'element-ui/lib/tag';
 
 Vue.use(Button);
 Vue.use(ButtonGroup);
@@ -31,6 +32,7 @@ Vue.use(DropDownMenu);
 Vue.use(DropDownItem);
 Vue.use(Dialog);
 Vue.use(Loading);
+Vue.use(Tag);
 
 Vue.prototype.$message = Message;
 
