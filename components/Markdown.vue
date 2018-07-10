@@ -5,16 +5,16 @@
 </template>
   
 <script>
-  import marked from 'marked'
+  import marked from 'marked';
 
   export default {
     props: {
-      input: String
+      input: String,
     },
     computed: {
-      compiledMarkdown () {
-        return marked('*备注：*' + this.input, { sanitize: true })
-      }
-    }
-  }
+      compiledMarkdown() {
+        return marked('*备注：*' + this.input, { sanitize: true });
+      },
+    },
+  };
 </script>

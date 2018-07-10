@@ -12,3 +12,14 @@ dist
 
 # Stupid iCloud
 **.icloud
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+.idea/*
+
+yarn-error.log
+
+static/sw.js

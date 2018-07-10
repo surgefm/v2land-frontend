@@ -3,38 +3,60 @@
     <card>
       <event-title>登录浪潮</event-title>
       <div class="login-method-container">
-        <login-method :redirect="redirect" />
+        <login-method
+          :availableMethods="availableMethods"
+          :redirect="redirect"
+        />
       </div>
     </card>
-    <logo class="logo"></logo>
-    <page-foot/>
+    <page-foot />
   </background>
 </template>
 
 <script>
+  import LoginMethod from '~/components/LoginMethod.vue';
+
   export default {
-    computed: {
-      redirect () {
-        let redirect = this.$route.query.redirect
-        if (redirect) {
-          if (redirect[0] === '/') {
-            return redirect.slice(1)
-          } else {
-            return redirect
-          }
-        }
-        return ''
-      }
+    data() {
+      return {
+        availableMethods: [],
+      };
     },
-    beforeRouteEnter: (to, from, next) => {
-      next(vm => {
-        if (vm.$store.state.client.username) {
-          vm.$message('你是已登录用户')
-          vm.$router.push(vm.$route.query.redirect || '/')
+    computed: {
+      redirect() {
+        let redirect = this.$route.query.redirect;
+        if (redirect) {
+          while (redirect.slice(0, 2) === '//') {
+            redirect = redirect.slice(1);
+          }
+
+          return redirect;
         }
-      })
-    }
-  }
+        return '/';
+      },
+    },
+    async asyncData({ store, query, redirect }) {
+      const options = await store.dispatch('getAvailableAuthMethod');
+      if (options.length === 1) {
+        let path = '/login/email';
+        if (query.redirect) {
+          path += '?redirect=' + query.redirect;
+        }
+        redirect(path);
+      }
+      return {
+        availableMethods: options,
+      };
+    },
+    head() {
+      return {
+        title: '登录浪潮',
+      };
+    },
+    components: {
+      'login-method': LoginMethod,
+    },
+  };
 </script>
 
 <style lang="scss" scoped>

@@ -1,6 +1,8 @@
 <template>
   <div>
     <nuxt/>
+    <logo class="logo" />
+    <event-action />
   </div>
 </template>
 
@@ -15,6 +17,12 @@
     -webkit-font-smoothing: antialiased;
     box-sizing: border-box;
     background-color: rgb(247, 246, 247);
+    overflow-y: scroll;
+  }
+
+  body {
+    overflow: auto !important;
+    padding-right: inherit !important;
   }
 
   *, *:before, *:after {

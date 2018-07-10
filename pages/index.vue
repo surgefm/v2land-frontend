@@ -1,51 +1,114 @@
 <template>
   <div class="homepage-container">
-    <logo class="logo" />
     <card class="title-container hover">
+      <div class="img-background header-image" />
       <img
-        src="https://assets.v2land.net/750x200/default.jpg"
+        v-lazy="config.static + '560x144/default.jpg'"
         onload="this.id = 'show'"
-      >
-      <event-title>浪潮</event-title>
-      <event-description class="title-description">
+        class="header-image"
+      />
+      <logotype color="#333" />
+      <event-description class="title-description light-font">
         你的社会事件追踪工具
       </event-description>
       <div class="title-button-container">
         <nuxt-link to="/new">
-          <el-button class="title-button">
+          <el-button
+            class="title-button"
+            v-analytics="{ action: 'buttonClick', label: 'postEvent' }"
+          >
             创建事件
           </el-button>
         </nuxt-link>
         <nuxt-link to="/about">
-          <el-button class="title-button" type="primary">
+          <el-button
+            class="title-button"
+            type="primary"
+            v-analytics="{ action: 'buttonClick', label: 'aboutV2land' }"
+          >
             了解浪潮
           </el-button>
         </nuxt-link>
       </div>
     </card>
     <event-card
-      v-for="event of eventCollection"
+      v-if="!showLoader"
+      v-for="event of eventList"
       :key="event.id"
       :event="event"
+      :fade="true"
     />
+    <event-card-shimmer
+      v-if="showLoader"
+      v-for="(index) of new Array(3)"
+      :key="index"
+    />
+    <load-more v-if="!showLoader" :type="'event'">加载更多</load-more>
     <page-foot class="page-foot" />
-    <event-action />
   </div>
 </template>
 
 <script>
+  import config from '~/const';
+  import EventCard from '~/components/EventCard/EventCard.vue';
+  import EventCardShimmer from '~/components/EventCard/EventCardShimmer.vue';
+  import EventDescription from '~/components/EventAbstract/EventAbstractDescription.vue';
+  import LoadMore from '~/components/LoadMore.vue';
+
   export default {
-    data () {
+    data() {
       return {
-        eventCollection: []
+        eventCollection: [],
+        config,
+      };
+    },
+    computed: {
+      eventList() {
+        return this.$store.getters.getEventList(((e) => e.status === 'admitted')) || [];
+      },
+      fetchingStatus() {
+        return this.$store.getters.getFetchingStatus('eventList');
+      },
+      showLoader() {
+        const { status, isRefresh } = this.fetchingStatus;
+        return status !== 'loaded' &&
+          status !== 'serverLoaded' &&
+          isRefresh;
+      },
+    },
+    methods: {
+      async init() {
+        const { status } = this.fetchingStatus;
+        if (status === 'serverLoaded') {
+          this.$store.commit('setFetchingStatus', {
+            name: 'eventList',
+            status: 'loaded',
+          });
+        } else {
+          await this.$store.dispatch('fetchEventList');
+        }
+      },
+    },
+    async asyncData({ store }) {
+      if (store.getters.isServer) {
+        store.commit('resetAllStatus');
+        await store.dispatch('fetchEventList');
+        store.commit('setFetchingStatus', {
+          name: 'eventList',
+          status: 'serverLoaded',
+        });
       }
     },
-    async asyncData ({ store }) {
-      return {
-        eventCollection: await store.dispatch('getEventList')
-      }
-    }
-  }
+    mounted() {
+      this.init();
+    },
+    components: {
+      'event-card': EventCard,
+      'event-card-shimmer': EventCardShimmer,
+      'event-description': EventDescription,
+      'load-more': LoadMore,
+    },
+  };
 </script>
 
 <style lang="scss" scoped>
@@ -65,7 +128,7 @@
     padding: 10.5rem 1.5rem .5rem 1.5rem !important;
   }
 
-  .title-container img {
+  .title-container .header-image {
     width: 100%;
     height: 9rem;
     object-fit: cover;

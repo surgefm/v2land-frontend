@@ -1,4 +1,4 @@
-import Vue from 'vue'
-import VueClipboards from 'vue-clipboards'
+import Vue from 'vue';
+import VueClipboards from 'vue-clipboards';
 
-Vue.use(VueClipboards)
+Vue.use(VueClipboards);

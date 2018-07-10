@@ -3,18 +3,33 @@ export default {
     username: '',
     email: '',
     role: '',
-    subscriptionList: [],
-    eventList: []
+    subscriptions: [],
+    events: [],
   },
+  fetchingStatus: {
+    getEvent: {
+      status: 'initial',
+      isRefresh: true,
+    },
+    eventList: {
+      status: 'initial',
+      isRefresh: true,
+    },
+  },
+  availableAuths: [],
   event: {},
-  pendingNews: {},
-  allPendingNews: [],
+  eventName: {},
+  eventId: [],
+  stack: {},
+  news: {},
+  newsId: [],
+  clientList: [],
   temp: {},
   subscribe: {
     mode: '',
     contact: {
       method: '',
-      address: ''
-    }
-  }
-}
+      address: '',
+    },
+  },
+};

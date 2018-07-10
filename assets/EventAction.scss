@@ -1,7 +1,16 @@
 @import "variables";
 
 .subscribe-container {
-  transition: all .2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: .5rem .75rem;
+  transition: background-color .2s, box-shadow .2s;
+  cursor: pointer;
+}
+
+.subscribe-container * {
+  user-select: none;
 }
 
 .subscribe-container:hover, .exact-active-link {
@@ -26,6 +35,35 @@
   margin-left: .5rem;
 }
 
+.event-action-badge {
+  position: absolute;
+  left: calc(100% - 1.25rem);
+  top: .125rem;
+  font-size: .75rem;
+  border-radius: 1rem;
+  white-space: nowrap;
+  padding: 0 .25rem;
+  background-color: #fa5555;
+  color: #fff;
+  text-align: center;
+  min-width: 1.125rem;
+  height: 1.125rem;
+  line-height: 1.5;
+}
+
+.subscribe-container .el-loading-spinner {
+  margin-top: -1rem !important;
+}
+
+.subscribe-container .circular {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.disabled-tab {
+  cursor: wait;
+}
+
 @media (max-width: 780px) {
   .subscribe-container .text {
     visibility: hidden;
@@ -39,6 +77,12 @@
 }
 
 @media (max-width: 600px) {
+  .subscribe-container {
+    display: auto;
+    align-items: auto;
+    padding: auto;
+  }
+
   .subscribe-container .text {
     visibility: visible;
     opacity: 1;
@@ -61,14 +105,44 @@
     top: -.5rem !important;
     z-index: 3000;
   }
+
+  .event-action-badge {
+    left: auto;
+    right: .125rem;
+    top: -.5625rem;
+  }
+
+  .action-dropdown .subscribe-container:hover {
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  .subscription-tooltip {
+    display: none;
+  }
+
+  .action:not(.subscribe-container) {
+    padding: 0 !important;
+    height: auto !important;
+  }
+
+  .action .subscribe-container {
+    padding: .25rem;
+    height: 100%;
+  }
+
+  .subscribe-container:hover, .exact-active-link {
+    box-shadow: initial;
+    background-color: initial;
+  }
 }
 
 @media (max-width: 350px) {
-  .subscribe-container {
+  .subscribe-container:not(.two-tabs) {
     height: 3rem !important;
   }
 
-  .subscribe-container .text {
+  .subscribe-container:not(.two-tabs):not(.dropdown) .text {
     line-height: 1.25;
     letter-spacing: .25rem;
     width: 2.5rem;

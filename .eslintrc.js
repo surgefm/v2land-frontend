@@ -5,14 +5,18 @@ module.exports = {
     browser: true,
     node: true
   },
-  extends: 'standard',
+  extends: [
+    "eslint:recommended",
+    "v2land",
+  ],
   // required to lint *.vue files
   plugins: [
     'html'
   ],
   // add your custom rules here
   rules: {
-    "no-useless-escape": 0
+    "no-useless-escape": 0,
+    "require-jsdoc": 0,
   },
   globals: {}
 }
