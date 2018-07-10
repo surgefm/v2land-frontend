@@ -49,7 +49,7 @@
         const dropdown = [];
         for (const i of [
           'admin-event', 'admin-admit', 'admin-client', 'create-event',
-          'subscribe', 'post', 'admit', 'edit', 'subscription-list',
+          'subscribe', 'temporary-subscription', 'post', 'admit', 'edit', 'subscription-list',
           'edit-stack', 'client-setting', 'client', 'return', 'homepage',
         ]) {
           let action = i.split('-');
@@ -114,6 +114,9 @@
       },
       showCreateEvent() {
         return (this.isHomepage || this.isAdminDir) && this.isClientManager;
+      },
+      showTemporarySubscription() {
+        return this.isEventPage && !this.isClientManager;
       },
       showSubscribe() {
         return this.isEventPage && this.isClientManager;
