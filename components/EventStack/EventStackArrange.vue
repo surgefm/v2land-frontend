@@ -18,18 +18,9 @@
             <div class="collapse-title">
               <span>
                 {{ formalStackList.length - i }}.
-                {{ stack.title }} -
+                {{ stack.title }} - 
+                {{ getTime(stack) || '无初始日期' }}
               </span>
-              <span v-if="getTime(stack)">getTime(stack)</span>
-              <span v-else>无初始日期</span>
-              <el-tag
-                type="warning"
-                v-if="stack.status === 'pending'"
-                size="mini"
-                :disable-transitions="true"
-              >
-                待审核
-              </el-tag>
               <el-tag
                 v-if="i === 0"
                 size="mini"
