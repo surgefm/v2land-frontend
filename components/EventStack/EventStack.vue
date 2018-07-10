@@ -82,7 +82,8 @@
       right: initial;
       top: 0;
       left: -.25rem;
-      height: 4rem;
+      height: 3rem;
+      font-size: 3.5rem;
       float: left;
       text-shadow: none !important;
     }

@@ -105,8 +105,10 @@
       shareUrl() {
         if (this.type === 'event') {
           return `${config.baseUrl}${this.object.id}`;
-        } else if (this.type === 'news' || this.type === 'stack-news') {
+        } else if (this.type === 'stack') {
           return `${config.baseUrl}${this.eventId}/${this.object.id}`;
+        } else if (this.type === 'news' || this.type === 'stack-news') {
+          return `${config.baseUrl}${this.eventId}/${this.object.stack}/${this.object.id}`;
         }
       },
       wechatClipboard() {
