@@ -40,10 +40,4 @@
   .hover {
     padding-bottom: 1.25rem;
   }
-
-  @media (max-width: 600px) {
-    .hover {
-      padding-top: 1rem !important;
-    }
-  }
 </style>

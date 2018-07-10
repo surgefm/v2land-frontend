@@ -45,5 +45,10 @@
     .margin-left {
       margin-left: 0;
     }
+
+    .status {
+      display: flex;
+      flex-direction: column;
+    }
   }
 </style>

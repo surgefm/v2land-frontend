@@ -12,10 +12,9 @@
       <span v-if="firstTime" class="tag light-font">
         {{ firstTime }}
       </span>
-      <br />
-      <span v-if="stack.title" class="title">
+      <p v-if="stack.title" class="title">
         {{ stack.title }}
-      </span>
+      </p>
       <p v-if="stack.description" class="stack">
         {{ stack.description }}
       </p>
@@ -171,19 +170,5 @@
     padding: .5rem 2rem .25rem 2rem;
     font-size: 14px;
     cursor: pointer;
-  }
-
-  br {
-    line-height: 1;
-  }
-
-  @media (max-width: 600px) {
-    .top-container {
-      padding: 0;
-    }
-
-    .tag {
-      margin-top: 0 !important;
-    }
   }
 </style>
