@@ -113,13 +113,13 @@
           this.isClientAdmin) || this.isAdminDir;
       },
       showCreateEvent() {
-        return this.isHomepage || this.isAdminDir;
+        return (this.isHomepage || this.isAdminDir) && this.isClientManager;
       },
       showSubscribe() {
-        return this.isEventPage;
+        return this.isEventPage && this.isClientManager;
       },
       showPost() {
-        return this.showSubscribe && !this.isLoggingIn;
+        return this.showSubscribe && !this.isLoggingIn && this.isClientManager;
       },
       showAdmit() {
         return this.isEventPage && this.isClientManager;
