@@ -175,7 +175,7 @@ export default {
     getTime(stack) {
       if (!stack || !stack.time) return;
       const time = new Date(stack.time);
-      return `${time.getFullYear()}年${time.getMonth() + 1}月${time.getDay() }日`;
+      return `${time.getFullYear()}年${time.getMonth() + 1}月${time.getDate() }日`;
     },
   },
   async created() {

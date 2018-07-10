@@ -63,7 +63,7 @@
       firstTime() {
         if (!this.stack || !this.stack.time) return;
         const time = new Date(this.stack.time);
-        return `${time.getFullYear()}年${time.getMonth() + 1}月${time.getDay() }日`;
+        return `${time.getFullYear()}年${time.getMonth() + 1}月${time.getDate() }日`;
       },
       route() {
         return this.$mockroute || this.$route;
@@ -101,7 +101,7 @@
       },
       async loadMore() {
         if (!this.moreToLoad) return;
-        const page = Math.floor(this.stack.news.length / 10) + 1;
+        const page = Math.floor(this.stack.news.length / 15) + 1;
         await this.$store.dispatch('getNewsList', {
           where: {
             stack: this.stack.id,
