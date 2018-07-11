@@ -120,7 +120,11 @@ export default {
       });
 
       if (this.filterChange) {
-        this.newsList = newsList.slice();
+        this.newsList = getSortedId({
+          collection: newsList,
+          isDecr: false,
+          returnId: false,
+        });
         this.filterChange = false;
       } else {
         const sorted = getSortedId({

@@ -246,6 +246,10 @@
           }
         }
       },
+      'news'(newValue, oldValue) {
+        this.resetForm();
+        this.resetButton();
+      },
     },
   };
 </script>

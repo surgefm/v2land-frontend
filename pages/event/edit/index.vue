@@ -84,7 +84,7 @@
       },
     },
     async asyncData({ route, store }) {
-      return store.dispatch('getEvent', route.params.name);
+      return store.dispatch('fetchEvent', route.params);
     },
     head() {
       return {

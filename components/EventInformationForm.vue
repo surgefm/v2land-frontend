@@ -89,7 +89,7 @@
     },
     computed: {
       origData() {
-        return this.$store.state.event[this.name];
+        return this.$store.getters.getEvent(this.name);
       },
       isAdmin() {
         return this.$store.getters.isClientAdmin;

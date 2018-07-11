@@ -82,8 +82,11 @@
       'hideButtons': Boolean,
     },
     computed: {
+      event() {
+        return this.$store.getters.getEvent(this.name);
+      },
       orig() {
-        return this.$store.getters.getEvent(this.name).headerImage;
+        return (this.event || {}).headerImage;
       },
       isNew() {
         return !this.orig;
