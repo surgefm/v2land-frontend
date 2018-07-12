@@ -4,7 +4,9 @@
       class="news-item"
       ref="container">
       <div class="info" ref="info">
-        <img class="source-icon" v-lazy="'/defaultSource.png'" />
+        <div class="source-icon">
+          <img class="source-icon" v-lazy="'/defaultSource.png'" />
+        </div>
         <a class="title" :href="url" target="_blank">{{ news.title }}</a>
         <div class="shadow" ref="shadow" />
       </div>
@@ -150,8 +152,14 @@ export default {
   .source-icon {
     width: 16px;
     height: 16px;
-    border-radius: 1px;
     margin-right: .25rem;
+    border: 0px !important;
+    line-height: 0 !important;
+  }
+
+  .source-icon img {
+    border-radius: 1px;
+    margin-right: 0;
   }
 
   .title {

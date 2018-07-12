@@ -63,14 +63,19 @@ export function createRouter() {
       { path: '/:name(\\d+)/edit/stack', component: EventEditStack, name: 'event-edit-stack' },
       { path: '/:name(\\d+)/edit/news/:id(\\d+)', component: EventEditNews, name: 'event-edit-news' },
       {
-        path: '/:name',
+        path: '/:name(\\d+)',
         component: Event,
         name: 'event',
         children: [
           {
-            path: ':news',
+            path: ':stack(\\d+)',
             component: EventPlaceholder,
-            name: 'event-news',
+            name: 'event-stack',
+          },
+          {
+            path: ':stack(\\d+)/:news(\\d+)',
+            component: EventPlaceholder,
+            name: 'event-stack-news',
           },
         ],
       },
