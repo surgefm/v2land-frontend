@@ -66,7 +66,7 @@ export default {
         status: 'loaded',
       });
     } catch (err) {
-      // FIXME: toast
+      this.app.$message.error('获取事件失败，请刷新重试');
       console.error(err);
     }
 
