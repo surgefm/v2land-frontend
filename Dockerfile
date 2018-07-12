@@ -7,10 +7,12 @@ WORKDIR /usr/src/app
 # RUN npm install --only=production
 
 # Bundle app source
-COPY . /usr/src/app
+COPY . .
 
+# Install app dependencies
 RUN npm install -g cross-env
 RUN yarn
+RUN yarn run build
 
 LABEL name="frontend"
 
