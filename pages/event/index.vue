@@ -18,7 +18,7 @@
         class="stack" 
         :stack="stack"
         :order="stackCollection.length - i"
-        :id="'main-i' + stack.id"
+        :id="'stack-' + stack.id"
         :event="event"
         :isLatestStack="i === 0"
       />
@@ -62,17 +62,24 @@
       scrollToNews() {
         if (+this.$route.params.stack && document) {
           setTimeout(() => {
-            const element = document.getElementById('i' + this.$route.params.stack);
-            const stack = document.getElementById('main-i' + this.$route.params.stack);
-            if (element) {
-              element.scrollIntoView();
+            const stack = document.getElementById('stack-' + this.$route.params.stack);
+            let news;
+            if (this.$route.params.news) {
+              news = document.getElementById(`stack-${this.$route.params.stack}-${this.$route.params.news}`);
+            }
+            if (news) {
+              stack.scrollIntoView();
+              window.scrollBy(0, -150);
+              news.className += ' emphasize';
+            } else if (stack) {
+              stack.scrollIntoView();
               window.scrollBy(0, -50);
               stack.className += ' emphasize';
             }
 
             this.$router.replace({
               ...this.$route,
-              name: 'event-pinyin',
+              name: 'event',
             });
           }, 50);
         }
@@ -102,6 +109,10 @@
         const event = await store.dispatch('fetchEvent', {
           name: params.name,
           isEventPage: true,
+          includes: {
+            stack: params.stack,
+            news: params.news,
+          },
         });
         store.commit('setFetchingStatus', {
           name: 'getEvent',
@@ -132,13 +143,27 @@
         ? this.event.description
         : null;
 
+      let newsFound = false;
+      if (this.$route.params.news) {
+        const news = this.$store.getters.getNews({
+          id: this.$route.params.news,
+        });
+        if (news) {
+          title = `${news.title} - ${this.event.name}`;
+          newsFound = true;
+        }
+      }
+  
       if (this.$route.params.stack) {
         const stack = this.$store.getters.getStack(this.$route.params.stack);
         if (stack) {
-          title = `${stack.title} - ${this.event.name}`;
+          if (!newsFound) {
+            title = `${stack.title} - ${this.event.name}`;
+          }
           description = stack.description || description;
         }
       }
+
       return {
         title,
         meta: [

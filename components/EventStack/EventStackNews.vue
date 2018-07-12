@@ -1,5 +1,5 @@
 <template>
-  <div v-if="news">
+  <div v-if="news" :id="`stack-${news.stack}-${news.id}`">
     <div
       class="news-item"
       ref="container">
