@@ -115,7 +115,7 @@
 
         this.$store.dispatch('getEvent', value)
           .then((event) => {
-            if (event) {
+            if (event && (this.mode !== 'edit' || (this.origData.id !== event.id))) {
               callback(new Error('已有公开的同名事件，或同名事件已在审核队列中'));
             } else {
               callback();
