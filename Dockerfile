@@ -9,11 +9,6 @@ WORKDIR /usr/src/app
 # Bundle app source
 COPY . .
 
-# Install app dependencies
-RUN npm install -g cross-env
-RUN yarn
-RUN yarn run build
-
 LABEL name="frontend"
 
 EXPOSE 3000
