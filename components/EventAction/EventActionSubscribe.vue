@@ -48,7 +48,7 @@
       <div v-else>
         <span>
           你已成功关注
-          <span class="text-underline">{{ $route.params.name }}</span>
+          <span class="text-underline">{{ name }}</span>
           ，我们会在获得最新消息时通过邮箱的方式通知你。
         </span>
       </div>
@@ -108,6 +108,12 @@
       };
     },
     computed: {
+      name() {
+        return this.event.name;
+      },
+      event() {
+        return this.$store.getters.getEvent(this.$route.params.name);
+      },
       redirect() {
         return `${this.$route.path}?subscribe=1`;
       },

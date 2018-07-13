@@ -12,11 +12,15 @@ export default {
     return dispatch('fetchEvent', { name });
   },
 
-  async fetchEvent({ commit, getters }, { name, isEventPage }) {
+  async fetchEvent({ commit }, { name, isEventPage, includes = {} }) {
     if (typeof name === 'undefined') {
       throw new TypeError('name should not be undefined');
     }
-    const url = $.encode(`event/${name}`);
+    let url = `event/${name}`;
+    if (includes.stack && includes.news) {
+      url += `?stack=${includes.stack}&news=${includes.news}`;
+    }
+    url = $.encode(url);
     try {
       if (isEventPage) {
         commit('setFetchingStatus', {
