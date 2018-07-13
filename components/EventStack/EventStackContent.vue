@@ -185,5 +185,9 @@
     .tag {
       margin-top: 0 !important;
     }
+
+    .stack-container:last-child {
+      padding-bottom: 0;
+    }
   }
 </style>

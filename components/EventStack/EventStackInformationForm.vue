@@ -44,6 +44,17 @@
             v-model="data.description"
           />
         </el-form-item>
+        <el-form-item label="发布时间" prop="time">
+          <el-date-picker
+            v-model="data.time"
+            type="datetime"
+            :editable="false"
+            placeholder="默认为首条新闻发布时间"
+          />
+          <el-button type="text" @click="clearTime">
+            清空时间
+          </el-button>
+        </el-form-item>
       </el-form>
       <span slot="footer">
         <el-button @click="dialogVisible = false">取消</el-button>
@@ -54,6 +65,14 @@
 </template>
 
 <script>
+import DatePicker from 'element-ui/lib/date-picker';
+import '~/static/element/date-picker.css';
+import '~/static/element/time-picker.css';
+import '~/static/element/time-select.css';
+
+import getFormattedTime from '~/utils/getFormattedTime.js';
+import isTimeValid from '~/utils/isTimeValid.js';
+
 export default {
   name: 'EventStackInformationForm',
   props: {
@@ -67,6 +86,7 @@ export default {
       data: {
         title: null,
         description: null,
+        time: null,
       },
       rules: {
         title: [
@@ -90,6 +110,9 @@ export default {
     async submitStack() {
       this.$refs.form.validate(async (valid) => {
         if (!valid) return;
+        if (this.data.time) {
+          this.data.time = getFormattedTime(this.data.time);
+        }
         const { data } = await this.$axios.post(`/event/${this.event}/stack`, this.data);
         this.$store.commit('setStack', {
           stack: data.stack,
@@ -106,6 +129,20 @@ export default {
     await this.$store.dispatch('getEvent', this.event);
     this.stackList = this.$store.getters.getStackCollectionByEvent({ event: this.event }) || [];
   },
+  watch: {
+    'data.time'(newValue, oldValue) {
+      if (this.data.time) {
+        if (!isTimeValid(this.data.time)) {
+          this.data.time = oldValue;
+          this.$message.error('进展发生时间不能晚于此刻');
+        }
+        this.data.time.setSeconds(0);
+      }
+    },
+  },
+  components: {
+    'el-date-picker': DatePicker,
+  },
 };
 </script>
 
@@ -121,5 +158,9 @@ export default {
 
   .input.name {
     width: 15rem;
+  }
+
+  .time-picker {
+    margin-right: .5rem;
   }
 </style>
