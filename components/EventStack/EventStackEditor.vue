@@ -69,6 +69,7 @@ import '~/static/element/time-picker.css';
 import '~/static/element/time-select.css';
 
 import getFormattedTime from '~/utils/getFormattedTime.js';
+import getLocalTime from '~/utils/getLocalTime.js';
 import isTimeValid from '~/utils/isTimeValid.js';
 
 export default {
@@ -129,13 +130,13 @@ export default {
     },
     reset() {
       this.data = { ...this.origStack };
-      this.data.time = getFormattedTime(this.origStack.time);
+      this.data.time = getLocalTime(this.origStack.time);
     },
   },
   created() {
     this.origStack = { ...this.stack };
     this.data = { ...this.stack };
-    this.data.time = getFormattedTime(this.stack.time);
+    this.data.time = getLocalTime(this.stack.time);
   },
   watch: {
     'data.time'(newValue, oldValue) {
@@ -143,8 +144,9 @@ export default {
         if (!isTimeValid(this.data.time)) {
           this.data.time = oldValue;
           this.$message.error('进展发生时间不能晚于此刻');
+        } else {
+          this.data.time.setSeconds(0);
         }
-        this.data.time.setSeconds(0);
       }
     },
   },

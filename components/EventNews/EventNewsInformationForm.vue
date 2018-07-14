@@ -104,6 +104,7 @@
   import '~/static/element/time-select.css';
 
   import getFormattedTime from '~/utils/getFormattedTime.js';
+  import getLocalTime from '~/utils/getLocalTime.js';
   import isTimeValid from '~/utils/isTimeValid.js';
 
   export default {
@@ -189,7 +190,7 @@
       resetForm(formName = 'form') {
         if (this.mode === 'edit' && this.origData) {
           this.form = Object.assign({}, this.origData);
-          this.form.time = getFormattedTime(this.origData.time);
+          this.form.time = getLocalTime(this.origData.time);
           this.setComment(this.origData.comment);
         } else {
           this.$refs[formName].resetFields();
@@ -219,10 +220,7 @@
     created() {
       if (this.mode === 'edit' && this.origData) {
         this.form = Object.assign({}, this.origData);
-        let newTime = new Date(this.origData.time).getTime();
-        const minutesOffset = new Date().getTimezoneOffset() + 480;
-        newTime += minutesOffset * 60000;
-        this.$set(this.form, 'time', new Date(newTime));
+        this.form.time = getLocalTime(this.origData.time);
         this.resetForm();
       }
       if (this.stack && this.mode !== 'edit') {
@@ -238,8 +236,9 @@
           if (!isTimeValid(this.form.time)) {
             this.$set(this.form, 'time', oldValue);
             this.$message.error('新闻发布时间不能晚于此刻');
+          } else {
+            this.form.time.setSeconds(0);
           }
-          this.form.time.setSeconds(0);
         }
       },
       'news'(newValue, oldValue) {

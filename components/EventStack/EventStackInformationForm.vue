@@ -122,6 +122,11 @@ export default {
         this.value = data.stack.id;
         this.dialogVisible = false;
         this.$emit('input');
+        this.data = {
+          title: null,
+          description: null,
+          time: null,
+        };
       });
     },
   },
@@ -131,12 +136,13 @@ export default {
   },
   watch: {
     'data.time'(newValue, oldValue) {
-      if (this.data.time) {
+      if (this.data.time && this.data.time.getTime) {
         if (!isTimeValid(this.data.time)) {
           this.data.time = oldValue;
           this.$message.error('进展发生时间不能晚于此刻');
+        } else {
+          this.data.time.setSeconds(0);
         }
-        this.data.time.setSeconds(0);
       }
     },
   },
