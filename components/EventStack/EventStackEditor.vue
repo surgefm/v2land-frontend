@@ -30,6 +30,18 @@
         />
       </el-select>
     </el-form-item>
+    <el-form-item label="发布时间" prop="time">
+      <el-date-picker
+        v-model="data.time"
+        type="datetime"
+        :editable="false"
+        class="time-picker"
+        placeholder="默认为首条新闻发布时间"
+      />
+      <el-button type="text" @click="clearTime">
+        清空时间
+      </el-button>
+    </el-form-item>
 
     <div class="submit-button-group">
       <el-button
@@ -51,6 +63,15 @@
 </template>
 
 <script>
+import DatePicker from 'element-ui/lib/date-picker';
+import '~/static/element/date-picker.css';
+import '~/static/element/time-picker.css';
+import '~/static/element/time-select.css';
+
+import getFormattedTime from '~/utils/getFormattedTime.js';
+import getLocalTime from '~/utils/getLocalTime.js';
+import isTimeValid from '~/utils/isTimeValid.js';
+
 export default {
   props: {
     'stack': Object,
@@ -62,6 +83,7 @@ export default {
         title: null,
         description: null,
         status: null,
+        time: null,
       },
       rules: {
         title: [
@@ -88,6 +110,9 @@ export default {
         if (valid) {
           this.isSubmitting = true;
           try {
+            if (this.data.time) {
+              this.data.time = getFormattedTime(this.data.time);
+            }
             await this.$axios.put('stack/' + this.stack.id, this.data);
             this.$message.success('修改成功');
             this.$emit('edited');
@@ -100,17 +125,40 @@ export default {
         }
       });
     },
+    clearTime() {
+      this.data.time = null;
+    },
     reset() {
       this.data = { ...this.origStack };
+      this.data.time = getLocalTime(this.origStack.time);
     },
   },
   created() {
     this.origStack = { ...this.stack };
     this.data = { ...this.stack };
+    this.data.time = getLocalTime(this.stack.time);
+  },
+  watch: {
+    'data.time'(newValue, oldValue) {
+      if (this.data.time && this.data.time.getTime) {
+        if (!isTimeValid(this.data.time)) {
+          this.data.time = oldValue;
+          this.$message.error('进展发生时间不能晚于此刻');
+        } else {
+          this.data.time.setSeconds(0);
+        }
+      }
+    },
+  },
+  components: {
+    'el-date-picker': DatePicker,
   },
 };
 </script>
 
 <style lang="scss" scoped>
-
+  .time-picker {
+    margin-right: .5rem;
+  }
 </style>
+

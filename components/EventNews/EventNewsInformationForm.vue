@@ -103,6 +103,10 @@
   import '~/static/element/time-picker.css';
   import '~/static/element/time-select.css';
 
+  import getFormattedTime from '~/utils/getFormattedTime.js';
+  import getLocalTime from '~/utils/getLocalTime.js';
+  import isTimeValid from '~/utils/isTimeValid.js';
+
   export default {
     props: {
       data: String,
@@ -169,15 +173,13 @@
           if (valid) {
             this.isSubmitting = true;
             // 调整时间
-            let newTime = this.form.time.getTime();
-            const minutesOffset = this.form.time.getTimezoneOffset() + 480;
-            newTime += minutesOffset * 60000;
+            const newTime = getFormattedTime(this.form.time);
 
             this.$store.commit('setTemp', {
               label: this.data,
               temp: {
                 ...this.form,
-                time: new Date(newTime),
+                time: newTime,
                 id: (this.origData || {}).id,
               },
             });
@@ -188,7 +190,7 @@
       resetForm(formName = 'form') {
         if (this.mode === 'edit' && this.origData) {
           this.form = Object.assign({}, this.origData);
-          this.$set(this.form, 'time', new Date(this.origData.time));
+          this.form.time = getLocalTime(this.origData.time);
           this.setComment(this.origData.comment);
         } else {
           this.$refs[formName].resetFields();
@@ -215,18 +217,11 @@
         }
       },
     },
-    components: {
-      'el-date-picker': DatePicker,
-      'stack-information-form': EventStackInformationForm,
-      'comment-editor': () => import(/* webpackChunkName:'editor' */ '~/components/Comment/Editor'),
-    },
     created() {
       if (this.mode === 'edit' && this.origData) {
         this.form = Object.assign({}, this.origData);
-        let newTime = new Date(this.origData.time).getTime();
-        const minutesOffset = new Date().getTimezoneOffset() + 480;
-        newTime += minutesOffset * 60000;
-        this.$set(this.form, 'time', new Date(newTime));
+        this.form.time = getLocalTime(this.origData.time);
+        this.resetForm();
       }
       if (this.stack && this.mode !== 'edit') {
         this.form.stack = this.stack.id;
@@ -238,11 +233,11 @@
     watch: {
       'form.time'(newValue, oldValue) {
         if (this.form.time && this.form.time.getTime) {
-          this.form.time.setSeconds(0);
-          const offset = (new Date().getTimezoneOffset() + 480) * 60000 * 2;
-          if (this.form.time.getTime() > Date.now() + offset) {
+          if (!isTimeValid(this.form.time)) {
             this.$set(this.form, 'time', oldValue);
-            this.$message.error('新闻发布时间如何才能比现在还晚？');
+            this.$message.error('新闻发布时间不能晚于此刻');
+          } else {
+            this.form.time.setSeconds(0);
           }
         }
       },
@@ -250,6 +245,11 @@
         this.resetForm();
         this.resetButton();
       },
+    },
+    components: {
+      'el-date-picker': DatePicker,
+      'stack-information-form': EventStackInformationForm,
+      'comment-editor': () => import(/* webpackChunkName:'editor' */ '~/components/Comment/Editor'),
     },
   };
 </script>
