@@ -11,6 +11,6 @@ export default function isTimeValid(time) {
     time = new Date(time);
   }
   // 获取客户端与东八区的时差
-  const offset = (new Date().getTimezoneOffset() + 480) * 60000 * -1;
+  const offset = (new Date().getTimezoneOffset() + 480) * 60000;
   return time.getTime() <= Date.now() + offset;
 }

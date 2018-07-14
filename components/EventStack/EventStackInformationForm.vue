@@ -49,6 +49,7 @@
             v-model="data.time"
             type="datetime"
             :editable="false"
+            class="time-picker"
             placeholder="默认为首条新闻发布时间"
           />
           <el-button type="text" @click="clearTime">
@@ -77,6 +78,7 @@ export default {
   name: 'EventStackInformationForm',
   props: {
     event: Number,
+    stack: Number,
   },
   data() {
     return {
@@ -129,10 +131,14 @@ export default {
         };
       });
     },
+    clearTime() {
+      this.data.time = null;
+    },
   },
   async created() {
     await this.$store.dispatch('getEvent', this.event);
     this.stackList = this.$store.getters.getStackCollectionByEvent({ event: this.event }) || [];
+    this.value = this.stack;
   },
   watch: {
     'data.time'(newValue, oldValue) {
@@ -144,6 +150,9 @@ export default {
           this.data.time.setSeconds(0);
         }
       }
+    },
+    'stack'(newValue) {
+      this.value = this.stack;
     },
   },
   components: {

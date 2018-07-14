@@ -52,8 +52,8 @@
 
     <el-form-item label="所属进展" prop="stack">
       <stack-information-form
-        v-if="!stack"
-        v-model="form.stack"
+        v-if="mode === 'edit' || !stack"
+        :stack="form.stack"
         :event="+$route.params.name"
         @input="updateStack"
         ref="stack"
@@ -201,7 +201,7 @@
         this.isSubmitting = false;
       },
       updateStack() {
-        this.$set(this.form, 'stack', this.$refs.stack.value);
+        this.form.stack = this.$refs.stack.value;
       },
       setComment(doc) {
         if (!this.$refs.comment) {
@@ -223,7 +223,7 @@
         this.form.time = getLocalTime(this.origData.time);
         this.resetForm();
       }
-      if (this.stack && this.mode !== 'edit') {
+      if (this.stack) {
         this.form.stack = this.stack.id;
       }
     },
