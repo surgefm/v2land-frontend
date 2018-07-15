@@ -31,6 +31,8 @@
         class="load-more"
         @click="loadMore"
       >
+        <i v-if="!isNewsLoading" class="el-icon-refresh" />
+        <i v-else class="el-icon-loading" />
         加载更多相关新闻
       </p>
     </div>
@@ -51,6 +53,7 @@
     data() {
       return {
         newsList: [],
+        isNewsLoading: false,
       };
     },
     computed: {
@@ -101,15 +104,23 @@
       },
       async loadMore() {
         if (!this.moreToLoad) return;
-        const page = Math.floor(this.stack.news.length / 15) + 1;
-        await this.$store.dispatch('getNewsList', {
-          where: {
-            stack: this.stack.id,
-            status: 'admitted',
-          },
-          page,
-        });
-        this.updateNewsList();
+        this.isNewsLoading = true;
+        try {
+          const page = Math.floor(this.stack.news.length / 15) + 1;
+          await this.$store.dispatch('getNewsList', {
+            where: {
+              stack: this.stack.id,
+              status: 'admitted',
+            },
+            page,
+          });
+          this.updateNewsList();
+        } catch (err) {
+          this.$message.error('加载失败，请稍后重试');
+          console.error(err);
+        } finally {
+          this.isNewsLoading = false;
+        }
       },
     },
     created() {
@@ -168,7 +179,7 @@
   }
 
   .load-more {
-    padding: .5rem 2rem .25rem 2rem;
+    padding: 0 2rem;
     font-size: 14px;
     cursor: pointer;
   }
@@ -188,6 +199,10 @@
 
     .stack-container:last-child {
       padding-bottom: 0;
+    }
+
+    .load-more {
+      padding: 0;
     }
   }
 </style>

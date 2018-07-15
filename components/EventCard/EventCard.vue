@@ -194,7 +194,7 @@
     }
 
     .event-text-image {
-      padding: .5rem;
+      padding: 0;
     }
 
     .event-text-image p {

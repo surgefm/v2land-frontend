@@ -177,6 +177,9 @@ export default {
     position: absolute;
     right: .5rem;
     line-height: 1.8;
+    top: 0;
+    display: flex;
+    align-items: center;
   }
 
   .source > * {
