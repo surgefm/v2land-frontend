@@ -108,40 +108,7 @@ module.exports = {
     ['@nuxtjs/google-analytics', {
       id: config.ga,
     }],
-    '@nuxtjs/pwa',
   ],
-
-  manifest: {
-    name: title,
-    short_name: '浪潮',
-    lang: 'zh-CN',
-    description,
-    start_url: config.baseUrl,
-    background_color: '#1e8bc3',
-    theme_color: '#1e8bc3',
-    display: 'standalone',
-  },
-
-  workbox: {
-    dev: process.env.NODE_ENV === 'development',
-    runtimeCaching: [{
-      urlPattern: 'https://assets.v2land.net/.*',
-      handler: 'cacheFirst',
-      method: 'GET',
-      strategyOptions: {
-        cacheName: 'images',
-        cacheableResponse: { statuses: [0, 200, 307] },
-      },
-    }, {
-      urlPattern: 'https://cdn.v2land.net/.*',
-      handler: 'cacheFirst',
-      method: 'GET',
-      strategyOptions: {
-        cacheName: 'cdn',
-        cacheableResponse: { statuses: [0, 200, 307] },
-      },
-    }],
-  },
 
   axios: {
     baseURL: config.api,
