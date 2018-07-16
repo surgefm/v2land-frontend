@@ -162,23 +162,6 @@ const mutations = {
     Vue.set(state.stack[id], 'news', sortedId);
   },
 
-  resetAllStatus(state) {
-    for (const key in state.fetchingStatus) {
-      if (state.fetchingStatus.hasOwnProperty(key)) {
-        state.fetchingStatus[key].status = 'initial';
-      }
-    }
-  },
-
-  setFetchingStatus(state, { name, status, page }) {
-    state.fetchingStatus[name].status = status;
-    if (page && page > 1) {
-      state.fetchingStatus[name].isRefresh = false;
-    } else {
-      state.fetchingStatus[name].isRefresh = true;
-    }
-  },
-
   setSubscribeMode(state, mode) {
     Vue.set(state, 'subscribe', { ...state.subscribe, mode });
   },
@@ -232,6 +215,10 @@ const mutations = {
 
   setTemp(state, { label, temp }) {
     Vue.set(state.temp, label, Object.assign({}, temp));
+  },
+
+  addRedirectCount(state) {
+    state.redirectCount = ++state.redirectCount || 1;
   },
 
   cleanAll(state) {

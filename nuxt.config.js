@@ -94,7 +94,7 @@ module.exports = {
   plugins,
 
   router: {
-    middleware: ['auth', 'checkEvent', 'permission'],
+    middleware: ['auth', 'checkEvent', 'permission', 'countRedirect'],
     linkExactActiveClass: 'exact-active-link',
   },
 

@@ -15,6 +15,10 @@ export default {
     return typeof document === 'undefined';
   },
 
+  isFirstPage(state) {
+    return state.redirectCount <= 1;
+  },
+
   getClient(state) {
     return state.client;
   },

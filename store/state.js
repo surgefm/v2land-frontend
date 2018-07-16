@@ -6,16 +6,6 @@ export default {
     subscriptions: [],
     events: [],
   },
-  fetchingStatus: {
-    getEvent: {
-      status: 'initial',
-      isRefresh: true,
-    },
-    eventList: {
-      status: 'initial',
-      isRefresh: true,
-    },
-  },
   availableAuths: [],
   event: {},
   eventName: {},
@@ -32,4 +22,5 @@ export default {
       address: '',
     },
   },
+  redirectCount: 0,
 };

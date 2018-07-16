@@ -34,17 +34,14 @@
   import EventStack from '~/components/EventStack/EventStack.vue';
 
   export default {
+    data() {
+      return {
+        showLoader: false,
+      };
+    },
     computed: {
-      showLoader() {
-        const { status } = this.fetchingStatus;
-        return status !== 'loaded' &&
-          status !== 'serverLoaded';
-      },
       name() {
         return this.$route.params.name;
-      },
-      fetchingStatus() {
-        return this.$store.getters.getFetchingStatus('getEvent');
       },
       event() {
         return this.$store.getters.getEvent(this.name);
@@ -85,18 +82,14 @@
         }
       },
       async init() {
-        const status = this.fetchingStatus.status;
-        if (status == 'serverLoaded') {
-          this.$store.commit('setFetchingStatus', {
-            name: 'getEvent',
-            status: 'loaded',
-          });
-        } else {
+        if (!this.$store.getters.isFirstPage) {
+          this.showLoader = true;
           const { name } = this.$route.params;
           await this.$store.dispatch('fetchEvent', {
             name,
             isEventPage: true,
           });
+          this.showLoader = false;
         }
         if (!this.$store.getters.isServer) {
           this.scrollToNews();
@@ -105,7 +98,6 @@
     },
     async asyncData({ store, params, redirect, route }) {
       if (store.getters.isServer) {
-        store.commit('resetAllStatus');
         const event = await store.dispatch('fetchEvent', {
           name: params.name,
           isEventPage: true,
@@ -113,10 +105,6 @@
             stack: params.stack,
             news: params.news,
           },
-        });
-        store.commit('setFetchingStatus', {
-          name: 'getEvent',
-          status: 'serverLoaded',
         });
         if (!event) {
           redirect({
