@@ -34,6 +34,8 @@
 </template>
 
 <script>
+import getLocalTime from '~/utils/getLocalTime.js';
+
 export default {
   props: {
     news: Object,
@@ -53,7 +55,7 @@ export default {
   },
   methods: {
     getDate(input, full = false) {
-      const date = this.convertDate(input);
+      const date = getLocalTime(input);
       if (isNaN(date.getTime())) {
         return '';
       }
@@ -87,12 +89,6 @@ export default {
       default:
         return '未知状态';
       }
-    },
-    convertDate(date) {
-      let newTime = new Date(date).getTime();
-      const minutesOffset = new Date().getTimezoneOffset() + 480;
-      newTime += minutesOffset * 60000;
-      return new Date(newTime);
     },
   },
   async created() {

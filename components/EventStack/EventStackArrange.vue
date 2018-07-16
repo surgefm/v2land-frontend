@@ -96,6 +96,8 @@ import EventStackCard from '~/components/EventStack/EventStackCard.vue';
 import EventStackEditor from '~/components/EventStack/EventStackEditor.vue';
 import EventStackNewsArrange from '~/components/EventStack/EventStackNewsArrange.vue';
 
+import getLocalTime from '~/utils/getLocalTime.js';
+
 import '~/static/element/collapse.css';
 import '~/static/element/collapse-item.css';
 
@@ -165,7 +167,7 @@ export default {
     },
     getTime(stack) {
       if (!stack || !stack.time) return;
-      const time = new Date(stack.time);
+      const time = getLocalTime(stack.time);
       return `${time.getFullYear()}年${time.getMonth() + 1}月${time.getDate() }日`;
     },
   },

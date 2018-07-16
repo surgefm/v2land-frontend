@@ -110,6 +110,7 @@
   import EventNewsShare from '~/components/EventShare.vue';
   import CommentViewer from '~/components/Comment/Viewer.vue';
   import config from '~/const';
+  import getLocalTime from '~/utils/getLocalTime.js';
 
   export default {
     name: 'EventNewsContent',
@@ -138,10 +139,7 @@
         return this.$store.getters.getEvent(this.news.event);
       },
       date() {
-        let newTime = new Date(this.news.time).getTime();
-        const minutesOffset = new Date().getTimezoneOffset() + 480;
-        newTime += minutesOffset * 60000;
-        return new Date(newTime);
+        return getLocalTime(this.news.time);
       },
       newsUrl() {
         const event = this.event || this.news.event;
