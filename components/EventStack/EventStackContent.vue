@@ -41,6 +41,7 @@
 
 <script>
   import EventStackNews from '~/components/EventStack/EventStackNews.vue';
+  import getLocalTime from '~/utils/getLocalTime.js';
 
   export default {
     name: 'EventStackContent',
@@ -65,7 +66,7 @@
       },
       firstTime() {
         if (!this.stack || !this.stack.time) return;
-        const time = new Date(this.stack.time);
+        const time = getLocalTime(this.stack.time);
         return `${time.getFullYear()}年${time.getMonth() + 1}月${time.getDate() }日`;
       },
       route() {

@@ -12,7 +12,7 @@ export default {
     return dispatch('fetchEvent', { name });
   },
 
-  async fetchEvent({ commit }, { name, isEventPage, includes = {} }) {
+  async fetchEvent({ commit }, { name, includes = {} }) {
     if (typeof name === 'undefined') {
       throw new TypeError('name should not be undefined');
     }
@@ -22,20 +22,8 @@ export default {
     }
     url = $.encode(url);
     try {
-      if (isEventPage) {
-        commit('setFetchingStatus', {
-          name: 'getEvent',
-          status: 'loading',
-        });
-      }
       const { data } = await this.$axios.get(url, { progress: false });
       commit('setEvent', { event: data });
-      if (isEventPage) {
-        commit('setFetchingStatus', {
-          name: 'getEvent',
-          status: 'loaded',
-        });
-      }
       return data;
     } catch (err) {
       if (err.response && err.response.status === 404) {
@@ -55,20 +43,11 @@ export default {
     if (!page) page = 1;
 
     try {
-      commit('setFetchingStatus', {
-        name: 'eventList',
-        status: 'loading',
-        page,
-      });
       const { data } = await this.$axios.post(url, { where, page });
       for (const event of data.eventList) {
         commit('setEvent', { event: event });
       }
       eventList = data.eventList;
-      commit('setFetchingStatus', {
-        name: 'eventList',
-        status: 'loaded',
-      });
     } catch (err) {
       this.app.$message.error('获取事件失败，请刷新重试');
       console.error(err);

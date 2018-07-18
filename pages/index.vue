@@ -60,43 +60,26 @@
       return {
         eventCollection: [],
         config,
+        showLoader: false,
       };
     },
     computed: {
       eventList() {
         return this.$store.getters.getEventList(((e) => e.status === 'admitted')) || [];
       },
-      fetchingStatus() {
-        return this.$store.getters.getFetchingStatus('eventList');
-      },
-      showLoader() {
-        const { status, isRefresh } = this.fetchingStatus;
-        return status !== 'loaded' &&
-          status !== 'serverLoaded' &&
-          isRefresh;
-      },
     },
     methods: {
       async init() {
-        const { status } = this.fetchingStatus;
-        if (status === 'serverLoaded') {
-          this.$store.commit('setFetchingStatus', {
-            name: 'eventList',
-            status: 'loaded',
-          });
-        } else {
+        if (!this.$store.getters.isFirstPage) {
+          this.showLoader = true;
           await this.$store.dispatch('fetchEventList');
+          this.showLoader = false;
         }
       },
     },
     async asyncData({ store }) {
       if (store.getters.isServer) {
-        store.commit('resetAllStatus');
         await store.dispatch('fetchEventList');
-        store.commit('setFetchingStatus', {
-          name: 'eventList',
-          status: 'serverLoaded',
-        });
       }
     },
     mounted() {
