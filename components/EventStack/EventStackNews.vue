@@ -81,7 +81,6 @@ export default {
   },
   methods: {
     reportNewsClick() {
-      console.log('news click');
       window.__ENDERMAN_REPORTER__.report({
         type: 'Business',
         action: 'StackNewsClick',
