@@ -7,7 +7,7 @@
         <div class="source-icon">
           <img class="source-icon" v-lazy="'/defaultSource.png'" />
         </div>
-        <a class="title" :href="url" target="_blank">{{ news.title }}</a>
+        <a class="title" @click="reportNewsClick()" :href="url" target="_blank">{{ news.title }}</a>
         <div class="shadow" ref="shadow" />
       </div>
       <div class="source" ref="source">
@@ -80,6 +80,16 @@ export default {
     },
   },
   methods: {
+    reportNewsClick() {
+      console.log('news click');
+      window.__ENDERMAN_REPORTER__.report({
+        type: 'Business',
+        action: 'StackNewsClick',
+        meta: {
+          url: this.url,
+        },
+      });
+    },
     scale() {
       const containerEl = this.$refs.container;
       if (!containerEl) return;
