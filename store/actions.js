@@ -58,7 +58,7 @@ export default {
 
       const { status, ...rest } = where;
 
-      if (isEmptyObject(rest)) {
+      if (isEmptyObject(rest) && typeof status === 'string') {
         // GET method
         const url = `event?page=${page || 1}&status=${status || 'admitted'}`;
         const resp = await this.$axios.get($.encode(url));
