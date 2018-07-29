@@ -1,5 +1,14 @@
 import $ from 'postman-url-encoder';
 
+function isEmptyObject(map) {
+  for (const key in map) {
+    if (map.hasOwnProperty(key)) {
+      return false;
+    }
+  }
+  return true;
+}
+
 export default {
   async getEvent({ dispatch, state, getters }, name) {
     if (typeof name === 'undefined') {
@@ -35,15 +44,32 @@ export default {
     }
   },
 
-  async fetchEventList({ commit, state }, { where, page } = {}) {
+  async fetchEventList({ commit, state }, { where, page } = { page: 1 }) {
     let eventList = [];
-    const url = $.encode('event/list');
 
-    if (!where) where = { status: 'admitted' };
-    if (!page) page = 1;
+    if (typeof where === 'undefined') {
+      where = {
+        status: 'admitted',
+      };
+    }
 
     try {
-      const { data } = await this.$axios.post(url, { where, page });
+      let data;
+
+      const { status, ...rest } = where;
+
+      if (isEmptyObject(rest)) {
+        // GET method
+        const url = `event?page=${page || 1}&status=${status || 'admitted'}`;
+        const resp = await this.$axios.get($.encode(url));
+        data = resp.data;
+      } else {
+        // 兼容老代码
+        // 使用 POST 方法
+        const resp = await this.$axios.post($.encode('event/list'), { where, page });
+        data = resp.data;
+      }
+
       for (const event of data.eventList) {
         commit('setEvent', { event: event });
       }
