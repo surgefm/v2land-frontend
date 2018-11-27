@@ -8,7 +8,7 @@
     >
       <qrcode
         :value="shareUrl"
-        :options="{ size: 480, foreground: '#333', level: 'H' }"
+        :options="{ size: 480, foreground: '#333', level: 'H', margin: 0 }"
         tag="img"
         class="qrcode"
       />
@@ -69,7 +69,7 @@
 <script>
   import config from '~/const';
   import $ from 'postman-url-encoder';
-  import VueQrcode from '@xkeshi/vue-qrcode';
+  import VueQrcode from '@chenfengyuan/vue-qrcode';
 
   export default {
     props: {
