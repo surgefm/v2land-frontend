@@ -4,7 +4,8 @@ import getSortedId from '~/utils/getSortedId';
 
 const mutations = {
   setEvent(state, { event } = {}) {
-    event.stack = event.stack || [];
+    event.stack = event.stacks || [];
+    delete event.stacks;
     const stackId = [];
     for (const stack of event.stack) {
       mutations.setStack(state, { stack, updateOrder: false });
