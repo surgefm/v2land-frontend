@@ -191,6 +191,10 @@ img[lazy=loaded] {
   font-size: 12px
 }
 
+.arrange-stack .el-collapse-item__arrow {
+  display: none;
+}
+
 @media (min-width: 600px) {
   .el-dialog {
     width: 590px !important;

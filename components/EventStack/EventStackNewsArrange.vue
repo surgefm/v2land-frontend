@@ -103,7 +103,7 @@ export default {
     async fetchNewsList() {
       if (!this.stack) return;
 
-      const where = { stack: this.stack.id };
+      const where = { stackId: this.stack.id };
       if (this.filterStatus.length > 0) {
         where.status = this.filterStatus;
       }
@@ -144,7 +144,7 @@ export default {
       try {
         if (this.newsEditMode === 'create') {
           const data = this.$store.state.temp.createStackNews;
-          const url = `event/${this.stack.event}/news`;
+          const url = `event/${this.stack.eventId}/news`;
           await this.$axios.post(url, data);
           this.$message.success('提交成功');
         } else if (this.newsEditMode === 'edit') {

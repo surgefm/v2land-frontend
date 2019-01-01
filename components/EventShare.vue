@@ -86,10 +86,7 @@
         return this.$store.getters.isClientAdmin;
       },
       eventId() {
-        return (this.object.event ? this.object.event.id : null) ||
-          this.object.event ||
-          this.object.id ||
-          this.$route.params.name;
+        return this.object.eventId || this.$route.params.name;
       },
       event() {
         return this.$store.getters.getEvent(this.eventId) || {};

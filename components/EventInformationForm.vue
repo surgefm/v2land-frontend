@@ -113,14 +113,16 @@
           return callback(new Error('事件名不得全为数字'));
         }
 
-        this.$store.dispatch('getEvent', value)
-          .then((event) => {
-            if (event && (this.mode !== 'edit' || (this.origData.id !== event.id))) {
-              callback(new Error('已有公开的同名事件，或同名事件已在审核队列中'));
-            } else {
-              callback();
-            }
-          });
+        if (!this.origData || this.origData.name !== value) {
+          this.$store.dispatch('getEvent', { name: value, silent: true })
+            .then((event) => {
+              if (event && (this.mode !== 'edit' || (this.origData.id !== event.id))) {
+                callback(new Error('已有公开的同名事件，或同名事件已在审核队列中'));
+              } else {
+                callback();
+              }
+            });
+        }
       },
       async submitForm(formName = 'form') {
         return new Promise((resolve, reject) => {

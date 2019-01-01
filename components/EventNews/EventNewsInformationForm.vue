@@ -50,10 +50,10 @@
       </el-select>
     </el-form-item>
 
-    <el-form-item label="所属进展" prop="stack">
+    <el-form-item label="所属进展" prop="stackId">
       <stack-information-form
         v-if="mode === 'edit' || !stack"
-        :stack="form.stack"
+        :stack="form.stackId"
         :event="+$route.params.name"
         @input="updateStack"
         ref="stack"
@@ -123,7 +123,7 @@
           source: '',
           abstract: '',
           time: '',
-          stack: null,
+          stackId: null,
           comment: null,
         },
         rules: {
@@ -141,7 +141,7 @@
             { required: true, message: '请输入新闻摘要', trigger: 'blur' },
             { max: 150, message: '摘要字数不得超过 150 字', trigger: 'blur' },
           ],
-          stack: [
+          stackId: [
             { required: true, message: '请选择新闻所属进展', trigger: 'blur' },
           ],
           time: [
@@ -201,7 +201,7 @@
         this.isSubmitting = false;
       },
       updateStack() {
-        this.form.stack = this.$refs.stack.value;
+        this.form.stackId = this.$refs.stack.value;
       },
       setComment(doc) {
         if (!this.$refs.comment) {
@@ -224,7 +224,7 @@
         this.resetForm();
       }
       if (this.stack) {
-        this.form.stack = this.stack.id;
+        this.form.stackId = this.stack.id;
       }
     },
     mounted() {

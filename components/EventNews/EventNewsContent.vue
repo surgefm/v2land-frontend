@@ -136,7 +136,7 @@
       },
       event() {
         if (typeof this.news.event === 'object') return this.news.event;
-        return this.$store.getters.getEvent(this.news.event);
+        return this.$store.getters.getEvent(this.news.eventId);
       },
       date() {
         return getLocalTime(this.news.time);

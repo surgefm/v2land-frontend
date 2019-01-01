@@ -7,7 +7,7 @@
       <draggable
         v-model="formalStackList"
         :options="{ group: 'stacks' }"
-        class="draggable-area"
+        class="draggable-area arrange-stack"
       >
         <el-collapse-item
           v-for="(stack, i) of formalStackList"
@@ -119,7 +119,7 @@ export default {
     async updateStackList() {
       this.stackList = await this.$store.dispatch('fetchStackList', {
         where: {
-          event: this.event.id,
+          eventId: this.event.id,
         },
       });
       this.formalStackList = this.stackList.filter(s => s.status === 'admitted' && s.order >= 0);
