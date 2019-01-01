@@ -6,7 +6,7 @@
       <div class="sorter">修改基本信息</div>
       <event-information-form
         mode="edit"
-        :data="'EditEvent-' + name"
+        :data="'EditEvent-' + event.id"
         :name="name"
         :hideButtons="true"
         class="event-form"
@@ -55,24 +55,18 @@
         const info = await this.$refs.information.submitForm();
         const image = await this.$refs.image.submit();
         if (info) {
-          const data = this.$store.state.temp['EditEvent-' + this.$route.params.name];
-          this.$store.dispatch('editEvent', {
-            name: this.$route.params.name,
-            data,
-          })
-            .then(() => {
-              const { name } = this.$route.params;
-              this.$store.dispatch('fetchEvent', { name });
-            })
-            .then(() => {
-              this.$message.success('修改成功');
-              this.$refs.information.submitted();
-            })
-            .catch((err) => {
-              console.error(err);
-              this.$message.error(err.message || '发生了未知错误');
-              this.$refs.information.submitted();
-            });
+          try {
+            const { name } = this.$route.params;
+            const data = this.$store.state.temp['EditEvent-' + name];
+            await this.$store.dispatch('editEvent', { name, data });
+            await this.$store.dispatch('fetchEvent', { name });
+            this.$message.success('修改成功');
+            this.$refs.information.submitted();
+          } catch (err) {
+            console.error(err);
+            this.$message.error(err.message || '发生了未知错误');
+            this.$refs.information.submitted();
+          }
         }
         if (image && !info) {
           this.$message.success('修改成功');

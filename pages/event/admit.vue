@@ -37,33 +37,25 @@
       event() {
         return this.$store.getters.getEvent(this.$route.params.name);
       },
-      newsCollection() {
-        if (this.isAdminAdmit) {
-          return this.$store.getters.getPendingNews();
-        } else {
-          return this.$store.getters.getPendingNews(this.name);
-        }
-      },
       isAdminAdmit() {
         return this.name === 'admin';
       },
     },
+    data() {
+      return {
+        newsCollection: [],
+      };
+    },
     methods: {
-      update(status) {
+      async update(status) {
         if (this.isAdminAdmit) {
-          this.$store.dispatch('getPendingNews')
-            .then(() => {
-              this.response(status);
-            });
+          this.newsCollection = await this.$store.dispatch('getPendingNews');
+          this.response(status);
         } else {
-          this.$store.dispatch('getPendingNews', this.$route.params.name)
-            .then(() => {
-              const { name } = this.$route.params;
-              this.$store.dispatch('fetchEvent', { name });
-            })
-            .then(() => {
-              this.response(status);
-            });
+          this.newsCollection = await this.$store.dispatch('getPendingNews', this.$route.params.name);
+          const { name } = this.$route.params;
+          await this.$store.dispatch('fetchEvent', { name });
+          this.response(status);
         }
       },
       response(status) {
@@ -76,10 +68,12 @@
     },
     async asyncData({ store, route }) {
       if (route.params.name === 'admin') {
-        return store.dispatch('getPendingNews');
+        return { newsCollection: await store.dispatch('getPendingNews') };
       } else {
         await store.dispatch('getEvent', route.params.name);
-        return store.dispatch('getPendingNews', route.params.name);
+        return {
+          newsCollection: await store.dispatch('getPendingNews', route.params.name),
+        };
       }
     },
     components: {

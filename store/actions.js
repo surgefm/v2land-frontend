@@ -11,17 +11,21 @@ function isEmptyObject(map) {
 
 export default {
   async getEvent({ dispatch, state, getters }, name) {
+    let silent = false;
     if (typeof name === 'undefined') {
       throw new TypeError('name should not be undefined');
+    } else if (typeof name === 'object') {
+      silent = name.silent;
+      name = name.name;
     }
 
     const event = getters.getEvent(name);
     if (event) return event;
 
-    return dispatch('fetchEvent', { name });
+    return dispatch('fetchEvent', { name, silent });
   },
 
-  async fetchEvent({ commit }, { name, includes = {} }) {
+  async fetchEvent({ commit }, { name, includes = {}, silent = false }) {
     if (typeof name === 'undefined') {
       throw new TypeError('name should not be undefined');
     }
@@ -35,7 +39,7 @@ export default {
       commit('setEvent', { event: data });
       return data;
     } catch (err) {
-      if (err.response && err.response.status === 404) {
+      if (!silent && err.response && err.response.status === 404) {
         this.app.$message.error('该事件不存在或未被公开');
       } else {
         console.error(err);
