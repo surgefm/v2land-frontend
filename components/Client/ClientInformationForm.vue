@@ -284,15 +284,15 @@
         return {};
       },
       async submitChange() {
-        try {
-          if (!this.isFormChanged()) {
-            return this.$message.warning('你尚未做出任何改动');
+        if (!this.isFormChanged()) {
+          return this.$message.warning('你尚未做出任何改动');
+        }
+        this.$refs.form.validate(async (valid) => {
+          if (!valid) {
+            return false;
           }
-          await this.$refs.form.validate(async (valid) => {
-            if (!valid) {
-              return false;
-            }
 
+          try {
             this.submitting = true;
             let url = `/client/${this.client.id}`;
             let response = await this.$axios.put(url, this.form);
@@ -312,11 +312,12 @@
             this.$refs.form.resetFields();
             this.updateForm();
             this.$emit('clientUpdated');
-          });
-        } catch (err) {
-          this.$message.error(err.message || '修改失败');
-          this.submitting = false;
-        }
+          } catch (err) {
+            const errMessage = err.response ? err.response.data.message : '修改失败';
+            this.$message.error(errMessage);
+            this.submitting = false;
+          }
+        });
       },
       updateForm() {
         for (const attr of ['username', 'role', 'email', 'auths']) {
