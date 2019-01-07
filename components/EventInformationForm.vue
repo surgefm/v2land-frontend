@@ -122,6 +122,8 @@
                 callback();
               }
             });
+        } else {
+          callback();
         }
       },
       async submitForm(formName = 'form') {
