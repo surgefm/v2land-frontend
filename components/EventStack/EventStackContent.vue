@@ -110,7 +110,7 @@
           const page = Math.floor(this.stack.news.length / 15) + 1;
           await this.$store.dispatch('getNewsList', {
             where: {
-              stack: this.stack.id,
+              stackId: this.stack.id,
               status: 'admitted',
             },
             page,

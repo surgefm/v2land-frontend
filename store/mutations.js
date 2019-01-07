@@ -99,12 +99,16 @@ const mutations = {
       const event = news.event;
       news.event = +event.id;
       mutations.setEvent(state, { event });
+    } else if (news.eventId) {
+      news.event = +news.eventId;
     }
 
     if (news.stack && typeof news.stack === 'object') {
       const stack = news.stack;
       news.stack = +stack.id;
       mutations.setStack(state, { stack });
+    } else if (news.stackId) {
+      news.stack = +news.stackId;
     }
 
     if (!state.news[news.id]) {
