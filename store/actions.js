@@ -168,7 +168,7 @@ export default {
   async editNews({ dispatch }, { id, data }) {
     const url = $.encode(`news/${id}`);
     const news = {};
-    for (const attr of ['title', 'abstract', 'time', 'comment', 'status', 'stack', 'source']) {
+    for (const attr of ['title', 'abstract', 'time', 'comment', 'status', 'stackId', 'source', 'url']) {
       if (data[attr]) {
         news[attr] = data[attr];
       }
