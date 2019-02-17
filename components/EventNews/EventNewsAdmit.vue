@@ -1,26 +1,32 @@
 <template>
   <div class="share">
-    <i class="el-icon-error border-color" @click="admit('rejected')" />
-    <i class="el-icon-success border-color" @click="admit('admitted')" />
+    <i
+      class="el-icon-error border-color"
+      @click="admit('rejected')"
+    />
+    <i
+      class="el-icon-success border-color"
+      @click="admit('admitted')"
+    />
   </div>
 </template>
 
 <script>
-  export default {
-    props: {
-      news: Object,
+export default {
+  props: {
+    news: Object,
+  },
+  methods: {
+    admit(result) {
+      this.$store.dispatch('editNews', {
+        data: { status: result },
+        id: this.news.id,
+      }).then(() => {
+        this.$emit(result);
+      });
     },
-    methods: {
-      admit(result) {
-        this.$store.dispatch('editNews', {
-          data: { status: result },
-          id: this.news.id,
-        }).then(() => {
-          this.$emit(result);
-        });
-      },
-    },
-  };
+  },
+};
 </script>
 
 <style lang="scss" scoped>

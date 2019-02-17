@@ -2,20 +2,38 @@
   <div class="footer">
     <div class="logo-container">
       <nuxt-link to="/">
-        <logo class="logo-image" mode="simple" />
-        <logotype color="#0083a8" :height="32" class="logotype" />
+        <logo
+          class="logo-image"
+          mode="simple"
+        />
+        <logotype
+          color="#0083a8"
+          :height="32"
+          class="logotype"
+        />
       </nuxt-link>
     </div>
     <div class="content">
       <div class="about-v2land">
-        <nuxt-link to="/about" class="link">关于浪潮</nuxt-link>
+        <nuxt-link
+          to="/about"
+          class="link"
+        >
+          关于浪潮
+        </nuxt-link>
         <!-- <span>·</span>
         <a href="https://handbook.langchao.co" target="_blank">浪潮社区指南</a> -->
         <span>·</span>
-        <a href="https://github.com/v2land" target="_blank">参与项目开发</a>
+        <a
+          href="https://github.com/v2land"
+          target="_blank"
+        >参与项目开发</a>
       </div>
       <span>
-        本站与<a href="http://langchao.com" target="_blank">浪潮集团有限公司</a>无关
+        本站与<a
+          href="http://langchao.com"
+          target="_blank"
+        >浪潮集团有限公司</a>无关
       </span>
       <span>
         Langchao.org {{ new Date().getFullYear() }}
@@ -25,18 +43,18 @@
 </template>
 
 <script>
-  export default {
-    computed: {
-      isLoggedIn() {
-        return this.$store.getters.isLoggedIn;
-      },
+export default {
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
     },
-    methods: {
-      logout() {
-        this.$store.dispatch('logout');
-      },
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch('logout');
     },
-  };
+  },
+};
 </script>
 
 <style lang="scss" scoped>

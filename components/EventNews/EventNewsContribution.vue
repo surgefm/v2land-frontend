@@ -1,7 +1,11 @@
 <template>
-  <p v-if="!data"><i class="el-icon-loading" /> 正在加载中</p>
+  <p v-if="!data">
+    <i class="el-icon-loading" /> 正在加载中
+  </p>
   <div v-else>
-    <p class="start">起源</p>
+    <p class="start">
+      起源
+    </p>
     <div>
       <div
         v-for="contrib of contributions"
@@ -19,8 +23,10 @@
           <el-tooltip
             :content="getDate(contrib.createdAt, true)"
             placement="top"
-          ><span class="date">{{ getDate(contrib.createdAt) }}</span></el-tooltip>
-          <br />
+          >
+            <span class="date">{{ getDate(contrib.createdAt) }}</span>
+          </el-tooltip>
+          <br>
           <span class="light-font">{{ contrib.client ? contrib.client.username : '游客' }} </span>
           <span v-if="contrib.action === 'createNews'">投稿了该新闻</span>
           <span v-else-if="contrib.action === 'updateNewsStatus'">将状态改为
@@ -29,7 +35,9 @@
         </p>
       </div>
     </div>
-    <p class="end">现在</p>
+    <p class="end">
+      现在
+    </p>
   </div>
 </template>
 
@@ -52,6 +60,9 @@ export default {
         return ['createNews', 'updateNewsStatus'].includes(c.action);
       });
     },
+  },
+  async created() {
+    this.data = await this.$store.dispatch('getNews', this.news.id);
   },
   methods: {
     getDate(input, full = false) {
@@ -90,9 +101,6 @@ export default {
         return '未知状态';
       }
     },
-  },
-  async created() {
-    this.data = await this.$store.dispatch('getNews', this.news.id);
   },
 };
 </script>

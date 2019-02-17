@@ -1,23 +1,48 @@
 <template>
-  <div v-if="news" :id="`stack-${news.stack}-${news.id}`">
+  <div
+    v-if="news"
+    :id="`stack-${news.stack}-${news.id}`"
+  >
     <div
+      ref="container"
       class="news-item"
-      ref="container">
-      <div class="info" ref="info">
+    >
+      <div
+        ref="info"
+        class="info"
+      >
         <div class="source-icon">
-          <img class="source-icon" v-lazy="'/defaultSource.png'" />
+          <img
+            v-lazy="'/defaultSource.png'"
+            class="source-icon"
+          >
         </div>
-        <a class="title" @click="reportNewsClick()" :href="url" target="_blank">{{ news.title }}</a>
-        <div class="shadow" ref="shadow" />
+        <a
+          class="title"
+          :href="url"
+          target="_blank"
+          @click="reportNewsClick()"
+        >{{ news.title }}</a>
+        <div
+          ref="shadow"
+          class="shadow"
+        />
       </div>
-      <div class="source" ref="source">
+      <div
+        ref="source"
+        class="source"
+      >
         <span>{{ news.source }}</span>
         <el-popover
+          v-model="showMore"
           placement="bottom"
           width="275"
-          v-model="showMore">
+        >
           <div class="more-container">
-            <span class="button-history" @click="contribDialogVisible = true">
+            <span
+              class="button-history"
+              @click="contribDialogVisible = true"
+            >
               编辑记录
             </span>
             <div class="divider" />
@@ -27,9 +52,16 @@
               type="stack-news"
             />
           </div>
-          <i class="el-icon-more button-more" slot="reference" />
+          <i
+            slot="reference"
+            class="el-icon-more button-more"
+          />
         </el-popover>
-        <i class="el-icon-edit" @click="editNews()" v-if="showEdit" />
+        <i
+          v-if="showEdit"
+          class="el-icon-edit"
+          @click="editNews()"
+        />
       </div>
     </div>
     <el-dialog
@@ -38,27 +70,38 @@
       :append-to-body="true"
     >
       <event-news-contribution :news="news" />
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="contribDialogVisible = false">关闭</el-button>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button
+          type="primary"
+          @click="contribDialogVisible = false"
+        >关闭</el-button>
       </span>
     </el-dialog>
   </div>
   <div
-    class="news-item"
-    ref="container"
     v-else
+    ref="container"
+    class="news-item"
   >
-    <div class="info">未找到相关新闻</div>
+    <div class="info">
+      未找到相关新闻
+    </div>
   </div>
 </template>
 
 <script>
-import EventNewsContent from '~/components/EventNews/EventNewsContent.vue';
 import EventNewsContribution from '~/components/EventNews/EventNewsContribution.vue';
 import EventNewsShare from '~/components/EventShare.vue';
 
 export default {
   name: 'EventStackNews',
+  components: {
+    'event-news-contribution': EventNewsContribution,
+    'event-news-share': EventNewsShare,
+  },
   props: {
     'news': Object,
     'mode': String,
@@ -78,6 +121,12 @@ export default {
     showEdit() {
       return this.mode === 'edit';
     },
+  },
+  mounted() {
+    if (this.news) {
+      window.addEventListener('resize', this.scale);
+      this.scale();
+    }
   },
   methods: {
     reportNewsClick() {
@@ -118,17 +167,6 @@ export default {
       });
       this.$emit('edit');
     },
-  },
-  mounted() {
-    if (this.news) {
-      window.addEventListener('resize', this.scale);
-      this.scale();
-    }
-  },
-  components: {
-    'event-news-content': EventNewsContent,
-    'event-news-contribution': EventNewsContribution,
-    'event-news-share': EventNewsShare,
   },
 };
 </script>

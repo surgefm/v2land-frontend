@@ -1,5 +1,8 @@
 <template>
-  <card v-if="stack" class="stack-wrapper">
+  <card
+    v-if="stack"
+    class="stack-wrapper"
+  >
     <span
       v-if="order"
       v-clipboard="stackUrl"
@@ -8,51 +11,51 @@
         label: 'stackOrderNumber',
         value: stack.id
       }"
-      @success="copySuccess"
       class="order light-font"
+      @success="copySuccess"
     >
       {{ order }}
     </span>
     <event-stack-content
       :stack="stack"
       :mode="mode"
-      :isLatestStack="isLatestStack"
+      :is-latest-stack="isLatestStack"
     />
   </card>
 </template>
 
 <script>
-  import config from '~/const';
-  import EventStackContent from '~/components/EventStack/EventStackContent.vue';
+import config from '~/const';
+import EventStackContent from '~/components/EventStack/EventStackContent.vue';
 
-  export default {
-    name: 'EventStack',
-    props: {
-      stack: Object,
-      order: Number,
-      mode: String,
-      event: Object,
-      isLatestStack: Boolean,
-    },
-    computed: {
-      stackUrl() {
-        const event = this.event || this.stack.event;
-        if (event.id) {
-          return `${config.baseUrl}${event.id}/${this.stack.id}`;
-        }
+export default {
+  name: 'EventStack',
+  components: {
+    'event-stack-content': EventStackContent,
+  },
+  props: {
+    stack: Object,
+    order: Number,
+    mode: String,
+    event: Object,
+    isLatestStack: Boolean,
+  },
+  computed: {
+    stackUrl() {
+      const event = this.event || this.stack.event;
+      if (event.id) {
+        return `${config.baseUrl}${event.id}/${this.stack.id}`;
+      }
 
-        return `config.baseUrl${event}/${this.stack.id}`;
-      },
+      return `config.baseUrl${event}/${this.stack.id}`;
     },
-    methods: {
-      copySuccess() {
-        this.$message.success('已将该进展分享链接拷贝至剪贴板');
-      },
+  },
+  methods: {
+    copySuccess() {
+      this.$message.success('已将该进展分享链接拷贝至剪贴板');
     },
-    components: {
-      'event-stack-content': EventStackContent,
-    },
-  };
+  },
+};
 </script>
 
 <style lang="scss" scoped>

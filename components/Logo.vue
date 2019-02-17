@@ -1,6 +1,13 @@
 <template>
-  <img v-if="mode === 'simple'" src="~/static/icon.svg" onload="this.id='show'" />
-  <div v-else class="icon-container">
+  <img
+    v-if="mode === 'simple'"
+    src="~/static/icon.svg"
+    onload="this.id='show'"
+  >
+  <div
+    v-else
+    class="icon-container"
+  >
     <div class="center">
       <!--
         If we don't write in this way, large-touch-screen users would have to
@@ -24,14 +31,14 @@
           @mouseover="showTooltip = touch ? false : true"
           @mouseleave="showTooltip = false"
           @touchstart="touched"
-        />
+        >
       </div>
       <img
-        @click="$router.push('/')"
         :src="src('icon-beta-small.svg')"
         height="40px"
         class="icon-small-screen"
-      />
+        @click="$router.push('/')"
+      >
     </div>
   </div>
 </template>
@@ -103,7 +110,7 @@ export default {
   .icon-small-screen {
     display: none;
   }
-  
+
   img {
     visibility: visible;
     cursor: pointer;

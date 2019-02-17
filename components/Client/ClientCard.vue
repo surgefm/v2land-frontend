@@ -3,13 +3,20 @@
     <card class="card hover">
       <div class="username-container">
         <event-title>{{ client.username }}</event-title>
-        <event-title class="id">id: {{ client.id }}</event-title>
+        <event-title class="id">
+          id: {{ client.id }}
+        </event-title>
       </div>
-      <p>　邮箱：{{ client.email }}</p>
+      <p style="padding-left: 2px">
+        邮箱：{{ client.email }}
+      </p>
       <p>用户组：{{ role }}</p>
       <div class="action-container">
         <div class="action">
-          <el-button plain @click="edit(client)">
+          <el-button
+            plain
+            @click="edit(client)"
+          >
             修改信息
           </el-button>
         </div>
@@ -21,51 +28,51 @@
     >
       <client-information-form
         :input="client"
-        v-on:clientUpdated="clientUpdated"
-      /> 
+        @clientUpdated="clientUpdated"
+      />
     </el-dialog>
   </div>
 </template>
 
 <script>
-  import ClientInformationForm from '~/components/Client/ClientInformationForm.vue';
+import ClientInformationForm from '~/components/Client/ClientInformationForm.vue';
 
-  export default {
-    props: {
-      client: Object,
-    },
-    data() {
-      return {
-        showDialog: false,
-      };
-    },
-    computed: {
-      role() {
-        switch (this.client.role) {
-        case 'admin':
-          return '社区督导员';
-        case 'manager':
-          return '社区管理员';
-        case 'contributor':
-          return '社区协作者';
-        }
+export default {
+  components: {
+    'client-information-form': ClientInformationForm,
+  },
+  props: {
+    client: Object,
+  },
+  data() {
+    return {
+      showDialog: false,
+    };
+  },
+  computed: {
+    role() {
+      switch (this.client.role) {
+      case 'admin':
+        return '社区督导员';
+      case 'manager':
+        return '社区管理员';
+      case 'contributor':
+        return '社区协作者';
+      }
 
-        return this.client.role;
-      },
+      return this.client.role;
     },
-    methods: {
-      edit(client) {
-        this.showDialog = true;
-      },
-      clientUpdated() {
-        this.showDialog = false;
-        this.$emit('clientUpdated');
-      },
+  },
+  methods: {
+    edit(client) {
+      this.showDialog = true;
     },
-    components: {
-      'client-information-form': ClientInformationForm,
+    clientUpdated() {
+      this.showDialog = false;
+      this.$emit('clientUpdated');
     },
-  };
+  },
+};
 </script>
 
 <style lang="scss" scoped>

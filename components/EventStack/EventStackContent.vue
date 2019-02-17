@@ -1,38 +1,59 @@
 <template>
-  <div class="stack-container" :class="[mode]">
+  <div
+    class="stack-container"
+    :class="[mode]"
+  >
     <div class="top-container">
       <span
-        class="tag light-font event-tag"
         v-if="showEventName"
+        class="tag light-font event-tag"
         @click="redirectEvent"
       >{{ eventName }}</span>
-      <span v-if="isLatestStack" class="tag light-font">
+      <span
+        v-if="isLatestStack"
+        class="tag light-font"
+      >
         最新进展
       </span>
-      <span v-if="firstTime" class="tag light-font">
+      <span
+        v-if="firstTime"
+        class="tag light-font"
+      >
         {{ firstTime }}
       </span>
-      <br />
-      <span v-if="stack.title" class="title">
+      <br>
+      <span
+        v-if="stack.title"
+        class="title"
+      >
         {{ stack.title }}
       </span>
-      <p v-if="stack.description" class="stack">
+      <p
+        v-if="stack.description"
+        class="stack"
+      >
         {{ stack.description }}
       </p>
     </div>
     <div class="news-list">
       <event-stack-news
         v-for="news of newsList"
-        :news="news"
         :key="news.id"
+        :news="news"
       />
       <p
         v-if="moreToLoad"
         class="load-more"
         @click="loadMore"
       >
-        <i v-if="!isNewsLoading" class="el-icon-refresh" />
-        <i v-else class="el-icon-loading" />
+        <i
+          v-if="!isNewsLoading"
+          class="el-icon-refresh"
+        />
+        <i
+          v-else
+          class="el-icon-loading"
+        />
         加载更多相关新闻
       </p>
     </div>
@@ -40,94 +61,94 @@
 </template>
 
 <script>
-  import EventStackNews from '~/components/EventStack/EventStackNews.vue';
-  import getLocalTime from '~/utils/getLocalTime.js';
+import EventStackNews from '~/components/EventStack/EventStackNews.vue';
+import getLocalTime from '~/utils/getLocalTime.js';
 
-  export default {
-    name: 'EventStackContent',
-    props: {
-      stack: Object,
-      mode: String,
-      showEventName: Boolean,
-      isLatestStack: Boolean,
+export default {
+  name: 'EventStackContent',
+  components: {
+    'event-stack-news': EventStackNews,
+  },
+  props: {
+    stack: Object,
+    mode: String,
+    showEventName: Boolean,
+    isLatestStack: Boolean,
+  },
+  data() {
+    return {
+      newsList: [],
+      isNewsLoading: false,
+    };
+  },
+  computed: {
+    event() {
+      return this.$store.getters.getEvent(this.stack.event);
     },
-    data() {
-      return {
-        newsList: [],
-        isNewsLoading: false,
-      };
+    eventName() {
+      return this.event ? this.event.name : null;
     },
-    computed: {
-      event() {
-        return this.$store.getters.getEvent(this.stack.event);
-      },
-      eventName() {
-        return this.event ? this.event.name : null;
-      },
-      firstTime() {
-        if (!this.stack || !this.stack.time) return;
-        const time = getLocalTime(this.stack.time);
-        return `${time.getFullYear()}年${time.getMonth() + 1}月${time.getDate() }日`;
-      },
-      route() {
-        return this.$mockroute || this.$route;
-      },
-      router() {
-        return this.$mockrouter || this.$router;
-      },
-      moreToLoad() {
-        return this.stack && this.stack.newsCount > this.stack.news.length;
-      },
+    firstTime() {
+      if (!this.stack || !this.stack.time) return;
+      const time = getLocalTime(this.stack.time);
+      return `${time.getFullYear()}年${time.getMonth() + 1}月${time.getDate() }日`;
     },
-    components: {
-      'event-stack-news': EventStackNews,
+    route() {
+      return this.$mockroute || this.$route;
     },
-    methods: {
-      updateNewsList() {
-        this.newsList = this.$store.getters.getNewsCollectionByStack({ stack: this.stack.id });
-      },
-      redirect() {
-        this.router.push({
-          name: 'event-stack',
-          params: {
-            name: this.stack.event,
-            stack: this.stack.id,
+    router() {
+      return this.$mockrouter || this.$router;
+    },
+    moreToLoad() {
+      return this.stack && this.stack.newsCount > this.stack.news.length;
+    },
+  },
+  created() {
+    this.updateNewsList();
+  },
+  methods: {
+    updateNewsList() {
+      this.newsList = this.$store.getters.getNewsCollectionByStack({ stack: this.stack.id });
+    },
+    redirect() {
+      this.router.push({
+        name: 'event-stack',
+        params: {
+          name: this.stack.event,
+          stack: this.stack.id,
+        },
+      });
+      this.$emit('redirect');
+    },
+    redirectEvent() {
+      this.router.push({
+        name: 'event',
+        params: { name: this.eventName },
+      });
+      this.$emit('redirect');
+    },
+    async loadMore() {
+      if (!this.moreToLoad) return;
+      this.isNewsLoading = true;
+      try {
+        const page = Math.floor(this.stack.news.length / 15) + 1;
+        await this.$store.dispatch('getNewsList', {
+          where: {
+            stackId: this.stack.id,
+            status: 'admitted',
           },
+          page,
         });
-        this.$emit('redirect');
-      },
-      redirectEvent() {
-        this.router.push({
-          name: 'event',
-          params: { name: this.eventName },
-        });
-        this.$emit('redirect');
-      },
-      async loadMore() {
-        if (!this.moreToLoad) return;
-        this.isNewsLoading = true;
-        try {
-          const page = Math.floor(this.stack.news.length / 15) + 1;
-          await this.$store.dispatch('getNewsList', {
-            where: {
-              stackId: this.stack.id,
-              status: 'admitted',
-            },
-            page,
-          });
-          this.updateNewsList();
-        } catch (err) {
-          this.$message.error('加载失败，请稍后重试');
-          console.error(err);
-        } finally {
-          this.isNewsLoading = false;
-        }
-      },
+        this.updateNewsList();
+      } catch (err) {
+        this.$message.error('加载失败，请稍后重试');
+        console.error(err);
+      } finally {
+        this.isNewsLoading = false;
+      }
     },
-    created() {
-      this.updateNewsList();
-    },
-  };
+  },
+};
 </script>
 
 <style lang="scss" scoped>

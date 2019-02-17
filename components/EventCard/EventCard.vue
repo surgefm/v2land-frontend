@@ -1,26 +1,29 @@
 <template>
   <card class="card">
     <a
-      :href="eventRoute"
-      :pageReady="pageReady ? 1 : 0"
-      onclick="javascript:return this.attributes.pageready.value == 0"
-      @click="cardClicked"
-      class="link"
       v-if="!isAdminEvent"
       v-analytics="{
         action: 'buttonClick',
         label: 'goToEvent',
         value: event.id,
       }"
+      :href="eventRoute"
+      :pageReady="pageReady ? 1 : 0"
+      onclick="javascript:return this.attributes.pageready.value == 0"
+      class="link"
+      @click="cardClicked"
     >
       <div class="event-container">
         <div :class="['event-text', !event.headerImage || 'event-text-image']">
-          <div class="event-image-container img-background" v-if="event.headerImage">
+          <div
+            v-if="event.headerImage"
+            class="event-image-container img-background"
+          >
             <img
-              class="event-image"
               v-lazy="image"
+              class="event-image"
               onload="this.id='show'"
-            />
+            >
             <span @click="openImageSource(event.headerImage.sourceUrl)">
               {{ event.headerImage.source }}
             </span>
@@ -38,9 +41,15 @@
         </div>
       </div>
     </a>
-    <div v-else class="event-container">
+    <div
+      v-else
+      class="event-container"
+    >
       <div class="event-text">
-        <nuxt-link class="event-title" :to="eventRoute">
+        <nuxt-link
+          class="event-title"
+          :to="eventRoute"
+        >
           {{ event.name }}
         </nuxt-link>
         <event-description
@@ -49,70 +58,73 @@
         >
           {{ description }}
         </event-description>
-        <event-card-action :event="event" v-on:update="$emit('update')" />
+        <event-card-action
+          :event="event"
+          @update="$emit('update')"
+        />
       </div>
     </div>
   </card>
 </template>
 
 <script>
-  import config from '~/const';
-  import EventDescription from '~/components/EventAbstract/EventAbstractDescription.vue';
-  import EventCardAction from '~/components/EventCard/EventCardAction.vue';
+import config from '~/const';
+import EventDescription from '~/components/EventAbstract/EventAbstractDescription.vue';
+import EventCardAction from '~/components/EventCard/EventCardAction.vue';
 
-  export default {
-    props: {
-      event: Object,
-      fade: Boolean,
+export default {
+  components: {
+    'event-description': EventDescription,
+    'event-card-action': EventCardAction,
+  },
+  props: {
+    event: Object,
+    fade: Boolean,
+  },
+  data() {
+    return {
+      imageClicked: false,
+      pageReady: false,
+    };
+  },
+  computed: {
+    description() {
+      return this.event.description;
     },
-    data() {
-      return {
-        imageClicked: false,
-        pageReady: false,
-      };
+    image() {
+      return config.static + '240x240/' + this.event.headerImage.imageUrl;
     },
-    computed: {
-      description() {
-        return this.event.description;
-      },
-      image() {
-        return config.static + '240x240/' + this.event.headerImage.imageUrl;
-      },
-      isAdminEvent() {
-        return this.$route.name === 'admin-event';
-      },
-      eventRoute() {
-        return `/${this.event.id}`;
-      },
+    isAdminEvent() {
+      return this.$route.name === 'admin-event';
     },
-    methods: {
-      cardClicked(e) {
-        e.preventDefault();
-        if (!this.imageClicked) {
-          return this.$router.push({
-            name: 'event',
-            params: { name: this.event.id },
-          });
-        }
+    eventRoute() {
+      return `/${this.event.id}`;
+    },
+  },
+  mounted() {
+    this.pageReady = 1;
+  },
+  methods: {
+    cardClicked(e) {
+      e.preventDefault();
+      if (!this.imageClicked) {
+        return this.$router.push({
+          name: 'event',
+          params: { name: this.event.id },
+        });
+      }
 
-        this.imageClicked = false;
-      },
-      openImageSource(url) {
-        this.imageClicked = true;
-        if (url) {
-          url = '/redirect.html?to=' + encodeURIComponent(url);
-          window.open(url, '_blank');
-        }
-      },
+      this.imageClicked = false;
     },
-    mounted() {
-      this.pageReady = 1;
+    openImageSource(url) {
+      this.imageClicked = true;
+      if (url) {
+        url = '/redirect.html?to=' + encodeURIComponent(url);
+        window.open(url, '_blank');
+      }
     },
-    components: {
-      'event-description': EventDescription,
-      'event-card-action': EventCardAction,
-    },
-  };
+  },
+};
 </script>
 
 <style lang="scss" scoped>

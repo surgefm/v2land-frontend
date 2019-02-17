@@ -1,6 +1,6 @@
-const queryString = require('query-string');
+import queryString from 'query-string';
 
-module.exports = function(req, res, next) {
+export default function(req, res, next) {
   const url = req.originalUrl;
   if (url.slice(0, 10) === '/redirect?' ||
     url.slice(0, 15) === '/redirect.html?') {
@@ -12,4 +12,4 @@ module.exports = function(req, res, next) {
   }
 
   next();
-};
+}

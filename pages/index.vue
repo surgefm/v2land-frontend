@@ -6,7 +6,7 @@
         v-lazy="config.static + '560x144/default.jpg'"
         onload="this.id = 'show'"
         class="header-image"
-      />
+      >
       <logotype color="#333" />
       <event-description class="title-description light-font">
         你的社会事件追踪工具
@@ -14,17 +14,17 @@
       <div class="title-button-container">
         <nuxt-link to="/new">
           <el-button
-            class="title-button"
             v-analytics="{ action: 'buttonClick', label: 'postEvent' }"
+            class="title-button"
           >
             创建事件
           </el-button>
         </nuxt-link>
         <nuxt-link to="/about">
           <el-button
+            v-analytics="{ action: 'buttonClick', label: 'aboutV2land' }"
             class="title-button"
             type="primary"
-            v-analytics="{ action: 'buttonClick', label: 'aboutV2land' }"
           >
             了解浪潮
           </el-button>
@@ -32,66 +32,71 @@
       </div>
     </card>
     <event-card
-      v-if="!showLoader"
       v-for="event of eventList"
+      v-if="!showLoader"
       :key="event.id"
       :event="event"
       :fade="true"
     />
     <event-card-shimmer
-      v-if="showLoader"
       v-for="(index) of new Array(3)"
+      v-if="showLoader"
       :key="index"
     />
-    <load-more v-if="!showLoader" :type="'event'">加载更多</load-more>
+    <load-more
+      v-if="!showLoader"
+      :type="'event'"
+    >
+      加载更多
+    </load-more>
     <page-foot class="page-foot" />
   </div>
 </template>
 
 <script>
-  import config from '~/const';
-  import EventCard from '~/components/EventCard/EventCard.vue';
-  import EventCardShimmer from '~/components/EventCard/EventCardShimmer.vue';
-  import EventDescription from '~/components/EventAbstract/EventAbstractDescription.vue';
-  import LoadMore from '~/components/LoadMore.vue';
+import config from '~/const';
+import EventCard from '~/components/EventCard/EventCard.vue';
+import EventCardShimmer from '~/components/EventCard/EventCardShimmer.vue';
+import EventDescription from '~/components/EventAbstract/EventAbstractDescription.vue';
+import LoadMore from '~/components/LoadMore.vue';
 
-  export default {
-    data() {
-      return {
-        eventCollection: [],
-        config,
-        showLoader: false,
-      };
+export default {
+  components: {
+    'event-card': EventCard,
+    'event-card-shimmer': EventCardShimmer,
+    'event-description': EventDescription,
+    'load-more': LoadMore,
+  },
+  data() {
+    return {
+      eventCollection: [],
+      config,
+      showLoader: false,
+    };
+  },
+  computed: {
+    eventList() {
+      return this.$store.getters.getEventList(((e) => e.status === 'admitted')) || [];
     },
-    computed: {
-      eventList() {
-        return this.$store.getters.getEventList(((e) => e.status === 'admitted')) || [];
-      },
-    },
-    methods: {
-      async init() {
-        if (!this.$store.getters.isFirstPage) {
-          this.showLoader = true;
-          await this.$store.dispatch('fetchEventList');
-          this.showLoader = false;
-        }
-      },
-    },
-    async asyncData({ store }) {
-      if (store.getters.isServer) {
-        await store.dispatch('fetchEventList');
+  },
+  async asyncData({ store }) {
+    if (store.getters.isServer) {
+      await store.dispatch('fetchEventList');
+    }
+  },
+  mounted() {
+    this.init();
+  },
+  methods: {
+    async init() {
+      if (!this.$store.getters.isFirstPage) {
+        this.showLoader = true;
+        await this.$store.dispatch('fetchEventList');
+        this.showLoader = false;
       }
     },
-    mounted() {
-      this.init();
-    },
-    components: {
-      'event-card': EventCard,
-      'event-card-shimmer': EventCardShimmer,
-      'event-description': EventDescription,
-      'load-more': LoadMore,
-    },
-  };
+  },
+};
 </script>
 
 <style lang="scss" scoped>

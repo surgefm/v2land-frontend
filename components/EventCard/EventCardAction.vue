@@ -1,7 +1,11 @@
 <template>
   <div class="share">
     <div class="icon-container">
-      <el-select v-model="status" class="select" @change="updateStatus">
+      <el-select
+        v-model="status"
+        class="select"
+        @change="updateStatus"
+      >
         <el-option
           v-for="item in statusCollection"
           :key="item.value"
@@ -9,45 +13,48 @@
           :value="item.value"
         />
       </el-select>
-      <i class="el-icon-edit border-color" @click="edit" />
+      <i
+        class="el-icon-edit border-color"
+        @click="edit"
+      />
     </div>
   </div>
 </template>
 
 <script>
-  export default {
-    props: {
-      event: Object,
+export default {
+  props: {
+    event: Object,
+  },
+  data() {
+    return {
+      statusCollection: [
+        { value: 'admitted', label: '公开' },
+        { value: 'pending', label: '待审核' },
+        { value: 'rejected', label: '拒绝' },
+        { value: 'hidden', label: '隐藏' },
+      ],
+      status: this.event.status,
+    };
+  },
+  methods: {
+    updateStatus() {
+      this.$store.dispatch('editEvent', {
+        name: this.event.name,
+        data: { status: this.status },
+      }).then(() => {
+        this.$emit('update');
+      });
     },
-    data() {
-      return {
-        statusCollection: [
-          { value: 'admitted', label: '公开' },
-          { value: 'pending', label: '待审核' },
-          { value: 'rejected', label: '拒绝' },
-          { value: 'hidden', label: '隐藏' },
-        ],
-        status: this.event.status,
-      };
+    edit() {
+      this.$router.push({
+        name: 'name-edit',
+        params: { name: this.event.name },
+        query: { redirect: '/admin/event' },
+      });
     },
-    methods: {
-      updateStatus() {
-        this.$store.dispatch('editEvent', {
-          name: this.event.name,
-          data: { status: this.status },
-        }).then(() => {
-          this.$emit('update');
-        });
-      },
-      edit() {
-        this.$router.push({
-          name: 'name-edit',
-          params: { name: this.event.name },
-          query: { redirect: '/admin/event' },
-        });
-      },
-    },
-  };
+  },
+};
 </script>
 
 <style lang="scss" scoped>

@@ -1,35 +1,51 @@
 <template>
-  <div class="news-container" :class="[mode]">
+  <div
+    class="news-container"
+    :class="[mode]"
+  >
     <div class="top-container">
       <span
-        class="tag light-font event-tag"
         v-if="showEventName"
+        class="tag light-font event-tag"
         @click="redirectEvent"
       >{{ eventName }}</span>
-      <span v-if="order === 1 && !showEventName" class="tag light-font">
+      <span
+        v-if="order === 1 && !showEventName"
+        class="tag light-font"
+      >
         最新消息
       </span>
-      <span v-if="news.tag" class="tag light-font">
+      <span
+        v-if="news.tag"
+        class="tag light-font"
+      >
         {{ news.tag }}
       </span>
-      <span v-if="news.source" class="source light-font">
+      <span
+        v-if="news.source"
+        class="source light-font"
+      >
         {{ news.source }}
       </span>
       <br v-if="news.source || news.tag">
       <a
         v-if="news.title"
-        :href="href"
-        target="_blank" class="title"
         v-analytics="{
           action: 'linkClick',
           label: 'newsUrl',
           value: news.id,
         }"
+        :href="href"
+        target="_blank"
+        class="title"
       >
         {{ news.title }}
       </a>
     </div>
-    <p v-if="news.abstract" class="news">
+    <p
+      v-if="news.abstract"
+      class="news"
+    >
       {{ news.abstract }}
     </p>
     <comment-viewer
@@ -45,31 +61,31 @@
           placement="bottom"
         >
           <span
-            class="bottom-date"
             v-clipboard="newsUrl"
+            class="bottom-date"
             @success="$message.success('已将该新闻分享链接拷贝至剪贴板')"
           >
             {{ getString() }}
           </span>
         </el-tooltip>
         <span
-          class="bottom-history"
-          @click="contribDialogVisible = true"
           v-analytics="{
             action: 'buttonClick',
             label: 'newsContributionRecord',
             value: news.id,
           }"
+          class="bottom-history"
+          @click="contribDialogVisible = true"
         >
           编辑记录
         </span>
       </div>
       <event-news-admit
-        class="news-share"
         v-if="mode === 'admit'"
+        class="news-share"
         :news="news"
-        v-on:admitted="$emit('admitted')"
-        v-on:rejected="$emit('rejected')"
+        @admitted="$emit('admitted')"
+        @rejected="$emit('rejected')"
       />
 
       <a
@@ -78,7 +94,11 @@
         onclick="return false;"
         class="link"
       >
-        <el-button type="primary" size="medium" @click="redirect">
+        <el-button
+          type="primary"
+          size="medium"
+          @click="redirect"
+        >
           前往新闻
         </el-button>
       </a>
@@ -97,119 +117,126 @@
       :append-to-body="true"
     >
       <event-news-contribution :news="news" />
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="contribDialogVisible = false">关闭</el-button>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button
+          type="primary"
+          @click="contribDialogVisible = false"
+        >关闭</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
-  import EventNewsContribution from '~/components/EventNews/EventNewsContribution.vue';
-  import EventNewsAdmit from '~/components/EventNews/EventNewsAdmit.vue';
-  import EventNewsShare from '~/components/EventShare.vue';
-  import CommentViewer from '~/components/Comment/Viewer.vue';
-  import config from '~/const';
-  import getLocalTime from '~/utils/getLocalTime.js';
+import EventNewsContribution from '~/components/EventNews/EventNewsContribution.vue';
+import EventNewsAdmit from '~/components/EventNews/EventNewsAdmit.vue';
+import EventNewsShare from '~/components/EventShare.vue';
+import CommentViewer from '~/components/Comment/Viewer.vue';
+import config from '~/const';
+import getLocalTime from '~/utils/getLocalTime.js';
 
-  export default {
-    name: 'EventNewsContent',
-    props: {
-      news: Object,
-      order: Number,
-      mode: String,
+export default {
+  name: 'EventNewsContent',
+  components: {
+    'event-news-contribution': EventNewsContribution,
+    'event-news-admit': EventNewsAdmit,
+    'event-news-share': EventNewsShare,
+    'comment-viewer': CommentViewer,
+  },
+  props: {
+    news: Object,
+    order: Number,
+    mode: String,
+  },
+  data() {
+    return {
+      eventName: this.event ? this.event.name : '',
+      contribDialogVisible: false,
+      showEventName: false,
+    };
+  },
+  computed: {
+    event() {
+      if (typeof this.news.event === 'object') return this.news.event;
+      return this.$store.getters.getEvent(this.news.eventId);
     },
-    data() {
-      return {
-        eventName: this.event ? this.event.name : '',
-        contribDialogVisible: false,
-      };
+    date() {
+      return getLocalTime(this.news.time);
     },
-    computed: {
-      showEventName() {
-        if (!this.event || +this.event.id === +this.route.params.name) {
-          return false;
-        } else {
-          this.eventName = this.event.name;
-          return true;
-        }
-      },
-      event() {
-        if (typeof this.news.event === 'object') return this.news.event;
-        return this.$store.getters.getEvent(this.news.eventId);
-      },
-      date() {
-        return getLocalTime(this.news.time);
-      },
-      newsUrl() {
-        const event = this.event || this.news.event;
-        if (!event) return '';
-        if (event.id) {
-          return `${config.baseUrl}${event.id}/${event.pinyin}/${this.news.id}`;
-        }
+    newsUrl() {
+      const event = this.event || this.news.event;
+      if (!event) return '';
+      if (event.id) {
+        return `${config.baseUrl}${event.id}/${event.pinyin}/${this.news.id}`;
+      }
 
-        return `${config.baseUrl}${event}/${this.news.id}`;
-      },
-      href() {
-        return '/redirect?to=' + encodeURIComponent(this.news.url);
-      },
-      route() {
-        return this.$mockroute || this.$route;
-      },
-      router() {
-        return this.$mockrouter || this.$router;
-      },
+      return `${config.baseUrl}${event}/${this.news.id}`;
     },
-    components: {
-      'event-news-contribution': EventNewsContribution,
-      'event-news-admit': EventNewsAdmit,
-      'event-news-share': EventNewsShare,
-      'comment-viewer': CommentViewer,
+    href() {
+      return '/redirect?to=' + encodeURIComponent(this.news.url);
     },
-    methods: {
-      getString(mode = 'ymd') {
-        const date = this.date;
-        if (isNaN(date.getTime())) {
-          return '';
-        }
+    route() {
+      return this.$mockroute || this.$route;
+    },
+    router() {
+      return this.$mockrouter || this.$router;
+    },
+  },
+  created() {
+    if (!this.event || +this.event.id === +this.route.params.name) {
+      this.showEventName = false;
+    } else {
+      this.eventName = this.event.name;
+      this.showEventName = true;
+    }
+  },
+  methods: {
+    getString(mode = 'ymd') {
+      const date = this.date;
+      if (isNaN(date.getTime())) {
+        return '';
+      }
 
-        let string = '';
-        string += date.getFullYear() + ' 年 ';
-        string += (date.getMonth() + 1) + ' 月 ';
-        string += date.getDate() + ' 日';
+      let string = '';
+      string += date.getFullYear() + ' 年 ';
+      string += (date.getMonth() + 1) + ' 月 ';
+      string += date.getDate() + ' 日';
 
-        if (mode === 'ymd') {
-          return string;
-        }
-
-        string = '北京时间 ' + string + ' ';
-        string += date.getHours() + ' 时 ';
-        string += date.getMinutes() + ' 分';
+      if (mode === 'ymd') {
         return string;
-      },
-      redirect() {
-        this.router.push({
-          name: 'event-pinyin-news',
-          params: {
-            name: this.eventName,
-            news: this.news.id,
-            pinyin: this.event ? this.event.pinyin : null,
-          },
-        });
-        this.$emit('redirect');
-      },
-      redirectEvent() {
-        this.router.push({
-          name: 'event-pinyin',
-          params: {
-            name: this.eventName,
-            pinyin: this.event ? this.event.pinyin : null,
-          },
-        });
-        this.$emit('redirect');
-      },
+      }
+
+      string = '北京时间 ' + string + ' ';
+      string += date.getHours() + ' 时 ';
+      string += date.getMinutes() + ' 分';
+      return string;
     },
-  };
+    redirect() {
+      this.router.push({
+        name: 'event-pinyin-news',
+        params: {
+          name: this.eventName,
+          news: this.news.id,
+          pinyin: this.event ? this.event.pinyin : null,
+        },
+      });
+      this.$emit('redirect');
+    },
+    redirectEvent() {
+      this.router.push({
+        name: 'event-pinyin',
+        params: {
+          name: this.eventName,
+          pinyin: this.event ? this.event.pinyin : null,
+        },
+      });
+      this.$emit('redirect');
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -302,7 +329,7 @@
     .news {
       padding-top: 0;
     }
-    
+
     .bottom {
       margin-top: .25rem;
       flex-direction: column;

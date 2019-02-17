@@ -23,3 +23,6 @@ dist
 yarn-error.log
 
 static/sw.js
+
+.DS_Store
+static/.DS_Store

@@ -1,5 +1,8 @@
 <template>
-  <div class="card background-color" @click="$emit('click')">
+  <div
+    class="card background-color"
+    @click="$emit('click')"
+  >
     <slot />
   </div>
 </template>

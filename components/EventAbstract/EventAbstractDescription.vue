@@ -1,18 +1,24 @@
 <template>
   <div class="description">
     <span><slot /></span>
-    <div class="fade" v-if="fade" />
-    <div class="hide" v-if="fade" />
+    <div
+      v-if="fade"
+      class="fade"
+    />
+    <div
+      v-if="fade"
+      class="hide"
+    />
   </div>
 </template>
 
 <script>
-  export default {
-    props: {
-      description: String,
-      fade: Boolean,
-    },
-  };
+export default {
+  props: {
+    description: String,
+    fade: Boolean,
+  },
+};
 </script>
 
 <style lang="scss" scoped>

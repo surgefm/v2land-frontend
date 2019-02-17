@@ -1,50 +1,87 @@
 <template>
   <div class="login-method">
     <div class="flex-container">
-      <div class="method-item" v-if="availableMethods.includes('weibo')">
-        <div @click="loginWeibo" class="item">
-          <div class="oval red"> 
+      <div
+        v-if="availableMethods.includes('weibo')"
+        class="method-item"
+      >
+        <div
+          class="item"
+          @click="loginWeibo"
+        >
+          <div class="oval red">
             <div class="inner-oval">
-              <img width="64" height="52" :src="getSource('Sina_Weibo.svg')" />
-              <div class="small-screen login-text weibo-login unselectable">微博登录</div>
+              <img
+                width="64"
+                height="52"
+                :src="getSource('Sina_Weibo.svg')"
+              >
+              <div class="small-screen login-text weibo-login unselectable">
+                微博登录
+              </div>
             </div>
           </div>
-          <div class="large-screen login-text weibo-login unselectable">微博登录</div>
+          <div class="large-screen login-text weibo-login unselectable">
+            微博登录
+          </div>
         </div>
       </div>
 
-      <div class="method-item" v-if="availableMethods.includes('twitter')">
-        <div @click="loginTwitter" class="item">
+      <div
+        v-if="availableMethods.includes('twitter')"
+        class="method-item"
+      >
+        <div
+          class="item"
+          @click="loginTwitter"
+        >
           <div class="oval blue">
             <div class="inner-oval twitter">
               <i class="icon-twitter" />
-              <div class="small-screen login-text twitter-login unselectable">Twitter 登录</div>
+              <div class="small-screen login-text twitter-login unselectable">
+                Twitter 登录
+              </div>
             </div>
           </div>
-          <div class="large-screen login-text twitter-login unselectable">Twitter 登录</div>
+          <div class="large-screen login-text twitter-login unselectable">
+            Twitter 登录
+          </div>
         </div>
       </div>
 
       <div class="method-item">
-        <div @click="loginEmail" class="item">
+        <div
+          class="item"
+          @click="loginEmail"
+        >
           <div class="oval grey">
             <div class="inner-oval email">
-              <logo mode="simple" class="email-logo" />
-              <div class="small-screen login-text email-login unselectable">邮箱账号登录</div>
+              <logo
+                mode="simple"
+                class="email-logo"
+              />
+              <div class="small-screen login-text email-login unselectable">
+                邮箱账号登录
+              </div>
             </div>
           </div>
-          <div class="large-screen login-text email-login unselectable">邮箱账号登录</div>
+          <div class="large-screen login-text email-login unselectable">
+            邮箱账号登录
+          </div>
         </div>
       </div>
     </div>
 
     <div class="register">
-      <nuxt-link class="register-link" :to="{
-        name: 'register',
-        query: {
-          redirect: redirectTo,
-        },
-      }">
+      <nuxt-link
+        class="register-link"
+        :to="{
+          name: 'register',
+          query: {
+            redirect: redirectTo,
+          },
+        }"
+      >
         新用户？创建账号<i class="el-icon-caret-right" />
       </nuxt-link>
     </div>
@@ -62,7 +99,7 @@ export default {
     },
     availableMethods: {
       type: Array,
-      default: [],
+      default: () => [],
     },
   },
 

@@ -1,6 +1,12 @@
 <template>
-  <div class="editor viewer" v-if="!error">
-    <span v-if="mode === 'remark'" class="remark">备注：</span>
+  <div
+    v-if="!error"
+    class="editor viewer"
+  >
+    <span
+      v-if="mode === 'remark'"
+      class="remark"
+    >备注：</span>
     <comment-item
       v-for="(part, i) of parts"
       :key="part.type + i + part.content"
@@ -16,12 +22,23 @@ import '~/assets/Comment.scss';
 
 export default {
   name: 'CommentViewer',
+  components: {
+    'comment-item': CommentItem,
+  },
   props: ['mode', 'input'],
   data() {
     return {
       parts: [],
       error: false,
     };
+  },
+  watch: {
+    input() {
+      this.analyzeInput();
+    },
+  },
+  created() {
+    this.analyzeInput();
   },
   methods: {
     analyzeInput() {
@@ -53,17 +70,6 @@ export default {
         }
       }
       this.parts = parts;
-    },
-  },
-  components: {
-    'comment-item': CommentItem,
-  },
-  created() {
-    this.analyzeInput();
-  },
-  watch: {
-    input() {
-      this.analyzeInput();
     },
   },
 };

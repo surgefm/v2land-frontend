@@ -9,14 +9,14 @@
 </template>
 
 <script>
-  import ClientInformationForm from '~/components/Client/ClientInformationForm.vue';
+import ClientInformationForm from '~/components/Client/ClientInformationForm.vue';
 
-  export default {
-    components: {
-      'client-information-form': ClientInformationForm,
-    },
-    async asyncData({ store }) {
-      return store.dispatch('getClient');
-    },
-  };
+export default {
+  components: {
+    'client-information-form': ClientInformationForm,
+  },
+  async asyncData({ store }) {
+    return store.dispatch('getClient');
+  },
+};
 </script>

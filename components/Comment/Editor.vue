@@ -1,79 +1,110 @@
 <template>
   <div>
-    <el-popover ref="event" placement="bottom" width="280" trigger="click">
+    <el-popover
+      ref="event"
+      placement="bottom"
+      width="280"
+      trigger="click"
+    >
       <div class="editor-quote-form">
         <el-autocomplete
+          ref="eventField"
           v-model="event"
           placeholder="事件名或 ID"
           size="small"
           :fetch-suggestions="findEvent"
           :trigger-on-focus="false"
           @keyup.enter.native="addEvent"
-          ref="eventField"
         />
-        <el-button size="small" @click="addEvent" type="primary">
+        <el-button
+          size="small"
+          type="primary"
+          @click="addEvent"
+        >
           引用事件
         </el-button>
       </div>
     </el-popover>
 
-    <el-popover ref="news" placement="bottom" width="280" trigger="click">
+    <el-popover
+      ref="news"
+      placement="bottom"
+      width="280"
+      trigger="click"
+    >
       <div class="editor-quote-form">
         <el-autocomplete
+          ref="newsField"
           v-model="news"
           placeholder="新闻标题或 ID"
           size="small"
           :fetch-suggestions="findNews"
           :trigger-on-focus="false"
           @keyup.enter.native="addNews"
-          ref="newsField"
         />
-        <el-button size="small" @click="addNews" type="primary">
+        <el-button
+          size="small"
+          type="primary"
+          @click="addNews"
+        >
           引用新闻
         </el-button>
       </div>
     </el-popover>
 
-    <el-popover ref="link" placement="bottom" width="280" trigger="click">
+    <el-popover
+      ref="link"
+      placement="bottom"
+      width="280"
+      trigger="click"
+    >
       <div class="editor-quote-form">
         <el-input
+          ref="linkField"
           v-model="link"
           placeholder="站外链接"
           size="small"
           @keyup.enter.native="addLink"
-          ref="linkField"
         />
-        <el-button size="small" @click="addLink" type="primary">
+        <el-button
+          size="small"
+          type="primary"
+          @click="addLink"
+        >
           插入链接
         </el-button>
       </div>
     </el-popover>
 
-    <div ref="editor" spellcheck="false" class="editor" />
+    <div
+      ref="editor"
+      spellcheck="false"
+      class="editor"
+    />
 
     <div class="editor-control">
       <span
-        class="control-button"
         v-popover:event
+        class="control-button"
         @click="focusField('event')"
       >
         <i class="icon-flag" /><span>事件</span></span>
       <span
-        class="control-button"
         v-popover:news
+        class="control-button"
         @click="focusField('news')"
       >
         <i class="icon-newspaper" /><span>新闻</span></span>
       <span
-        class="control-button"
         v-popover:link
+        class="control-button"
         @click="focusField('link')"
       >
         <i class="icon-link" /><span>链接</span></span>
       <el-dropdown
         v-if="mode === 'editNews'"
-        @command="insertText"
         trigger="click"
+        @command="insertText"
       >
         <span class="control-button">
           <i class="icon-template" /><span>模板</span></span>
@@ -115,6 +146,9 @@ let view;
 let _this;
 
 export default {
+  components: {
+    'el-autocomplete': Autocomplete,
+  },
   data() {
     return {
       event: null,
@@ -134,9 +168,6 @@ export default {
         template: '该消息由不可信来源发表，后由【媒体名】的【在此引用新闻】佐证',
       }],
     };
-  },
-  components: {
-    'el-autocomplete': Autocomplete,
   },
   mounted() {
     _this = this;

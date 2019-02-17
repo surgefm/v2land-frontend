@@ -1,7 +1,10 @@
 <template>
   <div>
     <el-collapse :class="['formal-container', formalStackList.length || 'empty']">
-      <p class="draggable-area help" v-if="!formalStackList.length">
+      <p
+        v-if="!formalStackList.length"
+        class="draggable-area help"
+      >
         将下方备选进展拖动至该区域编辑事件
       </p>
       <draggable
@@ -18,7 +21,7 @@
             <div class="collapse-title">
               <span>
                 {{ formalStackList.length - i }}.
-                {{ stack.title }} - 
+                {{ stack.title }} -
                 {{ getTime(stack) || '无初始日期' }}
               </span>
               <el-tag
@@ -38,7 +41,12 @@
             </div>
           </template>
           <p>{{ stack.description }}</p>
-          <el-button type="text" @click="edit(stack)">编辑进展</el-button>
+          <el-button
+            type="text"
+            @click="edit(stack)"
+          >
+            编辑进展
+          </el-button>
         </el-collapse-item>
       </draggable>
     </el-collapse>
@@ -46,13 +54,15 @@
       <el-button
         size="medium"
         type="primary"
-        @click="changeOrder"
         :loading="saving"
+        @click="changeOrder"
       >
         保存修改
       </el-button>
     </div>
-    <h4 class="subtitle">备选进展</h4>
+    <h4 class="subtitle">
+      备选进展
+    </h4>
     <draggable
       v-model="remainingStackList"
       :options="{ group: 'stacks' }"
@@ -72,17 +82,21 @@
       :append-to-body="true"
       @close="finishEditing()"
     >
-      <div class="sorter">修改基本信息</div>
+      <div class="sorter">
+        修改基本信息
+      </div>
       <event-stack-editor
-        :stack="stackEdited"
         v-if="stackEdited"
+        :stack="stackEdited"
         @edited="finishEditing()"
       />
       <div class="divider" />
-      <div class="sorter">管理进展新闻</div>
+      <div class="sorter">
+        管理进展新闻
+      </div>
       <event-stack-news-arrange
-        :stack="stackEdited"
         v-if="stackEdited"
+        :stack="stackEdited"
       />
     </el-dialog>
   </div>
@@ -102,6 +116,14 @@ import '~/static/element/collapse.css';
 import '~/static/element/collapse-item.css';
 
 export default {
+  components: {
+    draggable,
+    'el-collapse': ElCollapse,
+    'el-collapse-item': ElCollapseItem,
+    'event-stack-card': EventStackCard,
+    'event-stack-editor': EventStackEditor,
+    'event-stack-news-arrange': EventStackNewsArrange,
+  },
   props: {
     'event': Object,
   },
@@ -114,6 +136,9 @@ export default {
       stackEdited: null,
       saving: false,
     };
+  },
+  async created() {
+    await this.updateStackList();
   },
   methods: {
     async updateStackList() {
@@ -170,17 +195,6 @@ export default {
       const time = getLocalTime(stack.time);
       return `${time.getFullYear()}年${time.getMonth() + 1}月${time.getDate() }日`;
     },
-  },
-  async created() {
-    await this.updateStackList();
-  },
-  components: {
-    draggable,
-    'el-collapse': ElCollapse,
-    'el-collapse-item': ElCollapseItem,
-    'event-stack-card': EventStackCard,
-    'event-stack-editor': EventStackEditor,
-    'event-stack-news-arrange': EventStackNewsArrange,
   },
 };
 </script>
