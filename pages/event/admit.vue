@@ -1,7 +1,12 @@
 <template>
   <background>
     <card>
-      <p class="tag light-font" v-if="!isAdminAdmit">{{ name }}</p>
+      <p
+        v-if="!isAdminAdmit"
+        class="tag light-font"
+      >
+        {{ name }}
+      </p>
       <event-title>审核新闻队列</event-title>
       <p v-if="!(newsCollection.length > 0)">
         队列暂空
@@ -9,17 +14,17 @@
     </card>
     <div
       v-for="(news, i) of newsCollection"
+      :id="news.id"
       :key="news.id"
       :class="['news', 'news-' + i]"
-      :id="news.id"
     >
       <event-news
         :news="news"
         :event="event"
         mode="admit"
         :order="Number(i) + 1"
-        v-on:admitted="update('admitted')"
-        v-on:rejected="update('rejected')"
+        @admitted="update('admitted')"
+        @rejected="update('rejected')"
       />
     </div>
     <page-foot />
@@ -27,59 +32,59 @@
 </template>
 
 <script>
-  import EventNews from '~/components/EventNews/EventNews.vue';
+import EventNews from '~/components/EventNews/EventNews.vue';
 
-  export default {
-    computed: {
-      name() {
-        return this.event.name;
-      },
-      event() {
-        return this.$store.getters.getEvent(this.$route.params.name);
-      },
-      isAdminAdmit() {
-        return this.name === 'admin';
-      },
+export default {
+  components: {
+    'event-news': EventNews,
+  },
+  data() {
+    return {
+      newsCollection: [],
+    };
+  },
+  computed: {
+    name() {
+      return this.event.name;
     },
-    data() {
+    event() {
+      return this.$store.getters.getEvent(this.$route.params.name);
+    },
+    isAdminAdmit() {
+      return this.name === 'admin';
+    },
+  },
+  async asyncData({ store, route }) {
+    if (route.params.name === 'admin') {
+      return { newsCollection: await store.dispatch('getPendingNews') };
+    } else {
+      await store.dispatch('getEvent', route.params.name);
       return {
-        newsCollection: [],
+        newsCollection: await store.dispatch('getPendingNews', route.params.name),
       };
-    },
-    methods: {
-      async update(status) {
-        if (this.isAdminAdmit) {
-          this.newsCollection = await this.$store.dispatch('getPendingNews');
-          this.response(status);
-        } else {
-          this.newsCollection = await this.$store.dispatch('getPendingNews', this.$route.params.name);
-          const { name } = this.$route.params;
-          await this.$store.dispatch('fetchEvent', { name });
-          this.response(status);
-        }
-      },
-      response(status) {
-        if (status === 'admitted') {
-          this.$message('已将该新闻放入事件新闻合辑内');
-        } else {
-          this.$message('已拒绝该新闻');
-        }
-      },
-    },
-    async asyncData({ store, route }) {
-      if (route.params.name === 'admin') {
-        return { newsCollection: await store.dispatch('getPendingNews') };
+    }
+  },
+  methods: {
+    async update(status) {
+      if (this.isAdminAdmit) {
+        this.newsCollection = await this.$store.dispatch('getPendingNews');
+        this.response(status);
       } else {
-        await store.dispatch('getEvent', route.params.name);
-        return {
-          newsCollection: await store.dispatch('getPendingNews', route.params.name),
-        };
+        this.newsCollection = await this.$store.dispatch('getPendingNews', this.$route.params.name);
+        const { name } = this.$route.params;
+        await this.$store.dispatch('fetchEvent', { name });
+        this.response(status);
       }
     },
-    components: {
-      'event-news': EventNews,
+    response(status) {
+      if (status === 'admitted') {
+        this.$message('已将该新闻放入事件新闻合辑内');
+      } else {
+        this.$message('已拒绝该新闻');
+      }
     },
-  };
+  },
+};
 </script>
 
 <style lang="scss" scoped>

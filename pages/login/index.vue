@@ -4,7 +4,7 @@
       <event-title>登录浪潮</event-title>
       <div class="login-method-container">
         <login-method
-          :availableMethods="availableMethods"
+          :available-methods="availableMethods"
           :redirect="redirect"
         />
       </div>
@@ -14,49 +14,49 @@
 </template>
 
 <script>
-  import LoginMethod from '~/components/LoginMethod.vue';
+import LoginMethod from '~/components/LoginMethod.vue';
 
-  export default {
-    data() {
-      return {
-        availableMethods: [],
-      };
-    },
-    computed: {
-      redirect() {
-        let redirect = this.$route.query.redirect;
-        if (redirect) {
-          while (redirect.slice(0, 2) === '//') {
-            redirect = redirect.slice(1);
-          }
+export default {
+  components: {
+    'login-method': LoginMethod,
+  },
+  data() {
+    return {
+      availableMethods: [],
+    };
+  },
+  computed: {
+    redirect() {
+      let redirect = this.$route.query.redirect;
+      if (redirect) {
+        while (redirect.slice(0, 2) === '//') {
+          redirect = redirect.slice(1);
+        }
 
-          return redirect;
-        }
-        return '/';
-      },
-    },
-    async asyncData({ store, query, redirect }) {
-      const options = await store.dispatch('getAvailableAuthMethod');
-      if (options.length === 1) {
-        let path = '/login/email';
-        if (query.redirect) {
-          path += '?redirect=' + query.redirect;
-        }
-        redirect(path);
+        return redirect;
       }
-      return {
-        availableMethods: options,
-      };
+      return '/';
     },
-    head() {
-      return {
-        title: '登录浪潮',
-      };
-    },
-    components: {
-      'login-method': LoginMethod,
-    },
-  };
+  },
+  async asyncData({ store, query, redirect }) {
+    const options = await store.dispatch('getAvailableAuthMethod');
+    if (options.length === 1) {
+      let path = '/login/email';
+      if (query.redirect) {
+        path += '?redirect=' + query.redirect;
+      }
+      redirect(path);
+    }
+    return {
+      availableMethods: options,
+    };
+  },
+  head() {
+    return {
+      title: '登录浪潮',
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>

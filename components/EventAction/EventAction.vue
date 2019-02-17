@@ -3,31 +3,41 @@
     <div class="center">
       <action-item
         v-for="tab of displayList.tab"
-        :action="`event-action-${tab}`"
         :key="tab"
-        :class="[displayList.tab.length > 2 || 'two-tabs']"
         v-analytics="{ action: 'tabClick', label: tab }"
+        :action="`event-action-${tab}`"
+        :class="[displayList.tab.length > 2 || 'two-tabs']"
       />
       <action-item
         v-for="tab of displayList.dropdown"
-        :action="`event-action-${tab}`"
-        class="small"
         :key="tab"
         v-analytics="{ action: 'tabClick', label: tab }"
+        :action="`event-action-${tab}`"
+        class="small"
       />
-      <el-dropdown trigger="click" placement="top-end" :show-timeout="0">
+      <el-dropdown
+        trigger="click"
+        placement="top-end"
+        :show-timeout="0"
+      >
         <a>
           <i
             v-if="displayList.dropdown.length > 0"
             class="subscribe-container dropdown-trigger light-font el-icon-more"
           />
         </a>
-        <el-dropdown-menu slot="dropdown" class="action-dropdown large">
-          <el-dropdown-item v-for="item of displayList.dropdown" :key="item">
+        <el-dropdown-menu
+          slot="dropdown"
+          class="action-dropdown large"
+        >
+          <el-dropdown-item
+            v-for="item of displayList.dropdown"
+            :key="item"
+          >
             <action-item
+              v-analytics="{ action: 'tabClick', label: item }"
               :action="`event-action-${item}`"
               type="dropdown"
-              v-analytics="{ action: 'tabClick', label: item }"
             />
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -37,123 +47,123 @@
 </template>
 
 <script>
-  import EventActionItem from './EventActionItem.vue';
+import EventActionItem from './EventActionItem.vue';
 
-  export default {
-    components: {
-      'action-item': EventActionItem,
-    },
-    computed: {
-      displayList() {
-        const tab = [];
-        const dropdown = [];
-        for (const i of [
-          'admin-event', 'admin-admit', 'admin-client', 'create-event',
-          'subscribe', 'temporary-subscription', 'post', 'admit', 'edit', 'subscription-list',
-          'edit-stack', 'client-setting', 'client', 'return', 'homepage',
-        ]) {
-          let action = i.split('-');
-          for (let j = 0; j < action.length; j++) {
-            action[j] = action[j][0].toUpperCase() + action[j].slice(1);
-          }
-          action = action.join('');
-          if (this[`show${action}`]) {
-            if (tab.length < 3) {
-              tab.push(i);
-            } else {
-              dropdown.push(i);
-            }
+export default {
+  components: {
+    'action-item': EventActionItem,
+  },
+  computed: {
+    displayList() {
+      const tab = [];
+      const dropdown = [];
+      for (const i of [
+        'admin-event', 'admin-admit', 'admin-client', 'create-event',
+        'subscribe', 'temporary-subscription', 'post', 'admit', 'edit', 'subscription-list',
+        'edit-stack', 'client-setting', 'client', 'return', 'homepage',
+      ]) {
+        let action = i.split('-');
+        for (let j = 0; j < action.length; j++) {
+          action[j] = action[j][0].toUpperCase() + action[j].slice(1);
+        }
+        action = action.join('');
+        if (this[`show${action}`]) {
+          if (tab.length < 3) {
+            tab.push(i);
+          } else {
+            dropdown.push(i);
           }
         }
+      }
 
-        return { tab, dropdown };
-      },
-      isClientAdmin() {
-        return this.$store.getters.isClientAdmin;
-      },
-      isClientManager() {
-        return this.$store.getters.isClientManager;
-      },
-      isHomepage() {
-        return this.$route.path === '/';
-      },
-      isLoggingIn() {
-        return this.$route.path.includes('login') || this.$route.path.includes('register');
-      },
-      isAdminDir() {
-        return this.$route.path.includes('/admin');
-      },
-      isSubscriptionPage() {
-        return this.$route.path === '/subscription';
-      },
-      isEventPage() {
-        return this.$route.name &&
+      return { tab, dropdown };
+    },
+    isClientAdmin() {
+      return this.$store.getters.isClientAdmin;
+    },
+    isClientManager() {
+      return this.$store.getters.isClientManager;
+    },
+    isHomepage() {
+      return this.$route.path === '/';
+    },
+    isLoggingIn() {
+      return this.$route.path.includes('login') || this.$route.path.includes('register');
+    },
+    isAdminDir() {
+      return this.$route.path.includes('/admin');
+    },
+    isSubscriptionPage() {
+      return this.$route.path === '/subscription';
+    },
+    isEventPage() {
+      return this.$route.name &&
           this.$route.name.includes('event') &&
           this.$route.name !== 'admin-event' &&
           this.$route.params.name !== 'admin';
-      },
-      isClientPage() {
-        return this.$route.path === '/me';
-      },
-      isLoggedIn() {
-        return this.$store.getters.isLoggedIn;
-      },
-      isCreatingEvent() {
-        return this.$route.name === 'new';
-      },
-      showAdminEvent() {
-        return ((this.isHomepage || this.isSubscriptionPage || this.isClientPage) &&
+    },
+    isClientPage() {
+      return this.$route.path === '/me';
+    },
+    isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
+    },
+    isCreatingEvent() {
+      return this.$route.name === 'new';
+    },
+    showAdminEvent() {
+      return ((this.isHomepage || this.isSubscriptionPage || this.isClientPage) &&
           this.isClientManager) || this.isAdminDir;
-      },
-      showAdminAdmit() {
-        return this.showAdminEvent;
-      },
-      showAdminClient() {
-        return ((this.isHomepage || this.isSubscriptionPage || this.isClientPage) &&
+    },
+    showAdminAdmit() {
+      return this.showAdminEvent;
+    },
+    showAdminClient() {
+      return ((this.isHomepage || this.isSubscriptionPage || this.isClientPage) &&
           this.isClientAdmin) || this.isAdminDir;
-      },
-      showCreateEvent() {
-        return (this.isHomepage || this.isAdminDir) && this.isClientManager;
-      },
-      showTemporarySubscription() {
-        return this.isEventPage && !this.isClientManager;
-      },
-      showSubscribe() {
-        return this.isEventPage && this.isClientManager;
-      },
-      showPost() {
-        return this.showSubscribe && !this.isLoggingIn && this.isClientManager;
-      },
-      showAdmit() {
-        return this.isEventPage && this.isClientManager;
-      },
-      showEdit() {
-        return this.showAdmit;
-      },
-      showEditStack() {
-        return this.showEdit;
-      },
-      showSubscriptionList() {
-        return this.isLoggedIn &&
+    },
+    showCreateEvent() {
+      return (this.isHomepage || this.isAdminDir) && this.isClientManager;
+    },
+    showTemporarySubscription() {
+      return this.isEventPage && !this.isClientManager;
+    },
+    showSubscribe() {
+      return this.isEventPage && this.isClientManager;
+    },
+    showPost() {
+      return this.showSubscribe && !this.isLoggingIn && this.isClientManager;
+    },
+    showAdmit() {
+      return this.isEventPage && this.isClientManager;
+    },
+    showEdit() {
+      return this.showAdmit;
+    },
+    showEditStack() {
+      return this.showEdit;
+    },
+    showSubscriptionList() {
+      return this.isLoggedIn &&
           (this.isHomepage || this.isClientPage || this.$route.name === 'subscription');
-      },
-      showClientSetting() {
-        return this.isLoggedIn && !this.isLoggingIn;
-      },
-      showClient() {
-        return !this.isLoggingIn;
-      },
-      showReturn() {
-        return this.$route.name &&
+    },
+    showClientSetting() {
+      return this.isLoggedIn && !this.isLoggingIn;
+    },
+    showClient() {
+      return !this.isLoggingIn;
+    },
+    showReturn() {
+      return this.$route.name &&
           !['event', 'event-news', 'admin-event'].includes(this.$route.name) &&
           this.$route.name.includes('event') &&
           this.$route.params.name !== 'admin';
-      },
-      showHomepage() {
-        return !this.showReturn && !this.isHomepage;
-      },
     },
-  };
+    showHomepage() {
+      return !this.showReturn && !this.isHomepage;
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

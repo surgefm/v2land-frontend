@@ -5,23 +5,35 @@
     label-width="80px"
     :rules="rules"
   >
-    <el-form-item label="标题" prop="title">
+    <el-form-item
+      label="标题"
+      prop="title"
+    >
       <el-input
+        v-model="data.title"
         :placeholder="origStack.title"
         class="input name"
-        v-model="data.title"
       />
     </el-form-item>
-    <el-form-item label="简介" prop="description">
+    <el-form-item
+      label="简介"
+      prop="description"
+    >
       <el-input
+        v-model="data.description"
         type="textarea"
         :autosize="{ minRows: 2, maxRows: 4}"
         :placeholder="origStack.description"
-        v-model="data.description"
       />
     </el-form-item>
-    <el-form-item label="状态" prop="status">
-      <el-select placeholder="请选择进展状态" v-model="data.status">
+    <el-form-item
+      label="状态"
+      prop="status"
+    >
+      <el-select
+        v-model="data.status"
+        placeholder="请选择进展状态"
+      >
         <el-option
           v-for="status in options"
           :key="status.value"
@@ -30,7 +42,10 @@
         />
       </el-select>
     </el-form-item>
-    <el-form-item label="发布时间" prop="time">
+    <el-form-item
+      label="发布时间"
+      prop="time"
+    >
       <el-date-picker
         v-model="data.time"
         type="datetime"
@@ -38,23 +53,26 @@
         class="time-picker"
         placeholder="默认为首条新闻发布时间"
       />
-      <el-button type="text" @click="clearTime">
+      <el-button
+        type="text"
+        @click="clearTime"
+      >
         清空时间
       </el-button>
     </el-form-item>
 
     <div class="submit-button-group">
       <el-button
-        @click="reset()"
         type="text"
+        @click="reset()"
       >
         重置表单
       </el-button>
       <el-button
         type="primary"
-        @click="submit()"
         size="medium"
         :loading="isSubmitting"
+        @click="submit()"
       >
         提交
       </el-button>
@@ -73,6 +91,9 @@ import getLocalTime from '~/utils/getLocalTime.js';
 import isTimeValid from '~/utils/isTimeValid.js';
 
 export default {
+  components: {
+    'el-date-picker': DatePicker,
+  },
   props: {
     'stack': Object,
   },
@@ -104,6 +125,23 @@ export default {
       isSubmitting: false,
     };
   },
+  watch: {
+    'data.time'(newValue, oldValue) {
+      if (this.data.time && this.data.time.getTime) {
+        if (!isTimeValid(this.data.time)) {
+          this.data.time = oldValue;
+          this.$message.error('进展发生时间不能晚于此刻');
+        } else {
+          this.data.time.setSeconds(0);
+        }
+      }
+    },
+  },
+  created() {
+    this.origStack = { ...this.stack };
+    this.data = { ...this.stack };
+    this.data.time = getLocalTime(this.stack.time);
+  },
   methods: {
     async submit() {
       this.$refs.form.validate(async (valid) => {
@@ -132,26 +170,6 @@ export default {
       this.data = { ...this.origStack };
       this.data.time = getLocalTime(this.origStack.time);
     },
-  },
-  created() {
-    this.origStack = { ...this.stack };
-    this.data = { ...this.stack };
-    this.data.time = getLocalTime(this.stack.time);
-  },
-  watch: {
-    'data.time'(newValue, oldValue) {
-      if (this.data.time && this.data.time.getTime) {
-        if (!isTimeValid(this.data.time)) {
-          this.data.time = oldValue;
-          this.$message.error('进展发生时间不能晚于此刻');
-        } else {
-          this.data.time.setSeconds(0);
-        }
-      }
-    },
-  },
-  components: {
-    'el-date-picker': DatePicker,
   },
 };
 </script>

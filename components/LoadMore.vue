@@ -1,20 +1,23 @@
 <template>
   <card
-    class="load-more"
     v-if="isMoreAvailable"
-    @click="loadMethod"
     v-analytics="{
       action: 'buttonClick',
       label: type + 'LoadMore',
       value: type === 'event' ? page : (`${routeEvent} ${page}`)
     }"
+    class="load-more"
+    @click="loadMethod"
   >
     <span>
       <slot />
       <i :class="loading ? 'el-icon-loading' : 'el-icon-refresh'" />
     </span>
   </card>
-  <div v-else class="ending-wrapper">
+  <div
+    v-else
+    class="ending-wrapper"
+  >
     <div class="ending">
       <div class="bar" />
       <span v-if="type === 'event'">你已加载所有事件</span>
@@ -26,16 +29,16 @@
 
 <script>
 export default {
+  props: {
+    event: Object,
+    type: String,
+  },
   data() {
     return {
       page: 2,
       loading: false,
       loadFlag: true,
     };
-  },
-  props: {
-    event: Object,
-    type: String,
   },
   computed: {
     routeEvent() {

@@ -6,6 +6,12 @@ import Link from './ItemLink.vue';
 
 export default {
   name: 'CommentItem',
+  components: {
+    'text-item': Text,
+    'event-item': Event,
+    'news-item': News,
+    'link-item': Link,
+  },
   props: ['type', 'content'],
   render: function(createElement) {
     return createElement(this.type + '-item', {
@@ -13,12 +19,6 @@ export default {
         content: this.content,
       },
     });
-  },
-  components: {
-    'text-item': Text,
-    'event-item': Event,
-    'news-item': News,
-    'link-item': Link,
   },
 };
 </script>

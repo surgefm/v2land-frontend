@@ -15,7 +15,12 @@
         />
       </el-select>
       <span class="or">或</span>
-      <el-button type="text" @click="dialogVisible = true">自定义新进展</el-button>
+      <el-button
+        type="text"
+        @click="dialogVisible = true"
+      >
+        自定义新进展
+      </el-button>
     </div>
 
     <el-dialog
@@ -29,22 +34,31 @@
         label-width="80px"
         :rules="rules"
       >
-        <el-form-item label="标题" prop="title">
+        <el-form-item
+          label="标题"
+          prop="title"
+        >
           <el-input
+            v-model="data.title"
             :placeholder="latestStack.title"
             class="input name"
-            v-model="data.title"
           />
         </el-form-item>
-        <el-form-item label="简介" prop="description">
+        <el-form-item
+          label="简介"
+          prop="description"
+        >
           <el-input
+            v-model="data.description"
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 4}"
             :placeholder="latestStack.description"
-            v-model="data.description"
           />
         </el-form-item>
-        <el-form-item label="发布时间" prop="time">
+        <el-form-item
+          label="发布时间"
+          prop="time"
+        >
           <el-date-picker
             v-model="data.time"
             type="datetime"
@@ -52,14 +66,20 @@
             class="time-picker"
             placeholder="默认为首条新闻发布时间"
           />
-          <el-button type="text" @click="clearTime">
+          <el-button
+            type="text"
+            @click="clearTime"
+          >
             清空时间
           </el-button>
         </el-form-item>
       </el-form>
       <span slot="footer">
         <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="submitStack">创建</el-button>
+        <el-button
+          type="primary"
+          @click="submitStack"
+        >创建</el-button>
       </span>
     </el-dialog>
   </div>
@@ -76,6 +96,9 @@ import isTimeValid from '~/utils/isTimeValid.js';
 
 export default {
   name: 'EventStackInformationForm',
+  components: {
+    'el-date-picker': DatePicker,
+  },
   props: {
     event: Number,
     stack: Number,
@@ -108,6 +131,26 @@ export default {
       };
     },
   },
+  watch: {
+    'data.time'(newValue, oldValue) {
+      if (this.data.time && this.data.time.getTime) {
+        if (!isTimeValid(this.data.time)) {
+          this.data.time = oldValue;
+          this.$message.error('进展发生时间不能晚于此刻');
+        } else {
+          this.data.time.setSeconds(0);
+        }
+      }
+    },
+    'stack'(newValue) {
+      this.value = this.stack;
+    },
+  },
+  async created() {
+    await this.$store.dispatch('getEvent', this.event);
+    this.stackList = this.$store.getters.getStackCollectionByEvent({ event: this.event }) || [];
+    this.value = this.stack;
+  },
   methods: {
     async submitStack() {
       this.$refs.form.validate(async (valid) => {
@@ -134,29 +177,6 @@ export default {
     clearTime() {
       this.data.time = null;
     },
-  },
-  async created() {
-    await this.$store.dispatch('getEvent', this.event);
-    this.stackList = this.$store.getters.getStackCollectionByEvent({ event: this.event }) || [];
-    this.value = this.stack;
-  },
-  watch: {
-    'data.time'(newValue, oldValue) {
-      if (this.data.time && this.data.time.getTime) {
-        if (!isTimeValid(this.data.time)) {
-          this.data.time = oldValue;
-          this.$message.error('进展发生时间不能晚于此刻');
-        } else {
-          this.data.time.setSeconds(0);
-        }
-      }
-    },
-    'stack'(newValue) {
-      this.value = this.stack;
-    },
-  },
-  components: {
-    'el-date-picker': DatePicker,
   },
 };
 </script>

@@ -16,6 +16,7 @@ import DropDownItem from 'element-ui/lib/dropdown-item';
 import Dialog from 'element-ui/lib/dialog';
 import Loading from 'element-ui/lib/loading';
 import Tag from 'element-ui/lib/tag';
+import Switch from 'element-ui/lib/switch';
 
 Vue.use(Button);
 Vue.use(ButtonGroup);
@@ -33,9 +34,10 @@ Vue.use(DropDownItem);
 Vue.use(Dialog);
 Vue.use(Loading);
 Vue.use(Tag);
+Vue.use(Switch);
 
 Vue.prototype.$message = Message;
 
-export default ({ app, route }) => {
+export default ({ app }) => {
   app.$message = Vue.prototype.$message;
 };

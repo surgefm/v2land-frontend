@@ -1,5 +1,8 @@
 <template>
-  <div class="status" v-if="event">
+  <div
+    v-if="event"
+    class="status"
+  >
     <span>事件</span>
     <span v-if="event.stackCount || event.newsCount">共有</span>
     <span v-if="event.stackCount">
@@ -14,18 +17,21 @@
       </span>
       条新闻
     </span>
-    <span class="light-font" v-if="!event.stackCount && !event.newsCount">
+    <span
+      v-if="!event.stackCount && !event.newsCount"
+      class="light-font"
+    >
       尚无相关新闻
     </span>
   </div>
 </template>
 
 <script>
-  export default {
-    props: {
-      event: Object,
-    },
-  };
+export default {
+  props: {
+    event: Object,
+  },
+};
 </script>
 
 <style lang="scss" scoped>

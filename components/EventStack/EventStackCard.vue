@@ -7,7 +7,10 @@
     >
       {{ status[stack.status].label }}
     </el-tag>
-    <i class="el-icon-more edit-icon" @click="$emit('click')" />
+    <i
+      class="el-icon-more edit-icon"
+      @click="$emit('click')"
+    />
   </div>
 </template>
 

@@ -12,16 +12,18 @@
         tag="img"
         class="qrcode"
       />
-      <p class="qrcode-text">微信扫码分享</p>
+      <p class="qrcode-text">
+        微信扫码分享
+      </p>
       <div class="wechat-copy-url">
         <span>或</span>
         <el-button
           v-clipboard="wechatClipboard"
-          @click="$message.success('链接已复制至剪贴板')"
           size="mini"
           type="primary"
           round
           plain
+          @click="$message.success('链接已复制至剪贴板')"
         >
           点击复制链接
         </el-button>
@@ -30,7 +32,6 @@
 
     <a
       v-for="site of share"
-      :href="shareTo(site)"
       :key="object.id + ': ' + site"
       v-analytics="{
         type: 'social',
@@ -38,7 +39,9 @@
         action: 'share',
         target: shareUrl,
       }"
-      onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;">
+      :href="shareTo(site)"
+      onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');return false;"
+    >
       <span
         :class="[
           'icon-' + site,
@@ -59,121 +62,130 @@
     >
       <span :class="['icon-wechat', type, 'border-color', 'icon-container']" />
     </a>
-    <div class="icon-container" v-if="type === 'news' && isClientAdmin">
-      <i class="news el-icon-edit border-color" @click="edit" />
-      <i class="news el-icon-delete border-color" @click="remove" />
+    <div
+      v-if="type === 'news' && isClientAdmin"
+      class="icon-container"
+    >
+      <i
+        class="news el-icon-edit border-color"
+        @click="edit"
+      />
+      <i
+        class="news el-icon-delete border-color"
+        @click="remove"
+      />
     </div>
   </div>
 </template>
 
 <script>
-  import config from '~/const';
-  import $ from 'postman-url-encoder';
-  import VueQrcode from '@chenfengyuan/vue-qrcode';
+import config from '~/const';
+import $ from 'postman-url-encoder';
+import VueQrcode from '@chenfengyuan/vue-qrcode';
 
-  export default {
-    props: {
-      object: Object,
-      type: String,
+export default {
+  components: {
+    qrcode: VueQrcode,
+  },
+  props: {
+    object: Object,
+    type: String,
+  },
+  data() {
+    return {
+      share: ['twitter', 'facebook', 'telegram', 'weibo'],
+    };
+  },
+  computed: {
+    isClientAdmin() {
+      return this.$store.getters.isClientAdmin;
     },
-    data() {
-      return {
-        share: ['twitter', 'facebook', 'telegram', 'weibo'],
-      };
+    eventId() {
+      return this.object.eventId || this.$route.params.name;
     },
-    computed: {
-      isClientAdmin() {
-        return this.$store.getters.isClientAdmin;
-      },
-      eventId() {
-        return this.object.eventId || this.$route.params.name;
-      },
-      event() {
-        return this.$store.getters.getEvent(this.eventId) || {};
-      },
-      shareMessage() {
-        if (!this.event) return '追事件，上浪潮';
-        if (this.type === 'event') {
-          return `上浪潮查看「${this.event.name}」的最新动态`;
-        } else if (this.type === 'news' || this.type === 'stack-news') {
-          return `上浪潮查看「${this.event.name}」的新闻「${this.object.title}」`;
-        }
-      },
-      shareUrl() {
-        if (this.type === 'event') {
-          return `${config.baseUrl}${this.object.id}`;
-        } else if (this.type === 'stack') {
-          return `${config.baseUrl}${this.eventId}/${this.object.id}`;
-        } else if (this.type === 'news' || this.type === 'stack-news') {
-          return `${config.baseUrl}${this.eventId}/${this.object.stack}/${this.object.id}`;
-        }
-      },
-      wechatClipboard() {
-        return `${this.shareMessage}：${this.shareUrl}`;
-      },
+    event() {
+      return this.$store.getters.getEvent(this.eventId) || {};
     },
-    methods: {
-      shareTo(site) {
-        const url = this.shareUrl;
-        let message;
-        switch (this.type) {
-        case 'event':
-          message = this.object.name + ' - ' +
+    shareMessage() {
+      if (!this.event) return '追事件，上浪潮';
+      if (this.type === 'event') {
+        return `上浪潮查看「${this.event.name}」的最新动态`;
+      } else if (this.type === 'news' || this.type === 'stack-news') {
+        return `上浪潮查看「${this.event.name}」的新闻「${this.object.title}」`;
+      }
+    },
+    shareUrl() {
+      if (this.type === 'event') {
+        return `${config.baseUrl}${this.object.id}`;
+      } else if (this.type === 'stack') {
+        return `${config.baseUrl}${this.eventId}/${this.object.id}`;
+      } else if (this.type === 'news' || this.type === 'stack-news') {
+        return `${config.baseUrl}${this.eventId}/${this.object.stack}/${this.object.id}`;
+      }
+    },
+    wechatClipboard() {
+      return `${this.shareMessage}：${this.shareUrl}`;
+    },
+  },
+  async created() {
+    await this.$store.dispatch('getEvent', this.eventId);
+  },
+  methods: {
+    shareTo(site) {
+      const url = this.shareUrl;
+      let message;
+      switch (this.type) {
+      case 'event':
+        message = this.object.name + ' - ' +
               this.object.description.slice(0, 50) +
               (this.object.description.length > 50 ? '… ' : ' ');
-          break;
-        case 'news':
-        case 'stack-news':
-          message = this.object.title + ' - ' +
+        break;
+      case 'news':
+      case 'stack-news':
+        message = this.object.title + ' - ' +
               this.object.abstract.slice(0, 50) +
               (this.object.abstract.length > 50 ? '… ' : ' ') +
               '来源：' + this.object.source + ' ';
-          break;
-        }
+        break;
+      }
 
-        switch (site) {
-        case 'twitter':
-          return $.encode('https://twitter.com/intent/tweet?text=' + message +
+      switch (site) {
+      case 'twitter':
+        return $.encode('https://twitter.com/intent/tweet?text=' + message +
               '&url=' + url +
               '&hashtags=' + this.event.name + ',浪潮'
-          );
-        case 'facebook':
-          return $.encode('https://www.facebook.com/sharer/sharer.php?u=' + url);
-        case 'telegram':
-          return $.encode('https://telegram.me/share?url=' + url + '&text=' + this.shareMessage);
-        case 'weibo':
-          message += `%23${this.event.name}%23 %23浪潮，你的社会事件追踪工具%23`;
-          return $.encode('http://service.weibo.com/share/share.php?url=' + url + '&title=' + message);
-        }
-      },
-      remove() {
-        this.$store.dispatch('editNews', {
+        );
+      case 'facebook':
+        return $.encode('https://www.facebook.com/sharer/sharer.php?u=' + url);
+      case 'telegram':
+        return $.encode('https://telegram.me/share?url=' + url + '&text=' + this.shareMessage);
+      case 'weibo':
+        message += `%23${this.event.name}%23 %23浪潮，你的社会事件追踪工具%23`;
+        return $.encode('http://service.weibo.com/share/share.php?url=' + url + '&title=' + message);
+      }
+    },
+    remove() {
+      this.$store.dispatch('editNews', {
+        id: this.object.id,
+        data: { status: 'removed' },
+      }).then(() => {
+        const { name } = this.$route.params;
+        this.$store.dispatch('fetchEvent', { name });
+      }).then(() => {
+        this.$message('已删除该新闻');
+      });
+    },
+    edit() {
+      this.$router.push({
+        name: 'event-edit-news',
+        params: {
+          name: this.event.id,
           id: this.object.id,
-          data: { status: 'removed' },
-        }).then(() => {
-          const { name } = this.$route.params;
-          this.$store.dispatch('fetchEvent', { name });
-        }).then(() => {
-          this.$message('已删除该新闻');
-        });
-      },
-      edit() {
-        this.$router.push({
-          name: 'event-edit-news',
-          params: {
-            name: this.event.id,
-            id: this.object.id,
-          },
-        });
-      },
+        },
+      });
     },
-    async created() {
-      await this.$store.dispatch('getEvent', this.eventId);
-    },
-    components: {
-      qrcode: VueQrcode,
-    },
-  };
+  },
+};
 </script>
 
 <style lang="scss" scoped>

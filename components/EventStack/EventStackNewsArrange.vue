@@ -1,61 +1,79 @@
 <template>
-<div>
-  <el-form class="form" ref="form" label-width="80px">
-    <el-form-item label="新闻状态">
-      <el-checkbox-group v-model="filterStatus" class="align-center">
-        <el-checkbox
-          v-for="item of status"
-          :key="item.label"
-          :label="item.label"
-        >{{ item.text }}</el-checkbox>
-      </el-checkbox-group>
-    </el-form-item>
-    <el-form-item label="搜索标题">
-      <el-input v-model="filterTitle" placeholder="搜索新闻标题" />
-    </el-form-item>
-    <el-form-item label="搜索来源">
-      <el-input v-model="filterSource" placeholder="搜索新闻来源" />
-    </el-form-item>
-  </el-form>
-  <div class="create-news">
-    <el-button
-      type="primary"
-      size="medium"
-      @click="beginNewsEditing('create')"
+  <div>
+    <el-form
+      ref="form"
+      class="form"
+      label-width="80px"
     >
-      添加新闻
-    </el-button>
-  </div>
-
-  <div class="news-list">
-    <event-stack-news
-      v-for="news of newsList"
-      mode="edit"
-      :news="news"
-      :key="news.id"
-      @edit="beginNewsEditing('edit')"
-    />
-    <div class="empty-news-list" v-if="newsList.length === 0">
-      <span>未找到相关新闻</span>
+      <el-form-item label="新闻状态">
+        <el-checkbox-group
+          v-model="filterStatus"
+          class="align-center"
+        >
+          <el-checkbox
+            v-for="item of status"
+            :key="item.label"
+            :label="item.label"
+          >
+            {{ item.text }}
+          </el-checkbox>
+        </el-checkbox-group>
+      </el-form-item>
+      <el-form-item label="搜索标题">
+        <el-input
+          v-model="filterTitle"
+          placeholder="搜索新闻标题"
+        />
+      </el-form-item>
+      <el-form-item label="搜索来源">
+        <el-input
+          v-model="filterSource"
+          placeholder="搜索新闻来源"
+        />
+      </el-form-item>
+    </el-form>
+    <div class="create-news">
+      <el-button
+        type="primary"
+        size="medium"
+        @click="beginNewsEditing('create')"
+      >
+        添加新闻
+      </el-button>
     </div>
-  </div>
 
-  <el-dialog
-    :title="newsEditMode === 'edit' ? '编辑新闻' : '添加新闻'"
-    :visible.sync="dialogVisible"
-    :append-to-body="true"
-    @close="finishNewsEditing()"
-  >
-    <event-news-information-form
-      :mode="newsEditMode"
-      :data="newsEditMode === 'edit' ? 'updateStackNews' : 'createStackNews'"
-      :news="newsEditData"
-      :stack="stack"
-      v-on:submit="submit"
-      ref="newsForm"
-    />
-  </el-dialog>
-</div>
+    <div class="news-list">
+      <event-stack-news
+        v-for="news of newsList"
+        :key="news.id"
+        mode="edit"
+        :news="news"
+        @edit="beginNewsEditing('edit')"
+      />
+      <div
+        v-if="newsList.length === 0"
+        class="empty-news-list"
+      >
+        <span>未找到相关新闻</span>
+      </div>
+    </div>
+
+    <el-dialog
+      :title="newsEditMode === 'edit' ? '编辑新闻' : '添加新闻'"
+      :visible.sync="dialogVisible"
+      :append-to-body="true"
+      @close="finishNewsEditing()"
+    >
+      <event-news-information-form
+        ref="newsForm"
+        :mode="newsEditMode"
+        :data="newsEditMode === 'edit' ? 'updateStackNews' : 'createStackNews'"
+        :news="newsEditData"
+        :stack="stack"
+        @submit="submit"
+      />
+    </el-dialog>
+  </div>
 </template>
 
 <script>
@@ -68,6 +86,12 @@ import '~/static/element/checkbox.css';
 import '~/static/element/checkbox-group.css';
 
 export default {
+  components: {
+    'event-stack-news': EventStackNews,
+    'event-news-information-form': EventNewsInformationForm,
+    'el-checkbox': Checkbox,
+    'el-checkbox-group': CheckboxGroup,
+  },
   props: {
     stack: Object,
   },
@@ -90,6 +114,20 @@ export default {
       newsEditData: {},
       dialogVisible: false,
     };
+  },
+  watch: {
+    filterStatus: function() {
+      this.update();
+    },
+    filterTitle: function() {
+      this.update();
+    },
+    filterSource: function() {
+      this.update();
+    },
+  },
+  async created() {
+    this.fetchNewsList();
   },
   methods: {
     update() {
@@ -179,26 +217,6 @@ export default {
       this.dialogVisible = false;
       this.update();
     },
-  },
-  async created() {
-    this.fetchNewsList();
-  },
-  watch: {
-    filterStatus: function() {
-      this.update();
-    },
-    filterTitle: function() {
-      this.update();
-    },
-    filterSource: function() {
-      this.update();
-    },
-  },
-  components: {
-    'event-stack-news': EventStackNews,
-    'event-news-information-form': EventNewsInformationForm,
-    'el-checkbox': Checkbox,
-    'el-checkbox-group': CheckboxGroup,
   },
 };
 </script>

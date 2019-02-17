@@ -1,13 +1,20 @@
 <template>
   <div class="inline">
-    <a v-if="news"
+    <a
+      v-if="news"
       class="news"
-      @click="dialogVisible = true"
       :href="`/${news.event.id || news.event}/${news.id}`"
       onclick="return false;"
+      @click="dialogVisible = true"
     ><i class="icon-newspaper" />{{ news.title }}</a>
-    <span class="news error" v-else-if="error">该新闻不存在或被隐藏</span>
-    <span class="news loading" v-else><i class="el-icon-loading" /> 新闻加载中</span>
+    <span
+      v-else-if="error"
+      class="news error"
+    >该新闻不存在或被隐藏</span>
+    <span
+      v-else
+      class="news loading"
+    ><i class="el-icon-loading" /> 新闻加载中</span>
 
     <el-dialog
       :visible.sync="dialogVisible"
@@ -19,7 +26,7 @@
         v-if="news"
         :news="news"
         mode="quote"
-        v-on:redirect="dialogVisible = false"
+        @redirect="dialogVisible = false"
       />
     </el-dialog>
   </div>
@@ -38,6 +45,9 @@ export default {
       dialogVisible: false,
     };
   },
+  async created() {
+    await this.getNews();
+  },
   methods: {
     async getNews() {
       try {
@@ -47,9 +57,6 @@ export default {
         this.error = true;
       }
     },
-  },
-  async created() {
-    await this.getNews();
   },
 };
 </script>

@@ -1,14 +1,20 @@
 <template>
   <div class="inline event-tag">
     <a
+      v-if="event"
       :href="`/${event.id}/${event.pinyin}`"
       onclick="return false;"
       class="event"
-      v-if="event"
       @click="dialogVisible = true"
     ><i class="icon-flag" /> {{ event.name }}</a>
-    <span class="event error" v-else-if="error">该事件不存在或未被公开</span>
-    <span class="event" v-else><i class="el-icon-loading" /> 事件加载中</span>
+    <span
+      v-else-if="error"
+      class="event error"
+    >该事件不存在或未被公开</span>
+    <span
+      v-else
+      class="event"
+    ><i class="el-icon-loading" /> 事件加载中</span>
 
     <el-dialog
       :visible.sync="dialogVisible"
@@ -16,12 +22,24 @@
       class="comment-event"
     >
       <div slot="title" />
-      <span class="title" v-if="event">{{ event.name }}</span>
-      <event-description v-if="event" class="description">
+      <span
+        v-if="event"
+        class="title"
+      >{{ event.name }}</span>
+      <event-description
+        v-if="event"
+        class="description"
+      >
         {{ event.description }}
       </event-description>
-      <div class="submit-button-group" v-if="event">
-        <a :href="`/${event.id}/${event.pinyin}`" onclick="return false;">
+      <div
+        v-if="event"
+        class="submit-button-group"
+      >
+        <a
+          :href="`/${event.id}/${event.pinyin}`"
+          onclick="return false;"
+        >
           <el-button
             type="primary"
             size="medium"
@@ -39,6 +57,9 @@
 import EventDescription from '~/components/EventAbstract/EventAbstractDescription.vue';
 
 export default {
+  components: {
+    'event-description': EventDescription,
+  },
   props: {
     content: Number,
   },
@@ -53,6 +74,9 @@ export default {
     route() {
       return this.$mockroute || this.$route;
     },
+  },
+  async created() {
+    await this.getEvent();
   },
   methods: {
     redirect() {
@@ -77,12 +101,6 @@ export default {
       }
       return;
     },
-  },
-  async created() {
-    await this.getEvent();
-  },
-  components: {
-    'event-description': EventDescription,
   },
 };
 </script>

@@ -1,40 +1,50 @@
 <template>
   <div class="form-container">
     <el-form
+      ref="form"
       :model="form"
       :rules="rules"
-      ref="form"
       label-width="58px"
       class="form"
     >
-      <el-form-item label="用户名" prop="username">
+      <el-form-item
+        label="用户名"
+        prop="username"
+      >
         <el-input v-model="form.username" />
       </el-form-item>
-      <el-form-item label="密码" prop="password">
+      <el-form-item
+        label="密码"
+        prop="password"
+      >
         <el-input
-          type="password"
           v-model="form.password"
+          type="password"
           @keyup.enter.native="submit"
         />
       </el-form-item>
 
       <div class="submit-button-group-separate">
         <div v-if="authorizing || $store.getters.getAvailableAuths.length <= 1" />
-        <a v-else class="third-party" @click="thirdParty">
+        <a
+          v-else
+          class="third-party"
+          @click="thirdParty"
+        >
           第三方账号登录
         </a>
         <div>
           <el-button
+            v-if="!authorizing"
             type="text"
             disabled
-            v-if="!authorizing"
           >
             忘记密码
           </el-button>
           <el-button
             type="primary"
-            @click="submit"
             :loading="isSubmitting"
+            @click="submit"
           >
             登录
           </el-button>
@@ -45,71 +55,71 @@
 </template>
 
 <script>
-  export default {
-    props: {
-      hideThirdParty: Boolean,
-      hideFindPassword: Boolean,
-      authorizing: Boolean,
+export default {
+  props: {
+    hideThirdParty: Boolean,
+    hideFindPassword: Boolean,
+    authorizing: Boolean,
+  },
+  data() {
+    return {
+      form: {
+        username: '',
+        password: '',
+      },
+      isSubmitting: false,
+      rules: {
+        username: [
+          { required: true, message: '请输入用户名', trigger: 'blur' },
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'blur' },
+        ],
+      },
+    };
+  },
+  computed: {
+    redirect() {
+      let redirect = this.$route.query.redirect;
+      while (redirect.slice(0, 2) === '//') {
+        redirect = redirect.slice(1);
+      }
+      return redirect || '/';
     },
-    data() {
-      return {
-        form: {
-          username: '',
-          password: '',
-        },
-        isSubmitting: false,
-        rules: {
-          username: [
-            { required: true, message: '请输入用户名', trigger: 'blur' },
-          ],
-          password: [
-            { required: true, message: '请输入密码', trigger: 'blur' },
-          ],
-        },
-      };
-    },
-    computed: {
-      redirect() {
-        let redirect = this.$route.query.redirect;
-        while (redirect.slice(0, 2) === '//') {
-          redirect = redirect.slice(1);
+  },
+  methods: {
+    submit() {
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          this.isSubmitting = true;
+          this.$axios.post('client/login', this.form)
+            .then(({ data }) => {
+              this.$store.commit('setClient', { client: data.client });
+              this.$ga.set('userId', data.client.id);
+              this.$message.success(`你好，${data.client.username}`);
+              if (this.authorizing) {
+                this.$emit('logged-in');
+              } else {
+                this.$router.push(this.redirect);
+              }
+              this.isSubmitting = false;
+            })
+            .catch((err) => {
+              this.$message.error(err.response.data.message);
+              this.isSubmitting = false;
+            });
         }
-        return redirect || '/';
-      },
+      });
     },
-    methods: {
-      submit() {
-        this.$refs.form.validate((valid) => {
-          if (valid) {
-            this.isSubmitting = true;
-            this.$axios.post('client/login', this.form)
-              .then(({ data }) => {
-                this.$store.commit('setClient', { client: data.client });
-                this.$ga.set('userId', data.client.id);
-                this.$message.success(`你好，${data.client.username}`);
-                if (this.authorizing) {
-                  this.$emit('logged-in');
-                } else {
-                  this.$router.push(this.redirect);
-                }
-                this.isSubmitting = false;
-              })
-              .catch((err) => {
-                this.$message.error(err.response.data.message);
-                this.isSubmitting = false;
-              });
-          }
-        });
-      },
-      thirdParty() {
-        let path = '/login';
-        if (this.$route.query.redirect) {
-          path += '?redirect=' + this.$route.query.redirect;
-        }
-        this.$router.push(path);
-      },
+    thirdParty() {
+      let path = '/login';
+      if (this.$route.query.redirect) {
+        path += '?redirect=' + this.$route.query.redirect;
+      }
+      this.$router.push(path);
     },
-  };
+  },
+};
 </script>
 
 <style lang="scss" scoped>

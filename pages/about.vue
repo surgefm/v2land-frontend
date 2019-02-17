@@ -1,7 +1,9 @@
 <template>
   <background>
     <card>
-      <p class="tag light-font">从一首诗开始</p>
+      <p class="tag light-font">
+        从一首诗开始
+      </p>
       <event-title>关于浪潮</event-title>
       <p>当下的社会事件在打一场擂台赛，今天是「百度魏则西」赢得万众瞩目，明天是「人大硕士雷洋」站上冠军台。被人们热切关注的事件如虎添翼，很快有积极进展。可一旦有「新生代实力小将」登场，便立刻成为委地黄花。失去公众关注的事件寸步难行，甚至节节败退 —— 回想一下，你曾关注的社会事件中，有多少得到了妥善的解决？</p>
       <p>浪潮，不仅是一个新闻聚合网站，更是你的小闹钟。在你忙于追随最新社会热点时，它会悄悄提醒你：「嘿，你关注的雷洋事件已经有半个月没有新的消息了，快去看看现状如何。」通过浪潮，你可以：</p>
@@ -23,17 +25,17 @@
 </template>
 
 <script>
-  export default {
-    head() {
-      return {
-        title: '关于浪潮',
-        meta: [
-          { hid: 't:title', name: 'twitter:title', content: '关于浪潮' },
-          { hid: 'og:title', property: 'og:title', content: '关于浪潮' },
-        ],
-      };
-    },
-  };
+export default {
+  head() {
+    return {
+      title: '关于浪潮',
+      meta: [
+        { hid: 't:title', name: 'twitter:title', content: '关于浪潮' },
+        { hid: 'og:title', property: 'og:title', content: '关于浪潮' },
+      ],
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>

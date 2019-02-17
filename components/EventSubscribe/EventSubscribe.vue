@@ -6,39 +6,39 @@
 </template>
 
 <script>
-  import EventSubscribeMode from '~/components/EventSubscribe/EventSubscribeMode';
-  import EventSubscribeMethod from '~/components/EventSubscribe/EventSubscribeMethod';
+import EventSubscribeMode from '~/components/EventSubscribe/EventSubscribeMode';
+import EventSubscribeMethod from '~/components/EventSubscribe/EventSubscribeMethod';
 
-  export default {
-    components: {
-      'subscribe-mode': EventSubscribeMode,
-      'subscribe-method': EventSubscribeMethod,
-    },
-    created() {
-      const lastSubscription = this.$store.getters.getLastSubscription;
-      let query = this.$route.query;
-      if (query.data) {
-        query.data = JSON.parse(decodeURIComponent(query.data));
-        query = {
-          ...query,
-          ...query.data,
-        };
-      }
+export default {
+  components: {
+    'subscribe-mode': EventSubscribeMode,
+    'subscribe-method': EventSubscribeMethod,
+  },
+  created() {
+    const lastSubscription = this.$store.getters.getLastSubscription;
+    let query = this.$route.query;
+    if (query.data) {
+      query.data = JSON.parse(decodeURIComponent(query.data));
+      query = {
+        ...query,
+        ...query.data,
+      };
+    }
 
-      if (lastSubscription) {
-        this.$store.commit('setSubscribeMode', lastSubscription.mode);
-        this.$store.commit('setSubscribeMethod', lastSubscription.contact);
-      }
+    if (lastSubscription) {
+      this.$store.commit('setSubscribeMode', lastSubscription.mode);
+      this.$store.commit('setSubscribeMethod', lastSubscription.contact);
+    }
 
-      if (query.mode) {
-        this.$store.commit('setSubscribeMode', query.mode);
-      }
+    if (query.mode) {
+      this.$store.commit('setSubscribeMode', query.mode);
+    }
 
-      if (query.method) {
-        this.$store.commit('setSubscribeMethod', {
-          method: query.method,
-        });
-      }
-    },
-  };
+    if (query.method) {
+      this.$store.commit('setSubscribeMethod', {
+        method: query.method,
+      });
+    }
+  },
+};
 </script>

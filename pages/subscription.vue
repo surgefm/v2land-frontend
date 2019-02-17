@@ -1,9 +1,14 @@
 <template>
   <background>
     <card>
-      <p class="tag light-font">个人中心</p>
+      <p class="tag light-font">
+        个人中心
+      </p>
       <event-title>关注列表</event-title>
-      <p class="light-font" v-if="!subscriptionList || subscriptionList.length === 0">
+      <p
+        v-if="!subscriptionList || subscriptionList.length === 0"
+        class="light-font"
+      >
         您没有关注任何事件
       </p>
     </card>
@@ -17,22 +22,22 @@
 </template>
 
 <script>
-  import SubscriptionCard from '~/components/EventSubscribe/SubscriptionCard.vue';
+import SubscriptionCard from '~/components/EventSubscribe/SubscriptionCard.vue';
 
-  export default {
-    computed: {
-      isAdmin() {
-        return this.$store.getters.isClientAdmin;
-      },
-      isLoggedIn() {
-        return this.$store.getters.isLoggedIn;
-      },
-      subscriptionList() {
-        return this.$store.getters.getSubscriptionList;
-      },
+export default {
+  components: {
+    'subscription-card': SubscriptionCard,
+  },
+  computed: {
+    isAdmin() {
+      return this.$store.getters.isClientAdmin;
     },
-    components: {
-      'subscription-card': SubscriptionCard,
+    isLoggedIn() {
+      return this.$store.getters.isLoggedIn;
     },
-  };
+    subscriptionList() {
+      return this.$store.getters.getSubscriptionList;
+    },
+  },
+};
 </script>

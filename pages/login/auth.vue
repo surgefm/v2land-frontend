@@ -5,7 +5,10 @@
       <span v-if="mode === 'registerOrLogin'">
         {{ siteinfo }}连接成功，请创建或登录浪潮账号以完成绑定。
       </span>
-      <div class="switch-form" v-if="mode === 'registerOrLogin'">
+      <div
+        v-if="mode === 'registerOrLogin'"
+        class="switch-form"
+      >
         <span
           :class="[
             'switch-title',
@@ -26,8 +29,11 @@
           登录浪潮
         </span>
       </div>
-      <div class="register-or-login" v-if="mode === 'registerOrLogin'">
-        <div 
+      <div
+        v-if="mode === 'registerOrLogin'"
+        class="register-or-login"
+      >
+        <div
           :class="[
             'registration-container',
             !register || 'form-active'
@@ -37,7 +43,7 @@
           <registration-form
             :username="username"
             :email="email"
-            v-on:registered="connect"
+            @registered="connect"
           />
         </div>
         <div
@@ -51,19 +57,35 @@
             <span class="login-title">登录浪潮</span>
             <login-form
               :authorizing="true"
-              v-on:logged-in="connect"
+              @logged-in="connect"
             />
           </div>
         </div>
       </div>
-      <span v-if="mode === 'switchAccount'" class="switch-account">
+      <span
+        v-if="mode === 'switchAccount'"
+        class="switch-account"
+      >
         {{ siteinfo }}已于浪潮账号「{{ conflictClient }}」绑定，是否解绑并与您现在的账号绑定？
       </span>
-      <div v-if="mode === 'switchAccount'" class="submit-button-group-separate">
-        <el-button @click="$router.push(redirect)">取消</el-button>
-        <el-button type="primary" @click="connect">确定解绑</el-button>
+      <div
+        v-if="mode === 'switchAccount'"
+        class="submit-button-group-separate"
+      >
+        <el-button @click="$router.push(redirect)">
+          取消
+        </el-button>
+        <el-button
+          type="primary"
+          @click="connect"
+        >
+          确定解绑
+        </el-button>
       </div>
-      <div v-if="mode === 'loading'" class="connecting">
+      <div
+        v-if="mode === 'loading'"
+        class="connecting"
+      >
         <logo mode="simple" />
         <span>正在绑定</span>
       </div>
@@ -74,124 +96,124 @@
 </template>
 
 <script>
-  import RegistrationForm from '~/components/RegistrationForm.vue';
-  import LoginForm from '~/components/LoginForm.vue';
-  import $ from 'postman-url-encoder';
+import RegistrationForm from '~/components/RegistrationForm.vue';
+import LoginForm from '~/components/LoginForm.vue';
+import $ from 'postman-url-encoder';
 
-  export default {
-    data() {
-      return {
-        mode: 'loading',
-        username: null,
-        email: null,
-        site: null,
-        auth: {},
-        conflictClient: null,
-        register: true,
-      };
+export default {
+  components: {
+    'registration-form': RegistrationForm,
+    'login-form': LoginForm,
+  },
+  data() {
+    return {
+      mode: 'loading',
+      username: null,
+      email: null,
+      site: null,
+      auth: {},
+      conflictClient: null,
+      register: true,
+    };
+  },
+  computed: {
+    redirect() {
+      let path = this.$route.query.redirect || '/';
+      if (path[0] !== '/') {
+        path = '/' + path;
+      }
+      return path;
     },
-    computed: {
-      redirect() {
-        let path = this.$route.query.redirect || '/';
-        if (path[0] !== '/') {
-          path = '/' + path;
-        }
-        return path;
-      },
-      siteinfo() {
-        let text = '';
-        switch (this.site) {
-        case 'twitter':
-          text += `Twitter 账号 @${this.auth.profile.screen_name} `;
-          break;
-        case 'weibo':
-          text += `微博账号 @${this.auth.profile.screen_name} `;
-        }
-
-        return text;
-      },
-    },
-    methods: {
-      async connect() {
-        this.mode = 'connecting';
-        try {
-          await this.$axios.post('/auth', { authId: this.auth.id });
-          this.$message.success(
-            `你的账号${this.$store.getters.getClient.username}已与 ${this.siteinfo}绑定成功`
-          );
-          await this.$store.dispatch('getClient');
-          this.$router.push(this.redirect);
-        } catch (err) {
-          this.$message.error(err);
-          this.$router.push({
-            path: 'login',
-            query: {
-              redirect: this.$route.query.redirect,
-            },
-          });
-        }
-      },
-    },
-    components: {
-      'registration-form': RegistrationForm,
-      'login-form': LoginForm,
-    },
-    async asyncData({ $axios, query, redirect, store }) {
-      let path = `auth/${query.site}/redirect?`;
-      if (query.site === 'twitter') {
-        path += `token=${query.token}&verifier=${query.verifier}`;
-      } else if (query.site === 'weibo') {
-        path += `code=${query.code}&authId=${query.authId}`;
-      } else {
-        redirect('/');
+    siteinfo() {
+      let text = '';
+      switch (this.site) {
+      case 'twitter':
+        text += `Twitter 账号 @${this.auth.profile.screen_name} `;
+        break;
+      case 'weibo':
+        text += `微博账号 @${this.auth.profile.screen_name} `;
       }
 
-      try {
-        const response = await $axios.get(path);
-        if ([200, 201].includes(response.status)) {
-          await store.dispatch('getClient');
-          let redirectUrl = '/';
-          redirectUrl += query.redirect ? ((query.redirect[0] === '/')
-            ? query.redirect.slice(1)
-            : query.redirect) : '';
-          redirectUrl += redirectUrl.includes('?') ? '&' : '?';
-          if (response.status === 200) {
-            redirectUrl += 'status=logged_in_successfully';
-          } else {
-            redirectUrl += `status=authenticate_successfully&auth_name=${response.data.profile.name}`;
-          }
-          redirect($.encode(redirectUrl));
-        } else if (response.status === 202 &&
-          response.data.name === 'authentication required') {
-          return {
-            mode: 'registerOrLogin',
-            username: response.data.auth.profile.screen_name,
-            site: query.site,
-            auth: response.data.auth,
-          };
-        } else if (response.status === 202 &&
-          response.data.name === 'already connected') {
-          return {
-            mode: 'switchAccount',
-            username: response.data.auth.profile.screen_name,
-            site: query.site,
-            auth: response.data.auth,
-            conflictClient: response.data.conflict,
-          };
+      return text;
+    },
+  },
+  async asyncData({ $axios, query, redirect, store }) {
+    let path = `auth/${query.site}/redirect?`;
+    if (query.site === 'twitter') {
+      path += `token=${query.token}&verifier=${query.verifier}`;
+    } else if (query.site === 'weibo') {
+      path += `code=${query.code}&authId=${query.authId}`;
+    } else {
+      redirect('/');
+    }
+
+    try {
+      const response = await $axios.get(path);
+      if ([200, 201].includes(response.status)) {
+        await store.dispatch('getClient');
+        let redirectUrl = '/';
+        redirectUrl += query.redirect ? ((query.redirect[0] === '/')
+          ? query.redirect.slice(1)
+          : query.redirect) : '';
+        redirectUrl += redirectUrl.includes('?') ? '&' : '?';
+        if (response.status === 200) {
+          redirectUrl += 'status=logged_in_successfully';
+        } else {
+          redirectUrl += `status=authenticate_successfully&auth_name=${response.data.profile.name}`;
         }
+        redirect($.encode(redirectUrl));
+      } else if (response.status === 202 &&
+          response.data.name === 'authentication required') {
+        return {
+          mode: 'registerOrLogin',
+          username: response.data.auth.profile.screen_name,
+          site: query.site,
+          auth: response.data.auth,
+        };
+      } else if (response.status === 202 &&
+          response.data.name === 'already connected') {
+        return {
+          mode: 'switchAccount',
+          username: response.data.auth.profile.screen_name,
+          site: query.site,
+          auth: response.data.auth,
+          conflictClient: response.data.conflict,
+        };
+      }
+    } catch (err) {
+      redirect('/login', {
+        status: 'auth_failed',
+        redirect: query.redirect,
+      });
+    }
+  },
+  methods: {
+    async connect() {
+      this.mode = 'connecting';
+      try {
+        await this.$axios.post('/auth', { authId: this.auth.id });
+        this.$message.success(
+          `你的账号${this.$store.getters.getClient.username}已与 ${this.siteinfo}绑定成功`
+        );
+        await this.$store.dispatch('getClient');
+        this.$router.push(this.redirect);
       } catch (err) {
-        redirect('/login', {
-          status: 'auth_failed',
-          redirect: query.redirect,
+        this.$message.error(err);
+        this.$router.push({
+          path: 'login',
+          query: {
+            redirect: this.$route.query.redirect,
+          },
         });
       }
     },
-    head() {
-      return {
-        title: '绑定第三方账户',
-      };
-    },
-  };
+  },
+  head() {
+    return {
+      title: '绑定第三方账户',
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>
