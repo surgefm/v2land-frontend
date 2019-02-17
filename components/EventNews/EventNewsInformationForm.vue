@@ -5,6 +5,10 @@
     :rules="rules"
     label-width="72px"
   >
+    <el-form-item style="display: flex; justify-content: flex-end">
+      <autoformatting-switch v-model="autoFormatting" />
+    </el-form-item>
+
     <el-form-item
       label="新闻链接"
       prop="url"
@@ -21,7 +25,9 @@
     >
       <el-input
         v-model="form.title"
-        placeholder="百度财报解读:摆脱魏则西影响 两项重要指标未达预期"
+        placeholder="百度财报解读：摆脱魏则西影响 两项重要指标未达预期"
+        @blur="spacing('title')"
+        @focus="spacing('title')"
       />
     </el-form-item>
 
@@ -32,6 +38,8 @@
       <el-input
         v-model="form.source"
         placeholder="新浪科技"
+        @blur="spacing('source')"
+        @focus="spacing('source')"
       />
     </el-form-item>
 
@@ -44,6 +52,8 @@
         type="textarea"
         placeholder="百度最终在第二季度走出了监管阴影，这也成为自2016年第一季度以来百度首次真正实现同比增长…"
         :autosize="{ minRows: 3 }"
+        @blur="spacing('abstract')"
+        @focus="spacing('abstract')"
       />
     </el-form-item>
 
@@ -133,6 +143,7 @@
 </template>
 
 <script>
+import AutoFormattingSwitch from '~/components/AutoFormattingSwitch.vue';
 import EventStackInformationForm from '~/components/EventStack/EventStackInformationForm.vue';
 import DatePicker from 'element-ui/lib/date-picker';
 import '~/static/element/date-picker.css';
@@ -143,9 +154,13 @@ import getFormattedTime from '~/utils/getFormattedTime.js';
 import getLocalTime from '~/utils/getLocalTime.js';
 import isTimeValid from '~/utils/isTimeValid.js';
 
+import Pangu from 'pangu/src/shared/core';
+const { spacing } = Pangu;
+
 export default {
   components: {
     'el-date-picker': DatePicker,
+    'autoformatting-switch': AutoFormattingSwitch,
     'stack-information-form': EventStackInformationForm,
     'comment-editor': () => import(/* webpackChunkName:'editor' */ '~/components/Comment/Editor'),
   },
@@ -191,6 +206,7 @@ export default {
       },
       isSubmitting: false,
       commentTimeout: null,
+      autoFormatting: true,
       options: [
         { label: '过审', value: 'admitted' },
         { label: '拒绝', value: 'rejected' },
@@ -232,6 +248,7 @@ export default {
     if (this.stack) {
       this.form.stackId = this.stack.id;
     }
+    this.doAutoFormatting = this.autoFormatting;
   },
   mounted() {
     this.setComment(this.form.comment);
@@ -284,6 +301,11 @@ export default {
         }, 100);
       } else {
         this.$refs.comment.setDoc(doc);
+      }
+    },
+    spacing(attr) {
+      if (this.autoFormatting) {
+        this.form[attr] = spacing(this.form[attr]);
       }
     },
   },

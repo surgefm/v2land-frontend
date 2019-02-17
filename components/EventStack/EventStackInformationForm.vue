@@ -34,6 +34,9 @@
         label-width="80px"
         :rules="rules"
       >
+        <el-form-item style="display: flex; justify-content: flex-end">
+          <autoformatting-switch v-model="autoFormatting" />
+        </el-form-item>
         <el-form-item
           label="标题"
           prop="title"
@@ -42,6 +45,8 @@
             v-model="data.title"
             :placeholder="latestStack.title"
             class="input name"
+            @blur="spacing('title')"
+            @focus="spacing('title')"
           />
         </el-form-item>
         <el-form-item
@@ -53,6 +58,8 @@
             type="textarea"
             :autosize="{ minRows: 2, maxRows: 4}"
             :placeholder="latestStack.description"
+            @blur="spacing('description')"
+            @focus="spacing('description')"
           />
         </el-form-item>
         <el-form-item
@@ -86,6 +93,7 @@
 </template>
 
 <script>
+import AutoFormattingSwitch from '~/components/AutoFormattingSwitch.vue';
 import DatePicker from 'element-ui/lib/date-picker';
 import '~/static/element/date-picker.css';
 import '~/static/element/time-picker.css';
@@ -94,9 +102,13 @@ import '~/static/element/time-select.css';
 import getFormattedTime from '~/utils/getFormattedTime.js';
 import isTimeValid from '~/utils/isTimeValid.js';
 
+import Pangu from 'pangu/src/shared/core';
+const { spacing } = Pangu;
+
 export default {
   name: 'EventStackInformationForm',
   components: {
+    'autoformatting-switch': AutoFormattingSwitch,
     'el-date-picker': DatePicker,
   },
   props: {
@@ -108,6 +120,7 @@ export default {
       value: null,
       stackList: [],
       dialogVisible: false,
+      autoFormatting: true,
       data: {
         title: null,
         description: null,
@@ -176,6 +189,11 @@ export default {
     },
     clearTime() {
       this.data.time = null;
+    },
+    spacing(attr) {
+      if (this.autoFormatting) {
+        this.data[attr] = spacing(this.data[attr]);
+      }
     },
   },
 };
