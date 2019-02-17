@@ -13,6 +13,8 @@
         v-model="data.title"
         :placeholder="origStack.title"
         class="input name"
+        @blur="spacing('title')"
+        @focus="spacing('title')"
       />
     </el-form-item>
     <el-form-item
@@ -24,6 +26,8 @@
         type="textarea"
         :autosize="{ minRows: 2, maxRows: 4}"
         :placeholder="origStack.description"
+        @blur="spacing('description')"
+        @focus="spacing('description')"
       />
     </el-form-item>
     <el-form-item
@@ -90,12 +94,16 @@ import getFormattedTime from '~/utils/getFormattedTime.js';
 import getLocalTime from '~/utils/getLocalTime.js';
 import isTimeValid from '~/utils/isTimeValid.js';
 
+import Pangu from 'pangu/src/shared/core';
+const { spacing } = Pangu;
+
 export default {
   components: {
     'el-date-picker': DatePicker,
   },
   props: {
     'stack': Object,
+    'autoFormatting': Boolean,
   },
   data() {
     return {
@@ -162,6 +170,11 @@ export default {
           }
         }
       });
+    },
+    spacing(attr) {
+      if (this.autoFormatting) {
+        this.data[attr] = spacing(this.data[attr]);
+      }
     },
     clearTime() {
       this.data.time = null;
