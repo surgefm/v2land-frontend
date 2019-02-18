@@ -55,11 +55,6 @@ export default {
    ** Build configuration
    */
   build: {
-    vendor: [
-      'postman-url-encoder',
-      'js-cookie',
-      '~/const',
-    ],
     publicPath: config.publicPath,
   },
 

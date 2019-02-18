@@ -25,7 +25,7 @@
         </el-tooltip>
         <img
           class="large-screen-touch"
-          :src="src('icon-beta.svg')"
+          :src="src('icon.svg')"
           height="54px"
           @click="$router.push('/')"
           @mouseover="showTooltip = touch ? false : true"
@@ -34,7 +34,7 @@
         >
       </div>
       <img
-        :src="src('icon-beta-small.svg')"
+        :src="src('icon.svg')"
         height="40px"
         class="icon-small-screen"
         @click="$router.push('/')"

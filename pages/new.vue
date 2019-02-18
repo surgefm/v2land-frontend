@@ -3,7 +3,7 @@
     <card>
       <div class="title-container">
         <event-title>创建事件</event-title>
-        <autoformatting-switch v-model="autoFormatting" />
+        <autoformatting-switch style="padding-top: 8px" v-model="autoFormatting" />
       </div>
       <event-information-form
         ref="event-form"
