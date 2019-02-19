@@ -48,8 +48,8 @@ export default {
     },
     edit() {
       this.$router.push({
-        name: 'name-edit',
-        params: { name: this.event.name },
+        name: 'event-edit',
+        params: { name: this.event.id },
         query: { redirect: '/admin/event' },
       });
     },
