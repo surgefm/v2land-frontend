@@ -30,7 +30,7 @@
           <span class="light-font">{{ contrib.client ? contrib.client.username : '游客' }} </span>
           <span v-if="contrib.action === 'createNews'">投稿了该新闻</span>
           <span v-else-if="contrib.action === 'updateNewsStatus'">将状态改为
-            <span class="light-font">{{ getStatus(contrib.data.status) }}</span>
+            <span class="light-font">{{ getStatus(contrib.data) }}</span>
           </span>
         </p>
       </div>
@@ -88,7 +88,8 @@ export default {
       return string;
     },
     getStatus(input) {
-      switch (input) {
+      const status = input.status || input;
+      switch (status) {
       case 'admitted':
         return '审核通过';
       case 'pending':

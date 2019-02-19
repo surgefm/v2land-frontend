@@ -16,7 +16,7 @@
       <div class="icon-large-screen">
         <el-tooltip
           content="浪潮 - 渴望重回土地"
-          placement="right"
+          placement="bottom"
           effect="light"
           :manual="true"
           :value="showTooltip"
