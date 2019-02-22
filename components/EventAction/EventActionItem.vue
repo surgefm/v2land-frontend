@@ -13,6 +13,7 @@ import EventActionClientSetting from './EventActionClientSetting.vue';
 import EventActionClient from './EventActionClient.vue';
 import EventActionReturn from './EventActionReturn.vue';
 import EventActionHomepage from './EventActionHomepage.vue';
+import EventActionAbout from './EventActionAbout.vue';
 import EventActionTemporarySubscription from './EventActionTemporarySubscription.vue';
 
 export default {
@@ -31,6 +32,7 @@ export default {
     'event-action-client': EventActionClient,
     'event-action-return': EventActionReturn,
     'event-action-homepage': EventActionHomepage,
+    'event-action-about': EventActionAbout,
     'event-action-temporary-subscription': EventActionTemporarySubscription,
   },
   props: {

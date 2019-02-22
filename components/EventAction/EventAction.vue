@@ -60,7 +60,7 @@ export default {
       for (const i of [
         'admin-event', 'admin-admit', 'admin-client', 'create-event',
         'subscribe', 'temporary-subscription', 'post', 'admit', 'edit', 'subscription-list',
-        'edit-stack', 'client-setting', 'client', 'return', 'homepage',
+        'edit-stack', 'client-setting', 'client', 'return', 'homepage', 'about',
       ]) {
         let action = i.split('-');
         for (let j = 0; j < action.length; j++) {
@@ -123,7 +123,7 @@ export default {
           this.isClientAdmin) || this.isAdminDir;
     },
     showCreateEvent() {
-      return (this.isHomepage || this.isAdminDir) && this.isClientManager;
+      return this.isHomepage || this.isAdminDir;
     },
     showTemporarySubscription() {
       return this.isEventPage && !this.isClientManager;
@@ -161,6 +161,9 @@ export default {
     },
     showHomepage() {
       return !this.showReturn && !this.isHomepage;
+    },
+    showAbout() {
+      return this.isHomepage;
     },
   },
 };

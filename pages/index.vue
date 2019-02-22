@@ -1,54 +1,39 @@
 <template>
   <div class="homepage-container">
-    <card class="title-container hover">
-      <div class="img-background header-image" />
-      <img
-        v-lazy="config.static + '560x144/default.jpg'"
-        onload="this.id = 'show'"
-        class="header-image"
-      >
-      <logotype color="#333" />
-      <event-description class="title-description light-font">
-        你的社会事件追踪工具
-      </event-description>
-      <div class="title-button-container">
-        <nuxt-link to="/new">
-          <el-button
-            v-analytics="{ action: 'buttonClick', label: 'postEvent' }"
-            class="title-button"
-          >
-            创建事件
-          </el-button>
-        </nuxt-link>
-        <nuxt-link to="/about">
-          <el-button
-            v-analytics="{ action: 'buttonClick', label: 'aboutV2land' }"
-            class="title-button"
-            type="primary"
-          >
-            了解浪潮
-          </el-button>
-        </nuxt-link>
-      </div>
-    </card>
-    <event-card
-      v-for="event of eventList"
+    <div class="title-container">
+      <logotype
+        color="#333"
+        class="large"
+      />
+      <logotype
+        color="#333"
+        :height="32"
+        class="small"
+      />
+    </div>
+    <div
       v-if="!showLoader"
-      :key="event.id"
-      :event="event"
-      :fade="true"
-    />
-    <event-card-shimmer
-      v-for="(index) of new Array(3)"
-      v-if="showLoader"
-      :key="index"
-    />
-    <load-more
-      v-if="!showLoader"
-      :type="'event'"
+      class="card-container"
     >
-      加载更多
-    </load-more>
+      <event-card
+        v-for="event of eventList"
+        :key="event.id"
+        :event="event"
+        :fade="true"
+      />
+      <load-more :type="'event'">
+        加载更多
+      </load-more>
+    </div>
+    <div
+      v-else
+      class="card-container"
+    >
+      <event-card-shimmer
+        v-for="(index) of new Array(5)"
+        :key="index"
+      />
+    </div>
     <page-foot class="page-foot" />
   </div>
 </template>
@@ -57,14 +42,12 @@
 import config from '~/const';
 import EventCard from '~/components/EventCard/EventCard.vue';
 import EventCardShimmer from '~/components/EventCard/EventCardShimmer.vue';
-import EventDescription from '~/components/EventAbstract/EventAbstractDescription.vue';
 import LoadMore from '~/components/LoadMore.vue';
 
 export default {
   components: {
     'event-card': EventCard,
     'event-card-shimmer': EventCardShimmer,
-    'event-description': EventDescription,
     'load-more': LoadMore,
   },
   data() {
@@ -111,38 +94,40 @@ export default {
   }
 
   .title-container {
-    display: block;
-    position: relative;
-    padding: 10.5rem 1.5rem .5rem 1.5rem !important;
-  }
-
-  .title-container .header-image {
-    width: 100%;
-    height: 9rem;
-    object-fit: cover;
     position: absolute;
-    top: 0;
-    left: 0;
-    border-top-left-radius: .5rem;
-    border-top-right-radius: .5rem;
-  }
-
-  .title-description {
-    margin-top: 0 !important;
-  }
-
-  .title-button-container {
+    top: 2.6rem;
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
+    align-items: flex-end;
+    max-width: 35rem;
+    width: 100%;
   }
 
-  .title-button {
-    margin: .5rem 0 1rem .5rem;
+  .small {
+    display: none;
+  }
+
+  .card-container {
+    max-width: 35rem;
+    width: 100%;
   }
 
   @media (max-width: 600px) {
     .homepage-container {
-      padding: 4rem 1rem 1rem 1rem;
+      padding: 5.5rem 1rem 1rem 1rem;
+    }
+
+    .large {
+      display: none;
+    }
+
+    .small {
+      display: block;
+    }
+
+    .title-container {
+      top: 3rem;
+      padding: 0 1rem;
     }
   }
 </style>
