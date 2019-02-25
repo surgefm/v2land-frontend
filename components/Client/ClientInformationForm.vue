@@ -12,11 +12,11 @@
       </div>
       <el-form-item
         label="用户名"
-        :class="!(isAdmin ||isSelf) || 'edit'"
+        :class="!(isAdmin) || 'edit'"
         prop="username"
       >
         <el-input
-          v-if="isAdmin || isSelf"
+          v-if="isAdmin"
           v-model="form.username"
         />
         <span v-else>{{ form.username }}</span>
