@@ -191,6 +191,11 @@ img[lazy=loaded] {
   font-size: 12px
 }
 
+.el-collapse-item__header {
+  min-height: 48px;
+  height: auto;
+}
+
 .arrange-stack .el-collapse-item__arrow {
   display: none;
 }

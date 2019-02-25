@@ -18,5 +18,10 @@ export default {
   async asyncData({ store }) {
     return store.dispatch('getClient');
   },
+  head() {
+    return {
+      title: '用户设置 - 浪潮，你的社会事件追踪工具',
+    };
+  },
 };
 </script>

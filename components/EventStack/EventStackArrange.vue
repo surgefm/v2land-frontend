@@ -10,7 +10,7 @@
       <draggable
         v-model="formalStackList"
         :options="{ group: 'stacks' }"
-        class="draggable-area arrange-stack"
+        :class="['draggable-area', 'arrange-stack', !reversed || 'reversed']"
       >
         <el-collapse-item
           v-for="(stack, i) of formalStackList"
@@ -23,21 +23,21 @@
                 {{ formalStackList.length - i }}.
                 {{ stack.title }} -
                 {{ getTime(stack) || '无初始日期' }}
+                <el-tag
+                  v-if="i === 0"
+                  size="mini"
+                  :disable-transitions="true"
+                >
+                  最新进展
+                </el-tag>
+                <el-tag
+                  v-else-if="i === formalStackList.length - 1"
+                  size="mini"
+                  :disable-transitions="true"
+                >
+                  首个进展
+                </el-tag>
               </span>
-              <el-tag
-                v-if="i === 0"
-                size="mini"
-                :disable-transitions="true"
-              >
-                最新进展
-              </el-tag>
-              <el-tag
-                v-else-if="i === formalStackList.length - 1"
-                size="mini"
-                :disable-transitions="true"
-              >
-                首个进展
-              </el-tag>
             </div>
           </template>
           <p>{{ stack.description }}</p>
@@ -126,6 +126,7 @@ export default {
   },
   props: {
     'event': Object,
+    'reversed': Boolean,
   },
   data() {
     return {
@@ -213,6 +214,8 @@ export default {
   .draggable-area {
     min-height: 3rem;
     width: 100%;
+    display: flex;
+    flex-direction: column;
   }
 
   .draggable-area:not(.help) {
@@ -228,6 +231,10 @@ export default {
     top: 0;
     z-index: -100;
     font-size: 14px;
+  }
+
+  .reversed {
+    flex-direction: column-reverse;
   }
 
   .collapse-title {
