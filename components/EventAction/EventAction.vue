@@ -126,10 +126,10 @@ export default {
       return this.isHomepage || this.isAdminDir;
     },
     showTemporarySubscription() {
-      return this.isEventPage && !this.isClientManager;
+      return false;
     },
     showSubscribe() {
-      return this.isEventPage && this.isClientManager;
+      return this.isEventPage;
     },
     showPost() {
       return this.showSubscribe && !this.isLoggingIn && this.isClientManager;
