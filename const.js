@@ -9,6 +9,7 @@ module.exports = {
   ga: 'UA-109441031-1', // Google Analytics
   // typekit: 'zmq2epg',
   // justfont: '54014',
+  requireInvitationCode: false,
   cdn,
   publicPath,
 };

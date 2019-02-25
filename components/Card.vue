@@ -22,6 +22,7 @@ export default { name: 'Card' };
     z-index: 1000;
     box-shadow: none;
     transition: all .2s;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   }
 
   .card:hover {
