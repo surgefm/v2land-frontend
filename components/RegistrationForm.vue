@@ -36,6 +36,7 @@
         />
       </el-form-item>
       <el-form-item
+        v-if="requireInvitationCode"
         label="邀请码"
         prop="code"
       >
@@ -64,6 +65,8 @@
 </template>
 
 <script>
+import config from '~/const.js';
+
 export default {
   props: {
     username: String,
@@ -91,10 +94,12 @@ export default {
           { required: true, message: '请输入密码', trigger: 'blur' },
           { validator: this.validatePassword, trigger: 'blur' },
         ],
-        code: [
-          { required: true, message: '请输入邀请码', trigger: 'blur' },
-          { validator: this.validateCode, trigger: 'blur' },
-        ],
+        ...(!this.requireInvitationCode ? {} : {
+          code: [
+            { required: true, message: '请输入邀请码', trigger: 'blur' },
+            { validator: this.validateCode, trigger: 'blur' },
+          ],
+        }),
       },
     };
   },
@@ -109,6 +114,9 @@ export default {
         }
       }
       return '';
+    },
+    requireInvitationCode() {
+      return config.requireInvitationCode;
     },
   },
   created() {

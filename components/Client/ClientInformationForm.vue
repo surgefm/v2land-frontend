@@ -53,7 +53,7 @@
         <span v-else>{{ form.email }}</span>
       </el-form-item>
       <div
-        v-if="isAdmin || isSelf"
+        v-if="isAdmin"
         class="submit-button-group"
       >
         <el-button
