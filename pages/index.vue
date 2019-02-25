@@ -114,7 +114,7 @@ export default {
 
   @media (max-width: 600px) {
     .homepage-container {
-      padding: 5.5rem 1rem 1rem 1rem;
+      padding: 6rem 1rem 1rem 1rem;
     }
 
     .large {
