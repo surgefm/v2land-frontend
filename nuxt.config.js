@@ -85,6 +85,7 @@ export default {
     '~/static/element/loading.css',
     '~/static/element/tag.css',
     '~/static/element/switch.css',
+    '~/static/element/checkbox.css',
   ],
 
   plugins,

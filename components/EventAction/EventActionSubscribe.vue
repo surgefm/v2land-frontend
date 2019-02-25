@@ -193,7 +193,7 @@ export default {
         this.tabLoading = true;
         const url = $.encode(`subscription/${this.$route.params.name}`);
         await this.$axios.post(url, {
-          mode: 'new',
+          mode: 'EveryNewStack',
           contact: {
             method: 'email',
             email: this.$store.getters.getClient.email,

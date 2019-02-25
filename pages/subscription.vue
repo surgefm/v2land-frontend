@@ -39,5 +39,13 @@ export default {
       return this.$store.getters.getSubscriptionList;
     },
   },
+  async asyncData({ store }) {
+    await store.dispatch('getClient');
+  },
+  head() {
+    return {
+      title: '关注列表 - 浪潮，你的社会事件追踪工具',
+    };
+  },
 };
 </script>

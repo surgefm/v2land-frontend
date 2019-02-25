@@ -17,6 +17,7 @@ import Dialog from 'element-ui/lib/dialog';
 import Loading from 'element-ui/lib/loading';
 import Tag from 'element-ui/lib/tag';
 import Switch from 'element-ui/lib/switch';
+import Checkbox from 'element-ui/lib/checkbox';
 
 Vue.use(Button);
 Vue.use(ButtonGroup);
@@ -35,6 +36,7 @@ Vue.use(Dialog);
 Vue.use(Loading);
 Vue.use(Tag);
 Vue.use(Switch);
+Vue.use(Checkbox);
 
 Vue.prototype.$message = Message;
 

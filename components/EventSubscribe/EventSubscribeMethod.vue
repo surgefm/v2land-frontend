@@ -155,11 +155,14 @@ export default {
     },
   },
   created() {
-    this.form.method = this.$route.query.method ||
-        this.$store.state.subscribe.contact.method ||
-        this.form.method;
-    this.form[this.form.method] = this.$route.query.address ||
-        this.$store.state.subscribe.contact.address;
+    this.form.method = this.$route.query.method || this.form.method;
+    if (this.$store.state.subscribe.contact) {
+      this.form.method = this.$store.state.subscribe.contact.method;
+      this.form[this.form.method] = this.$store.state.subscribe.contact.address;
+    } else {
+      this.form[this.form.method] = this.$route.query.address;
+    }
+
 
     if (this.getTwitter[0]) {
       this.form.twitter = this.getTwitter[0].id;

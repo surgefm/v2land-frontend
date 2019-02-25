@@ -31,7 +31,7 @@ export default {
   data() {
     return {
       form: {
-        mode: '7DaysSinceLatestNews',
+        mode: 'EveryNewStack',
       },
       rules: {
         mode: [
@@ -40,14 +40,14 @@ export default {
       },
       simpleMode: [
         {
-          label: '每当有新的新闻时提醒我',
-          value: 'new',
+          label: '每当有新的进展时提醒我',
+          value: 'EveryNewStack',
         }, {
-          label: '从现在起每周提醒我',
-          value: 'weekly',
+          label: '每周五提醒我',
+          value: 'EveryFriday',
         }, {
-          label: '每当事件有七天没有新的新闻时提醒我',
-          value: '7DaysSinceLatestNews',
+          label: '在事件有 30 天没有新消息时提醒我',
+          value: '30DaysSinceLatestStack',
         },
       ],
     };
