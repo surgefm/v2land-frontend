@@ -29,6 +29,22 @@
           target="_blank"
         >参与项目开发</a>
       </div>
+      <div class="about-v2land">
+        <a
+          href="https://twitter.com/langchao_org"
+          target="_blank"
+        >Twitter</a>
+        <span>·</span>
+        <a
+          href="https://www.weibo.com/v2land"
+          target="_blank"
+        >微博</a>
+        <span>·</span>
+        <a
+          href="https://t.me/joinchat/AwWDRE3b5ZasxWROvz4y7w"
+          target="_blank"
+        >Telegram 交流群</a>
+      </div>
       <span>
         本站与<a
           href="http://langchao.com"

@@ -51,6 +51,8 @@
       </draggable>
     </el-collapse>
     <div class="save-button">
+      <span>发布推送</span>
+      <el-switch v-model="enableNotification" />
       <el-button
         size="medium"
         type="primary"
@@ -136,6 +138,7 @@ export default {
       dialogVisible: false,
       stackEdited: null,
       saving: false,
+      enableNotification: true,
     };
   },
   async created() {
@@ -159,6 +162,7 @@ export default {
         for (let i = this.formalStackList.length - 1; i >= 0; i--) {
           changeList.push({
             id: this.formalStackList[this.formalStackList.length - i - 1].id,
+            enableNotification: this.enableNotification,
             order: i,
           });
         }
@@ -166,6 +170,7 @@ export default {
           if (stack.order >= 0) {
             changeList.push({
               id: stack.id,
+              enableNotification: this.enableNotification,
               order: -1,
             });
           }
@@ -251,7 +256,16 @@ export default {
   .save-button {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
     margin-top: .5rem;
+  }
+
+  .save-button > * {
+    margin-left: .5rem;
+  }
+
+  .save-button span {
+    font-size: 14px;
   }
 
   .subtitle {

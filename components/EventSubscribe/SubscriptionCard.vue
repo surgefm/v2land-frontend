@@ -20,7 +20,7 @@
         <el-button
           type="primary"
           size="mini"
-          @click="unsubscribe"
+          @click="() => unsubscribe()"
         >
           确认
         </el-button>
