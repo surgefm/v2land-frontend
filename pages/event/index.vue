@@ -1,33 +1,39 @@
 <template>
-  <background>
-    <event-abstract-loader v-if="showLoader" />
-    <!-- <event-news-loader
-      v-if="showLoader"
-      v-for="(index) of new Array(3)"
-      :key="index"
-    /> -->
-    <event-abstract
-      v-if="!showLoader"
-      :detail="event"
-    />
-    <div
-      v-for="(stack, i) of stackCollection"
-      v-if="!showLoader"
-      :id="'i' + stack.id"
-      :key="stack.id"
-      class="stack"
-    >
-      <event-stack
-        :id="'stack-' + stack.id"
-        class="stack"
-        :stack="stack"
-        :order="stackCollection.length - i"
-        :event="event"
-        :is-latest-stack="i === 0"
+  <div class="event-main">
+    <background>
+      <event-abstract-loader v-if="showLoader" />
+      <!-- <event-news-loader
+        v-if="showLoader"
+        v-for="(index) of new Array(3)"
+        :key="index"
+      /> -->
+      <event-abstract
+        v-if="!showLoader"
+        :detail="event"
       />
-    </div>
-    <page-foot />
-  </background>
+      <div
+        v-for="(stack, i) of stackCollection"
+        v-if="!showLoader"
+        :id="'i' + stack.id"
+        :key="stack.id"
+        class="stack"
+      >
+        <event-stack
+          :id="'stack-' + stack.id"
+          class="stack"
+          :stack="stack"
+          :order="stackCollection.length - i"
+          :event="event"
+          :is-latest-stack="i === 0"
+        />
+      </div>
+      <page-foot />
+    </background>
+    <sidebar
+      :detail="event"
+      :stack-collection="stackCollection"
+    />
+  </div>
 </template>
 
 <script>
@@ -35,12 +41,14 @@ import config from '~/const';
 import EventAbstract from '~/components/EventAbstract/EventAbstract.vue';
 import EventAbstractLoader from '~/components/EventAbstract/EventAbstractLoader.vue';
 import EventStack from '~/components/EventStack/EventStack.vue';
+import Sidebar from '~/components/Sidebar';
 
 export default {
   components: {
     'event-abstract': EventAbstract,
     'event-abstract-loader': EventAbstractLoader,
     'event-stack': EventStack,
+    Sidebar,
   },
   data() {
     return {
