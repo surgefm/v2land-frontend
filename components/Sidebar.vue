@@ -13,7 +13,7 @@
           :class="{'is-active': currentId === event.id}"
           @click="fnClick(event)"
         >
-          <a :href="`#i${event.id}`">{{ event.title }}</a>
+          <a :href="`#i${event.id}`">{{ index + 1 }}、{{ event.title }}</a>
         </div>
       </div>
     </div>
@@ -40,16 +40,34 @@ export default {
     },
   },
   mounted() {
+    const self = this;
     window.onload = () => {
       const eventId = this.hash.slice(1);
-      const top = document.getElementById(eventId).getBoundingClientRect().top;
       if (this.hash) {
+        const top = document.getElementById(eventId).getBoundingClientRect().top;
         window.scrollTo({
-          top: top,
+          top: top + 1,
           behavior: 'smooth',
         });
       }
       // window.onhashchange = () => {}
+      // 获取子事件所有文档高度
+      const eventOffsetTops = [];
+      this.stackCollection.forEach(event => {
+        const offsetTop = document.getElementById(`i${event.id}`).offsetTop;
+        eventOffsetTops.push(offsetTop);
+      });
+      const eventLength = eventOffsetTops.length;
+      window.onscroll = () => {
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        eventOffsetTops.forEach((top, index) => {
+          if (scrollTop < eventOffsetTops[eventLength - 1]) {
+            if (scrollTop >= top && scrollTop <= eventOffsetTops[index + 1]) {
+              self.hash = `#i${self.stackCollection[index]['id']}`;
+            }
+          }
+        });
+      };
     };
   },
   methods: {
