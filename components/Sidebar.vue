@@ -1,19 +1,25 @@
 <template>
-  <div class="post-nav">
-    <div class="nav-head">
-      {{ detail.name }}
-    </div>
-    <div class="nav-body">
-      <!-- <div class="nav-line is-active" /> -->
-      <div class="nav-list">
-        <div
-          v-for="(event, index) in stackCollection"
-          :key="index"
-          class="nav-item"
-          :class="{'is-active': currentId === event.id}"
-          @click="fnClick(event)"
-        >
-          <a :href="`#i${event.id}`">{{ index + 1 }}、{{ event.title }}</a>
+  <div class="post-sidebar">
+    <div class="post-sidebar__inner">
+      <div class="post-nav">
+        <div class="nav-head">
+          {{ detail.name }}
+        </div>
+        <div class="nav-body">
+          <!-- <div class="nav-line is-active" /> -->
+          <div class="nav-list">
+            <div
+              v-for="(event, index) in stackCollection"
+              :key="index"
+              class="nav-item"
+              :class="{'is-active': currentId === event.id}"
+              @click="fnClick(event)"
+            >
+              <!-- <a :href="`#i${event.id}`">{{ event.title }}</a> -->
+              <a href="javascript:void(0);">{{ event.title }}</a>
+              <span>{{ stackCollection.length - index }}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -21,6 +27,7 @@
 </template>
 
 <script>
+const GAP_HEIGHT = 50; // 距离可视区域顶部空隙
 export default {
   name: 'Sidebar',
   props: {
@@ -44,36 +51,40 @@ export default {
     window.onload = () => {
       const eventId = this.hash.slice(1);
       if (this.hash) {
-        const top = document.getElementById(eventId).getBoundingClientRect().top;
+        const top = document.getElementById(eventId).offsetTop;
         window.scrollTo({
-          top: top + 1,
+          top: top - GAP_HEIGHT,
           behavior: 'smooth',
         });
-      }
-      // window.onhashchange = () => {}
-      // 获取子事件所有文档高度
-      const eventOffsetTops = [];
-      this.stackCollection.forEach(event => {
-        const offsetTop = document.getElementById(`i${event.id}`).offsetTop;
-        eventOffsetTops.push(offsetTop);
-      });
-      const eventLength = eventOffsetTops.length;
-      window.onscroll = () => {
-        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-        eventOffsetTops.forEach((top, index) => {
-          if (scrollTop < eventOffsetTops[eventLength - 1]) {
-            if (scrollTop >= top && scrollTop <= eventOffsetTops[index + 1]) {
-              self.hash = `#i${self.stackCollection[index]['id']}`;
-            }
-          }
+        // 获取子事件所有文档高度
+        const eventOffsetTops = [];
+        this.stackCollection.forEach(event => {
+          const offsetTop = document.getElementById(`i${event.id}`).offsetTop;
+          eventOffsetTops.push(offsetTop);
         });
-      };
+        const eventLength = eventOffsetTops.length;
+        window.onscroll = () => {
+          const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+          eventOffsetTops.forEach((top, index) => {
+            if (scrollTop < eventOffsetTops[eventLength - 1]) {
+              if (scrollTop + GAP_HEIGHT >= top && scrollTop <= eventOffsetTops[index + 1]) {
+                self.hash = `#i${self.stackCollection[index]['id']}`;
+              }
+            }
+          });
+        };
+      }
     };
   },
   methods: {
     fnClick(event) {
-      // this.currentId = event.id;
       this.hash = `#i${event.id}`;
+      // this.$router.push(`#i${event.id}`);
+      const top = document.getElementById(`i${event.id}`).offsetTop;
+      window.scrollTo({
+        top: top - GAP_HEIGHT,
+        behavior: 'smooth',
+      });
     },
   },
 };
@@ -81,16 +92,31 @@ export default {
 
 
 <style lang="scss" scoped>
+  .post-sidebar {
+    position: fixed;
+    display: flex;
+    top: 7rem;
+    left: 0;
+    width: 100%;
+    justify-content: center;
+    &__inner {
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+      align-items: flex-start;
+      max-width: 82rem;
+    }
+  }
   .post-nav {
     // position: sticky;
-    position: fixed;
-    top: 7rem;
-    right: 5rem;
-    width: 280px;
+    // position: fixed;
+    // top: 7rem;
+    // left: 19rem;
+    width: 300px;
     height: 460px;
     .nav-head {
       padding: 10px 15px;
-      border-left: 1px solid #eee;
+      border-right: 1px solid #eee;
       color: #1e8bc3;
       font-size: 18px;
     }
@@ -99,7 +125,7 @@ export default {
       height: 460px;
       overflow: scroll;
       scroll-behavior: smooth;
-      border-left: 1px solid #eee;
+      border-right: 1px solid #eee;
       &::-webkit-scrollbar {
         display: none;
       }
@@ -110,36 +136,42 @@ export default {
       left: 0px;
       right: 0px;
       height: 25px;
-      border-left: 2px solid #1e8bc3;
+      border-right: 2px solid #1e8bc3;
       transition: ease .3s;
     }
     .nav-list {
       .nav-item {
         position: relative;
+        display: flex;
+        justify-content: space-between;
         height: 25px;
-        border-left: 2px solid transparent;
+        border-right: 2px solid transparent;
         transition: ease .3s;
+        font-size: 12px;
+        color: #404040;
         >a {
           display: block;
-          padding: 0 15px;
           height: 25px;
           line-height: 25px;
-          color: #404040;
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
-          font-size: 12px;
           cursor: pointer;
+          color: inherit;
           transition: ease .3s;
         }
+        >span {
+          padding: 0 10px;
+        }
         &.is-active {
-          border-left: 2px solid #1e8bc3;
+          border-right: 2px solid #1e8bc3;
+          animation: 1s linear 0s alternate emphasize;
           >a {
             color: #1e8bc3;
           }
         }
         &:hover {
-          border-left: 2px solid #1e8bc3;
+          border-right: 2px solid #1e8bc3;
           >a {
             color: #1e8bc3;
           }
