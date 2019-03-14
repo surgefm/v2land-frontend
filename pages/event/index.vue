@@ -30,6 +30,7 @@
       <page-foot />
     </background>
     <sidebar
+      v-if="stackCollection.length"
       :detail="event"
       :stack-collection="stackCollection"
     />
