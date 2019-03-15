@@ -21,6 +21,7 @@
         <event-stack
           :id="'stack-' + stack.id"
           class="stack"
+          :class="{'emphasize': stackId === stack.id}"
           :stack="stack"
           :order="stackCollection.length - i"
           :event="event"
@@ -33,6 +34,7 @@
       v-if="stackCollection.length"
       :detail="event"
       :stack-collection="stackCollection"
+      @fnLight="handleLight"
     />
   </div>
 </template>
@@ -54,6 +56,7 @@ export default {
   data() {
     return {
       showLoader: false,
+      stackId: '',
     };
   },
   computed: {
@@ -137,6 +140,9 @@ export default {
       if (!this.$store.getters.isServer) {
         this.scrollToNews();
       }
+    },
+    handleLight(stack) {
+      this.stackId = stack.id;
     },
   },
   head() {

@@ -56,24 +56,25 @@ export default {
           top: top - GAP_HEIGHT,
           behavior: 'smooth',
         });
-        // 获取子事件所有文档高度
-        const eventOffsetTops = [];
-        this.stackCollection.forEach(event => {
-          const offsetTop = document.getElementById(`i${event.id}`).offsetTop;
-          eventOffsetTops.push(offsetTop);
-        });
-        const eventLength = eventOffsetTops.length;
-        window.onscroll = () => {
-          const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-          eventOffsetTops.forEach((top, index) => {
-            if (scrollTop < eventOffsetTops[eventLength - 1]) {
-              if (scrollTop + GAP_HEIGHT >= top && scrollTop <= eventOffsetTops[index + 1]) {
-                self.hash = `#i${self.stackCollection[index]['id']}`;
-              }
-            }
-          });
-        };
       }
+      // 获取子事件所有文档高度
+      const eventOffsetTops = [];
+      this.stackCollection.forEach(event => {
+        const offsetTop = document.getElementById(`i${event.id}`).offsetTop;
+        eventOffsetTops.push(offsetTop);
+      });
+      const eventLength = eventOffsetTops.length;
+      window.onscroll = () => {
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        eventOffsetTops.forEach((top, index) => {
+          if (scrollTop < eventOffsetTops[eventLength - 1]) {
+            if (scrollTop + GAP_HEIGHT >= top && scrollTop <= eventOffsetTops[index + 1]) {
+              self.hash = `#i${self.stackCollection[index]['id']}`;
+              self.$emit('fnLight', self.stackCollection[index]);
+            }
+          }
+        });
+      };
     };
   },
   methods: {
@@ -116,9 +117,11 @@ export default {
     height: 460px;
     .nav-head {
       padding: 10px 15px;
+      line-height: 1.2;
       border-right: 1px solid #eee;
       color: #1e8bc3;
       font-size: 18px;
+      text-align: right;
     }
     .nav-body {
       position: relative;
@@ -143,7 +146,7 @@ export default {
       .nav-item {
         position: relative;
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-end;
         height: 25px;
         border-right: 2px solid transparent;
         transition: ease .3s;
@@ -165,7 +168,7 @@ export default {
         }
         &.is-active {
           border-right: 2px solid #1e8bc3;
-          animation: 1s linear 0s alternate emphasize;
+          // animation: 1s linear 0s alternate emphasize;
           >a {
             color: #1e8bc3;
           }
