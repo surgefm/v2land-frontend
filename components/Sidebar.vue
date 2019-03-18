@@ -70,7 +70,7 @@ export default {
           if (scrollTop < eventOffsetTops[eventLength - 1]) {
             if (scrollTop + GAP_HEIGHT >= top && scrollTop <= eventOffsetTops[index + 1]) {
               self.hash = `#i${self.stackCollection[index]['id']}`;
-              self.$emit('fnLight', self.stackCollection[index]);
+              // self.$emit('fnLight', self.stackCollection[index]);
             }
           }
         });
@@ -86,6 +86,12 @@ export default {
         top: top - GAP_HEIGHT,
         behavior: 'smooth',
       });
+      window.onscroll = () => {
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        if (top - GAP_HEIGHT === scrollTop) {
+          this.$emit('fnLight', event);
+        }
+      };
     },
   },
 };
@@ -105,7 +111,7 @@ export default {
       width: 100%;
       flex-direction: column;
       align-items: flex-start;
-      max-width: 82rem;
+      max-width: 72rem;
     }
   }
   .post-nav {
@@ -113,8 +119,8 @@ export default {
     // position: fixed;
     // top: 7rem;
     // left: 19rem;
-    width: 300px;
-    height: 460px;
+    width: 240px;
+    max-height: 460px;
     .nav-head {
       padding: 10px 15px;
       line-height: 1.2;
@@ -125,7 +131,7 @@ export default {
     }
     .nav-body {
       position: relative;
-      height: 460px;
+      max-height: 460px;
       overflow: scroll;
       scroll-behavior: smooth;
       border-right: 1px solid #eee;
@@ -182,7 +188,7 @@ export default {
       }
     }
   }
-  @media (max-width: 600px) {
+  @media (max-width: 1175px) {
     .post-nav {
       display: none;
     }
