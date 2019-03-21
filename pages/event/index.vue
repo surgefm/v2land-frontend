@@ -1,42 +1,35 @@
 <template>
-  <div class="event-main">
-    <background>
-      <event-abstract-loader v-if="showLoader" />
-      <!-- <event-news-loader
-        v-if="showLoader"
-        v-for="(index) of new Array(3)"
-        :key="index"
-      /> -->
-      <event-abstract
-        v-if="!showLoader"
-        :detail="event"
-      />
-      <div
-        v-for="(stack, i) of stackCollection"
-        v-if="!showLoader"
-        :id="'i' + stack.id"
-        :key="stack.id"
+  <background>
+    <event-abstract-loader v-if="showLoader" />
+    <event-abstract
+      v-if="!showLoader"
+      :detail="event"
+    />
+    <div
+      v-for="(stack, i) of stackCollection"
+      v-if="!showLoader"
+      :id="'i' + stack.id"
+      :key="stack.id"
+      class="stack"
+    >
+      <event-stack
+        :id="'stack-' + stack.id"
         class="stack"
-      >
-        <event-stack
-          :id="'stack-' + stack.id"
-          class="stack"
-          :class="{'emphasize': stackId === stack.id}"
-          :stack="stack"
-          :order="stackCollection.length - i"
-          :event="event"
-          :is-latest-stack="i === 0"
-        />
-      </div>
-      <page-foot />
-    </background>
+        :class="{'emphasize': stackId === stack.id}"
+        :stack="stack"
+        :order="stackCollection.length - i"
+        :event="event"
+        :is-latest-stack="i === 0"
+      />
+    </div>
+    <page-foot />
     <sidebar
       v-if="stackCollection.length"
       :detail="event"
       :stack-collection="stackCollection"
       @fnLight="handleLight"
     />
-  </div>
+  </background>
 </template>
 
 <script>

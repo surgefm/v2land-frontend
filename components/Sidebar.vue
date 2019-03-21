@@ -6,19 +6,15 @@
           {{ detail.name }}
         </div>
         <div class="nav-body">
-          <!-- <div class="nav-line is-active" /> -->
-          <div class="nav-list">
-            <div
-              v-for="(event, index) in stackCollection"
-              :key="index"
-              class="nav-item"
-              :class="{'is-active': currentId === event.id}"
-              @click="fnClick(event)"
-            >
-              <!-- <a :href="`#i${event.id}`">{{ event.title }}</a> -->
-              <a href="javascript:void(0);">{{ event.title }}</a>
-              <span>{{ stackCollection.length - index }}</span>
-            </div>
+          <div
+            v-for="(event, index) in stackCollection"
+            :key="index"
+            class="nav-item"
+            :class="{'is-active': currentId === event.id}"
+            @click="fnClick(event)"
+          >
+            <a href="javascript:void(0);">{{ event.title }}</a>
+            <span>{{ stackCollection.length - index }}</span>
           </div>
         </div>
       </div>
@@ -36,7 +32,6 @@ export default {
   },
   data() {
     return {
-      // currentId: '',
       hash: this.$route.hash,
     };
   },
@@ -48,7 +43,7 @@ export default {
   },
   mounted() {
     const self = this;
-    window.onload = () => {
+    setTimeout(() => {
       const eventId = this.hash.slice(1);
       if (this.hash) {
         const top = document.getElementById(eventId).offsetTop;
@@ -57,41 +52,34 @@ export default {
           behavior: 'smooth',
         });
       }
-      // 获取子事件所有文档高度
-      const eventOffsetTops = [];
+      // 获取进展所有文档高度
+      const stackOffsetTops = [];
       this.stackCollection.forEach(event => {
         const offsetTop = document.getElementById(`i${event.id}`).offsetTop;
-        eventOffsetTops.push(offsetTop);
+        stackOffsetTops.push(offsetTop);
       });
-      const eventLength = eventOffsetTops.length;
+      const stackLength = stackOffsetTops.length;
       window.onscroll = () => {
         const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-        eventOffsetTops.forEach((top, index) => {
-          if (scrollTop < eventOffsetTops[eventLength - 1]) {
-            if (scrollTop + GAP_HEIGHT >= top && scrollTop <= eventOffsetTops[index + 1]) {
-              self.hash = `#i${self.stackCollection[index]['id']}`;
-              // self.$emit('fnLight', self.stackCollection[index]);
-            }
+        const scroll = scrollTop + 80;
+        stackOffsetTops.forEach((top, index) => {
+          if (scroll < stackOffsetTops[stackLength - 1] &&
+            scroll + GAP_HEIGHT >= top && scroll <= stackOffsetTops[index + 1]) {
+            self.hash = `#i${self.stackCollection[index]['id']}`;
           }
         });
       };
-    };
+    }, 0);
   },
   methods: {
     fnClick(event) {
       this.hash = `#i${event.id}`;
-      // this.$router.push(`#i${event.id}`);
       const top = document.getElementById(`i${event.id}`).offsetTop;
       window.scrollTo({
         top: top - GAP_HEIGHT,
         behavior: 'smooth',
       });
-      window.onscroll = () => {
-        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-        if (top - GAP_HEIGHT === scrollTop) {
-          this.$emit('fnLight', event);
-        }
-      };
+      setTimeout(() => this.$emit('fnLight', event), 500);
     },
   },
 };
@@ -115,10 +103,6 @@ export default {
     }
   }
   .post-nav {
-    // position: sticky;
-    // position: fixed;
-    // top: 7rem;
-    // left: 19rem;
     width: 240px;
     max-height: 460px;
     .nav-head {
@@ -148,42 +132,40 @@ export default {
       border-right: 2px solid #1e8bc3;
       transition: ease .3s;
     }
-    .nav-list {
-      .nav-item {
-        position: relative;
-        display: flex;
-        justify-content: flex-end;
+    .nav-item {
+      position: relative;
+      display: flex;
+      justify-content: flex-end;
+      height: 25px;
+      border-right: 2px solid transparent;
+      transition: ease .3s;
+      font-size: 12px;
+      color: #404040;
+      >a {
+        display: block;
         height: 25px;
-        border-right: 2px solid transparent;
+        line-height: 25px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        cursor: pointer;
+        color: inherit;
         transition: ease .3s;
-        font-size: 12px;
-        color: #404040;
+      }
+      >span {
+        padding: 0 10px;
+      }
+      &.is-active {
+        border-right: 2px solid #1e8bc3;
+        // animation: 1s linear 0s alternate emphasize;
         >a {
-          display: block;
-          height: 25px;
-          line-height: 25px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          cursor: pointer;
-          color: inherit;
-          transition: ease .3s;
+          color: #1e8bc3;
         }
-        >span {
-          padding: 0 10px;
-        }
-        &.is-active {
-          border-right: 2px solid #1e8bc3;
-          // animation: 1s linear 0s alternate emphasize;
-          >a {
-            color: #1e8bc3;
-          }
-        }
-        &:hover {
-          border-right: 2px solid #1e8bc3;
-          >a {
-            color: #1e8bc3;
-          }
+      }
+      &:hover {
+        border-right: 2px solid #1e8bc3;
+        >a {
+          color: #1e8bc3;
         }
       }
     }
