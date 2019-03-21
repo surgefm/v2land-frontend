@@ -24,6 +24,8 @@
 
 <script>
 const GAP_HEIGHT = 50; // 距离可视区域顶部空隙
+let manualScroll;
+let initScroll;
 export default {
   name: 'Sidebar',
   props: {
@@ -41,45 +43,59 @@ export default {
       return currentId;
     },
   },
+  destroyed() {
+    window.removeEventListener('scroll', initScroll);
+  },
   mounted() {
     const self = this;
-    setTimeout(() => {
-      const eventId = this.hash.slice(1);
-      if (this.hash) {
-        const top = document.getElementById(eventId).offsetTop;
+    const eventId = self.hash.slice(1);
+    if (self.hash) {
+      const top = document.getElementById(eventId).offsetTop;
+      window.onload = () => {
         window.scrollTo({
           top: top - GAP_HEIGHT,
           behavior: 'smooth',
         });
-      }
+      };
+    }
+    initScroll = function() {
       // 获取进展所有文档高度
       const stackOffsetTops = [];
-      this.stackCollection.forEach(event => {
-        const offsetTop = document.getElementById(`i${event.id}`).offsetTop;
+      self.stackCollection.forEach(event => {
+        const element = document.getElementById(`i${event.id}`);
+        const offsetTop = element && element.offsetTop;
         stackOffsetTops.push(offsetTop);
       });
       const stackLength = stackOffsetTops.length;
-      window.onscroll = () => {
-        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-        const scroll = scrollTop + 80;
-        stackOffsetTops.forEach((top, index) => {
-          if (scroll < stackOffsetTops[stackLength - 1] &&
-            scroll + GAP_HEIGHT >= top && scroll <= stackOffsetTops[index + 1]) {
-            self.hash = `#i${self.stackCollection[index]['id']}`;
-          }
-        });
-      };
-    }, 0);
+      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      const scroll = scrollTop + 80;
+      stackOffsetTops.forEach((top, index) => {
+        if (scroll < stackOffsetTops[stackLength - 1] &&
+          scroll + GAP_HEIGHT >= top && scroll <= stackOffsetTops[index + 1]) {
+          self.hash = `#i${self.stackCollection[index]['id']}`;
+        }
+      });
+    };
+    window.addEventListener('scroll', initScroll);
   },
   methods: {
     fnClick(event) {
-      this.hash = `#i${event.id}`;
+      const self = this;
+      self.hash = `#i${event.id}`;
       const top = document.getElementById(`i${event.id}`).offsetTop;
       window.scrollTo({
         top: top - GAP_HEIGHT,
         behavior: 'smooth',
       });
-      setTimeout(() => this.$emit('fnLight', event), 500);
+      manualScroll = function() {
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        if (top - GAP_HEIGHT === scrollTop) {
+          self.$emit('fnLight', event);
+          window.removeEventListener('scroll', manualScroll);
+        }
+      };
+      window.addEventListener('scroll', manualScroll);
+      // setTimeout(() => this.$emit('fnLight', event), 500);
     },
   },
 };
