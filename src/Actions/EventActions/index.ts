@@ -21,10 +21,21 @@ export const EventActions = {
     type: ActionConsts.Event.AddStackToEvent,
   }),
 
-  AddNewsToEvent: (eventId: number, newsId: number, stackId?: number) => ({
+  AddNewsToEvent: (
+    eventId: number,
+    newsId: number,
+    stackIdOrIsInTemporaryStack?: number | boolean
+  ) => ({
     eventId,
     newsId,
-    stackId,
+    stackId:
+      typeof stackIdOrIsInTemporaryStack === 'number'
+        ? stackIdOrIsInTemporaryStack
+        : undefined,
+    isInTemporaryStack:
+      typeof stackIdOrIsInTemporaryStack === 'boolean'
+        ? stackIdOrIsInTemporaryStack
+        : undefined,
     type: ActionConsts.Event.AddNewsToEvent,
   }),
 };

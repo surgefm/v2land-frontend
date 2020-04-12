@@ -1,7 +1,7 @@
 import { Record } from './Record';
 
 export interface News {
-  id?: number;
+  id: number;
   title: string;
   abstract?: string;
   time: Date;

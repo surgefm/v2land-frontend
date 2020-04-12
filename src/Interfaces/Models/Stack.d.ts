@@ -3,7 +3,7 @@ import { News } from './News';
 import { Record } from './Record';
 
 export interface Stack {
-  id?: number;
+  id: number;
   title?: string;
   description?: string;
   newsCount?: number;
