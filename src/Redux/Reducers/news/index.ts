@@ -21,7 +21,7 @@ export const NewsReducer = (state = INITIAL_STATE, action: NewsAction) => {
 
       const newState = { ...state };
       const index = state.idIndexMap[newsId];
-      if (index) {
+      if (typeof index !== 'undefined') {
         newState.list[index] = action.news;
         return newState;
       }

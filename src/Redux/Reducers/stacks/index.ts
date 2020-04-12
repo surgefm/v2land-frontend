@@ -21,7 +21,7 @@ export const StackReducer = (state = INITIAL_STATE, action: StackAction) => {
 
       const newState = { ...state };
       const index = state.idIndexMap[stackId];
-      if (index) {
+      if (typeof index !== 'undefined') {
         newState.list[index] = action.stack;
         return newState;
       }

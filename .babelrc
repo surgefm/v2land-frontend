@@ -13,6 +13,7 @@
           "@Pages": "./pages",
           "@Reducers": "./src/Redux/Reducers",
           "@Redux": "./src/Redux",
+          "@Selectors": "./src/Selectors",
           "@Services": "./src/Services",
           "@Server": "./server",
           "@Static": "./public/static",

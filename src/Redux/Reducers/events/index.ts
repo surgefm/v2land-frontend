@@ -21,7 +21,7 @@ export const EventReducer = (state = INITIAL_STATE, action: EventAction) => {
 
       const newState = { ...state };
       const index = state.idIndexMap[eventId];
-      if (index) {
+      if (typeof index !== 'undefined') {
         newState.list[index] = action.event;
         return newState;
       }

@@ -24,7 +24,7 @@ export interface EventStackNewsState {
 export interface IStore {
   home: IHomePage.IStateProps;
   events: EventState;
-  stacks: Stack[];
-  news: News[];
-  eventStackNews: EventStackNews[];
+  stacks: StackState;
+  news: NewsState;
+  esns: EventStackNewsState;
 }
