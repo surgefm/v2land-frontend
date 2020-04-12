@@ -35,7 +35,7 @@ export const Http = {
         method: `${methodType}`,
       })
         .then(async response => {
-          if (response.status === 200) {
+          if (Math.floor(response.status / 100) === 2) {
             return response.json().then(resolve);
           }
           return reject(response);
@@ -45,4 +45,36 @@ export const Http = {
         });
     });
   },
+};
+
+export const get = async <A>(
+  url: string,
+  params?: HttpModel.IRequestQueryPayload,
+  payload?: HttpModel.IRequestPayload
+): Promise<A> => {
+  return Http.Request('GET', url, params, payload);
+};
+
+export const post = async <A>(
+  url: string,
+  payload?: HttpModel.IRequestPayload,
+  params?: HttpModel.IRequestQueryPayload
+): Promise<A> => {
+  return Http.Request('POST', url, payload, params);
+};
+
+export const put = async <A>(
+  url: string,
+  payload?: HttpModel.IRequestPayload,
+  params?: HttpModel.IRequestQueryPayload
+): Promise<A> => {
+  return Http.Request('PUT', url, payload, params);
+};
+
+export const del = async <A>(
+  url: string,
+  params?: HttpModel.IRequestQueryPayload,
+  payload?: HttpModel.IRequestPayload
+): Promise<A> => {
+  return Http.Request('DELETE', url, payload, params);
 };

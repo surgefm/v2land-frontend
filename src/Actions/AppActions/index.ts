@@ -2,13 +2,13 @@
 import { ActionConsts } from '@Definitions';
 // #endregion Local Imports
 
-export const HomeActions = {
+export const AppActions = {
   Map: (payload: {}) => ({
     payload,
-    type: ActionConsts.Home.SetReducer,
+    type: ActionConsts.App.SetReducer,
   }),
 
   Reset: () => ({
-    type: ActionConsts.Home.ResetReducer,
+    type: ActionConsts.App.ResetReducer,
   }),
 };

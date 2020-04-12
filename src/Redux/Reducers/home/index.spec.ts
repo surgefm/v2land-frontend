@@ -21,7 +21,7 @@ describe('home reducer', () => {
   it('should handle SetReducer', () => {
     expect(
       HomeReducer([], {
-        type: ActionConsts.Home.SetReducer,
+        type: ActionConsts.App.SetReducer,
         payload: {
           version: 2,
         },
@@ -34,7 +34,7 @@ describe('home reducer', () => {
   it('should handle ResetReducer', () => {
     expect(
       HomeReducer(undefined, {
-        type: ActionConsts.Home.ResetReducer,
+        type: ActionConsts.App.ResetReducer,
       })
     ).toEqual({
       home: {

@@ -4,7 +4,7 @@ import thunk from 'redux-thunk';
 // #endregion Global Imports
 
 // #region Local Imports
-import { HomeActions } from '@Actions';
+import { AppActions } from '@Actions';
 import { ActionConsts } from '@Definitions';
 // #endregion Local Imports
 
@@ -20,12 +20,12 @@ describe('Home action tests', () => {
         payload: {
           version: 2,
         },
-        type: ActionConsts.Home.SetReducer,
+        type: ActionConsts.App.SetReducer,
       },
     ];
 
     store.dispatch(
-      HomeActions.Map({
+      AppActions.Map({
         version: 2,
       })
     );
@@ -42,38 +42,11 @@ describe('Home action tests', () => {
 
     const expectedActions = [
       {
-        type: ActionConsts.Home.ResetReducer,
+        type: ActionConsts.App.ResetReducer,
       },
     ];
 
-    store.dispatch(HomeActions.Reset());
-
-    expect(store.getActions()).toEqual(expectedActions);
-  });
-
-  test('GetApod test', async () => {
-    const store = mockStore({});
-
-    const expectedActions = [
-      {
-        payload: {
-          image: {
-            copyright: 'Pankod',
-            date: '2019-05-23',
-            explanation: '',
-            hdurl: '',
-            media_type: '',
-            service_version: '',
-            title: '',
-            url: '',
-          },
-        },
-        type: ActionConsts.Home.SetReducer,
-      },
-    ];
-
-    // eslint-disable-next-line
-    await store.dispatch<any>(HomeActions.GetApod({ params: { hd: true } }));
+    store.dispatch(AppActions.Reset());
 
     expect(store.getActions()).toEqual(expectedActions);
   });

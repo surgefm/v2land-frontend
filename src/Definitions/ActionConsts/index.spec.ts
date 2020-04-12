@@ -1,13 +1,13 @@
 import { ActionConsts } from '.';
 
 describe('Action constants', () => {
-  describe('Home', () => {
-    it('should have Home_SetReducer', () => {
-      expect(ActionConsts.Home.SetReducer).toBe('Home_SetReducer');
+  describe('App', () => {
+    it('should have App_SetReducer', () => {
+      expect(ActionConsts.App.SetReducer).toBe('App_SetReducer');
     });
 
-    it('should have Home_ResetReducer', () => {
-      expect(ActionConsts.Home.ResetReducer).toBe('Home_ResetReducer');
+    it('should have App_ResetReducer', () => {
+      expect(ActionConsts.App.ResetReducer).toBe('App_ResetReducer');
     });
   });
 });
