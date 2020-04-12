@@ -1,10 +1,23 @@
 <template>
   <div>
     <nuxt />
-    <logo class="logo" />
-    <event-action />
+    <logo
+      v-show="showLogo"
+      class="logo"
+    />
+    <event-action v-show="showLogo" />
   </div>
 </template>
+
+<script>
+export default {
+  computed: {
+    showLogo() {
+      return this.$route.name !== 'event-dashboard';
+    },
+  },
+};
+</script>
 
 <style lang="scss">
   html {

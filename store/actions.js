@@ -30,8 +30,11 @@ export default {
       throw new TypeError('name should not be undefined');
     }
     let url = `event/${name}`;
-    if (includes.stack && includes.news) {
-      url += `?stack=${includes.stack}&news=${includes.news}`;
+    if (includes.stack) {
+      url += `?stack=${includes.stack}`;
+    }
+    if (includes.news) {
+      url += `&news=${includes.news}`;
     }
     url = $.encode(url);
     try {

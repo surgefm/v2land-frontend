@@ -59,7 +59,9 @@ export default {
   },
   computed: {
     eventList() {
-      return this.$store.getters.getEventList(((e) => e.status === 'admitted')) || [];
+      return this.$store.getters.getEventList(((e) => (
+        e.status === 'admitted' && e.latestAdmittedNews
+      ))) || [];
     },
   },
   async asyncData({ store }) {

@@ -49,7 +49,7 @@ export default {
   getEventList: (state) => (
     filter = () => true,
     sort = (a, b) => {
-      return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+      return new Date(b.latestAdmittedNews.time).getTime() - new Date(a.latestAdmittedNews.time).getTime();
     }
   ) => {
     const eventList = [];

@@ -28,7 +28,7 @@ const mutations = {
             event.stack.push(stack);
           }
         }
-        Vue.set(state.event, id, event);
+        Vue.set(state.event, id, { ...state.event[id], ...event });
         mutations.sortStackId(state, { name: event.id });
         return state.event[id];
       }
