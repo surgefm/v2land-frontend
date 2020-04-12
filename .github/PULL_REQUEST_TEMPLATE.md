@@ -5,7 +5,7 @@ _请在对应选项的 [ ] 中填写 x_
 _Please put an x in the corresponding [ ]._
 
 * [ ] 修复故障 Bugfix
-* [ ] 新功能 New Featuer
+* [ ] 新功能 New Feature
 * [ ] 整体改进 General Refinement
 * [ ] 其它 Other：
 
