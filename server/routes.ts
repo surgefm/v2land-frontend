@@ -4,6 +4,4 @@ import NextRoutes from 'next-routes';
 
 const routes = (module.exports = new NextRoutes());
 
-routes.add('home', '/');
-
 export default routes;

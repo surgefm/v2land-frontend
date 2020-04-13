@@ -4,6 +4,7 @@ import App, { AppInitialProps, AppContext } from 'next/app';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
 import withRedux from 'next-redux-wrapper';
+import { PageTransition } from 'next-page-transitions';
 // #endregion Global Imports
 
 // #region Local Imports
@@ -24,12 +25,32 @@ class WebApp extends App<AppWithStore> {
   }
 
   render() {
-    const { Component, pageProps, store } = this.props;
+    const { Component, pageProps, store, router } = this.props;
 
     return (
       <Provider store={store}>
         <ThemeProvider theme={theme}>
-          <Component {...pageProps} />
+          <PageTransition timeout={200} classNames="page-transition">
+            <Component {...pageProps} key={router.route} />
+          </PageTransition>
+          <style jsx global>
+            {`
+              .page-transition-enter {
+                opacity: 0;
+              }
+              .page-transition-enter-active {
+                opacity: 1;
+                transition: opacity 200ms;
+              }
+              .page-transition-exit {
+                opacity: 1;
+              }
+              .page-transition-exit-active {
+                opacity: 0;
+                transition: opacity 200ms;
+              }
+            `}
+          </style>
         </ThemeProvider>
       </Provider>
     );

@@ -6,7 +6,6 @@ import Link from 'next/link';
 // #region Local Imports
 import { Logo, LogoType } from '@Components/Basic';
 import { IFooter } from './Footer';
-import './Footer.scss';
 // #endregion Local Imports
 
 const Footer: React.FunctionComponent<IFooter.IProps> = (): JSX.Element => {
@@ -14,8 +13,10 @@ const Footer: React.FunctionComponent<IFooter.IProps> = (): JSX.Element => {
     <div className="footer">
       <div className="logo-container">
         <Link href="/">
-          <a href="/">
-            <Logo className="logo-image" mode="simple" />
+          <a>
+            <div className="logo-image">
+              <Logo mode="simple" height={32} />
+            </div>
             <LogoType color="#0083a8" height={32} className="logotype" />
           </a>
         </Link>
@@ -56,6 +57,73 @@ const Footer: React.FunctionComponent<IFooter.IProps> = (): JSX.Element => {
         </span>
         <span>{`Langchao.org ${new Date().getFullYear()}`}</span>
       </div>
+
+      <style jsx>
+        {`
+          .footer {
+            width: 100%;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #586069 !important;
+            margin: 1rem 0 3rem 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+          }
+
+          .logo-container {
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+
+          .logo-container a {
+            display: inherit;
+          }
+
+          .logo-image {
+            height: 2rem;
+            padding-right: 0.5rem;
+          }
+
+          .content {
+            display: flex;
+            flex-direction: column;
+            margin-top: 0.5rem;
+            align-items: center;
+          }
+
+          .content * {
+            line-height: 1.75;
+          }
+
+          .content span:not(:last-child) {
+            margin-right: 0.25rem;
+          }
+
+          .link,
+          a {
+            color: #586069 !important;
+            background-color: transparent !important;
+            box-shadow: none !important;
+            cursor: pointer;
+            white-space: nowrap;
+          }
+
+          .link,
+          a:not(:last-child) {
+            margin-right: 0.25rem;
+          }
+
+          @media (max-width: 600px) {
+            .logo-image,
+            .logotype {
+              height: 2rem;
+            }
+          }
+        `}
+      </style>
     </div>
   );
 };
