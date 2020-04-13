@@ -1,0 +1,17 @@
+.status {
+  font-size: .9rem;
+}
+
+.number {
+  font-size: bold;
+}
+
+.margin-left {
+  margin-left: .75rem;
+}
+
+@media (max-width: 600px) {
+  .margin-left {
+    margin-left: 0;
+  }
+}
