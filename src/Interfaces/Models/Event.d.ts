@@ -8,7 +8,7 @@ interface StringIndexInterface {
 }
 
 export interface SimplifiedEvent extends StringIndexInterface {
-  id?: number;
+  id: number;
   headerImage?: number | { id?: number } | HeaderImage;
   contribution?: Record[];
 }

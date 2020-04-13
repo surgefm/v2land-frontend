@@ -26,28 +26,16 @@ const Footer: React.FunctionComponent<IFooter.IProps> = (): JSX.Element => {
             <a className="link">关于浪潮</a>
           </Link>
           <span>·</span>
-          <a
-            href="https://github.com/v2land"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="https://github.com/v2land" target="_blank" rel="noopener noreferrer">
             参与项目开发
           </a>
         </div>
         <div className="about-v2land">
-          <a
-            href="https://twitter.com/langchao_org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="https://twitter.com/langchao_org" target="_blank" rel="noopener noreferrer">
             Twitter
           </a>
           <span>·</span>
-          <a
-            href="https://www.weibo.com/v2land"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="https://www.weibo.com/v2land" target="_blank" rel="noopener noreferrer">
             微博
           </a>
           <span>·</span>
@@ -61,11 +49,7 @@ const Footer: React.FunctionComponent<IFooter.IProps> = (): JSX.Element => {
         </div>
         <span>
           本站与
-          <a
-            href="http://langchao.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="http://langchao.com" target="_blank" rel="noopener noreferrer">
             浪潮集团有限公司
           </a>
           无关

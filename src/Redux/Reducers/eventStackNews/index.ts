@@ -3,7 +3,6 @@ import { ActionConsts } from '@Definitions';
 // #endregion Local Imports
 
 // #region Interface Imports
-import { EventActions } from '@Actions';
 import { EventAction, StackAction, EventStackNewsState } from '@Interfaces';
 // #endregion Interface Imports
 
@@ -14,9 +13,7 @@ const INITIAL_STATE: EventStackNewsState = {
 const addStackToEvent = (state: EventStackNewsState, action: EventAction) => {
   if (!action.stackId || !action.eventId) return state;
   const { eventId, stackId } = action;
-  const index = state.list.findIndex(
-    esn => esn.eventId === eventId && esn.stackId === stackId
-  );
+  const index = state.list.findIndex(esn => esn.eventId === eventId && esn.stackId === stackId);
   if (index >= 0) return state;
   return {
     list: [...state.list, { eventId, stackId }],
@@ -26,9 +23,7 @@ const addStackToEvent = (state: EventStackNewsState, action: EventAction) => {
 const addNewsToEvent = (state: EventStackNewsState, action: EventAction) => {
   if (!action.newsId || !action.eventId) return state;
   const { eventId, newsId, stackId, isInTemporaryStack } = action;
-  const index = state.list.findIndex(
-    esn => esn.eventId === eventId && esn.newsId === newsId
-  );
+  const index = state.list.findIndex(esn => esn.eventId === eventId && esn.newsId === newsId);
   if (index >= 0) {
     const esn = state.list[index];
     if (
@@ -53,9 +48,7 @@ const addNewsToEvent = (state: EventStackNewsState, action: EventAction) => {
 const addNewsToStack = (state: EventStackNewsState, action: StackAction) => {
   if (!action.newsId || !action.stackId) return state;
   const { stackId, newsId } = action;
-  const index = state.list.findIndex(
-    esn => esn.stackId === stackId && esn.newsId === newsId
-  );
+  const index = state.list.findIndex(esn => esn.stackId === stackId && esn.newsId === newsId);
   if (index >= 0) return state;
 
   const esnIndex = state.list.findIndex(esn => esn.stackId === stackId);
@@ -72,40 +65,11 @@ const addNewsToStack = (state: EventStackNewsState, action: StackAction) => {
     };
   }
   return {
-    list: [
-      ...state.list.slice(0, esnIndex),
-      newEsn,
-      ...state.list.slice(esnIndex + 1),
-    ],
+    list: [...state.list.slice(0, esnIndex), newEsn, ...state.list.slice(esnIndex + 1)],
   };
 };
 
-const addStack = (state: EventStackNewsState, action: StackAction) => {
-  if (!action.stack) return state;
-  const { stack } = action;
-  const { eventId, id: stackId } = stack;
-  if (!eventId || !stackId) return state;
-  let newState = addStackToEvent(
-    state,
-    EventActions.AddStackToEvent(eventId, stackId)
-  );
-
-  const newsList = stack.news || [];
-  for (let i = 0; i < newsList.length; i += 1) {
-    const news = newsList[i];
-    newState = addNewsToEvent(
-      newState,
-      EventActions.AddNewsToEvent(eventId, news.id, stackId)
-    );
-  }
-
-  return newState;
-};
-
-export const EventStackNewsReducer = (
-  state = INITIAL_STATE,
-  action: EventAction | StackAction
-) => {
+export const EventStackNewsReducer = (state = INITIAL_STATE, action: EventAction | StackAction) => {
   switch (action.type) {
     case ActionConsts.Event.AddStackToEvent:
       return addStackToEvent(state, action);
@@ -113,8 +77,6 @@ export const EventStackNewsReducer = (
       return addNewsToEvent(state, action);
     case ActionConsts.Stack.AddNewsToStack:
       return addNewsToStack(state, action);
-    case ActionConsts.Stack.AddStack:
-      return addStack(state, action);
     default:
       return state;
   }

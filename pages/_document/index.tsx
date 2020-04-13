@@ -1,12 +1,6 @@
 // #region Global Imports
 import * as React from 'react';
-import Document, {
-  Html,
-  Head,
-  Main,
-  NextScript,
-  DocumentContext,
-} from 'next/document';
+import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 // #endregion Global Imports
 

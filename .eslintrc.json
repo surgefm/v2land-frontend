@@ -14,7 +14,8 @@
     "no-multi-assign": "off",
     "quotes": [1, "single"],
     "import/no-extraneous-dependencies": "off",
-    "jsx-a11y/anchor-is-valid": "off"
+    "jsx-a11y/anchor-is-valid": "off",
+    "no-self-compare": "off"
   },
   "settings": {
     "import/parsers": {

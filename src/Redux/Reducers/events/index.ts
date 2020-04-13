@@ -16,17 +16,23 @@ export const EventReducer = (state = INITIAL_STATE, action: EventAction) => {
     case ActionConsts.Event.AddEvent:
     case ActionConsts.Event.UpdateEvent: {
       if (!action.event) return state;
-      const eventId = action.eventId || action.event.id;
+      const event = { ...action.event };
+      delete event.tags;
+      delete event.stacks;
+      delete event.temporaryStack;
+
+      const eventId = action.eventId || event.id;
       if (!eventId) return state;
 
       const newState = { ...state };
       const index = state.idIndexMap[eventId];
+
       if (typeof index !== 'undefined') {
-        newState.list[index] = action.event;
+        newState.list[index] = event;
         return newState;
       }
       newState.idIndexMap[eventId] = newState.list.length;
-      newState.list.push(action.event);
+      newState.list.push(event);
       return newState;
     }
     default:

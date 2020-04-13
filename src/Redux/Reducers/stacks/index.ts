@@ -18,15 +18,16 @@ export const StackReducer = (state = INITIAL_STATE, action: StackAction) => {
       if (!action.stack) return state;
       const stackId = action.stackId || action.stack.id;
       if (!stackId) return state;
-
+      const stack = { ...action.stack };
+      delete stack.news;
       const newState = { ...state };
       const index = state.idIndexMap[stackId];
       if (typeof index !== 'undefined') {
-        newState.list[index] = action.stack;
+        newState.list[index] = stack;
         return newState;
       }
       newState.idIndexMap[stackId] = newState.list.length;
-      newState.list.push(action.stack);
+      newState.list.push(stack);
       return newState;
     }
     default:

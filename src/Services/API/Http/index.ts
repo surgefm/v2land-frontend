@@ -9,10 +9,10 @@ import { HttpModel } from '@Interfaces';
 // #endregion Interface Imports
 
 const {
-  publicRuntimeConfig: { API_KEY, API_URL },
+  publicRuntimeConfig: { API_URL },
 } = getConfig();
 
-const BaseUrl = `${API_URL}/api`;
+const BaseUrl = `${API_URL}`;
 
 export const Http = {
   Request: async <A>(
@@ -22,9 +22,7 @@ export const Http = {
     payload?: HttpModel.IRequestPayload
   ): Promise<A> => {
     return new Promise((resolve, reject) => {
-      const query = params
-        ? `?${stringify({ ...params, api_key: API_KEY })}`
-        : '';
+      const query = params ? `?${stringify(params)}` : '';
 
       fetch(`${BaseUrl}${url}${query}`, {
         body: JSON.stringify(payload),

@@ -6,7 +6,7 @@ import { NextPage } from 'next';
 // #region Local Imports
 import { withTranslation } from '@Server/i18n';
 import { Footer } from '@Components';
-import { Center } from '@Styled/Home';
+import { Center } from '@Styled/App';
 // #endregion Local Imports
 
 // #region Interface Imports

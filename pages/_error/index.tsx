@@ -11,10 +11,7 @@ import { withTranslation } from '@Server/i18n';
 import { IErrorPage } from '@Interfaces';
 // #endregion Interface Imports
 
-const Error: NextPage<IErrorPage.IProps, IErrorPage.InitialProps> = ({
-  t,
-  statusCode,
-}) => {
+const Error: NextPage<IErrorPage.IProps, IErrorPage.InitialProps> = ({ t, statusCode }) => {
   return (
     <div>
       {t('common:Error')}

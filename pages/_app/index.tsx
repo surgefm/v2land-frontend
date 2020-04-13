@@ -17,13 +17,8 @@ import '@Static/css/common.scss';
 // #endregion Local Imports
 
 class WebApp extends App<AppWithStore> {
-  static async getInitialProps({
-    Component,
-    ctx,
-  }: AppContext): Promise<AppInitialProps> {
-    const pageProps = Component.getInitialProps
-      ? await Component.getInitialProps(ctx)
-      : {};
+  static async getInitialProps({ Component, ctx }: AppContext): Promise<AppInitialProps> {
+    const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
 
     return { pageProps };
   }
