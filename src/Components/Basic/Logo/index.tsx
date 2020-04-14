@@ -1,11 +1,13 @@
 import React from 'react';
 import { ILogo } from './Logo';
 
-export const Logo: React.FunctionComponent<ILogo.IProps> = ({ height, className }) => {
+export const Logo: React.FunctionComponent<ILogo.IProps> = ({ className, height, styles }) => {
   return (
     <img
       style={{
-        height: `${height}px`,
+        maxHeight: '100%',
+        ...(height ? { height: `${height}px` } : {}),
+        ...styles,
       }}
       alt="logo"
       className={className}

@@ -42,10 +42,7 @@ export const getEventOffshelfNewsList = (eventId: number, sorted = false) =>
     (state, newsIdList) => getNewsList(newsIdList, sorted)(state)
   );
 
-export const getEventTemporaryStackNewsList = (
-  eventId: number,
-  sorted = false
-) =>
+export const getEventTemporaryStackNewsList = (eventId: number, sorted = false) =>
   createSelector(
     state => state,
     getEventTemporaryStackNewsIdList(eventId),

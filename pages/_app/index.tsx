@@ -13,7 +13,6 @@ import { appWithTranslation } from '@Server/i18n';
 import { AppWithStore } from '@Interfaces';
 import { makeStore } from '@Redux';
 
-import '@Static/css/reset.scss';
 import '@Static/css/common.scss';
 // #endregion Local Imports
 

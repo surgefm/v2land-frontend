@@ -5,7 +5,7 @@ import { NextPage } from 'next';
 
 // #region Local Imports
 import { withTranslation } from '@Server/i18n';
-import { Footer } from '@Components';
+import { Footer, Header } from '@Components';
 import { Center } from '@Styled/App';
 // #endregion Local Imports
 
@@ -16,6 +16,7 @@ import { IHomePage } from '@Interfaces';
 const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = () => {
   return (
     <Center>
+      <Header />
       <Footer />
     </Center>
   );

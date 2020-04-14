@@ -27,6 +27,4 @@ const nextConfig = {
   },
 };
 
-module.exports = withConfig(
-  withPlugins([[withCSS], [withSass], [withBundleAnalyzer]], nextConfig)
-);
+module.exports = withConfig(withPlugins([[withCSS], [withSass], [withBundleAnalyzer]], nextConfig));

@@ -2,10 +2,11 @@ import React from 'react';
 import { NextPage } from 'next';
 import Link from 'next/link';
 
-import { Card, EventTitle, Logo, Background, Footer } from '@Components';
+import { Card, EventTitle, Logo, Background, Footer, Header } from '@Components';
 
 const About: NextPage = () => (
   <Background>
+    <Header />
     <Card>
       <p className="tag light-font">从一首诗开始</p>
       <EventTitle>关于浪潮</EventTitle>
@@ -44,6 +45,7 @@ const About: NextPage = () => (
 
         .tag {
           line-height: 1;
+          margin: 0;
         }
 
         .image-container {

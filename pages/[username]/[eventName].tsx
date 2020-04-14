@@ -7,8 +7,15 @@ import { useSelector } from 'react-redux';
 
 // #region Local Imports
 import { withTranslation } from '@Server/i18n';
-import { Footer, Card, EventTitle, EventStats, EventDescription } from '@Components';
-import { Center } from '@Styled/App';
+import {
+  Background,
+  Footer,
+  Card,
+  EventTitle,
+  EventStats,
+  EventDescription,
+  Header,
+} from '@Components';
 import { EventActions } from '@Actions';
 import { getEvent } from '@Selectors';
 // #endregion Local Imports
@@ -20,16 +27,18 @@ import { IEventPage, ReduxNextPageContext } from '@Interfaces';
 const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = () => {
   const router = useRouter();
   const event = useSelector(getEvent(+router.query.eventName));
+  if (!event) return <div />;
 
   return (
-    <Center>
+    <Background>
+      <Header />
       <Card>
         <EventTitle>{event.name}</EventTitle>
         <EventStats newsCount={event.newsCount} stackCount={event.stackCount} />
         <EventDescription description={event.description} />
       </Card>
       <Footer />
-    </Center>
+    </Background>
   );
 };
 
