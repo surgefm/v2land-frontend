@@ -3,6 +3,7 @@ declare namespace IHeaderButton {
     text?: string;
     children?: JSX.Element | JSX.Element[] | string;
     href?: string;
+    as?: string;
   }
 }
 

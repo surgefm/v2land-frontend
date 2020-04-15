@@ -65,7 +65,7 @@ const Footer: React.FunctionComponent<IFooter.IProps> = (): JSX.Element => {
             text-align: center;
             font-size: 0.75rem;
             color: #586069 !important;
-            margin: 1rem 0 3rem 0;
+            margin: 1.5rem 0 3rem 0;
             display: flex;
             flex-direction: column;
             justify-content: center;

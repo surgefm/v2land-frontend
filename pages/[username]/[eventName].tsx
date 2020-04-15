@@ -7,15 +7,7 @@ import { useSelector } from 'react-redux';
 
 // #region Local Imports
 import { withTranslation } from '@Server/i18n';
-import {
-  Background,
-  Footer,
-  Card,
-  EventTitle,
-  EventStats,
-  EventDescription,
-  Header,
-} from '@Components';
+import { Background, Footer, Card, EventTitle, EventStats, EventDescription } from '@Components';
 import { EventActions } from '@Actions';
 import { getEvent } from '@Selectors';
 // #endregion Local Imports
@@ -31,7 +23,6 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = () => {
 
   return (
     <Background>
-      <Header />
       <Card>
         <EventTitle>{event.name}</EventTitle>
         <EventStats newsCount={event.newsCount} stackCount={event.stackCount} />
@@ -45,7 +36,11 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = () => {
 EventPage.getInitialProps = async (ctx: ReduxNextPageContext): Promise<IEventPage.InitialProps> => {
   const { eventName } = ctx.query;
 
-  await ctx.store.dispatch(EventActions.GetEvent(+eventName));
+  if (!getEvent(+eventName)(ctx.store.getState())) {
+    await ctx.store.dispatch(EventActions.GetEvent(+eventName));
+  } else {
+    ctx.store.dispatch(EventActions.GetEvent(+eventName));
+  }
 
   return { namespacesRequired: ['common'] };
 };

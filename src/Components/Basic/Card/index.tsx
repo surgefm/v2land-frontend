@@ -8,7 +8,7 @@ export const Card: React.FunctionComponent<ICard.IProps> = ({ className, childre
       <style jsx>
         {`
           .card {
-            max-width: 35rem;
+            max-width: 40rem;
             width: 100%;
             display: block;
             padding: 1.5rem 2rem;
@@ -18,6 +18,7 @@ export const Card: React.FunctionComponent<ICard.IProps> = ({ className, childre
             box-shadow: none;
             transition: all 0.2s;
             background-color: #fff;
+            box-shadow: 0 2.5px 7.5px rgba(0, 0, 0, 0.0375);
             -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
           }
 

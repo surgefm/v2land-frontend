@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Logo } from '@Components/Basic';
+import { HeaderLogo } from './Logo';
 import { HeaderButton } from './Button';
 import { HeaderUserInfo } from './UserInfo';
 
@@ -9,10 +9,12 @@ const Header: React.FunctionComponent = (): JSX.Element => {
     <div className="container">
       <div className="center">
         <div className="left">
-          <Logo styles={{ padding: '0.25rem', marginRight: '1.5rem' }} />
+          <HeaderLogo />
           <HeaderButton href="/">首页</HeaderButton>
-          <HeaderButton href="/feed">关注</HeaderButton>
-          <HeaderButton href="/about">我的事件</HeaderButton>
+          <HeaderButton href="/about">关于</HeaderButton>
+          <HeaderButton href="/[username]/[eventName]" as="/1/12">
+            我的事件
+          </HeaderButton>
         </div>
         <div className="right">
           <HeaderUserInfo />
@@ -27,7 +29,7 @@ const Header: React.FunctionComponent = (): JSX.Element => {
             top: 0;
             left: 0;
             background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 4px rgba(0, 0, 0, 0.075);
             display: flex;
             justify-content: center;
             z-index: 100000;
@@ -45,7 +47,6 @@ const Header: React.FunctionComponent = (): JSX.Element => {
           .left,
           .right {
             height: 100%;
-            padding: 0.5rem 0;
             display: flex;
             align-items: center;
           }

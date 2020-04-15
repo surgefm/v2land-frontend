@@ -20,6 +20,7 @@ html {
 
 html, body {
   background-color: $background-color;
+  margin: 0;
 }
 
 a {
@@ -48,13 +49,6 @@ img[lazy=loading] {
 
 img[lazy=loaded] {
   opacity: 1;
-}
-
-.logo {
-  position: fixed;
-  top: 2rem;
-  z-index: 1001;
-  left: 0;
 }
 
 .light-font {

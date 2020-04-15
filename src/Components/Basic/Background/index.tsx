@@ -6,7 +6,9 @@ export const Background: React.FunctionComponent = ({ children }) => (
     <style jsx>
       {`
         .background {
-          padding: 6rem 1rem 1rem 1rem;
+          margin-top: 3.5rem;
+          min-height: calc(100vh - 3.5rem);
+          padding: 3.5rem 1rem 1rem 1rem;
           display: flex;
           align-items: center;
           flex-direction: column;

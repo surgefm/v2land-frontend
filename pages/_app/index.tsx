@@ -12,6 +12,7 @@ import { theme } from '@Definitions/Styled';
 import { appWithTranslation } from '@Server/i18n';
 import { AppWithStore } from '@Interfaces';
 import { makeStore } from '@Redux';
+import { Header } from '@Components';
 
 import '@Static/css/common.scss';
 // #endregion Local Imports
@@ -29,6 +30,7 @@ class WebApp extends App<AppWithStore> {
     return (
       <Provider store={store}>
         <ThemeProvider theme={theme}>
+          <Header />
           <PageTransition timeout={200} classNames="page-transition">
             <Component {...pageProps} key={router.route} />
           </PageTransition>
