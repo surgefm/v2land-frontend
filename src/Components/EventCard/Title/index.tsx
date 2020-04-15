@@ -1,7 +1,11 @@
 import React from 'react';
+import { IEventCardTitle } from './Title';
 
-export const EventCardTitle: React.FunctionComponent = ({ children }) => (
-  <p>
+export const EventCardTitle: React.FunctionComponent<IEventCardTitle.IProps> = ({
+  children,
+  className,
+}) => (
+  <p className={className}>
     {children}
     <style jsx>
       {`

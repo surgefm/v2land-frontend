@@ -22,4 +22,8 @@ export const ActionConsts = {
     AddClient: 'Client_AddClient',
     UpdateClient: 'Client_UpdateClient',
   },
+  Loading: {
+    BeginLoading: 'Loading_BeginLoading',
+    FinishLoading: 'Loading_FinishLoading',
+  },
 };

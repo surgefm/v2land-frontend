@@ -11,7 +11,7 @@ export const ImageEventCard: React.FunctionComponent<IImageEventCard.IProps> = (
   const sourceUrl = event.headerImage.sourceUrl
     ? `/redirect.html?to=${encodeURIComponent(event.headerImage.sourceUrl)}`
     : undefined;
-  const openImageSourceUrl = (e: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+  const openImageSourceUrl = (e: React.MouseEvent) => {
     e.preventDefault();
     if (sourceUrl) {
       window.open(sourceUrl, '_blank');
@@ -33,12 +33,12 @@ export const ImageEventCard: React.FunctionComponent<IImageEventCard.IProps> = (
             onLoad={showImage}
           />
         </LazyLoad>
-        <a onClick={openImageSourceUrl} href={sourceUrl}>
+        <button onClick={openImageSourceUrl} type="button">
           {event.headerImage.source}
-        </a>
+        </button>
       </div>
-      <EventCardTitle>{event.name}</EventCardTitle>
-      <EventCardDescription>{event.description}</EventCardDescription>
+      <EventCardTitle className="title">{event.name}</EventCardTitle>
+      <EventCardDescription className="description">{event.description}</EventCardDescription>
       <style jsx>
         {`
           .event-container {
@@ -73,7 +73,7 @@ export const ImageEventCard: React.FunctionComponent<IImageEventCard.IProps> = (
             opacity: 0;
           }
 
-          .event-image-container a {
+          .event-image-container button {
             position: absolute;
             right: 0.25rem;
             bottom: 0.25rem;
@@ -84,6 +84,46 @@ export const ImageEventCard: React.FunctionComponent<IImageEventCard.IProps> = (
             line-height: 1;
             border-radius: 0.25rem;
             user-select: none;
+            border: none;
+          }
+
+          @media (max-width: 600px) {
+            .event-container {
+              padding: 0;
+              display: block;
+            }
+
+            .event-container > :global(.title) {
+              margin: 1rem 0.5rem 0 1rem;
+            }
+
+            .event-container > :global(.description) {
+              margin: 0.5rem 1rem 1rem 1rem;
+            }
+
+            .event-image-container {
+              width: 102px;
+              height: 102px;
+              margin-left: 1rem;
+              position: relative;
+              float: right;
+              border-radius: 0.25rem;
+              top: 0.5rem;
+              right: 0.5rem;
+            }
+
+            .event-image-container button {
+              border-top-right-radius: 0;
+              border-bottom-left-radius: 0;
+              right: 0;
+              bottom: 0;
+              padding: 0.25rem;
+            }
+
+            .event-image {
+              height: 100%;
+              border-radius: 0.25rem;
+            }
           }
         `}
       </style>

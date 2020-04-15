@@ -21,10 +21,13 @@ export interface EventStackNewsState {
   list: EventStackNews[];
 }
 
+export type LoadingState = { [index: string]: boolean };
+
 export interface IStore {
   home: IHomePage.IStateProps;
   events: EventState;
   stacks: StackState;
   news: NewsState;
   esns: EventStackNewsState;
+  loading: LoadingState;
 }

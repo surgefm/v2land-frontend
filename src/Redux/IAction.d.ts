@@ -25,7 +25,11 @@ export interface NewsAction extends ReduxAction {
   newsId?: number;
 }
 
-export type Action = EventAction | StackAction | NewsAction;
+export interface LoadingAction extends ReduxAction {
+  identifier: string;
+}
+
+export type Action = EventAction | StackAction | NewsAction | LoadingAction;
 
 export interface IAction<T> extends ReduxAction {
   payload?: T;

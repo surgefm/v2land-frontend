@@ -5,6 +5,7 @@ import { combineReducers } from 'redux';
 // #region Local Imports
 import { EventReducer } from './events';
 import { EventStackNewsReducer } from './eventStackNews';
+import { LoadingReducer } from './loading';
 import { NewsReducer } from './news';
 import { StackReducer } from './stacks';
 // #endregion Local Imports
@@ -12,6 +13,7 @@ import { StackReducer } from './stacks';
 export default combineReducers({
   events: EventReducer,
   esns: EventStackNewsReducer,
+  loading: LoadingReducer,
   news: NewsReducer,
   stacks: StackReducer,
 });

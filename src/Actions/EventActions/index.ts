@@ -5,9 +5,11 @@ import { batchActions } from 'redux-batched-actions';
 
 // #region Local Imports
 import { ActionConsts } from '@Definitions';
-import { Action, Event } from '@Interfaces';
+import { Action, Event, IStore } from '@Interfaces';
 import { RedstoneService } from '@Services';
+import { isLoading } from '@Selectors';
 
+import { LoadingActions } from '../LoadingActions';
 import { NewsActions } from '../NewsActions';
 import { StackActions } from '../StackActions';
 // #endregion Local Imports
@@ -43,7 +45,11 @@ const AddNewsToEvent = (
   type: ActionConsts.Event.AddNewsToEvent,
 });
 
-const GetEvent = (eventId: number) => async (dispatch: Dispatch) => {
+const GetEvent = (eventId: number) => async (dispatch: Dispatch, state: IStore) => {
+  const identifier = `event-${eventId}`;
+  if (isLoading(identifier)(state)) return;
+
+  dispatch(LoadingActions.BeginLoading(identifier));
   const event = await RedstoneService.getEvent(eventId);
   dispatch(AddEvent(event));
 
@@ -68,6 +74,8 @@ const GetEvent = (eventId: number) => async (dispatch: Dispatch) => {
     actions.push(NewsActions.AddNews(news));
     actions.push(AddNewsToEvent(eventId, news.id));
   }
+
+  actions.push(LoadingActions.FinishLoading(identifier));
 
   dispatch(batchActions(actions));
 };

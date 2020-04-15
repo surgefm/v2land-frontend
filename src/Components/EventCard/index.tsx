@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { EventActions } from '@Actions';
 import { getEvent } from '@Selectors';
 import { Card } from '@Components/Basic';
+import { EventCardShimmer } from './Shimmer';
 import { PlainEventCard } from './PlainEventCard';
 import { ImageEventCard } from './ImageEventCard';
 import { IEventCard } from './EventCard';
@@ -14,7 +15,11 @@ const EventCard: React.FunctionComponent<IEventCard.IProps> = ({ eventId }) => {
   const dispatch = useDispatch();
   if (!event) {
     dispatch(EventActions.GetEvent(eventId));
-    return <span>Loading</span>;
+    return (
+      <Card styles={{ padding: 0 }}>
+        <EventCardShimmer />
+      </Card>
+    );
   }
 
   return (

@@ -4,8 +4,9 @@ import { IEventCardDescription } from './Description';
 export const EventCardDescription: React.FunctionComponent<IEventCardDescription.IProps> = ({
   children,
   styles,
+  className,
 }) => (
-  <div className="description light-font" style={styles}>
+  <div className={`description light-font ${className || ''}`} style={styles}>
     <span>{children}</span>
     <div className="fade" />
     <div className="hide" />
