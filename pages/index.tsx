@@ -5,8 +5,7 @@ import { NextPage } from 'next';
 
 // #region Local Imports
 import { withTranslation } from '@Server/i18n';
-import { Footer } from '@Components';
-import { Center } from '@Styled/App';
+import { Footer, EventCardList, Background } from '@Components';
 // #endregion Local Imports
 
 // #region Interface Imports
@@ -15,9 +14,10 @@ import { IHomePage } from '@Interfaces';
 
 const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = () => {
   return (
-    <Center>
+    <Background>
+      <EventCardList />
       <Footer />
-    </Center>
+    </Background>
   );
 };
 
