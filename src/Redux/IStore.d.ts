@@ -26,7 +26,7 @@ export type LoadingState = { [index: string]: boolean };
 export interface IStore {
   home: IHomePage.IStateProps;
   events: EventState;
-  stacks: StackState;
+  stacks: StacksState;
   news: NewsState;
   esns: EventStackNewsState;
   loading: LoadingState;

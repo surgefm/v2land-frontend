@@ -10,10 +10,9 @@ export const EventCardTitle: React.FunctionComponent<IEventCardTitle.IProps> = (
     <style jsx>
       {`
         p {
-          font-size: 1.25rem;
-          font-weight: bold;
+          font-size: 1.35rem;
           line-height: 1.5;
-          color: black;
+          color: #000;
           margin: 0;
         }
       `}

@@ -11,6 +11,10 @@ export const SectionHeader: React.FunctionComponent = ({ children }) => (
           display: block;
           margin-bottom: 0.5rem;
         }
+
+        span:not(:first-child) {
+          margin-top: 1rem;
+        }
       `}
     </style>
   </span>

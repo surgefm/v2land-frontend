@@ -7,9 +7,17 @@ import { useSelector } from 'react-redux';
 
 // #region Local Imports
 import { withTranslation } from '@Server/i18n';
-import { Background, Footer, Card, EventTitle, EventStats, EventDescription } from '@Components';
+import {
+  Background,
+  Footer,
+  Card,
+  EventTitle,
+  EventStats,
+  EventDescription,
+  Stack,
+} from '@Components';
 import { EventActions } from '@Actions';
-import { getEvent } from '@Selectors';
+import { getEvent, getEventStackIdList } from '@Selectors';
 // #endregion Local Imports
 
 // #region Interface Imports
@@ -19,6 +27,7 @@ import { IEventPage, ReduxNextPageContext } from '@Interfaces';
 const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = () => {
   const router = useRouter();
   const event = useSelector(getEvent(+router.query.eventName));
+  const stackIdList = useSelector(getEventStackIdList(+router.query.eventName));
   if (!event) return <div />;
 
   return (
@@ -28,6 +37,9 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = () => {
         <EventStats newsCount={event.newsCount} stackCount={event.stackCount} />
         <EventDescription description={event.description} />
       </Card>
+      {stackIdList.map(stackId => (
+        <Stack stackId={stackId} key={`stack-${stackId}`} />
+      ))}
       <Footer />
     </Background>
   );

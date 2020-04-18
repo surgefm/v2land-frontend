@@ -1,6 +1,6 @@
 // #region Global Imports
 import { createSelector } from 'reselect';
-import { IStore } from '@Interfaces';
+import { IStore, Stack } from '@Interfaces';
 // #endregion Global Imports
 
 // #region Local Imports
@@ -23,7 +23,7 @@ export const getStackList = (stackIdList: number[], sorted = false) =>
   createSelector(
     getStacksState,
     stacksState => {
-      const stackList = [];
+      const stackList: Stack[] = [];
       for (let i = 0; i < stackIdList.length; i += 1) {
         const stackId = stackIdList[i];
         const index = stacksState.idIndexMap[stackId];
@@ -32,7 +32,7 @@ export const getStackList = (stackIdList: number[], sorted = false) =>
         }
       }
       if (!sorted) return stackList;
-      return stackList.sort((a, b) => a.order - b.order);
+      return stackList.sort((a, b) => (a.order || -1) - (b.order || -1));
     }
   );
 

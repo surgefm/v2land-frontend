@@ -85,6 +85,12 @@ export const ImageEventCard: React.FunctionComponent<IImageEventCard.IProps> = (
             border-radius: 0.25rem;
             user-select: none;
             border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+          }
+
+          .event-image-container button:hover {
+            background-color: #444;
           }
 
           @media (max-width: 600px) {

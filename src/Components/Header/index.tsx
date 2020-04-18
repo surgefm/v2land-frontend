@@ -11,7 +11,7 @@ const Header: React.FunctionComponent = (): JSX.Element => {
         <div className="left">
           <HeaderLogo />
           <HeaderButton href="/">首页</HeaderButton>
-          <HeaderButton href="/about">关于</HeaderButton>
+          <HeaderButton href="/about">关注</HeaderButton>
           <HeaderButton href="/[username]/[eventName]" as="/1/12">
             我的事件
           </HeaderButton>
