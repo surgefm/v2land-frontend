@@ -9,7 +9,7 @@ export const NewsItem: React.FunctionComponent<INewsItem.IProps> = ({ id }) => {
   return (
     <div className="news-item">
       <div className="news-link">
-        <img src="/images/defaultSource.png" alt="" />
+        <img src="/images/defaultSource.png" alt="media icon" />
         <a className="news-item" href={url}>
           {news && news.title}
         </a>
@@ -40,10 +40,14 @@ export const NewsItem: React.FunctionComponent<INewsItem.IProps> = ({ id }) => {
 
           a {
             color: black;
+            line-height: 1.75;
+            border-top: 1.5px solid transparent;
+            border-bottom: 1.5px solid transparent;
           }
 
           a:hover {
-            text-decoration: underline;
+            text-decoration: none !important;
+            border-bottom-color: #333;
           }
 
           p {
