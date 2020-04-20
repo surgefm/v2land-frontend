@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { getStack, getStackNewsIdList, getNews } from '@Selectors';
+import { getStack, getStackNewsIdList } from '@Selectors';
 import { Card } from '@Components/Basic';
 import { IStack } from './Stack';
 import { NewsItemList } from './NewsItems';
