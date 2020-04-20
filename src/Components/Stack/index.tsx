@@ -3,7 +3,8 @@ import { useSelector } from 'react-redux';
 import { getStack, getStackNewsIdList, getNews } from '@Selectors';
 import { Card } from '@Components/Basic';
 import { IStack } from './Stack';
-import { NewsItemList } from './NewsItems';
+import { NewsItems } from './NewsItems';
+
 
 const Stack: React.FunctionComponent<IStack.IProps> = ({ stackId }) => {
   const stack = useSelector(getStack(stackId));
@@ -31,14 +32,14 @@ const Stack: React.FunctionComponent<IStack.IProps> = ({ stackId }) => {
 
         <hr />
 
-        <NewsItemList newsIdList={newsIdList} />
+        <NewsItems newsIdList={newsIdList} />
 
         <style jsx>
           {`
             @import url('https://fonts.googleapis.com/css?family=Lexend+Giga&display=swap');
 
             .stack-main {
-              padding-bottom: 0.1rem;
+              padding-bottom: 0.3rem;
             }
 
             .title-area {
@@ -64,17 +65,13 @@ const Stack: React.FunctionComponent<IStack.IProps> = ({ stackId }) => {
             }
 
             .content-area p {
-              line-height: 1.8;
               display: block;
               margin-left: 5.5px;
               margin-right: 5.5px;
             }
 
             hr {
-              border-top: 0.125rem dashed #8c8b8b;
-              border-bottom: 0;
-              border-left: 0;
-              border-right: 0;
+              border-top: 1px dashed #8c8b8b;
             }
 
             .order {
