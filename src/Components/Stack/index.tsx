@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { getStack, getStackNewsIdList, getNews } from '@Selectors';
+import { getStack, getStackNewsIdList } from '@Selectors';
 import { Card } from '@Components/Basic';
 import { IStack } from './Stack';
-import { NewsItemList } from './NewsItems';
+import { NewsItemList } from './NewsItemList';
 
 const Stack: React.FunctionComponent<IStack.IProps> = ({ stackId }) => {
   const stack = useSelector(getStack(stackId));
@@ -12,7 +12,7 @@ const Stack: React.FunctionComponent<IStack.IProps> = ({ stackId }) => {
   const newsIdList = useSelector(getStackNewsIdList(stackId));
 
   return (
-    <Card styles={{ paddingTop: '1px', overflow: 'hidden', paddingBottom: '0' }}>
+    <Card styles={{ paddingTop: '0', paddingBottom: '0' }}>
       <div className="stack">
         <div className="stack-main">
           <div className="title-area">
@@ -35,8 +35,6 @@ const Stack: React.FunctionComponent<IStack.IProps> = ({ stackId }) => {
 
         <style jsx>
           {`
-            @import url('https://fonts.googleapis.com/css?family=Lexend+Giga&display=swap');
-
             .stack-main {
               padding-bottom: 0.1rem;
             }
@@ -83,11 +81,7 @@ const Stack: React.FunctionComponent<IStack.IProps> = ({ stackId }) => {
               height: 5rem;
               width: 5rem;
               font-size: 4.25rem;
-              //height: 4.25rem;
-              //line-height: 1;
               position: relative;
-              //right: calc(100% - 1.25rem);
-              //top: 0.5rem;
               font-family: 'Times New Roman', Times, serif;
               cursor: pointer;
               font-weight: 900;
