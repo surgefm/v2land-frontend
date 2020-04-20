@@ -1,8 +1,8 @@
 import React from 'react';
-import { INewsItems } from './NewsItems';
+import { INewsItemList } from './NewsItems';
 import { NewsItem } from '../NewsItem/index';
 
-export const NewsItemList: React.FunctionComponent<INewsItems.IProps> = ({ newsIdList }) => {
+export const NewsItemList: React.FunctionComponent<INewsItemList.IProps> = ({ newsIdList }) => {
   return (
     <div className="news-area">
       {newsIdList.map(id => (
@@ -13,7 +13,6 @@ export const NewsItemList: React.FunctionComponent<INewsItems.IProps> = ({ newsI
         {`
           .news-area {
             padding: 0.4rem 0rem 1.25rem 0rem;
-
             display: flex;
             flex-direction: column;
           }

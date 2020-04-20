@@ -1,7 +1,7 @@
-declare namespace INewsItems {
+declare namespace INewsItemList {
   export interface IProps {
     newsIdList: number[];
   }
 }
 
-export { INewsItems };
+export { INewsItemList };
