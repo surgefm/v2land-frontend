@@ -13,7 +13,7 @@ export const Card: React.FunctionComponent<ICard.IProps> = React.forwardRef(
         <style jsx>
           {`
             .card {
-              max-width: 45rem;
+              max-width: 40rem;
               width: 100%;
               display: block;
               padding: 1.5rem 2rem;
