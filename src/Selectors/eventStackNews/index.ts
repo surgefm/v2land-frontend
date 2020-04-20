@@ -18,9 +18,8 @@ export const getEventAllStackIdList = (eventId: number) =>
     getEsnState,
     esnState =>
       esnState.list
-        .filter(esn => esn.eventId === eventId && esn.stackId)
+        .filter(esn => esn.eventId === eventId && esn.stackId && esn.newsId === undefined)
         .map(esn => esn.stackId as number)
-        .filter((stackId, index, array) => array.indexOf(stackId) === index)
   );
 
 export const getEventStackIdList = (eventId: number) =>

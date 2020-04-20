@@ -59,13 +59,8 @@ const addNewsToStack = (state: EventStackNewsState, action: StackAction) => {
     stackId,
     newsId,
   };
-  if (esn.newsId) {
-    return {
-      list: [...state.list, newEsn],
-    };
-  }
   return {
-    list: [...state.list.slice(0, esnIndex), newEsn, ...state.list.slice(esnIndex + 1)],
+    list: [...state.list, newEsn],
   };
 };
 
