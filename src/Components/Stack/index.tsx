@@ -1,59 +1,115 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-
-import { getStack } from '@Selectors';
+import { getStack, getStackNewsIdList, getNews } from '@Selectors';
 import { Card } from '@Components/Basic';
-
 import { IStack } from './Stack';
+import { NewsItems } from './NewsItems';
+
 
 const Stack: React.FunctionComponent<IStack.IProps> = ({ stackId }) => {
   const stack = useSelector(getStack(stackId));
   if (!stack) return <div />;
 
+  const newsIdList = useSelector(getStackNewsIdList(stackId));
+
   return (
-    <Card>
+    <Card styles={{ paddingTop: '1px', overflow: 'hidden', paddingBottom: '0' }}>
       <div className="stack">
-        {stack.order ? <span className="order light-font">{stack.order}</span> : null}
-        <span>{stack.title}</span>
-      </div>
-      <style jsx>
-        {`
-          .stack {
-            position: relative;
-            padding: 0;
-          }
+        <div className="stack-main">
+          <div className="title-area">
+            {stack.order ? (
+              <span className="order-redesigned">
+                <p>{stack.order}</p>
+              </span>
+            ) : null}
+            <h2>{stack.title}</h2>
+          </div>
 
-          .order {
-            font-size: 4.25rem;
-            height: 4.25rem;
-            line-height: 1;
-            position: absolute;
-            right: calc(100% - 1.25rem);
-            top: 0.5rem;
-            font-family: 'Times New Roman', Times, serif;
-            cursor: pointer;
-            font-weight: 900;
-            transition: all 0.2s;
-          }
+          <div className="content-area">
+            <p>{stack.description}</p>
+          </div>
+        </div>
 
-          @media (max-width: 600px) {
-            .stack {
-              padding: 0.75rem 1rem;
+        <hr />
+
+        <NewsItems newsIdList={newsIdList} />
+
+        <style jsx>
+          {`
+            @import url('https://fonts.googleapis.com/css?family=Lexend+Giga&display=swap');
+
+            .stack-main {
+              padding-bottom: 0.3rem;
+            }
+
+            .title-area {
+              display: flex;
+            }
+
+            .title-area h2 {
+              padding-top: 10px;
+              margin-left: 1rem;
+              line-height: 1.5;
+            }
+
+            .order-redesigned p {
+              margin-top: 0;
+              margin-bottom: -2.5rem;
+              font-family: 'Lexend Giga', sans-serif;
+              font-size: 3rem;
+              color: rgba(104, 180, 252);
+            }
+
+            .content-area {
+              margin-top: -1.3rem;
+            }
+
+            .content-area p {
+              display: block;
+              margin-left: 5.5px;
+              margin-right: 5.5px;
+            }
+
+            hr {
+              border-top: 1px dashed #8c8b8b;
             }
 
             .order {
+              color: white;
+              background-color: black;
+              height: 5rem;
+              width: 5rem;
+              font-size: 4.25rem;
+              //height: 4.25rem;
+              //line-height: 1;
               position: relative;
-              right: initial;
-              top: 0;
-              left: -0.25rem;
-              height: 3rem;
-              font-size: 3.5rem;
-              float: left;
-              text-shadow: none !important;
+              //right: calc(100% - 1.25rem);
+              //top: 0.5rem;
+              font-family: 'Times New Roman', Times, serif;
+              cursor: pointer;
+              font-weight: 900;
+              transition: all 0.2s;
             }
-          }
-        `}
-      </style>
+
+            @media (max-width: 600px) {
+              .stack {
+                padding: 0.75rem 1rem;
+              }
+
+              .order {
+                position: relative;
+                right: initial;
+                top: 0;
+                left: -0.25rem;
+                height: 3rem;
+                font-size: 3.5rem;
+                float: left;
+                text-shadow: none !important;
+              }
+            }
+          `}
+        </style>
+      </div>
     </Card>
   );
 };
