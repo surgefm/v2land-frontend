@@ -17,7 +17,6 @@ export const NewsItemList: React.FunctionComponent<INewsItems.IProps> = ({ newsI
             display: flex;
             flex-direction: column;
           }
-
         `}
       </style>
     </div>
