@@ -54,7 +54,7 @@ const GetEvent = (eventId: number) => async (dispatch: Dispatch, state: IStore) 
   dispatch(AddEvent(event));
 
   const actions: Action[] = [];
-
+  event.stacks = event.stacks || [];
   for (let i = 0; i < event.stacks.length; i += 1) {
     const stack = event.stacks[i];
     actions.push(StackActions.AddStack(stack));

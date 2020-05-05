@@ -20,7 +20,7 @@ const NewsroomPanelNewsCard: React.FunctionComponent<INewsroomPanelNewsCard.IPro
       {provided => (
         <div ref={provided.innerRef} {...provided.dragHandleProps} {...provided.draggableProps}>
           <NewsroomPanelCard className="news-card">
-            {`${news.source} | ${news.title}`}
+            {`${news.source} | ${news.title} | ${news.id}`}
           </NewsroomPanelCard>
           <style jsx>
             {`

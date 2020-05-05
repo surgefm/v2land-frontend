@@ -4,7 +4,6 @@ import { IStore, Stack } from '@Interfaces';
 // #endregion Global Imports
 
 // #region Local Imports
-import { getStackNewsIdList } from '../eventStackNews';
 import { getNewsList } from '../news';
 // #endregion Local Imports
 
@@ -36,9 +35,18 @@ export const getStackList = (stackIdList: number[], sorted = false) =>
     }
   );
 
+export const getStackNewsIdList = (stackId: number) =>
+  createSelector(
+    getStack(stackId),
+    stack => (stack ? stack.newsIdList : []) as number[]
+  );
+
 export const getStackNewsList = (stackId: number) =>
   createSelector(
     state => state,
     getStackNewsIdList(stackId),
-    (state, newsIdList) => getNewsList(newsIdList)(state)
+    (state, newsIdList) => {
+      console.log(431, newsIdList);
+      getNewsList(newsIdList)(state);
+    }
   );

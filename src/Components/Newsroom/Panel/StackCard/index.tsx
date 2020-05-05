@@ -14,6 +14,7 @@ const NewsroomPanelStackCard: React.FunctionComponent<INewsroomPanelStackCard.IP
 }) => {
   const stack = useSelector(getStack(stackId));
   const newsIdList = useSelector(getStackNewsIdList(stackId));
+  console.log(111, newsIdList);
   if (!stack) return <div />;
 
   return (

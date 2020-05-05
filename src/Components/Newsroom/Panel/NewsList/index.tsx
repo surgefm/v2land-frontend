@@ -10,11 +10,7 @@ const NewsroomPanelNewsList: React.FunctionComponent<INewsroomPanelNewsList.IPro
 }) => (
   <Droppable droppableId={droppableId} type="NEWS">
     {provided => (
-      <div
-        ref={provided.innerRef}
-        // style={{ backgroundColor: snapshot.isDraggingOver ? 'blue' : 'grey' }}
-        {...provided.droppableProps}
-      >
+      <div ref={provided.innerRef} style={{ paddingBottom: '1px' }} {...provided.droppableProps}>
         {newsIdList.map((newsId, index) => (
           <NewsroomPanelNewsCard
             newsId={newsId}

@@ -27,6 +27,7 @@ export const Http = {
       fetch(`${BaseUrl}${url}${query}`, {
         body: JSON.stringify(payload),
         cache: 'no-cache',
+        credentials: 'include',
         headers: {
           'content-type': 'application/json',
         },
@@ -38,9 +39,7 @@ export const Http = {
           }
           return reject(response);
         })
-        .catch(e => {
-          reject(e);
-        });
+        .catch(reject);
     });
   },
 };
@@ -58,7 +57,7 @@ export const post = async <A>(
   payload?: HttpModel.IRequestPayload,
   params?: HttpModel.IRequestQueryPayload
 ): Promise<A> => {
-  return Http.Request('POST', url, payload, params);
+  return Http.Request('POST', url, params, payload);
 };
 
 export const put = async <A>(

@@ -29,3 +29,7 @@ export const createNews = async (
 ): Promise<RedstoneModel.CreateNewsResponse> => {
   return post<RedstoneModel.CreateNewsResponse>('/news', data);
 };
+
+export const login = async (username: string, password: string): Promise<any> => {
+  return post<any>('/client/login', { username, password });
+};

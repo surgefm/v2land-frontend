@@ -2,21 +2,21 @@
 import * as React from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { DragDropContext, OnDragEndResponder, resetServerContext } from 'react-beautiful-dnd';
 import { PlusOutlined } from '@ant-design/icons';
 // #endregion Global Imports
 
 // #region Local Imports
 import { withTranslation } from '@Server/i18n';
-import { EventActions } from '@Actions';
+import { EventActions, StackActions } from '@Actions';
 import {
   Card,
   NewsroomPanelTitle,
   NewsroomPanelNewsList,
   NewsroomPanelStackList,
 } from '@Components';
-import { getEvent, getEventStackIdList, getEventNewsIdList } from '@Selectors';
+import { getEvent, getEventStackIdList, getEventOffshelfNewsIdList } from '@Selectors';
 // #endregion Local Imports
 
 // #region Interface Imports
@@ -28,9 +28,10 @@ const EventNewsroomPage: NextPage<
   IEventNewsroomPage.InitialProps
 > = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const eventId = +router.query.eventName;
   const event = useSelector(getEvent(eventId));
-  const newsIdList = useSelector(getEventNewsIdList(eventId));
+  const newsIdList = useSelector(getEventOffshelfNewsIdList(eventId));
   const stackIdList = useSelector(getEventStackIdList(eventId));
   if (!event) return <div />;
 
@@ -38,7 +39,20 @@ const EventNewsroomPage: NextPage<
     if (result.reason === 'CANCEL' || !result.destination) return;
 
     const { draggableId, destination, source } = result;
-    console.log(draggableId, destination, source);
+    const isDroppingNews = destination.droppableId.endsWith('-news-list');
+    if (isDroppingNews) {
+      if (destination === source) return;
+      const newsId = +(draggableId.split('-').pop() as string);
+      const isDroppingToStackNewsList = destination.droppableId.startsWith('stack-card-');
+      if (isDroppingToStackNewsList) {
+        const match = destination.droppableId.match(/^stack-card-(\d+)-news-list$/);
+        if (!match) return;
+        const stackId = +match[1];
+        dispatch(StackActions.AddNewsToStack(stackId, newsId));
+      } else {
+
+      }
+    }
   };
 
   resetServerContext();
