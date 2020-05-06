@@ -152,12 +152,11 @@ const EventNewsroomPage: NextPage<
             }
 
             .panel-wrapper > :global(.panel) {
-              max-width: 20rem;
+              width: 25rem;
             }
 
             .panel-wrapper > :global(.panel.public-stack),
             .panel-wrapper > :global(.panel.offshelf-stack) {
-              max-width: 26rem;
               width: 26rem;
             }
 
