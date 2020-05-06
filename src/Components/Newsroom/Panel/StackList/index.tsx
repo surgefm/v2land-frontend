@@ -6,14 +6,11 @@ import { INewsroomPanelStackList } from './StackList';
 
 const NewsroomPanelStackList: React.FunctionComponent<INewsroomPanelStackList.IProps> = ({
   stackIdList,
+  droppableId = 'newsroom-stack-panel',
 }) => (
-  <Droppable droppableId="newsroom-news-panel" type="STACK">
+  <Droppable droppableId={droppableId} type="STACK">
     {provided => (
-      <div
-        ref={provided.innerRef}
-        // style={{ backgroundColor: snapshot.isDraggingOver ? 'blue' : 'grey' }}
-        {...provided.droppableProps}
-      >
+      <div ref={provided.innerRef} style={{ paddingBottom: '1px' }} {...provided.droppableProps}>
         {stackIdList.map((stackId, index) => (
           <NewsroomPanelStackCard stackId={stackId} key={`stack-${stackId}`} index={index} />
         ))}

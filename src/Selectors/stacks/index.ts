@@ -45,8 +45,5 @@ export const getStackNewsList = (stackId: number) =>
   createSelector(
     state => state,
     getStackNewsIdList(stackId),
-    (state, newsIdList) => {
-      console.log(431, newsIdList);
-      getNewsList(newsIdList)(state);
-    }
+    (state, newsIdList) => getNewsList(newsIdList)(state)
   );

@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect';
-import { IStore, Stack } from '@Interfaces';
+import { IStore } from '@Interfaces';
 
 import { getNewsList } from '../news';
-import { getStackList, getStack } from '../stacks';
+import { getStackList } from '../stacks';
 
 export const getEventsState = (state: IStore) => state.events;
 
@@ -15,34 +15,16 @@ export const getEvent = (eventId: number) =>
     }
   );
 
-export const getEventAllStackIdList = (eventId: number) =>
+export const getEventStackIdList = (eventId: number) =>
   createSelector(
     getEvent(eventId),
     event => (event ? event.stackIdList : []) as number[]
   );
 
-export const getEventStackIdList = (eventId: number) =>
-  createSelector(
-    state => state,
-    getEventAllStackIdList(eventId),
-    (state, stackIdList) =>
-      stackIdList
-        .map(stackId => getStack(stackId)(state))
-        .filter(stack => stack && stack.order && stack.order >= 0)
-        .sort((a, b) => ((a as Stack).order || -1) - ((b as Stack).order || -1))
-        .map(stack => (stack as Stack).id)
-  );
-
 export const getEventOffshelfStackIdList = (eventId: number) =>
   createSelector(
-    state => state,
-    getEventAllStackIdList(eventId),
-    (state, stackIdList) =>
-      stackIdList.filter(stackId => {
-        const stack = getStack(stackId)(state);
-        if (!stack) return false;
-        return !stack.order || stack.order < 0;
-      })
+    getEvent(eventId),
+    event => (event ? event.offshelfStackIdList : []) as number[]
   );
 
 export const getEventStackList = (eventId: number, sorted = false) =>

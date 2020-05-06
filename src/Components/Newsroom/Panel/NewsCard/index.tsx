@@ -32,6 +32,10 @@ const NewsroomPanelNewsCard: React.FunctionComponent<INewsroomPanelNewsCard.IPro
                 white-space: nowrap;
                 overflow-x: scroll;
               }
+
+              div > :global(.news-card::-webkit-scrollbar) {
+                display: none;
+              }
             `}
           </style>
         </div>

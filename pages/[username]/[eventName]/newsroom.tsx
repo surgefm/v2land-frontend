@@ -16,7 +16,12 @@ import {
   NewsroomPanelNewsList,
   NewsroomPanelStackList,
 } from '@Components';
-import { getEvent, getEventStackIdList, getEventOffshelfNewsIdList } from '@Selectors';
+import {
+  getEvent,
+  getEventStackIdList,
+  getEventOffshelfNewsIdList,
+  getEventOffshelfStackIdList,
+} from '@Selectors';
 // #endregion Local Imports
 
 // #region Interface Imports
@@ -31,13 +36,13 @@ const EventNewsroomPage: NextPage<
   const dispatch = useDispatch();
   const eventId = +router.query.eventName;
   const event = useSelector(getEvent(eventId));
-  const newsIdList = useSelector(getEventOffshelfNewsIdList(eventId));
+  const offshelfNewsIdList = useSelector(getEventOffshelfNewsIdList(eventId));
+  const offshelfStackIdList = useSelector(getEventOffshelfStackIdList(eventId));
   const stackIdList = useSelector(getEventStackIdList(eventId));
   if (!event) return <div />;
 
   const onDragEnd: OnDragEndResponder = result => {
     if (result.reason === 'CANCEL' || !result.destination) return;
-
     const { draggableId, destination, source } = result;
     const isDroppingNews = destination.droppableId.endsWith('-news-list');
     if (isDroppingNews) {
@@ -50,7 +55,40 @@ const EventNewsroomPage: NextPage<
         const stackId = +match[1];
         dispatch(StackActions.AddNewsToStack(stackId, newsId));
       } else {
-
+        dispatch(EventActions.AddNewsToEventOffshelfNewsList(eventId, newsId));
+      }
+    } else {
+      const fromOffshelf = source.droppableId === 'newsroom-offshelf-stack-panel';
+      const toOffshelf = destination.droppableId === 'newsroom-offshelf-stack-panel';
+      if (fromOffshelf === toOffshelf) {
+        let newStackIdList = fromOffshelf ? [...offshelfStackIdList] : [...stackIdList];
+        const stackId = newStackIdList.splice(source.index, 1)[0];
+        newStackIdList = [
+          ...newStackIdList.slice(0, destination.index),
+          stackId,
+          ...newStackIdList.slice(destination.index),
+        ];
+        const action = fromOffshelf
+          ? EventActions.UpdateEventOffshelfStackListOrder
+          : EventActions.UpdateEventStackListOrder;
+        dispatch(action(eventId, newStackIdList));
+      } else {
+        const removeAction = fromOffshelf
+          ? EventActions.UpdateEventOffshelfStackListOrder
+          : EventActions.UpdateEventStackListOrder;
+        const addAction = toOffshelf
+          ? EventActions.UpdateEventOffshelfStackListOrder
+          : EventActions.UpdateEventStackListOrder;
+        const fromList = fromOffshelf ? [...offshelfStackIdList] : [...stackIdList];
+        let toList = toOffshelf ? [...offshelfStackIdList] : [...stackIdList];
+        const stackId = fromList.splice(source.index, 1)[0];
+        toList = [
+          ...toList.slice(0, destination.index),
+          stackId,
+          ...toList.slice(destination.index),
+        ];
+        dispatch(removeAction(eventId, fromList));
+        dispatch(addAction(eventId, toList));
       }
     }
   };
@@ -63,13 +101,20 @@ const EventNewsroomPage: NextPage<
         <div className="panel-wrapper">
           <Card className="panel">
             <NewsroomPanelTitle>备选新闻</NewsroomPanelTitle>
-            <NewsroomPanelNewsList newsIdList={newsIdList} droppableId="newsroom-news-list" />
+            <NewsroomPanelNewsList
+              newsIdList={offshelfNewsIdList}
+              droppableId="newsroom-news-list"
+            />
           </Card>
         </div>
 
         <div className="panel-wrapper">
-          <Card className="panel">
+          <Card className="panel offshelf-stack">
             <NewsroomPanelTitle>备选进展</NewsroomPanelTitle>
+            <NewsroomPanelStackList
+              droppableId="newsroom-offshelf-stack-panel"
+              stackIdList={offshelfStackIdList}
+            />
             <button className="add-button" type="button">
               <PlusOutlined />
               <span>创建新进展</span>
@@ -106,8 +151,14 @@ const EventNewsroomPage: NextPage<
               padding: 1.5rem 0.5rem 0.25rem;
             }
 
-            .panel-wrapper > :global(.panel:not(.public-stack)) {
+            .panel-wrapper > :global(.panel) {
               max-width: 20rem;
+            }
+
+            .panel-wrapper > :global(.panel.public-stack),
+            .panel-wrapper > :global(.panel.offshelf-stack) {
+              max-width: 26rem;
+              width: 26rem;
             }
 
             .add-button {

@@ -31,6 +31,18 @@ const AddStackToEvent = (eventId: number, stackId: number) => ({
   type: ActionConsts.Event.AddStackToEvent,
 });
 
+const UpdateEventStackListOrder = (eventId: number, stackIdList: number[]) => ({
+  eventId,
+  stackIdList,
+  type: ActionConsts.Event.UpdateEventStackListOrder,
+});
+
+const UpdateEventOffshelfStackListOrder = (eventId: number, stackIdList: number[]) => ({
+  eventId,
+  stackIdList,
+  type: ActionConsts.Event.UpdateEventOffshelfStackListOrder,
+});
+
 const AddNewsToEvent = (
   eventId: number,
   newsId: number,
@@ -43,6 +55,12 @@ const AddNewsToEvent = (
   isInTemporaryStack:
     typeof stackIdOrIsInTemporaryStack === 'boolean' ? stackIdOrIsInTemporaryStack : undefined,
   type: ActionConsts.Event.AddNewsToEvent,
+});
+
+const AddNewsToEventOffshelfNewsList = (eventId: number, newsId: number) => ({
+  eventId,
+  newsId,
+  type: ActionConsts.Event.AddNewsToEventOffshelfNewsList,
 });
 
 const GetEvent = (eventId: number) => async (dispatch: Dispatch, state: IStore) => {
@@ -84,6 +102,9 @@ export const EventActions = {
   AddEvent,
   GetEvent,
   UpdateEvent,
+  UpdateEventStackListOrder,
+  UpdateEventOffshelfStackListOrder,
   AddStackToEvent,
   AddNewsToEvent,
+  AddNewsToEventOffshelfNewsList,
 };

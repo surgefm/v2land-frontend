@@ -6,8 +6,11 @@ export const ActionConsts = {
   Event: {
     AddEvent: 'Event_AddEvent',
     UpdateEvent: 'Event_UpdateEvent',
+    UpdateEventStackListOrder: 'Event_UpdateEventStackListOrder',
+    UpdateEventOffshelfStackListOrder: 'Event_UpdateEventOffshelfStackListOrder',
     AddStackToEvent: 'Event_AddStackToEvent',
     AddNewsToEvent: 'Event_AddNewsToEvent',
+    AddNewsToEventOffshelfNewsList: 'Event_AddNewsToEventOffshelfNewsList',
   },
   Stack: {
     AddStack: 'Stack_AddStack',

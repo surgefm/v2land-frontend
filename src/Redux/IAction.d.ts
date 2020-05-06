@@ -10,6 +10,7 @@ export interface EventAction extends ReduxAction {
   event?: Event;
   eventId?: number;
   stackId?: number;
+  stackIdList?: number[];
   newsId?: number;
   isInTemporaryStack?: boolean;
 }

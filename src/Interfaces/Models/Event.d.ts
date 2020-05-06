@@ -26,6 +26,6 @@ export interface Event extends SimplifiedEvent {
   newsCount?: number;
   stackCount?: number;
   temporaryStack?: News[];
-  temporaryStackNewsIdList?: number[];
+  temporaryStackNewsIdList: number[];
   lastUpdate?: Date;
 }

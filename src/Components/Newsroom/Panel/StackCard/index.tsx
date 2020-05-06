@@ -14,7 +14,6 @@ const NewsroomPanelStackCard: React.FunctionComponent<INewsroomPanelStackCard.IP
 }) => {
   const stack = useSelector(getStack(stackId));
   const newsIdList = useSelector(getStackNewsIdList(stackId));
-  console.log(111, newsIdList);
   if (!stack) return <div />;
 
   return (
@@ -36,6 +35,10 @@ const NewsroomPanelStackCard: React.FunctionComponent<INewsroomPanelStackCard.IP
 
               div > :global(.stack-card) {
                 background-color: #f4f4f4;
+              }
+
+              div > :global(.stack-card:hover) {
+                border: 1px solid #999;
               }
             `}
           </style>

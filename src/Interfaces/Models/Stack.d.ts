@@ -15,5 +15,5 @@ export interface Stack {
   enableNotification?: boolean;
   eventId?: number;
   event?: Event;
-  newsIdList?: number[];
+  newsIdList: number[];
 }
