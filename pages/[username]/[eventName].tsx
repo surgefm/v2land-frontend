@@ -17,7 +17,7 @@ import {
   EventDescription,
   Stack,
 } from '@Components';
-import { EventActions } from '@Actions';
+import { EventActions, StackActions } from '@Actions';
 import { getEvent, getEventStackIdList } from '@Selectors';
 import { RedstoneService } from '@Services';
 // #endregion Local Imports

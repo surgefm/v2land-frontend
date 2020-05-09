@@ -12,7 +12,7 @@ const showPlaceholder = (stackIdList: number[]) => {
       <style jsx>
         {`
           div {
-            height: 2.5rem;
+            height: calc(100% - 0.5rem);
             width: 100%;
             display: flex;
             justify-content: center;
@@ -21,7 +21,7 @@ const showPlaceholder = (stackIdList: number[]) => {
             top: 0.25rem;
             left: 0;
             padding: 0rem 0.5rem;
-            background-color: rgb(232, 232, 232);
+            background-color: #f4f4f4;
             border-radius: 0.25rem;
             user-select: none;
           }

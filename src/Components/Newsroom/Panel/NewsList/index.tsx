@@ -12,7 +12,7 @@ const showPlaceholder = (newsIdList: number[]) => {
       <style jsx>
         {`
           div {
-            height: 2.5rem;
+            height: calc(100% - 0.5rem);
             width: 100%;
             display: flex;
             justify-content: center;
