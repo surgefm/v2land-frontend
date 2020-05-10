@@ -3,7 +3,7 @@ import { Action as ReduxAction } from 'redux';
 // #endregion Global Imports
 
 // #region Local Imports
-import { Event, Stack, News } from '@Interfaces';
+import { Event, Stack, News, Client } from '@Interfaces';
 // #endregion Local Imports
 
 export interface EventAction extends ReduxAction {
@@ -25,11 +25,16 @@ export interface NewsAction extends ReduxAction {
   newsId?: number;
 }
 
+export interface ClientAction extends ReduxAction {
+  client?: Client;
+  clientId?: number;
+}
+
 export interface LoadingAction extends ReduxAction {
   identifier: string;
 }
 
-export type Action = EventAction | StackAction | NewsAction | LoadingAction;
+export type Action = EventAction | StackAction | NewsAction | ClientAction | LoadingAction;
 
 export interface IAction<T> extends ReduxAction {
   payload?: T;

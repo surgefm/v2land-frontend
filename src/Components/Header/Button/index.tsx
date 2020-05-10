@@ -25,6 +25,8 @@ export const HeaderButton: React.FunctionComponent<IHeaderButton.IProps> = ({
             justify-content: center;
             position: relative;
             overflow: hidden;
+            line-height: 2;
+            font-size: 1rem;
           }
 
           .button {

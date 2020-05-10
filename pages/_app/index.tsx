@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
 import withRedux from 'next-redux-wrapper';
 import { PageTransition } from 'next-page-transitions';
+import { message } from 'antd';
 // #endregion Global Imports
 
 // #region Local Imports
@@ -14,10 +15,15 @@ import { AppWithStore } from '@Interfaces';
 import { makeStore } from '@Redux';
 import { Header } from '@Components';
 
+import 'antd/dist/antd.css';
 import '@Static/css/common.scss';
 // #endregion Local Imports
 
 class WebApp extends App<AppWithStore> {
+  componentDidMount() {
+    message.config({ top: 64 });
+  }
+
   static async getInitialProps({ Component, ctx }: AppContext): Promise<AppInitialProps> {
     const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
 

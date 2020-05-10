@@ -12,6 +12,7 @@ export const Background: React.FunctionComponent = ({ children }) => (
           display: flex;
           align-items: center;
           flex-direction: column;
+          background-color: #f6f8fa;
         }
 
         @media (max-width: 600px) {
