@@ -13,6 +13,13 @@ export const getEventList = async (): Promise<Event[]> => {
   return eventList;
 };
 
+export const login = async (usernameOrEmail: string, password: string) => {
+  return post<RedstoneModel.ClientLogInResponse>('/client/login', {
+    username: usernameOrEmail,
+    password,
+  });
+};
+
 export const getNews = async (newsId: number): Promise<News> => {
   return get<News>(`/news/${newsId}`);
 };
@@ -28,8 +35,4 @@ export const createNews = async (
   data: RedstoneModel.CreateNewsOptions
 ): Promise<RedstoneModel.CreateNewsResponse> => {
   return post<RedstoneModel.CreateNewsResponse>('/news', data);
-};
-
-export const login = async (username: string, password: string): Promise<any> => {
-  return post<any>('/client/login', { username, password });
 };

@@ -1,5 +1,5 @@
 // #region Interface Imports
-import { IHomePage, Event, Stack, News } from '@Interfaces';
+import { IHomePage, Event, Stack, News, Client } from '@Interfaces';
 // #endregion Interface Imports
 
 export interface EventsState {
@@ -17,6 +17,12 @@ export interface NewsState {
   idIndexMap: { [index: number]: number };
 }
 
+export interface ClientsState {
+  list: Client[];
+  clientId: number;
+  idIndexMap: { [index: number]: number };
+}
+
 export type LoadingState = { [index: string]: boolean };
 
 export interface IStore {
@@ -24,5 +30,6 @@ export interface IStore {
   events: EventState;
   stacks: StacksState;
   news: NewsState;
+  clients: ClientsState;
   loading: LoadingState;
 }

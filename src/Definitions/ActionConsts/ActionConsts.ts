@@ -24,6 +24,7 @@ export const ActionConsts = {
   Client: {
     AddClient: 'Client_AddClient',
     UpdateClient: 'Client_UpdateClient',
+    SetLoggedInClient: 'Client_SetLoggedInClient',
   },
   Loading: {
     BeginLoading: 'Loading_BeginLoading',

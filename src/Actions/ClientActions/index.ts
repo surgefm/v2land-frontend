@@ -14,4 +14,9 @@ export const ClientActions = {
     client,
     type: ActionConsts.Client.UpdateClient,
   }),
+
+  SetLoggedInClient: (clientId: number) => ({
+    clientId,
+    type: ActionConsts.Client.SetLoggedInClient,
+  }),
 };
