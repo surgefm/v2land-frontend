@@ -1,6 +1,6 @@
 // #region Local Imports
 import { get, post, put } from '@Services/API/Http';
-import { Event, News } from '@Interfaces';
+import { Event, News, Client } from '@Interfaces';
 import { RedstoneModel } from './Redstone';
 // #endregion Local Imports
 
@@ -18,6 +18,10 @@ export const login = async (usernameOrEmail: string, password: string) => {
     username: usernameOrEmail,
     password,
   });
+};
+
+export const getClientInfo = async () => {
+  return get<{ client: Client }>('/client/me');
 };
 
 export const getNews = async (newsId: number): Promise<News> => {
