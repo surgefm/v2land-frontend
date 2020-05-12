@@ -3,7 +3,6 @@ import * as React from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
-import io from 'socket.io-client';
 // #endregion Global Imports
 
 // #region Local Imports
@@ -17,9 +16,8 @@ import {
   EventDescription,
   Stack,
 } from '@Components';
-import { EventActions, StackActions } from '@Actions';
+import { EventActions } from '@Actions';
 import { getEvent, getEventStackIdList } from '@Selectors';
-import { RedstoneService } from '@Services';
 // #endregion Local Imports
 
 // #region Interface Imports
@@ -30,15 +28,6 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = () => {
   const router = useRouter();
   const event = useSelector(getEvent(+router.query.eventName));
   const stackIdList = useSelector(getEventStackIdList(+router.query.eventName));
-  // const dispatch = useDispatch();
-  // if (!event) return <div />;
-
-  // dispatch(EventActions.GetEvent(event.id));
-  RedstoneService.login('计量经济学家的AI', '666').then(() => {
-    const socket = io('http://localhost:1337');
-    socket.on('heyo', (data: any) => console.log(data));
-    socket.emit('hey', (data: any) => console.log(data));
-  });
 
   if (!event) return <div />;
 

@@ -2,7 +2,7 @@
 import * as React from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch, useStore } from 'react-redux';
 import { DragDropContext, OnDragEndResponder, resetServerContext } from 'react-beautiful-dnd';
 import { PlusOutlined } from '@ant-design/icons';
 // #endregion Global Imports
@@ -10,6 +10,7 @@ import { PlusOutlined } from '@ant-design/icons';
 // #region Local Imports
 import { withTranslation } from '@Server/i18n';
 import { EventActions, StackActions } from '@Actions';
+import { getNewsroomSocket, NewsroomSocket } from '@Services';
 import {
   Card,
   NewsroomPanelTitle,
@@ -39,6 +40,8 @@ const EventNewsroomPage: NextPage<
   const offshelfNewsIdList = useSelector(getEventOffshelfNewsIdList(eventId));
   const offshelfStackIdList = useSelector(getEventOffshelfStackIdList(eventId));
   const stackIdList = useSelector(getEventStackIdList(eventId));
+  const store = useStore();
+  const socket = getNewsroomSocket(eventId, store) as NewsroomSocket;
   if (!event) return <div />;
 
   const onDragEnd: OnDragEndResponder = result => {
@@ -54,6 +57,7 @@ const EventNewsroomPage: NextPage<
         if (!match) return;
         const stackId = +match[1];
         dispatch(StackActions.AddNewsToStack(stackId, newsId));
+        socket.addNewsToStack(newsId, stackId);
       } else {
         dispatch(EventActions.AddNewsToEventOffshelfNewsList(eventId, newsId));
       }

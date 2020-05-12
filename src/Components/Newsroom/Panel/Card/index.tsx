@@ -17,6 +17,7 @@ const NewsroomPanelCard: React.FunctionComponent<INewsroomPanelCard.IProps> = ({
           margin: 0.3rem 0;
           border: 1px solid transparent;
           transition: all 0.2s;
+          line-height: 2;
         }
 
         div:hover {

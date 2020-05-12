@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, Checkbox, message } from 'antd';
 import { useDispatch } from 'react-redux';
-import { RedstoneService } from '@Services';
+import { RedstoneService, clearNewsroomSockets } from '@Services';
 import { ClientActions } from '@Actions';
 
 const layout = {
@@ -24,6 +24,7 @@ export const LoginForm: React.FunctionComponent = (): JSX.Element => {
       const { client } = await RedstoneService.login(username, password);
       dispatch(ClientActions.AddClient(client));
       dispatch(ClientActions.SetLoggedInClient(client.id));
+      clearNewsroomSockets();
     } catch (err) {
       message.error('用户名或密码不正确');
     } finally {
