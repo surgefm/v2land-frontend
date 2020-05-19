@@ -13,6 +13,9 @@ const {
 } = getConfig();
 
 const BaseUrl = `${API_URL}`;
+const cookies = {
+  cookie: '',
+};
 
 export const Http = {
   Request: async <A>(
@@ -29,6 +32,7 @@ export const Http = {
         cache: 'no-cache',
         credentials: 'include',
         headers: {
+          ...cookies,
           'content-type': 'application/json',
         },
         method: `${methodType}`,
@@ -42,6 +46,14 @@ export const Http = {
         .catch(reject);
     });
   },
+};
+
+export const clearCookies = () => {
+  cookies.cookie = '';
+};
+
+export const setCookies = (cookie: string) => {
+  cookies.cookie = cookie;
 };
 
 export const get = async <A>(

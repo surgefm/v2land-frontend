@@ -1,8 +1,9 @@
 import io from 'socket.io-client';
 import getConfig from 'next/config';
 import { Store, AnyAction } from 'redux';
+import { message } from 'antd';
 
-import { EventStackNews, News, Stack, Event } from '@Interfaces';
+import { EventStackNews, News, Stack, Event, AppStore } from '@Interfaces';
 import { EventActions, StackActions } from '@Actions';
 
 const {
@@ -19,9 +20,16 @@ type Response = {
 export class NewsroomSocket {
   private socket: SocketIOClient.Socket;
 
-  private store: Store<any, AnyAction>;
+  private store: AppStore;
 
   private eventId: number;
+
+  private callback = (err: string) => {
+    if (err) {
+      message.error(err);
+      this.store.dispatch(EventActions.GetEvent(this.eventId, true));
+    }
+  };
 
   constructor(eventId: number, store: Store<any, AnyAction>) {
     this.store = store;
@@ -31,7 +39,7 @@ export class NewsroomSocket {
   }
 
   joinNewsroom() {
-    this.socket.emit('join newsroom', this.eventId);
+    this.socket.emit('join newsroom', this.eventId, this.callback);
 
     this.socket.on('add news to event', (res: Response) => {
       const esn = res.eventStackNews;
@@ -47,11 +55,19 @@ export class NewsroomSocket {
   }
 
   addNewsToEvent(newsId: number, eventId: number) {
-    this.socket.emit('add news to event', newsId, eventId);
+    this.socket.emit('add news to event', newsId, eventId, this.callback);
   }
 
   addNewsToStack(newsId: number, stackId: number) {
-    this.socket.emit('add news to stack', newsId, stackId);
+    this.socket.emit('add news to stack', newsId, stackId, this.callback);
+  }
+
+  removeNewsFromEvent(newsId: number, eventId: number) {
+    this.socket.emit('remove news from event', newsId, eventId, this.callback);
+  }
+
+  removeNewsFromStack(newsId: number, stackId: number) {
+    this.socket.emit('remove news from stack', newsId, stackId, this.callback);
   }
 
   destroy() {

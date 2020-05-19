@@ -63,12 +63,15 @@ const AddNewsToEventOffshelfNewsList = (eventId: number, newsId: number) => ({
   type: ActionConsts.Event.AddNewsToEventOffshelfNewsList,
 });
 
-const GetEvent = (eventId: number) => async (dispatch: Dispatch, state: IStore) => {
+const GetEvent = (eventId: number, getLatest = false) => async (
+  dispatch: Dispatch,
+  state: IStore
+) => {
   const identifier = `event-${eventId}`;
   if (isLoading(identifier)(state)) return;
 
   dispatch(LoadingActions.BeginLoading(identifier));
-  const event = await RedstoneService.getEvent(eventId);
+  const event = await RedstoneService.getEvent(eventId, getLatest);
   dispatch(AddEvent(event));
 
   const actions: Action[] = [];

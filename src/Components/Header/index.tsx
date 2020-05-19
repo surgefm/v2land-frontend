@@ -38,7 +38,7 @@ const Header: React.FunctionComponent = (): JSX.Element => {
           .center {
             width: 100%;
             height: 100%;
-            max-width: 50rem;
+            padding: 0 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;

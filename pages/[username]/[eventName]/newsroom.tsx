@@ -196,11 +196,7 @@ EventNewsroomPage.getInitialProps = async (
 ): Promise<IEventNewsroomPage.InitialProps> => {
   const { eventName } = ctx.query;
 
-  if (!getEvent(+eventName)(ctx.store.getState())) {
-    await ctx.store.dispatch(EventActions.GetEvent(+eventName));
-  } else {
-    ctx.store.dispatch(EventActions.GetEvent(+eventName));
-  }
+  await ctx.store.dispatch(EventActions.GetEvent(+eventName, true));
 
   return { namespacesRequired: ['common'] };
 };
