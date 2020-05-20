@@ -15,6 +15,8 @@ type Response = {
   news?: News;
   stack?: Stack;
   event?: Event;
+  eventId?: number;
+  stackIdList?: number[];
 };
 
 export class NewsroomSocket {
@@ -52,10 +54,20 @@ export class NewsroomSocket {
       const esn = res.eventStackNews;
       this.store.dispatch(StackActions.AddNewsToStack(esn.stackId as number, esn.newsId as number));
     });
+
+    // this.socket.on('remove news from stack', (esn: EventStackNews) => {
+    //   this.store.dispatch(StackActions.)
+    // })
+
+    this.socket.on('update stack orders', (res: Response) => {
+      const eventId = res.eventId as number;
+      const stackIdList = res.stackIdList as number[];
+      this.store.dispatch(EventActions.UpdateEvent(eventId, { stackIdList } as Event));
+    });
   }
 
-  addNewsToEvent(newsId: number, eventId: number) {
-    this.socket.emit('add news to event', newsId, eventId, this.callback);
+  addNewsToEvent(newsId: number) {
+    this.socket.emit('add news to event', newsId, this.eventId, this.callback);
   }
 
   addNewsToStack(newsId: number, stackId: number) {
@@ -68,6 +80,10 @@ export class NewsroomSocket {
 
   removeNewsFromStack(newsId: number, stackId: number) {
     this.socket.emit('remove news from stack', newsId, stackId, this.callback);
+  }
+
+  updateStackOrders(stackIdList: number[]) {
+    this.socket.emit('update stack orders', this.eventId, stackIdList, this.callback);
   }
 
   destroy() {

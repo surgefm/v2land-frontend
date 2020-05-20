@@ -60,6 +60,10 @@ const EventNewsroomPage: NextPage<
         socket.addNewsToStack(newsId, stackId);
       } else {
         dispatch(EventActions.AddNewsToEventOffshelfNewsList(eventId, newsId));
+        const match = source.droppableId.match(/^stack-card-(\d+)-news-list$/);
+        if (!match) return;
+        const stackId = +match[1];
+        socket.removeNewsFromStack(newsId, stackId);
       }
     } else {
       const fromOffshelf = source.droppableId === 'newsroom-offshelf-stack-panel';
@@ -76,6 +80,7 @@ const EventNewsroomPage: NextPage<
           ? EventActions.UpdateEventOffshelfStackListOrder
           : EventActions.UpdateEventStackListOrder;
         dispatch(action(eventId, newStackIdList));
+        socket.updateStackOrders(newStackIdList);
       } else {
         const removeAction = fromOffshelf
           ? EventActions.UpdateEventOffshelfStackListOrder
