@@ -10,6 +10,8 @@ import addNewsToEvent from './addNewsToEvent';
 import addNewsToEventOffshelfNewsList from './addNewsToEventOffshelfNewsList';
 import addNewsToStack from './addNewsToStack';
 import addStack from './addStack';
+import removeNewsFromStack from './removeNewsFromStack';
+import removeNewsFromEvent from './removeNewsFromEvent';
 import updateEventOffshelfStackListOrder from './updateEventOffshelfStackListOrder';
 import updateEventStackListOrder from './updateEventStackListOrder';
 
@@ -29,6 +31,10 @@ export const StackReducer = (state = INITIAL_STATE, action: StackAction) => {
       return addNewsToStack(state, action);
     case ActionConsts.Event.AddNewsToEventOffshelfNewsList:
       return addNewsToEventOffshelfNewsList(state, action);
+    case ActionConsts.Stack.RemoveNewsFromStack:
+      return removeNewsFromStack(state, action);
+    case ActionConsts.Event.RemoveNewsFromEvent:
+      return removeNewsFromEvent(state, action);
     case ActionConsts.Event.UpdateEventOffshelfStackListOrder:
       return updateEventOffshelfStackListOrder(state, action);
     case ActionConsts.Event.UpdateEventStackListOrder:

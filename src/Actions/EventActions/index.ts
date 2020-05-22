@@ -43,18 +43,18 @@ const UpdateEventOffshelfStackListOrder = (eventId: number, stackIdList: number[
   type: ActionConsts.Event.UpdateEventOffshelfStackListOrder,
 });
 
-const AddNewsToEvent = (
-  eventId: number,
-  newsId: number,
-  stackIdOrIsInTemporaryStack?: number | boolean
-) => ({
+const AddNewsToEvent = (eventId: number, newsId: number, stackId?: number) => ({
   eventId,
   newsId,
-  stackId:
-    typeof stackIdOrIsInTemporaryStack === 'number' ? stackIdOrIsInTemporaryStack : undefined,
-  isInTemporaryStack:
-    typeof stackIdOrIsInTemporaryStack === 'boolean' ? stackIdOrIsInTemporaryStack : undefined,
+  stackId: typeof stackId === 'number' ? stackId : undefined,
   type: ActionConsts.Event.AddNewsToEvent,
+});
+
+const RemoveNewsFromEvent = (eventId: number, newsId: number, stackId?: number) => ({
+  eventId,
+  newsId,
+  stackId: typeof stackId === 'number' ? stackId : undefined,
+  type: ActionConsts.Event.RemoveNewsFromEvent,
 });
 
 const AddNewsToEventOffshelfNewsList = (eventId: number, newsId: number) => ({
@@ -93,7 +93,7 @@ const GetEvent = (eventId: number, getLatest = false) => async (
   for (let i = 0; i < temporaryStack.length; i += 1) {
     const news = temporaryStack[i];
     actions.push(NewsActions.AddNews(news));
-    actions.push(AddNewsToEvent(eventId, news.id));
+    actions.push(AddNewsToEventOffshelfNewsList(eventId, news.id));
   }
 
   actions.push(LoadingActions.FinishLoading(identifier));
@@ -110,4 +110,5 @@ export const EventActions = {
   AddStackToEvent,
   AddNewsToEvent,
   AddNewsToEventOffshelfNewsList,
+  RemoveNewsFromEvent,
 };

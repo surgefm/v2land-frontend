@@ -11,11 +11,13 @@ export const ActionConsts = {
     AddStackToEvent: 'Event_AddStackToEvent',
     AddNewsToEvent: 'Event_AddNewsToEvent',
     AddNewsToEventOffshelfNewsList: 'Event_AddNewsToEventOffshelfNewsList',
+    RemoveNewsFromEvent: 'Event_RemoveNewsFromEvent',
   },
   Stack: {
     AddStack: 'Stack_AddStack',
     UpdateStack: 'Stack_UpdateStack',
     AddNewsToStack: 'Stack_AddNewsToStack',
+    RemoveNewsFromStack: 'Stack_RemoveNewsFromStack',
   },
   News: {
     AddNews: 'News_AddNews',

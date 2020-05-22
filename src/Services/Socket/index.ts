@@ -59,9 +59,7 @@ export class NewsroomSocket {
 
     this.socket.on('add news to event', (res: Response) => {
       const esn = res.eventStackNews;
-      this.store.dispatch(
-        EventActions.AddNewsToEvent(esn.eventId, esn.newsId as number, esn.isInTemporaryStack)
-      );
+      this.store.dispatch(EventActions.AddNewsToEvent(esn.eventId, esn.newsId as number));
     });
 
     this.socket.on('add news to stack', (res: Response) => {
@@ -69,9 +67,17 @@ export class NewsroomSocket {
       this.store.dispatch(StackActions.AddNewsToStack(esn.stackId as number, esn.newsId as number));
     });
 
-    // this.socket.on('remove news from stack', (esn: EventStackNews) => {
-    //   this.store.dispatch(StackActions.)
-    // })
+    this.socket.on('remove news from stack', (esn: EventStackNews) => {
+      this.store.dispatch(
+        StackActions.RemoveNewsFromStack(esn.stackId as number, esn.newsId as number)
+      );
+    });
+
+    this.socket.on('remove news from event', (esn: EventStackNews) => {
+      this.store.dispatch(
+        EventActions.RemoveNewsFromEvent(esn.eventId as number, esn.newsId as number)
+      );
+    });
 
     this.socket.on('update event information', (res: Response) => {
       const event = res.event as Event;

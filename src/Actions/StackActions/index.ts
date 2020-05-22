@@ -20,4 +20,10 @@ export const StackActions = {
     stackId,
     type: ActionConsts.Stack.AddNewsToStack,
   }),
+
+  RemoveNewsFromStack: (stackId: number, newsId: number) => ({
+    newsId,
+    stackId,
+    type: ActionConsts.Stack.RemoveNewsFromStack,
+  }),
 };
