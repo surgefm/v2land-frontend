@@ -2,7 +2,11 @@ import { EventsState, EventAction } from '@Interfaces';
 
 const addEvent = (state: EventsState, action: EventAction) => {
   if (!action.event) return state;
-  const event = { ...action.event };
+  let event = { ...action.event };
+  const eventId = action.eventId || event.id;
+  if (!eventId) return state;
+  event = { ...state.list[state.idIndexMap[eventId]], ...event };
+
   if (event.stacks) {
     event.stackIdList = event.stacks.map(stack => stack.id);
   }
@@ -20,9 +24,6 @@ const addEvent = (state: EventsState, action: EventAction) => {
   delete event.tags;
   delete event.stacks;
   delete event.temporaryStack;
-
-  const eventId = action.eventId || event.id;
-  if (!eventId) return state;
 
   const newState = { ...state };
   const index = state.idIndexMap[eventId];

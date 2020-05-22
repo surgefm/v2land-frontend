@@ -26,6 +26,9 @@ export const ActionConsts = {
     UpdateClient: 'Client_UpdateClient',
     SetLoggedInClient: 'Client_SetLoggedInClient',
   },
+  Newsroom: {
+    SetPanelsOrder: 'Newsroom_SetPanelsOrder',
+  },
   Loading: {
     BeginLoading: 'Loading_BeginLoading',
     FinishLoading: 'Loading_FinishLoading',

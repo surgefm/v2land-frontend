@@ -28,6 +28,36 @@ export const NewsroomPanelEventDetail: React.FunctionComponent<
   const [origName, setOrigName] = useState(event.name);
   const [origDescription, setOrigDescription] = useState(event.description);
   const [loading, setLoading] = useState(false);
+  const [disabled, setDisabled] = useState(true);
+
+  const submit = async () => {
+    setName(form.getFieldValue('name'));
+    setDescription(form.getFieldValue('description'));
+    const socket = getNewsroomSocket(eventId, store);
+    if (!socket) return;
+    setLoading(true);
+    try {
+      await socket.updateEvent(form.getFieldsValue() as Event);
+      message.success('成功更新事件信息');
+      setDisabled(true);
+    } catch (err) {
+      // Do nothing
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onChange = () => {
+    setDisabled(
+      origName === form.getFieldValue('name') &&
+        origDescription === form.getFieldValue('description')
+    );
+  };
+
+  const reset = () => {
+    form.setFieldsValue(event);
+    onChange();
+  };
 
   useEffect(() => {
     if (origName !== event.name) {
@@ -40,30 +70,12 @@ export const NewsroomPanelEventDetail: React.FunctionComponent<
     }
   }, [event, origName, origDescription]);
 
-  const reset = () => {
+  useEffect(() => {
     form.setFieldsValue({ name, description });
-  };
-
-  const submit = async () => {
-    setName(form.getFieldValue('name'));
-    setDescription(form.getFieldValue('description'));
-    const socket = getNewsroomSocket(eventId, store);
-    if (!socket) return;
-    setLoading(true);
-    try {
-      await socket.updateEvent(form.getFieldsValue() as Event);
-      message.success('成功更新事件信息');
-    } catch (err) {
-      // Do nothing
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  reset();
+  }, []);
 
   return (
-    <Form {...layout} form={form} name="event-detail">
+    <Form {...layout} form={form} name="event-detail" onChange={onChange}>
       <Form.Item name="name" label="事件名" rules={[{ required: true }]}>
         <Input placeholder="百度魏则西事件" />
       </Form.Item>
@@ -74,7 +86,14 @@ export const NewsroomPanelEventDetail: React.FunctionComponent<
         />
       </Form.Item>
       <Form.Item {...tailLayout}>
-        <Button type="primary" htmlType="submit" shape="round" loading={loading} onClick={submit}>
+        <Button
+          type="primary"
+          htmlType="submit"
+          shape="round"
+          loading={loading}
+          disabled={disabled}
+          onClick={submit}
+        >
           保存
         </Button>
         <Button type="link" htmlType="button" loading={loading} onClick={reset}>

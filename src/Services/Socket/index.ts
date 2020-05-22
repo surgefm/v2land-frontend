@@ -106,7 +106,8 @@ export class NewsroomSocket {
   }
 
   async updateEvent(event: Event) {
-    return this.emit('update event information', this.eventId, event);
+    await this.emit('update event information', this.eventId, event);
+    this.store.dispatch(EventActions.UpdateEvent(this.eventId, event));
   }
 
   async updateStackOrders(stackIdList: number[]) {

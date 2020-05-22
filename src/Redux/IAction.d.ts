@@ -26,6 +26,10 @@ export interface NewsAction extends ReduxAction {
   newsId?: number;
 }
 
+export interface NewsroomAction extends ReduxAction {
+  panels?: string[];
+}
+
 export interface ClientAction extends ReduxAction {
   client?: Client;
   clientId?: number;

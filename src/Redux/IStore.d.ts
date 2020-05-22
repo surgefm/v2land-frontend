@@ -23,6 +23,10 @@ export interface ClientsState {
   idIndexMap: { [index: number]: number };
 }
 
+export interface NewsroomsState {
+  panels: string[];
+}
+
 export type LoadingState = { [index: string]: boolean };
 
 export interface IStore {
@@ -31,5 +35,6 @@ export interface IStore {
   stacks: StacksState;
   news: NewsState;
   clients: ClientsState;
+  newsrooms: NewsroomsState;
   loading: LoadingState;
 }

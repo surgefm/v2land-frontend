@@ -7,6 +7,7 @@ import { ClientReducer } from './clients';
 import { EventReducer } from './events';
 import { LoadingReducer } from './loading';
 import { NewsReducer } from './news';
+import { NewsroomReducer } from './newsrooms';
 import { StackReducer } from './stacks';
 // #endregion Local Imports
 
@@ -15,5 +16,6 @@ export default combineReducers({
   events: EventReducer,
   loading: LoadingReducer,
   news: NewsReducer,
+  newsrooms: NewsroomReducer,
   stacks: StackReducer,
 });
