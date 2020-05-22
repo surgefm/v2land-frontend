@@ -16,6 +16,7 @@ import {
   NewsroomPanelTitle,
   NewsroomPanelNewsList,
   NewsroomPanelStackList,
+  NewsroomPanelEventDetail,
 } from '@Components';
 import {
   getEvent,
@@ -109,6 +110,13 @@ const EventNewsroomPage: NextPage<
       <div className="container">
         <div className="panel-wrapper">
           <Card className="panel">
+            <NewsroomPanelTitle>事件信息</NewsroomPanelTitle>
+            <NewsroomPanelEventDetail eventId={eventId} />
+          </Card>
+        </div>
+
+        <div className="panel-wrapper">
+          <Card className="panel">
             <NewsroomPanelTitle>备选新闻</NewsroomPanelTitle>
             <NewsroomPanelNewsList
               newsIdList={offshelfNewsIdList}
@@ -133,7 +141,7 @@ const EventNewsroomPage: NextPage<
 
         <div className="panel-wrapper">
           <Card className="panel public-stack">
-            <NewsroomPanelTitle>事件进展</NewsroomPanelTitle>
+            <NewsroomPanelTitle>事件时间线</NewsroomPanelTitle>
             <NewsroomPanelStackList stackIdList={stackIdList} />
           </Card>
         </div>
@@ -146,7 +154,7 @@ const EventNewsroomPage: NextPage<
               padding: 5rem 1rem 1rem 1rem;
               overflow-y: hidden;
               overflow-x: scroll;
-              display: flex;
+              display: inline-flex;
             }
 
             .panel-wrapper {

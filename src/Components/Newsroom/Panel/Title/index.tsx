@@ -9,7 +9,7 @@ const NewsroomPanelTitle: React.FunctionComponent<INewsroomPanelTitle.IProps> = 
         p {
           margin: 0 0.5rem;
           font-weight: 500;
-          line-height: 1.25;
+          line-height: 2;
         }
       `}
     </style>

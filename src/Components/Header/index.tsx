@@ -1,23 +1,31 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 
 import { HeaderLogo } from './Logo';
 import { HeaderButton } from './Button';
+import { HeaderCommitButton } from './CommitButton';
 import { HeaderUserInfo } from './UserInfo';
 
 const Header: React.FunctionComponent = (): JSX.Element => {
+  const router = useRouter();
+  const isInNewsroom = router.route === '/[username]/[eventName]/newsroom';
+
   return (
     <div className="container">
       <div className="center">
         <div className="left">
           <HeaderLogo />
-          <HeaderButton href="/">首页</HeaderButton>
-          <HeaderButton href="/about">关注</HeaderButton>
-          <HeaderButton href="/[username]/[eventName]" as="/1/12">
-            我的事件
-          </HeaderButton>
+          {isInNewsroom || [
+            <HeaderButton href="/">首页</HeaderButton>,
+            <HeaderButton href="/about">关注</HeaderButton>,
+            <HeaderButton href="/[username]/[eventName]" as="/1/12">
+              我的事件
+            </HeaderButton>,
+          ]}
         </div>
         <div className="right">
           <HeaderUserInfo />
+          {!isInNewsroom || <HeaderCommitButton />}
         </div>
       </div>
       <style jsx>

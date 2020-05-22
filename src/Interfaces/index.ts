@@ -18,6 +18,7 @@ export * from '@Services/API/Http/Http';
 // #region Model Interfaces
 export * from '@Interfaces/Models/Auth';
 export * from '@Interfaces/Models/Client';
+export * from '@Interfaces/Models/Commit';
 export * from '@Interfaces/Models/Contact';
 export * from '@Interfaces/Models/Event';
 export * from '@Interfaces/Models/EventStackNews';
