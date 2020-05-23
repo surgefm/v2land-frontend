@@ -40,7 +40,7 @@ const Header: React.FunctionComponent = (): JSX.Element => {
             box-shadow: 0 4px 4px rgba(0, 0, 0, 0.075);
             display: flex;
             justify-content: center;
-            z-index: 100000;
+            z-index: 900;
           }
 
           .center {

@@ -1,5 +1,5 @@
 // #region Local Imports
-import { ActionConsts } from '@Definitions';
+import { ActionConsts, NewsroomPanelConsts } from '@Definitions';
 // #endregion Local Imports
 
 // #region Interface Imports
@@ -7,7 +7,7 @@ import { NewsroomAction, NewsroomsState } from '@Interfaces';
 // #endregion Interface Imports
 
 const INITIAL_STATE: NewsroomsState = {
-  panels: ['event-information', 'offshelf-news-list', 'offshelf-stack-list', 'stack-list'],
+  panels: Object.keys(NewsroomPanelConsts).map(key => NewsroomPanelConsts[key]),
 };
 
 export const NewsroomReducer = (state = INITIAL_STATE, action: NewsroomAction) => {

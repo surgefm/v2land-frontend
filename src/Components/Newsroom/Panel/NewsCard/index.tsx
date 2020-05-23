@@ -16,11 +16,11 @@ const NewsroomPanelNewsCard: React.FunctionComponent<INewsroomPanelNewsCard.IPro
   if (!news) return <div />;
 
   return (
-    <Draggable draggableId={`${draggableId}-${newsId}`} index={index || 0}>
+    <Draggable draggableId={`${draggableId}-${Math.abs(newsId)}`} index={index || 0}>
       {provided => (
         <div ref={provided.innerRef} {...provided.dragHandleProps} {...provided.draggableProps}>
           <NewsroomPanelCard className="news-card">
-            {`${news.source} | ${news.title} | ${news.id}`}
+            {`${news.source} | ${news.title} | ${Math.abs(news.id)}`}
           </NewsroomPanelCard>
           <style jsx>
             {`
@@ -35,6 +35,10 @@ const NewsroomPanelNewsCard: React.FunctionComponent<INewsroomPanelNewsCard.IPro
 
               div > :global(.news-card::-webkit-scrollbar) {
                 display: none;
+              }
+
+              div {
+                margin-top: 0.3rem;
               }
             `}
           </style>

@@ -31,6 +31,12 @@ const AddStackToEvent = (eventId: number, stackId: number) => ({
   type: ActionConsts.Event.AddStackToEvent,
 });
 
+const AddStackToEventOffshelfStackList = (eventId: number, stackId: number) => ({
+  eventId,
+  stackId,
+  type: ActionConsts.Event.AddStackToEventOffshelfStackList,
+});
+
 const UpdateEventStackListOrder = (eventId: number, stackIdList: number[]) => ({
   eventId,
   stackIdList,
@@ -63,37 +69,51 @@ const AddNewsToEventOffshelfNewsList = (eventId: number, newsId: number) => ({
   type: ActionConsts.Event.AddNewsToEventOffshelfNewsList,
 });
 
+const getId = (id: number, getLatest = false) => {
+  return getLatest ? -Math.abs(id) : Math.abs(id);
+};
+
 const GetEvent = (eventId: number, getLatest = false) => async (
   dispatch: Dispatch,
   state: IStore
 ) => {
   const identifier = `event-${eventId}`;
   if (isLoading(identifier)(state)) return;
+  const id = getId(eventId, getLatest);
 
   dispatch(LoadingActions.BeginLoading(identifier));
-  const event = await RedstoneService.getEvent(eventId, getLatest);
+  const event = await RedstoneService.getEvent(Math.abs(eventId), getLatest);
+  event.id = id;
   dispatch(AddEvent(event));
 
   const actions: Action[] = [];
   event.stacks = event.stacks || [];
   for (let i = 0; i < event.stacks.length; i += 1) {
     const stack = event.stacks[i];
+    stack.id = getId(stack.id, getLatest);
+    stack.eventId = id;
     actions.push(StackActions.AddStack(stack));
-    actions.push(AddStackToEvent(eventId, stack.id));
+    if ((stack.order || 0) >= 0) {
+      actions.push(AddStackToEvent(id, stack.id));
+    } else {
+      actions.push(AddStackToEventOffshelfStackList(id, stack.id));
+    }
 
     const newsList = stack.news || [];
     for (let j = 0; j < newsList.length; j += 1) {
       const news = newsList[j];
+      news.id = getId(news.id, getLatest);
       actions.push(NewsActions.AddNews(news));
-      actions.push(AddNewsToEvent(eventId, news.id, stack.id));
+      actions.push(AddNewsToEvent(id, news.id, stack.id));
     }
   }
 
   const temporaryStack = event.temporaryStack || [];
   for (let i = 0; i < temporaryStack.length; i += 1) {
     const news = temporaryStack[i];
+    news.id = getId(news.id, getLatest);
     actions.push(NewsActions.AddNews(news));
-    actions.push(AddNewsToEventOffshelfNewsList(eventId, news.id));
+    actions.push(AddNewsToEventOffshelfNewsList(id, news.id));
   }
 
   actions.push(LoadingActions.FinishLoading(identifier));
@@ -108,6 +128,7 @@ export const EventActions = {
   UpdateEventStackListOrder,
   UpdateEventOffshelfStackListOrder,
   AddStackToEvent,
+  AddStackToEventOffshelfStackList,
   AddNewsToEvent,
   AddNewsToEventOffshelfNewsList,
   RemoveNewsFromEvent,

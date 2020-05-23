@@ -17,20 +17,25 @@ const NewsroomPanelStackCard: React.FunctionComponent<INewsroomPanelStackCard.IP
   if (!stack) return <div />;
 
   return (
-    <Draggable draggableId={`stack-card-${stackId}`} index={index || 0}>
+    <Draggable draggableId={`stack-card-${Math.abs(stackId)}`} index={index || 0}>
       {provided => (
         <div ref={provided.innerRef} {...provided.dragHandleProps} {...provided.draggableProps}>
           <NewsroomPanelCard className="stack-card">
             <span>{stack.title}</span>
             <NewsroomPanelNewsList
               newsIdList={newsIdList}
-              droppableId={`stack-card-${stackId}-news-list`}
+              droppableId={`stack-card-${Math.abs(stackId)}-news-list`}
+              isNested
             />
           </NewsroomPanelCard>
           <style jsx>
             {`
               div {
                 width: 25rem;
+              }
+
+              div {
+                margin-top: 0.5rem;
               }
 
               div > :global(.stack-card) {

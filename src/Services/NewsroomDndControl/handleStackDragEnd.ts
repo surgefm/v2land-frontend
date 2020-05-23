@@ -13,9 +13,10 @@ export async function handleStackDragEnd(
 ) {
   const { destination, source } = result;
   if (!destination || !source) return;
+  const id = -Math.abs(eventId);
   const { dispatch } = store;
-  const offshelfStackIdList = getEventOffshelfStackIdList(eventId)(store.getState());
-  const stackIdList = getEventStackIdList(eventId)(store.getState());
+  const offshelfStackIdList = getEventOffshelfStackIdList(id)(store.getState());
+  const stackIdList = getEventStackIdList(id)(store.getState());
 
   const fromOffshelf = source.droppableId === 'newsroom-offshelf-stack-panel';
   const toOffshelf = destination.droppableId === 'newsroom-offshelf-stack-panel';
@@ -30,8 +31,13 @@ export async function handleStackDragEnd(
     const action = fromOffshelf
       ? EventActions.UpdateEventOffshelfStackListOrder
       : EventActions.UpdateEventStackListOrder;
-    dispatch(action(eventId, newStackIdList));
-    socket.updateStackOrders(newStackIdList);
+    dispatch(action(id, newStackIdList.map(i => -Math.abs(i))));
+    await socket.updateStackOrders(
+      newStackIdList.reverse().map((i, index) => ({
+        stackId: Math.abs(i),
+        order: fromOffshelf ? -index - 1 : index,
+      }))
+    );
   } else {
     const removeAction = fromOffshelf
       ? EventActions.UpdateEventOffshelfStackListOrder
@@ -43,7 +49,19 @@ export async function handleStackDragEnd(
     let toList = toOffshelf ? [...offshelfStackIdList] : [...stackIdList];
     const stackId = fromList.splice(source.index, 1)[0];
     toList = [...toList.slice(0, destination.index), stackId, ...toList.slice(destination.index)];
-    dispatch(removeAction(eventId, fromList));
-    dispatch(addAction(eventId, toList));
+    dispatch(removeAction(id, fromList.map(i => -Math.abs(i))));
+    dispatch(addAction(id, toList.map(i => -Math.abs(i))));
+    const offshelfList = fromOffshelf ? fromList : toList;
+    const onshelfList = fromOffshelf ? toList : fromList;
+    await socket.updateStackOrders([
+      ...offshelfList.reverse().map((i, index) => ({
+        stackId: Math.abs(i),
+        order: -index - 1,
+      })),
+      ...onshelfList.reverse().map((i, index) => ({
+        stackId: Math.abs(i),
+        order: index,
+      })),
+    ]);
   }
 }

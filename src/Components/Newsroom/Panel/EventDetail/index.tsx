@@ -9,11 +9,12 @@ import { Event } from '@Interfaces';
 import { INewsroomPanelEventDetail } from './EventDetail';
 
 const layout = {
-  labelCol: { span: 6 },
+  labelCol: { span: 5 },
   wrapperCol: { span: 16 },
 };
+
 const tailLayout = {
-  wrapperCol: { offset: 6, span: 16 },
+  wrapperCol: { offset: 5, span: 16 },
 };
 
 export const NewsroomPanelEventDetail: React.FunctionComponent<
@@ -96,7 +97,7 @@ export const NewsroomPanelEventDetail: React.FunctionComponent<
         >
           保存
         </Button>
-        <Button type="link" htmlType="button" loading={loading} onClick={reset}>
+        <Button type="link" htmlType="reset" loading={loading} onClick={reset}>
           重置
         </Button>
       </Form.Item>

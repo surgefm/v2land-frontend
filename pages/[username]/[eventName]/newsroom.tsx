@@ -1,5 +1,5 @@
 // #region Global Imports
-import * as React from 'react';
+import React from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useSelector, useStore } from 'react-redux';
@@ -12,19 +12,21 @@ import {
   DraggableProvided,
   DraggableChildrenFn,
 } from 'react-beautiful-dnd';
-import { PlusOutlined, DragOutlined } from '@ant-design/icons';
+import { DragOutlined } from '@ant-design/icons';
 // #endregion Global Imports
 
 // #region Local Imports
 import { withTranslation } from '@Server/i18n';
 import { EventActions } from '@Actions';
 import { getNewsroomSocket, NewsroomSocket, handleNewsroomDragEnd } from '@Services';
+import { NewsroomPanelConsts } from '@Definitions';
 import {
   Card,
   NewsroomPanelTitle,
   NewsroomPanelNewsList,
   NewsroomPanelStackList,
   NewsroomPanelEventDetail,
+  NewsroomPanelCreateStackButton,
 } from '@Components';
 import {
   getEvent,
@@ -44,7 +46,7 @@ const EventNewsroomPage: NextPage<
   IEventNewsroomPage.InitialProps
 > = () => {
   const router = useRouter();
-  const eventId = +router.query.eventName;
+  const eventId = -router.query.eventName;
   const event = useSelector(getEvent(eventId));
   const offshelfNewsIdList = useSelector(getEventOffshelfNewsIdList(eventId));
   const offshelfStackIdList = useSelector(getEventOffshelfStackIdList(eventId));
@@ -52,6 +54,7 @@ const EventNewsroomPage: NextPage<
   const newsroomPanels = useSelector(getNewsroomPanels);
   const store = useStore();
   const socket = getNewsroomSocket(eventId, store) as NewsroomSocket;
+
   if (!event) return <div />;
 
   resetServerContext();
@@ -61,7 +64,7 @@ const EventNewsroomPage: NextPage<
   };
 
   const panels: { [index: string]: DraggableChildrenFn } = {
-    'event-information': (provided: DraggableProvided) => (
+    [NewsroomPanelConsts.EventInformation]: (provided: DraggableProvided) => (
       <div className="panel-wrapper" ref={provided.innerRef} {...provided.draggableProps}>
         <Card className="panel">
           <div className="panel-header-container">
@@ -72,7 +75,7 @@ const EventNewsroomPage: NextPage<
         </Card>
       </div>
     ),
-    'offshelf-news-list': (provided: DraggableProvided) => (
+    [NewsroomPanelConsts.OffshelfNewsList]: (provided: DraggableProvided) => (
       <div className="panel-wrapper" ref={provided.innerRef} {...provided.draggableProps}>
         <Card className="panel">
           <div className="panel-header-container">
@@ -83,17 +86,16 @@ const EventNewsroomPage: NextPage<
         </Card>
       </div>
     ),
-    'offshelf-stack-list': (provided: DraggableProvided) => (
+    [NewsroomPanelConsts.OffshelfStackList]: (provided: DraggableProvided) => (
       <div className="panel-wrapper" ref={provided.innerRef} {...provided.draggableProps}>
         <Card className="panel offshelf-stack">
           <div className="panel-header-container">
             <NewsroomPanelTitle>备选进展</NewsroomPanelTitle>
-            <DragOutlined {...provided.dragHandleProps} />
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <NewsroomPanelCreateStackButton eventId={eventId} />
+              <DragOutlined {...provided.dragHandleProps} />
+            </div>
           </div>
-          <button className="add-button" type="button">
-            <PlusOutlined />
-            <span>创建新进展</span>
-          </button>
           <NewsroomPanelStackList
             droppableId="newsroom-offshelf-stack-panel"
             stackIdList={offshelfStackIdList}
@@ -101,7 +103,7 @@ const EventNewsroomPage: NextPage<
         </Card>
       </div>
     ),
-    'stack-list': (provided: DraggableProvided) => (
+    [NewsroomPanelConsts.StackList]: (provided: DraggableProvided) => (
       <div className="panel-wrapper" ref={provided.innerRef} {...provided.draggableProps}>
         <Card className="panel public-stack">
           <div className="panel-header-container">
@@ -152,8 +154,10 @@ const EventNewsroomPage: NextPage<
 
           .container > :global(.panel-wrapper) > :global(.panel) {
             max-height: 100%;
-            padding: 1.5rem 0.5rem 0.25rem;
+            padding: 0;
             width: 25rem;
+            display: flex;
+            flex-direction: column;
           }
 
           .container > :global(.panel-wrapper) > :global(.panel.public-stack),
@@ -166,27 +170,11 @@ const EventNewsroomPage: NextPage<
             align-items: center;
             justify-content: space-between;
             font-size: 1rem;
-          }
-
-          .container :global(.add-button) {
-            border: none;
-            font-size: 1rem;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            width: 100%;
-            padding: 0.25rem 0.5rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            border-radius: 0.25rem;
-          }
-
-          .container :global(.add-button):hover {
-            background-color: #f4f4f4;
-          }
-
-          .container :global(.add-button) span {
-            margin-left: 0.25rem;
+            position: sticky;
+            top: 0;
+            padding: 0.5rem 0.5rem 0;
+            background-color: #fff;
+            z-index: 200;
           }
         `}
       </style>

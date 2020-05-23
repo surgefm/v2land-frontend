@@ -10,13 +10,18 @@ const {
   publicRuntimeConfig: { API_URL },
 } = getConfig();
 
+type StackOrderData = {
+  stackId: number;
+  order: number;
+};
+
 type Response = {
   eventStackNews: EventStackNews;
   news?: News;
   stack?: Stack;
   event?: Event;
   eventId?: number;
-  stackIdList?: number[];
+  stacks?: StackOrderData[];
 };
 
 export class NewsroomSocket {
@@ -43,7 +48,7 @@ export class NewsroomSocket {
 
   constructor(eventId: number, store: Store<any, AnyAction>) {
     this.store = store;
-    this.eventId = eventId;
+    this.eventId = Math.abs(eventId);
     this.socket = io(`${API_URL}/newsroom`);
     this.joinNewsroom();
   }
@@ -59,44 +64,60 @@ export class NewsroomSocket {
 
     this.socket.on('add news to event', (res: Response) => {
       const esn = res.eventStackNews;
-      this.store.dispatch(EventActions.AddNewsToEvent(esn.eventId, esn.newsId as number));
+      this.store.dispatch(EventActions.AddNewsToEvent(-esn.eventId, -(esn.newsId as number)));
     });
 
     this.socket.on('add news to stack', (res: Response) => {
       const esn = res.eventStackNews;
-      this.store.dispatch(StackActions.AddNewsToStack(esn.stackId as number, esn.newsId as number));
+      this.store.dispatch(
+        StackActions.AddNewsToStack(-(esn.stackId as number), -(esn.newsId as number))
+      );
     });
 
     this.socket.on('remove news from stack', (esn: EventStackNews) => {
       this.store.dispatch(
-        StackActions.RemoveNewsFromStack(esn.stackId as number, esn.newsId as number)
+        StackActions.RemoveNewsFromStack(-(esn.stackId as number), -(esn.newsId as number))
       );
     });
 
     this.socket.on('remove news from event', (esn: EventStackNews) => {
-      this.store.dispatch(
-        EventActions.RemoveNewsFromEvent(esn.eventId as number, esn.newsId as number)
-      );
+      this.store.dispatch(EventActions.RemoveNewsFromEvent(-esn.eventId, -(esn.newsId as number)));
     });
 
     this.socket.on('update event information', (res: Response) => {
       const event = res.event as Event;
+      event.id = -event.id;
       this.store.dispatch(EventActions.UpdateEvent(event.id, event));
     });
 
     this.socket.on('update stack orders', (res: Response) => {
-      const eventId = res.eventId as number;
-      const stackIdList = res.stackIdList as number[];
-      this.store.dispatch(EventActions.UpdateEvent(eventId, { stackIdList } as Event));
+      const eventId = -(res.eventId as number);
+      const stacks = res.stacks as StackOrderData[];
+      const offshelfStackIdList = stacks
+        .filter(stack => stack.order < 0)
+        .sort((a, b) => (a.order || 0) - (b.order || 0))
+        .map(stack => -stack.stackId);
+      const stackIdList = stacks
+        .filter(stack => stack.order >= 0)
+        .sort((a, b) => (a.order || 0) - (b.order || 0))
+        .map(stack => -stack.stackId);
+      const updateData = {} as Event;
+      if (offshelfStackIdList.length > 0) updateData.offshelfStackIdList = offshelfStackIdList;
+      if (stackIdList.length > 0) updateData.stackIdList = stackIdList;
+      this.store.dispatch(EventActions.UpdateEvent(eventId, updateData));
     });
   }
 
   async addNewsToEvent(newsId: number) {
-    return this.emit('add news to event', newsId, this.eventId);
+    return this.emit('add news to event', Math.abs(newsId), this.eventId);
   }
 
   async addNewsToStack(newsId: number, stackId: number) {
-    return this.emit('add news to stack', newsId, stackId);
+    return this.emit('add news to stack', Math.abs(newsId), Math.abs(stackId));
+  }
+
+  async createStack(stack: Stack) {
+    return this.emit<{ stack: Stack }>('create stack', this.eventId, stack);
   }
 
   async makeCommit(summary: string, description: string) {
@@ -104,20 +125,20 @@ export class NewsroomSocket {
   }
 
   async removeNewsFromEvent(newsId: number, eventId: number) {
-    return this.emit('remove news from event', newsId, eventId);
+    return this.emit('remove news from event', Math.abs(newsId), Math.abs(eventId));
   }
 
   async removeNewsFromStack(newsId: number, stackId: number) {
-    return this.emit('remove news from stack', newsId, stackId);
+    return this.emit('remove news from stack', Math.abs(newsId), Math.abs(stackId));
   }
 
   async updateEvent(event: Event) {
     await this.emit('update event information', this.eventId, event);
-    this.store.dispatch(EventActions.UpdateEvent(this.eventId, event));
+    this.store.dispatch(EventActions.UpdateEvent(-this.eventId, event));
   }
 
-  async updateStackOrders(stackIdList: number[]) {
-    return this.emit('update stack orders', this.eventId, stackIdList);
+  async updateStackOrders(stacks: { stackId: number; order: number }[]) {
+    return this.emit('update stack orders', this.eventId, stacks);
   }
 
   destroy() {
@@ -131,11 +152,12 @@ export const getNewsroomSocket = (
   store: Store<any, AnyAction>
 ): NewsroomSocket | null => {
   if (typeof window === 'undefined') return null;
-  if (typeof newsroomSocketMap[eventId] !== 'undefined') {
-    return newsroomSocketMap[eventId];
+  const id = Math.abs(eventId);
+  if (typeof newsroomSocketMap[id] !== 'undefined') {
+    return newsroomSocketMap[id];
   }
-  newsroomSocketMap[eventId] = new NewsroomSocket(eventId, store);
-  return newsroomSocketMap[eventId];
+  newsroomSocketMap[id] = new NewsroomSocket(id, store);
+  return newsroomSocketMap[id];
 };
 
 export const clearNewsroomSockets = () => {

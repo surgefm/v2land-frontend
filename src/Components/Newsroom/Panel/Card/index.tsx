@@ -14,7 +14,6 @@ const NewsroomPanelCard: React.FunctionComponent<INewsroomPanelCard.IProps> = ({
           box-shadow: 0 2.5px 7.5px rgba(0, 0, 0, 0.0375), 0 1.5px #e3e3e3;
           padding: 0.2rem 0.4rem;
           background-color: rgb(232, 232, 232);
-          margin: 0.3rem 0;
           border: 1px solid transparent;
           transition: all 0.2s;
           line-height: 2;

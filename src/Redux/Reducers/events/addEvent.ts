@@ -8,18 +8,19 @@ const addEvent = (state: EventsState, action: EventAction) => {
   event = { ...state.list[state.idIndexMap[eventId]], ...event };
 
   if (event.stacks) {
-    event.stackIdList = event.stacks.map(stack => stack.id);
+    event.stackIdList = event.stacks
+      .filter(stack => (stack.order || -1) >= 0)
+      .sort((a, b) => (b.order || 0) - (a.order || 0))
+      .map(stack => Math.abs(stack.id) * (event.id > 0 ? 1 : -1));
+    event.offshelfStackIdList = event.stacks
+      .filter(stack => (stack.order || 0) < 0)
+      .sort((a, b) => (a.order || 0) - (b.order || 0))
+      .map(stack => Math.abs(stack.id) * (event.id > 0 ? 1 : -1));
   }
   event.stackIdList = event.stackIdList || [];
   event.newsIdList = event.newsIdList || [];
-  event.temporaryStackNewsIdList = event.temporaryStackNewsIdList || [];
   event.offshelfNewsIdList = event.offshelfNewsIdList || [];
   event.offshelfStackIdList = event.offshelfStackIdList || [];
-
-  if (event.temporaryStack) {
-    event.temporaryStackNewsIdList = event.temporaryStack.map(n => n.id);
-    event.newsIdList = [...event.newsIdList, ...event.temporaryStackNewsIdList];
-  }
 
   delete event.tags;
   delete event.stacks;

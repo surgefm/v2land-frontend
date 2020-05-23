@@ -13,13 +13,13 @@ const showPlaceholder = (stackIdList: number[]) => {
         {`
           div {
             height: calc(100% - 0.5rem);
-            width: 100%;
+            width: calc(100% - 1rem);
             display: flex;
             justify-content: center;
             align-items: center;
             position: absolute;
             top: 0.25rem;
-            left: 0;
+            left: 0.5rem;
             padding: 0rem 0.5rem;
             background-color: #f4f4f4;
             border-radius: 0.25rem;
@@ -47,8 +47,9 @@ const NewsroomPanelStackList: React.FunctionComponent<INewsroomPanelStackList.IP
           {`
             div {
               position: relative;
-              padding-bottom: 1px;
+              padding: 0 0.5rem 0.5rem;
               min-height: 3rem;
+              overflow-y: scroll;
             }
           `}
         </style>
