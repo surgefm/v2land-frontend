@@ -13,6 +13,8 @@ const INITIAL_STATE: NewsState = {
 
 export const NewsReducer = (state = INITIAL_STATE, action: NewsAction) => {
   switch (action.type) {
+    case ActionConsts.App.ResetReducer:
+      return INITIAL_STATE;
     case ActionConsts.News.AddNews:
     case ActionConsts.News.UpdateNews: {
       if (!action.news) return state;

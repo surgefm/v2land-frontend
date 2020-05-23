@@ -90,7 +90,6 @@ export const NewsroomPanelEventDetail: React.FunctionComponent<
         <Button
           type="primary"
           htmlType="submit"
-          shape="round"
           loading={loading}
           disabled={disabled}
           onClick={submit}

@@ -10,6 +10,8 @@ const INITIAL_STATE: LoadingState = {};
 
 export const LoadingReducer = (state = INITIAL_STATE, action: LoadingAction) => {
   switch (action.type) {
+    case ActionConsts.App.ResetReducer:
+      return INITIAL_STATE;
     case ActionConsts.Loading.BeginLoading:
       return {
         ...state,

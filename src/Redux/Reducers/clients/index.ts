@@ -17,6 +17,8 @@ const INITIAL_STATE: ClientsState = {
 
 export const ClientReducer = (state = INITIAL_STATE, action: ClientAction) => {
   switch (action.type) {
+    case ActionConsts.App.ResetReducer:
+      return INITIAL_STATE;
     case ActionConsts.Client.AddClient:
     case ActionConsts.Client.UpdateClient:
       return addClient(state, action);

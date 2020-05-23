@@ -22,6 +22,11 @@ const INITIAL_STATE: StacksState = {
 
 export const StackReducer = (state = INITIAL_STATE, action: StackAction) => {
   switch (action.type) {
+    case ActionConsts.App.ResetReducer:
+      return {
+        list: [],
+        idIndexMap: {},
+      };
     case ActionConsts.Stack.AddStack:
     case ActionConsts.Stack.UpdateStack:
       return addStack(state, action);

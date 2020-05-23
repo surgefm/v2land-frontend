@@ -74,6 +74,15 @@ export class NewsroomSocket {
       );
     });
 
+    this.socket.on('create stack', (res: Response) => {
+      const stack = res.stack as Stack;
+      stack.id = -Math.abs(stack.id);
+      this.store.dispatch(StackActions.AddStack(stack));
+      this.store.dispatch(
+        EventActions.AddStackToEventOffshelfStackList(-(stack.eventId || 0), stack.id)
+      );
+    });
+
     this.socket.on('remove news from stack', (esn: EventStackNews) => {
       this.store.dispatch(
         StackActions.RemoveNewsFromStack(-(esn.stackId as number), -(esn.newsId as number))
@@ -99,7 +108,7 @@ export class NewsroomSocket {
         .map(stack => -stack.stackId);
       const stackIdList = stacks
         .filter(stack => stack.order >= 0)
-        .sort((a, b) => (a.order || 0) - (b.order || 0))
+        .sort((a, b) => (b.order || 0) - (a.order || 0))
         .map(stack => -stack.stackId);
       const updateData = {} as Event;
       if (offshelfStackIdList.length > 0) updateData.offshelfStackIdList = offshelfStackIdList;

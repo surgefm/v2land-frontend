@@ -24,6 +24,8 @@ const INITIAL_STATE: EventsState = {
 
 export const EventReducer = (state = INITIAL_STATE, action: EventAction | StackAction) => {
   switch (action.type) {
+    case ActionConsts.App.ResetReducer:
+      return INITIAL_STATE;
     case ActionConsts.Event.AddEvent:
     case ActionConsts.Event.UpdateEvent:
       return addEvent(state, action);

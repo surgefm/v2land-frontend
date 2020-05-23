@@ -3,7 +3,7 @@ import { useSelector, useStore, useDispatch } from 'react-redux';
 import { Form, Input, Button, Space, message } from 'antd';
 
 import { StackActions, EventActions } from '@Actions';
-import { getStack, getEventStackIdList } from '@Selectors';
+import { getStack, getEventStackIdList, getEventOffshelfStackIdList } from '@Selectors';
 import { getNewsroomSocket } from '@Services';
 import { Stack } from '@Interfaces';
 
@@ -21,6 +21,7 @@ export const StackForm: React.FunctionComponent<IStackForm.IProps> = ({
   const dispatch = useDispatch();
   const stack = useSelector(getStack(stackId || 0));
   const stackIdList = useSelector(getEventStackIdList(eventId));
+  const offshelfStackIdList = useSelector(getEventOffshelfStackIdList(eventId));
   const latestStack = useSelector(getStack(stackIdList[0] || 0)) || {
     title: '进展标题',
     description: '进展简介',
@@ -55,8 +56,11 @@ export const StackForm: React.FunctionComponent<IStackForm.IProps> = ({
         const socket = getNewsroomSocket(eventId, store);
         if (!socket) return;
         setLoading(true);
-        const res = await socket.createStack(form.getFieldsValue() as Stack);
-        res.stack.id *= -1;
+        const res = await socket.createStack({
+          ...form.getFieldsValue(),
+          order: -offshelfStackIdList.length - 1,
+        } as Stack);
+        res.stack.id = -Math.abs(res.stack.id);
         dispatch(StackActions.AddStack(res.stack));
         dispatch(EventActions.AddStackToEventOffshelfStackList(eventId, res.stack.id));
         message.success('成功创建进展');
@@ -85,10 +89,10 @@ export const StackForm: React.FunctionComponent<IStackForm.IProps> = ({
       </Form.Item>
       <Form.Item>
         <Space>
-          <Button shape="round" htmlType="button" disabled={loading} onClick={cancel}>
+          <Button htmlType="button" disabled={loading} onClick={cancel}>
             取消
           </Button>
-          <Button type="primary" htmlType="submit" shape="round" loading={loading} onClick={submit}>
+          <Button type="primary" htmlType="submit" loading={loading} onClick={submit}>
             保存
           </Button>
         </Space>

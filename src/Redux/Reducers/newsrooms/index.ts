@@ -12,6 +12,8 @@ const INITIAL_STATE: NewsroomsState = {
 
 export const NewsroomReducer = (state = INITIAL_STATE, action: NewsroomAction) => {
   switch (action.type) {
+    case ActionConsts.App.ResetReducer:
+      return INITIAL_STATE;
     case ActionConsts.Newsroom.SetPanelsOrder: {
       return {
         ...state,

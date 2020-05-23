@@ -7,7 +7,7 @@ import { ThemeProvider } from 'styled-components';
 import withRedux from 'next-redux-wrapper';
 import { PageTransition } from 'next-page-transitions';
 import { message, ConfigProvider } from 'antd';
-// import zhCN from 'antd/es/locale/zh_CN';
+import zhCN from 'antd/lib/locale/zh_CN';
 // #endregion Global Imports
 
 // #region Local Imports
@@ -16,7 +16,7 @@ import { appWithTranslation } from '@Server/i18n';
 import { AppWithStore, ReduxNextPageContext } from '@Interfaces';
 import { makeStore } from '@Redux';
 import { isLoggedIn as isLoggedInSelector } from '@Selectors';
-import { ClientActions } from '@Actions';
+import { ClientActions, AppActions } from '@Actions';
 import { Header } from '@Components';
 import { setCookies, clearCookies, RedstoneService } from '@Services';
 
@@ -32,6 +32,7 @@ class WebApp extends App<AppWithStore> {
   static async getInitialProps({ Component, ctx }: AppContext): Promise<AppInitialProps> {
     clearCookies();
     const { store } = ctx as ReduxNextPageContext;
+    store.dispatch(AppActions.Reset());
     const isLoggedIn = isLoggedInSelector(store.getState());
     if (!isLoggedIn && ctx.res && ctx.req && ctx.req.headers.cookie) {
       try {
@@ -54,8 +55,8 @@ class WebApp extends App<AppWithStore> {
 
     return (
       <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          {/**<ConfigProvider locale={zhCN}>*/}
+        <ConfigProvider locale={zhCN}>
+          <ThemeProvider theme={theme}>
             <Header />
             <PageTransition timeout={200} classNames="page-transition">
               <Component {...pageProps} key={router.route} />
@@ -78,8 +79,8 @@ class WebApp extends App<AppWithStore> {
                 }
               `}
             </style>
-          {/**</ConfigProvider>*/}
-        </ThemeProvider>
+          </ThemeProvider>
+        </ConfigProvider>
       </Provider>
     );
   }
