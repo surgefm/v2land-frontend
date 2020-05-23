@@ -32,7 +32,9 @@ class WebApp extends App<AppWithStore> {
   static async getInitialProps({ Component, ctx }: AppContext): Promise<AppInitialProps> {
     clearCookies();
     const { store } = ctx as ReduxNextPageContext;
-    store.dispatch(AppActions.Reset());
+    if (ctx.res) {
+      store.dispatch(AppActions.Reset());
+    }
     const isLoggedIn = isLoggedInSelector(store.getState());
     if (!isLoggedIn && ctx.res && ctx.req && ctx.req.headers.cookie) {
       try {

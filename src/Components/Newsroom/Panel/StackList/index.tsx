@@ -18,7 +18,7 @@ const showPlaceholder = (stackIdList: number[]) => {
             justify-content: center;
             align-items: center;
             position: absolute;
-            top: 0.25rem;
+            top: 0;
             left: 0.5rem;
             padding: 0rem 0.5rem;
             background-color: #f4f4f4;

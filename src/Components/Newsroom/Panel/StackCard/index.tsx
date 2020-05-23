@@ -34,7 +34,7 @@ const NewsroomPanelStackCard: React.FunctionComponent<INewsroomPanelStackCard.IP
                 width: 25rem;
               }
 
-              div {
+              div:not(:first-child) {
                 margin-top: 0.5rem;
               }
 

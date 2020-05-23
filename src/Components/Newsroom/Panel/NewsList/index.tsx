@@ -17,7 +17,7 @@ const showPlaceholder = (newsIdList: number[]) => {
             justify-content: center;
             align-items: center;
             position: absolute;
-            top: 0.25rem;
+            top: 0rem;
             left: 0.5rem;
             padding: 0rem 0.5rem;
             background-color: rgb(232, 232, 232);
@@ -52,9 +52,9 @@ const NewsroomPanelNewsList: React.FunctionComponent<INewsroomPanelNewsList.IPro
           {`
             div {
               position: relative;
-              padding: ${isNested ? '0 0 0.5rem' : '0 0.5rem 0.5rem'};
-              min-height: 3rem;
-              overflow-y: scroll;
+              padding: ${isNested ? '0 0 0.25rem' : '0 0.5rem 0.5rem'};
+              min-height: 2.5rem;
+              ${isNested ? '' : 'overflow-y: scroll'};
               margin-top: ${isNested ? '0' : '0.2rem'};
             }
 

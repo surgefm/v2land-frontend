@@ -1,6 +1,8 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import { useRouter } from 'next/router';
 
+import { HeaderBreadcrumb } from './Breadcrumb';
 import { HeaderLogo } from './Logo';
 import { HeaderButton } from './Button';
 import { HeaderCommitButton } from './CommitButton';
@@ -15,13 +17,15 @@ const Header: React.FunctionComponent = (): JSX.Element => {
       <div className="center">
         <div className="left">
           <HeaderLogo />
-          {isInNewsroom || [
-            <HeaderButton href="/">首页</HeaderButton>,
-            <HeaderButton href="/about">关注</HeaderButton>,
-            <HeaderButton href="/[username]/[eventName]" as="/1/12">
-              我的事件
-            </HeaderButton>,
-          ]}
+          {isInNewsroom
+            ? [<HeaderBreadcrumb />]
+            : [
+              <HeaderButton href="/">首页</HeaderButton>,
+              <HeaderButton href="/about">关注</HeaderButton>,
+              <HeaderButton href="/[username]/[eventName]" as="/1/12">
+                我的事件
+              </HeaderButton>,
+            ]}
         </div>
         <div className="right">
           <HeaderUserInfo />
