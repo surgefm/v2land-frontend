@@ -30,6 +30,10 @@ export const ActionConsts = {
     SetLoggedInClient: 'Client_SetLoggedInClient',
   },
   Newsroom: {
+    AddNewsroom: 'Newsroom_AddNewsroom',
+    UpdateNewsroom: 'Newsroom_UpdateNewsroom',
+    AddNewsroomClient: 'Newsroom_AddNewsroomClient',
+    RemoveNewsroomClient: 'Newsroom_RemoveNewsroomClient',
     SetPanelsOrder: 'Newsroom_SetPanelsOrder',
   },
   Loading: {

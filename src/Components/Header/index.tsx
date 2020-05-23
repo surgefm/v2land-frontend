@@ -1,11 +1,11 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import { useRouter } from 'next/router';
+import { Space } from 'antd';
 
-import { HeaderBreadcrumb } from './Breadcrumb';
+import { NewsroomHeaderBreadcrumb, NewsroomHeaderClientAvatars, NewsroomHeaderCommitButton } from '@Components/Newsroom';
 import { HeaderLogo } from './Logo';
 import { HeaderButton } from './Button';
-import { HeaderCommitButton } from './CommitButton';
 import { HeaderUserInfo } from './UserInfo';
 
 const Header: React.FunctionComponent = (): JSX.Element => {
@@ -17,19 +17,24 @@ const Header: React.FunctionComponent = (): JSX.Element => {
       <div className="center">
         <div className="left">
           <HeaderLogo />
-          {isInNewsroom
-            ? [<HeaderBreadcrumb />]
-            : [
-              <HeaderButton href="/">首页</HeaderButton>,
-              <HeaderButton href="/about">关注</HeaderButton>,
-              <HeaderButton href="/[username]/[eventName]" as="/1/12">
-                我的事件
-              </HeaderButton>,
-            ]}
+          <Space>
+            {isInNewsroom
+              ? [
+                <NewsroomHeaderBreadcrumb />,
+                <NewsroomHeaderClientAvatars />,
+              ]
+              : [
+                <HeaderButton href="/" key="/">首页</HeaderButton>,
+                <HeaderButton href="/about" key="/about">关注</HeaderButton>,
+                <HeaderButton href="/[username]/[eventName]" as="/1/12" key="/[username]/[eventName]">
+                  我的事件
+                </HeaderButton>,
+              ]}
+          </Space>
         </div>
         <div className="right">
           <HeaderUserInfo />
-          {!isInNewsroom || <HeaderCommitButton />}
+          {!isInNewsroom || <NewsroomHeaderCommitButton />}
         </div>
       </div>
       <style jsx>

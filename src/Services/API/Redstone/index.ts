@@ -24,6 +24,10 @@ export const getClientInfo = async () => {
   return get<{ client: Client }>('/client/me');
 };
 
+export const getClient = async (clientId: number) => {
+  return get<{ client: Client }>(`/client/${clientId}`);
+};
+
 export const getNews = async (newsId: number): Promise<News> => {
   return get<News>(`/news/${newsId}`);
 };

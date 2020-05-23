@@ -7,7 +7,7 @@ import { HomeOutlined } from '@ant-design/icons';
 
 import { getEvent } from '@Selectors';
 
-export const HeaderBreadcrumb: React.FunctionComponent = () => {
+export const NewsroomHeaderBreadcrumb: React.FunctionComponent = () => {
   const router = useRouter();
   const { username, eventName } = router.query;
   const event = useSelector(getEvent(-eventName));

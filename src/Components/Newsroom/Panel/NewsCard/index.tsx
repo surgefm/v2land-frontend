@@ -26,6 +26,8 @@ const NewsroomPanelNewsCard: React.FunctionComponent<INewsroomPanelNewsCard.IPro
             {`
               div {
                 width: 100%;
+                z-index: 1;
+                position: relative;
               }
 
               div > :global(.news-card) {
@@ -38,7 +40,7 @@ const NewsroomPanelNewsCard: React.FunctionComponent<INewsroomPanelNewsCard.IPro
               }
 
               div {
-                margin-top: 0.3rem;
+                margin-top: 0.5rem;
               }
             `}
           </style>

@@ -6,12 +6,12 @@ import { ActionConsts } from '@Definitions';
 import { LoadingAction, LoadingState } from '@Interfaces';
 // #endregion Interface Imports
 
-const INITIAL_STATE: LoadingState = {};
+const getInitialState = () => ({} as LoadingState);
 
-export const LoadingReducer = (state = INITIAL_STATE, action: LoadingAction) => {
+export const LoadingReducer = (state = getInitialState(), action: LoadingAction) => {
   switch (action.type) {
     case ActionConsts.App.ResetReducer:
-      return INITIAL_STATE;
+      return getInitialState();
     case ActionConsts.Loading.BeginLoading:
       return {
         ...state,

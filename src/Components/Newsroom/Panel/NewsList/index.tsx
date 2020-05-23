@@ -5,24 +5,26 @@ import { NewsroomPanelNewsCard } from '../NewsCard';
 import { INewsroomPanelNewsList } from './NewsList';
 
 const showPlaceholder = (newsIdList: number[]) => {
-  if (newsIdList.length > 0) return <div />;
+  const show = newsIdList.length === 0;
   return (
     <div>
       <span>将新闻卡片拖拽到这里</span>
       <style jsx>
         {`
           div {
-            height: calc(100% - 0.5rem);
+            width: calc(100% - 1rem);
             display: flex;
             justify-content: center;
             align-items: center;
             position: absolute;
-            top: 0rem;
             left: 0.5rem;
             padding: 0rem 0.5rem;
             background-color: rgb(232, 232, 232);
+            opacity: ${show ? 1 : 0};
             border-radius: 0.25rem;
             user-select: none;
+            transition: all 0.3s;
+            z-index: 0;
           }
         `}
       </style>
@@ -53,14 +55,15 @@ const NewsroomPanelNewsList: React.FunctionComponent<INewsroomPanelNewsList.IPro
             div {
               position: relative;
               padding: ${isNested ? '0 0 0.25rem' : '0 0.5rem 0.5rem'};
-              min-height: 2.5rem;
+              min-height: ${isNested ? '2.5rem' : '3rem'};
               ${isNested ? '' : 'overflow-y: scroll'};
-              margin-top: ${isNested ? '0' : '0.2rem'};
             }
 
             div > :global(div:last-child) {
               width: ${isNested ? '100%' : 'calc(100% - 1rem)'};
               left: ${isNested ? '0' : '0.5rem'};
+              top: ${isNested ? '0.3rem' : '0.5rem'};
+              height: ${isNested ? 'calc(100% - 0.5rem)' : 'calc(100% - 1rem)'};
             }
           `}
         </style>

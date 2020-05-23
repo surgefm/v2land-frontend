@@ -1,5 +1,5 @@
 // #region Global Imports
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useSelector, useStore } from 'react-redux';
@@ -18,7 +18,12 @@ import { DragOutlined } from '@ant-design/icons';
 // #region Local Imports
 import { withTranslation } from '@Server/i18n';
 import { EventActions } from '@Actions';
-import { getNewsroomSocket, NewsroomSocket, handleNewsroomDragEnd } from '@Services';
+import {
+  getNewsroomSocket,
+  closeNewsroomSocket,
+  NewsroomSocket,
+  handleNewsroomDragEnd,
+} from '@Services';
 import { NewsroomPanelConsts } from '@Definitions';
 import {
   Card,
@@ -54,6 +59,10 @@ const EventNewsroomPage: NextPage<
   const newsroomPanels = useSelector(getNewsroomPanels);
   const store = useStore();
   const socket = getNewsroomSocket(eventId, store) as NewsroomSocket;
+
+  useEffect(() => {
+    return () => closeNewsroomSocket(eventId);
+  }, []);
 
   if (!event) return <div />;
 

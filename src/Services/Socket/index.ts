@@ -3,12 +3,17 @@ import getConfig from 'next/config';
 import { Store, AnyAction } from 'redux';
 import { message } from 'antd';
 
-import { EventStackNews, Commit, News, Stack, Event, AppStore } from '@Interfaces';
-import { EventActions, StackActions } from '@Actions';
+import { EventStackNews, Commit, News, Stack, Event, AppStore, NewsroomClient } from '@Interfaces';
+import { EventActions, StackActions, NewsroomActions } from '@Actions';
 
 const {
   publicRuntimeConfig: { API_URL },
 } = getConfig();
+
+type ConnectionResponse = {
+  resourceLocks: any[];
+  clients: NewsroomClient[];
+};
 
 type StackOrderData = {
   stackId: number;
@@ -22,6 +27,7 @@ type Response = {
   event?: Event;
   eventId?: number;
   stacks?: StackOrderData[];
+  client?: NewsroomClient;
 };
 
 export class NewsroomSocket {
@@ -60,7 +66,23 @@ export class NewsroomSocket {
   }
 
   async joinNewsroom() {
-    await this.emit('join newsroom', this.eventId);
+    const response = await this.emit<ConnectionResponse>('join newsroom', this.eventId);
+    this.store.dispatch(
+      NewsroomActions.AddNewsroom({
+        eventId: this.eventId,
+        clients: response.clients,
+      })
+    );
+
+    this.socket.on('join newsroom', (res: Response) => {
+      const client = res.client as NewsroomClient;
+      this.store.dispatch(NewsroomActions.AddNewsroomClient(this.eventId, client));
+    });
+
+    this.socket.on('leave newsroom', (res: Response) => {
+      const client = res.client as NewsroomClient;
+      this.store.dispatch(NewsroomActions.RemoveNewsroomClient(this.eventId, client));
+    });
 
     this.socket.on('add news to event', (res: Response) => {
       const esn = res.eventStackNews;
@@ -129,6 +151,10 @@ export class NewsroomSocket {
     return this.emit<{ stack: Stack }>('create stack', this.eventId, stack);
   }
 
+  async leaveNewsroom() {
+    return this.emit('leave newsroom', this.eventId);
+  }
+
   async makeCommit(summary: string, description: string) {
     return this.emit<{ commit: Commit }>('make commit', this.eventId, summary, description);
   }
@@ -151,15 +177,16 @@ export class NewsroomSocket {
   }
 
   destroy() {
+    this.leaveNewsroom();
     this.socket.disconnect();
   }
 }
 
 let newsroomSocketMap: { [index: number]: NewsroomSocket } = {};
-export const getNewsroomSocket = (
+export function getNewsroomSocket(
   eventId: number,
   store: Store<any, AnyAction>
-): NewsroomSocket | null => {
+): NewsroomSocket | null {
   if (typeof window === 'undefined') return null;
   const id = Math.abs(eventId);
   if (typeof newsroomSocketMap[id] !== 'undefined') {
@@ -167,13 +194,21 @@ export const getNewsroomSocket = (
   }
   newsroomSocketMap[id] = new NewsroomSocket(id, store);
   return newsroomSocketMap[id];
-};
+}
 
-export const clearNewsroomSockets = () => {
+export function closeNewsroomSocket(eventId: number) {
+  if (typeof window === 'undefined') return;
+  const id = Math.abs(eventId);
+  if (typeof newsroomSocketMap[id] === 'undefined') return;
+  newsroomSocketMap[id].destroy();
+  delete newsroomSocketMap[id];
+}
+
+export function clearNewsroomSockets() {
   const keys = Object.keys(newsroomSocketMap);
   for (let i = 0; i < keys.length; i += 1) {
     const key = keys[i];
     newsroomSocketMap[+key].destroy();
   }
   newsroomSocketMap = {};
-};
+}

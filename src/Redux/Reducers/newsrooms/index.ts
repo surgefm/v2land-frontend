@@ -6,20 +6,31 @@ import { ActionConsts, NewsroomPanelConsts } from '@Definitions';
 import { NewsroomAction, NewsroomsState } from '@Interfaces';
 // #endregion Interface Imports
 
-const INITIAL_STATE: NewsroomsState = {
-  panels: Object.keys(NewsroomPanelConsts).map(key => NewsroomPanelConsts[key]),
-};
+import addNewsroom from './addNewsroom';
+import addNewsroomClient from './addNewsroomClient';
+import removeNewsroomClient from './removeNewsroomClient';
+import setPanelsOrder from './setPanelsOrder';
 
-export const NewsroomReducer = (state = INITIAL_STATE, action: NewsroomAction) => {
+const getInitialState = () =>
+  ({
+    panels: Object.keys(NewsroomPanelConsts).map(key => NewsroomPanelConsts[key]),
+    idIndexMap: {},
+    list: [],
+  } as NewsroomsState);
+
+export const NewsroomReducer = (state = getInitialState(), action: NewsroomAction) => {
   switch (action.type) {
     case ActionConsts.App.ResetReducer:
-      return INITIAL_STATE;
-    case ActionConsts.Newsroom.SetPanelsOrder: {
-      return {
-        ...state,
-        panels: action.panels || state.panels,
-      };
-    }
+      return getInitialState();
+    case ActionConsts.Newsroom.AddNewsroom:
+    case ActionConsts.Newsroom.UpdateNewsroom:
+      return addNewsroom(state, action);
+    case ActionConsts.Newsroom.AddNewsroomClient:
+      return addNewsroomClient(state, action);
+    case ActionConsts.Newsroom.RemoveNewsroomClient:
+      return removeNewsroomClient(state, action);
+    case ActionConsts.Newsroom.SetPanelsOrder:
+      return setPanelsOrder(state, action);
     default:
       return state;
   }

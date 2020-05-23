@@ -15,18 +15,16 @@ import removeNewsFromEvent from './removeNewsFromEvent';
 import updateEventOffshelfStackListOrder from './updateEventOffshelfStackListOrder';
 import updateEventStackListOrder from './updateEventStackListOrder';
 
-const INITIAL_STATE: StacksState = {
-  list: [],
-  idIndexMap: {},
-};
+const getInitialState = () =>
+  ({
+    list: [],
+    idIndexMap: {},
+  } as StacksState);
 
-export const StackReducer = (state = INITIAL_STATE, action: StackAction) => {
+export const StackReducer = (state = getInitialState(), action: StackAction) => {
   switch (action.type) {
     case ActionConsts.App.ResetReducer:
-      return {
-        list: [],
-        idIndexMap: {},
-      };
+      return getInitialState();
     case ActionConsts.Stack.AddStack:
     case ActionConsts.Stack.UpdateStack:
       return addStack(state, action);

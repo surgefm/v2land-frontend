@@ -6,7 +6,7 @@ import { FormOutlined } from '@ant-design/icons';
 
 import { getNewsroomSocket, NewsroomSocket } from '@Services';
 
-export const HeaderCommitButton: React.FunctionComponent = () => {
+export const NewsroomHeaderCommitButton: React.FunctionComponent = () => {
   const [isLoading, setLoading] = useState(false);
   const router = useRouter();
   const eventId = +router.query.eventName;

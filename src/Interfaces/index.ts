@@ -24,6 +24,7 @@ export * from '@Interfaces/Models/Event';
 export * from '@Interfaces/Models/EventStackNews';
 export * from '@Interfaces/Models/HeaderImage';
 export * from '@Interfaces/Models/News';
+export * from '@Interfaces/Models/Newsroom';
 export * from '@Interfaces/Models/Record';
 export * from '@Interfaces/Models/Stack';
 export * from '@Interfaces/Models/Subscription';

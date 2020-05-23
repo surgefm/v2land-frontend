@@ -3,7 +3,7 @@ import { Action as ReduxAction } from 'redux';
 // #endregion Global Imports
 
 // #region Local Imports
-import { Event, Stack, News, Client } from '@Interfaces';
+import { Event, Stack, News, Client, Newsroom, NewsroomClient } from '@Interfaces';
 // #endregion Local Imports
 
 export interface EventAction extends ReduxAction {
@@ -28,6 +28,10 @@ export interface NewsAction extends ReduxAction {
 
 export interface NewsroomAction extends ReduxAction {
   panels?: string[];
+  newsroom?: Newsroom;
+  eventId?: number;
+  client?: NewsroomClient;
+  clientId?: number;
 }
 
 export interface ClientAction extends ReduxAction {

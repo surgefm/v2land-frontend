@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
 import withRedux from 'next-redux-wrapper';
 import { PageTransition } from 'next-page-transitions';
-import { message, ConfigProvider } from 'antd';
+import { ConfigProvider } from 'antd';
 import zhCN from 'antd/lib/locale/zh_CN';
 // #endregion Global Imports
 
@@ -25,10 +25,6 @@ import '@Static/css/common.scss';
 // #endregion Local Imports
 
 class WebApp extends App<AppWithStore> {
-  componentDidMount() {
-    message.config({ top: 64 });
-  }
-
   static async getInitialProps({ Component, ctx }: AppContext): Promise<AppInitialProps> {
     clearCookies();
     const { store } = ctx as ReduxNextPageContext;

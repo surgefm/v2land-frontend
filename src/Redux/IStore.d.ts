@@ -1,5 +1,5 @@
 // #region Interface Imports
-import { IHomePage, Event, Stack, News, Client } from '@Interfaces';
+import { IHomePage, Event, Stack, News, Client, Newsroom } from '@Interfaces';
 // #endregion Interface Imports
 
 export interface EventsState {
@@ -25,6 +25,8 @@ export interface ClientsState {
 
 export interface NewsroomsState {
   panels: string[];
+  list: Newsroom[];
+  idIndexMap: { [index: number]: number };
 }
 
 export type LoadingState = { [index: string]: boolean };

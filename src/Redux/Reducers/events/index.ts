@@ -3,7 +3,7 @@ import { ActionConsts } from '@Definitions';
 // #endregion Local Imports
 
 // #region Interface Imports
-import { EventsState, EventAction, StackAction } from '@Interfaces';
+import { EventAction, StackAction, EventsState } from '@Interfaces';
 // #endregion Interface Imports
 
 import addEvent from './addEvent';
@@ -17,15 +17,16 @@ import removeNewsFromStack from './removeNewsFromStack';
 import updateEventOffshelfStackListOrder from './updateEventOffshelfStackListOrder';
 import updateEventStackListOrder from './updateEventStackListOrder';
 
-const INITIAL_STATE: EventsState = {
-  list: [],
-  idIndexMap: {},
-};
+const getInitialState = () =>
+  ({
+    list: [],
+    idIndexMap: {},
+  } as EventsState);
 
-export const EventReducer = (state = INITIAL_STATE, action: EventAction | StackAction) => {
+export const EventReducer = (state = getInitialState(), action: EventAction | StackAction) => {
   switch (action.type) {
     case ActionConsts.App.ResetReducer:
-      return INITIAL_STATE;
+      return getInitialState();
     case ActionConsts.Event.AddEvent:
     case ActionConsts.Event.UpdateEvent:
       return addEvent(state, action);
