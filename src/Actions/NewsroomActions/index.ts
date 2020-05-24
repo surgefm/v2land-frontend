@@ -36,4 +36,10 @@ export const NewsroomActions = {
     visible,
     type: ActionConsts.Newsroom.SetStackNewsVisible,
   }),
+
+  SetIndividualStackNewsVisible: (stackId: number, visible: boolean) => ({
+    stackId,
+    visible,
+    type: ActionConsts.Newsroom.SetIndividualStackNewsVisible,
+  }),
 };

@@ -32,6 +32,7 @@ export interface NewsroomAction extends ReduxAction {
   eventId?: number;
   client?: NewsroomClient;
   clientId?: number;
+  stackId?: number;
   visible?: boolean;
 }
 

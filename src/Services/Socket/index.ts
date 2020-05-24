@@ -121,6 +121,12 @@ export class NewsroomSocket {
       this.store.dispatch(EventActions.UpdateEvent(event.id, event));
     });
 
+    this.socket.on('update stack', (res: Response) => {
+      const stack = res.stack as Stack;
+      stack.id = -stack.id;
+      this.store.dispatch(StackActions.UpdateStack(stack.id, stack));
+    });
+
     this.socket.on('update stack orders', (res: Response) => {
       const eventId = -(res.eventId as number);
       const stacks = res.stacks as StackOrderData[];
@@ -170,6 +176,11 @@ export class NewsroomSocket {
   async updateEvent(event: Event) {
     await this.emit('update event information', this.eventId, event);
     this.store.dispatch(EventActions.UpdateEvent(-this.eventId, event));
+  }
+
+  async updateStack(stack: Stack) {
+    await this.emit('update stack', Math.abs(stack.id), stack);
+    this.store.dispatch(StackActions.UpdateStack(-Math.abs(stack.id), stack));
   }
 
   async updateStackOrders(stacks: { stackId: number; order: number }[]) {

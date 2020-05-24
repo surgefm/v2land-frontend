@@ -24,7 +24,7 @@ const Header: React.FunctionComponent = (): JSX.Element => {
           <HeaderLogo />
           <Space>
             {isInNewsroom
-              ? [<NewsroomHeaderBreadcrumb />, <NewsroomHeaderClientAvatars />]
+              ? [<NewsroomHeaderBreadcrumb key="breadcrumb" />, <NewsroomHeaderClientAvatars key="avarars" />]
               : [
                   <HeaderButton href="/" key="/">
                     首页

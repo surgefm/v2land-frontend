@@ -1,11 +1,14 @@
+import rfdc from 'rfdc';
 import { EventsState, EventAction } from '@Interfaces';
+
+const clone = rfdc();
 
 const updateEventOffshelfStackListOrder = (state: EventsState, action: EventAction) => {
   if (!action.stackIdList || !action.eventId) return state;
   const { stackIdList, eventId } = action;
   const index = state.idIndexMap[eventId];
   if (typeof index === 'undefined') return state;
-  const event = { ...state.list[index] };
+  const event = clone(state.list[index]);
 
   for (let i = 0; i < stackIdList.length; i += 1) {
     const stackId = stackIdList[i];

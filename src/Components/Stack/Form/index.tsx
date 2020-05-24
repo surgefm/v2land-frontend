@@ -56,14 +56,22 @@ export const StackForm: React.FunctionComponent<IStackForm.IProps> = ({
         const socket = getNewsroomSocket(eventId, store);
         if (!socket) return;
         setLoading(true);
-        const res = await socket.createStack({
-          ...form.getFieldsValue(),
-          order: -offshelfStackIdList.length - 1,
-        } as Stack);
-        res.stack.id = -Math.abs(res.stack.id);
-        dispatch(StackActions.AddStack(res.stack));
-        dispatch(EventActions.AddStackToEventOffshelfStackList(eventId, res.stack.id));
-        message.success('成功创建进展');
+        if (stackId) {
+          await socket.updateStack({
+            ...stack,
+            ...form.getFieldsValue(),
+          } as Stack);
+          message.success('成功修改进展');
+        } else {
+          const res = await socket.createStack({
+            ...form.getFieldsValue(),
+            order: -offshelfStackIdList.length - 1,
+          } as Stack);
+          res.stack.id = -Math.abs(res.stack.id);
+          dispatch(StackActions.AddStack(res.stack));
+          dispatch(EventActions.AddStackToEventOffshelfStackList(eventId, res.stack.id));
+          message.success('成功创建进展');
+        }
       }
       onOk();
     } catch (err) {

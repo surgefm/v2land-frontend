@@ -13,6 +13,12 @@ export const isStackNewsVisible = createSelector(
   state => state.showStackNews
 );
 
+export const isIndividualStackNewsVisible = (stackId: number) =>
+  createSelector(
+    getNewsroomsState,
+    state => state.stackNewsVisibility[Math.abs(stackId)] || false
+  );
+
 export const getNewsroom = (eventId: number) =>
   createSelector(
     getNewsroomsState,
