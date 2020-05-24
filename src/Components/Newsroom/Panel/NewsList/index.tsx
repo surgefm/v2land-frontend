@@ -36,10 +36,11 @@ const NewsroomPanelNewsList: React.FunctionComponent<INewsroomPanelNewsList.IPro
   newsIdList,
   droppableId = 'newsroom-news-panel',
   isNested = false,
+  style,
 }) => (
   <Droppable droppableId={droppableId} type="NEWS">
     {provided => (
-      <div ref={provided.innerRef} {...provided.droppableProps}>
+      <div style={style} ref={provided.innerRef} {...provided.droppableProps}>
         {newsIdList.map((newsId, index) => (
           <NewsroomPanelNewsCard
             newsId={newsId}

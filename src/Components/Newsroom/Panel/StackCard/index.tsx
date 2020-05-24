@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Draggable } from 'react-beautiful-dnd';
 
-import { getStack, getStackNewsIdList } from '@Selectors';
+import { getStack, getStackNewsIdList, isStackNewsVisible } from '@Selectors';
 // import { GetNews } from '@Actions';
 import { NewsroomPanelCard } from '../Card';
 import { NewsroomPanelNewsList } from '../NewsList';
@@ -14,6 +14,7 @@ const NewsroomPanelStackCard: React.FunctionComponent<INewsroomPanelStackCard.IP
 }) => {
   const stack = useSelector(getStack(stackId));
   const newsIdList = useSelector(getStackNewsIdList(stackId));
+  const showStackNews = useSelector(isStackNewsVisible);
   if (!stack) return <div />;
 
   return (
@@ -23,6 +24,7 @@ const NewsroomPanelStackCard: React.FunctionComponent<INewsroomPanelStackCard.IP
           <NewsroomPanelCard className="stack-card">
             <span>{stack.title}</span>
             <NewsroomPanelNewsList
+              style={showStackNews ? {} : { display: 'none' }}
               newsIdList={newsIdList}
               droppableId={`stack-card-${Math.abs(stackId)}-news-list`}
               isNested
@@ -40,10 +42,11 @@ const NewsroomPanelStackCard: React.FunctionComponent<INewsroomPanelStackCard.IP
 
               div > :global(.stack-card) {
                 background-color: #f4f4f4;
+                border-width: 1.5px;
               }
 
               div > :global(.stack-card:hover) {
-                border: 1px solid #999;
+                border-color: #999;
               }
             `}
           </style>

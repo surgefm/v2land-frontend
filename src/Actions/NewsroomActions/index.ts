@@ -31,4 +31,9 @@ export const NewsroomActions = {
     panels,
     type: ActionConsts.Newsroom.SetPanelsOrder,
   }),
+
+  SetStackNewsVisible: (visible: boolean) => ({
+    visible,
+    type: ActionConsts.Newsroom.SetStackNewsVisible,
+  }),
 };

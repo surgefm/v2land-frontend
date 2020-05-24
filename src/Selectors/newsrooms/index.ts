@@ -8,6 +8,11 @@ export const getNewsroomPanels = createSelector(
   state => state.panels
 );
 
+export const isStackNewsVisible = createSelector(
+  getNewsroomsState,
+  state => state.showStackNews
+);
+
 export const getNewsroom = (eventId: number) =>
   createSelector(
     getNewsroomsState,

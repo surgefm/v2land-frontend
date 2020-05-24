@@ -24,6 +24,7 @@ export interface ClientsState {
 }
 
 export interface NewsroomsState {
+  showStackNews: boolean;
   panels: string[];
   list: Newsroom[];
   idIndexMap: { [index: number]: number };

@@ -22,8 +22,8 @@ export const NewsroomHeaderBreadcrumb: React.FunctionComponent = () => {
         </Link>
       </Breadcrumb.Item>
       <Breadcrumb.Item>
-        <Link href="/[username]" as={`/@${username}`}>
-          <a>{`@${username}`}</a>
+        <Link href="/[username]" as={`/${username}`}>
+          <a>{`${username}`}</a>
         </Link>
       </Breadcrumb.Item>
       <Breadcrumb.Item>

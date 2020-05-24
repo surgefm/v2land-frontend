@@ -51,6 +51,10 @@ const NewsroomPanelStackList: React.FunctionComponent<INewsroomPanelStackList.IP
               min-height: 3rem;
               overflow-y: scroll;
             }
+
+            div::-webkit-scrollbar {
+              display: none;
+            }
           `}
         </style>
       </div>

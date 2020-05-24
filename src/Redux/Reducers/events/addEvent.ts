@@ -1,4 +1,7 @@
+import rfdc from 'rfdc';
 import { EventsState, EventAction } from '@Interfaces';
+
+const clone = rfdc();
 
 const addEvent = (state: EventsState, action: EventAction) => {
   if (!action.event) return state;
@@ -26,7 +29,7 @@ const addEvent = (state: EventsState, action: EventAction) => {
   delete event.stacks;
   delete event.temporaryStack;
 
-  const newState = { ...state };
+  const newState = clone(state);
   const index = state.idIndexMap[eventId];
 
   if (typeof index !== 'undefined') {

@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { useSelector, useStore } from 'react-redux';
+import { useSelector, useStore, useDispatch } from 'react-redux';
 import {
   DragDropContext,
   OnDragEndResponder,
@@ -12,12 +12,13 @@ import {
   DraggableProvided,
   DraggableChildrenFn,
 } from 'react-beautiful-dnd';
-import { DragOutlined } from '@ant-design/icons';
+import { Switch, Tooltip } from 'antd';
+import { DragOutlined, EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
 // #endregion Global Imports
 
 // #region Local Imports
 import { withTranslation } from '@Server/i18n';
-import { EventActions } from '@Actions';
+import { EventActions, NewsroomActions } from '@Actions';
 import {
   getNewsroomSocket,
   closeNewsroomSocket,
@@ -39,6 +40,7 @@ import {
   getEventOffshelfNewsIdList,
   getEventOffshelfStackIdList,
   getNewsroomPanels,
+  isStackNewsVisible,
 } from '@Selectors';
 // #endregion Local Imports
 
@@ -57,7 +59,9 @@ const EventNewsroomPage: NextPage<
   const offshelfStackIdList = useSelector(getEventOffshelfStackIdList(eventId));
   const stackIdList = useSelector(getEventStackIdList(eventId));
   const newsroomPanels = useSelector(getNewsroomPanels);
+  const showStackNews = useSelector(isStackNewsVisible);
   const store = useStore();
+  const dispatch = useDispatch();
   const socket = getNewsroomSocket(eventId, store) as NewsroomSocket;
 
   useEffect(() => {
@@ -70,6 +74,10 @@ const EventNewsroomPage: NextPage<
 
   const onDragEnd: OnDragEndResponder = result => {
     handleNewsroomDragEnd(result, eventId, store, socket);
+  };
+
+  const onStackNewsVisibilityToggled = (checked: boolean) => {
+    dispatch(NewsroomActions.SetStackNewsVisible(checked));
   };
 
   const panels: { [index: string]: DraggableChildrenFn } = {
@@ -112,17 +120,6 @@ const EventNewsroomPage: NextPage<
         </Card>
       </div>
     ),
-    [NewsroomPanelConsts.StackList]: (provided: DraggableProvided) => (
-      <div className="panel-wrapper" ref={provided.innerRef} {...provided.draggableProps}>
-        <Card className="panel public-stack">
-          <div className="panel-header-container">
-            <NewsroomPanelTitle>事件时间线</NewsroomPanelTitle>
-            <DragOutlined {...provided.dragHandleProps} />
-          </div>
-          <NewsroomPanelStackList stackIdList={stackIdList} />
-        </Card>
-      </div>
-    ),
   };
 
   return (
@@ -134,6 +131,23 @@ const EventNewsroomPage: NextPage<
             ref={droppableProvided.innerRef}
             {...droppableProvided.droppableProps}
           >
+            <div className="panel-wrapper">
+              <Card className="panel public-stack">
+                <div className="panel-header-container">
+                  <NewsroomPanelTitle>事件时间线</NewsroomPanelTitle>
+                  <Tooltip title={showStackNews ? '隐藏新闻' : '显示新闻'}>
+                    <Switch
+                      checkedChildren={<EyeOutlined />}
+                      unCheckedChildren={<EyeInvisibleOutlined />}
+                      className="show-news-toggle"
+                      onClick={onStackNewsVisibilityToggled}
+                      defaultChecked={showStackNews}
+                    />
+                  </Tooltip>
+                </div>
+                <NewsroomPanelStackList stackIdList={stackIdList} />
+              </Card>
+            </div>
             {newsroomPanels.map((panel, index) => (
               <Draggable draggableId={`newsroom-panel-${panel}`} index={index} key={panel}>
                 {panels[panel]}
@@ -167,11 +181,16 @@ const EventNewsroomPage: NextPage<
             width: 25rem;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
           }
 
           .container > :global(.panel-wrapper) > :global(.panel.public-stack),
           .container > :global(.panel-wrapper) > :global(.panel.offshelf-stack) {
             width: 26rem;
+          }
+
+          .container > :global(.panel-wrapper) > :global(.panel.public-stack) {
+            background-color: rgb(37, 116, 169);
           }
 
           .container :global(.panel-header-container) {
@@ -184,6 +203,30 @@ const EventNewsroomPage: NextPage<
             padding: 0.5rem 0.5rem 0;
             background-color: #fff;
             z-index: 200;
+          }
+
+          .container
+            > :global(.panel-wrapper)
+            > :global(.panel.public-stack)
+            > .panel-header-container {
+            background-color: rgb(30, 139, 195);
+            color: #fff;
+          }
+
+          .container > :global(.panel-wrapper) > :global(.public-stack) :global(.stack-card) {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+          }
+
+          .container > :global(.panel-wrapper) > :global(.public-stack) :global(.stack-card):hover {
+            border-color: #000;
+          }
+
+          .container :global(.show-news-toggle) {
+            background-color: #ddd;
+          }
+
+          .container :global(.show-news-toggle) > :global(.ant-switch-inner) {
+            color: rgb(37, 116, 169);
           }
         `}
       </style>

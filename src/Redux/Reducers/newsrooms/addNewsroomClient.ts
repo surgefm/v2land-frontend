@@ -1,5 +1,7 @@
-import deepClone from 'lodash/cloneDeep';
-import { NewsroomsState, NewsroomAction, Newsroom } from '@Interfaces';
+import rfdc from 'rfdc';
+import { NewsroomsState, NewsroomAction } from '@Interfaces';
+
+const clone = rfdc();
 
 const addNewsroomClient = (state: NewsroomsState, action: NewsroomAction) => {
   if (!action.eventId || !action.client) return state;
@@ -7,7 +9,7 @@ const addNewsroomClient = (state: NewsroomsState, action: NewsroomAction) => {
   const index = state.idIndexMap[eventId];
   if (typeof index === 'undefined') return state;
   const { client } = action;
-  const newsroom = deepClone(state.list[index]) as Newsroom;
+  const newsroom = clone(state.list[index]);
   let found = false;
   for (let i = 0; i < newsroom.clients.length; i += 1) {
     if (newsroom.clients[i].id === client.id) {

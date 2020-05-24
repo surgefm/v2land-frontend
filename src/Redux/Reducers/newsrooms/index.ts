@@ -10,9 +10,11 @@ import addNewsroom from './addNewsroom';
 import addNewsroomClient from './addNewsroomClient';
 import removeNewsroomClient from './removeNewsroomClient';
 import setPanelsOrder from './setPanelsOrder';
+import setStackNewsVisible from './setStackNewsVisible';
 
 const getInitialState = () =>
   ({
+    showStackNews: true,
     panels: Object.keys(NewsroomPanelConsts).map(key => NewsroomPanelConsts[key]),
     idIndexMap: {},
     list: [],
@@ -31,6 +33,8 @@ export const NewsroomReducer = (state = getInitialState(), action: NewsroomActio
       return removeNewsroomClient(state, action);
     case ActionConsts.Newsroom.SetPanelsOrder:
       return setPanelsOrder(state, action);
+    case ActionConsts.Newsroom.SetStackNewsVisible:
+      return setStackNewsVisible(state, action);
     default:
       return state;
   }
