@@ -6,4 +6,5 @@ export interface NewsroomClient {
 export interface Newsroom {
   eventId: number;
   clients: NewsroomClient[];
+  resourceLocks: { [index: string]: number };
 }

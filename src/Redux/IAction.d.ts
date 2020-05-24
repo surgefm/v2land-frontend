@@ -34,6 +34,9 @@ export interface NewsroomAction extends ReduxAction {
   clientId?: number;
   stackId?: number;
   visible?: boolean;
+  model?: string;
+  resourceId?: number;
+  locker?: number;
 }
 
 export interface ClientAction extends ReduxAction {

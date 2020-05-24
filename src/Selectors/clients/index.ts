@@ -8,6 +8,11 @@ export const isLoggedIn = createSelector(
   state => state.clientId !== -1
 );
 
+export const getLoggedInClientId = createSelector(
+  getClientsState,
+  state => state.clientId
+);
+
 export const getLoggedInClient = createSelector(
   getClientsState,
   state => state.list[state.idIndexMap[state.clientId]]

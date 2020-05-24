@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
-import { useStore } from 'react-redux';
+import { useStore, useSelector } from 'react-redux';
 import { Button, message } from 'antd';
 import { FormOutlined } from '@ant-design/icons';
 
 import { getNewsroomSocket, NewsroomSocket } from '@Services';
+import { getActiveNewsroomId, canCurrentClientEditEvent } from '@Selectors';
 
 export const NewsroomHeaderCommitButton: React.FunctionComponent = () => {
   const [isLoading, setLoading] = useState(false);
-  const router = useRouter();
-  const eventId = +router.query.eventName;
+  const eventId = useSelector(getActiveNewsroomId);
+  const canEdit = useSelector(canCurrentClientEditEvent());
   const store = useStore();
 
   const makeCommit = async () => {
@@ -37,6 +37,7 @@ export const NewsroomHeaderCommitButton: React.FunctionComponent = () => {
         shape="round"
         icon={<FormOutlined />}
         loading={isLoading}
+        disabled={!canEdit}
         onClick={makeCommit}
       >
         更新时间线

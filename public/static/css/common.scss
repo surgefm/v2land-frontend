@@ -3,7 +3,6 @@
 
 * {
   outline: 0;
-  text-align: justify;
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
 }
 
@@ -25,10 +24,6 @@ html, body {
 
 a {
   text-decoration: none;
-}
-
-.title, .event-title {
-  font-family: "source-han-serif-sc", "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif !important;
 }
 
 .img-background {
@@ -165,11 +160,6 @@ img[lazy=loaded] {
     visibility: hidden;
     width: 0;
     height: 0;
-  }
-
-  .el-dialog {
-    width: 85% !important;
-    margin-top: 7.5vh !important;
   }
 }
 

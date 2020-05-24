@@ -11,7 +11,11 @@ const {
 } = getConfig();
 
 type ConnectionResponse = {
-  resourceLocks: any[];
+  resourceLocks: {
+    model: string;
+    resourceId: number;
+    locker?: number;
+  }[];
   clients: NewsroomClient[];
 };
 
@@ -21,13 +25,16 @@ type StackOrderData = {
 };
 
 type Response = {
-  eventStackNews: EventStackNews;
+  eventStackNews?: EventStackNews;
   news?: News;
   stack?: Stack;
   event?: Event;
   eventId?: number;
   stacks?: StackOrderData[];
   client?: NewsroomClient;
+  model?: string;
+  resourceId: number;
+  locker?: number;
 };
 
 export class NewsroomSocket {
@@ -67,10 +74,17 @@ export class NewsroomSocket {
 
   async joinNewsroom() {
     const response = await this.emit<ConnectionResponse>('join newsroom', this.eventId);
+    const locks: { [index: string]: number } = {};
+    for (let i = 0; i < response.resourceLocks.length; i += 1) {
+      const lock = response.resourceLocks[i];
+      locks[`${lock.model}-${lock.resourceId}`] = lock.locker || -1;
+    }
+
     this.store.dispatch(
       NewsroomActions.AddNewsroom({
         eventId: this.eventId,
         clients: response.clients,
+        resourceLocks: locks,
       })
     );
 
@@ -85,12 +99,12 @@ export class NewsroomSocket {
     });
 
     this.socket.on('add news to event', (res: Response) => {
-      const esn = res.eventStackNews;
+      const esn = res.eventStackNews as EventStackNews;
       this.store.dispatch(EventActions.AddNewsToEvent(-esn.eventId, -(esn.newsId as number)));
     });
 
     this.socket.on('add news to stack', (res: Response) => {
-      const esn = res.eventStackNews;
+      const esn = res.eventStackNews as EventStackNews;
       this.store.dispatch(
         StackActions.AddNewsToStack(-(esn.stackId as number), -(esn.newsId as number))
       );
@@ -143,6 +157,21 @@ export class NewsroomSocket {
       if (stackIdList.length > 0) updateData.stackIdList = stackIdList;
       this.store.dispatch(EventActions.UpdateEvent(eventId, updateData));
     });
+
+    this.socket.on('lock resource', (res: Response) => {
+      const eventId = res.eventId as number;
+      const model = res.model as string;
+      const resourceId = res.resourceId as number;
+      const locker = res.locker as number;
+      this.store.dispatch(NewsroomActions.LockResource(eventId, model, resourceId, locker));
+    });
+
+    this.socket.on('unlock resource', (res: Response) => {
+      const eventId = res.eventId as number;
+      const model = res.model as string;
+      const resourceId = res.resourceId as number;
+      this.store.dispatch(NewsroomActions.UnlockResource(eventId, model, resourceId));
+    });
   }
 
   async addNewsToEvent(newsId: number) {
@@ -187,6 +216,22 @@ export class NewsroomSocket {
     return this.emit('update stack orders', this.eventId, stacks);
   }
 
+  async lockResource(model: string, resourceId: number) {
+    return this.emit('lock resource', this.eventId, model, Math.abs(resourceId));
+  }
+
+  async lockStack(stackId: number) {
+    return this.lockResource('stack', stackId);
+  }
+
+  async unlockResource(model: string, resourceId: number) {
+    return this.emit('unlock resource', this.eventId, model, Math.abs(resourceId));
+  }
+
+  async unlockStack(stackId: number) {
+    return this.unlockResource('stack', stackId);
+  }
+
   destroy() {
     this.leaveNewsroom();
     this.socket.disconnect();
@@ -196,13 +241,14 @@ export class NewsroomSocket {
 let newsroomSocketMap: { [index: number]: NewsroomSocket } = {};
 export function getNewsroomSocket(
   eventId: number,
-  store: Store<any, AnyAction>
+  store?: Store<any, AnyAction>
 ): NewsroomSocket | null {
   if (typeof window === 'undefined') return null;
   const id = Math.abs(eventId);
   if (typeof newsroomSocketMap[id] !== 'undefined') {
     return newsroomSocketMap[id];
   }
+  if (!store) return null;
   newsroomSocketMap[id] = new NewsroomSocket(id, store);
   return newsroomSocketMap[id];
 }

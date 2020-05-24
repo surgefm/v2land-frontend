@@ -9,6 +9,6 @@ export const getRoleName = (role: string) => {
     case 'viewer':
       return '观察者';
     default:
-      return '无关人员';
+      return role;
   }
 };

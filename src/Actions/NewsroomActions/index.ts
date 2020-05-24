@@ -27,6 +27,21 @@ export const NewsroomActions = {
     type: ActionConsts.Newsroom.RemoveNewsroomClient,
   }),
 
+  LockResource: (eventId: number, model: string, resourceId: number, locker?: number) => ({
+    eventId,
+    model,
+    resourceId,
+    locker,
+    type: ActionConsts.Newsroom.LockResource,
+  }),
+
+  UnlockResource: (eventId: number, model: string, resourceId: number) => ({
+    eventId,
+    model,
+    resourceId,
+    type: ActionConsts.Newsroom.UnlockResource,
+  }),
+
   SetPanelsOrder: (panels: string[]) => ({
     panels,
     type: ActionConsts.Newsroom.SetPanelsOrder,
@@ -41,5 +56,10 @@ export const NewsroomActions = {
     stackId,
     visible,
     type: ActionConsts.Newsroom.SetIndividualStackNewsVisible,
+  }),
+
+  SetActiveNewsroom: (eventId: number) => ({
+    eventId,
+    type: ActionConsts.Newsroom.SetActiveNewsroom,
   }),
 };

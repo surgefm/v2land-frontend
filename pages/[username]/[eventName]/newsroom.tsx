@@ -65,7 +65,11 @@ const EventNewsroomPage: NextPage<
   const socket = getNewsroomSocket(eventId, store) as NewsroomSocket;
 
   useEffect(() => {
-    return () => closeNewsroomSocket(eventId);
+    dispatch(NewsroomActions.SetActiveNewsroom(eventId));
+    return () => {
+      NewsroomActions.SetActiveNewsroom(0);
+      closeNewsroomSocket(eventId);
+    };
   }, []);
 
   if (!event) return <div />;
@@ -211,10 +215,6 @@ const EventNewsroomPage: NextPage<
             > .panel-header-container {
             background-color: rgb(30, 139, 195);
             color: #fff;
-          }
-
-          .container > :global(.panel-wrapper) > :global(.public-stack) :global(.stack-card) {
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
           }
 
           .container > :global(.panel-wrapper) > :global(.public-stack) :global(.stack-card):hover {

@@ -34,9 +34,12 @@ export const ActionConsts = {
     UpdateNewsroom: 'Newsroom_UpdateNewsroom',
     AddNewsroomClient: 'Newsroom_AddNewsroomClient',
     RemoveNewsroomClient: 'Newsroom_RemoveNewsroomClient',
+    LockResource: 'Newsroom_LockResource',
+    UnlockResource: 'Newsroom_UnlockResource',
     SetPanelsOrder: 'Newsroom_SetPanelsOrder',
     SetStackNewsVisible: 'Newsroom_SetStackNewsVisible',
     SetIndividualStackNewsVisible: 'Newsroom_SetIndividualStackNewsVisible',
+    SetActiveNewsroom: 'Newsroom_SetActiveNewsroom',
   },
   Loading: {
     BeginLoading: 'Loading_BeginLoading',

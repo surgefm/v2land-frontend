@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useStore } from 'react-redux';
 import { Form, Button, Input, message } from 'antd';
 
-import { getEvent } from '@Selectors';
+import { getEvent, canCurrentClientEditEvent } from '@Selectors';
 import { getNewsroomSocket } from '@Services';
 import { Event } from '@Interfaces';
 
@@ -22,6 +22,7 @@ export const NewsroomPanelEventDetail: React.FunctionComponent<
 > = ({ eventId }) => {
   const [form] = Form.useForm();
   const event = useSelector(getEvent(eventId));
+  const canEdit = useSelector(canCurrentClientEditEvent());
   const store = useStore();
   const [name, setName] = useState(event.name);
   const [description, setDescription] = useState(event.description);
@@ -78,10 +79,11 @@ export const NewsroomPanelEventDetail: React.FunctionComponent<
   return (
     <Form {...layout} form={form} name="event-detail" onChange={onChange}>
       <Form.Item name="name" label="事件名" rules={[{ required: true }]}>
-        <Input placeholder="百度魏则西事件" />
+        <Input placeholder="百度魏则西事件" disabled={!canEdit} />
       </Form.Item>
       <Form.Item name="description" label="简介" rules={[{ required: true }]}>
         <Input.TextArea
+          disabled={!canEdit}
           autoSize={{ minRows: 3 }}
           placeholder="2016 年 4 月 12 日，21 岁的魏则西因滑膜肉瘤去世，在其生前求医过程中，通过百度搜索到武警北京总队第二医院..."
         />
@@ -91,12 +93,12 @@ export const NewsroomPanelEventDetail: React.FunctionComponent<
           type="primary"
           htmlType="submit"
           loading={loading}
-          disabled={disabled}
+          disabled={disabled || !canEdit}
           onClick={submit}
         >
           保存
         </Button>
-        <Button type="link" htmlType="reset" loading={loading} onClick={reset}>
+        <Button type="link" htmlType="reset" disabled={disabled || !canEdit} onClick={reset}>
           重置
         </Button>
       </Form.Item>

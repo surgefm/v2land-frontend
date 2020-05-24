@@ -34,32 +34,41 @@ const showPlaceholder = (stackIdList: number[]) => {
 const NewsroomPanelStackList: React.FunctionComponent<INewsroomPanelStackList.IProps> = ({
   stackIdList,
   droppableId = 'newsroom-stack-panel',
-}) => (
-  <Droppable droppableId={droppableId} type="STACK">
-    {provided => (
-      <div ref={provided.innerRef} {...provided.droppableProps}>
-        {stackIdList.map((stackId, index) => (
-          <NewsroomPanelStackCard stackId={stackId} key={`stack-${stackId}`} index={index} />
-        ))}
-        {provided.placeholder}
-        {showPlaceholder(stackIdList)}
-        <style jsx>
-          {`
-            div {
-              position: relative;
-              padding: 0 0.5rem 0.5rem;
-              min-height: 3rem;
-              overflow-y: scroll;
-            }
+}) => {
+  const dark = droppableId !== 'newsroom-stack-panel';
 
-            div::-webkit-scrollbar {
-              display: none;
-            }
-          `}
-        </style>
-      </div>
-    )}
-  </Droppable>
-);
+  return (
+    <Droppable droppableId={droppableId} type="STACK">
+      {provided => (
+        <div ref={provided.innerRef} {...provided.droppableProps}>
+          {stackIdList.map((stackId, index) => (
+            <NewsroomPanelStackCard
+              stackId={stackId}
+              dark={dark}
+              key={`stack-${stackId}`}
+              index={index}
+            />
+          ))}
+          {provided.placeholder}
+          {showPlaceholder(stackIdList)}
+          <style jsx>
+            {`
+              div {
+                position: relative;
+                padding: 0 0.5rem 0.5rem;
+                min-height: 3rem;
+                overflow-y: scroll;
+              }
+
+              div::-webkit-scrollbar {
+                display: none;
+              }
+            `}
+          </style>
+        </div>
+      )}
+    </Droppable>
+  );
+};
 
 export { NewsroomPanelStackList };

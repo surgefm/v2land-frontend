@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Draggable } from 'react-beautiful-dnd';
 
-import { getNews } from '@Selectors';
+import { getNews, canCurrentClientEditEvent } from '@Selectors';
 // import { GetNews } from '@Actions';
 import { NewsroomPanelCard } from '../Card';
 import { INewsroomPanelNewsCard } from './NewsCard';
@@ -13,12 +13,22 @@ const NewsroomPanelNewsCard: React.FunctionComponent<INewsroomPanelNewsCard.IPro
   draggableId = 'news-card',
 }) => {
   const news = useSelector(getNews(newsId));
+  const canEdit = useSelector(canCurrentClientEditEvent());
   if (!news) return <div />;
 
   return (
-    <Draggable draggableId={`${draggableId}-${Math.abs(newsId)}`} index={index || 0}>
-      {provided => (
-        <div ref={provided.innerRef} {...provided.dragHandleProps} {...provided.draggableProps}>
+    <Draggable
+      draggableId={`${draggableId}-${Math.abs(newsId)}`}
+      index={index || 0}
+      isDragDisabled={!canEdit}
+    >
+      {(provided, snapshot) => (
+        <div
+          className={snapshot.isDragging ? 'dragging' : ''}
+          ref={provided.innerRef}
+          {...provided.dragHandleProps}
+          {...provided.draggableProps}
+        >
           <NewsroomPanelCard className="news-card">
             {`${news.source} | ${news.title} | ${Math.abs(news.id)}`}
           </NewsroomPanelCard>
@@ -32,11 +42,15 @@ const NewsroomPanelNewsCard: React.FunctionComponent<INewsroomPanelNewsCard.IPro
 
               div > :global(.news-card) {
                 white-space: nowrap;
-                overflow-x: scroll;
+                overflow-x: hidden;
               }
 
               div > :global(.news-card::-webkit-scrollbar) {
                 display: none;
+              }
+
+              .dragging > :global(.news-card) {
+                border: 1px solid #555;
               }
 
               div {

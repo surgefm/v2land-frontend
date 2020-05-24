@@ -58,7 +58,7 @@ export const StackForm: React.FunctionComponent<IStackForm.IProps> = ({
         setLoading(true);
         if (stackId) {
           await socket.updateStack({
-            ...stack,
+            id: stackId,
             ...form.getFieldsValue(),
           } as Stack);
           message.success('成功修改进展');
