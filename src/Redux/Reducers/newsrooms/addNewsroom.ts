@@ -4,6 +4,7 @@ const addNewsroom = (state: NewsroomsState, action: NewsroomAction) => {
   if (!action.newsroom) return state;
   const { newsroom } = action;
   newsroom.eventId = -Math.abs(newsroom.eventId);
+  newsroom.roles = newsroom.roles || [];
   const index = state.idIndexMap[newsroom.eventId];
   if (typeof index !== 'undefined') {
     const newNewsroom = {

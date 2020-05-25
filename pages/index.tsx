@@ -26,21 +26,21 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = () => {
         <EventCardList className="left" />
         <div className="right">
           <SectionHeader>热点话题</SectionHeader>
-          <div>
+          <>
             <TagCard tag="新冠肺炎" />
             <TagCard tag="医患纠纷" />
             <TagCard tag="百度" />
             <TagCard tag="娱乐圈" />
             <TagCard tag="劳资纠纷" />
             <TagCard tag="非洲猪瘟" />
-          </div>
+          </>
           <SectionHeader>贡献榜</SectionHeader>
-          <div>
+          <>
             <ContributorCard contributor="Vincent" />
             <ContributorCard contributor="CCAV" />
             <ContributorCard contributor="陈博士" />
             <ContributorCard contributor="Erick" />
-          </div>
+          </>
         </div>
       </div>
       <Footer />

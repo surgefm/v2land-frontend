@@ -11,15 +11,11 @@ html {
   font-size: 16px;
 }
 
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
-}
-
 html, body {
   background-color: $background-color;
   margin: 0;
+  width: fit-content;
+  position: relative;
 }
 
 a {
@@ -116,25 +112,8 @@ img[lazy=loaded] {
   margin-top: .75rem;
 }
 
-.page-enter-active, .page-leave-active {
-  transition: opacity .2s;
-}
-
 .page-enter, .page-leave-active {
   opacity: 0;
-}
-
-.image-uploader .el-upload {
-  border: .125rem dashed #d9d9d9;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  background-color: rgba(256, 256, 256, .5)
-}
-
-.arrange-stack .el-collapse-item__arrow {
-  display: none;
 }
 
 @media (max-width: 600px) {

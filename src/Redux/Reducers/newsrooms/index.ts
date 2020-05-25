@@ -13,6 +13,7 @@ import removeNewsroomClient from './removeNewsroomClient';
 import lockResource from './lockResource';
 import unlockResource from './unlockResource';
 import setIndividualStackNewsVisible from './setIndividualStackNewsVisible';
+import setNewsroomClientRole from './setNewsroomClientRole';
 import setPanelsOrder from './setPanelsOrder';
 import setStackNewsVisible from './setStackNewsVisible';
 import setActiveNewsroom from './setActiveNewsroom';
@@ -48,6 +49,8 @@ export const NewsroomReducer = (state = getInitialState(), action: NewsroomActio
       return setStackNewsVisible(state, action);
     case ActionConsts.Newsroom.SetIndividualStackNewsVisible:
       return setIndividualStackNewsVisible(state, action);
+    case ActionConsts.Newsroom.SetNewsroomClientRole:
+      return setNewsroomClientRole(state, action);
     case ActionConsts.Newsroom.SetActiveNewsroom:
       return setActiveNewsroom(state, action);
     case ActionConsts.Stack.AddStack:

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useStore } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Form, Button, Input, Upload, message } from 'antd';
 import { PictureOutlined } from '@ant-design/icons';
 import { UploadChangeParam, UploadFile, RcFile } from 'antd/lib/upload/interface';
@@ -169,6 +169,12 @@ export const NewsroomPanelEventDetail: React.FunctionComponent<
       }
     }
   }, [event]);
+
+  useEffect(() => {
+    if (!canEdit) {
+      reset();
+    }
+  }, [canEdit]);
 
   useEffect(() => {
     reset();

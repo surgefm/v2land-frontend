@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { Draggable } from 'react-beautiful-dnd';
 
 import { getNews, canCurrentClientEditEvent } from '@Selectors';
-// import { GetNews } from '@Actions';
 import { NewsroomPanelCard } from '../Card';
 import { INewsroomPanelNewsCard } from './NewsCard';
 

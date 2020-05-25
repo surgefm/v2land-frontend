@@ -24,25 +24,22 @@ const Header: React.FunctionComponent = (): JSX.Element => {
           <HeaderLogo />
           <Space>
             {isInNewsroom
-              ? [
-                  <NewsroomHeaderBreadcrumb key="breadcrumb" />,
-                  <NewsroomHeaderClientAvatars key="avarars" />,
-                ]
-              : [
-                  <HeaderButton href="/" key="/">
-                    首页
-                  </HeaderButton>,
-                  <HeaderButton href="/about" key="/about">
-                    关注
-                  </HeaderButton>,
-                  <HeaderButton
-                    href="/[username]/[eventName]"
-                    as="/1/12"
-                    key="/[username]/[eventName]"
-                  >
+              ? (
+                <>
+                  <NewsroomHeaderBreadcrumb />
+                  <NewsroomHeaderClientAvatars />
+                </>
+                )
+              : (
+                <>
+                  <HeaderButton href="/">首页</HeaderButton>
+                  <HeaderButton href="/about">关注</HeaderButton>
+                  <HeaderButton href="/[username]/[eventName]" as="/1/12">
                     我的事件
-                  </HeaderButton>,
-                ]}
+                  </HeaderButton>
+                </>
+              )
+            }
           </Space>
         </div>
         <div className="right">

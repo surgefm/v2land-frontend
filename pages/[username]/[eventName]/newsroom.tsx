@@ -33,6 +33,7 @@ import {
   NewsroomPanelStackList,
   NewsroomPanelEventDetail,
   NewsroomPanelCreateStackButton,
+  NewsroomPanelRoleList,
 } from '@Components';
 import {
   getEvent,
@@ -62,7 +63,7 @@ const EventNewsroomPage: NextPage<
   const showStackNews = useSelector(isStackNewsVisible);
   const store = useStore();
   const dispatch = useDispatch();
-  const socket = getNewsroomSocket(eventId, store) as NewsroomSocket;
+  let socket = getNewsroomSocket(eventId, store) as NewsroomSocket;
 
   useEffect(() => {
     dispatch(NewsroomActions.SetActiveNewsroom(eventId));
@@ -71,6 +72,10 @@ const EventNewsroomPage: NextPage<
       closeNewsroomSocket(eventId);
     };
   }, []);
+
+  useEffect(() => {
+    socket = getNewsroomSocket(eventId, store) as NewsroomSocket;
+  });
 
   if (!event) return <div />;
 
@@ -93,6 +98,17 @@ const EventNewsroomPage: NextPage<
             <DragOutlined {...provided.dragHandleProps} />
           </div>
           <NewsroomPanelEventDetail eventId={eventId} />
+        </Card>
+      </div>
+    ),
+    [NewsroomPanelConsts.EventRoleList]: (provided: DraggableProvided) => (
+      <div className="panel-wrapper" ref={provided.innerRef} {...provided.draggableProps}>
+        <Card className="panel">
+          <div className="panel-header-container">
+            <NewsroomPanelTitle>用户列表</NewsroomPanelTitle>
+            <DragOutlined {...provided.dragHandleProps} />
+          </div>
+          <NewsroomPanelRoleList eventId={eventId} />
         </Card>
       </div>
     ),

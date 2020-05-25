@@ -12,6 +12,7 @@ export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = ({
   clientId,
   eventId,
   role,
+  showTooltip = true,
 }) => {
   const client = useSelector(getClient(clientId));
   const clientRole = useSelector(getNewsroomClientRole(eventId || 0, clientId));
@@ -37,8 +38,12 @@ export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = ({
     return <Avatar>{client.username[0]}</Avatar>;
   };
 
+  if (!showTooltip) {
+    return getAvatar();
+  }
+
   return (
-    <Tooltip placement="bottom" title={getTooltipText()} overlayClassName="avatar-icon-tooltip">
+    <Tooltip title={getTooltipText()} overlayClassName="avatar-icon-tooltip">
       <div>
         {getAvatar()}
         <style jsx>

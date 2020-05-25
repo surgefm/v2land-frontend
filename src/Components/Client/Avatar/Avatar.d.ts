@@ -3,6 +3,7 @@ declare namespace IClientAvatar {
     clientId: number;
     eventId?: number; // to show event role
     role?: string;
+    showTooltip?: boolean;
   }
 }
 

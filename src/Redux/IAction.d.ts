@@ -3,7 +3,7 @@ import { Action as ReduxAction } from 'redux';
 // #endregion Global Imports
 
 // #region Local Imports
-import { Event, Stack, News, Client, Newsroom, NewsroomClient } from '@Interfaces';
+import { Event, Stack, News, Client, Newsroom } from '@Interfaces';
 // #endregion Local Imports
 
 export interface EventAction extends ReduxAction {
@@ -30,13 +30,13 @@ export interface NewsroomAction extends ReduxAction {
   panels?: string[];
   newsroom?: Newsroom;
   eventId?: number;
-  client?: NewsroomClient;
   clientId?: number;
   stackId?: number;
   visible?: boolean;
   model?: string;
   resourceId?: number;
   locker?: number;
+  role?: string;
 }
 
 export interface ClientAction extends ReduxAction {

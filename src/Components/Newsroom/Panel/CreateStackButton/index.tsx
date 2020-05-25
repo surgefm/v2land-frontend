@@ -19,7 +19,7 @@ export const NewsroomPanelCreateStackButton: React.FunctionComponent<
   };
   const handleCancel = () => setVisible(false);
   return (
-    <div>
+    <>
       <Button
         type="link"
         shape="round"
@@ -38,6 +38,6 @@ export const NewsroomPanelCreateStackButton: React.FunctionComponent<
       >
         <StackForm eventId={eventId} onOk={handleOk} onCancel={handleCancel} />
       </Modal>
-    </div>
+    </>
   );
 };

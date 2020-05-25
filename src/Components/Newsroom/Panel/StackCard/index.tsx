@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Draggable } from 'react-beautiful-dnd';
 import { Button, Space, Modal } from 'antd';
@@ -34,6 +34,13 @@ const NewsroomPanelStackCard: React.FunctionComponent<INewsroomPanelStackCard.IP
   const isLocked = useSelector(isResourceLocked('stack', stackId));
   const canEdit = useSelector(canCurrentClientEditEvent((stack || {}).eventId as number));
   const [modalVisible, setModalVisible] = useState(false);
+
+  useEffect(() => {
+    if (!canEdit) {
+      setModalVisible(false);
+    }
+  }, [canEdit]);
+
   if (!stack) return <div />;
 
   const handleClick = () => {
@@ -91,11 +98,11 @@ const NewsroomPanelStackCard: React.FunctionComponent<INewsroomPanelStackCard.IP
                 isNested
               />
             ) : (
-              <div />
+              <React.Fragment />
             )}
           </NewsroomPanelCard>
-          {isLocked ? <NewsroomPanelLockMask locker={locker} dark={dark} /> : null}
-          <Modal title="修改进展" visible={modalVisible} footer={null}>
+          {isLocked ? <NewsroomPanelLockMask locker={locker} dark={dark} /> : <React.Fragment />}
+          <Modal title="修改进展" visible={modalVisible && canEdit} footer={null}>
             <StackForm
               eventId={stack.eventId as number}
               stackId={stack.id}

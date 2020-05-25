@@ -10,8 +10,8 @@ import {
   Stack,
   Event,
   HeaderImage,
+  NewsroomRoles,
   AppStore,
-  NewsroomClient,
 } from '@Interfaces';
 import { EventActions, StackActions, NewsroomActions } from '@Actions';
 
@@ -19,13 +19,16 @@ const {
   publicRuntimeConfig: { API_URL },
 } = getConfig();
 
+type ResourceLock = {
+  model: string;
+  resourceId: number;
+  locker?: number;
+};
+
 type ConnectionResponse = {
-  resourceLocks: {
-    model: string;
-    resourceId: number;
-    locker?: number;
-  }[];
-  clients: NewsroomClient[];
+  resourceLocks: ResourceLock[];
+  clients: number[];
+  roles: NewsroomRoles;
 };
 
 type StackOrderData = {
@@ -39,12 +42,13 @@ type Response = {
   stack?: Stack;
   event?: Event;
   eventId?: number;
+  clientId?: number;
   stacks?: StackOrderData[];
-  client?: NewsroomClient;
   headerImage?: HeaderImage;
   model?: string;
   resourceId: number;
   locker?: number;
+  resourceLocks?: ResourceLock[];
 };
 
 export class NewsroomSocket {
@@ -67,6 +71,15 @@ export class NewsroomSocket {
       if (inputs[0]) return reject(this.errorHandler(inputs[0]));
       return resolve(...inputs.slice(1));
     };
+  };
+
+  private unlockResources = (eventId: number, resourceLocks: ResourceLock[]) => {
+    for (let i = 0; i < resourceLocks.length; i += 1) {
+      const resourceLock = resourceLocks[i];
+      this.store.dispatch(
+        NewsroomActions.UnlockResource(eventId, resourceLock.model, resourceLock.resourceId)
+      );
+    }
   };
 
   constructor(eventId: number, store: Store<any, AnyAction>) {
@@ -94,18 +107,19 @@ export class NewsroomSocket {
       NewsroomActions.AddNewsroom({
         eventId: this.eventId,
         clients: response.clients,
+        roles: response.roles,
         resourceLocks: locks,
       })
     );
 
     this.socket.on('join newsroom', (res: Response) => {
-      const client = res.client as NewsroomClient;
-      this.store.dispatch(NewsroomActions.AddNewsroomClient(this.eventId, client));
+      const clientId = res.clientId as number;
+      this.store.dispatch(NewsroomActions.AddNewsroomClient(this.eventId, clientId));
     });
 
     this.socket.on('leave newsroom', (res: Response) => {
-      const client = res.client as NewsroomClient;
-      this.store.dispatch(NewsroomActions.RemoveNewsroomClient(this.eventId, client));
+      const clientId = res.clientId as number;
+      this.store.dispatch(NewsroomActions.RemoveNewsroomClient(this.eventId, clientId));
     });
 
     this.socket.on('add news to event', (res: Response) => {
@@ -188,6 +202,27 @@ export class NewsroomSocket {
       const resourceId = res.resourceId as number;
       this.store.dispatch(NewsroomActions.UnlockResource(eventId, model, resourceId));
     });
+
+    this.socket.on('unlock resources', (res: Response) => {
+      const eventId = res.eventId as number;
+      const { resourceLocks } = res;
+      this.unlockResources(eventId, resourceLocks || []);
+    });
+
+    const onRoleChange = (role: string, isAdding = true) => (res: Response) => {
+      const eventId = res.eventId as number;
+      const clientId = res.clientId as number;
+      this.store.dispatch(
+        NewsroomActions.SetNewsroomClientRole(eventId, clientId, isAdding ? role : undefined)
+      );
+    };
+
+    this.socket.on('add viewer', onRoleChange('viewer'));
+    this.socket.on('add editor', onRoleChange('editor'));
+    this.socket.on('add manager', onRoleChange('manager'));
+    this.socket.on('remove viewer', onRoleChange('viewer', false));
+    this.socket.on('remove editor', onRoleChange('editor', false));
+    this.socket.on('remove manager', onRoleChange('manager', false));
   }
 
   async addNewsToEvent(newsId: number) {
@@ -257,6 +292,44 @@ export class NewsroomSocket {
 
   async unlockStack(stackId: number) {
     return this.unlockResource('stack', stackId);
+  }
+
+  async changeRole(clientId: number, role: string, isInviting = true) {
+    const response = await this.emit<Response>(
+      `${isInviting ? 'invite' : 'remove'} ${role}`,
+      this.eventId,
+      clientId
+    );
+    if (response && response.resourceLocks) {
+      this.unlockResources(this.eventId, response.resourceLocks || []);
+    }
+    this.store.dispatch(
+      NewsroomActions.SetNewsroomClientRole(this.eventId, clientId, isInviting ? role : undefined)
+    );
+  }
+
+  async inviteViewer(clientId: number) {
+    return this.changeRole(clientId, 'viewer');
+  }
+
+  async inviteEditor(clientId: number) {
+    return this.changeRole(clientId, 'editor');
+  }
+
+  async inviteManager(clientId: number) {
+    return this.changeRole(clientId, 'manager');
+  }
+
+  async removeViewer(clientId: number) {
+    return this.changeRole(clientId, 'viewer', false);
+  }
+
+  async removeEditor(clientId: number) {
+    return this.changeRole(clientId, 'editor', false);
+  }
+
+  async removeManager(clientId: number) {
+    return this.changeRole(clientId, 'manager', false);
   }
 
   destroy() {

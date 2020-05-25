@@ -26,3 +26,13 @@ export const getClient = (clientId: number) =>
       return state.list[state.idIndexMap[clientId]];
     }
   );
+
+export const getClientList = (clientIds: number[]) =>
+  createSelector(
+    getClientsState,
+    state =>
+      clientIds.map(clientId => {
+        if (typeof state.idIndexMap[clientId] === 'undefined') return null;
+        return state.list[state.idIndexMap[clientId]];
+      })
+  );

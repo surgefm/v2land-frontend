@@ -2,6 +2,8 @@ export * from './CreateStackButton';
 export * from './EventDetail';
 export * from './NewsCard';
 export * from './NewsList';
+export * from './RoleItem';
+export * from './RoleList';
 export * from './StackCard';
 export * from './StackList';
 export * from './Title';

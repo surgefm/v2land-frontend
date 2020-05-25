@@ -48,16 +48,21 @@ export const getNewsroomClients = (eventId: number) =>
     newsroom => (newsroom === null ? [] : newsroom.clients)
   );
 
-export const getNewsroomClientRole = (eventId: number, clientId: number) =>
+export const getNewsroomRoles = (eventId: number) =>
   createSelector(
     getNewsroom(eventId),
-    newsroom => {
-      if (newsroom === null) return null;
-      for (let i = 0; i < newsroom.clients.length; i += 1) {
-        if (newsroom.clients[i].id === clientId) {
-          return newsroom.clients[i].role;
-        }
-      }
+    newsroom => (newsroom === null ? null : newsroom.roles)
+  );
+
+export const getNewsroomClientRole = (eventId: number, clientId: number) =>
+  createSelector(
+    getNewsroomRoles(eventId),
+    roles => {
+      if (roles === null) return null;
+      if (roles.owners.includes(clientId)) return 'owner';
+      if (roles.managers.includes(clientId)) return 'manager';
+      if (roles.editors.includes(clientId)) return 'editor';
+      if (roles.viewers.includes(clientId)) return 'viewer';
       return null;
     }
   );

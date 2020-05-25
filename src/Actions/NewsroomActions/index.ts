@@ -1,5 +1,5 @@
 // #region Local Imports
-import { Newsroom, NewsroomClient } from '@Interfaces';
+import { Newsroom } from '@Interfaces';
 import { ActionConsts } from '@Definitions';
 // #endregion Local Imports
 
@@ -14,16 +14,22 @@ export const NewsroomActions = {
     type: ActionConsts.Newsroom.UpdateNewsroom,
   }),
 
-  AddNewsroomClient: (eventId: number, client: NewsroomClient) => ({
+  AddNewsroomClient: (eventId: number, clientId: number) => ({
     eventId,
-    client,
+    clientId,
     type: ActionConsts.Newsroom.AddNewsroomClient,
   }),
 
-  RemoveNewsroomClient: (eventId: number, client: NewsroomClient | number) => ({
+  SetNewsroomClientRole: (eventId: number, clientId: number, role?: string) => ({
     eventId,
-    client: typeof client === 'number' ? undefined : client,
-    clientId: typeof client === 'number' ? client : undefined,
+    clientId,
+    role,
+    type: ActionConsts.Newsroom.SetNewsroomClientRole,
+  }),
+
+  RemoveNewsroomClient: (eventId: number, clientId: number) => ({
+    eventId,
+    clientId,
     type: ActionConsts.Newsroom.RemoveNewsroomClient,
   }),
 

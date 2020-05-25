@@ -40,6 +40,7 @@ export const ActionConsts = {
     SetStackNewsVisible: 'Newsroom_SetStackNewsVisible',
     SetIndividualStackNewsVisible: 'Newsroom_SetIndividualStackNewsVisible',
     SetActiveNewsroom: 'Newsroom_SetActiveNewsroom',
+    SetNewsroomClientRole: 'Newsroom_SetNewsroomClientRole',
   },
   Loading: {
     BeginLoading: 'Loading_BeginLoading',
