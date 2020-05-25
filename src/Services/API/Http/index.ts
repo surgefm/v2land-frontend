@@ -17,6 +17,8 @@ const cookies = {
   cookie: '',
 };
 
+export const imageUploadEndpoint = `${BaseUrl}/upload`;
+
 export const Http = {
   Request: async <A>(
     methodType: string,

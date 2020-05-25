@@ -3,15 +3,12 @@ import 'isomorphic-unfetch';
 import * as React from 'react';
 import App, { AppInitialProps, AppContext } from 'next/app';
 import { Provider } from 'react-redux';
-import { ThemeProvider } from 'styled-components';
 import withRedux from 'next-redux-wrapper';
-import { PageTransition } from 'next-page-transitions';
 import { ConfigProvider } from 'antd';
 import zhCN from 'antd/lib/locale/zh_CN';
 // #endregion Global Imports
 
 // #region Local Imports
-import { theme } from '@Definitions/Styled';
 import { appWithTranslation } from '@Server/i18n';
 import { AppWithStore, ReduxNextPageContext } from '@Interfaces';
 import { makeStore } from '@Redux';
@@ -54,30 +51,8 @@ class WebApp extends App<AppWithStore> {
     return (
       <Provider store={store}>
         <ConfigProvider locale={zhCN}>
-          <ThemeProvider theme={theme}>
-            <Header />
-            <PageTransition timeout={200} classNames="page-transition">
-              <Component {...pageProps} key={router.route} />
-            </PageTransition>
-            <style jsx global>
-              {`
-                .page-transition-enter {
-                  opacity: 0;
-                }
-                .page-transition-enter-active {
-                  opacity: 1;
-                  transition: opacity 200ms;
-                }
-                .page-transition-exit {
-                  opacity: 1;
-                }
-                .page-transition-exit-active {
-                  opacity: 0;
-                  transition: opacity 200ms;
-                }
-              `}
-            </style>
-          </ThemeProvider>
+          <Header />
+          <Component {...pageProps} key={router.route} />
         </ConfigProvider>
       </Provider>
     );

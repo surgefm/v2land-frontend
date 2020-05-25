@@ -3,7 +3,16 @@ import getConfig from 'next/config';
 import { Store, AnyAction } from 'redux';
 import { message } from 'antd';
 
-import { EventStackNews, Commit, News, Stack, Event, AppStore, NewsroomClient } from '@Interfaces';
+import {
+  EventStackNews,
+  Commit,
+  News,
+  Stack,
+  Event,
+  HeaderImage,
+  AppStore,
+  NewsroomClient,
+} from '@Interfaces';
 import { EventActions, StackActions, NewsroomActions } from '@Actions';
 
 const {
@@ -32,6 +41,7 @@ type Response = {
   eventId?: number;
   stacks?: StackOrderData[];
   client?: NewsroomClient;
+  headerImage?: HeaderImage;
   model?: string;
   resourceId: number;
   locker?: number;
@@ -135,6 +145,12 @@ export class NewsroomSocket {
       this.store.dispatch(EventActions.UpdateEvent(event.id, event));
     });
 
+    this.socket.on('update header image', (res: Response) => {
+      const eventId = res.eventId as number;
+      const headerImage = res.headerImage as HeaderImage;
+      this.store.dispatch(EventActions.UpdateEvent(-eventId, { headerImage } as Event));
+    });
+
     this.socket.on('update stack', (res: Response) => {
       const stack = res.stack as Stack;
       stack.id = -stack.id;
@@ -205,6 +221,17 @@ export class NewsroomSocket {
   async updateEvent(event: Event) {
     await this.emit('update event information', this.eventId, event);
     this.store.dispatch(EventActions.UpdateEvent(-this.eventId, event));
+  }
+
+  async updateHeaderImage(headerImage: HeaderImage) {
+    const response = await this.emit<{ headerImage: HeaderImage }>(
+      'update header image',
+      this.eventId,
+      headerImage
+    );
+
+    this.store.dispatch(EventActions.UpdateEvent(-this.eventId, response as Event));
+    return response.headerImage;
   }
 
   async updateStack(stack: Stack) {

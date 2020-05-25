@@ -26,7 +26,7 @@ export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = ({
     return (
       <span>
         {client.username}
-        {role || clientRole ? `: ${ClientService.getRoleName(role || (clientRole as string))}` : ''}
+        {role || clientRole ? `：${ClientService.getRoleName(role || (clientRole as string))}` : ''}
       </span>
     );
   };

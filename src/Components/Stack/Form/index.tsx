@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useStore, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Form, Input, Button, Space, message } from 'antd';
 
 import { StackActions, EventActions } from '@Actions';
@@ -17,7 +17,6 @@ export const StackForm: React.FunctionComponent<IStackForm.IProps> = ({
   onCancel = () => {},
 }) => {
   const [form] = Form.useForm();
-  const store = useStore();
   const dispatch = useDispatch();
   const stack = useSelector(getStack(stackId || 0));
   const stackIdList = useSelector(getEventStackIdList(eventId));
@@ -53,7 +52,7 @@ export const StackForm: React.FunctionComponent<IStackForm.IProps> = ({
     }
     try {
       if (useSocket) {
-        const socket = getNewsroomSocket(eventId, store);
+        const socket = getNewsroomSocket(eventId);
         if (!socket) return;
         setLoading(true);
         if (stackId) {

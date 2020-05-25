@@ -4,6 +4,7 @@ declare namespace NodeJS {
     STATIC_PATH: string;
     API_URL: string;
     API_KEY: string;
+    CDN_URL: string;
   }
 }
 

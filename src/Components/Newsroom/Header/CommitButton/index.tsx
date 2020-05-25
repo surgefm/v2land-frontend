@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useStore, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Button, message } from 'antd';
 import { FormOutlined } from '@ant-design/icons';
 
@@ -10,12 +10,11 @@ export const NewsroomHeaderCommitButton: React.FunctionComponent = () => {
   const [isLoading, setLoading] = useState(false);
   const eventId = useSelector(getActiveNewsroomId);
   const canEdit = useSelector(canCurrentClientEditEvent());
-  const store = useStore();
 
   const makeCommit = async () => {
     setLoading(true);
     try {
-      const socket = getNewsroomSocket(eventId, store) as NewsroomSocket;
+      const socket = getNewsroomSocket(eventId) as NewsroomSocket;
       const { commit } = await socket.makeCommit('Hey', 'Yo');
       if (commit) {
         message.success('成功更新时间线');
