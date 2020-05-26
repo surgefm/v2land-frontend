@@ -1,6 +1,8 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
+
+import { UtilService } from '@Services';
 import { isLoggedIn as isLoggedInSelector, getLoggedInClient } from '@Selectors';
 
 import { ClientAvatar } from '@Components/Client';
@@ -13,13 +15,17 @@ export const HeaderUserInfo: React.FunctionComponent = () => {
   const onClick = (e: React.MouseEvent) => {
     e.preventDefault();
     if (!isLoggedIn) {
-      router.push('/login');
+      UtilService.redirect(`/login?redirect=${router.asPath}`, {
+        hiddenQuery: { silent: 1 },
+      });
     }
   };
 
+  if (router.pathname === '/login') return <React.Fragment />;
+
   return (
     <button type="button" className="container" onClick={onClick}>
-      {isLoggedIn ? <ClientAvatar clientId={client.id} /> : <React.Fragment />}
+      {isLoggedIn ? <ClientAvatar showTooltip={false} clientId={client.id} /> : <React.Fragment />}
       <span>{isLoggedIn ? client.username : '登录'}</span>
       <style jsx>
         {`

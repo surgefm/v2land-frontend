@@ -53,6 +53,21 @@ class WebApp extends App<AppWithStore> {
         <ConfigProvider locale={zhCN}>
           <Header />
           <Component {...pageProps} key={router.route} />
+          <style jsx>
+            {`
+              :global(body) {
+                margin: 0;
+                color: rgba(0, 0, 0, 0.65);
+                font-size: 14px;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+                  Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+                  'Segoe UI Symbol', 'Noto Color Emoji';
+                font-variant: tabular-nums;
+                line-height: 1.5715;
+                font-feature-settings: 'tnum';
+              }
+            `}
+          </style>
         </ConfigProvider>
       </Provider>
     );

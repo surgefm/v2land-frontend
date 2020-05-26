@@ -6,6 +6,7 @@ import { message } from 'antd';
 
 import { Card, LoginForm, Background, Footer } from '@Components';
 import { isLoggedIn as isLoggedInSelector } from '@Selectors';
+import { UtilService } from '@Services';
 import { ReduxNextPageContext } from '@Interfaces';
 
 const LoginPage: NextPage = () => {
@@ -13,11 +14,17 @@ const LoginPage: NextPage = () => {
   const router = useRouter();
 
   useEffect(() => {
-    if (isLoggedIn && router.route !== '/') {
-      router.push('/');
+    if (router.query.redirect && !router.query.silent) {
+      message.info('请先登录');
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      UtilService.redirect((router.query.redirect as string) || '/');
       message.success('登录成功');
     }
-  }, [isLoggedIn, router]);
+  }, [isLoggedIn]);
 
   return (
     <Background>
@@ -31,9 +38,8 @@ const LoginPage: NextPage = () => {
 
 LoginPage.getInitialProps = async (ctx: ReduxNextPageContext): Promise<any> => {
   const isLoggedIn = isLoggedInSelector(ctx.store.getState());
-  if (ctx.res && isLoggedIn) {
-    ctx.res.writeHead(301, { Location: '/' });
-    ctx.res.end();
+  if (isLoggedIn) {
+    UtilService.redirect(ctx, (ctx.query.redirect as string) || '/');
   }
   return { namespacesRequired: ['common'] };
 };

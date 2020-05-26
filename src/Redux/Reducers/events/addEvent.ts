@@ -32,6 +32,11 @@ const addEvent = (state: EventsState, action: EventAction) => {
   const newState = clone(state);
   const index = state.idIndexMap[eventId];
 
+  newState.nameIdMap[`${event.name}@${event.ownerId}`] = eventId;
+  if (event.owner) {
+    newState.nameIdMap[`${event.name}@${event.owner.username}`] = eventId;
+  }
+
   if (typeof index !== 'undefined') {
     newState.list[index] = event;
     return newState;

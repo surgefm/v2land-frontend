@@ -1,5 +1,5 @@
 // #region Global Imports
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useSelector, useStore, useDispatch } from 'react-redux';
@@ -30,6 +30,7 @@ import {
   NewsroomSocket,
   handleNewsroomDragEnd,
   ClientService,
+  UtilService,
 } from '@Services';
 import { NewsroomPanelConsts } from '@Definitions';
 import {
@@ -44,11 +45,13 @@ import {
 } from '@Components';
 import {
   getEvent,
+  getEventId,
   getEventStackIdList,
   getEventOffshelfNewsIdList,
   getEventOffshelfStackIdList,
   getNewsroomPanels,
   isStackNewsVisible,
+  isLoggedIn,
   canCurrentClientViewEvent,
   getNewsroomCurrentClientRole,
 } from '@Selectors';
@@ -71,8 +74,12 @@ const EventNewsroomPage: NextPage<
   }
 
   const router = useRouter();
-  const eventId = -router.query.eventName;
+  const username = router.query.username as string;
+  const eventName = router.query.eventName as string;
+  const id = -Math.abs(useSelector(getEventId(username, eventName)));
+  const [eventId] = useState(id);
   const event = useSelector(getEvent(eventId));
+  const prevEvent = usePrevious(event);
   const offshelfNewsIdList = useSelector(getEventOffshelfNewsIdList(eventId));
   const offshelfStackIdList = useSelector(getEventOffshelfStackIdList(eventId));
   const stackIdList = useSelector(getEventStackIdList(eventId));
@@ -103,9 +110,15 @@ const EventNewsroomPage: NextPage<
   useEffect(() => {
     if (!canView && canView !== prevCanView) {
       message.error('你没有查看该新闻编辑室的权限');
-      router.push('/', '/');
+      UtilService.redirect('/');
     }
   }, [canView]);
+
+  useEffect(() => {
+    if (prevEvent && event.name !== prevEvent.name) {
+      UtilService.redirect(`/${username}/${event.name}/newsroom`, { replace: true });
+    }
+  }, [event.name]);
 
   useEffect(() => {
     socket = getNewsroomSocket(eventId, store) as NewsroomSocket;
@@ -245,6 +258,12 @@ const EventNewsroomPage: NextPage<
 
       <style jsx>
         {`
+          :global(html),
+          :global(body) {
+            width: fit-content;
+            position: relative;
+          }
+
           .container {
             min-width: 100%;
             height: 100vh;
@@ -318,11 +337,28 @@ const EventNewsroomPage: NextPage<
 EventNewsroomPage.getInitialProps = async (
   ctx: ReduxNextPageContext
 ): Promise<IEventNewsroomPage.InitialProps> => {
-  const { eventName } = ctx.query;
+  const props = { namespacesRequired: ['common'] };
 
-  await ctx.store.dispatch(EventActions.GetEvent(+eventName, true));
+  const loggedIn = isLoggedIn(ctx.store.getState());
+  if (!loggedIn) {
+    UtilService.redirect(ctx, encodeURI(`/login?redirect=${ctx.asPath}`));
+    return props;
+  }
 
-  return { namespacesRequired: ['common'] };
+  const eventName = ctx.query.eventName as string;
+  let username = ctx.query.username as string;
+
+  if (username.startsWith('@')) {
+    username = username.slice(1);
+  }
+  await ctx.store.dispatch(EventActions.GetEvent(eventName, username as string, true));
+  const eventId = getEventId(username, eventName)(ctx.store.getState());
+  const event = getEvent(eventId)(ctx.store.getState());
+  if (!event) {
+    UtilService.redirect(ctx, '/?event_not_found=1');
+  }
+
+  return props;
 };
 
 export default withTranslation('common')(EventNewsroomPage);

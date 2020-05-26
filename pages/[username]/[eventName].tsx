@@ -17,7 +17,8 @@ import {
   Stack,
 } from '@Components';
 import { EventActions } from '@Actions';
-import { getEvent, getEventStackIdList } from '@Selectors';
+import { getEvent, getEventId, getEventStackIdList } from '@Selectors';
+import { UtilService } from '@Services';
 // #endregion Local Imports
 
 // #region Interface Imports
@@ -26,8 +27,11 @@ import { IEventPage, ReduxNextPageContext } from '@Interfaces';
 
 const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = () => {
   const router = useRouter();
-  const event = useSelector(getEvent(+router.query.eventName));
-  const stackIdList = useSelector(getEventStackIdList(+router.query.eventName));
+  const username = router.query.username as string;
+  const eventName = router.query.eventName as string;
+  const eventId = useSelector(getEventId(username, eventName));
+  const event = useSelector(getEvent(eventId));
+  const stackIdList = useSelector(getEventStackIdList(eventId));
 
   if (!event) return <div />;
 
@@ -47,12 +51,16 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = () => {
 };
 
 EventPage.getInitialProps = async (ctx: ReduxNextPageContext): Promise<IEventPage.InitialProps> => {
-  const { eventName } = ctx.query;
-
-  if (!getEvent(+eventName)(ctx.store.getState())) {
-    await ctx.store.dispatch(EventActions.GetEvent(+eventName));
-  } else {
-    ctx.store.dispatch(EventActions.GetEvent(+eventName));
+  const eventName = ctx.query.eventName as string;
+  let username = ctx.query.username as string;
+  if (username.startsWith('@')) {
+    username = username.slice(1);
+  }
+  await ctx.store.dispatch(EventActions.GetEvent(eventName, username as string));
+  const eventId = getEventId(username, eventName)(ctx.store.getState());
+  const event = getEvent(eventId)(ctx.store.getState());
+  if (!event) {
+    UtilService.redirect(ctx, '/', { hiddenQuery: { event_not_found: 1 } });
   }
 
   return { namespacesRequired: ['common'] };

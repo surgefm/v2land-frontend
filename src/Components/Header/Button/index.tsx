@@ -79,5 +79,5 @@ export const HeaderButton: React.FunctionComponent<IHeaderButton.IProps> = ({
         {content}
       </Link>
     );
-  return <a href={as || href}>{content}</a>;
+  return content;
 };

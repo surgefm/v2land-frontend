@@ -4,8 +4,16 @@ import { Event, News, Client } from '@Interfaces';
 import { RedstoneModel } from './Redstone';
 // #endregion Local Imports
 
-export const getEvent = async (eventId: number, getLatest = false): Promise<Event> => {
-  return get<Event>(`/event/${eventId}`, { latest: getLatest ? 1 : 0 });
+export const getEvent = async (
+  eventId: number | string,
+  username: string | boolean = false,
+  getLatest = false
+): Promise<Event> => {
+  return typeof username === 'string'
+    ? get<Event>(`/event/@${encodeURIComponent(username)}/${encodeURIComponent(eventId)}`, {
+        latest: getLatest ? 1 : 0,
+      })
+    : get<Event>(`/event/${+eventId}`, { latest: username ? 1 : 0 });
 };
 
 export const getEventList = async (): Promise<Event[]> => {

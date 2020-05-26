@@ -73,16 +73,27 @@ const getId = (id: number, getLatest = false) => {
   return getLatest ? -Math.abs(id) : Math.abs(id);
 };
 
-const GetEvent = (eventId: number, getLatest = false) => async (
-  dispatch: Dispatch,
-  state: IStore
-) => {
-  const identifier = `event-${eventId}`;
+const GetEvent = (
+  eventId: number | string,
+  username: string | boolean = false,
+  getLatest = false
+) => async (dispatch: Dispatch, state: IStore) => {
+  const identifier = `event-${eventId}-${username}-${getLatest ? 1 : 0}`;
   if (isLoading(identifier)(state)) return;
-  const id = getId(eventId, getLatest);
 
   dispatch(LoadingActions.BeginLoading(identifier));
-  const event = await RedstoneService.getEvent(Math.abs(eventId), getLatest);
+  let event: Event | undefined;
+  try {
+    event =
+      typeof eventId === 'number'
+        ? await RedstoneService.getEvent(Math.abs(eventId), username, getLatest)
+        : await RedstoneService.getEvent(eventId, username, getLatest);
+  } catch (err) {
+    dispatch(LoadingActions.FinishLoading(identifier));
+    return;
+  }
+  event = (event as any) as Event;
+  const id = getId(event.id, getLatest);
   event.id = id;
   dispatch(AddEvent(event));
 

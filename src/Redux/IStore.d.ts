@@ -5,6 +5,7 @@ import { IHomePage, Event, Stack, News, Client, Newsroom } from '@Interfaces';
 export interface EventsState {
   list: Event[];
   idIndexMap: { [index: number]: number };
+  nameIdMap: { [index: string]: number };
 }
 
 export interface StacksState {

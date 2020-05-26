@@ -21,6 +21,7 @@ const getInitialState = () =>
   ({
     list: [],
     idIndexMap: {},
+    nameIdMap: {},
   } as EventsState);
 
 export const EventReducer = (state = getInitialState(), action: EventAction | StackAction) => {

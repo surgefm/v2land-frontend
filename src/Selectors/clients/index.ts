@@ -31,8 +31,9 @@ export const getClientIdWithUsername = (username: string) =>
   createSelector(
     getClientsState,
     state => {
+      const name = username.startsWith('@') ? username.slice(1) : username;
       for (let i = 0; i < state.list.length; i += 1) {
-        if (state.list[i].username === username) return state.list[i].id;
+        if (state.list[i].username === name) return state.list[i].id;
       }
       return 0;
     }

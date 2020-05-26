@@ -1,6 +1,8 @@
 // #region Global Imports
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
+import { message } from 'antd';
 // #endregion Global Imports
 
 // #region Local Imports
@@ -13,6 +15,7 @@ import {
   Background,
   SectionHeader,
 } from '@Components';
+import { UtilService } from '@Services';
 // #endregion Local Imports
 
 // #region Interface Imports
@@ -20,6 +23,14 @@ import { IHomePage } from '@Interfaces';
 // #endregion Interface Imports
 
 const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = () => {
+  const router = useRouter();
+  useEffect(() => {
+    if (router.query.event_not_found) {
+      message.error('未找到该事件');
+      UtilService.replace('/');
+    }
+  }, [router.query.event_not_found]);
+
   return (
     <Background>
       <div className="grid">

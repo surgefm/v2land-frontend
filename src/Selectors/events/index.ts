@@ -6,6 +6,18 @@ import { getStackList } from '../stacks';
 
 export const getEventsState = (state: IStore) => state.events;
 
+export const getEventId = (username: string, eventName: string | number) =>
+  createSelector(
+    getEventsState,
+    state => {
+      if (typeof eventName === 'number') return eventName;
+      if (+eventName === +eventName) return +eventName;
+      return username.startsWith('@')
+        ? state.nameIdMap[`${eventName}${username}`]
+        : state.nameIdMap[`${eventName}@${username}`];
+    }
+  );
+
 export const getEvent = (eventId: number) =>
   createSelector(
     getEventsState,
