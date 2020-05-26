@@ -28,6 +28,12 @@ export const getClient = async (clientId: number) => {
   return get<{ client: Client }>(`/client/${clientId}`);
 };
 
+export const findClients = async (usernameFragment: string) => {
+  return post<{ clientList: Client[] }>('/client', {
+    where: { username: { startsWith: usernameFragment } },
+  });
+};
+
 export const getNews = async (newsId: number): Promise<News> => {
   return get<News>(`/news/${newsId}`);
 };

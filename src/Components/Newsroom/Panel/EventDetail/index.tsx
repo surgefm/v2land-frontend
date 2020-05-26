@@ -265,6 +265,10 @@ export const NewsroomPanelEventDetail: React.FunctionComponent<
       </Form>
       <style jsx>
         {`
+          .top {
+            margin-top: 0.5rem;
+          }
+
           .top :global(.upload) {
             height: 10rem;
           }

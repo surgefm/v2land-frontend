@@ -26,6 +26,11 @@ export const isIndividualStackNewsVisible = (stackId: number) =>
     state => state.stackNewsVisibility[Math.abs(stackId)] || false
   );
 
+export const isNewsroomClientInvitationVisible = createSelector(
+  getNewsroomsState,
+  state => state.showClientInvitation
+);
+
 export const getNewsroom = (eventId: number) =>
   createSelector(
     getNewsroomsState,
@@ -54,6 +59,13 @@ export const getNewsroomRoles = (eventId: number) =>
     newsroom => (newsroom === null ? null : newsroom.roles)
   );
 
+export const getNewsroomAllClientIds = (eventId: number) =>
+  createSelector(
+    getNewsroomRoles(eventId),
+    roles =>
+      roles === null ? [] : [...roles.owners, ...roles.managers, ...roles.editors, ...roles.viewers]
+  );
+
 export const getNewsroomClientRole = (eventId: number, clientId: number) =>
   createSelector(
     getNewsroomRoles(eventId),
@@ -63,7 +75,7 @@ export const getNewsroomClientRole = (eventId: number, clientId: number) =>
       if (roles.managers.includes(clientId)) return 'manager';
       if (roles.editors.includes(clientId)) return 'editor';
       if (roles.viewers.includes(clientId)) return 'viewer';
-      return null;
+      return 'passerby';
     }
   );
 
@@ -74,6 +86,12 @@ export const getNewsroomCurrentClientRole = (eventId?: number) =>
     getActiveNewsroomId,
     (state, clientId, newsroomId) =>
       getNewsroomClientRole((newsroomId || eventId) as number, clientId)(state)
+  );
+
+export const canCurrentClientViewEvent = (eventId?: number) =>
+  createSelector(
+    getNewsroomCurrentClientRole(eventId),
+    role => role !== 'passerby'
   );
 
 export const canCurrentClientEditEvent = (eventId?: number) =>

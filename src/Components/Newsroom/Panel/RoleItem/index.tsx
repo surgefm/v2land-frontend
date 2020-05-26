@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Skeleton, Space, Button, Select, message } from 'antd';
+import { Skeleton, Space, Button, Select, Tooltip, message } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 
 import { ClientActions } from '@Actions';
@@ -32,7 +32,6 @@ const NewsroomPanelRoleItem: React.FunctionComponent<INewsroomPanelRoleItem.IPro
 
   if (!client || !role) {
     dispatch(ClientActions.GetClient(clientId));
-    return <Skeleton title paragraph={false} />;
   }
 
   const handleSelectionChange = async (value: string) => {
@@ -44,10 +43,11 @@ const NewsroomPanelRoleItem: React.FunctionComponent<INewsroomPanelRoleItem.IPro
     if (value === 'manager') await socket.inviteManager(clientId);
     else if (value === 'editor') await socket.inviteEditor(clientId);
     else if (value === 'viewer') await socket.inviteViewer(clientId);
-    message.success('用户权限修改成功');
+    message.success('成功修改用户权限');
   };
 
   const handleRemoveButtonClick = async () => {
+    if (!client || !role) return;
     const socket = getNewsroomSocket(eventId);
     if (!socket) return;
     await socket.changeRole(clientId, role, false);
@@ -55,6 +55,7 @@ const NewsroomPanelRoleItem: React.FunctionComponent<INewsroomPanelRoleItem.IPro
   };
 
   const getRoleComponent = () => {
+    if (!role) return <Skeleton.Button active size="small" />;
     if (!canEdit || role === 'owner' || clientId === currentClientId) {
       return <span>{ClientService.getRoleName(role)}</span>;
     }
@@ -73,13 +74,15 @@ const NewsroomPanelRoleItem: React.FunctionComponent<INewsroomPanelRoleItem.IPro
             </Option>
           ))}
         </Select>
-        <Button
-          type="link"
-          size="small"
-          danger
-          icon={<CloseOutlined />}
-          onClick={handleRemoveButtonClick}
-        />
+        <Tooltip title="移除用户">
+          <Button
+            type="link"
+            size="small"
+            danger
+            icon={<CloseOutlined />}
+            onClick={handleRemoveButtonClick}
+          />
+        </Tooltip>
       </>
     );
   };
@@ -88,7 +91,11 @@ const NewsroomPanelRoleItem: React.FunctionComponent<INewsroomPanelRoleItem.IPro
     <div>
       <Space>
         <ClientAvatar showTooltip={false} clientId={clientId} />
-        <span>{client.username}</span>
+        {client ? (
+          <span>{client.username}</span>
+        ) : (
+          <Skeleton.Input style={{ width: '150px' }} active size="small" />
+        )}
       </Space>
       <Space>{getRoleComponent()}</Space>
       <style jsx>
@@ -98,7 +105,7 @@ const NewsroomPanelRoleItem: React.FunctionComponent<INewsroomPanelRoleItem.IPro
             justify-content: space-between;
             align-items: center;
             position: relative;
-            margin: 0.5rem;
+            padding: 0.25rem 0.5rem 0.25rem 0.25rem;
           }
         `}
       </style>

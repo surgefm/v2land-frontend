@@ -23,23 +23,20 @@ const Header: React.FunctionComponent = (): JSX.Element => {
         <div className="left">
           <HeaderLogo />
           <Space>
-            {isInNewsroom
-              ? (
-                <>
-                  <NewsroomHeaderBreadcrumb />
-                  <NewsroomHeaderClientAvatars />
-                </>
-                )
-              : (
-                <>
-                  <HeaderButton href="/">首页</HeaderButton>
-                  <HeaderButton href="/about">关注</HeaderButton>
-                  <HeaderButton href="/[username]/[eventName]" as="/1/12">
-                    我的事件
-                  </HeaderButton>
-                </>
-              )
-            }
+            {isInNewsroom ? (
+              <>
+                <NewsroomHeaderBreadcrumb />
+                <NewsroomHeaderClientAvatars />
+              </>
+            ) : (
+              <>
+                <HeaderButton href="/">首页</HeaderButton>
+                <HeaderButton href="/about">关注</HeaderButton>
+                <HeaderButton href="/[username]/[eventName]" as="/1/12">
+                  我的事件
+                </HeaderButton>
+              </>
+            )}
           </Space>
         </div>
         <div className="right">

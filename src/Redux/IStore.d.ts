@@ -25,6 +25,7 @@ export interface ClientsState {
 
 export interface NewsroomsState {
   showStackNews: boolean;
+  showClientInvitation: boolean;
   stackNewsVisibility: { [index: number]: boolean };
   panels: string[];
   activeNewsroom: number;

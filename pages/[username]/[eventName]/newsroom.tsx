@@ -12,8 +12,13 @@ import {
   DraggableProvided,
   DraggableChildrenFn,
 } from 'react-beautiful-dnd';
-import { Switch, Tooltip } from 'antd';
-import { DragOutlined, EyeOutlined, EyeInvisibleOutlined } from '@ant-design/icons';
+import { Switch, Tooltip, Space, Popover, message } from 'antd';
+import {
+  DragOutlined,
+  EyeOutlined,
+  EyeInvisibleOutlined,
+  QuestionCircleTwoTone,
+} from '@ant-design/icons';
 // #endregion Global Imports
 
 // #region Local Imports
@@ -28,6 +33,7 @@ import {
 import { NewsroomPanelConsts } from '@Definitions';
 import {
   Card,
+  NewsroomPanelAddClientButton,
   NewsroomPanelTitle,
   NewsroomPanelNewsList,
   NewsroomPanelStackList,
@@ -42,6 +48,7 @@ import {
   getEventOffshelfStackIdList,
   getNewsroomPanels,
   isStackNewsVisible,
+  canCurrentClientViewEvent,
 } from '@Selectors';
 // #endregion Local Imports
 
@@ -61,6 +68,7 @@ const EventNewsroomPage: NextPage<
   const stackIdList = useSelector(getEventStackIdList(eventId));
   const newsroomPanels = useSelector(getNewsroomPanels);
   const showStackNews = useSelector(isStackNewsVisible);
+  const canView = useSelector(canCurrentClientViewEvent(eventId));
   const store = useStore();
   const dispatch = useDispatch();
   let socket = getNewsroomSocket(eventId, store) as NewsroomSocket;
@@ -72,6 +80,13 @@ const EventNewsroomPage: NextPage<
       closeNewsroomSocket(eventId);
     };
   }, []);
+
+  useEffect(() => {
+    if (!canView) {
+      message.error('你没有查看该新闻编辑室的权限');
+      router.push('/', '/');
+    }
+  }, [canView]);
 
   useEffect(() => {
     socket = getNewsroomSocket(eventId, store) as NewsroomSocket;
@@ -105,8 +120,38 @@ const EventNewsroomPage: NextPage<
       <div className="panel-wrapper" ref={provided.innerRef} {...provided.draggableProps}>
         <Card className="panel">
           <div className="panel-header-container">
-            <NewsroomPanelTitle>用户列表</NewsroomPanelTitle>
-            <DragOutlined {...provided.dragHandleProps} />
+            <Space size={0}>
+              <NewsroomPanelTitle>用户列表</NewsroomPanelTitle>
+              <Popover
+                // eslint-disable-next-line prettier/prettier
+                content={(
+                  <>
+                    <p>
+                      <b>观察者</b>
+                      ：可以查看时间线的最新编辑情况，但不可以进行编辑
+                    </p>
+                    <p>
+                      <b>编辑者</b>
+                      ：可以对时间线进行编辑
+                    </p>
+                    <p>
+                      <b>管理者</b>
+                      ：可以添加或移除编辑者和观察者
+                    </p>
+                    <span>
+                      <b>所有者</b>
+                      ：可以添加或移除管理者
+                    </span>
+                  </>
+                )}
+              >
+                <QuestionCircleTwoTone />
+              </Popover>
+            </Space>
+            <Space size={0}>
+              <NewsroomPanelAddClientButton eventId={eventId} />
+              <DragOutlined {...provided.dragHandleProps} />
+            </Space>
           </div>
           <NewsroomPanelRoleList eventId={eventId} />
         </Card>
@@ -128,10 +173,10 @@ const EventNewsroomPage: NextPage<
         <Card className="panel offshelf-stack">
           <div className="panel-header-container">
             <NewsroomPanelTitle>备选进展</NewsroomPanelTitle>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <Space size={0}>
               <NewsroomPanelCreateStackButton eventId={eventId} />
               <DragOutlined {...provided.dragHandleProps} />
-            </div>
+            </Space>
           </div>
           <NewsroomPanelStackList
             droppableId="newsroom-offshelf-stack-panel"

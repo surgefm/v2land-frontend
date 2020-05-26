@@ -3,6 +3,8 @@ import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { isLoggedIn as isLoggedInSelector, getLoggedInClient } from '@Selectors';
 
+import { ClientAvatar } from '@Components/Client';
+
 export const HeaderUserInfo: React.FunctionComponent = () => {
   const isLoggedIn = useSelector(isLoggedInSelector);
   const client = useSelector(getLoggedInClient);
@@ -17,7 +19,7 @@ export const HeaderUserInfo: React.FunctionComponent = () => {
 
   return (
     <button type="button" className="container" onClick={onClick}>
-      {isLoggedIn ? <img src="/images/default.jpg" alt="User avatar" /> : <div />}
+      {isLoggedIn ? <ClientAvatar clientId={client.id} /> : <React.Fragment />}
       <span>{isLoggedIn ? client.username : '登录'}</span>
       <style jsx>
         {`
@@ -40,11 +42,8 @@ export const HeaderUserInfo: React.FunctionComponent = () => {
             transform: scale(0.9);
           }
 
-          img {
-            border-radius: 50%;
-            height: 2.25rem;
-            width: 2.25rem;
-            margin-right: 0.5rem;
+          span:not(:first-child) {
+            margin-left: 0.3rem;
           }
         `}
       </style>

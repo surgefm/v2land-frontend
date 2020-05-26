@@ -58,6 +58,11 @@ export const NewsroomActions = {
     type: ActionConsts.Newsroom.SetStackNewsVisible,
   }),
 
+  SetNewsroomClientInvitationVisible: (visible: boolean) => ({
+    visible,
+    type: ActionConsts.Newsroom.SetNewsroomClientInvitationVisible,
+  }),
+
   SetIndividualStackNewsVisible: (stackId: number, visible: boolean) => ({
     stackId,
     visible,
