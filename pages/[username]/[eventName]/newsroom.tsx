@@ -29,6 +29,7 @@ import {
   closeNewsroomSocket,
   NewsroomSocket,
   handleNewsroomDragEnd,
+  ClientService,
 } from '@Services';
 import { NewsroomPanelConsts } from '@Definitions';
 import {
@@ -49,6 +50,7 @@ import {
   getNewsroomPanels,
   isStackNewsVisible,
   canCurrentClientViewEvent,
+  getNewsroomCurrentClientRole,
 } from '@Selectors';
 // #endregion Local Imports
 
@@ -60,6 +62,14 @@ const EventNewsroomPage: NextPage<
   IEventNewsroomPage.IProps,
   IEventNewsroomPage.InitialProps
 > = () => {
+  function usePrevious<T>(value: T) {
+    const ref = useRef<T>();
+    useEffect(() => {
+      ref.current = value;
+    });
+    return ref.current;
+  }
+
   const router = useRouter();
   const eventId = -router.query.eventName;
   const event = useSelector(getEvent(eventId));
@@ -69,6 +79,9 @@ const EventNewsroomPage: NextPage<
   const newsroomPanels = useSelector(getNewsroomPanels);
   const showStackNews = useSelector(isStackNewsVisible);
   const canView = useSelector(canCurrentClientViewEvent(eventId));
+  const prevCanView = usePrevious(canView);
+  const role = useSelector(getNewsroomCurrentClientRole(eventId));
+  const prevRole = usePrevious(role);
   const store = useStore();
   const dispatch = useDispatch();
   let socket = getNewsroomSocket(eventId, store) as NewsroomSocket;
@@ -82,7 +95,13 @@ const EventNewsroomPage: NextPage<
   }, []);
 
   useEffect(() => {
-    if (!canView) {
+    if (prevRole && role && role !== prevRole) {
+      message.info(`你已被设为该事件的「${ClientService.getRoleName(role)}」`);
+    }
+  }, [role]);
+
+  useEffect(() => {
+    if (!canView && canView !== prevCanView) {
       message.error('你没有查看该新闻编辑室的权限');
       router.push('/', '/');
     }
@@ -143,6 +162,7 @@ const EventNewsroomPage: NextPage<
                       ：可以添加或移除管理者
                     </span>
                   </>
+                  // eslint-disable-next-line prettier/prettier
                 )}
               >
                 <QuestionCircleTwoTone />
