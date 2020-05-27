@@ -6,7 +6,7 @@ import { getStackList } from '../stacks';
 
 export const getEventsState = (state: IStore) => state.events;
 
-export const getEventId = (username: string, eventName: string | number) =>
+export const getEventId = (username: string = '', eventName: string | number = '') =>
   createSelector(
     getEventsState,
     state => {

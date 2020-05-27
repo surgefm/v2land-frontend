@@ -5,6 +5,7 @@ import { UrlObject } from 'url';
 type RedirectOptions = {
   permanent?: boolean;
   replace?: boolean;
+  shallow?: boolean;
   hiddenQuery?: { [index: string]: string | number };
 };
 
@@ -55,9 +56,9 @@ function clientSideRedirect(asPath: string | UrlObject, options: RedirectOptions
   const path =
     typeof asPath === 'object' ? (((asPath as any).asPath || asPath.pathname) as string) : asPath;
   if (options.replace) {
-    Router.replace(getUrlFromAsPath(path, options), path);
+    Router.replace(getUrlFromAsPath(path, options), path, { shallow: options.shallow });
   } else {
-    Router.push(getUrlFromAsPath(path, options), path);
+    Router.push(getUrlFromAsPath(path, options), path, { shallow: options.shallow });
   }
 }
 

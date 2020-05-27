@@ -27,14 +27,14 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = () => {
   useEffect(() => {
     if (router.query.event_not_found) {
       message.error('未找到该事件');
-      UtilService.replace('/');
+      UtilService.replace('/', { shallow: true });
     }
   }, [router.query.event_not_found]);
 
   useEffect(() => {
     if (router.query.client_not_found) {
       message.error('未找到该用户');
-      UtilService.replace('/');
+      UtilService.replace('/', { shallow: true });
     }
   }, [router.query.client_not_found]);
 

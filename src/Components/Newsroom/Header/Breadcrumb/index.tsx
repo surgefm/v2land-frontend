@@ -17,6 +17,8 @@ export const NewsroomHeaderBreadcrumb: React.FunctionComponent = () => {
 
   if (!client) return <React.Fragment />;
 
+  const eventPath = `${Math.abs(event.id)}-${event.pinyin}`;
+
   return (
     <Breadcrumb>
       <Breadcrumb.Item>
@@ -32,14 +34,14 @@ export const NewsroomHeaderBreadcrumb: React.FunctionComponent = () => {
         </Link>
       </Breadcrumb.Item>
       <Breadcrumb.Item>
-        <Link href="/[username]/[eventName]" as={`/@${client.username}/${event.name}`}>
+        <Link href="/[username]/[eventName]" as={`/@${client.username}/${eventPath}`}>
           <a>{event.name}</a>
         </Link>
       </Breadcrumb.Item>
       <Breadcrumb.Item>
         <Link
           href="/[username]/[eventName]/newsroom"
-          as={`/@${client.username}/${event.name}/newsroom`}
+          as={`/@${client.username}/${eventPath}/newsroom`}
         >
           <a>新闻编辑室</a>
         </Link>

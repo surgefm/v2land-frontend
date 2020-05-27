@@ -1,16 +1,40 @@
 // #region Local Imports
-import { Newsroom } from '@Interfaces';
+import { NewsroomRoles } from '@Interfaces';
 import { ActionConsts } from '@Definitions';
 // #endregion Local Imports
 
+type Newsroom = {
+  eventId: number;
+  roles?: NewsroomRoles;
+  clients?: number[];
+  resourceLocks?: { [index: string]: number };
+};
+
+const newsroomDefault = {
+  roles: {
+    owners: [],
+    managers: [],
+    editors: [],
+    viewers: [],
+  },
+  clients: [],
+  resourceLocks: {},
+};
+
 export const NewsroomActions = {
   AddNewsroom: (newsroom: Newsroom) => ({
-    newsroom,
+    newsroom: {
+      ...newsroomDefault,
+      ...newsroom,
+    },
     type: ActionConsts.Newsroom.AddNewsroom,
   }),
 
   UpdateNewsroom: (newsroom: Newsroom) => ({
-    newsroom,
+    newsroom: {
+      ...newsroomDefault,
+      ...newsroom,
+    },
     type: ActionConsts.Newsroom.UpdateNewsroom,
   }),
 

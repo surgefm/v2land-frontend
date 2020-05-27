@@ -1,7 +1,9 @@
 // #region Global Imports
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
+import { message } from 'antd';
 // #endregion Global Imports
 
 // #region Local Imports
@@ -26,6 +28,19 @@ import { IEventPage, ReduxNextPageContext } from '@Interfaces';
 const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ eventId }) => {
   const event = useSelector(getEvent(eventId));
   const stackIdList = useSelector(getEventStackIdList(eventId));
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router.query.client_not_authorized) {
+      message.error('你没有进入该事件新闻编辑室的权限');
+      const index = router.asPath.indexOf('?');
+      if (index >= 0) {
+        UtilService.replace(router.asPath.slice(0, index), { shallow: true });
+      } else {
+        UtilService.replace(router.asPath, { shallow: true });
+      }
+    }
+  }, [router.query.client_not_authorized]);
 
   if (!event) return <div />;
 

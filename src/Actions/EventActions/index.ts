@@ -91,8 +91,13 @@ const GetEvent = (
         ? await RedstoneService.getEvent(Math.abs(eventId), username, getLatest)
         : await RedstoneService.getEvent(eventId, username, getLatest);
   } catch (err) {
-    dispatch(LoadingActions.FinishLoading(identifier));
-    return;
+    if (err.status === 401) {
+      // eslint-disable-next-line prefer-destructuring
+      event = (await err.json()).event;
+    } else {
+      dispatch(LoadingActions.FinishLoading(identifier));
+      return;
+    }
   }
   event = (event as any) as Event;
   const id = getId(event.id, getLatest);

@@ -25,13 +25,13 @@ export const getEventIdMiddleware = async (
     }
   }
 
-  const eventName = ctx.query.eventName as string;
+  const eventName = (ctx.query.eventName as string) || '';
   const split = eventName.split('-');
   const eid = +split[0];
   const id = eid === eid ? eid : eventName;
   const pinyin = split.slice(1).join('-');
 
-  let username = ctx.query.username as string;
+  let username = (ctx.query.username as string) || '';
   if (username.startsWith('@')) {
     username = username.slice(1);
   }
@@ -49,7 +49,7 @@ export const getEventIdMiddleware = async (
   }
   const base = `/@${owner ? owner.username : username}/${Math.abs(eventId)}-${event.pinyin ||
     pinyin}`;
-  if (options.needViewPermission && !canCurrentClientViewEvent(event.id)) {
+  if (options.needViewPermission && !canCurrentClientViewEvent(event.id)(ctx.store.getState())) {
     redirect(ctx, base, { hiddenQuery: { client_not_authorized: 1 } });
     return null;
   }

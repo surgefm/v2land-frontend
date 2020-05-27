@@ -8,6 +8,7 @@ import {
   NewsroomHeaderBreadcrumb,
   NewsroomHeaderClientAvatars,
   NewsroomHeaderCommitButton,
+  NewsroomHeaderEnterButton,
 } from '@Components/Newsroom';
 import { HeaderLogo } from './Logo';
 import { HeaderButton } from './Button';
@@ -41,6 +42,7 @@ const Header: React.FunctionComponent = (): JSX.Element => {
         </div>
         <div className="right">
           <HeaderUserInfo />
+          <NewsroomHeaderEnterButton />
           {!isInNewsroom || <NewsroomHeaderCommitButton />}
         </div>
       </div>
