@@ -34,7 +34,13 @@ class WebAppDocument extends Document {
     return (
       <Html>
         <Head>
-          <link rel="shortcut icon" href="/static/favicon.ico" />
+          <link rel="shortcut icon" href="/images/icon.ico" />
+          <meta charSet="utf-8" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, shrink-to-fit=no, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+          />
+          <meta name="lang" property="lang" content="zh-hans" />
         </Head>
         <body>
           <Main />

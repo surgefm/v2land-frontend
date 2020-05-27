@@ -2,10 +2,11 @@ import React from 'react';
 import { NextPage } from 'next';
 import Link from 'next/link';
 
-import { Card, EventTitle, Logo, Background, Footer } from '@Components';
+import { Head, Card, EventTitle, Logo, Background, Footer } from '@Components';
 
 const About: NextPage = () => (
   <Background>
+    <Head title="关于浪潮" showSlogan={false} />
     <Card>
       <p className="tag light-font">从一首诗开始</p>
       <EventTitle>关于浪潮</EventTitle>

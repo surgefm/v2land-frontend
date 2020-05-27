@@ -35,6 +35,7 @@ import {
 import { NewsroomPanelConsts } from '@Definitions';
 import {
   Card,
+  EventHead,
   NewsroomPanelAddClientButton,
   NewsroomPanelTitle,
   NewsroomPanelNewsList,
@@ -216,6 +217,7 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
             ref={droppableProvided.innerRef}
             {...droppableProvided.droppableProps}
           >
+            <EventHead eventId={eventId} title="新闻编辑室" />
             <div className="panel-wrapper">
               <Card className="panel public-stack">
                 <div className="panel-header-container">

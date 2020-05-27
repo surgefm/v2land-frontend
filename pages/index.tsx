@@ -8,6 +8,7 @@ import { message } from 'antd';
 // #region Local Imports
 import { withTranslation } from '@Server/i18n';
 import {
+  Head,
   Footer,
   EventCardList,
   TagCard,
@@ -40,6 +41,7 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = () => {
 
   return (
     <Background>
+      <Head />
       <div className="grid">
         <EventCardList className="left" />
         <div className="right">

@@ -10,6 +10,7 @@ import { message } from 'antd';
 import { withTranslation } from '@Server/i18n';
 import {
   Background,
+  EventHead,
   Footer,
   Card,
   EventTitle,
@@ -46,6 +47,7 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
 
   return (
     <Background>
+      <EventHead eventId={eventId} />
       <Card>
         <EventTitle>{event.name}</EventTitle>
         <EventStats newsCount={event.newsCount} stackCount={event.stackCount} />

@@ -23,6 +23,12 @@ export const HeaderUserInfo: React.FunctionComponent = () => {
     }
   }, [isLoggedIn]);
 
+  const handleAvatarClick = () => {
+    if (router.pathname === '/[username]' && router.query.username === `@${client.username}`)
+      return;
+    UtilService.redirect(`/@${client.username}`, { shallow: router.pathname === '/[username]' });
+  };
+
   const handleLoginClick = (e: React.MouseEvent) => {
     e.preventDefault();
     if (!isLoggedIn) {
@@ -33,12 +39,13 @@ export const HeaderUserInfo: React.FunctionComponent = () => {
   };
 
   if (router.pathname === '/login') return <React.Fragment />;
-  if (!isLoggedIn)
+  if (!isLoggedIn) {
     return (
       <a href="/login" onClick={handleLoginClick}>
         登录
       </a>
     );
+  }
 
   const handleLogout = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -57,7 +64,7 @@ export const HeaderUserInfo: React.FunctionComponent = () => {
 
   return (
     <Dropdown overlay={menu}>
-      <button type="button" className="container">
+      <button type="button" className="container" onClick={handleAvatarClick}>
         <ClientAvatar showTooltip={false} clientId={client.id} />
         <span>{client.username}</span>
         <style jsx>

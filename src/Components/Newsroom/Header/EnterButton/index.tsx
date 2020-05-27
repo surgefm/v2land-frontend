@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { Button } from 'antd';
-import { TeamOutlined } from '@ant-design/icons';
+import { ExportOutlined } from '@ant-design/icons';
 
 import { UtilService } from '@Services';
 import { getEventId, getEvent, getEventOwner, canCurrentClientViewEvent } from '@Selectors';
@@ -36,7 +36,7 @@ export const NewsroomHeaderEnterButton: React.FunctionComponent<
         type="primary"
         size="large"
         shape="round"
-        icon={<TeamOutlined />}
+        icon={<ExportOutlined />}
         onClick={handleButtonClick}
       >
         进入新闻编辑室

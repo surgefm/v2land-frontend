@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { message } from 'antd';
 
-import { Card, LoginForm, Background, Footer } from '@Components';
+import { Head, Card, LoginForm, Background, Footer } from '@Components';
 import { isLoggedIn as isLoggedInSelector } from '@Selectors';
 import { UtilService } from '@Services';
 import { ReduxNextPageContext } from '@Interfaces';
@@ -28,6 +28,7 @@ const LoginPage: NextPage = () => {
 
   return (
     <Background>
+      <Head title="登录浪潮" />
       <Card>
         <LoginForm />
       </Card>
