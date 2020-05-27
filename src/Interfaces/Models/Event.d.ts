@@ -17,10 +17,15 @@ export interface Event extends SimplifiedEvent {
   name: string;
   description?: string;
   status?: string;
-  stacks: Stack[];
+  stacks?: Stack[];
   tags?: Tag[];
+  newsIdList: number[];
+  offshelfNewsIdList: number[];
+  stackIdList: number[];
+  offshelfStackIdList: number[];
   newsCount?: number;
   stackCount?: number;
   temporaryStack?: News[];
+  temporaryStackNewsIdList: number[];
   lastUpdate?: Date;
 }

@@ -1,22 +1,61 @@
+import { Dispatch } from 'redux';
+
 // #region Local Imports
 import { ActionConsts } from '@Definitions';
-import { Client } from '@Interfaces';
+import { Client, IThunkStore } from '@Interfaces';
+import { isLoading, isLoggedIn } from '@Selectors';
+import { LoadingActions } from '@Actions';
+import { RedstoneService, getState } from '@Services';
 // #endregion Local Imports
 
+const AddClient = (client: Client) => ({
+  client,
+  type: ActionConsts.Client.AddClient,
+});
+
+const UpdateClient = (clientId: number, client: Client) => ({
+  clientId,
+  client,
+  type: ActionConsts.Client.UpdateClient,
+});
+
+const SetLoggedInClient = (clientId: number) => ({
+  clientId,
+  type: ActionConsts.Client.SetLoggedInClient,
+});
+
+const Logout = () => async (dispatch: Dispatch, store: IThunkStore) => {
+  const state = getState(store);
+  if (!isLoggedIn(state)) return;
+  const identifier = 'client_is-logging-out';
+  if (isLoading(identifier)(state)) return;
+  dispatch(LoadingActions.BeginLoading(identifier));
+  try {
+    await RedstoneService.logout();
+    dispatch(SetLoggedInClient(-1));
+  } finally {
+    dispatch(LoadingActions.FinishLoading(identifier));
+  }
+};
+
+const GetClient = (clientId: number | string) => async (dispatch: Dispatch, store: IThunkStore) => {
+  const identifier = `client-${clientId}`;
+  if (isLoading(identifier)(getState(store))) return;
+  dispatch(LoadingActions.BeginLoading(identifier));
+  try {
+    const { client } = await RedstoneService.getClient(clientId);
+    dispatch(AddClient(client));
+  } catch (err) {
+    // Do nothing
+  } finally {
+    dispatch(LoadingActions.FinishLoading(identifier));
+  }
+};
+
 export const ClientActions = {
-  AddClient: (client: Client) => ({
-    client,
-    type: ActionConsts.Client.AddClient,
-  }),
-
-  UpdateClient: (clientId: number, client: Client) => ({
-    clientId,
-    client,
-    type: ActionConsts.Client.UpdateClient,
-  }),
-
-  SetLoggedInClient: (clientId: number) => ({
-    clientId,
-    type: ActionConsts.Client.SetLoggedInClient,
-  }),
+  AddClient,
+  UpdateClient,
+  SetLoggedInClient,
+  Logout,
+  GetClient,
 };

@@ -1,10 +1,11 @@
 // #region Interface Imports
-import { IHomePage, Event, Stack, News, Client, EventStackNews } from '@Interfaces';
+import { IHomePage, Event, Stack, News, Client, Newsroom } from '@Interfaces';
 // #endregion Interface Imports
 
 export interface EventsState {
   list: Event[];
   idIndexMap: { [index: number]: number };
+  nameIdMap: { [index: string]: number };
 }
 
 export interface StacksState {
@@ -23,8 +24,14 @@ export interface ClientsState {
   idIndexMap: { [index: number]: number };
 }
 
-export interface EventStackNewsState {
-  list: EventStackNews[];
+export interface NewsroomsState {
+  showStackNews: boolean;
+  showClientInvitation: boolean;
+  stackNewsVisibility: { [index: number]: boolean };
+  panels: string[];
+  activeNewsroom: number;
+  list: Newsroom[];
+  idIndexMap: { [index: number]: number };
 }
 
 export type LoadingState = { [index: string]: boolean };
@@ -35,6 +42,8 @@ export interface IStore {
   stacks: StacksState;
   news: NewsState;
   clients: ClientsState;
-  esns: EventStackNewsState;
+  newsrooms: NewsroomsState;
   loading: LoadingState;
 }
+
+export type IThunkStore = IStore | (() => IStore);

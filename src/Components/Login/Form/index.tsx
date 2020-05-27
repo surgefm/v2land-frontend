@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Input, Button, Checkbox, message } from 'antd';
 import { useDispatch } from 'react-redux';
-import { RedstoneService } from '@Services';
+import { RedstoneService, clearNewsroomSockets } from '@Services';
 import { ClientActions } from '@Actions';
 
 const layout = {
@@ -15,17 +15,20 @@ const tailLayout = {
 
 export const LoginForm: React.FunctionComponent = (): JSX.Element => {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
   const onFinish = async (values: any) => {
     const { username, password } = values;
+    setIsLoading(true);
     try {
       const { client } = await RedstoneService.login(username, password);
       dispatch(ClientActions.AddClient(client));
       dispatch(ClientActions.SetLoggedInClient(client.id));
-      message.success('登录成功');
+      clearNewsroomSockets();
     } catch (err) {
-      console.error(err);
       message.error('用户名或密码不正确');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -48,7 +51,7 @@ export const LoginForm: React.FunctionComponent = (): JSX.Element => {
       </Form.Item>
 
       <Form.Item {...tailLayout}>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" loading={isLoading}>
           登录
         </Button>
       </Form.Item>

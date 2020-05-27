@@ -5,6 +5,7 @@ export * from '@Components/Event';
 export * from '@Components/EventCard';
 export * from '@Components/EventCardList';
 export { Header } from '@Components/Header';
+export * from '@Components/Newsroom';
 export * from '@Components/Login';
 export * from '@Components/Stack';
 export * from '@Components/TagCard';

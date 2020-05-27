@@ -31,16 +31,16 @@ export const EventStats: React.FunctionComponent<IEventStats.IProps> = ({
           个进展
         </span>
       ) : (
-        <div />
+        <React.Fragment />
       )}
-      {stackCount && newsCount ? <span>、</span> : <div />}
+      {stackCount && newsCount ? <span>、</span> : <React.Fragment />}
       {newsCount ? (
         <span>
           <span className="light-font">{`${newsCount} `}</span>
           条新闻
         </span>
       ) : (
-        <div />
+        <React.Fragment />
       )}
       <style jsx>{styles}</style>
     </div>

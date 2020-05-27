@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import { IStore } from '@Interfaces';
+import { getEventOwnerId } from '@Selectors/events';
 
 export const getClientsState = (state: IStore) => state.clients;
 
@@ -8,9 +9,14 @@ export const isLoggedIn = createSelector(
   state => state.clientId !== -1
 );
 
+export const getLoggedInClientId = createSelector(
+  getClientsState,
+  state => state.clientId
+);
+
 export const getLoggedInClient = createSelector(
   getClientsState,
-  state => state.list[state.clientId]
+  state => state.list[state.idIndexMap[state.clientId]]
 );
 
 export const getClient = (clientId: number) =>
@@ -20,4 +26,40 @@ export const getClient = (clientId: number) =>
       if (typeof state.idIndexMap[clientId] === 'undefined') return null;
       return state.list[state.idIndexMap[clientId]];
     }
+  );
+
+export const getClientIdWithUsername = (username: string) =>
+  createSelector(
+    getClientsState,
+    state => {
+      const name = username.startsWith('@') ? username.slice(1) : username;
+      for (let i = 0; i < state.list.length; i += 1) {
+        if (state.list[i].username === name) return state.list[i].id;
+      }
+      return 0;
+    }
+  );
+
+export const getClientWithUsername = (username: string) =>
+  createSelector(
+    state => state,
+    getClientIdWithUsername(username),
+    (state, id) => getClient(id)(state)
+  );
+
+export const getClientList = (clientIds: number[]) =>
+  createSelector(
+    getClientsState,
+    state =>
+      clientIds.map(clientId => {
+        if (typeof state.idIndexMap[clientId] === 'undefined') return null;
+        return state.list[state.idIndexMap[clientId]];
+      })
+  );
+
+export const getEventOwner = (eventId: number) =>
+  createSelector(
+    state => state,
+    getEventOwnerId(eventId),
+    (state, id) => (id === null ? null : getClient(id)(state))
   );

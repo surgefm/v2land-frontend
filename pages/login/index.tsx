@@ -1,16 +1,47 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NextPage } from 'next';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
+import { message } from 'antd';
 
 import { Card, LoginForm, Background, Footer } from '@Components';
+import { isLoggedIn as isLoggedInSelector } from '@Selectors';
+import { UtilService } from '@Services';
+import { ReduxNextPageContext } from '@Interfaces';
 
-const Login: NextPage = () => (
-  <Background>
-    <Card>
-      <LoginForm />
-    </Card>
-    <Footer />
-  </Background>
-);
+const LoginPage: NextPage = () => {
+  const isLoggedIn = useSelector(isLoggedInSelector);
+  const router = useRouter();
 
-export default Login;
+  useEffect(() => {
+    if (router.query.redirect && !router.query.silent) {
+      message.info('请先登录');
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      UtilService.redirect((router.query.redirect as string) || '/');
+      message.success('登录成功');
+    }
+  }, [isLoggedIn]);
+
+  return (
+    <Background>
+      <Card>
+        <LoginForm />
+      </Card>
+      <Footer />
+    </Background>
+  );
+};
+
+LoginPage.getInitialProps = async (ctx: ReduxNextPageContext): Promise<any> => {
+  const isLoggedIn = isLoggedInSelector(ctx.store.getState());
+  if (isLoggedIn) {
+    UtilService.redirect(ctx, (ctx.query.redirect as string) || '/');
+  }
+  return { namespacesRequired: ['common'] };
+};
+
+export default LoginPage;

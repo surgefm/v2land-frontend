@@ -9,14 +9,17 @@ import { ClientAction, ClientsState } from '@Interfaces';
 import addClient from './addClient';
 import setLoggedInClient from './setLoggedInClient';
 
-const INITIAL_STATE: ClientsState = {
-  list: [],
-  clientId: -1,
-  idIndexMap: {},
-};
+const getInitialState = () =>
+  ({
+    list: [],
+    clientId: -1,
+    idIndexMap: {},
+  } as ClientsState);
 
-export const ClientReducer = (state = INITIAL_STATE, action: ClientAction) => {
+export const ClientReducer = (state = getInitialState(), action: ClientAction) => {
   switch (action.type) {
+    case ActionConsts.App.ResetReducer:
+      return getInitialState();
     case ActionConsts.Client.AddClient:
     case ActionConsts.Client.UpdateClient:
       return addClient(state, action);

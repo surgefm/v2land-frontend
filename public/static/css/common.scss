@@ -3,19 +3,12 @@
 
 * {
   outline: 0;
-  text-align: justify;
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
 }
 
 html {
   box-sizing: border-box;
   font-size: 16px;
-}
-
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
 }
 
 html, body {
@@ -25,10 +18,6 @@ html, body {
 
 a {
   text-decoration: none;
-}
-
-.title, .event-title {
-  font-family: "source-han-serif-sc", "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif !important;
 }
 
 .img-background {
@@ -121,25 +110,8 @@ img[lazy=loaded] {
   margin-top: .75rem;
 }
 
-.page-enter-active, .page-leave-active {
-  transition: opacity .2s;
-}
-
 .page-enter, .page-leave-active {
   opacity: 0;
-}
-
-.image-uploader .el-upload {
-  border: .125rem dashed #d9d9d9;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  background-color: rgba(256, 256, 256, .5)
-}
-
-.arrange-stack .el-collapse-item__arrow {
-  display: none;
 }
 
 @media (max-width: 600px) {
@@ -165,11 +137,6 @@ img[lazy=loaded] {
     visibility: hidden;
     width: 0;
     height: 0;
-  }
-
-  .el-dialog {
-    width: 85% !important;
-    margin-top: 7.5vh !important;
   }
 }
 

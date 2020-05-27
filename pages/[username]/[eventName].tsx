@@ -1,7 +1,6 @@
 // #region Global Imports
 import * as React from 'react';
 import { NextPage } from 'next';
-import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 // #endregion Global Imports
 
@@ -16,18 +15,18 @@ import {
   EventDescription,
   Stack,
 } from '@Components';
-import { EventActions } from '@Actions';
 import { getEvent, getEventStackIdList } from '@Selectors';
+import { UtilService } from '@Services';
 // #endregion Local Imports
 
 // #region Interface Imports
 import { IEventPage, ReduxNextPageContext } from '@Interfaces';
 // #endregion Interface Imports
 
-const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = () => {
-  const router = useRouter();
-  const event = useSelector(getEvent(+router.query.eventName));
-  const stackIdList = useSelector(getEventStackIdList(+router.query.eventName));
+const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ eventId }) => {
+  const event = useSelector(getEvent(eventId));
+  const stackIdList = useSelector(getEventStackIdList(eventId));
+
   if (!event) return <div />;
 
   return (
@@ -46,15 +45,12 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = () => {
 };
 
 EventPage.getInitialProps = async (ctx: ReduxNextPageContext): Promise<IEventPage.InitialProps> => {
-  const { eventName } = ctx.query;
+  const eventId = (await UtilService.getEventIdMiddleware(ctx)) || 0;
 
-  if (!getEvent(+eventName)(ctx.store.getState())) {
-    await ctx.store.dispatch(EventActions.GetEvent(+eventName));
-  } else {
-    ctx.store.dispatch(EventActions.GetEvent(+eventName));
-  }
-
-  return { namespacesRequired: ['common'] };
+  return {
+    namespacesRequired: ['common'],
+    eventId,
+  };
 };
 
 export default withTranslation('common')(EventPage);

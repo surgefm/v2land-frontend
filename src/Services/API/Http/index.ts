@@ -13,6 +13,11 @@ const {
 } = getConfig();
 
 const BaseUrl = `${API_URL}`;
+const cookies = {
+  cookie: '',
+};
+
+export const imageUploadEndpoint = `${BaseUrl}/upload`;
 
 export const Http = {
   Request: async <A>(
@@ -24,10 +29,12 @@ export const Http = {
     return new Promise((resolve, reject) => {
       const query = params ? `?${stringify(params)}` : '';
 
-      fetch(`${BaseUrl}${url}${query}`, {
+      fetch(encodeURI(`${BaseUrl}${url}${query}`), {
         body: JSON.stringify(payload),
         cache: 'no-cache',
+        credentials: 'include',
         headers: {
+          ...cookies,
           'content-type': 'application/json',
         },
         method: `${methodType}`,
@@ -38,11 +45,17 @@ export const Http = {
           }
           return reject(response);
         })
-        .catch(e => {
-          reject(e);
-        });
+        .catch(reject);
     });
   },
+};
+
+export const clearCookies = () => {
+  cookies.cookie = '';
+};
+
+export const setCookies = (cookie: string) => {
+  cookies.cookie = cookie;
 };
 
 export const get = async <A>(
@@ -58,7 +71,7 @@ export const post = async <A>(
   payload?: HttpModel.IRequestPayload,
   params?: HttpModel.IRequestQueryPayload
 ): Promise<A> => {
-  return Http.Request('POST', url, payload, params);
+  return Http.Request('POST', url, params, payload);
 };
 
 export const put = async <A>(

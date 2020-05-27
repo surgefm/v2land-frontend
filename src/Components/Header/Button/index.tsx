@@ -19,7 +19,7 @@ export const HeaderButton: React.FunctionComponent<IHeaderButton.IProps> = ({
       <style jsx>
         {`
           .button-container {
-            height: 100%;
+            height: 3.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -79,5 +79,5 @@ export const HeaderButton: React.FunctionComponent<IHeaderButton.IProps> = ({
         {content}
       </Link>
     );
-  return <a href={as || href}>{content}</a>;
+  return content;
 };

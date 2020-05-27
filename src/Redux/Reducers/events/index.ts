@@ -3,38 +3,52 @@ import { ActionConsts } from '@Definitions';
 // #endregion Local Imports
 
 // #region Interface Imports
-import { EventAction, EventsState } from '@Interfaces';
+import { EventAction, StackAction, EventsState } from '@Interfaces';
 // #endregion Interface Imports
 
-const INITIAL_STATE: EventsState = {
-  list: [],
-  idIndexMap: {},
-};
+import addEvent from './addEvent';
+import addNewsToEvent from './addNewsToEvent';
+import addNewsToEventOffshelfNewsList from './addNewsToEventOffshelfNewsList';
+import addNewsToStack from './addNewsToStack';
+import addStackToEvent from './addStackToEvent';
+import addStackToEventOffshelfStackList from './addStackToEventOffshelfStackList';
+import removeNewsFromEvent from './removeNewsFromEvent';
+import removeNewsFromStack from './removeNewsFromStack';
+import updateEventOffshelfStackListOrder from './updateEventOffshelfStackListOrder';
+import updateEventStackListOrder from './updateEventStackListOrder';
 
-export const EventReducer = (state = INITIAL_STATE, action: EventAction) => {
+const getInitialState = () =>
+  ({
+    list: [],
+    idIndexMap: {},
+    nameIdMap: {},
+  } as EventsState);
+
+export const EventReducer = (state = getInitialState(), action: EventAction | StackAction) => {
   switch (action.type) {
+    case ActionConsts.App.ResetReducer:
+      return getInitialState();
     case ActionConsts.Event.AddEvent:
-    case ActionConsts.Event.UpdateEvent: {
-      if (!action.event) return state;
-      const event = { ...action.event };
-      delete event.tags;
-      delete event.stacks;
-      delete event.temporaryStack;
-
-      const eventId = action.eventId || event.id;
-      if (!eventId) return state;
-
-      const newState = { ...state };
-      const index = state.idIndexMap[eventId];
-
-      if (typeof index !== 'undefined') {
-        newState.list[index] = event;
-        return newState;
-      }
-      newState.idIndexMap[eventId] = newState.list.length;
-      newState.list.push(event);
-      return newState;
-    }
+    case ActionConsts.Event.UpdateEvent:
+      return addEvent(state, action);
+    case ActionConsts.Event.AddStackToEvent:
+      return addStackToEvent(state, action);
+    case ActionConsts.Event.AddStackToEventOffshelfStackList:
+      return addStackToEventOffshelfStackList(state, action);
+    case ActionConsts.Event.AddNewsToEvent:
+      return addNewsToEvent(state, action);
+    case ActionConsts.Stack.AddNewsToStack:
+      return addNewsToStack(state, action);
+    case ActionConsts.Event.AddNewsToEventOffshelfNewsList:
+      return addNewsToEventOffshelfNewsList(state, action);
+    case ActionConsts.Event.RemoveNewsFromEvent:
+      return removeNewsFromEvent(state, action);
+    case ActionConsts.Stack.RemoveNewsFromStack:
+      return removeNewsFromStack(state, action);
+    case ActionConsts.Event.UpdateEventOffshelfStackListOrder:
+      return updateEventOffshelfStackListOrder(state, action);
+    case ActionConsts.Event.UpdateEventStackListOrder:
+      return updateEventStackListOrder(state, action);
     default:
       return state;
   }

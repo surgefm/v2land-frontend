@@ -5,11 +5,12 @@ import { Card } from '@Components/Basic';
 import { IStack } from './Stack';
 import { NewsItemList } from './NewsItemList';
 
+export * from './Form';
+
 const Stack: React.FunctionComponent<IStack.IProps> = ({ stackId }) => {
   const stack = useSelector(getStack(stackId));
-  if (!stack) return <div />;
-
   const newsIdList = useSelector(getStackNewsIdList(stackId));
+  if (!stack) return <div />;
 
   return (
     <Card styles={{ paddingTop: '0', paddingBottom: '0' }}>

@@ -10,4 +10,5 @@ export interface Client {
   settings?: any;
   auths?: Auth[];
   records?: Record[];
+  avatar?: string;
 }

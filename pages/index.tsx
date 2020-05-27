@@ -1,6 +1,8 @@
 // #region Global Imports
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { NextPage } from 'next';
+import { useRouter } from 'next/router';
+import { message } from 'antd';
 // #endregion Global Imports
 
 // #region Local Imports
@@ -13,6 +15,7 @@ import {
   Background,
   SectionHeader,
 } from '@Components';
+import { UtilService } from '@Services';
 // #endregion Local Imports
 
 // #region Interface Imports
@@ -20,27 +23,42 @@ import { IHomePage } from '@Interfaces';
 // #endregion Interface Imports
 
 const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = () => {
+  const router = useRouter();
+  useEffect(() => {
+    if (router.query.event_not_found) {
+      message.error('未找到该事件');
+      UtilService.replace('/');
+    }
+  }, [router.query.event_not_found]);
+
+  useEffect(() => {
+    if (router.query.client_not_found) {
+      message.error('未找到该用户');
+      UtilService.replace('/');
+    }
+  }, [router.query.client_not_found]);
+
   return (
     <Background>
       <div className="grid">
         <EventCardList className="left" />
         <div className="right">
           <SectionHeader>热点话题</SectionHeader>
-          <div>
+          <>
             <TagCard tag="新冠肺炎" />
             <TagCard tag="医患纠纷" />
             <TagCard tag="百度" />
             <TagCard tag="娱乐圈" />
             <TagCard tag="劳资纠纷" />
             <TagCard tag="非洲猪瘟" />
-          </div>
+          </>
           <SectionHeader>贡献榜</SectionHeader>
-          <div>
+          <>
             <ContributorCard contributor="Vincent" />
             <ContributorCard contributor="CCAV" />
             <ContributorCard contributor="陈博士" />
             <ContributorCard contributor="Erick" />
-          </div>
+          </>
         </div>
       </div>
       <Footer />

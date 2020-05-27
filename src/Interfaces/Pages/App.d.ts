@@ -5,7 +5,7 @@ import { NextPageContext } from 'next';
 import { ThunkDispatch } from 'redux-thunk';
 // #endregion Global Imports
 
-interface AppStore extends Store {
+export interface AppStore extends Store {
   dispatch: ThunkDispatch;
 }
 
