@@ -36,6 +36,11 @@ ClientPage.getInitialProps = async (
   const props = { namespacesRequired: ['common'] };
 
   let username = ctx.query.username as string;
+  if (+username === +username) {
+    UtilService.redirect(ctx, `/@Newspect/${username}`);
+    return props;
+  }
+
   if (username.startsWith('@')) username = username.slice(1);
   let client = getClientWithUsername(username)(ctx.store.getState());
 
