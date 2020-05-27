@@ -85,7 +85,12 @@ export const HeaderUserInfo: React.FunctionComponent = () => {
             }
 
             .container:active {
-              transform: scale(0.9);
+              transform: scale(
+                ${router.pathname === '/[username]' &&
+                router.query.username === `@${client.username}`
+                  ? '1'
+                  : '0.9'}
+              );
             }
 
             span:not(:first-child) {

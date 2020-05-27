@@ -6,7 +6,7 @@ import { NextPage } from 'next';
 
 // #region Local Imports
 import { withTranslation } from '@Server/i18n';
-import { Background, Footer, Card, EventTitle } from '@Components';
+import { Background, ClientHead, Footer, Card, EventTitle } from '@Components';
 import { ClientActions } from '@Actions';
 import { getClientWithUsername, getClient } from '@Selectors';
 import { UtilService } from '@Services';
@@ -22,6 +22,7 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
 
   return (
     <Background>
+      <ClientHead clientId={clientId} />
       <Card>
         <EventTitle>{client.username}</EventTitle>
       </Card>
@@ -51,6 +52,11 @@ ClientPage.getInitialProps = async (
   client = getClientWithUsername(username)(ctx.store.getState());
   if (!client) {
     UtilService.redirect(ctx, '/', { hiddenQuery: { client_not_found: 1 } });
+    return props;
+  }
+
+  if (username !== client.username) {
+    UtilService.redirect(ctx, `/@${client.username}`);
     return props;
   }
 
