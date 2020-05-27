@@ -1,7 +1,6 @@
 // #region Global Imports
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { NextPage } from 'next';
-import { useRouter } from 'next/router';
 import { useSelector, useStore, useDispatch } from 'react-redux';
 import {
   DragDropContext,
@@ -23,7 +22,7 @@ import {
 
 // #region Local Imports
 import { withTranslation } from '@Server/i18n';
-import { EventActions, NewsroomActions } from '@Actions';
+import { NewsroomActions } from '@Actions';
 import {
   getNewsroomSocket,
   closeNewsroomSocket,
@@ -46,13 +45,12 @@ import {
 } from '@Components';
 import {
   getEvent,
-  getEventId,
   getEventStackIdList,
   getEventOffshelfNewsIdList,
   getEventOffshelfStackIdList,
   getNewsroomPanels,
+  getEventOwner,
   isStackNewsVisible,
-  isLoggedIn,
   canCurrentClientViewEvent,
   getNewsroomCurrentClientRole,
 } from '@Selectors';
@@ -62,17 +60,13 @@ import {
 import { IEventNewsroomPage, ReduxNextPageContext } from '@Interfaces';
 // #endregion Interface Imports
 
-const EventNewsroomPage: NextPage<
-  IEventNewsroomPage.IProps,
-  IEventNewsroomPage.InitialProps
-> = () => {
-  const router = useRouter();
-  const username = router.query.username as string;
-  const eventName = router.query.eventName as string;
-  const id = -Math.abs(useSelector(getEventId(username, eventName)));
-  const [eventId] = useState(id);
+const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.InitialProps> = ({
+  eventId: id,
+}) => {
+  const eventId = -Math.abs(id);
   const event = useSelector(getEvent(eventId));
   const prevEvent = usePrevious(event);
+  const owner = useSelector(getEventOwner(eventId));
   const offshelfNewsIdList = useSelector(getEventOffshelfNewsIdList(eventId));
   const offshelfStackIdList = useSelector(getEventOffshelfStackIdList(eventId));
   const stackIdList = useSelector(getEventStackIdList(eventId));
@@ -109,7 +103,7 @@ const EventNewsroomPage: NextPage<
 
   useEffect(() => {
     if (prevEvent && event.name !== prevEvent.name) {
-      UtilService.redirect(`/${username}/${event.name}/newsroom`, { replace: true });
+      UtilService.replace(`/@${owner ? owner.username : event.ownerId}/${event.name}/newsroom`);
     }
   }, [event.name]);
 
@@ -330,28 +324,13 @@ const EventNewsroomPage: NextPage<
 EventNewsroomPage.getInitialProps = async (
   ctx: ReduxNextPageContext
 ): Promise<IEventNewsroomPage.InitialProps> => {
-  const props = { namespacesRequired: ['common'] };
+  const eventId =
+    (await UtilService.getEventIdMiddleware(ctx, '/newsroom', { needViewPermission: true })) || 0;
 
-  const loggedIn = isLoggedIn(ctx.store.getState());
-  if (!loggedIn) {
-    UtilService.redirect(ctx, encodeURI(`/login?redirect=${ctx.asPath}`));
-    return props;
-  }
-
-  const eventName = ctx.query.eventName as string;
-  let username = ctx.query.username as string;
-
-  if (username.startsWith('@')) {
-    username = username.slice(1);
-  }
-  await ctx.store.dispatch(EventActions.GetEvent(eventName, username as string, true));
-  const eventId = getEventId(username, eventName)(ctx.store.getState());
-  const event = getEvent(eventId)(ctx.store.getState());
-  if (!event) {
-    UtilService.redirect(ctx, '/?event_not_found=1');
-  }
-
-  return props;
+  return {
+    namespacesRequired: ['common'],
+    eventId,
+  };
 };
 
 export default withTranslation('common')(EventNewsroomPage);

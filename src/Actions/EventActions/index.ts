@@ -13,6 +13,7 @@ import { LoadingActions } from '../LoadingActions';
 import { NewsActions } from '../NewsActions';
 import { StackActions } from '../StackActions';
 import { ClientActions } from '../ClientActions';
+import { NewsroomActions } from '../NewsroomActions';
 // #endregion Local Imports
 
 const AddEvent = (event: Event) => ({
@@ -102,6 +103,17 @@ const GetEvent = (
 
   if (event.owner) {
     actions.push(ClientActions.AddClient(event.owner));
+  }
+
+  if (event.roles) {
+    actions.push(
+      NewsroomActions.AddNewsroom({
+        eventId: event.id,
+        roles: event.roles,
+        clients: [],
+        resourceLocks: {},
+      })
+    );
   }
 
   event.stacks = event.stacks || [];

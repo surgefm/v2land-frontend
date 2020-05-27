@@ -15,8 +15,7 @@ import {
   EventDescription,
   Stack,
 } from '@Components';
-import { EventActions } from '@Actions';
-import { getEvent, getEventId, getEventStackIdList, getEventOwner } from '@Selectors';
+import { getEvent, getEventStackIdList } from '@Selectors';
 import { UtilService } from '@Services';
 // #endregion Local Imports
 
@@ -46,35 +45,7 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
 };
 
 EventPage.getInitialProps = async (ctx: ReduxNextPageContext): Promise<IEventPage.InitialProps> => {
-  const props = { namespacesRequired: ['common'] };
-
-  const eventName = ctx.query.eventName as string;
-  const split = eventName.split('-');
-  const eid = +split[0];
-  const id = eid === eid ? eid : eventName;
-  const pinyin = split.slice(1).join('-');
-
-  let username = ctx.query.username as string;
-  if (username.startsWith('@')) {
-    username = username.slice(1);
-  }
-
-  await ctx.store.dispatch(EventActions.GetEvent(id, username as string));
-  const eventId = getEventId(username, id)(ctx.store.getState());
-  const event = getEvent(eventId)(ctx.store.getState());
-  const owner = getEventOwner(eventId)(ctx.store.getState());
-  if (!event) {
-    UtilService.redirect(ctx, '/', { hiddenQuery: { event_not_found: 1 } });
-    return props;
-  }
-  if ((event.pinyin && pinyin !== event.pinyin) || (owner && owner.username !== username)) {
-    UtilService.replace(
-      ctx,
-      `/@${owner ? owner.username : username}/${eventId}-${event.pinyin || pinyin}`,
-      { permanent: true }
-    );
-    return props;
-  }
+  const eventId = (await UtilService.getEventIdMiddleware(ctx)) || 0;
 
   return {
     namespacesRequired: ['common'],
