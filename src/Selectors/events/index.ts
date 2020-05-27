@@ -27,6 +27,12 @@ export const getEvent = (eventId: number) =>
     }
   );
 
+export const getEventOwnerId = (eventId: number) =>
+  createSelector(
+    getEvent(eventId),
+    event => (event ? event.ownerId : null)
+  );
+
 export const getEventStackIdList = (eventId: number) =>
   createSelector(
     getEvent(eventId),

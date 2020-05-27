@@ -2,19 +2,17 @@
 import { WithTranslation } from 'next-i18next';
 // #endregion Global Imports
 
-declare namespace IEventPage {
+declare namespace IClientPage {
   export interface IProps extends WithTranslation {
-    eventId: number;
+    clientId: number;
   }
 
   export interface InitialProps {
     namespacesRequired: string[];
-    eventId?: number;
+    clientId?: number;
   }
 
-  export interface IStateProps {
-    eventId: number;
-  }
+  export interface IStateProps {}
 }
 
-export { IEventPage };
+export { IClientPage };

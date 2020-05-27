@@ -1,9 +1,11 @@
 // #region Global Imports
 import { Action as ReduxAction } from 'redux';
+import { ThunkDispatch as TDispatch } from 'redux-thunk';
 // #endregion Global Imports
 
 // #region Local Imports
 import { Event, Stack, News, Client, Newsroom } from '@Interfaces';
+import { IStore } from './IStore';
 // #endregion Local Imports
 
 export interface EventAction extends ReduxAction {
@@ -53,3 +55,5 @@ export type Action = EventAction | StackAction | NewsAction | ClientAction | Loa
 export interface IAction<T> extends ReduxAction {
   payload?: T;
 }
+
+export type ThunkDispatch = TDispatch<IStore, any, Action>;

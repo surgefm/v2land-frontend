@@ -31,6 +31,13 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = () => {
     }
   }, [router.query.event_not_found]);
 
+  useEffect(() => {
+    if (router.query.client_not_found) {
+      message.error('未找到该用户');
+      UtilService.replace('/');
+    }
+  }, [router.query.client_not_found]);
+
   return (
     <Background>
       <div className="grid">

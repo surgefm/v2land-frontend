@@ -29,7 +29,7 @@ export const Http = {
     return new Promise((resolve, reject) => {
       const query = params ? `?${stringify(params)}` : '';
 
-      fetch(`${BaseUrl}${url}${query}`, {
+      fetch(encodeURI(`${BaseUrl}${url}${query}`), {
         body: JSON.stringify(payload),
         cache: 'no-cache',
         credentials: 'include',

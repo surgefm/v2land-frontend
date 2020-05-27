@@ -32,7 +32,7 @@ const Header: React.FunctionComponent = (): JSX.Element => {
               <>
                 <HeaderButton href="/">首页</HeaderButton>
                 <HeaderButton href="/about">关注</HeaderButton>
-                <HeaderButton href="/[username]/[eventName]" as="/1/12">
+                <HeaderButton href="/[username]" as="/@计量经济学家的AI">
                   我的事件
                 </HeaderButton>
               </>

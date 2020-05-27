@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import { IStore } from '@Interfaces';
+import { getEventOwnerId } from '@Selectors/events';
 
 export const getClientsState = (state: IStore) => state.clients;
 
@@ -39,6 +40,13 @@ export const getClientIdWithUsername = (username: string) =>
     }
   );
 
+export const getClientWithUsername = (username: string) =>
+  createSelector(
+    state => state,
+    getClientIdWithUsername(username),
+    (state, id) => getClient(id)(state)
+  );
+
 export const getClientList = (clientIds: number[]) =>
   createSelector(
     getClientsState,
@@ -47,4 +55,11 @@ export const getClientList = (clientIds: number[]) =>
         if (typeof state.idIndexMap[clientId] === 'undefined') return null;
         return state.list[state.idIndexMap[clientId]];
       })
+  );
+
+export const getEventOwner = (eventId: number) =>
+  createSelector(
+    state => state,
+    getEventOwnerId(eventId),
+    (state, id) => (id === null ? null : getClient(id)(state))
   );

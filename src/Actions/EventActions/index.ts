@@ -5,13 +5,14 @@ import { batchActions } from 'redux-batched-actions';
 
 // #region Local Imports
 import { ActionConsts } from '@Definitions';
-import { Action, Event, IStore } from '@Interfaces';
-import { RedstoneService } from '@Services';
+import { Action, Event, IThunkStore } from '@Interfaces';
+import { RedstoneService, getState } from '@Services';
 import { isLoading } from '@Selectors';
 
 import { LoadingActions } from '../LoadingActions';
 import { NewsActions } from '../NewsActions';
 import { StackActions } from '../StackActions';
+import { ClientActions } from '../ClientActions';
 // #endregion Local Imports
 
 const AddEvent = (event: Event) => ({
@@ -77,9 +78,9 @@ const GetEvent = (
   eventId: number | string,
   username: string | boolean = false,
   getLatest = false
-) => async (dispatch: Dispatch, state: IStore) => {
+) => async (dispatch: Dispatch, state: IThunkStore) => {
   const identifier = `event-${eventId}-${username}-${getLatest ? 1 : 0}`;
-  if (isLoading(identifier)(state)) return;
+  if (isLoading(identifier)(getState(state))) return;
 
   dispatch(LoadingActions.BeginLoading(identifier));
   let event: Event | undefined;
@@ -98,6 +99,11 @@ const GetEvent = (
   dispatch(AddEvent(event));
 
   const actions: Action[] = [];
+
+  if (event.owner) {
+    actions.push(ClientActions.AddClient(event.owner));
+  }
+
   event.stacks = event.stacks || [];
   for (let i = 0; i < event.stacks.length; i += 1) {
     const stack = event.stacks[i];

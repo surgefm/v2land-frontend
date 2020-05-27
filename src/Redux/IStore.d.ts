@@ -45,3 +45,5 @@ export interface IStore {
   newsrooms: NewsroomsState;
   loading: LoadingState;
 }
+
+export type IThunkStore = IStore | (() => IStore);

@@ -10,7 +10,7 @@ export const getEvent = async (
   getLatest = false
 ): Promise<Event> => {
   return typeof username === 'string'
-    ? get<Event>(`/event/@${encodeURIComponent(username)}/${encodeURIComponent(eventId)}`, {
+    ? get<Event>(`/event/@${username}/${eventId}`, {
         latest: getLatest ? 1 : 0,
       })
     : get<Event>(`/event/${+eventId}`, { latest: username ? 1 : 0 });
@@ -28,11 +28,15 @@ export const login = async (usernameOrEmail: string, password: string) => {
   });
 };
 
+export const logout = async () => {
+  return get('/client/logout');
+};
+
 export const getClientInfo = async () => {
   return get<{ client: Client }>('/client/me');
 };
 
-export const getClient = async (clientId: number) => {
+export const getClient = async (clientId: number | string) => {
   return get<{ client: Client }>(`/client/${clientId}`);
 };
 

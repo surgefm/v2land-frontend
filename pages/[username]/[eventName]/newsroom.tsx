@@ -1,5 +1,5 @@
 // #region Global Imports
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useSelector, useStore, useDispatch } from 'react-redux';
@@ -31,6 +31,7 @@ import {
   handleNewsroomDragEnd,
   ClientService,
   UtilService,
+  usePrevious,
 } from '@Services';
 import { NewsroomPanelConsts } from '@Definitions';
 import {
@@ -65,14 +66,6 @@ const EventNewsroomPage: NextPage<
   IEventNewsroomPage.IProps,
   IEventNewsroomPage.InitialProps
 > = () => {
-  function usePrevious<T>(value: T) {
-    const ref = useRef<T>();
-    useEffect(() => {
-      ref.current = value;
-    });
-    return ref.current;
-  }
-
   const router = useRouter();
   const username = router.query.username as string;
   const eventName = router.query.eventName as string;

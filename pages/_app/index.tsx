@@ -66,6 +66,10 @@ class WebApp extends App<AppWithStore> {
                 line-height: 1.5715;
                 font-feature-settings: 'tnum';
               }
+
+              :global(.ant-avatar-string) {
+                font-size: 14px;
+              }
             `}
           </style>
         </ConfigProvider>

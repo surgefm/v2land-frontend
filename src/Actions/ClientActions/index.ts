@@ -2,10 +2,10 @@ import { Dispatch } from 'redux';
 
 // #region Local Imports
 import { ActionConsts } from '@Definitions';
-import { Client, IStore } from '@Interfaces';
-import { isLoading } from '@Selectors';
+import { Client, IThunkStore } from '@Interfaces';
+import { isLoading, isLoggedIn } from '@Selectors';
 import { LoadingActions } from '@Actions';
-import { RedstoneService } from '@Services';
+import { RedstoneService, getState } from '@Services';
 // #endregion Local Imports
 
 const AddClient = (client: Client) => ({
@@ -24,18 +24,38 @@ const SetLoggedInClient = (clientId: number) => ({
   type: ActionConsts.Client.SetLoggedInClient,
 });
 
-const GetClient = (clientId: number) => async (dispatch: Dispatch, state: IStore) => {
-  const identifier = `client-${clientId}`;
+const Logout = () => async (dispatch: Dispatch, store: IThunkStore) => {
+  const state = getState(store);
+  if (!isLoggedIn(state)) return;
+  const identifier = 'client_is-logging-out';
   if (isLoading(identifier)(state)) return;
   dispatch(LoadingActions.BeginLoading(identifier));
-  const { client } = await RedstoneService.getClient(clientId);
-  dispatch(AddClient(client));
-  dispatch(LoadingActions.FinishLoading(identifier));
+  try {
+    await RedstoneService.logout();
+    dispatch(SetLoggedInClient(-1));
+  } finally {
+    dispatch(LoadingActions.FinishLoading(identifier));
+  }
+};
+
+const GetClient = (clientId: number | string) => async (dispatch: Dispatch, store: IThunkStore) => {
+  const identifier = `client-${clientId}`;
+  if (isLoading(identifier)(getState(store))) return;
+  dispatch(LoadingActions.BeginLoading(identifier));
+  try {
+    const { client } = await RedstoneService.getClient(clientId);
+    dispatch(AddClient(client));
+  } catch (err) {
+    // Do nothing
+  } finally {
+    dispatch(LoadingActions.FinishLoading(identifier));
+  }
 };
 
 export const ClientActions = {
   AddClient,
   UpdateClient,
   SetLoggedInClient,
+  Logout,
   GetClient,
 };
