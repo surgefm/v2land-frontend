@@ -102,7 +102,12 @@ const NewsroomPanelStackCard: React.FunctionComponent<INewsroomPanelStackCard.IP
             )}
           </NewsroomPanelCard>
           {isLocked ? <NewsroomPanelLockMask locker={locker} dark={dark} /> : <React.Fragment />}
-          <Modal title="修改进展" visible={modalVisible && canEdit} footer={null}>
+          <Modal
+            title="修改进展"
+            visible={modalVisible && canEdit}
+            onCancel={finishEditing}
+            footer={null}
+          >
             <StackForm
               eventId={stack.eventId as number}
               stackId={stack.id}

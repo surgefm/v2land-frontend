@@ -18,7 +18,7 @@ export const EventCardDescription: React.FunctionComponent<IEventCardDescription
           margin-top: 1rem;
           position: relative;
           margin-top: 0.5rem;
-          max-height: 7.2rem;
+          max-height: 7.8rem;
         }
 
         span {
@@ -33,7 +33,7 @@ export const EventCardDescription: React.FunctionComponent<IEventCardDescription
           bottom: 0;
           right: 0;
           width: 5rem;
-          height: 1.8rem;
+          height: 1.5rem;
           background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 90%);
         }
 

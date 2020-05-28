@@ -89,7 +89,11 @@ const NewsroomPanelRoleItemCreator: React.FunctionComponent<
     }
 
     return (
-      <Select defaultValue={role} onChange={value => setRole(value as string)}>
+      <Select
+        style={{ width: '90px' }}
+        defaultValue={role}
+        onChange={value => setRole(value as string)}
+      >
         {roles.map(r => (
           <Option value={r} key={r}>
             {ClientService.getRoleName(r)}

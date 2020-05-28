@@ -56,7 +56,12 @@ const NewsroomPanelRoleItem: React.FunctionComponent<INewsroomPanelRoleItem.IPro
 
   const getRoleComponent = () => {
     if (!role) return <Skeleton.Button active size="small" />;
-    if (!canEdit || role === 'owner' || clientId === currentClientId) {
+    if (
+      !canEdit ||
+      role === 'owner' ||
+      clientId === currentClientId ||
+      (currentClientRole === 'manager' && role === 'manager')
+    ) {
       return <span>{ClientService.getRoleName(role)}</span>;
     }
 
@@ -67,7 +72,12 @@ const NewsroomPanelRoleItem: React.FunctionComponent<INewsroomPanelRoleItem.IPro
 
     return (
       <>
-        <Select defaultValue={role} disabled={!canEdit} onChange={handleSelectionChange}>
+        <Select
+          style={{ width: '90px' }}
+          defaultValue={role}
+          disabled={!canEdit}
+          onChange={handleSelectionChange}
+        >
           {roles.map(r => (
             <Option value={r} key={r}>
               {ClientService.getRoleName(r)}

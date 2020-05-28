@@ -4,7 +4,7 @@ import { Avatar, Tooltip, Skeleton } from 'antd';
 
 import { ClientActions } from '@Actions';
 import { getClient, getNewsroomClientRole } from '@Selectors';
-import { ClientService } from '@Services';
+import { ClientService, UtilService } from '@Services';
 
 import { IClientAvatar } from './Avatar';
 
@@ -34,7 +34,7 @@ export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = ({
 
   const getAvatar = () => {
     if (!client) return <Skeleton.Avatar active />;
-    if (client.avatar) return <Avatar src={client.avatar} />;
+    if (client.avatar) return <Avatar src={UtilService.getImageUrl(client.avatar, 128, 128)} />;
     return <Avatar>{client.username[0]}</Avatar>;
   };
 

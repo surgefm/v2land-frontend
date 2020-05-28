@@ -58,6 +58,7 @@ const NewsroomPanelStackList: React.FunctionComponent<INewsroomPanelStackList.IP
                 padding: 0 0.5rem 0.5rem;
                 min-height: 4rem;
                 overflow-y: scroll;
+                max-height: calc(100vh - 6rem);
               }
 
               div::-webkit-scrollbar {

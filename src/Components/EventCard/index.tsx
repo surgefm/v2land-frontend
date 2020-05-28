@@ -23,7 +23,7 @@ const EventCard: React.FunctionComponent<IEventCard.IProps> = ({ eventId }) => {
   }
 
   return (
-    <Link href="/[username]/[eventName]" as={`/abc/${eventId}`}>
+    <Link href="/[username]/[eventName]" as={`/newspect/${eventId}`}>
       <a>
         <Card styles={{ padding: 0 }}>
           {event.headerImage ? <ImageEventCard event={event} /> : <PlainEventCard event={event} />}
