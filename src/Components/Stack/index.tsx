@@ -1,7 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { getStack, getStackNewsIdList } from '@Selectors';
-import { Card } from '@Components/Basic';
+import { Card, Share } from '@Components/Basic';
+
 import { IStack } from './Stack';
 import { NewsItemList } from './NewsItemList';
 
@@ -32,7 +33,7 @@ const Stack: React.FunctionComponent<IStack.IProps> = ({ stackId }) => {
         <hr />
 
         <NewsItemList newsIdList={newsIdList} />
-
+        <Share />
         <style jsx>
           {`
             .stack-main {
