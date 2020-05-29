@@ -6,6 +6,8 @@ export const Background: React.FunctionComponent = ({ children }) => (
     <style jsx>
       {`
         .background {
+          position: relative;
+          z-index: 0;
           margin-top: 3.5rem;
           min-height: calc(100vh - 3.5rem);
           padding: 3.5rem 1rem 1rem 1rem;
