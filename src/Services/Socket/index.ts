@@ -85,7 +85,9 @@ export class NewsroomSocket {
   constructor(eventId: number, store: Store<any, AnyAction>) {
     this.store = store;
     this.eventId = Math.abs(eventId);
-    this.socket = io(`${API_URL}/newsroom`);
+    const url = new URL(API_URL);
+    const path = url.pathname.length > 1 ? `${url.pathname}/socket.io` : '/socket.io';
+    this.socket = io(`${API_URL}/newsroom`, { path });
     this.joinNewsroom();
   }
 

@@ -11,9 +11,13 @@ export async function handleStackDragEnd(
   store: AppStore,
   socket: NewsroomSocket
 ) {
-  const { destination, source } = result;
+  const { destination, source, draggableId } = result;
   if (!destination || !source) return;
   const id = -Math.abs(eventId);
+  const match = draggableId.match(/^stack-card-(\d+)$/);
+  if (!match) return;
+  const stackId = -match[1];
+
   const { dispatch } = store;
   const offshelfStackIdList = getEventOffshelfStackIdList(id)(store.getState());
   const stackIdList = getEventStackIdList(id)(store.getState());
@@ -22,7 +26,7 @@ export async function handleStackDragEnd(
   const toOffshelf = destination.droppableId === 'newsroom-offshelf-stack-panel';
   if (fromOffshelf === toOffshelf) {
     let newStackIdList = fromOffshelf ? [...offshelfStackIdList] : [...stackIdList];
-    const stackId = newStackIdList.splice(source.index, 1)[0];
+    newStackIdList = newStackIdList.filter(i => i !== stackId);
     newStackIdList = [
       ...newStackIdList.slice(0, destination.index),
       stackId,
@@ -33,9 +37,9 @@ export async function handleStackDragEnd(
       : EventActions.UpdateEventStackListOrder;
     dispatch(action(id, newStackIdList.map(i => -Math.abs(i))));
     await socket.updateStackOrders(
-      newStackIdList.reverse().map((i, index) => ({
+      newStackIdList.reverse().map((i, idx) => ({
         stackId: Math.abs(i),
-        order: fromOffshelf ? -index - 1 : index,
+        order: fromOffshelf ? -idx - 1 : idx,
       }))
     );
   } else {
@@ -45,9 +49,11 @@ export async function handleStackDragEnd(
     const addAction = toOffshelf
       ? EventActions.UpdateEventOffshelfStackListOrder
       : EventActions.UpdateEventStackListOrder;
-    const fromList = fromOffshelf ? [...offshelfStackIdList] : [...stackIdList];
+    let fromList = fromOffshelf ? [...offshelfStackIdList] : [...stackIdList];
     let toList = toOffshelf ? [...offshelfStackIdList] : [...stackIdList];
-    const stackId = fromList.splice(source.index, 1)[0];
+    fromList = fromList.filter(i => i !== stackId);
+    toList = toList.filter(i => i !== stackId);
+
     toList = [...toList.slice(0, destination.index), stackId, ...toList.slice(destination.index)];
     dispatch(removeAction(id, fromList.map(i => -Math.abs(i))));
     dispatch(addAction(id, toList.map(i => -Math.abs(i))));

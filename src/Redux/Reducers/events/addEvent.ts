@@ -25,6 +25,16 @@ const addEvent = (state: EventsState, action: EventAction) => {
   event.offshelfNewsIdList = event.offshelfNewsIdList || [];
   event.offshelfStackIdList = event.offshelfStackIdList || [];
 
+  if (action.event.offshelfStackIdList && !action.event.stackIdList) {
+    event.stackIdList = event.stackIdList.filter(id => !event.offshelfStackIdList.includes(id));
+  }
+
+  if (action.event.stackIdList && !action.event.offshelfStackIdList) {
+    event.offshelfStackIdList = event.offshelfStackIdList.filter(
+      id => !event.stackIdList.includes(id)
+    );
+  }
+
   delete event.tags;
   delete event.stacks;
   delete event.temporaryStack;

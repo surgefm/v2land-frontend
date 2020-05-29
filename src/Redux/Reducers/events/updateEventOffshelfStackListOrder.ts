@@ -18,6 +18,7 @@ const updateEventOffshelfStackListOrder = (state: EventsState, action: EventActi
   }
 
   event.offshelfStackIdList = stackIdList;
+  event.stackIdList = event.stackIdList.filter(id => !stackIdList.includes(id));
   return {
     ...state,
     list: [...state.list.slice(0, index), event, ...state.list.slice(index + 1)],
