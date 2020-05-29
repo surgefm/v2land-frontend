@@ -7,7 +7,7 @@ import { NewsItemList } from './NewsItemList';
 
 export * from './Form';
 
-const Stack: React.FunctionComponent<IStack.IProps> = ({ stackId }) => {
+const Stack: React.FunctionComponent<IStack.IProps> = ({ stackId, displayOrder = true }) => {
   const stack = useSelector(getStack(stackId));
   const newsIdList = useSelector(getStackNewsIdList(stackId));
   if (!stack) return <div />;
@@ -18,7 +18,9 @@ const Stack: React.FunctionComponent<IStack.IProps> = ({ stackId }) => {
         <div className="stack-main">
           <div className="title-area">
             <span className="order-redesigned">
-              <p>{stack.order ? stack.order + 1 : 1}</p>
+              {displayOrder && typeof stack.order === 'number' ? (
+                <p>{stack.order ? stack.order + 1 : 1}</p>
+              ) : null}
             </span>
 
             <h2>{stack.title}</h2>
