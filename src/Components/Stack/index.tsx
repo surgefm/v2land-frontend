@@ -17,11 +17,10 @@ const Stack: React.FunctionComponent<IStack.IProps> = ({ stackId }) => {
       <div className="stack">
         <div className="stack-main">
           <div className="title-area">
-            {stack.order ? (
-              <span className="order-redesigned">
-                <p>{stack.order}</p>
-              </span>
-            ) : null}
+            <span className="order-redesigned">
+              <p>{stack.order ? stack.order + 1 : 1}</p>
+            </span>
+
             <h2>{stack.title}</h2>
           </div>
 
@@ -45,7 +44,7 @@ const Stack: React.FunctionComponent<IStack.IProps> = ({ stackId }) => {
             }
 
             .title-area h2 {
-              padding-top: 10px;
+              margin-top: 1.4rem;
               margin-left: 1rem;
               line-height: 1.5;
             }
@@ -59,7 +58,7 @@ const Stack: React.FunctionComponent<IStack.IProps> = ({ stackId }) => {
             }
 
             .content-area {
-              margin-top: -1.3rem;
+              margin-top: 1rem;
             }
 
             .content-area p {
