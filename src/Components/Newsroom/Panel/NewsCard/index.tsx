@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Draggable } from 'react-beautiful-dnd';
 
-import { getNews, canCurrentClientEditEvent } from '@Selectors';
+import { getNews, canCurrentClientEditEvent, isNewsroomSocketConnected } from '@Selectors';
 import { NewsroomPanelCard } from '../Card';
 import { INewsroomPanelNewsCard } from './NewsCard';
 
@@ -13,13 +13,14 @@ const NewsroomPanelNewsCard: React.FunctionComponent<INewsroomPanelNewsCard.IPro
 }) => {
   const news = useSelector(getNews(newsId));
   const canEdit = useSelector(canCurrentClientEditEvent());
+  const isConnected = useSelector(isNewsroomSocketConnected());
   if (!news) return <div />;
 
   return (
     <Draggable
       draggableId={`${draggableId}-${Math.abs(newsId)}`}
       index={index || 0}
-      isDragDisabled={!canEdit}
+      isDragDisabled={!canEdit || !isConnected}
     >
       {(provided, snapshot) => (
         <div

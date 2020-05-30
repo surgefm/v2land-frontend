@@ -10,6 +10,7 @@ import {
   isIndividualStackNewsVisible,
   getResourceLocker,
   isResourceLocked,
+  isNewsroomSocketConnected,
   canCurrentClientEditEvent,
 } from '@Selectors';
 import { NewsroomActions } from '@Actions';
@@ -33,6 +34,7 @@ const NewsroomPanelStackCard: React.FunctionComponent<INewsroomPanelStackCard.IP
   const locker = useSelector(getResourceLocker('stack', stackId));
   const isLocked = useSelector(isResourceLocked('stack', stackId));
   const canEdit = useSelector(canCurrentClientEditEvent((stack || {}).eventId as number));
+  const isConnected = useSelector(isNewsroomSocketConnected((stack || {}).eventId as number));
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
@@ -65,7 +67,7 @@ const NewsroomPanelStackCard: React.FunctionComponent<INewsroomPanelStackCard.IP
     <Draggable
       draggableId={`stack-card-${Math.abs(stackId)}`}
       index={index || 0}
-      isDragDisabled={isLocked || !canEdit}
+      isDragDisabled={isLocked || !canEdit || !isConnected}
     >
       {(provided, snapshot) => (
         <div
@@ -83,7 +85,7 @@ const NewsroomPanelStackCard: React.FunctionComponent<INewsroomPanelStackCard.IP
                   icon={showStackNews ? <EyeOutlined /> : <EyeInvisibleOutlined />}
                 />
                 <Button
-                  disabled={!canEdit}
+                  disabled={!canEdit || !isConnected}
                   onClick={startEditing}
                   size="small"
                   icon={<EditOutlined />}

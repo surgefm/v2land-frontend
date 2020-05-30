@@ -9,6 +9,7 @@ import {
   getNewsroomRoles,
   getNewsroomCurrentClientRole,
   getClientIdWithUsername,
+  isNewsroomSocketConnected,
 } from '@Selectors';
 import { ClientRoleConsts } from '@Definitions';
 import { Client } from '@Interfaces';
@@ -27,6 +28,7 @@ const NewsroomPanelRoleItemCreator: React.FunctionComponent<
   const newsroomRoles = useSelector(getNewsroomRoles(eventId));
   const currentClientRole = useSelector(getNewsroomCurrentClientRole(eventId));
   const currentClientId = useSelector(getLoggedInClientId);
+  const isConnected = useSelector(isNewsroomSocketConnected(eventId));
   const [role, setRole] = useState('viewer');
   const [result, setResult] = useState<Client[]>([]);
   const [input, setInput] = useState('');
@@ -75,7 +77,7 @@ const NewsroomPanelRoleItemCreator: React.FunctionComponent<
           type="link"
           size="small"
           icon={<CheckOutlined />}
-          disabled={!clientId || !isClientChangeable(clientId)}
+          disabled={!clientId || !isClientChangeable(clientId) || !isConnected}
           onClick={inviteClient}
         />
       </Tooltip>
@@ -93,6 +95,7 @@ const NewsroomPanelRoleItemCreator: React.FunctionComponent<
         style={{ width: '90px' }}
         defaultValue={role}
         onChange={value => setRole(value as string)}
+        disabled={!isConnected}
       >
         {roles.map(r => (
           <Option value={r} key={r}>
@@ -133,6 +136,7 @@ const NewsroomPanelRoleItemCreator: React.FunctionComponent<
           onSearch={handleSearch}
           onChange={setInput}
           placeholder="请输入用户名"
+          disabled={!isConnected}
         >
           {result.map(c => (
             <AutoComplete.Option key={`client-${c.id}`} value={c.username}>

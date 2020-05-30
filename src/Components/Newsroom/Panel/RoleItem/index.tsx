@@ -11,6 +11,7 @@ import {
   getLoggedInClientId,
   getNewsroomCurrentClientRole,
   canCurrentClientManageEvent,
+  isNewsroomSocketConnected,
 } from '@Selectors';
 import { ClientRoleConsts } from '@Definitions';
 import { ClientAvatar } from '@Components/Client';
@@ -29,6 +30,7 @@ const NewsroomPanelRoleItem: React.FunctionComponent<INewsroomPanelRoleItem.IPro
   const currentClientId = useSelector(getLoggedInClientId);
   const currentClientRole = useSelector(getNewsroomCurrentClientRole(eventId));
   const canEdit = useSelector(canCurrentClientManageEvent(eventId));
+  const isConnected = useSelector(isNewsroomSocketConnected(eventId));
 
   if (!client || !role) {
     dispatch(ClientActions.GetClient(clientId));
@@ -75,7 +77,7 @@ const NewsroomPanelRoleItem: React.FunctionComponent<INewsroomPanelRoleItem.IPro
         <Select
           style={{ width: '90px' }}
           defaultValue={role}
-          disabled={!canEdit}
+          disabled={!canEdit || !isConnected}
           onChange={handleSelectionChange}
         >
           {roles.map(r => (

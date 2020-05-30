@@ -144,7 +144,7 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
               <NewsroomPanelTitle>用户列表</NewsroomPanelTitle>
               <Popover
                 // eslint-disable-next-line prettier/prettier
-                content={(
+                content={
                   <>
                     <p>
                       <b>观察者</b>
@@ -164,7 +164,7 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
                     </span>
                   </>
                   // eslint-disable-next-line prettier/prettier
-                )}
+                }
               >
                 <QuestionCircleTwoTone />
               </Popover>

@@ -13,6 +13,7 @@ export const StackForm: React.FunctionComponent<IStackForm.IProps> = ({
   eventId,
   stackId,
   useSocket = true,
+  disabled = false,
   onOk = () => {},
   onCancel = () => {},
 }) => {
@@ -99,7 +100,13 @@ export const StackForm: React.FunctionComponent<IStackForm.IProps> = ({
           <Button htmlType="button" disabled={loading} onClick={cancel}>
             取消
           </Button>
-          <Button type="primary" htmlType="submit" loading={loading} onClick={submit}>
+          <Button
+            type="primary"
+            htmlType="submit"
+            disabled={disabled}
+            loading={loading}
+            onClick={submit}
+          >
             保存
           </Button>
         </Space>

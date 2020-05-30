@@ -4,7 +4,7 @@ import { Form, Button, Input, Upload, message } from 'antd';
 import { PictureOutlined } from '@ant-design/icons';
 import { UploadChangeParam, UploadFile, RcFile } from 'antd/lib/upload/interface';
 
-import { getEvent, canCurrentClientEditEvent } from '@Selectors';
+import { getEvent, canCurrentClientEditEvent, isNewsroomSocketConnected } from '@Selectors';
 import { getNewsroomSocket, imageUploadEndpoint, UtilService } from '@Services';
 import { Event, HeaderImage } from '@Interfaces';
 
@@ -24,7 +24,9 @@ export const NewsroomPanelEventDetail: React.FunctionComponent<
 > = ({ eventId }) => {
   const [form] = Form.useForm();
   const event = useSelector(getEvent(eventId));
-  const canEdit = useSelector(canCurrentClientEditEvent());
+  const canClientEdit = useSelector(canCurrentClientEditEvent());
+  const isConnected = useSelector(isNewsroomSocketConnected(eventId));
+  const canEdit = canClientEdit && isConnected;
 
   const [origData, setOrigData] = useState({
     name: event.name,

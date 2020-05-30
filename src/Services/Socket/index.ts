@@ -14,6 +14,7 @@ import {
   AppStore,
 } from '@Interfaces';
 import { EventActions, StackActions, NewsroomActions } from '@Actions';
+import { isNewsroomSocketConnected } from '@Selectors';
 
 const {
   publicRuntimeConfig: { API_URL },
@@ -111,8 +112,32 @@ export class NewsroomSocket {
         clients: response.clients,
         roles: response.roles,
         resourceLocks: locks,
+        socketStatus: 'connected',
       })
     );
+
+    const connectSucceededResponse = () => {
+      if (isNewsroomSocketConnected(this.eventId)(this.store.getState())) return;
+      message.success('成功连接到服务器');
+      this.store.dispatch(NewsroomActions.SetNewsroomSocketStatus(this.eventId, 'connected'));
+    };
+    this.socket.on('connect', connectSucceededResponse);
+    this.socket.on('reconnect', connectSucceededResponse);
+
+    const connectFailedResponse = () => {
+      if (!isNewsroomSocketConnected(this.eventId)(this.store.getState())) return;
+      message.error('无法连接到服务器');
+      this.store.dispatch(NewsroomActions.SetNewsroomSocketStatus(this.eventId, 'disconnected'));
+    };
+
+    this.socket.on('connect_failed', connectFailedResponse);
+    this.socket.on('reconnect_failed', connectFailedResponse);
+    this.socket.on('reconnect_error', connectFailedResponse);
+
+    this.socket.on('reconnect_failed', () => {
+      message.error('无法连接到服务器');
+      this.store.dispatch(NewsroomActions.SetNewsroomSocketStatus(this.eventId, 'disconnected'));
+    });
 
     this.socket.on('join newsroom', (res: Response) => {
       const clientId = res.clientId as number;

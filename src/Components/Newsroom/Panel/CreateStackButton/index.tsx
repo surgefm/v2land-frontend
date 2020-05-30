@@ -4,7 +4,7 @@ import { Button, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
 import { StackForm } from '@Components/Stack';
-import { canCurrentClientEditEvent } from '@Selectors';
+import { canCurrentClientEditEvent, isNewsroomSocketConnected } from '@Selectors';
 
 import { INewsroomPanelCreateStackButton } from './CreateStackButton';
 
@@ -12,6 +12,7 @@ export const NewsroomPanelCreateStackButton: React.FunctionComponent<
   INewsroomPanelCreateStackButton.IProps
 > = ({ eventId }) => {
   const canEdit = useSelector(canCurrentClientEditEvent());
+  const isConnected = useSelector(isNewsroomSocketConnected(eventId));
   const [visible, setVisible] = useState(false);
   const showModal = () => setVisible(true);
   const handleOk = () => {
@@ -24,7 +25,7 @@ export const NewsroomPanelCreateStackButton: React.FunctionComponent<
         type="link"
         shape="round"
         onClick={showModal}
-        disabled={!canEdit}
+        disabled={!canEdit || !isConnected}
         icon={<PlusOutlined />}
       >
         创建进展

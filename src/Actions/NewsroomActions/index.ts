@@ -8,6 +8,7 @@ type Newsroom = {
   roles?: NewsroomRoles;
   clients?: number[];
   resourceLocks?: { [index: string]: number };
+  socketStatus?: 'connected' | 'disconnected';
 };
 
 const newsroomDefault = {
@@ -19,6 +20,7 @@ const newsroomDefault = {
   },
   clients: [],
   resourceLocks: {},
+  socketStatus: 'disconnected',
 };
 
 export const NewsroomActions = {
@@ -96,5 +98,11 @@ export const NewsroomActions = {
   SetActiveNewsroom: (eventId: number) => ({
     eventId,
     type: ActionConsts.Newsroom.SetActiveNewsroom,
+  }),
+
+  SetNewsroomSocketStatus: (eventId: number, status: 'connected' | 'disconnected') => ({
+    eventId,
+    status,
+    type: ActionConsts.Newsroom.SetNewsroomSocketStatus,
   }),
 };

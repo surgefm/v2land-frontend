@@ -12,4 +12,5 @@ export interface Newsroom {
   clients: number[];
   roles: NewsroomRoles;
   resourceLocks: { [index: string]: number };
+  socketStatus: 'connected' | 'disconnected';
 }

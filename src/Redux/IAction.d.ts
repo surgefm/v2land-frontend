@@ -39,6 +39,7 @@ export interface NewsroomAction extends ReduxAction {
   resourceId?: number;
   locker?: number;
   role?: string;
+  status?: 'connected' | 'disconnected';
 }
 
 export interface ClientAction extends ReduxAction {

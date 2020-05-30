@@ -5,6 +5,7 @@ declare namespace IStackForm {
     useSocket?: boolean;
     onOk?: Function;
     onCancel?: Function;
+    disabled?: boolean;
   }
 }
 

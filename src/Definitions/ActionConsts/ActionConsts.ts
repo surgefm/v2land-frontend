@@ -42,6 +42,7 @@ export const ActionConsts = {
     SetActiveNewsroom: 'Newsroom_SetActiveNewsroom',
     SetNewsroomClientRole: 'Newsroom_SetNewsroomClientRole',
     SetNewsroomClientInvitationVisible: 'Newsroom_SetNewsroomClientInvitationVisible',
+    SetNewsroomSocketStatus: 'Newsroom_SetNewsroomSocketStatus',
   },
   Loading: {
     BeginLoading: 'Loading_BeginLoading',

@@ -35,7 +35,7 @@ export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = ({
   const getAvatar = () => {
     if (!client) return <Skeleton.Avatar active />;
     if (client.avatar) return <Avatar src={UtilService.getImageUrl(client.avatar, 128, 128)} />;
-    return <Avatar>{client.username[0]}</Avatar>;
+    return <Avatar>{client.username[0].toUpperCase()}</Avatar>;
   };
 
   if (!showTooltip) {

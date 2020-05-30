@@ -78,6 +78,7 @@ export const HeaderUserInfo: React.FunctionComponent = () => {
               cursor: pointer;
               user-select: none;
               border: none;
+              background-color: #fff;
             }
 
             .container:hover {

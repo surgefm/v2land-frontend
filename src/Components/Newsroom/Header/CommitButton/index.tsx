@@ -4,12 +4,17 @@ import { Button, message } from 'antd';
 import { FormOutlined } from '@ant-design/icons';
 
 import { getNewsroomSocket, NewsroomSocket } from '@Services';
-import { getActiveNewsroomId, canCurrentClientEditEvent } from '@Selectors';
+import {
+  getActiveNewsroomId,
+  canCurrentClientEditEvent,
+  isNewsroomSocketConnected,
+} from '@Selectors';
 
 export const NewsroomHeaderCommitButton: React.FunctionComponent = () => {
   const [isLoading, setLoading] = useState(false);
   const eventId = useSelector(getActiveNewsroomId);
   const canEdit = useSelector(canCurrentClientEditEvent());
+  const isConnected = useSelector(isNewsroomSocketConnected());
 
   const makeCommit = async () => {
     setLoading(true);
@@ -36,7 +41,7 @@ export const NewsroomHeaderCommitButton: React.FunctionComponent = () => {
         shape="round"
         icon={<FormOutlined />}
         loading={isLoading}
-        disabled={!canEdit}
+        disabled={!canEdit || !isConnected}
         onClick={makeCommit}
       >
         更新时间线
