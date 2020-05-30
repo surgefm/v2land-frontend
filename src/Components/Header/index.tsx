@@ -9,6 +9,7 @@ import {
   NewsroomHeaderClientAvatars,
   NewsroomHeaderCommitButton,
   NewsroomHeaderEnterButton,
+  NewsroomHeaderSocketStatus,
 } from '@Components/Newsroom';
 import { HeaderLogo } from './Logo';
 import { HeaderButton } from './Button';
@@ -28,6 +29,7 @@ const Header: React.FunctionComponent = (): JSX.Element => {
               <>
                 <NewsroomHeaderBreadcrumb />
                 <NewsroomHeaderClientAvatars />
+                <NewsroomHeaderSocketStatus />
               </>
             ) : (
               <>

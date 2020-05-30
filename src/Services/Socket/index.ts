@@ -14,7 +14,7 @@ import {
   AppStore,
 } from '@Interfaces';
 import { EventActions, StackActions, NewsroomActions } from '@Actions';
-import { isNewsroomSocketConnected } from '@Selectors';
+import { getNewsroom, isNewsroomSocketConnected } from '@Selectors';
 
 const {
   publicRuntimeConfig: { API_URL },
@@ -116,17 +116,31 @@ export class NewsroomSocket {
       })
     );
 
+    let connectTimeout = 0;
+    const connectAttemptResponse = () => {
+      connectTimeout = setTimeout(() => {
+        const newsroom = getNewsroom(this.eventId)(this.store.getState());
+        if (!newsroom || newsroom.socketStatus === 'connecting') return;
+        this.store.dispatch(NewsroomActions.SetNewsroomSocketStatus(this.eventId, 'connecting'));
+      }, 2000);
+    };
+    this.socket.on('reconnect_attempt', connectAttemptResponse);
+    this.socket.on('reconnecting', connectAttemptResponse);
+
     const connectSucceededResponse = () => {
+      clearTimeout(connectTimeout);
       if (isNewsroomSocketConnected(this.eventId)(this.store.getState())) return;
       message.success('成功连接到服务器');
       this.store.dispatch(NewsroomActions.SetNewsroomSocketStatus(this.eventId, 'connected'));
     };
+    this.socket.on('pong', connectSucceededResponse);
     this.socket.on('connect', connectSucceededResponse);
     this.socket.on('reconnect', connectSucceededResponse);
 
     const connectFailedResponse = () => {
-      if (!isNewsroomSocketConnected(this.eventId)(this.store.getState())) return;
-      message.error('无法连接到服务器');
+      clearTimeout(connectTimeout);
+      const newsroom = getNewsroom(this.eventId)(this.store.getState());
+      if (!newsroom || newsroom.socketStatus === 'disconnected') return;
       this.store.dispatch(NewsroomActions.SetNewsroomSocketStatus(this.eventId, 'disconnected'));
     };
 

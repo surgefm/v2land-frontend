@@ -54,6 +54,7 @@ import {
   isStackNewsVisible,
   canCurrentClientViewEvent,
   getNewsroomCurrentClientRole,
+  isLoggedIn,
 } from '@Selectors';
 // #endregion Local Imports
 
@@ -75,11 +76,15 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
   const showStackNews = useSelector(isStackNewsVisible);
   const canView = useSelector(canCurrentClientViewEvent(eventId));
   const prevCanView = usePrevious(canView);
+  const loggedIn = useSelector(isLoggedIn);
   const role = useSelector(getNewsroomCurrentClientRole(eventId));
   const prevRole = usePrevious(role);
   const store = useStore();
   const dispatch = useDispatch();
   let socket = getNewsroomSocket(eventId, store) as NewsroomSocket;
+
+  const getEventPath = () =>
+    `/@${owner ? owner.username : event.ownerId}/${Math.abs(event.id)}-${event.pinyin}`;
 
   useEffect(() => {
     dispatch(NewsroomActions.SetActiveNewsroom(eventId));
@@ -90,21 +95,23 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
   }, []);
 
   useEffect(() => {
-    if (prevRole && role && role !== prevRole) {
+    if (loggedIn && prevRole && role && role !== prevRole) {
       message.info(`你已被设为该事件的「${ClientService.getRoleName(role)}」`);
     }
   }, [role]);
 
   useEffect(() => {
     if (!canView && canView !== prevCanView) {
-      message.error('你没有查看该新闻编辑室的权限');
-      UtilService.redirect('/');
+      if (loggedIn) {
+        message.error('你没有查看该新闻编辑室的权限');
+      }
+      UtilService.redirect(getEventPath());
     }
   }, [canView]);
 
   useEffect(() => {
     if (prevEvent && event.name !== prevEvent.name) {
-      UtilService.replace(`/@${owner ? owner.username : event.ownerId}/${event.name}/newsroom`);
+      UtilService.replace(`${getEventPath()}/newsroom`);
     }
   }, [event.name]);
 
@@ -143,7 +150,6 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
             <Space size={0}>
               <NewsroomPanelTitle>用户列表</NewsroomPanelTitle>
               <Popover
-                // eslint-disable-next-line prettier/prettier
                 content={
                   <>
                     <p>
@@ -163,7 +169,6 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
                       ：可以添加或移除管理者
                     </span>
                   </>
-                  // eslint-disable-next-line prettier/prettier
                 }
               >
                 <QuestionCircleTwoTone />

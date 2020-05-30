@@ -7,10 +7,12 @@ export interface NewsroomRoles extends StringDict {
   viewers: number[];
 }
 
+export type NewsroomSocketStatus = 'connected' | 'disconnected' | 'connecting';
+
 export interface Newsroom {
   eventId: number;
   clients: number[];
   roles: NewsroomRoles;
   resourceLocks: { [index: string]: number };
-  socketStatus: 'connected' | 'disconnected';
+  socketStatus: NewsroomSocketStatus;
 }

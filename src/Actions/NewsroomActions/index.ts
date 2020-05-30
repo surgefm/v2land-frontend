@@ -1,5 +1,5 @@
 // #region Local Imports
-import { NewsroomRoles } from '@Interfaces';
+import { NewsroomRoles, NewsroomSocketStatus } from '@Interfaces';
 import { ActionConsts } from '@Definitions';
 // #endregion Local Imports
 
@@ -8,19 +8,14 @@ type Newsroom = {
   roles?: NewsroomRoles;
   clients?: number[];
   resourceLocks?: { [index: string]: number };
-  socketStatus?: 'connected' | 'disconnected';
+  socketStatus?: NewsroomSocketStatus;
 };
 
 const newsroomDefault = {
-  roles: {
-    owners: [],
-    managers: [],
-    editors: [],
-    viewers: [],
-  },
+  roles: null,
   clients: [],
   resourceLocks: {},
-  socketStatus: 'disconnected',
+  socketStatus: 'connecting',
 };
 
 export const NewsroomActions = {
@@ -100,7 +95,7 @@ export const NewsroomActions = {
     type: ActionConsts.Newsroom.SetActiveNewsroom,
   }),
 
-  SetNewsroomSocketStatus: (eventId: number, status: 'connected' | 'disconnected') => ({
+  SetNewsroomSocketStatus: (eventId: number, status: NewsroomSocketStatus) => ({
     eventId,
     status,
     type: ActionConsts.Newsroom.SetNewsroomSocketStatus,

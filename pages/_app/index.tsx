@@ -18,7 +18,7 @@ import { ClientActions, AppActions } from '@Actions';
 import { Header } from '@Components';
 import { setCookies, clearCookies, RedstoneService } from '@Services';
 
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.min.css';
 import '@Static/css/common.scss';
 // #endregion Local Imports
 

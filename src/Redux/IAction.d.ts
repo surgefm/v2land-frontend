@@ -4,7 +4,7 @@ import { ThunkDispatch as TDispatch } from 'redux-thunk';
 // #endregion Global Imports
 
 // #region Local Imports
-import { Event, Stack, News, Client, Newsroom } from '@Interfaces';
+import { Event, Stack, News, Client, Newsroom, NewsroomSocketStatus } from '@Interfaces';
 import { IStore } from './IStore';
 // #endregion Local Imports
 
@@ -39,7 +39,7 @@ export interface NewsroomAction extends ReduxAction {
   resourceId?: number;
   locker?: number;
   role?: string;
-  status?: 'connected' | 'disconnected';
+  status?: NewsroomSocketStatus;
 }
 
 export interface ClientAction extends ReduxAction {
