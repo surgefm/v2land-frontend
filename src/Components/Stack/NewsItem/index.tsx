@@ -51,8 +51,7 @@ export const NewsItem: React.FunctionComponent<INewsItem.IProps> = ({ id }) => {
           }
 
           p {
-            margin-top: -1rem;
-            margin-bottom: -1rem;
+            margin: 0;
             font-size: 0.9rem;
             color: gray;
           }

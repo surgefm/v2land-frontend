@@ -39,6 +39,12 @@ export const getEventStackIdList = (eventId: number) =>
     event => (event ? event.stackIdList : []) as number[]
   );
 
+export const getEventContributorIdList = (eventId: number) =>
+  createSelector(
+    getEvent(eventId),
+    event => (event && event.contributorIdList ? event.contributorIdList : []) as number[]
+  );
+
 export const getEventOffshelfStackIdList = (eventId: number) =>
   createSelector(
     getEvent(eventId),

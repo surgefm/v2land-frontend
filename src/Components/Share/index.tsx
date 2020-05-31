@@ -191,9 +191,9 @@ const Share: React.FunctionComponent<IShare.IProps> = ({
           .share .event :global(.border-color) {
             border-radius: 100%;
             font-size: 1.5rem;
-            padding: 10px;
-            height: 3rem;
-            width: 3rem;
+            padding: 2px;
+            height: 2.5rem;
+            width: 2.5rem;
             border: none;
             display: inline-flex;
             justify-content: center;

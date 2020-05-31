@@ -33,6 +33,7 @@ const nextConfig = {
   },
 };
 
-module.exports = withConfig(
-  withPlugins([[withCSS], [withSass], [withBundleAnalyzer], [withPWA]], nextConfig)
-);
+const plugins = [[withCSS], [withSass], [withBundleAnalyzer]];
+if (process.env.NODE_ENV === 'production') plugins.push([withPWA]);
+
+module.exports = withConfig(withPlugins(plugins, nextConfig));
