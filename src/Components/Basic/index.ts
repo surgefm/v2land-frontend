@@ -6,3 +6,4 @@ export { Head } from './Head';
 export { Logo } from './Logo';
 export { LogoType } from './LogoType';
 export { SectionHeader } from './SectionHeader';
+export { TelegramLogo } from './TelegramLogo';

@@ -13,7 +13,7 @@ export interface Stack {
   time?: Date;
   contribution?: Record[];
   enableNotification?: boolean;
-  eventId?: number;
+  eventId: number;
   event?: Event;
   newsIdList: number[];
 }

@@ -18,6 +18,12 @@
     "storybook": "start-storybook -s ./public/static -p 6006",
     "build-storybook": "build-storybook -s ./public/static  -c .storybook -o .storybookout"
   },
+  "browserslist": [
+    ">0.3%",
+    "not ie 11",
+    "not dead",
+    "not op_mini all"
+  ],
   "dependencies": {
     "@ant-design/icons": "^4.0.6",
     "@zeit/next-bundle-analyzer": "^0.1.2",
@@ -41,9 +47,12 @@
     "next-routes": "^1.4.2",
     "next-runtime-dotenv": "^1.2.0",
     "node-sass": "^4.12.0",
+    "postman-url-encoder": "^2.1.1",
+    "qrcode.react": "^1.0.0",
     "query-string": "^6.8.3",
     "react": "^16.13.1",
     "react-beautiful-dnd": "^13.0.0",
+    "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^16.13.1",
     "react-lazyload": "^2.6.7",
     "react-redux": "^7.1.1",
@@ -76,8 +85,10 @@
     "@types/next-redux-wrapper": "^2.0.2",
     "@types/nock": "^10.0.3",
     "@types/node": "^12.7.5",
+    "@types/qrcode.react": "^1.0.1",
     "@types/react": "^16.9.2",
     "@types/react-beautiful-dnd": "^12.1.2",
+    "@types/react-copy-to-clipboard": "^4.3.0",
     "@types/react-dom": "^16.9.6",
     "@types/react-lazyload": "^2.6.0",
     "@types/react-redux": "^7.1.2",

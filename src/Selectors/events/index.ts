@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { IStore } from '@Interfaces';
+import { IStore, Event } from '@Interfaces';
 
 import { getNewsList } from '../news';
 import { getStackList } from '../stacks';
@@ -23,7 +23,7 @@ export const getEvent = (eventId: number) =>
     getEventsState,
     eventState => {
       if (typeof eventState.idIndexMap[eventId] === 'undefined') return null;
-      return eventState.list[eventState.idIndexMap[eventId]];
+      return eventState.list[eventState.idIndexMap[eventId]] as Event;
     }
   );
 
