@@ -188,7 +188,7 @@ const Share: React.FunctionComponent<IShare.IProps> = ({
             border-left: none;
             border-right: none;
             height: 2rem;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             display: flex;
             align-items: center;
           }
