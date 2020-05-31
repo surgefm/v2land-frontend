@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import getConfig from 'next/config';
-import { Space, Button, Popover, message as antMessage } from 'antd';
+import { Space, Button, Popover, Tooltip, message as antMessage } from 'antd';
 import Icon, {
   WeiboOutlined,
   TwitterOutlined,
@@ -34,17 +34,18 @@ const Share: React.FunctionComponent<IShare.IProps> = ({
 }) => {
   const [showPopover, setShowPopover] = useState(false);
   const selectStack = useSelector(getStack(stackId || 0));
-  const selectEvent = useSelector(getEvent(eventId || (selectStack ? selectStack.eventId : 0)));
+
+  const stack = (s || selectStack) as Stack;
+  const selectEvent = useSelector(getEvent(eventId || (stack ? stack.eventId : 0)));
   const selectNews = useSelector(getNews(newsId || 0));
-  const eventOwner = useSelector(getEventOwner(eventId || (selectStack ? selectStack.eventId : 0)));
+  const eventOwner = useSelector(getEventOwner(eventId || (stack ? stack.eventId : 0)));
 
   const event = (e || selectEvent) as Event;
-  const stack = (s || selectStack) as Stack;
   const news = (n || selectNews) as News;
 
   if (!m || !u) {
     if (type === 'event' && !event) return <React.Fragment />;
-    if (type === 'stack' && !stack) return <React.Fragment />;
+    if (type === 'stack' && (!stack || !event)) return <React.Fragment />;
     if (type === 'news' && (!news || !stack || !event)) return <React.Fragment />;
   }
 
@@ -55,6 +56,13 @@ const Share: React.FunctionComponent<IShare.IProps> = ({
     wechat: <WechatOutlined className="border-color wechat" />,
     weibo: <WeiboOutlined className="border-color weibo" />,
     telegram: <Icon component={TelegramLogo} className="border-color telegram" />,
+  };
+  const names: { [index: string]: string } = {
+    twitter: ' Twitter',
+    facebook: ' Facebook',
+    wechat: '微信',
+    weibo: '微博',
+    telegram: ' Telegram',
   };
 
   let shareMessage = '追事件，上浪潮';
@@ -149,21 +157,20 @@ const Share: React.FunctionComponent<IShare.IProps> = ({
 
   return (
     <div className="share">
-      <Space size={2}>
+      <Space size={type === 'event' ? 8 : 20}>
         {sites.map(site => (
-          <a
-            href={shareTo(site)}
-            key={`share-${site}`}
-            onClick={handleClick(site)}
-            className={type}
-          >
-            {icons[site]}
-          </a>
+          <Tooltip title={`分享至${names[site]}`} key={`share-${site}`}>
+            <a href={shareTo(site)} onClick={handleClick(site)} className={type}>
+              {icons[site]}
+            </a>
+          </Tooltip>
         ))}
-        <Popover content={popoverContent} visible={showPopover} placement="bottom">
-          <a href={shareUrl} onClick={togglePopover} className={type}>
-            {icons.wechat}
-          </a>
+        <Popover content={popoverContent} visible={showPopover}>
+          <Tooltip title="分享至微信" overlayStyle={showPopover ? { display: 'none' } : {}}>
+            <a href={shareUrl} onClick={togglePopover} className={type}>
+              {icons.wechat}
+            </a>
+          </Tooltip>
         </Popover>
       </Space>
 
@@ -174,8 +181,6 @@ const Share: React.FunctionComponent<IShare.IProps> = ({
           }
 
           .share :global(.border-color) {
-            padding: 0.4rem;
-            margin: 0 0.2rem;
             transition: all 0.2s;
             cursor: pointer;
             border: transparent 0.25rem solid;
@@ -186,6 +191,10 @@ const Share: React.FunctionComponent<IShare.IProps> = ({
             font-size: 1.5rem;
             display: flex;
             align-items: center;
+          }
+
+          .share a {
+            display: block;
           }
 
           .share .event :global(.border-color) {
@@ -219,29 +228,43 @@ const Share: React.FunctionComponent<IShare.IProps> = ({
             color: #1da1f2;
           }
 
+          .share a:not(.event) :global(.border-color) {
+            color: rgb(104, 180, 252);
+          }
+
+          .share a:not(.event) :global(.border-color):hover {
+            background-color: transparent;
+            border-color: transparent;
+          }
+
           .share :global(.weibo):hover {
             background-color: rgba(230, 22, 46, 0.1);
             border-color: rgba(230, 22, 46, 0.1);
+            color: #e6162d !important;
           }
 
           .share :global(.wechat):hover {
             background-color: rgba(62, 185, 78, 0.1);
             border-color: rgba(62, 185, 78, 0.1);
+            color: #7bb32e !important;
           }
 
           .share :global(.telegram):hover {
             background-color: rgba(44, 165, 224, 0.1);
             border-color: rgba(44, 165, 224, 0.1);
+            color: #2ca5e0 !important;
           }
 
           .share :global(.facebook):hover {
             background-color: rgba(76, 119, 210, 0.1);
             border-color: rgba(76, 119, 210, 0.1);
+            color: #3b5998 !important;
           }
 
           .share :global(.twitter):hover {
             background-color: rgba(29, 161, 242, 0.1);
             border-color: rgba(29, 161, 242, 0.1);
+            color: #1da1f2 !important;
           }
 
           :global(.share-popover) :global(.qrcode) {

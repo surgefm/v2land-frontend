@@ -10,9 +10,7 @@ export const NewsItem: React.FunctionComponent<INewsItem.IProps> = ({ id }) => {
     <div className="news-item">
       <div className="news-link">
         <img src="/images/defaultSource.png" alt="media icon" />
-        <a className="news-item" href={url}>
-          {news && news.title}
-        </a>
+        <a href={url}>{news && news.title}</a>
       </div>
 
       <div className="news-source">
@@ -31,6 +29,7 @@ export const NewsItem: React.FunctionComponent<INewsItem.IProps> = ({ id }) => {
           .news-link {
             display: flex;
             align-items: center;
+            flex-grow: 1;
           }
 
           img {
