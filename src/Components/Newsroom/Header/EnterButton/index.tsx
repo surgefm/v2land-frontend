@@ -24,10 +24,8 @@ export const NewsroomHeaderEnterButton: React.FunctionComponent<
   if (!canView || !event) return <React.Fragment />;
   if (router.route !== '/[username]/[eventName]') return <React.Fragment />;
 
-  const ownerId = owner ? owner.username : event.ownerId;
-
   const handleButtonClick = async () => {
-    UtilService.redirect(`/@${ownerId}/${Math.abs(event.id)}-${event.pinyin}}/newsroom`);
+    UtilService.redirect(`${UtilService.getEventPath(event, owner)}/newsroom`);
   };
 
   return (
