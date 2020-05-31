@@ -35,6 +35,7 @@ class WebAppDocument extends Document {
       <Html>
         <Head>
           <link rel="shortcut icon" href="/images/icon.ico" />
+          <link rel="manifest" href="/manifest.json" />
           <meta charSet="utf-8" />
           <meta
             name="viewport"

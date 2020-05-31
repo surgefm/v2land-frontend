@@ -2,6 +2,7 @@ const withPlugins = require('next-compose-plugins');
 const withCSS = require('@zeit/next-css');
 const withSass = require('@zeit/next-sass');
 const withBundleAnalyzer = require('@zeit/next-bundle-analyzer');
+const withPWA = require('next-pwa');
 const nextRuntimeDotenv = require('next-runtime-dotenv');
 
 const withConfig = nextRuntimeDotenv({ public: ['API_URL', 'API_KEY', 'CDN_URL', 'SITE_URL'] });
@@ -27,6 +28,11 @@ const nextConfig = {
     STATIC_PATH: process.env.STATIC_PATH,
     SITE_URL: process.env.SITE_URL,
   },
+  pwa: {
+    dest: 'public',
+  },
 };
 
-module.exports = withConfig(withPlugins([[withCSS], [withSass], [withBundleAnalyzer]], nextConfig));
+module.exports = withConfig(
+  withPlugins([[withCSS], [withSass], [withBundleAnalyzer], [withPWA]], nextConfig)
+);
