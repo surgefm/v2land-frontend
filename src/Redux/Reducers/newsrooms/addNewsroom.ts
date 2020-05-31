@@ -1,13 +1,24 @@
 import { NewsroomsState, NewsroomAction } from '@Interfaces';
 
+const defaultNewsroom = {
+  clients: [],
+  roles: {
+    owners: [],
+    managers: [],
+    editors: [],
+    viewers: [],
+  },
+  resourceLocks: {},
+};
+
 const addNewsroom = (state: NewsroomsState, action: NewsroomAction) => {
   if (!action.newsroom) return state;
   const { newsroom } = action;
   newsroom.eventId = -Math.abs(newsroom.eventId);
-  newsroom.roles = newsroom.roles || [];
   const index = state.idIndexMap[newsroom.eventId];
   if (typeof index !== 'undefined') {
     const newNewsroom = {
+      ...defaultNewsroom,
       ...state.list[index],
       ...newsroom,
     };
@@ -19,7 +30,7 @@ const addNewsroom = (state: NewsroomsState, action: NewsroomAction) => {
 
   const newState = { ...state };
   newState.idIndexMap[newsroom.eventId] = newState.list.length;
-  newState.list.push(newsroom);
+  newState.list.push({ ...defaultNewsroom, ...newsroom });
   return newState;
 };
 

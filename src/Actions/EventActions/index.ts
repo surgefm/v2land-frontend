@@ -115,8 +115,6 @@ const GetEvent = (
       NewsroomActions.AddNewsroom({
         eventId: event.id,
         roles: event.roles,
-        clients: [],
-        resourceLocks: {},
       })
     );
   }
