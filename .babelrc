@@ -16,7 +16,7 @@
           "@Selectors": "./src/Selectors",
           "@Services": "./src/Services",
           "@Server": "./server",
-          "@Static": "./public/static",
+          "@Static": "./public",
           "@Styled": "./src/Styled"
         }
       }

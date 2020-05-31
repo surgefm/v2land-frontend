@@ -33,7 +33,7 @@
       "@Server/*": ["server/*"],
       "@Services": ["src/Services"],
       "@Services/*": ["src/Services/*"],
-      "@Static/*": ["public/static/*"],
+      "@Static/*": ["public/*"],
       "@Styled/*": ["src/Styled/*"],
       "@Test/*": ["test/*"]
     }
