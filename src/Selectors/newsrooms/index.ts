@@ -56,7 +56,7 @@ export const isNewsroomSocketConnected = (eventId?: number) =>
 export const getNewsroomClients = (eventId: number) =>
   createSelector(
     getNewsroom(eventId),
-    newsroom => (newsroom === null ? [] : newsroom.clients)
+    newsroom => (newsroom && newsroom.clients ? newsroom.clients : [])
   );
 
 export const getNewsroomRoles = (eventId: number) =>

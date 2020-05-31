@@ -130,7 +130,6 @@ export class NewsroomSocket {
     const connectSucceededResponse = () => {
       clearTimeout(connectTimeout);
       if (isNewsroomSocketConnected(this.eventId)(this.store.getState())) return;
-      message.success('成功连接到服务器');
       this.store.dispatch(NewsroomActions.SetNewsroomSocketStatus(this.eventId, 'connected'));
     };
     this.socket.on('pong', connectSucceededResponse);

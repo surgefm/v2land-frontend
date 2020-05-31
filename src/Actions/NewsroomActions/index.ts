@@ -11,27 +11,14 @@ type Newsroom = {
   socketStatus?: NewsroomSocketStatus;
 };
 
-const newsroomDefault = {
-  roles: null,
-  clients: [],
-  resourceLocks: {},
-  socketStatus: 'connecting',
-};
-
 export const NewsroomActions = {
   AddNewsroom: (newsroom: Newsroom) => ({
-    newsroom: {
-      ...newsroomDefault,
-      ...newsroom,
-    },
+    newsroom,
     type: ActionConsts.Newsroom.AddNewsroom,
   }),
 
   UpdateNewsroom: (newsroom: Newsroom) => ({
-    newsroom: {
-      ...newsroomDefault,
-      ...newsroom,
-    },
+    newsroom,
     type: ActionConsts.Newsroom.UpdateNewsroom,
   }),
 
