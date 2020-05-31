@@ -4,6 +4,7 @@ declare namespace IClientAvatar {
     eventId?: number; // to show event role
     role?: string;
     showTooltip?: boolean;
+    asLink?: boolean;
   }
 }
 

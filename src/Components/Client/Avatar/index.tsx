@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Link from 'next/link';
 import { Avatar, Tooltip, Skeleton } from 'antd';
 
 import { ClientActions } from '@Actions';
@@ -13,6 +14,7 @@ export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = ({
   eventId,
   role,
   showTooltip = true,
+  asLink = false,
 }) => {
   const client = useSelector(getClient(clientId));
   const clientRole = useSelector(getNewsroomClientRole(eventId || 0, clientId));
@@ -26,16 +28,31 @@ export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = ({
     if (!client) return <Skeleton title={false} paragraph={{ rows: 1, width: 100 }} active />;
     return (
       <span>
-        {client.username}
+        {client.nickname || `@${client.username}`}
         {role || clientRole ? `：${ClientService.getRoleName(role || (clientRole as string))}` : ''}
       </span>
     );
   };
 
-  const getAvatar = () => {
+  const getAvatarIcon = (clickable = false) => {
     if (!client) return <Skeleton.Avatar active />;
-    if (client.avatar) return <Avatar src={UtilService.getImageUrl(client.avatar, 128, 128)} />;
-    return <Avatar>{client.username[0].toUpperCase()}</Avatar>;
+    const className = clickable ? 'clickable' : '';
+    if (client.avatar)
+      return (
+        <Avatar className={className} src={UtilService.getImageUrl(client.avatar, 128, 128)} />
+      );
+    return (
+      <Avatar className={className}>{(client.nickname || client.username)[0].toUpperCase()}</Avatar>
+    );
+  };
+
+  const getAvatar = () => {
+    if (!asLink || !client) return getAvatarIcon();
+    return (
+      <Link href="/[username]" as={`/@${client.username}`}>
+        {getAvatarIcon(true)}
+      </Link>
+    );
   };
 
   if (!showTooltip) {
@@ -50,6 +67,15 @@ export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = ({
           {`
             :global(.avatar-icon-tooltip) :global(.ant-skeleton-paragraph) {
               margin: 0.125rem 0;
+            }
+
+            div :global(.clickable) {
+              cursor: pointer;
+              transition: all 0.25s;
+            }
+
+            div :global(.clickable):hover {
+              box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
             }
           `}
         </style>

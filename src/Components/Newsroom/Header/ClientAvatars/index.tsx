@@ -11,7 +11,7 @@ export const NewsroomHeaderClientAvatars: React.FunctionComponent = () => {
   return (
     <Space size={4}>
       {newsroomClients.map(clientId => (
-        <ClientAvatar clientId={clientId} eventId={eventId} key={`client-${clientId}`} />
+        <ClientAvatar clientId={clientId} eventId={eventId} key={`client-${clientId}`} asLink />
       ))}
     </Space>
   );

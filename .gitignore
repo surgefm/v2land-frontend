@@ -155,4 +155,8 @@ documentation/website/build
 # storybook build folder
 .storybookout
 
+public/sw.js
+public/sw.js.map
+public/workbox-*
+
 # End of https://www.gitignore.io/api/vim,node,macos
