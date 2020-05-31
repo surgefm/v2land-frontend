@@ -2,6 +2,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { getStack, getStackNewsIdList } from '@Selectors';
 import { Card } from '@Components/Basic';
+import { Share } from '@Components/Share';
+
 import { IStack } from './Stack';
 import { NewsItemList } from './NewsItemList';
 
@@ -31,7 +33,7 @@ const Stack: React.FunctionComponent<IStack.IProps> = ({ stackId, displayOrder =
           </div>
         </div>
 
-        <hr />
+        <Share type="stack" stack={stack} />
 
         <NewsItemList newsIdList={newsIdList} />
 
@@ -68,13 +70,6 @@ const Stack: React.FunctionComponent<IStack.IProps> = ({ stackId, displayOrder =
               display: block;
               margin-left: 5.5px;
               margin-right: 5.5px;
-            }
-
-            hr {
-              border-top: 0.125rem dashed #8c8b8b;
-              border-bottom: 0;
-              border-left: 0;
-              border-right: 0;
             }
 
             .order {

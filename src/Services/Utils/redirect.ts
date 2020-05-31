@@ -25,14 +25,19 @@ export const getQuery = (asPath: string | UrlObject, options: RedirectOptions = 
 
 export const getUrlFromAsPath = (asPath: string | UrlObject, options: RedirectOptions = {}) => {
   const as = typeof asPath === 'string' ? asPath : (asPath.pathname as string);
+  const index = as.indexOf('?');
+  const pathname = index >= 0 ? as.slice(0, index) : as;
   const query = getQuery(as, options);
 
-  if (/^\/@[^/]+$/.test(as)) return `/[username]${query}`;
-  if (/^\/@[^/]+\/[^/]+$/.test(as)) return `/[username]/[eventName]${query}`;
-  if (/^\/@[^/]+\/[^/]+\/newsroom$/.test(as)) return `/[username]/[eventName]/newsroom${query}`;
+  if (/^\/@[^/]+$/.test(pathname)) return `/[username]${query}`;
+  if (/^\/@[^/]+\/[^/]+$/.test(pathname)) return `/[username]/[eventName]${query}`;
+  if (/^\/@[^/]+\/[^/]+\/newsroom$/.test(pathname))
+    return `/[username]/[eventName]/newsroom${query}`;
+  if (/^\/@[^/]+\/[^/]+\/[\d]+$/.test(pathname)) return `/[username]/[eventName]/[stackId]${query}`;
+  if (/^\/@[^/]+\/[^/]+\/[\d]+\/[\d]$/.test(pathname))
+    return `/[username]/[eventName]/[stackId]/[newsId]${query}`;
 
-  const index = as.indexOf('?');
-  return index >= 0 ? `${as.slice(0, index)}${query}` : `${as}${query}`;
+  return `${pathname}${query}`;
 };
 
 function serverSideRedirect(
