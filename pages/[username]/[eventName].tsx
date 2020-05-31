@@ -17,6 +17,7 @@ import {
   EventStats,
   EventDescription,
   Stack,
+  Share,
 } from '@Components';
 import { getEvent, getEventStackIdList } from '@Selectors';
 import { UtilService } from '@Services';
@@ -51,7 +52,8 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
       <Card>
         <EventTitle>{event.name}</EventTitle>
         <EventStats newsCount={event.newsCount} stackCount={event.stackCount} />
-        <EventDescription description={event.description} />
+        <EventDescription description={event.description || ''} />
+        <Share event={event} />
       </Card>
       {stackIdList.map(stackId => (
         <Stack stackId={stackId} key={`stack-${stackId}`} />

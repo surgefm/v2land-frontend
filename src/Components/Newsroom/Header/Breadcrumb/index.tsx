@@ -15,7 +15,7 @@ export const NewsroomHeaderBreadcrumb: React.FunctionComponent = () => {
   const clientId = useSelector(getClientIdWithUsername(username));
   const client = useSelector(getClient(clientId));
 
-  if (!client) return <React.Fragment />;
+  if (!client || !event) return <React.Fragment />;
 
   const eventPath = `${Math.abs(event.id)}-${event.pinyin}`;
 

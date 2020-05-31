@@ -15,7 +15,7 @@ export interface SimplifiedEvent extends StringIndexInterface {
 
 export interface Event extends SimplifiedEvent {
   name: string;
-  description?: string;
+  description: string;
   status?: string;
   stacks?: Stack[];
   tags?: Tag[];

@@ -23,7 +23,7 @@ export const NewsroomPanelEventDetail: React.FunctionComponent<
   INewsroomPanelEventDetail.IProps
 > = ({ eventId }) => {
   const [form] = Form.useForm();
-  const event = useSelector(getEvent(eventId));
+  const event = useSelector(getEvent(eventId)) as Event;
   const canClientEdit = useSelector(canCurrentClientEditEvent());
   const isConnected = useSelector(isNewsroomSocketConnected(eventId));
   const canEdit = canClientEdit && isConnected;
@@ -156,8 +156,10 @@ export const NewsroomPanelEventDetail: React.FunctionComponent<
     const headerImageKeys = [['imageUrl', 'Url'], ['source', 'Source'], ['sourceUrl', 'SourceUrl']];
     for (let i = 0; i < headerImageKeys.length; i += 1) {
       const pair = headerImageKeys[i];
-      if (origData[`headerImage${pair[1]}`] !== ((event.headerImage || {})[pair[0]] || '')) {
-        changes[`headerImage${pair[1]}`] = (event.headerImage || {})[pair[0]] || '';
+      if (
+        origData[`headerImage${pair[1]}`] !== (((event.headerImage as any) || {})[pair[0]] || '')
+      ) {
+        changes[`headerImage${pair[1]}`] = ((event.headerImage as any) || {})[pair[0]] || '';
       }
     }
     if (Object.keys(changes).length > 0) {

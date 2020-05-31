@@ -16,7 +16,7 @@ import {
   DragOutlined,
   EyeOutlined,
   EyeInvisibleOutlined,
-  QuestionCircleTwoTone,
+  QuestionCircleOutlined,
 } from '@ant-design/icons';
 // #endregion Global Imports
 
@@ -84,7 +84,9 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
   let socket = getNewsroomSocket(eventId, store) as NewsroomSocket;
 
   const getEventPath = () =>
-    `/@${owner ? owner.username : event.ownerId}/${Math.abs(event.id)}-${event.pinyin}`;
+    event
+      ? `/@${owner ? owner.username : event.ownerId}/${Math.abs(event.id)}-${event.pinyin}`
+      : '/';
 
   useEffect(() => {
     dispatch(NewsroomActions.SetActiveNewsroom(eventId));
@@ -110,10 +112,10 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
   }, [canView]);
 
   useEffect(() => {
-    if (prevEvent && event.name !== prevEvent.name) {
+    if (prevEvent && event && event.name !== prevEvent.name) {
       UtilService.replace(`${getEventPath()}/newsroom`);
     }
-  }, [event.name]);
+  }, [event]);
 
   useEffect(() => {
     socket = getNewsroomSocket(eventId, store) as NewsroomSocket;
@@ -151,6 +153,7 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
               <NewsroomPanelTitle>用户列表</NewsroomPanelTitle>
               <Popover
                 content={
+                  // eslint-disable-next-line react/jsx-wrap-multilines
                   <>
                     <p>
                       <b>观察者</b>
@@ -171,7 +174,7 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
                   </>
                 }
               >
-                <QuestionCircleTwoTone />
+                <QuestionCircleOutlined />
               </Popover>
             </Space>
             <Space size={0}>
