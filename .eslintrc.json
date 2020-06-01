@@ -16,7 +16,8 @@
     "quotes": [1, "single"],
     "import/no-extraneous-dependencies": "off",
     "jsx-a11y/anchor-is-valid": "off",
-    "no-self-compare": "off"
+    "no-self-compare": "off",
+    "prettier/prettier": "off"
   },
   "settings": {
     "import/parsers": {

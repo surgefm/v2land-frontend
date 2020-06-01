@@ -59,8 +59,8 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
           <Share event={event} />
         </div>
       </Card>
-      {stackIdList.map(stackId => (
-        <Stack stackId={stackId} key={`stack-${stackId}`} />
+      {stackIdList.map((stackId, index) => (
+        <Stack stackId={stackId} isLatestStack={index === 0} key={`stack-${stackId}`} />
       ))}
       <Footer />
       <style jsx>
