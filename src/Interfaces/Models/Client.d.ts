@@ -5,6 +5,7 @@ export interface Client {
   id: number;
   username: string;
   nickname: string;
+  description?: string;
   role: string;
   email?: string;
   emailVerified?: boolean;

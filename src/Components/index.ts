@@ -1,5 +1,6 @@
 export { Footer } from '@Components/Footer';
 export * from '@Components/Basic';
+export * from '@Components/Client';
 export * from '@Components/ContributorCard';
 export * from '@Components/Event';
 export * from '@Components/EventCard';

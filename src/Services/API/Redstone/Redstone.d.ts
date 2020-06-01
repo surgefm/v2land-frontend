@@ -10,6 +10,17 @@ declare namespace RedstoneModel {
     client: Client;
   }
 
+  export interface UpdateClientOptions extends HttpModel.IRequestPayload {
+    nickname?: string;
+    description?: string;
+    avatar?: string;
+  }
+
+  export interface UpdateClientResponse {
+    message: string;
+    client: Client;
+  }
+
   export interface UpdateNewsOptions extends HttpModel.IRequestPayload {
     title?: string;
     source?: string;
