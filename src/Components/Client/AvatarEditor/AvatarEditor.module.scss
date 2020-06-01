@@ -1,0 +1,15 @@
+.avatar {
+  position: relative;
+  width: 160px;
+}
+
+.avatar-upload {
+  position: absolute !important;
+  top: 0;
+  left: 0;
+  width: 160px !important;
+  height: 160px !important;
+  background-color: rgba(250, 250, 250, .7) !important;
+  border: none !important;
+  border-radius: 50% !important;
+}

@@ -40,6 +40,10 @@ export const getClient = async (clientId: number | string) => {
   return get<{ client: Client }>(`/client/${clientId}`);
 };
 
+export const updateClient = async (clientId: number, data: RedstoneModel.UpdateClientOptions) => {
+  return put<RedstoneModel.UpdateClientResponse>(`/client/${clientId}`, data);
+};
+
 export const findClients = async (usernameFragment: string) => {
   return post<{ clientList: Client[] }>('/client', {
     where: { username: { startsWith: usernameFragment } },
@@ -50,10 +54,7 @@ export const getNews = async (newsId: number): Promise<News> => {
   return get<News>(`/news/${newsId}`);
 };
 
-export const updateNews = async (
-  newsId: number,
-  data: RedstoneModel.UpdateNewsOptions
-): Promise<RedstoneModel.UpdateNewsResponse> => {
+export const updateNews = async (newsId: number, data: RedstoneModel.UpdateNewsOptions) => {
   return put<RedstoneModel.UpdateNewsResponse>(`/news/${newsId}`, data);
 };
 

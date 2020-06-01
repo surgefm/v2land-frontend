@@ -79,7 +79,7 @@ export const put = async <A>(
   payload?: HttpModel.IRequestPayload,
   params?: HttpModel.IRequestQueryPayload
 ): Promise<A> => {
-  return Http.Request('PUT', url, payload, params);
+  return Http.Request('PUT', url, params, payload);
 };
 
 export const del = async <A>(

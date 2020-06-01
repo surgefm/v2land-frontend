@@ -9,16 +9,24 @@ import { ClientService, UtilService } from '@Services';
 
 import { IClientAvatar } from './Avatar';
 
-export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = ({
-  clientId,
-  eventId,
-  role,
-  showTooltip = true,
-  asLink = false,
-}) => {
+export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = (
+  props = {
+    clientId: 0,
+    showTooltip: true,
+    asLink: false,
+  }
+) => {
+  const { clientId, eventId, role, showTooltip, asLink, avatar } = props;
   const client = useSelector(getClient(clientId));
   const clientRole = useSelector(getNewsroomClientRole(eventId || 0, clientId));
   const dispatch = useDispatch();
+  const p = { ...props } as any;
+  delete p.clientId;
+  delete p.eventId;
+  delete p.role;
+  delete p.showTooltip;
+  delete p.asLink;
+  delete p.avatar;
 
   if (!client) {
     dispatch(ClientActions.GetClient(clientId));
@@ -37,12 +45,20 @@ export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = ({
   const getAvatarIcon = (clickable = false) => {
     if (!client) return <Skeleton.Avatar active />;
     const className = clickable ? 'clickable' : '';
-    if (client.avatar)
+    if (avatar || client.avatar) {
+      const size = typeof props.size === 'number' ? props.size : 160;
       return (
-        <Avatar className={className} src={UtilService.getImageUrl(client.avatar, 128, 128)} />
+        <Avatar
+          {...p}
+          className={className}
+          src={UtilService.getImageUrl((avatar || client.avatar) as string, size, size)}
+        />
       );
+    }
     return (
-      <Avatar className={className}>{(client.nickname || client.username)[0].toUpperCase()}</Avatar>
+      <Avatar {...p} className={className}>
+        {(client.nickname || client.username)[0].toUpperCase()}
+      </Avatar>
     );
   };
 
