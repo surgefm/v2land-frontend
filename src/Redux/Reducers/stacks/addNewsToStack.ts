@@ -1,13 +1,16 @@
-import { StacksState, StackAction } from '@Interfaces';
+import { IStore, StackAction } from '@Interfaces';
+import { getNews } from '@Selectors';
 
-const addNewsToStack = (state: StacksState, action: StackAction) => {
+const addNewsToStack = (store: IStore, action: StackAction) => {
   const { stackId, newsId } = action;
-  if (!stackId || !newsId) return state;
+  if (!stackId || !newsId) return store;
+
+  const state = store.stacks;
   const stackIndex = state.idIndexMap[stackId];
-  if (typeof stackIndex === 'undefined') return state;
+  if (typeof stackIndex === 'undefined') return store;
   const stack = { ...state.list[stackIndex] };
   stack.newsIdList = stack.newsIdList || [];
-  if (stack.newsIdList.includes(newsId)) return state;
+  if (stack.newsIdList.includes(newsId)) return store;
   let newList = [...state.list.slice(0, stackIndex), stack, ...state.list.slice(stackIndex + 1)];
 
   const previousStackIndex = state.list.findIndex(s => s.newsIdList.includes(newsId));
@@ -22,9 +25,20 @@ const addNewsToStack = (state: StacksState, action: StackAction) => {
   }
 
   stack.newsIdList.push(newsId);
+  stack.newsIdList.sort((a, b) => {
+    const newsA = getNews(a)(store);
+    const newsB = getNews(b)(store);
+    if (!newsA) return -1;
+    if (!newsB) return 1;
+    return new Date(newsA.time).getTime() - new Date(newsB.time).getTime();
+  });
+
   return {
-    ...state,
-    list: newList,
+    ...store,
+    stacks: {
+      ...state,
+      list: newList,
+    },
   };
 };
 

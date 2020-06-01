@@ -7,6 +7,7 @@ import { EyeOutlined, EyeInvisibleOutlined, EditOutlined } from '@ant-design/ico
 import {
   getStack,
   getStackNewsIdList,
+  getNews,
   isIndividualStackNewsVisible,
   getResourceLocker,
   isResourceLocked,
@@ -16,6 +17,7 @@ import {
 import { NewsroomActions } from '@Actions';
 import { getNewsroomSocket } from '@Services';
 import { StackForm } from '@Components/Stack';
+import { Time } from '@Components/Basic';
 
 import { NewsroomPanelCard } from '../Card';
 import { NewsroomPanelNewsList } from '../NewsList';
@@ -30,6 +32,7 @@ const NewsroomPanelStackCard: React.FunctionComponent<INewsroomPanelStackCard.IP
   const dispatch = useDispatch();
   const stack = useSelector(getStack(stackId));
   const newsIdList = useSelector(getStackNewsIdList(stackId));
+  const news = useSelector(getNews(newsIdList[0] || 0));
   const showStackNews = useSelector(isIndividualStackNewsVisible(stackId));
   const locker = useSelector(getResourceLocker('stack', stackId));
   const isLocked = useSelector(isResourceLocked('stack', stackId));
@@ -44,6 +47,9 @@ const NewsroomPanelStackCard: React.FunctionComponent<INewsroomPanelStackCard.IP
   }, [canEdit]);
 
   if (!stack) return <div />;
+
+  let { time } = stack;
+  if (!time && news) time = news.time;
 
   const handleClick = () => {
     dispatch(NewsroomActions.SetIndividualStackNewsVisible(stackId, !showStackNews));
@@ -92,6 +98,8 @@ const NewsroomPanelStackCard: React.FunctionComponent<INewsroomPanelStackCard.IP
                 />
               </Space>
               <span>{stack.title}</span>
+              {time ? <span> — </span> : null}
+              <Time time={time} style={{ color: '#666' }} />
             </div>
             {showStackNews ? (
               <NewsroomPanelNewsList

@@ -8,7 +8,6 @@ import { StackAction, StacksState } from '@Interfaces';
 
 import addNewsToEvent from './addNewsToEvent';
 import addNewsToEventOffshelfNewsList from './addNewsToEventOffshelfNewsList';
-import addNewsToStack from './addNewsToStack';
 import addStack from './addStack';
 import removeNewsFromStack from './removeNewsFromStack';
 import removeNewsFromEvent from './removeNewsFromEvent';
@@ -30,8 +29,6 @@ export const StackReducer = (state = getInitialState(), action: StackAction) => 
       return addStack(state, action);
     case ActionConsts.Event.AddNewsToEvent:
       return addNewsToEvent(state, action);
-    case ActionConsts.Stack.AddNewsToStack:
-      return addNewsToStack(state, action);
     case ActionConsts.Event.AddNewsToEventOffshelfNewsList:
       return addNewsToEventOffshelfNewsList(state, action);
     case ActionConsts.Stack.RemoveNewsFromStack:

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 import { getStack, getStackNewsIdList, getNews, getEvent, getEventOwner } from '@Selectors';
 import { UtilService } from '@Services';
-import { Card } from '@Components/Basic';
+import { Card, Time } from '@Components/Basic';
 import { Share } from '@Components/Share';
 
 import { IStack } from './Stack';
@@ -54,22 +54,7 @@ const Stack: React.FunctionComponent<IStack.IProps> = ({
           ·
         </span>
       );
-    const time = new Date(t);
-    items.push(
-      <span key="5">
-        {time.getFullYear()}
-        <div className="micro-separator" />
-        年
-        <div className="micro-separator" />
-        {time.getMonth() + 1}
-        <div className="micro-separator" />
-        月
-        <div className="micro-separator" />
-        {time.getDate()}
-        <div className="micro-separator" />
-        日
-      </span>
-    );
+    items.push(<Time time={t} key="5" />);
   }
 
   return (
@@ -101,11 +86,6 @@ const Stack: React.FunctionComponent<IStack.IProps> = ({
 
             .title :global(.separator) {
               margin: 0 0.35rem;
-            }
-
-            .title :global(.micro-separator) {
-              width: 0.2rem;
-              display: inline-block;
             }
 
             h2 {

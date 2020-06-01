@@ -1,5 +1,5 @@
 // #region Interface Imports
-import { IHomePage, Event, Stack, News, Client, Newsroom } from '@Interfaces';
+import { Event, Stack, News, Client, Newsroom } from '@Interfaces';
 // #endregion Interface Imports
 
 export interface EventsState {
@@ -37,7 +37,6 @@ export interface NewsroomsState {
 export type LoadingState = { [index: string]: boolean };
 
 export interface IStore {
-  home: IHomePage.IStateProps;
   events: EventState;
   stacks: StacksState;
   news: NewsState;
