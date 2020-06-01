@@ -1,6 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { getStack, getStackNewsIdList } from '@Selectors';
+
+import { getStack, getStackNewsIdList, getNews, getEvent, getEventOwner } from '@Selectors';
+import { UtilService } from '@Services';
 import { Card } from '@Components/Basic';
 import { Share } from '@Components/Share';
 
@@ -9,28 +11,82 @@ import { NewsItemList } from './NewsItemList';
 
 export * from './Form';
 
-const Stack: React.FunctionComponent<IStack.IProps> = ({ stackId, displayOrder = true }) => {
+const Stack: React.FunctionComponent<IStack.IProps> = ({
+  stackId,
+  isLatestStack = false,
+  displayOrder = true,
+  showEventName = false,
+}) => {
   const stack = useSelector(getStack(stackId));
   const newsIdList = useSelector(getStackNewsIdList(stackId));
+  const news = useSelector(getNews(newsIdList.length > 0 ? newsIdList[0] : 0));
+  const event = useSelector(getEvent(stack ? stack.eventId : 0));
+  const owner = useSelector(getEventOwner(stack ? stack.eventId : 0));
   if (!stack) return <div />;
+
+  const items = [];
+  if (event && owner && showEventName) {
+    const path = UtilService.getEventPath(event, owner);
+    const handleClick = () => UtilService.redirect(path);
+    items.push(
+      <a href={path} onClick={handleClick} key="1">{`@${owner.username}/${event.name}`}</a>
+    );
+  }
+
+  if (isLatestStack) {
+    if (items.length > 0)
+      items.push(
+        <span className="separator" key="2">
+          ·
+        </span>
+      );
+    items.push(<span key="3">最新进展</span>);
+  }
+
+  let t = stack.time;
+  if (!t && news) {
+    t = news.time;
+  }
+  if (t) {
+    if (items.length > 0)
+      items.push(
+        <span className="separator" key="4">
+          ·
+        </span>
+      );
+    const time = new Date(t);
+    items.push(
+      <span key="5">
+        {time.getFullYear()}
+        <div className="micro-separator" />
+        年
+        <div className="micro-separator" />
+        {time.getMonth() + 1}
+        <div className="micro-separator" />
+        月
+        <div className="micro-separator" />
+        {time.getDate()}
+        <div className="micro-separator" />
+        日
+      </span>
+    );
+  }
 
   return (
     <Card styles={{ paddingTop: '0', paddingBottom: '0' }}>
       <div className="stack">
         <div className="stack-main">
-          <div className="title-area">
-            <span className="order-redesigned">
-              {displayOrder && typeof stack.order === 'number' ? (
-                <p>{stack.order ? stack.order + 1 : 1}</p>
-              ) : null}
-            </span>
-
+          {displayOrder && typeof stack.order === 'number' ? (
+            <span className="order">{stack.order + 1}</span>
+          ) : null}
+          <div className="title">
+            {items}
             <h2>{stack.title}</h2>
           </div>
+        </div>
 
-          <div className="content-area">
-            <p>{stack.description}</p>
-          </div>
+        <div className="content-area">
+          <p>{stack.description}</p>
         </div>
 
         <Share type="stack" stack={stack} />
@@ -39,67 +95,41 @@ const Stack: React.FunctionComponent<IStack.IProps> = ({ stackId, displayOrder =
 
         <style jsx>
           {`
-            .stack-main {
-              padding-bottom: 0.1rem;
+            .title {
+              padding-top: 0.8rem;
             }
 
-            .title-area {
-              display: flex;
+            .title :global(.separator) {
+              margin: 0 0.35rem;
             }
 
-            .title-area h2 {
-              margin-top: 1.4rem;
-              margin-left: 1rem;
+            .title :global(.micro-separator) {
+              width: 0.2rem;
+              display: inline-block;
+            }
+
+            h2 {
               line-height: 1.5;
+              display: block;
             }
 
-            .order-redesigned p {
-              margin-top: 0;
-              margin-bottom: -2.5rem;
+            .order {
+              margin-top: 0.8rem;
               font-family: 'Lexend Giga', sans-serif;
-              font-size: 3rem;
-              color: rgba(104, 180, 252);
+              font-size: 3.2rem;
+              color: rgb(30, 139, 195);
+              float: left;
+              margin-right: 0.5rem;
+              line-height: 1;
             }
 
             .content-area {
-              margin-top: 1rem;
+              margin-top: 0.5rem;
             }
 
             .content-area p {
               line-height: 1.8;
               display: block;
-              margin-left: 5.5px;
-              margin-right: 5.5px;
-            }
-
-            .order {
-              color: white;
-              background-color: black;
-              height: 5rem;
-              width: 5rem;
-              font-size: 4.25rem;
-              position: relative;
-              font-family: 'Times New Roman', Times, serif;
-              cursor: pointer;
-              font-weight: 900;
-              transition: all 0.2s;
-            }
-
-            @media (max-width: 600px) {
-              .stack {
-                padding: 0.75rem 1rem;
-              }
-
-              .order {
-                position: relative;
-                right: initial;
-                top: 0;
-                left: -0.25rem;
-                height: 3rem;
-                font-size: 3.5rem;
-                float: left;
-                text-shadow: none !important;
-              }
             }
           `}
         </style>
