@@ -28,8 +28,8 @@ const addNewsToStack = (store: IStore, action: StackAction) => {
   stack.newsIdList.sort((a, b) => {
     const newsA = getNews(a)(store);
     const newsB = getNews(b)(store);
-    if (!newsA) return -1;
-    if (!newsB) return 1;
+    if (!newsA) return 1;
+    if (!newsB) return -1;
     return new Date(newsA.time).getTime() - new Date(newsB.time).getTime();
   });
 

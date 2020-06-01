@@ -34,6 +34,6 @@ const nextConfig = {
 };
 
 const plugins = [[withCSS], [withSass], [withBundleAnalyzer]];
-if (process.env.NODE_ENV === 'production') plugins.push([withPWA]);
+if (process.env.PWA === '1') plugins.push([withPWA]);
 
 module.exports = withConfig(withPlugins(plugins, nextConfig));

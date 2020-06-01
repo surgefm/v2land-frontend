@@ -8,6 +8,7 @@ const addStack = (state: StacksState, action: StackAction) => {
   const stack =
     typeof index === 'undefined' ? action.stack : { ...state.list[index], ...action.stack };
   stack.newsIdList = stack.newsIdList || [];
+  stack.time = stack.time ? new Date(stack.time) : undefined;
   if (stack.news) {
     stack.newsIdList = stack.news.map(n => n.id);
   }
