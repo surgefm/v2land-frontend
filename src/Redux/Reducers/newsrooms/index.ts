@@ -20,7 +20,7 @@ import setPanelsOrder from './setPanelsOrder';
 import setStackNewsVisible from './setStackNewsVisible';
 import setActiveNewsroom from './setActiveNewsroom';
 
-const getInitialState = () =>
+export const getNewsroomInitialState = () =>
   ({
     showStackNews: true,
     showClientInvitation: false,
@@ -31,10 +31,10 @@ const getInitialState = () =>
     list: [],
   } as NewsroomsState);
 
-export const NewsroomReducer = (state = getInitialState(), action: NewsroomAction) => {
+export const NewsroomReducer = (state = getNewsroomInitialState(), action: NewsroomAction) => {
   switch (action.type) {
     case ActionConsts.App.ResetReducer:
-      return getInitialState();
+      return getNewsroomInitialState();
     case ActionConsts.Newsroom.AddNewsroom:
     case ActionConsts.Newsroom.UpdateNewsroom:
       return addNewsroom(state, action);

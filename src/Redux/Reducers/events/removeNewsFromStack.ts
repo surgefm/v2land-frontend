@@ -17,7 +17,7 @@ const removeNewsFromStack = (state: EventsState, action: StackAction) => {
 
   return {
     ...state,
-    list: [...state.list.slice(0, eventIndex), event, state.list.slice(eventIndex + 1)],
+    list: [...state.list.slice(0, eventIndex), event, ...state.list.slice(eventIndex + 1)],
   };
 };
 

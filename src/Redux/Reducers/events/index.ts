@@ -17,17 +17,17 @@ import removeNewsFromStack from './removeNewsFromStack';
 import updateEventOffshelfStackListOrder from './updateEventOffshelfStackListOrder';
 import updateEventStackListOrder from './updateEventStackListOrder';
 
-const getInitialState = () =>
+export const getEventInitialState = () =>
   ({
     list: [],
     idIndexMap: {},
     nameIdMap: {},
   } as EventsState);
 
-export const EventReducer = (state = getInitialState(), action: EventAction | StackAction) => {
+export const EventReducer = (state = getEventInitialState(), action: EventAction | StackAction) => {
   switch (action.type) {
     case ActionConsts.App.ResetReducer:
-      return getInitialState();
+      return getEventInitialState();
     case ActionConsts.Event.AddEvent:
     case ActionConsts.Event.UpdateEvent:
       return addEvent(state, action);

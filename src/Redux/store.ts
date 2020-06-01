@@ -7,10 +7,10 @@ import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 // #endregion Global Imports
 
 // #region Local Imports
-import Reducers from './Reducers';
+import Reducers, { getInitialState } from './Reducers';
 // #endregion Local Imports
 
-export const makeStore = (initialState: {}) => {
+export const makeStore = (initialState = getInitialState()) => {
   return createStore(
     enableBatching(Reducers),
     initialState,

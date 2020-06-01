@@ -37,7 +37,7 @@ export interface NewsroomsState {
 export type LoadingState = { [index: string]: boolean };
 
 export interface IStore {
-  events: EventState;
+  events: EventsState;
   stacks: StacksState;
   news: NewsState;
   clients: ClientsState;
