@@ -21,15 +21,17 @@ export const NewsReducer = (state = getNewsInitialState(), action: NewsAction) =
       if (!action.news) return state;
       const newsId = action.newsId || action.news.id;
       if (!newsId) return state;
+      const { news } = action;
+      news.time = new Date(news.time);
 
       const newState = { ...state };
       const index = state.idIndexMap[newsId];
       if (typeof index !== 'undefined') {
-        newState.list[index] = action.news;
+        newState.list[index] = news;
         return newState;
       }
       newState.idIndexMap[newsId] = newState.list.length;
-      newState.list.push(action.news);
+      newState.list.push(news);
       return newState;
     }
     default:

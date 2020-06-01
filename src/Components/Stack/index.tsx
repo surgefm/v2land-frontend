@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { getStack, getStackNewsIdList, getNews, getEvent, getEventOwner } from '@Selectors';
+import { getStack, getStackNewsIdList, getStackTime, getEvent, getEventOwner } from '@Selectors';
 import { UtilService } from '@Services';
 import { Card, Time } from '@Components/Basic';
 import { Share } from '@Components/Share';
@@ -19,7 +19,7 @@ const Stack: React.FunctionComponent<IStack.IProps> = ({
 }) => {
   const stack = useSelector(getStack(stackId));
   const newsIdList = useSelector(getStackNewsIdList(stackId));
-  const news = useSelector(getNews(newsIdList.length > 0 ? newsIdList[0] : 0));
+  const time = useSelector(getStackTime(stackId));
   const event = useSelector(getEvent(stack ? stack.eventId : 0));
   const owner = useSelector(getEventOwner(stack ? stack.eventId : 0));
   if (!stack) return <div />;
@@ -43,18 +43,14 @@ const Stack: React.FunctionComponent<IStack.IProps> = ({
     items.push(<span key="3">最新进展</span>);
   }
 
-  let t = stack.time;
-  if (!t && news) {
-    t = news.time;
-  }
-  if (t) {
+  if (time) {
     if (items.length > 0)
       items.push(
         <span className="separator" key="4">
           ·
         </span>
       );
-    items.push(<Time time={t} key="5" />);
+    items.push(<Time time={time} key="5" />);
   }
 
   return (
