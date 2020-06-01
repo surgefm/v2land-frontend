@@ -42,12 +42,7 @@ const NewsroomPanelNewsList: React.FunctionComponent<INewsroomPanelNewsList.IPro
     {provided => (
       <div style={style} ref={provided.innerRef} {...provided.droppableProps}>
         {newsIdList.map((newsId, index) => (
-          <NewsroomPanelNewsCard
-            newsId={newsId}
-            key={`news-${newsId}`}
-            draggableId={`${droppableId}-news`}
-            index={index}
-          />
+          <NewsroomPanelNewsCard newsId={newsId} key={`news-${newsId}`} index={index} />
         ))}
         {provided.placeholder}
         {showPlaceholder(newsIdList)}
