@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Draggable } from 'react-beautiful-dnd';
 
 import { getNews, canCurrentClientEditEvent, isNewsroomSocketConnected } from '@Selectors';
+import { Time } from '@Components/Basic';
 import { NewsroomPanelCard } from '../Card';
 import { INewsroomPanelNewsCard } from './NewsCard';
 
@@ -30,7 +31,9 @@ const NewsroomPanelNewsCard: React.FunctionComponent<INewsroomPanelNewsCard.IPro
           {...provided.draggableProps}
         >
           <NewsroomPanelCard className="news-card">
-            {`${news.source} | ${news.title}}`}
+            <Time time={news.time} className="time" />
+            <br />
+            {`${news.source} | ${news.title}`}
           </NewsroomPanelCard>
           <style jsx>
             {`
@@ -43,6 +46,12 @@ const NewsroomPanelNewsCard: React.FunctionComponent<INewsroomPanelNewsCard.IPro
               div > :global(.news-card) {
                 white-space: nowrap;
                 overflow-x: hidden;
+                line-height: 1.5;
+              }
+
+              div :global(.time) {
+                line-height: 1;
+                font-size: 12px;
               }
 
               div > :global(.news-card::-webkit-scrollbar) {

@@ -17,7 +17,8 @@
     "import/no-extraneous-dependencies": "off",
     "jsx-a11y/anchor-is-valid": "off",
     "no-self-compare": "off",
-    "prettier/prettier": "off"
+    "react/jsx-one-expression-per-line": "off",
+    "prefer-destructuring": "off"
   },
   "settings": {
     "import/parsers": {

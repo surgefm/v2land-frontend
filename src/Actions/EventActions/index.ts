@@ -140,9 +140,9 @@ const GetEvent = (
     }
   }
 
-  const temporaryStack = event.temporaryStack || [];
-  for (let i = 0; i < temporaryStack.length; i += 1) {
-    const news = temporaryStack[i];
+  const offshelfNews = event.offshelfNews || [];
+  for (let i = 0; i < offshelfNews.length; i += 1) {
+    const news = offshelfNews[i];
     news.id = getId(news.id, getLatest);
     actions.push(NewsActions.AddNews(news));
     actions.push(AddNewsToEventOffshelfNewsList(id, news.id));
