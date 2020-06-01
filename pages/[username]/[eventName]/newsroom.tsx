@@ -43,6 +43,7 @@ import {
   NewsroomPanelEventDetail,
   NewsroomPanelCreateStackButton,
   NewsroomPanelRoleList,
+  NewsroomPanelSortStacksButton,
 } from '@Components';
 import {
   getEvent,
@@ -203,6 +204,7 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
           <div className="panel-header-container">
             <NewsroomPanelTitle>备选进展</NewsroomPanelTitle>
             <Space size={0}>
+              <NewsroomPanelSortStacksButton eventId={eventId} offshelf />
               <NewsroomPanelCreateStackButton eventId={eventId} />
               <DragOutlined {...provided.dragHandleProps} />
             </Space>
@@ -230,15 +232,18 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
               <Card className="panel public-stack">
                 <div className="panel-header-container">
                   <NewsroomPanelTitle>事件时间线</NewsroomPanelTitle>
-                  <Tooltip title={showStackNews ? '隐藏新闻' : '显示新闻'}>
-                    <Switch
-                      checkedChildren={<EyeOutlined />}
-                      unCheckedChildren={<EyeInvisibleOutlined />}
-                      className="show-news-toggle"
-                      onClick={onStackNewsVisibilityToggled}
-                      defaultChecked={showStackNews}
-                    />
-                  </Tooltip>
+                  <Space size={0}>
+                    <NewsroomPanelSortStacksButton eventId={eventId} />
+                    <Tooltip title={showStackNews ? '隐藏新闻' : '显示新闻'}>
+                      <Switch
+                        checkedChildren={<EyeOutlined />}
+                        unCheckedChildren={<EyeInvisibleOutlined />}
+                        className="show-news-toggle"
+                        onClick={onStackNewsVisibilityToggled}
+                        defaultChecked={showStackNews}
+                      />
+                    </Tooltip>
+                  </Space>
                 </div>
                 <NewsroomPanelStackList stackIdList={stackIdList} />
               </Card>

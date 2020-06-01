@@ -71,6 +71,16 @@ const AddNewsToEventOffshelfNewsList = (eventId: number, newsId: number) => ({
   type: ActionConsts.Event.AddNewsToEventOffshelfNewsList,
 });
 
+const SortEventOffshelfStackList = (eventId: number) => ({
+  eventId,
+  type: ActionConsts.Event.SortEventOffshelfStackList,
+});
+
+const SortEventStackList = (eventId: number) => ({
+  eventId,
+  type: ActionConsts.Event.SortEventStackList,
+});
+
 const getId = (id: number, getLatest = false) => {
   return getLatest ? -Math.abs(id) : Math.abs(id);
 };
@@ -163,5 +173,7 @@ export const EventActions = {
   AddStackToEventOffshelfStackList,
   AddNewsToEvent,
   AddNewsToEventOffshelfNewsList,
+  SortEventStackList,
+  SortEventOffshelfStackList,
   RemoveNewsFromEvent,
 };

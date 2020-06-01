@@ -14,6 +14,8 @@ import { NewsReducer, getNewsInitialState } from './news';
 import { NewsroomReducer, getNewsroomInitialState } from './newsrooms';
 import { StackReducer, getStackInitialState } from './stacks';
 
+import sortEventStackList from './events/sortEventStackList';
+import sortEventOffshelfStackList from './events/sortEventOffshelfStackList';
 import addNewsToStack from './stacks/addNewsToStack';
 // #endregion Local Imports
 
@@ -40,6 +42,10 @@ export default reduceReducers((state: IStore = getInitialState(), action?: AnyAc
   switch (action.type) {
     case ActionConsts.Stack.AddNewsToStack:
       return addNewsToStack(state, action);
+    case ActionConsts.Event.SortEventStackList:
+      return sortEventStackList(state, action);
+    case ActionConsts.Event.SortEventOffshelfStackList:
+      return sortEventOffshelfStackList(state, action);
     default:
       return state;
   }
