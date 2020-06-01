@@ -6,6 +6,7 @@ export * from './NewsList';
 export * from './RoleItem';
 export * from './RoleItemCreator';
 export * from './RoleList';
+export * from './SortStacksButton';
 export * from './StackCard';
 export * from './StackList';
 export * from './Title';

@@ -2,7 +2,7 @@ import { createSelector } from 'reselect';
 import { IStore, Event } from '@Interfaces';
 
 import { getNewsList } from '../news';
-import { getStackList } from '../stacks';
+import { getStackList, getStackTime } from '../stacks';
 
 export const getEventsState = (state: IStore) => state.events;
 
@@ -56,6 +56,41 @@ export const getEventStackList = (eventId: number, sorted = false) =>
     state => state,
     getEventStackIdList(eventId),
     (state, stackIdList) => getStackList(stackIdList, sorted)(state)
+  );
+
+export const getEventOffshelfStackList = (eventId: number, sorted = false) =>
+  createSelector(
+    state => state,
+    getEventOffshelfStackIdList(eventId),
+    (state, stackIdList) => getStackList(stackIdList, sorted)(state)
+  );
+
+export const isStackListSorted = (stackIdList: number[]) => (state: IStore) => {
+  const list = stackIdList.map(id => ({ id, time: getStackTime(id)(state) }));
+  for (let i = 0; i < list.length - 1; i += 1) {
+    const stackA = list[i];
+    const stackB = list[i + 1];
+    if (stackA.time) {
+      if (!stackB.time || new Date(stackA.time).getTime() < new Date(stackB.time).getTime()) {
+        return false;
+      }
+    }
+  }
+  return true;
+};
+
+export const isEventStackListSorted = (eventId: number) =>
+  createSelector(
+    state => state,
+    getEventStackIdList(eventId),
+    (state, idList) => isStackListSorted(idList)(state)
+  );
+
+export const isEventOffshelfStackListSorted = (eventId: number) =>
+  createSelector(
+    state => state,
+    getEventOffshelfStackIdList(eventId),
+    (state, idList) => isStackListSorted(idList)(state)
   );
 
 export const getEventNewsIdList = (eventId: number) =>
