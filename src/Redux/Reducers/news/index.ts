@@ -6,16 +6,16 @@ import { ActionConsts } from '@Definitions';
 import { NewsAction, NewsState } from '@Interfaces';
 // #endregion Interface Imports
 
-const getInitialState = () =>
+export const getNewsInitialState = () =>
   ({
     list: [],
     idIndexMap: {},
   } as NewsState);
 
-export const NewsReducer = (state = getInitialState(), action: NewsAction) => {
+export const NewsReducer = (state = getNewsInitialState(), action: NewsAction) => {
   switch (action.type) {
     case ActionConsts.App.ResetReducer:
-      return getInitialState();
+      return getNewsInitialState();
     case ActionConsts.News.AddNews:
     case ActionConsts.News.UpdateNews: {
       if (!action.news) return state;

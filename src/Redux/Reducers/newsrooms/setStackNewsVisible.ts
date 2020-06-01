@@ -9,7 +9,7 @@ const setStackNewsVisible = (state: NewsroomsState, action: NewsroomAction) => {
 
   return {
     ...state,
-    showStackNews: action.visible,
+    showStackNews: action.visible || state.showStackNews,
     stackNewsVisibility,
   };
 };
