@@ -54,7 +54,7 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
 
   const handleAvatarChange = (value: string) => {
     setAvatar(value);
-    handleFormChange();
+    if (value !== client.avatar) setDisabled(false);
   };
 
   const submit = async () => {
@@ -167,11 +167,16 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
           .top :global(.username) {
             font-size: 2rem;
             white-space: nowrap;
+            font-weight: 200;
           }
 
           .top :global(.edit-buttons) {
             display: flex;
             justify-content: flex-end;
+          }
+
+          .top :global(.ant-avatar-string) {
+            font-size: 96px;
           }
         `}
       </style>

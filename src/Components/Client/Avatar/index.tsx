@@ -9,14 +9,8 @@ import { ClientService, UtilService } from '@Services';
 
 import { IClientAvatar } from './Avatar';
 
-export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = (
-  props = {
-    clientId: 0,
-    showTooltip: true,
-    asLink: false,
-  }
-) => {
-  const { clientId, eventId, role, showTooltip, asLink, avatar } = props;
+export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = props => {
+  const { clientId, eventId, role, showTooltip = true, asLink = false, avatar } = props;
   const client = useSelector(getClient(clientId));
   const clientRole = useSelector(getNewsroomClientRole(eventId || 0, clientId));
   const dispatch = useDispatch();
