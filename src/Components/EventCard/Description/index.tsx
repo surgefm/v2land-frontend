@@ -1,4 +1,6 @@
 import React from 'react';
+
+import commonStyles from '@Static/css/common.scss';
 import { IEventCardDescription } from './Description';
 
 export const EventCardDescription: React.FunctionComponent<IEventCardDescription.IProps> = ({
@@ -6,7 +8,7 @@ export const EventCardDescription: React.FunctionComponent<IEventCardDescription
   styles,
   className,
 }) => (
-  <div className={`description light-font ${className || ''}`} style={styles}>
+  <div className={`description ${commonStyles['light-font']} ${className || ''}`} style={styles}>
     <span>{children}</span>
     <div className="fade" />
     <div className="hide" />

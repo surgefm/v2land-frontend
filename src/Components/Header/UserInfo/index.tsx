@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useSelector, useDispatch } from 'react-redux';
-import { Menu, Dropdown, message } from 'antd';
+import { Menu, Dropdown, Button, message } from 'antd';
 
 import { UtilService, usePrevious } from '@Services';
 import { ClientActions } from '@Actions';
@@ -38,12 +38,29 @@ export const HeaderUserInfo: React.FunctionComponent = () => {
     }
   };
 
-  if (router.pathname === '/login') return <React.Fragment />;
+  const handleRegisterClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!isLoggedIn) {
+      UtilService.redirect(`/register?redirect=${router.asPath}`, {
+        hiddenQuery: { silent: 1 },
+      });
+    }
+  };
+
   if (!isLoggedIn) {
     return (
-      <a href="/login" onClick={handleLoginClick}>
-        登录
-      </a>
+      <>
+        {router.pathname === '/login' ? null : (
+          <Button href="/login" type="link" onClick={handleLoginClick}>
+            登录
+          </Button>
+        )}
+        {router.pathname === '/register' ? null : (
+          <Button href="/register" type="link" onClick={handleRegisterClick}>
+            创建账号
+          </Button>
+        )}
+      </>
     );
   }
 

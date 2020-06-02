@@ -1,6 +1,7 @@
 import React from 'react';
 import css from 'styled-jsx/css';
 
+import commonStyles from '@Static/css/common.scss';
 import { IEventStats } from './Stats';
 
 const styles = css`
@@ -16,7 +17,7 @@ export const EventStats: React.FunctionComponent<IEventStats.IProps> = ({
   if (!newsCount && !stackCount) {
     return (
       <div className="status">
-        <span className="light-font">事件尚无相关新闻</span>
+        <span className={commonStyles['light-font']}>事件尚无相关新闻</span>
         <style jsx>{styles}</style>
       </div>
     );
@@ -27,7 +28,7 @@ export const EventStats: React.FunctionComponent<IEventStats.IProps> = ({
       <span>{'事件共有 '}</span>
       {stackCount ? (
         <span>
-          <span className="light-font">{`${stackCount} `}</span>
+          <span className={commonStyles['light-font']}>{`${stackCount} `}</span>
           个进展
         </span>
       ) : (
@@ -36,7 +37,7 @@ export const EventStats: React.FunctionComponent<IEventStats.IProps> = ({
       {stackCount && newsCount ? <span>、</span> : <React.Fragment />}
       {newsCount ? (
         <span>
-          <span className="light-font">{`${newsCount} `}</span>
+          <span className={commonStyles['light-font']}>{`${newsCount} `}</span>
           条新闻
         </span>
       ) : (
