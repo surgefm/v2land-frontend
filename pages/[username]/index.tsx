@@ -153,6 +153,7 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
             flex-direction: column;
             justify-content: space-between;
             flex-grow: 1;
+            width: calc(100% - 160px - 1rem);
           }
 
           .top :global(.name) {
