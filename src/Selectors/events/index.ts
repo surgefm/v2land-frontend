@@ -12,6 +12,8 @@ export const getEventId = (username: string = '', eventName: string | number = '
     state => {
       if (typeof eventName === 'number') return eventName;
       if (+eventName === +eventName) return +eventName;
+      const split = eventName.split('-');
+      if (+split[0] === +split[0]) return +split[0];
       return username.startsWith('@')
         ? state.nameIdMap[`${eventName}${username}`]
         : state.nameIdMap[`${eventName}@${username}`];
