@@ -33,7 +33,13 @@ export const LoginForm: React.FunctionComponent = (): JSX.Element => {
   };
 
   return (
-    <Form {...layout} name="basic" initialValues={{ remember: true }} onFinish={onFinish}>
+    <Form
+      {...layout}
+      name="basic"
+      initialValues={{ remember: true }}
+      onFinish={onFinish}
+      hideRequiredMark
+    >
       <Form.Item
         label="用户名"
         name="username"

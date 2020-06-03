@@ -3,6 +3,7 @@ import { Form, Input, Button, message } from 'antd';
 import { useDispatch } from 'react-redux';
 import { RedstoneService, clearNewsroomSockets } from '@Services';
 import { ClientActions } from '@Actions';
+import { Rules } from '@Definitions';
 
 const layout = {
   labelCol: { span: 4 },
@@ -18,48 +19,36 @@ export const RegistrationForm: React.FunctionComponent = (): JSX.Element => {
   const [isLoading, setIsLoading] = useState(false);
   const [form] = Form.useForm();
 
-  const handleValuesChange = () => {};
-
   const onFinish = async (values: any) => {
-    const { username, password } = values;
+    const { username, password, nickname, email } = values;
     setIsLoading(true);
     try {
-      const { client } = await RedstoneService.login(username, password);
+      const { client } = await RedstoneService.register(username, nickname, email, password);
       dispatch(ClientActions.AddClient(client));
       dispatch(ClientActions.SetLoggedInClient(client.id));
       clearNewsroomSockets();
     } catch (err) {
-      message.error('用户名或密码不正确');
+      message.error(err.message);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <Form
-      {...layout}
-      name="basic"
-      form={form}
-      onValuesChange={handleValuesChange}
-      onFinish={onFinish}
-    >
-      <Form.Item
-        label="用户名"
-        name="username"
-        rules={[{ required: true, message: '请输入用户名' }]}
-      >
+    <Form {...layout} name="basic" form={form} onFinish={onFinish} hideRequiredMark>
+      <Form.Item label="用户名" name="username" validateFirst rules={Rules.username}>
         <Input />
       </Form.Item>
 
-      <Form.Item label="昵称" name="nickname" rules={[{ required: true, message: '请输入昵称' }]}>
+      <Form.Item label="昵称" name="nickname" validateFirst rules={Rules.nickname}>
         <Input />
       </Form.Item>
 
-      <Form.Item label="邮箱" name="email" rules={[{ required: true, message: '请输入邮箱地址' }]}>
+      <Form.Item label="邮箱" name="email" validateFirst rules={Rules.email}>
         <Input />
       </Form.Item>
 
-      <Form.Item label="密码" name="password" rules={[{ required: true, message: '请输入密码' }]}>
+      <Form.Item label="密码" name="password" validateFirst rules={Rules.password}>
         <Input.Password />
       </Form.Item>
 

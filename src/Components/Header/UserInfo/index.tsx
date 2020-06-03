@@ -26,7 +26,7 @@ export const HeaderUserInfo: React.FunctionComponent = () => {
   const handleAvatarClick = () => {
     if (router.pathname === '/[username]' && router.query.username === `@${client.username}`)
       return;
-    UtilService.redirect(`/@${client.username}`, { shallow: router.pathname === '/[username]' });
+    UtilService.redirect(`/@${client.username}`);
   };
 
   const handleLoginClick = (e: React.MouseEvent) => {
@@ -83,7 +83,7 @@ export const HeaderUserInfo: React.FunctionComponent = () => {
     <Dropdown overlay={menu}>
       <button type="button" className="container" onClick={handleAvatarClick}>
         <ClientAvatar showTooltip={false} clientId={client.id} />
-        <span>{client.username}</span>
+        <span>{client.nickname || `@${client.username}`}</span>
         <style jsx>
           {`
             .container {
