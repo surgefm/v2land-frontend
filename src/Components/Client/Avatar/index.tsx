@@ -1,16 +1,17 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Link from 'next/link';
-import { Avatar, Tooltip, Skeleton } from 'antd';
+import { Tooltip, Skeleton } from 'antd';
+import LazyLoad from 'react-lazyload';
 
 import { ClientActions } from '@Actions';
 import { getClient, getNewsroomClientRole } from '@Selectors';
 import { ClientService, UtilService } from '@Services';
 
 import { IClientAvatar } from './Avatar';
+import styles from './Avatar.module.scss';
 
 export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = props => {
-  const { clientId, eventId, role, showTooltip = true, asLink = false, avatar } = props;
+  const { clientId, eventId, role, showTooltip = true, asLink = false, size = 32, avatar } = props;
   const client = useSelector(getClient(clientId));
   const clientRole = useSelector(getNewsroomClientRole(eventId || 0, clientId));
   const dispatch = useDispatch();
@@ -36,56 +37,78 @@ export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = props
     );
   };
 
+  const showImage = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    e.currentTarget.style.opacity = '1';
+  };
+
   const getAvatarIcon = (clickable = false) => {
     if (!client) return <Skeleton.Avatar active />;
     const className = clickable ? 'clickable' : '';
     if (avatar || client.avatar) {
-      const size = typeof props.size === 'number' ? props.size : 160;
       return (
-        <Avatar
-          {...p}
-          className={`${className} ${p.className}`}
-          src={UtilService.getImageUrl((avatar || client.avatar) as string, size, size)}
-        />
+        <LazyLoad once>
+          <img
+            alt="avatar"
+            style={{ opacity: 0 }}
+            onLoad={showImage}
+            className={`${className} ${p.className || ''}`}
+            src={UtilService.getImageUrl((avatar || client.avatar) as string, size, size)}
+          />
+        </LazyLoad>
       );
     }
     return (
-      <Avatar {...p} className={`${className} ${p.className}`}>
+      <span
+        className={`${className} ${p.className || ''}`}
+        style={{ fontSize: `${size * 0.6}px`, lineHeight: `${size}px` }}
+      >
         {(client.nickname || client.username)[0].toUpperCase()}
-      </Avatar>
+      </span>
     );
   };
 
   const getAvatar = () => {
     if (!asLink || !client) return getAvatarIcon();
+
+    const goToProfilePage = (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      UtilService.redirect(`/@${client.username}`);
+    };
+
     return (
-      <Link href="/[username]" as={`/@${client.username}`}>
+      <a href={`/@${client.username}`} onClick={goToProfilePage}>
         {getAvatarIcon(true)}
-      </Link>
+      </a>
     );
   };
 
+  const style = {
+    style: {
+      width: `${size}px`,
+      height: `${size}px`,
+    },
+  };
+
+  let classes = styles.container;
+  if (avatar || (client ? client.avatar : null)) classes += ` ${styles.avatar}`;
+
   if (!showTooltip) {
-    return getAvatar();
+    return (
+      <div className={classes} {...style}>
+        {getAvatar()}
+      </div>
+    );
   }
 
   return (
     <Tooltip title={getTooltipText()} overlayClassName="avatar-icon-tooltip">
-      <div>
+      <div className={classes} {...style}>
         {getAvatar()}
         <style jsx>
           {`
             :global(.avatar-icon-tooltip) :global(.ant-skeleton-paragraph) {
               margin: 0.125rem 0;
-            }
-
-            div :global(.clickable) {
-              cursor: pointer;
-              transition: all 0.25s;
-            }
-
-            div :global(.clickable):hover {
-              box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
             }
           `}
         </style>

@@ -1,0 +1,21 @@
+.container {
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: rgb(197, 239, 247);
+  background-image: linear-gradient(135deg, rgb(197, 239, 247), rgb(82, 179, 217));
+  display: flex;
+  justify-content: center;
+}
+
+.avatar {
+  background-image: initial;
+}
+
+.container :global(.clickable) {
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.container :global(.clickable):hover {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}

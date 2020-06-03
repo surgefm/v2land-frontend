@@ -27,6 +27,7 @@ export const PlainEventCard: React.FunctionComponent<IPlainEventCard.IProps> = (
 
           .avatar {
             float: right;
+            margin-left: 0.25rem;
           }
         `}
       </style>
