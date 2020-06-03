@@ -9,6 +9,7 @@ import { IStore, Action } from '@Interfaces';
 
 import { ClientReducer, getClientInitialState } from './clients';
 import { EventReducer, getEventInitialState } from './events';
+import { HomepageReducer, getHomepageInitialState } from './homepage';
 import { LoadingReducer, getLoadingInitialState } from './loading';
 import { NewsReducer, getNewsInitialState } from './news';
 import { NewsroomReducer, getNewsroomInitialState } from './newsrooms';
@@ -22,6 +23,7 @@ import addNewsToStack from './stacks/addNewsToStack';
 export const getInitialState = (): IStore => ({
   clients: getClientInitialState(),
   events: getEventInitialState(),
+  homepage: getHomepageInitialState(),
   loading: getLoadingInitialState(),
   news: getNewsInitialState(),
   newsrooms: getNewsroomInitialState(),
@@ -31,6 +33,7 @@ export const getInitialState = (): IStore => ({
 const reduced = combineReducers({
   clients: ClientReducer,
   events: EventReducer,
+  homepage: HomepageReducer,
   loading: LoadingReducer,
   news: NewsReducer,
   newsrooms: NewsroomReducer,

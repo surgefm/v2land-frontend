@@ -3,6 +3,9 @@ export const ActionConsts = {
     ResetReducer: 'App_ResetReducer',
     SetReducer: 'App_SetReducer',
   },
+  Homepage: {
+    SetEventList: 'Homepage_SetEventList',
+  },
   Event: {
     AddEvent: 'Event_AddEvent',
     UpdateEvent: 'Event_UpdateEvent',

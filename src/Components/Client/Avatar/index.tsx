@@ -44,13 +44,13 @@ export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = props
       return (
         <Avatar
           {...p}
-          className={className}
+          className={`${className} ${p.className}`}
           src={UtilService.getImageUrl((avatar || client.avatar) as string, size, size)}
         />
       );
     }
     return (
-      <Avatar {...p} className={className}>
+      <Avatar {...p} className={`${className} ${p.className}`}>
         {(client.nickname || client.username)[0].toUpperCase()}
       </Avatar>
     );

@@ -27,6 +27,9 @@ export const getEvent = (eventId: number) =>
     }
   );
 
+export const getEventList = (idList: number[]) => (state: IStore) =>
+  idList.map(id => getEvent(id)(state));
+
 export const getEventOwnerId = (eventId: number) =>
   createSelector(
     getEvent(eventId),

@@ -7,6 +7,7 @@ import { message } from 'antd';
 
 // #region Local Imports
 import { withTranslation } from '@Server/i18n';
+import { EventActions } from '@Actions';
 import {
   Head,
   Footer,
@@ -20,7 +21,7 @@ import { UtilService } from '@Services';
 // #endregion Local Imports
 
 // #region Interface Imports
-import { IHomePage } from '@Interfaces';
+import { IHomePage, ReduxNextPageContext } from '@Interfaces';
 // #endregion Interface Imports
 
 const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = () => {
@@ -86,7 +87,10 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = () => {
   );
 };
 
-Home.getInitialProps = async (): Promise<IHomePage.InitialProps> => {
+Home.getInitialProps = async (ctx: ReduxNextPageContext): Promise<IHomePage.InitialProps> => {
+  if (ctx.req) {
+    await ctx.store.dispatch(EventActions.GetEventList());
+  }
   return { namespacesRequired: ['common'] };
 };
 
