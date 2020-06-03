@@ -8,6 +8,10 @@ import { Event, Stack, News, Client, Newsroom, NewsroomSocketStatus } from '@Int
 import { IStore } from './IStore';
 // #endregion Local Imports
 
+export interface HomepageAction extends ReduxAction {
+  eventList: number[];
+}
+
 export interface EventAction extends ReduxAction {
   event?: Event;
   eventId?: number;

@@ -10,6 +10,7 @@ import { RedstoneService, getState } from '@Services';
 import { isLoading } from '@Selectors';
 
 import { LoadingActions } from '../LoadingActions';
+import { HomepageActions } from '../HomepageActions';
 import { NewsActions } from '../NewsActions';
 import { StackActions } from '../StackActions';
 import { ClientActions } from '../ClientActions';
@@ -163,9 +164,23 @@ const GetEvent = (
   dispatch(batchActions(actions));
 };
 
+const GetEventList = (page = 1) => async (dispatch: Dispatch, state: IThunkStore) => {
+  const identifier = `event-list-${page}`;
+  if (isLoading(identifier)(getState(state))) return;
+
+  dispatch(LoadingActions.BeginLoading(identifier));
+  const eventList = await RedstoneService.getEventList(page);
+  const actions: Action[] = eventList.map(AddEvent);
+  actions.push(HomepageActions.SetEventList(eventList.map(event => event.id)));
+  actions.push(LoadingActions.FinishLoading(identifier));
+
+  dispatch(batchActions(actions));
+};
+
 export const EventActions = {
   AddEvent,
   GetEvent,
+  GetEventList,
   UpdateEvent,
   UpdateEventStackListOrder,
   UpdateEventOffshelfStackListOrder,

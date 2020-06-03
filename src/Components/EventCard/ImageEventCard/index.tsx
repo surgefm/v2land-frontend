@@ -1,6 +1,7 @@
 import React from 'react';
 import LazyLoad from 'react-lazyload';
 
+import { ClientAvatar } from '@Components/Client';
 import { EventCardTitle } from '../Title';
 import { EventCardDescription } from '../Description';
 import { IImageEventCard } from './ImageEventCard';
@@ -37,13 +38,17 @@ export const ImageEventCard: React.FunctionComponent<IImageEventCard.IProps> = (
           {event.headerImage.source}
         </button>
       </div>
+      {event.ownerId ? (
+        <div className="avatar">
+          <ClientAvatar clientId={event.ownerId} asLink />
+        </div>
+      ) : null}
       <EventCardTitle className="title">{event.name}</EventCardTitle>
       <EventCardDescription className="description">{event.description}</EventCardDescription>
+
       <style jsx>
         {`
           .event-container {
-            display: flex;
-            flex-direction: column;
             width: 100%;
             padding: 1.5rem;
             position: relative;
@@ -91,6 +96,10 @@ export const ImageEventCard: React.FunctionComponent<IImageEventCard.IProps> = (
 
           .event-image-container button:hover {
             background-color: #444;
+          }
+
+          .avatar {
+            float: right;
           }
 
           @media (max-width: 600px) {

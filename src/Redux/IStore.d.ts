@@ -2,6 +2,10 @@
 import { Event, Stack, News, Client, Newsroom } from '@Interfaces';
 // #endregion Interface Imports
 
+export interface HomepageState {
+  eventList: number[];
+}
+
 export interface EventsState {
   list: Event[];
   idIndexMap: { [index: number]: number };
@@ -37,6 +41,7 @@ export interface NewsroomsState {
 export type LoadingState = { [index: string]: boolean };
 
 export interface IStore {
+  homepage: HomepageState;
   events: EventsState;
   stacks: StacksState;
   news: NewsState;
