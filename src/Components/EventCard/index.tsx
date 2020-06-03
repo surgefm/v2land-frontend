@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { EventActions } from '@Actions';
+import { EventActions, ClientActions } from '@Actions';
 import { getEvent, getEventOwner } from '@Selectors';
 import { UtilService } from '@Services';
 import { Card } from '@Components/Basic';
@@ -16,8 +16,15 @@ const EventCard: React.FunctionComponent<IEventCard.IProps> = ({ eventId }) => {
   const owner = useSelector(getEventOwner(eventId));
   const dispatch = useDispatch();
 
-  if (!event || !owner) {
+  if (!event) {
     dispatch(EventActions.GetEvent(eventId));
+  }
+
+  if (event && !owner) {
+    dispatch(ClientActions.GetClient(event.ownerId));
+  }
+
+  if (!event || !owner) {
     return (
       <Card styles={{ padding: 0 }}>
         <EventCardShimmer />
@@ -36,4 +43,4 @@ const EventCard: React.FunctionComponent<IEventCard.IProps> = ({ eventId }) => {
   );
 };
 
-export { EventCard };
+export { EventCard, EventCardShimmer };
