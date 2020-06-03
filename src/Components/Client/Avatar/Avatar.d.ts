@@ -8,6 +8,7 @@ declare namespace IClientAvatar {
     showTooltip?: boolean;
     asLink?: boolean;
     avatar?: string;
+    size?: number;
   }
 }
 

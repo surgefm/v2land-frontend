@@ -100,6 +100,7 @@ export const ImageEventCard: React.FunctionComponent<IImageEventCard.IProps> = (
 
           .avatar {
             float: right;
+            margin-left: 0.25rem;
           }
 
           @media (max-width: 600px) {
