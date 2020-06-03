@@ -58,7 +58,7 @@ export const ClientAvatarEditor: React.FunctionComponent<IClientAvatarEditor.IPr
 
   return (
     <div className={styles.avatar}>
-      <ClientAvatar clientId={clientId} avatar={avatar} size={160} />
+      <ClientAvatar clientId={clientId} avatar={avatar} size={160} showTooltip={false} />
       <Dragger
         beforeUpload={beforeUpload}
         onChange={handleUploadChange}

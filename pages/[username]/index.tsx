@@ -19,6 +19,7 @@ import {
 import { ClientActions } from '@Actions';
 import { getClientWithUsername, getClient, getLoggedInClientId } from '@Selectors';
 import { UtilService, RedstoneService } from '@Services';
+import { Rules } from '@Definitions';
 // #endregion Local Imports
 
 // #region Interface Imports
@@ -79,11 +80,11 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
     if (!isEditing) {
       return (
         <div className="row">
-          <ClientAvatar clientId={client.id} size={160} />
+          <ClientAvatar clientId={client.id} size={160} showTooltip={false} />
           <div className="info">
             <Space direction="vertical">
               <div className="name">
-                <EventTitle>{client.nickname}</EventTitle>
+                {client.nickname ? <EventTitle>{client.nickname}</EventTitle> : null}
                 <span className="username">@{client.username}</span>
               </div>
               <p>{client.description || '暂无简介'}</p>
@@ -103,13 +104,22 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
         <ClientAvatarEditor clientId={clientId} onChange={handleAvatarChange} />
         <div className="info">
           <Space direction="vertical">
-            <Form form={form} name="client-detail" onValuesChange={handleFormChange}>
+            <Form
+              form={form}
+              name="client-detail"
+              onValuesChange={handleFormChange}
+              onFinish={submit}
+            >
               <div className="name">
-                <Form.Item name="nickname" initialValue={client.nickname}>
+                <Form.Item
+                  name="nickname"
+                  initialValue={client.nickname}
+                  validateFirst
+                  rules={Rules.nickname}
+                >
                   <Input
                     size="large"
                     placeholder="昵称"
-                    maxLength={16}
                     style={{ fontSize: '1.5rem', width: '250px' }}
                   />
                 </Form.Item>
@@ -118,17 +128,17 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
               <Form.Item name="description" initialValue={client.description}>
                 <TextArea maxLength={80} placeholder="请输入简介" />
               </Form.Item>
+
+              <div className="edit-buttons">
+                <Space>
+                  <Button onClick={handleCancelClick}>取消</Button>
+                  <Button htmlType="submit" type="primary" disabled={disabled} loading={loading}>
+                    保存
+                  </Button>
+                </Space>
+              </div>
             </Form>
           </Space>
-
-          <div className="edit-buttons">
-            <Space>
-              <Button onClick={handleCancelClick}>取消</Button>
-              <Button type="primary" onClick={submit} disabled={disabled} loading={loading}>
-                保存
-              </Button>
-            </Space>
-          </div>
         </div>
       </div>
     );

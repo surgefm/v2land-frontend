@@ -28,6 +28,20 @@ export const login = async (usernameOrEmail: string, password: string) => {
   });
 };
 
+export const register = async (
+  username: string,
+  nickname: string,
+  email: string,
+  password: string
+) => {
+  return post<RedstoneModel.ClientLogInResponse>('/client/register', {
+    username,
+    password,
+    nickname,
+    email,
+  });
+};
+
 export const logout = async () => {
   return get('/client/logout');
 };
