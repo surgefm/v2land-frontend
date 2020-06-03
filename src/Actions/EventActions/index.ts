@@ -7,7 +7,7 @@ import { batchActions } from 'redux-batched-actions';
 import { ActionConsts } from '@Definitions';
 import { Action, Event, IThunkStore } from '@Interfaces';
 import { RedstoneService, getState } from '@Services';
-import { isLoading } from '@Selectors';
+import { isLoading, getClient } from '@Selectors';
 
 import { LoadingActions } from '../LoadingActions';
 import { HomepageActions } from '../HomepageActions';
@@ -173,6 +173,19 @@ const GetEventList = (page = 1) => async (dispatch: Dispatch, state: IThunkStore
   const eventList = await RedstoneService.getEventList(page);
   const actions: Action[] = eventList.map(AddEvent);
   actions.push(HomepageActions.SetEventList(eventList.map(event => event.id)));
+  const clientIds: number[] = [];
+  const promises: Promise<void>[] = [];
+  for (let i = 0; i < eventList.length; i += 1) {
+    const clientId = eventList[i].ownerId;
+    if (clientIds.indexOf(clientId) < 0) {
+      clientIds.push(clientId);
+      if (!getClient(clientId)(getState(state))) {
+        promises.push(ClientActions.GetClient(clientId)(dispatch, state));
+      }
+    }
+  }
+  await Promise.all(promises);
+
   actions.push(LoadingActions.FinishLoading(identifier));
 
   dispatch(batchActions(actions));

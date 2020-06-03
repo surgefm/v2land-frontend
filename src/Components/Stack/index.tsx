@@ -8,8 +8,10 @@ import { Share } from '@Components/Share';
 
 import { IStack } from './Stack';
 import { NewsItemList } from './NewsItemList';
+import { StackShimmer } from './Shimmer';
 
 export * from './Form';
+export * from './Shimmer';
 
 const Stack: React.FunctionComponent<IStack.IProps> = ({
   stackId,
@@ -22,7 +24,7 @@ const Stack: React.FunctionComponent<IStack.IProps> = ({
   const time = useSelector(getStackTime(stackId));
   const event = useSelector(getEvent(stack ? stack.eventId : 0));
   const owner = useSelector(getEventOwner(stack ? stack.eventId : 0));
-  if (!stack) return <div />;
+  if (!stack) return <StackShimmer />;
 
   const items = [];
   if (event && owner && showEventName) {

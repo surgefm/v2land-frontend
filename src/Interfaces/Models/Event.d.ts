@@ -32,4 +32,5 @@ export interface Event extends SimplifiedEvent {
   contributorIdList?: number[];
   commitTime?: Date;
   latestAdmittedNews?: News;
+  ownerId: number;
 }

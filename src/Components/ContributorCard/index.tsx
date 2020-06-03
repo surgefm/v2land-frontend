@@ -1,11 +1,12 @@
 import React from 'react';
 
+import { ClientAvatar } from '@Components/Client';
 import { IContributorCard } from './ContributorCard';
 
 const ContributorCard: React.FunctionComponent<IContributorCard.IProps> = ({ contributor }) => {
   return (
     <div>
-      <img src="/images/default.jpg" alt="Contributor avatar" />
+      <ClientAvatar clientId={2} asLink showTooltip={false} />
       <span>{contributor}</span>
       <style jsx>
         {`
@@ -28,12 +29,6 @@ const ContributorCard: React.FunctionComponent<IContributorCard.IProps> = ({ con
             border-bottom-right-radius: 0.25rem;
             border-bottom-left-radius: 0.25rem;
             padding-bottom: 0.5rem;
-          }
-
-          img {
-            width: 2rem;
-            height: 2rem;
-            border-radius: 50%;
           }
 
           span {

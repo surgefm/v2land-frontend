@@ -42,8 +42,16 @@ export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = props
   };
 
   const getAvatarIcon = (clickable = false) => {
-    if (!client) return <Skeleton.Avatar active />;
     const className = clickable ? 'clickable' : '';
+
+    if (!client)
+      return (
+        <span
+          className={`${className} ${p.className || ''}`}
+          style={{ fontSize: `${size * 0.6}px`, lineHeight: `${size}px`, width: `${size}px` }}
+        />
+      );
+
     if (avatar || client.avatar) {
       return (
         <LazyLoad once>
