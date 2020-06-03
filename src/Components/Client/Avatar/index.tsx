@@ -60,7 +60,7 @@ export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = props
     return (
       <span
         className={`${className} ${p.className || ''}`}
-        style={{ fontSize: `${size * 0.6}px`, lineHeight: `${size}px` }}
+        style={{ fontSize: `${size * 0.6}px`, lineHeight: `${size}px`, width: `${size}px` }}
       >
         {(client.nickname || client.username)[0].toUpperCase()}
       </span>
@@ -77,7 +77,7 @@ export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = props
     };
 
     return (
-      <a href={`/@${client.username}`} onClick={goToProfilePage}>
+      <a className={styles.link} href={`/@${client.username}`} onClick={goToProfilePage}>
         {getAvatarIcon(true)}
       </a>
     );

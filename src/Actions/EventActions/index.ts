@@ -113,6 +113,7 @@ const GetEvent = (
   event = (event as any) as Event;
   const id = getId(event.id, getLatest);
   event.id = id;
+
   dispatch(AddEvent(event));
 
   const actions: Action[] = [];

@@ -46,22 +46,24 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = () => {
       <div className="grid">
         <EventCardList className="left" />
         <div className="right">
-          <SectionHeader>热点话题</SectionHeader>
-          <>
-            <TagCard tag="新冠肺炎" />
-            <TagCard tag="医患纠纷" />
-            <TagCard tag="百度" />
-            <TagCard tag="娱乐圈" />
-            <TagCard tag="劳资纠纷" />
-            <TagCard tag="非洲猪瘟" />
-          </>
-          <SectionHeader>贡献榜</SectionHeader>
-          <>
-            <ContributorCard contributor="Vincent" />
-            <ContributorCard contributor="CCAV" />
-            <ContributorCard contributor="陈博士" />
-            <ContributorCard contributor="Erick" />
-          </>
+          <div>
+            <SectionHeader>热点话题</SectionHeader>
+            <>
+              <TagCard tag="新冠肺炎" />
+              <TagCard tag="医患纠纷" />
+              <TagCard tag="百度" />
+              <TagCard tag="娱乐圈" />
+              <TagCard tag="劳资纠纷" />
+              <TagCard tag="非洲猪瘟" />
+            </>
+            <SectionHeader>贡献榜</SectionHeader>
+            <>
+              <ContributorCard contributor="Vincent" />
+              <ContributorCard contributor="CCAV" />
+              <ContributorCard contributor="陈博士" />
+              <ContributorCard contributor="Erick" />
+            </>
+          </div>
         </div>
       </div>
       <Footer />
@@ -79,7 +81,13 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = () => {
           }
 
           .right {
+            display: block;
             grid-column: 3;
+          }
+
+          .right > div {
+            position: sticky;
+            top: 5rem;
           }
         `}
       </style>
@@ -88,9 +96,7 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = () => {
 };
 
 Home.getInitialProps = async (ctx: ReduxNextPageContext): Promise<IHomePage.InitialProps> => {
-  if (ctx.req) {
-    await ctx.store.dispatch(EventActions.GetEventList());
-  }
+  await ctx.store.dispatch(EventActions.GetEventList());
   return { namespacesRequired: ['common'] };
 };
 

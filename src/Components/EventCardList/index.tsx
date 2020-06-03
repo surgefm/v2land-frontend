@@ -16,7 +16,8 @@ export const EventCardList: React.FunctionComponent<IEventCardList.IProps> = ({ 
   for (let i = 0; i < eventList.length; i += 1) {
     const event = eventList[i];
     if (event) {
-      const lapseStr = UtilService.getTimeLapseString(event.commitTime, 'general');
+      const time = (event.latestAdmittedNews || {}).time;
+      const lapseStr = time ? UtilService.getTimeLapseString(time, 'general') : lastLapseStr;
       if (!lastLapseStr || lastLapseStr !== lapseStr) {
         lastLapseStr = lapseStr;
         cards.push(<SectionHeader key={`section-${lapseStr}`}>{lapseStr}更新</SectionHeader>);

@@ -91,7 +91,7 @@ export const getNewsroomCurrentClientRole = (eventId?: number) =>
     getLoggedInClientId,
     getActiveNewsroomId,
     (state, clientId, newsroomId) =>
-      getNewsroomClientRole((newsroomId || eventId) as number, clientId)(state)
+      getNewsroomClientRole((eventId || newsroomId) as number, clientId)(state)
   );
 
 export const canCurrentClientViewEvent = (eventId?: number) =>

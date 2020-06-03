@@ -1,6 +1,7 @@
 import { Record } from './Record';
 import { Stack } from './Stack';
 import { HeaderImage } from './HeaderImage';
+import { News } from './News';
 import { Tag } from './Tag';
 
 interface StringIndexInterface {
@@ -30,4 +31,5 @@ export interface Event extends SimplifiedEvent {
   lastUpdate?: Date;
   contributorIdList?: number[];
   commitTime?: Date;
+  latestAdmittedNews?: News;
 }
