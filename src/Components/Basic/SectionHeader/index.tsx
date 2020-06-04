@@ -1,7 +1,13 @@
 import React from 'react';
 
-export const SectionHeader: React.FunctionComponent = ({ children }) => (
-  <span>
+import { ISectionHeader } from './SectionHeader';
+
+export const SectionHeader: React.FunctionComponent<ISectionHeader.IProps> = ({
+  children,
+  styles,
+  className,
+}) => (
+  <span className={className || ''} style={styles || {}}>
     {children}
     <style jsx>
       {`

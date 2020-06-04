@@ -21,9 +21,11 @@ import {
   Stack,
   StackShimmer,
   Share,
+  SectionHeader,
 } from '@Components';
-import { getEvent, getEventStackIdList, isLoading } from '@Selectors';
+import { getEvent, getEventStackIdList, getStackListTime, isLoading } from '@Selectors';
 import { UtilService } from '@Services';
+import styles from '@Static/css/common.scss';
 // #endregion Local Imports
 
 // #region Interface Imports
@@ -33,6 +35,7 @@ import { IEventPage, ReduxNextPageContext } from '@Interfaces';
 const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ eventId }) => {
   const event = useSelector(getEvent(eventId));
   const stackIdList = useSelector(getEventStackIdList(eventId));
+  const stackTimeList = useSelector(getStackListTime(stackIdList));
   const router = useRouter();
 
   let username = (router.query.username as string) || '';
@@ -79,9 +82,22 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
     <EventCardShimmer />
   );
 
-  const stacks = stackIdList.map((stackId, index) => (
-    <Stack stackId={stackId} isLatestStack={index === 0} key={`stack-${stackId}`} />
-  ));
+  const stacks: React.ReactElement[] = [];
+  let lastTimeStr = '';
+  for (let i = 0; i < stackIdList.length; i += 1) {
+    const time = stackTimeList[i];
+    const timeStr = UtilService.getTimeString(time, { showMonthOnly: true });
+    if (timeStr && (!lastTimeStr || timeStr !== lastTimeStr)) {
+      lastTimeStr = timeStr;
+      stacks.push(
+        <SectionHeader key={`section-${timeStr}`} className={styles['stack-section-header']}>
+          {timeStr}
+        </SectionHeader>
+      );
+    }
+    const stackId = stackIdList[i];
+    stacks.push(<Stack stackId={stackId} isLatestStack={i === 0} key={`stack-${stackId}`} />);
+  }
 
   if ((isEventLoading || !event) && stackIdList.length === 0) {
     for (let i = 0; i < 4; i += 1) {

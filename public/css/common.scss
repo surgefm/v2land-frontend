@@ -32,14 +32,6 @@ img[src=""], img:not([src]) {
   opacity: 0 !important;
 }
 
-img[lazy=loading] {
-  opacity: 0;
-}
-
-img[lazy=loaded] {
-  opacity: 1;
-}
-
 .light-font {
   color: $light-color !important;
 }
@@ -64,16 +56,6 @@ img[lazy=loaded] {
 
 .border-color {
   border-color: $light-color;
-}
-
-.submit-button-group {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.submit-button-group-separate {
-  display: flex;
-  justify-content: space-between;
 }
 
 .large-screen {
@@ -110,8 +92,10 @@ img[lazy=loaded] {
   margin-top: .75rem;
 }
 
-.page-enter, .page-leave-active {
-  opacity: 0;
+.stack-section-header {
+  width: 100%;
+  max-width: 45rem;
+  margin-top: 0 !important;
 }
 
 @media (max-width: 600px) {
