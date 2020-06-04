@@ -20,6 +20,7 @@ import {
   EventCardShimmer,
   Stack,
   StackShimmer,
+  StackSideMenu,
   Share,
   SectionHeader,
 } from '@Components';
@@ -99,7 +100,8 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
     stacks.push(<Stack stackId={stackId} isLatestStack={i === 0} key={`stack-${stackId}`} />);
   }
 
-  if ((isEventLoading || !event) && stackIdList.length === 0) {
+  const showShimmer = (isEventLoading || !event) && stackIdList.length === 0;
+  if (showShimmer) {
     for (let i = 0; i < 4; i += 1) {
       stacks.push(<StackShimmer key={`shimmer-${i}`} />);
     }
@@ -108,6 +110,11 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
   return (
     <Background>
       <EventHead eventId={eventId} />
+      <StackSideMenu
+        stackIdList={stackIdList}
+        title={event ? event.name : ''}
+        loading={showShimmer}
+      />
       {eventCard}
       {stacks}
       <Footer />
