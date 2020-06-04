@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { Element as ScrollElement } from 'react-scroll';
 
 import { getStack, getStackNewsIdList, getStackTime, getEvent, getEventOwner } from '@Selectors';
 import { UtilService } from '@Services';
@@ -12,6 +13,7 @@ import { StackShimmer } from './Shimmer';
 
 export * from './Form';
 export * from './Shimmer';
+export * from './SideMenu';
 
 const Stack: React.FunctionComponent<IStack.IProps> = ({
   stackId,
@@ -57,61 +59,63 @@ const Stack: React.FunctionComponent<IStack.IProps> = ({
 
   return (
     <Card styles={{ paddingTop: '0', paddingBottom: '0' }}>
-      <div className="stack">
-        <div className="stack-main">
-          {displayOrder && typeof stack.order === 'number' ? (
-            <span className="order">{stack.order + 1}</span>
-          ) : null}
-          <div className="title">
-            {items}
-            <h2>{stack.title}</h2>
+      <ScrollElement name={`stack-${stackId}`}>
+        <div className="stack">
+          <div className="stack-main">
+            {displayOrder && typeof stack.order === 'number' ? (
+              <span className="order">{stack.order + 1}</span>
+            ) : null}
+            <div className="title">
+              {items}
+              <h2>{stack.title}</h2>
+            </div>
           </div>
+
+          <div className="content-area">
+            <p>{stack.description}</p>
+          </div>
+
+          <Share type="stack" stack={stack} />
+
+          <NewsItemList newsIdList={newsIdList} />
         </div>
+      </ScrollElement>
 
-        <div className="content-area">
-          <p>{stack.description}</p>
-        </div>
+      <style jsx>
+        {`
+          .title {
+            padding-top: 0.8rem;
+          }
 
-        <Share type="stack" stack={stack} />
+          .title :global(.separator) {
+            margin: 0 0.35rem;
+          }
 
-        <NewsItemList newsIdList={newsIdList} />
+          h2 {
+            line-height: 1.5;
+            display: block;
+          }
 
-        <style jsx>
-          {`
-            .title {
-              padding-top: 0.8rem;
-            }
+          .order {
+            margin-top: 0.8rem;
+            font-family: 'Lexend Giga', sans-serif;
+            font-size: 3.2rem;
+            color: rgb(30, 139, 195);
+            float: left;
+            margin-right: 0.5rem;
+            line-height: 1;
+          }
 
-            .title :global(.separator) {
-              margin: 0 0.35rem;
-            }
+          .content-area {
+            margin-top: 0.5rem;
+          }
 
-            h2 {
-              line-height: 1.5;
-              display: block;
-            }
-
-            .order {
-              margin-top: 0.8rem;
-              font-family: 'Lexend Giga', sans-serif;
-              font-size: 3.2rem;
-              color: rgb(30, 139, 195);
-              float: left;
-              margin-right: 0.5rem;
-              line-height: 1;
-            }
-
-            .content-area {
-              margin-top: 0.5rem;
-            }
-
-            .content-area p {
-              line-height: 1.8;
-              display: block;
-            }
-          `}
-        </style>
-      </div>
+          .content-area p {
+            line-height: 1.8;
+            display: block;
+          }
+        `}
+      </style>
     </Card>
   );
 };
