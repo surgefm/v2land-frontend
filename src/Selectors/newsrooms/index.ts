@@ -97,7 +97,7 @@ export const getNewsroomCurrentClientRole = (eventId?: number) =>
 export const canCurrentClientViewEvent = (eventId?: number) =>
   createSelector(
     getNewsroomCurrentClientRole(eventId),
-    role => role !== 'passerby'
+    role => role && role !== 'passerby'
   );
 
 export const canCurrentClientEditEvent = (eventId?: number) =>

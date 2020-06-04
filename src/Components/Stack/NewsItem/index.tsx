@@ -1,6 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { getNews } from '@Selectors';
+
+import { Image } from '@Components/Basic';
+
 import { INewsItem } from './NewsItem';
 
 export const NewsItem: React.FunctionComponent<INewsItem.IProps> = ({ id }) => {
@@ -9,7 +12,9 @@ export const NewsItem: React.FunctionComponent<INewsItem.IProps> = ({ id }) => {
   return (
     <div className="news-item">
       <div className="news-link">
-        <img src="/images/defaultSource.png" alt="media icon" />
+        <div className="img">
+          <Image src="/images/defaultSource.png" alt="media icon" />
+        </div>
         <a href={url}>{news && news.title}</a>
       </div>
 
@@ -24,6 +29,8 @@ export const NewsItem: React.FunctionComponent<INewsItem.IProps> = ({ id }) => {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            position: relative;
+            overflow: hidden;
           }
 
           .news-link {
@@ -32,9 +39,28 @@ export const NewsItem: React.FunctionComponent<INewsItem.IProps> = ({ id }) => {
             flex-grow: 1;
           }
 
-          img {
+          .news-item .img {
             height: 1.2rem;
+            width: 1.2rem;
             margin-right: 0.3rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+
+          .news-item :global(img) {
+            height: 1rem;
+            width: 1rem;
+          }
+
+          .news-source {
+            position: absolute;
+            right: 0;
+            line-height: 2rem;
+            padding-left: 1.5rem;
+            background: #fff;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0), #fff 1rem, #fff 100%);
+            white-space: nowrap;
           }
 
           a {
@@ -42,6 +68,7 @@ export const NewsItem: React.FunctionComponent<INewsItem.IProps> = ({ id }) => {
             line-height: 1.75;
             border-top: 1.5px solid transparent;
             border-bottom: 1.5px solid transparent;
+            white-space: nowrap;
           }
 
           a:hover {

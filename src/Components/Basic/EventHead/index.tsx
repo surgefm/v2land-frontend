@@ -28,11 +28,10 @@ export const EventHead: React.FunctionComponent<IEventHead.IProps> = ({
   ];
 
   if (event.description) {
-    list.push(<meta key="description" name="description" content={event.description} />);
-    list.push(
-      <meta key="twitter:description" name="twitter:description" content={event.description} />
-    );
-    list.push(<meta key="og:description" property="og:description" content={event.description} />);
+    const description = event.description.split('\n').join('');
+    list.push(<meta key="description" name="description" content={description} />);
+    list.push(<meta key="twitter:description" name="twitter:description" content={description} />);
+    list.push(<meta key="og:description" property="og:description" content={description} />);
   }
 
   if (event.headerImage) {

@@ -1,12 +1,12 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Tooltip, Skeleton } from 'antd';
-import LazyLoad from 'react-lazyload';
 
 import { ClientActions } from '@Actions';
 import { getClient, getNewsroomClientRole } from '@Selectors';
 import { ClientService, UtilService } from '@Services';
 
+import { Image } from '@Components/Basic';
 import { IClientAvatar } from './Avatar';
 import styles from './Avatar.module.scss';
 
@@ -37,32 +37,18 @@ export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = props
     );
   };
 
-  const showImage = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    e.currentTarget.style.opacity = '1';
-  };
-
   const getAvatarIcon = (clickable = false) => {
     const className = clickable ? 'clickable' : '';
 
-    if (!client)
+    const avatarUrl = avatar || (client ? client.avatar : '');
+    if (avatarUrl) {
       return (
-        <span
+        <Image
+          alt="avatar"
+          style={{ width: '100%', height: '100%' }}
           className={`${className} ${p.className || ''}`}
-          style={{ fontSize: `${size * 0.6}px`, lineHeight: `${size}px`, width: `${size}px` }}
+          src={UtilService.getImageUrl(avatarUrl, Math.max(size, 64), Math.max(size, 64))}
         />
-      );
-
-    if (avatar || client.avatar) {
-      return (
-        <LazyLoad once>
-          <img
-            alt="avatar"
-            style={{ opacity: 0 }}
-            onLoad={showImage}
-            className={`${className} ${p.className || ''}`}
-            src={UtilService.getImageUrl((avatar || client.avatar) as string, size, size)}
-          />
-        </LazyLoad>
       );
     }
     return (
@@ -70,7 +56,7 @@ export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = props
         className={`${className} ${p.className || ''}`}
         style={{ fontSize: `${size * 0.6}px`, lineHeight: `${size}px`, width: `${size}px` }}
       >
-        {(client.nickname || client.username)[0].toUpperCase()}
+        {client ? (client.nickname || client.username)[0].toUpperCase() : ''}
       </span>
     );
   };
@@ -100,11 +86,14 @@ export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = props
 
   let classes = styles.container;
   if (avatar || (client ? client.avatar : null)) classes += ` ${styles.avatar}`;
+  if (asLink) classes += ` ${styles.clickable}`;
 
   if (!showTooltip) {
     return (
       <div className={classes} {...style}>
-        {getAvatar()}
+        <div className={styles.mask} style={{ opacity: client ? 1 : 0 }}>
+          {getAvatar()}
+        </div>
       </div>
     );
   }
@@ -112,7 +101,9 @@ export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = props
   return (
     <Tooltip title={getTooltipText()} overlayClassName="avatar-icon-tooltip">
       <div className={classes} {...style}>
-        {getAvatar()}
+        <div className={styles.mask} style={{ opacity: client ? 1 : 0 }}>
+          {getAvatar()}
+        </div>
         <style jsx>
           {`
             :global(.avatar-icon-tooltip) :global(.ant-skeleton-paragraph) {

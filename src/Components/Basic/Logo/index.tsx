@@ -1,9 +1,10 @@
 import React from 'react';
+import { Image } from '@Components/Basic';
 import { ILogo } from './Logo';
 
 export const Logo: React.FunctionComponent<ILogo.IProps> = ({ className, height, styles }) => {
   return (
-    <img
+    <Image
       style={{
         maxHeight: '100%',
         ...(height ? { height: `${height}px` } : {}),
