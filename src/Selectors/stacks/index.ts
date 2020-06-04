@@ -61,3 +61,6 @@ export const getStackTime = (stackId: number) =>
       return news.time;
     }
   );
+
+export const getStackListTime = (stackIdList: number[]) => (state: IStore) =>
+  stackIdList.map(id => getStackTime(id)(state));
