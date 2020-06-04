@@ -122,6 +122,21 @@ const GetEvent = (
     actions.push(ClientActions.AddClient(event.owner));
   }
 
+  if (event.contributorIdList) {
+    const clientIds: number[] = [];
+    const promises: Promise<void>[] = [];
+    for (let i = 0; i < event.contributorIdList.length; i += 1) {
+      const clientId = event.contributorIdList[i];
+      if (!clientIds.includes(clientId)) {
+        clientIds.push(clientId);
+        if (!getClient(clientId)(getState(state))) {
+          promises.push(ClientActions.GetClient(clientId)(dispatch, state));
+        }
+      }
+    }
+    await Promise.all(promises);
+  }
+
   if (event.roles) {
     actions.push(
       NewsroomActions.AddNewsroom({

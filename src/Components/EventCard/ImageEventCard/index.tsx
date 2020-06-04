@@ -1,6 +1,6 @@
 import React from 'react';
-import LazyLoad from 'react-lazyload';
 
+import { Image } from '@Components/Basic';
 import { ClientAvatar } from '@Components/Client';
 import { EventCardTitle } from '../Title';
 import { EventCardDescription } from '../Description';
@@ -19,21 +19,14 @@ export const ImageEventCard: React.FunctionComponent<IImageEventCard.IProps> = (
     }
   };
 
-  const showImage = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    e.currentTarget.style.opacity = '1';
-  };
-
   return (
     <div className="event-container">
       <div className="event-image-container">
-        <LazyLoad once>
-          <img
-            alt={event.headerImage.source}
-            src={`https://assets.v2land.net/240x240/${event.headerImage.imageUrl}`}
-            className="event-image"
-            onLoad={showImage}
-          />
-        </LazyLoad>
+        <Image
+          alt={event.headerImage.source || 'image source'}
+          src={`https://assets.v2land.net/240x240/${event.headerImage.imageUrl}`}
+          className="event-image"
+        />
         <button onClick={openImageSourceUrl} type="button">
           {event.headerImage.source}
         </button>
@@ -68,14 +61,12 @@ export const ImageEventCard: React.FunctionComponent<IImageEventCard.IProps> = (
             background-color: rgba(0, 131, 168, 0.035);
           }
 
-          .event-image {
+          .event-container :global(.event-image) {
             object-fit: cover;
             border-top-right-radius: 0.5rem;
             border-bottom-right-radius: 0.5rem;
             width: 100%;
             height: 100%;
-            transition: all 0.2s;
-            opacity: 0;
           }
 
           .event-image-container button {
@@ -113,19 +104,25 @@ export const ImageEventCard: React.FunctionComponent<IImageEventCard.IProps> = (
               margin: 1rem 0.5rem 0 1rem;
             }
 
+            .avatar {
+              margin-top: 1rem;
+            }
+
             .event-container > :global(.description) {
               margin: 0.5rem 1rem 1rem 1rem;
             }
 
             .event-image-container {
-              width: 102px;
-              height: 102px;
+              width: 6rem;
+              height: 6rem;
+              overflow: hidden;
               margin-left: 1rem;
               position: relative;
               float: right;
               border-radius: 0.25rem;
               top: 0.5rem;
               right: 0.5rem;
+              z-index: 3;
             }
 
             .event-image-container button {
