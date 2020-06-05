@@ -23,12 +23,6 @@ export const HeaderUserInfo: React.FunctionComponent = () => {
     }
   }, [isLoggedIn]);
 
-  const handleAvatarClick = () => {
-    if (router.pathname === '/[username]' && router.query.username === `@${client.username}`)
-      return;
-    UtilService.redirect(`/@${client.username}`);
-  };
-
   const handleLoginClick = (e: React.MouseEvent) => {
     e.preventDefault();
     if (!isLoggedIn) {
@@ -64,6 +58,13 @@ export const HeaderUserInfo: React.FunctionComponent = () => {
     );
   }
 
+  const goToProfilePage = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (router.pathname === '/[username]' && router.query.username === `@${client.username}`)
+      return;
+    UtilService.redirect(`/@${client.username}`);
+  };
+
   const handleLogout = async (e: React.MouseEvent) => {
     e.preventDefault();
     await dispatch(ClientActions.Logout());
@@ -71,6 +72,11 @@ export const HeaderUserInfo: React.FunctionComponent = () => {
 
   const menu = (
     <Menu>
+      <Menu.Item>
+        <a href={`/@${client.username}`} onClick={goToProfilePage}>
+          个人资料
+        </a>
+      </Menu.Item>
       <Menu.Item>
         <a href="/logout" onClick={handleLogout}>
           退出登录
@@ -80,8 +86,8 @@ export const HeaderUserInfo: React.FunctionComponent = () => {
   );
 
   return (
-    <Dropdown overlay={menu}>
-      <button type="button" className="container" onClick={handleAvatarClick}>
+    <Dropdown overlay={menu} trigger={['click']}>
+      <button type="button" className="container">
         <ClientAvatar showTooltip={false} clientId={client.id} />
         <span>{client.nickname || `@${client.username}`}</span>
         <style jsx>
@@ -100,15 +106,6 @@ export const HeaderUserInfo: React.FunctionComponent = () => {
 
             .container:hover {
               background-color: rgba(0, 0, 0, 0.075);
-            }
-
-            .container:active {
-              transform: scale(
-                ${router.pathname === '/[username]' &&
-                router.query.username === `@${client.username}`
-                  ? '1'
-                  : '0.9'}
-              );
             }
 
             span:not(:first-child) {

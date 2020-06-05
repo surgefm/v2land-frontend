@@ -51,6 +51,8 @@ export const StackSideMenu: React.FunctionComponent<IStackSideMenu.IProps> = ({
             position: fixed;
             right: calc(50% + 22.5rem);
             top: 8rem;
+            max-height: calc(100vh - 10rem);
+            overflow-y: scroll;
             width: 15rem;
             display: flex;
             flex-direction: column;
@@ -59,8 +61,6 @@ export const StackSideMenu: React.FunctionComponent<IStackSideMenu.IProps> = ({
           }
 
           .top > div {
-            overflow-y: scroll;
-            max-height: 460px;
             padding-right: 1rem;
           }
 
@@ -89,6 +89,9 @@ export const StackSideMenu: React.FunctionComponent<IStackSideMenu.IProps> = ({
             text-align: right;
             margin-right: 1rem;
             border-right: 1px solid #eee;
+            background-color: #f6f8fa;
+            position: sticky;
+            top: 0;
           }
 
           .item-title {

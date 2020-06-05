@@ -2,9 +2,6 @@
   border-radius: 50%;
   background-color: rgb(197, 239, 247);
   background-image: linear-gradient(135deg, rgb(197, 239, 247), rgb(82, 179, 217));
-  display: flex;
-  justify-content: center;
-  position: relative;
 }
 
 .container * {
@@ -31,10 +28,7 @@
 }
 
 .mask {
-  position: absolute;
   width: 100%;
   height: 100%;
-  left: 0;
-  top: 0;
   transition: all 0.25s;
 }

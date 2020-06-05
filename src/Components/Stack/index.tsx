@@ -97,13 +97,13 @@ const Stack: React.FunctionComponent<IStack.IProps> = ({
           }
 
           .order {
-            margin-top: 0.8rem;
             font-family: 'Lexend Giga', sans-serif;
-            font-size: 3.2rem;
+            margin-top: 0.75rem;
+            font-size: 3.5rem;
+            line-height: 3.35rem;
             color: rgb(30, 139, 195);
             float: left;
             margin-right: 0.5rem;
-            line-height: 1;
           }
 
           .content-area {
