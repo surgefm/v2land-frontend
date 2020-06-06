@@ -7,7 +7,12 @@ export const Logo: React.FunctionComponent<ILogo.IProps> = ({ className, height,
     <Image
       style={{
         maxHeight: '100%',
-        ...(height ? { height: `${height}px` } : {}),
+        ...(height
+          ? {
+              height: `${height}px`,
+              width: `${(30.38 * 32) / height}px`,
+            }
+          : {}),
         ...styles,
       }}
       alt="logo"

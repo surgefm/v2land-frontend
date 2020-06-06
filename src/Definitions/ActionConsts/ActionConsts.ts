@@ -22,7 +22,9 @@ export const ActionConsts = {
   Stack: {
     AddStack: 'Stack_AddStack',
     UpdateStack: 'Stack_UpdateStack',
+    AddEventToStack: 'Stack_AddEventToStack',
     AddNewsToStack: 'Stack_AddNewsToStack',
+    RemoveEventFromStack: 'Stack_RemoveEventFromStack',
     RemoveNewsFromStack: 'Stack_RemoveNewsFromStack',
   },
   News: {

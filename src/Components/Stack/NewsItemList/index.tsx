@@ -37,7 +37,7 @@ export const NewsItemList: React.FunctionComponent<INewsItemList.IProps> = ({ ne
       <style jsx>
         {`
           .news-area {
-            padding: 0.4rem 0rem 1.25rem 0rem;
+            padding: 0.4rem 0rem 0.5rem 0rem;
             display: flex;
             flex-direction: column;
           }

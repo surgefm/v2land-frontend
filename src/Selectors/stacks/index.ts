@@ -5,6 +5,7 @@ import { IStore, Stack } from '@Interfaces';
 
 // #region Local Imports
 import { getNewsList, getNews } from '../news';
+import { getEvent } from '../events';
 // #endregion Local Imports
 
 export const getStacksState = (state: IStore) => state.stacks;
@@ -46,6 +47,13 @@ export const getStackNewsList = (stackId: number) =>
     state => state,
     getStackNewsIdList(stackId),
     (state, newsIdList) => getNewsList(newsIdList)(state)
+  );
+
+export const getStackEvent = (stackId: number) =>
+  createSelector(
+    state => state,
+    getStack(stackId),
+    (state, stack) => (stack && stack.stackEventId ? getEvent(stack.stackEventId)(state) : null)
   );
 
 export const getStackTime = (stackId: number) =>

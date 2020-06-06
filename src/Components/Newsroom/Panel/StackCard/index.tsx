@@ -17,6 +17,7 @@ import {
 import { NewsroomActions } from '@Actions';
 import { getNewsroomSocket } from '@Services';
 import { StackForm } from '@Components/Stack';
+import { EventCard } from '@Components/EventCard';
 import { Time } from '@Components/Basic';
 
 import { NewsroomPanelCard } from '../Card';
@@ -99,11 +100,22 @@ const NewsroomPanelStackCard: React.FunctionComponent<INewsroomPanelStackCard.IP
               <Time time={time} style={{ color: '#666' }} />
             </div>
             {showStackNews ? (
-              <NewsroomPanelNewsList
-                newsIdList={newsIdList}
-                droppableId={`stack-card-${Math.abs(stackId)}-news-list`}
-                isNested
-              />
+              <>
+                {stack.stackEventId ? (
+                  <div>
+                    <EventCard
+                      eventId={stack.stackEventId}
+                      forcePlain
+                      styles={{ margin: '0.25rem 0', borderRadius: '0.25rem' }}
+                    />
+                  </div>
+                ) : null}
+                <NewsroomPanelNewsList
+                  newsIdList={newsIdList}
+                  droppableId={`stack-card-${Math.abs(stackId)}-news-list`}
+                  isNested
+                />
+              </>
             ) : (
               <React.Fragment />
             )}
