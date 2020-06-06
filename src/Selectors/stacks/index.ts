@@ -62,11 +62,11 @@ export const getStackTime = (stackId: number) =>
     getStack(stackId),
     (state, stack) => {
       if (!stack) return undefined;
-      if (stack.time) return stack.time;
+      if (stack.time) return new Date(stack.time);
       if (!stack.newsIdList || stack.newsIdList.length === 0) return undefined;
       const news = getNews(stack.newsIdList[0])(state);
       if (!news) return undefined;
-      return news.time;
+      return new Date(news.time);
     }
   );
 

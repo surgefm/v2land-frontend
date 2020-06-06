@@ -64,16 +64,22 @@ export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = props
   const getAvatar = () => {
     if (!asLink || !client) return getAvatarIcon();
 
-    const goToProfilePage = (e: React.MouseEvent) => {
+    const goToProfilePage = (e: React.MouseEvent | React.KeyboardEvent) => {
       e.preventDefault();
       e.stopPropagation();
       UtilService.redirect(`/@${client.username}`);
     };
 
     return (
-      <a className={styles.link} href={`/@${client.username}`} onClick={goToProfilePage}>
+      <div
+        role="button"
+        onKeyPress={goToProfilePage}
+        onClick={goToProfilePage}
+        className={styles.link}
+        tabIndex={0}
+      >
         {getAvatarIcon(true)}
-      </a>
+      </div>
     );
   };
 
