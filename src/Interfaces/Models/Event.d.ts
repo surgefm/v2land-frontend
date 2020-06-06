@@ -33,4 +33,5 @@ export interface Event extends SimplifiedEvent {
   commitTime?: Date;
   latestAdmittedNews?: News;
   ownerId: number;
+  time?: Date;
 }
