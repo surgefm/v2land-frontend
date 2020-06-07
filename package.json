@@ -128,7 +128,6 @@
     "eslint-plugin-react": "7.x",
     "eslint-plugin-react-hooks": "1.x",
     "fork-ts-checker-webpack-plugin": "^4.1.2",
-    "fsevents": "~2.1.2",
     "husky": "^4.2.5",
     "jest": "^24.9.0",
     "jest-styled-components": "^6.3.3",
@@ -144,6 +143,9 @@
     "ts-loader": "^6.2.2",
     "ts-node": "^8.4.1",
     "typescript": "^3.6.3"
+  },
+  "optionalDependencies": {
+    "fsevents": "~2.1.2"
   },
   "husky": {
     "hooks": {
