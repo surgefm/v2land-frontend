@@ -22,6 +22,7 @@ const addEvent = (state: EventsState, action: EventAction) => {
   }
   event.stackIdList = event.stackIdList || [];
   event.newsIdList = event.newsIdList || [];
+  event.tagIdList = event.tagIdList || [];
   event.offshelfNewsIdList = event.offshelfNewsIdList || [];
   event.offshelfStackIdList = event.offshelfStackIdList || [];
 

@@ -15,6 +15,7 @@ import { NewsActions } from '../NewsActions';
 import { StackActions } from '../StackActions';
 import { ClientActions } from '../ClientActions';
 import { NewsroomActions } from '../NewsroomActions';
+import { TagActions } from '../TagActions';
 // #endregion Local Imports
 
 const AddEvent = (event: Event) => ({
@@ -144,6 +145,13 @@ const GetEvent = (
         roles: event.roles,
       })
     );
+  }
+
+  event.tags = event.tags || [];
+  for (let i = 0; i < event.tags.length; i += 1) {
+    const tag = event.tags[i];
+    actions.push(TagActions.AddTag(tag));
+    actions.push(TagActions.AddEventToTag(tag.id, id));
   }
 
   event.stacks = event.stacks || [];

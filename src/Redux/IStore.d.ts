@@ -1,5 +1,5 @@
 // #region Interface Imports
-import { Event, Stack, News, Client, Newsroom } from '@Interfaces';
+import { Event, Stack, News, Client, Newsroom, Tag } from '@Interfaces';
 // #endregion Interface Imports
 
 export interface HomepageState {
@@ -38,6 +38,12 @@ export interface NewsroomsState {
   idIndexMap: { [index: number]: number };
 }
 
+export interface TagsState {
+  list: Tag[];
+  idIndexMap: { [index: number]: number };
+  nameIdMap: { [index: string]: number };
+}
+
 export type LoadingState = { [index: string]: boolean };
 
 export interface IStore {
@@ -47,6 +53,7 @@ export interface IStore {
   news: NewsState;
   clients: ClientsState;
   newsrooms: NewsroomsState;
+  tags: TagsState;
   loading: LoadingState;
 }
 

@@ -4,7 +4,7 @@ import { ThunkDispatch as TDispatch } from 'redux-thunk';
 // #endregion Global Imports
 
 // #region Local Imports
-import { Event, Stack, News, Client, Newsroom, NewsroomSocketStatus } from '@Interfaces';
+import { Event, Stack, News, Client, Newsroom, Tag, NewsroomSocketStatus } from '@Interfaces';
 import { IStore } from './IStore';
 // #endregion Local Imports
 
@@ -31,6 +31,12 @@ export interface StackAction extends ReduxAction {
 export interface NewsAction extends ReduxAction {
   news: News;
   newsId?: number;
+}
+
+export interface TagAction extends ReduxAction {
+  tag?: Tag;
+  tagId?: number;
+  eventId?: number;
 }
 
 export interface NewsroomAction extends ReduxAction {

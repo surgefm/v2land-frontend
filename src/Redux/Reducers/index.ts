@@ -14,6 +14,7 @@ import { LoadingReducer, getLoadingInitialState } from './loading';
 import { NewsReducer, getNewsInitialState } from './news';
 import { NewsroomReducer, getNewsroomInitialState } from './newsrooms';
 import { StackReducer, getStackInitialState } from './stacks';
+import { TagReducer, getTagInitialState } from './tags';
 
 import sortEventStackList from './events/sortEventStackList';
 import sortEventOffshelfStackList from './events/sortEventOffshelfStackList';
@@ -28,6 +29,7 @@ export const getInitialState = (): IStore => ({
   news: getNewsInitialState(),
   newsrooms: getNewsroomInitialState(),
   stacks: getStackInitialState(),
+  tags: getTagInitialState(),
 });
 
 const reduced = combineReducers({
@@ -38,6 +40,7 @@ const reduced = combineReducers({
   news: NewsReducer,
   newsrooms: NewsroomReducer,
   stacks: StackReducer,
+  tags: TagReducer,
 }) as Reducer<IStore, Action>;
 
 export default reduceReducers((state: IStore = getInitialState(), action?: AnyAction) => {
