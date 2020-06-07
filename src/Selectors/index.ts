@@ -5,3 +5,4 @@ export * from './loading';
 export * from './news';
 export * from './newsrooms';
 export * from './stacks';
+export * from './tags';

@@ -20,6 +20,7 @@ export interface Event extends SimplifiedEvent {
   status?: string;
   stacks?: Stack[];
   tags?: Tag[];
+  tagIdList: number[];
   newsIdList: number[];
   offshelfNewsIdList: number[];
   stackIdList: number[];

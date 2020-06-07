@@ -31,6 +31,12 @@ export const ActionConsts = {
     AddNews: 'News_AddNews',
     UpdateNews: 'News_UpdateNews',
   },
+  Tag: {
+    AddTag: 'Tag_AddTag',
+    UpdateTag: 'Tag_UpdateTag',
+    AddEventToTag: 'Tag_AddEventToTag',
+    RemoveEventFromTag: 'Tag_RemoveEventFromTag',
+  },
   Client: {
     AddClient: 'Client_AddClient',
     UpdateClient: 'Client_UpdateClient',
