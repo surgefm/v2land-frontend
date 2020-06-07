@@ -16,4 +16,6 @@ export interface Stack {
   eventId: number;
   event?: Event;
   newsIdList: number[];
+  stackEventId?: number;
+  stackEvent?: Event;
 }

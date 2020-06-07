@@ -24,6 +24,7 @@ export interface EventAction extends ReduxAction {
 export interface StackAction extends ReduxAction {
   stack?: Stack;
   stackId?: number;
+  eventId?: number;
   newsId?: number;
 }
 

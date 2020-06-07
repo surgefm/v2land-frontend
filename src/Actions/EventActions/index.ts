@@ -151,6 +151,12 @@ const GetEvent = (
     const stack = event.stacks[i];
     stack.id = getId(stack.id, getLatest);
     stack.eventId = id;
+
+    if (stack.stackEventId && stack.stackEvent) {
+      actions.push(AddEvent({ ...stack.stackEvent }));
+      delete stack.stackEvent;
+    }
+
     actions.push(StackActions.AddStack(stack));
     if ((stack.order || 0) >= 0) {
       actions.push(AddStackToEvent(id, stack.id));
@@ -185,7 +191,7 @@ const GetEventList = (page = 1) => async (dispatch: Dispatch, state: IThunkStore
   if (isLoading(identifier)(getState(state))) return;
 
   dispatch(LoadingActions.BeginLoading(identifier));
-  const eventList = await RedstoneService.getEventList(page);
+  const eventList = await RedstoneService.getEventList({ page });
   const actions: Action[] = eventList.map(AddEvent);
   actions.push(HomepageActions.SetEventList(eventList.map(event => event.id)));
   const clientIds: number[] = [];

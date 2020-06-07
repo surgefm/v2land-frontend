@@ -14,7 +14,7 @@ import {
   AppStore,
 } from '@Interfaces';
 import { EventActions, StackActions, NewsroomActions } from '@Actions';
-import { getNewsroom, isNewsroomSocketConnected } from '@Selectors';
+import { getNewsroom, isNewsroomSocketConnected, getEvent } from '@Selectors';
 
 const {
   publicRuntimeConfig: { API_URL },
@@ -41,6 +41,7 @@ type Response = {
   eventStackNews?: EventStackNews;
   news?: News;
   stack?: Stack;
+  stackId?: number;
   event?: Event;
   eventId?: number;
   clientId?: number;
@@ -162,6 +163,16 @@ export class NewsroomSocket {
       this.store.dispatch(NewsroomActions.RemoveNewsroomClient(this.eventId, clientId));
     });
 
+    this.socket.on('add event to stack', (res: Response) => {
+      const { stackId, eventId } = res;
+      if (!stackId || !eventId) return;
+      if (!getEvent(eventId)(this.store.getState())) {
+        this.store.dispatch(EventActions.GetEvent(eventId));
+      }
+
+      this.store.dispatch(StackActions.AddEventToStack(stackId, eventId));
+    });
+
     this.socket.on('add news to event', (res: Response) => {
       const esn = res.eventStackNews as EventStackNews;
       this.store.dispatch(EventActions.AddNewsToEvent(-esn.eventId, -(esn.newsId as number)));
@@ -181,6 +192,11 @@ export class NewsroomSocket {
       this.store.dispatch(
         EventActions.AddStackToEventOffshelfStackList(-(stack.eventId || 0), stack.id)
       );
+    });
+
+    this.socket.on('remove event from stack', (res: Response) => {
+      const stackId = res.stackId as number;
+      this.store.dispatch(StackActions.RemoveEventFromStack(-stackId));
     });
 
     this.socket.on('remove news from stack', (esn: EventStackNews) => {
@@ -283,6 +299,10 @@ export class NewsroomSocket {
 
   async makeCommit(summary: string, description: string) {
     return this.emit<{ commit: Commit }>('make commit', this.eventId, summary, description);
+  }
+
+  async removeEventFromStack(stackId: number) {
+    return this.emit('remove event from stack', Math.abs(stackId));
   }
 
   async removeNewsFromEvent(newsId: number, eventId: number) {

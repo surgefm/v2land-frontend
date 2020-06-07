@@ -16,8 +16,22 @@ export const getEvent = async (
     : get<Event>(`/event/${+eventId}`, { latest: username ? 1 : 0 });
 };
 
-export const getEventList = async (page = 1): Promise<Event[]> => {
-  const { eventList } = await get<RedstoneModel.GetEventListResponse>('/event', { page });
+type GetEventListOptions = {
+  page?: number;
+  where?: any;
+  latest?: boolean;
+};
+
+export const getEventList = async ({
+  page = 1,
+  where = {},
+  latest = false,
+}: GetEventListOptions): Promise<Event[]> => {
+  const { eventList } = await post<RedstoneModel.GetEventListResponse>('/event/list', {
+    page,
+    where,
+    latest: latest ? 1 : 0,
+  });
   return eventList;
 };
 

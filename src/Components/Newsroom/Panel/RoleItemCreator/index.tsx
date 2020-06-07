@@ -142,7 +142,8 @@ const NewsroomPanelRoleItemCreator: React.FunctionComponent<
             <AutoComplete.Option key={`client-${c.id}`} value={c.username}>
               <Space>
                 <ClientAvatar clientId={c.id} />
-                <span>{c.username}</span>
+                {c.nickname ? <span style={{ marginRight: '0.25rem' }}>{c.nickname}</span> : null}
+                <span>@{c.username}</span>
               </Space>
             </AutoComplete.Option>
           ))}

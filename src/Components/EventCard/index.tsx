@@ -11,7 +11,12 @@ import { PlainEventCard } from './PlainEventCard';
 import { ImageEventCard } from './ImageEventCard';
 import { IEventCard } from './EventCard';
 
-const EventCard: React.FunctionComponent<IEventCard.IProps> = ({ eventId }) => {
+const EventCard: React.FunctionComponent<IEventCard.IProps> = ({
+  eventId,
+  forcePlain,
+  styles,
+  className = '',
+}) => {
   const event = useSelector(getEvent(eventId));
   const owner = useSelector(getEventOwner(eventId));
   const dispatch = useDispatch();
@@ -26,7 +31,7 @@ const EventCard: React.FunctionComponent<IEventCard.IProps> = ({ eventId }) => {
 
   if (!event || !owner) {
     return (
-      <Card styles={{ padding: 0 }}>
+      <Card styles={{ padding: 0, ...styles }} className={className}>
         <EventCardShimmer />
       </Card>
     );
@@ -35,8 +40,12 @@ const EventCard: React.FunctionComponent<IEventCard.IProps> = ({ eventId }) => {
   return (
     <Link href="/[username]/[eventName]" as={UtilService.getEventPath(event, owner)}>
       <a>
-        <Card styles={{ padding: 0 }}>
-          {event.headerImage ? <ImageEventCard event={event} /> : <PlainEventCard event={event} />}
+        <Card styles={{ padding: 0, ...styles }} className={className}>
+          {event.headerImage && !forcePlain ? (
+            <ImageEventCard event={event} />
+          ) : (
+            <PlainEventCard event={event} />
+          )}
         </Card>
       </a>
     </Link>

@@ -136,3 +136,15 @@ export const getEventTemporaryStackNewsList = (eventId: number, sorted = false) 
     getEventTemporaryStackNewsIdList(eventId),
     (state, newsIdList) => getNewsList(newsIdList, sorted)(state)
   );
+
+export const getEventTimeList = (eventIdList: number[]) => (state: IStore) =>
+  eventIdList.map(id => {
+    const event = getEvent(id)(state);
+    if (!event) return null;
+    if (event.time) return new Date(event.time);
+    const stackIdList = getEventStackIdList(id)(state);
+    if (stackIdList.length > 0) {
+      return getStackTime(stackIdList[0])(state);
+    }
+    return event.latestAdmittedNews ? event.latestAdmittedNews.time : null;
+  });

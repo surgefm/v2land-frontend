@@ -4,6 +4,7 @@ import { Element as ScrollElement } from 'react-scroll';
 
 import { getStack, getStackNewsIdList, getStackTime, getEvent, getEventOwner } from '@Selectors';
 import { UtilService } from '@Services';
+import { EventCard } from '@Components/EventCard';
 import { Card, Time } from '@Components/Basic';
 import { Share } from '@Components/Share';
 
@@ -58,7 +59,7 @@ const Stack: React.FunctionComponent<IStack.IProps> = ({
   }
 
   return (
-    <Card styles={{ paddingTop: '0', paddingBottom: '0' }}>
+    <Card styles={{ paddingTop: '0', paddingBottom: '0.75rem' }}>
       <ScrollElement name={`stack-${stackId}`}>
         <div className="stack">
           <div className="stack-main">
@@ -75,9 +76,15 @@ const Stack: React.FunctionComponent<IStack.IProps> = ({
             <p>{stack.description}</p>
           </div>
 
+          <div>
+            {stack.stackEventId ? (
+              <EventCard eventId={stack.stackEventId} className="event-card" />
+            ) : null}
+          </div>
+
           <Share type="stack" stack={stack} />
 
-          <NewsItemList newsIdList={newsIdList} />
+          {newsIdList && newsIdList.length > 0 ? <NewsItemList newsIdList={newsIdList} /> : null}
         </div>
       </ScrollElement>
 
@@ -97,13 +104,13 @@ const Stack: React.FunctionComponent<IStack.IProps> = ({
           }
 
           .order {
-            margin-top: 0.8rem;
             font-family: 'Lexend Giga', sans-serif;
-            font-size: 3.2rem;
+            margin-top: 0.75rem;
+            font-size: 3.5rem;
+            line-height: 3.35rem;
             color: rgb(30, 139, 195);
             float: left;
             margin-right: 0.5rem;
-            line-height: 1;
           }
 
           .content-area {
@@ -113,6 +120,15 @@ const Stack: React.FunctionComponent<IStack.IProps> = ({
           .content-area p {
             line-height: 1.8;
             display: block;
+          }
+
+          .stack :global(.event-card) {
+            border: 1px solid #ccc;
+            box-shadow: none;
+          }
+
+          .stack :global(.event-card):hover {
+            box-shadow: 0 2.5px 7.5px rgba(0, 0, 0, 0.0375);
           }
         `}
       </style>

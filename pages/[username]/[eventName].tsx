@@ -85,16 +85,25 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
 
   const stacks: React.ReactElement[] = [];
   let lastTimeStr = '';
+  let lastTime = new Date();
   for (let i = 0; i < stackIdList.length; i += 1) {
     const time = stackTimeList[i];
-    const timeStr = UtilService.getTimeString(time, { showMonthOnly: true });
-    if (timeStr && (!lastTimeStr || timeStr !== lastTimeStr)) {
+    const timeStr = UtilService.getTimeString(time, { showMonthOnly: true, forceShowYear: true });
+    if (
+      time &&
+      timeStr &&
+      (!lastTimeStr || timeStr !== lastTimeStr) &&
+      time.getTime() < lastTime.getTime()
+    ) {
       lastTimeStr = timeStr;
       stacks.push(
         <SectionHeader key={`section-${timeStr}`} className={styles['stack-section-header']}>
           {timeStr}
         </SectionHeader>
       );
+    }
+    if (time && time.getTime() < lastTime.getTime()) {
+      lastTime = time;
     }
     const stackId = stackIdList[i];
     stacks.push(<Stack stackId={stackId} isLatestStack={i === 0} key={`stack-${stackId}`} />);

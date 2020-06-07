@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Form, Input, Button, Space, message } from 'antd';
+import { Form, Input, Button, Space, DatePicker, AutoComplete, message } from 'antd';
+import moment from 'moment';
 
 import { StackActions, EventActions } from '@Actions';
-import { getStack, getEventStackIdList, getEventOffshelfStackIdList } from '@Selectors';
-import { getNewsroomSocket } from '@Services';
-import { Stack } from '@Interfaces';
+import {
+  getStack,
+  getEventStackIdList,
+  getEventOffshelfStackIdList,
+  getStackEvent,
+} from '@Selectors';
+import { getNewsroomSocket, RedstoneService } from '@Services';
+import { Stack, Event } from '@Interfaces';
 
+import { EventCard } from '@Components/EventCard';
+import { StackFormEventItem } from './EventItem';
 import { IStackForm } from './Form';
 
 export const StackForm: React.FunctionComponent<IStackForm.IProps> = ({
@@ -21,26 +29,40 @@ export const StackForm: React.FunctionComponent<IStackForm.IProps> = ({
   const dispatch = useDispatch();
   const stack = useSelector(getStack(stackId || 0));
   const stackIdList = useSelector(getEventStackIdList(eventId));
+  const stackEvent = useSelector(getStackEvent(stackId || 0));
   const offshelfStackIdList = useSelector(getEventOffshelfStackIdList(eventId));
   const latestStack = useSelector(getStack(stackIdList[0] || 0)) || {
     title: '进展标题',
     description: '进展简介',
   };
   const [loading, setLoading] = useState(false);
+  const [stackEventId, setStackEventId] = useState((stack && stack.stackEventId) || 0);
+  const [result, setResult] = useState<Event[]>([]);
+  const [timer, setTimer] = useState<number>();
+
+  const setFieldsValueWithStack = () => {
+    if (stackId && stack) {
+      form.setFieldsValue({
+        ...stack,
+        time: stack.time ? moment(stack.time) : undefined,
+        stackEventIdInput: stackEvent ? stackEvent.name : undefined,
+      });
+    }
+  };
 
   useEffect(() => {
-    if (stackId && stack) {
-      form.setFieldsValue(stack);
-    }
+    setFieldsValueWithStack();
   }, []);
 
   const reset = () => {
     if (stackId && stack) {
-      form.setFieldsValue(stack);
+      setFieldsValueWithStack();
     } else {
       form.setFieldsValue({
         title: '',
         description: '',
+        time: undefined,
+        stackEventIdInput: undefined,
       });
     }
   };
@@ -60,11 +82,16 @@ export const StackForm: React.FunctionComponent<IStackForm.IProps> = ({
           await socket.updateStack({
             id: stackId,
             ...form.getFieldsValue(),
+            stackEventId,
           } as Stack);
+          if (stack && stack.stackEventId && !stackEventId) {
+            await socket.removeEventFromStack(stackId);
+          }
           message.success('成功修改进展');
         } else {
           const res = await socket.createStack({
             ...form.getFieldsValue(),
+            stackEventId,
             order: -offshelfStackIdList.length - 1,
           } as Stack);
           res.stack.id = -Math.abs(res.stack.id);
@@ -87,14 +114,81 @@ export const StackForm: React.FunctionComponent<IStackForm.IProps> = ({
     reset();
   };
 
+  const searchEvent = async (value: string) => {
+    if (value.length === 0) {
+      setResult([]);
+      return;
+    }
+
+    const eventList = await RedstoneService.getEventList({
+      where: {
+        status: 'admitted',
+        or: [{ name: { contains: value } }, { id: +value === +value ? +value : 0 }],
+      },
+    });
+    const list: Event[] = [];
+    for (let i = 0; i < eventList.length; i += 1) {
+      const e = eventList[i];
+      dispatch(EventActions.AddEvent(e));
+      if (e.id !== Math.abs(eventId)) list.push(e);
+    }
+    setResult(list);
+  };
+
+  const handleEventSearch = (value: string) => {
+    if (timer) clearTimeout(timer);
+    setTimer(setTimeout(() => searchEvent(value), 200));
+  };
+
+  const handleEventSelect = (value: string) => {
+    if (!value || value.length === 0) return setStackEventId(0);
+    const split = value.split('-');
+    const id = split.splice(0, 1);
+    if (+id !== +id) return setStackEventId(0);
+    setStackEventId(+id);
+    if (split.length === 0) return null;
+    const name = split.join('-');
+    return form.setFieldsValue({ stackEventIdInput: name });
+  };
+
   return (
     <Form layout="vertical" form={form}>
       <Form.Item name="title" label="标题" rules={[{ required: true }]}>
-        <Input placeholder={latestStack.title} />
+        <Input placeholder={(stack || latestStack).title} />
       </Form.Item>
       <Form.Item name="description" label="简介" rules={[{ required: true }]}>
-        <Input.TextArea autoSize={{ minRows: 3 }} placeholder={latestStack.description} />
+        <Input.TextArea
+          autoSize={{ minRows: 3 }}
+          placeholder={(stack || latestStack).description}
+        />
       </Form.Item>
+      <Form.Item name="time" label="时间" rules={[{ required: false }]}>
+        <DatePicker showTime />
+      </Form.Item>
+      <Form.Item name="stackEventIdInput" label="相关时间线" rules={[{ required: false }]}>
+        <AutoComplete
+          style={{ width: '100%' }}
+          onSearch={handleEventSearch}
+          onSelect={handleEventSelect}
+          onChange={() => setStackEventId(0)}
+          placeholder="请输入事件名"
+        >
+          {result.map(c => (
+            <AutoComplete.Option key={`event-${c.id}`} value={`${c.id}-${c.name}`}>
+              <Space>
+                <StackFormEventItem eventId={c.id} />
+              </Space>
+            </AutoComplete.Option>
+          ))}
+        </AutoComplete>
+      </Form.Item>
+      {stackEventId ? (
+        <EventCard
+          styles={{ marginTop: '-1rem', border: '1px solid #ccc' }}
+          forcePlain
+          eventId={stackEventId}
+        />
+      ) : null}
       <Form.Item>
         <Space>
           <Button htmlType="button" disabled={loading} onClick={cancel}>
