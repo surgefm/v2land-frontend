@@ -13,6 +13,7 @@ import {
 import { getNewsroomSocket, RedstoneService } from '@Services';
 import { Stack, Event } from '@Interfaces';
 
+import { EventCard } from '@Components/EventCard';
 import { StackFormEventItem } from './EventItem';
 import { IStackForm } from './Form';
 
@@ -121,7 +122,8 @@ export const StackForm: React.FunctionComponent<IStackForm.IProps> = ({
 
     const eventList = await RedstoneService.getEventList({
       where: {
-        name: { startsWith: value },
+        status: 'admitted',
+        or: [{ name: { contains: value } }, { id: +value === +value ? +value : 0 }],
       },
     });
     const list: Event[] = [];
@@ -165,10 +167,10 @@ export const StackForm: React.FunctionComponent<IStackForm.IProps> = ({
       </Form.Item>
       <Form.Item name="stackEventIdInput" label="相关时间线" rules={[{ required: false }]}>
         <AutoComplete
-          style={{ width: 200 }}
+          style={{ width: '100%' }}
           onSearch={handleEventSearch}
           onSelect={handleEventSelect}
-          onChange={handleEventSelect}
+          onChange={() => setStackEventId(0)}
           placeholder="请输入事件名"
         >
           {result.map(c => (
@@ -180,6 +182,13 @@ export const StackForm: React.FunctionComponent<IStackForm.IProps> = ({
           ))}
         </AutoComplete>
       </Form.Item>
+      {stackEventId ? (
+        <EventCard
+          styles={{ marginTop: '-1rem', border: '1px solid #ccc' }}
+          forcePlain
+          eventId={stackEventId}
+        />
+      ) : null}
       <Form.Item>
         <Space>
           <Button htmlType="button" disabled={loading} onClick={cancel}>

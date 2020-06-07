@@ -104,7 +104,9 @@ const NewsroomPanelRoleItem: React.FunctionComponent<INewsroomPanelRoleItem.IPro
       <Space>
         <ClientAvatar showTooltip={false} clientId={clientId} />
         {client ? (
-          <span>{client.username}</span>
+          <span>
+            {client.nickname ? `${client.nickname} ` : ''}@{client.username}
+          </span>
         ) : (
           <Skeleton.Input style={{ width: '150px' }} active size="small" />
         )}

@@ -88,7 +88,7 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
   let lastTime = new Date();
   for (let i = 0; i < stackIdList.length; i += 1) {
     const time = stackTimeList[i];
-    const timeStr = UtilService.getTimeString(time, { showMonthOnly: true });
+    const timeStr = UtilService.getTimeString(time, { showMonthOnly: true, forceShowYear: true });
     if (
       time &&
       timeStr &&
@@ -102,7 +102,9 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
         </SectionHeader>
       );
     }
-    lastTime = time || lastTime;
+    if (time && time.getTime() < lastTime.getTime()) {
+      lastTime = time;
+    }
     const stackId = stackIdList[i];
     stacks.push(<Stack stackId={stackId} isLatestStack={i === 0} key={`stack-${stackId}`} />);
   }
