@@ -7,6 +7,7 @@ import { UploadChangeParam, UploadFile, RcFile } from 'antd/lib/upload/interface
 import { getEvent, canCurrentClientEditEvent, isNewsroomSocketConnected } from '@Selectors';
 import { getNewsroomSocket, imageUploadEndpoint, UtilService } from '@Services';
 import { Event, HeaderImage } from '@Interfaces';
+import { NewsroomPanelTagList } from '@Components/Newsroom/Panel/TagList';
 
 import { INewsroomPanelEventDetail } from './EventDetail';
 
@@ -265,6 +266,9 @@ export const NewsroomPanelEventDetail: React.FunctionComponent<
           <Button type="link" htmlType="reset" disabled={disabled || !canEdit} onClick={reset}>
             重置
           </Button>
+        </Form.Item>
+        <Form.Item label="话题">
+          <NewsroomPanelTagList eventId={eventId} />
         </Form.Item>
       </Form>
       <style jsx>

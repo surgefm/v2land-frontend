@@ -15,6 +15,7 @@ import {
   Card,
   EventTitle,
   EventStats,
+  EventTagList,
   EventDescription,
   EventContributorList,
   EventCardShimmer,
@@ -64,6 +65,7 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
       <EventTitle>{event.name}</EventTitle>
       <EventStats newsCount={event.newsCount} stackCount={event.stackCount} />
       <EventDescription description={event.description || ''} />
+      <EventTagList tagIdList={event.tagIdList} />
       <div className="bottom">
         <EventContributorList eventId={event.id} />
         <Share event={event} />

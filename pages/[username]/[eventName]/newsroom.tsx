@@ -137,7 +137,7 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
   const panels: { [index: string]: DraggableChildrenFn } = {
     [NewsroomPanelConsts.EventInformation]: (provided: DraggableProvided) => (
       <div className="panel-wrapper" ref={provided.innerRef} {...provided.draggableProps}>
-        <Card className="panel">
+        <Card className="panel y-scroll">
           <div className="panel-header-container">
             <NewsroomPanelTitle>事件信息</NewsroomPanelTitle>
             <DragOutlined {...provided.dragHandleProps} />
@@ -148,7 +148,7 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
     ),
     [NewsroomPanelConsts.EventRoleList]: (provided: DraggableProvided) => (
       <div className="panel-wrapper" ref={provided.innerRef} {...provided.draggableProps}>
-        <Card className="panel">
+        <Card className="panel y-scroll">
           <div className="panel-header-container">
             <Space size={0}>
               <NewsroomPanelTitle>用户列表</NewsroomPanelTitle>
@@ -329,6 +329,10 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
 
           .container :global(.show-news-toggle) > :global(.ant-switch-inner) {
             color: rgb(37, 116, 169);
+          }
+
+          .container > :global(.panel-wrapper) > :global(.y-scroll) {
+            overflow-y: scroll;
           }
         `}
       </style>

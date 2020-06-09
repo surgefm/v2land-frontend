@@ -6,8 +6,8 @@ const removeEventFromTag = (state: EventsState, action: TagAction) => {
   const index = state.idIndexMap[eventId];
   if (typeof index === 'undefined') return state;
   const event = { ...state.list[index] };
-  if (event.offshelfNewsIdList.includes(tagId)) {
-    event.offshelfNewsIdList.splice(event.offshelfNewsIdList.indexOf(tagId), 1);
+  if (event.tagIdList.includes(tagId)) {
+    event.tagIdList.splice(event.tagIdList.indexOf(tagId), 1);
   }
 
   return {

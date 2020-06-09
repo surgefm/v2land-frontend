@@ -13,7 +13,7 @@ import {
   NewsroomRoles,
   AppStore,
 } from '@Interfaces';
-import { EventActions, StackActions, NewsroomActions } from '@Actions';
+import { EventActions, StackActions, NewsroomActions, TagActions } from '@Actions';
 import { getNewsroom, isNewsroomSocketConnected, getEvent } from '@Selectors';
 
 const {
@@ -45,6 +45,7 @@ type Response = {
   event?: Event;
   eventId?: number;
   clientId?: number;
+  tagId?: number;
   stacks?: StackOrderData[];
   headerImage?: HeaderImage;
   model?: string;
@@ -244,6 +245,18 @@ export class NewsroomSocket {
       this.store.dispatch(EventActions.UpdateEvent(eventId, updateData));
     });
 
+    this.socket.on('add event to tag', (res: Response) => {
+      const tagId = res.tagId as number;
+      const eventId = res.eventId as number;
+      this.store.dispatch(TagActions.AddEventToTag(tagId, eventId));
+    });
+
+    this.socket.on('remove event from tag', (res: Response) => {
+      const tagId = res.tagId as number;
+      const eventId = res.eventId as number;
+      this.store.dispatch(TagActions.RemoveEventFromTag(tagId, eventId));
+    });
+
     this.socket.on('lock resource', (res: Response) => {
       const eventId = res.eventId as number;
       const model = res.model as string;
@@ -336,6 +349,14 @@ export class NewsroomSocket {
 
   async updateStackOrders(stacks: { stackId: number; order: number }[]) {
     return this.emit('update stack orders', this.eventId, stacks);
+  }
+
+  async addEventToTag(tagId: number) {
+    return this.emit('add event to tag', this.eventId, tagId);
+  }
+
+  async removeEventFromTag(tagId: number) {
+    return this.emit('remove event from tag', this.eventId, tagId);
   }
 
   async lockResource(model: string, resourceId: number) {

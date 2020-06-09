@@ -6,7 +6,7 @@ import { IContributorCard } from './ContributorCard';
 const ContributorCard: React.FunctionComponent<IContributorCard.IProps> = ({ contributor }) => {
   return (
     <div>
-      <ClientAvatar clientId={2} asLink showTooltip={false} />
+      <ClientAvatar clientId={144} asLink showTooltip={false} />
       <span>{contributor}</span>
       <style jsx>
         {`

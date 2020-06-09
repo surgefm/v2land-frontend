@@ -1,5 +1,5 @@
 // #region Local Imports
-import { get, post, put } from '@Services/API/Http';
+import { get, post, put, del } from '@Services/API/Http';
 import { Event, News, Client } from '@Interfaces';
 import { RedstoneModel } from './Redstone';
 // #endregion Local Imports
@@ -90,4 +90,29 @@ export const createNews = async (
   data: RedstoneModel.CreateNewsOptions
 ): Promise<RedstoneModel.CreateNewsResponse> => {
   return post<RedstoneModel.CreateNewsResponse>('/news', data);
+};
+
+export const addTag = async (eventId: number, tagId: number) => {
+  return post(`/event/${eventId}/tag`, { tag: tagId });
+};
+
+export const removeTag = async (eventId: number, tagId: number) => {
+  return del(`/event/${eventId}/tag/${tagId}`);
+};
+
+export const createTag = async (name: string, description = '') => {
+  return post<RedstoneModel.CreateTagResponse>('/tag', { name, description });
+};
+
+type GetTagListOptions = {
+  page?: number;
+  where?: any;
+};
+
+export const getTagList = async ({ page = 1, where = {} }: GetTagListOptions) => {
+  const { tags } = await post<RedstoneModel.GetTagListResponse>('/tag/list', {
+    page,
+    where,
+  });
+  return tags;
 };

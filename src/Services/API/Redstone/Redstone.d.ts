@@ -1,4 +1,4 @@
-import { HttpModel, Event, Client } from '@Interfaces';
+import { HttpModel, Event, Client, Tag } from '@Interfaces';
 
 declare namespace RedstoneModel {
   export interface GetEventListResponse {
@@ -47,6 +47,15 @@ declare namespace RedstoneModel {
   }
 
   export interface CreateNewsResponse extends UpdateNewsResponse {}
+
+  export interface GetTagListResponse {
+    tags: Tag[];
+  }
+
+  export interface CreateTagResponse {
+    message: string;
+    tag: Tag;
+  }
 }
 
 export { RedstoneModel };

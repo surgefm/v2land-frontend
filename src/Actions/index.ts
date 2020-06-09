@@ -6,3 +6,4 @@ export * from './LoadingActions';
 export * from './NewsActions';
 export * from './NewsroomActions';
 export * from './StackActions';
+export * from './TagActions';

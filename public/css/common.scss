@@ -1,5 +1,12 @@
 @import "variables";
-@import url('https://fonts.googleapis.com/css?family=Lexend+Giga&display=swap');
+
+@font-face {
+  font-family: 'Lexend Giga';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lexend Giga Regular'), local('LexendGiga-Regular'), url('/lexend.woff2') format('woff2');
+}
 
 * {
   outline: 0;
@@ -12,7 +19,7 @@ html {
 }
 
 html, body {
-  background-color: $background-color;
+  background-color: $background-color !important;
   margin: 0;
 }
 

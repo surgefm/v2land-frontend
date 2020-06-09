@@ -9,4 +9,5 @@ export * from './RoleList';
 export * from './SortStacksButton';
 export * from './StackCard';
 export * from './StackList';
+export * from './TagList';
 export * from './Title';

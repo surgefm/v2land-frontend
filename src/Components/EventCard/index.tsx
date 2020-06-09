@@ -25,7 +25,7 @@ const EventCard: React.FunctionComponent<IEventCard.IProps> = ({
     dispatch(EventActions.GetEvent(eventId));
   }
 
-  if (event && !owner) {
+  if (event && event.ownerId && !owner) {
     dispatch(ClientActions.GetClient(event.ownerId));
   }
 

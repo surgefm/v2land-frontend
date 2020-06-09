@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { Button } from 'antd';
@@ -20,12 +20,18 @@ export const NewsroomHeaderEnterButton: React.FunctionComponent<
   const event = useSelector(getEvent(eventId));
   const owner = useSelector(getEventOwner(eventId));
   const canView = useSelector(canCurrentClientViewEvent(eventId));
+  const [clicked, setClicked] = useState(false);
+
+  useEffect(() => {
+    setClicked(false);
+  }, [router]);
 
   if (!canView || !event) return <React.Fragment />;
   if (router.route !== '/[username]/[eventName]') return <React.Fragment />;
 
   const handleButtonClick = async () => {
     UtilService.redirect(`${UtilService.getEventPath(event, owner)}/newsroom`);
+    setClicked(true);
   };
 
   return (
@@ -34,6 +40,7 @@ export const NewsroomHeaderEnterButton: React.FunctionComponent<
         type="primary"
         size="large"
         shape="round"
+        loading={clicked}
         icon={<ExportOutlined />}
         onClick={handleButtonClick}
       >
