@@ -1,11 +1,12 @@
 import React from 'react';
 import { NumberOutlined } from '@ant-design/icons';
+import Link from 'next/link';
 
 import { ITagCard } from './TagCard';
 
 const TagCard: React.FunctionComponent<ITagCard.IProps> = ({ tag }) => {
   return (
-    <div>
+    <Link href="/topic/[tagId]" as={`/topic/${tag.id}`}>
       <NumberOutlined className="hashtag" />
       <span>{tag}</span>
       <style jsx>
@@ -42,7 +43,7 @@ const TagCard: React.FunctionComponent<ITagCard.IProps> = ({ tag }) => {
           }
         `}
       </style>
-    </div>
+    </Link>
   );
 };
 
