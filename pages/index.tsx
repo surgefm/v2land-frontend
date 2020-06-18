@@ -95,7 +95,6 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList }) =
 Home.getInitialProps = async (ctx: ReduxNextPageContext): Promise<IHomePage.InitialProps> => {
   await ctx.store.dispatch(EventActions.GetEventList());
   const tagList = await RedstoneService.getTagList({});
-  console.log(tagList);
   return { namespacesRequired: ['common'], tagList };
 };
 
