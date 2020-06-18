@@ -5,11 +5,7 @@ import { Input, Button } from 'antd';
 import { getTagEventIdList, getEventList } from '@Selectors';
 import { useSelector } from 'react-redux';
 import TimelineCard from '../TimelineCard';
-
-export interface TimelineSectionInterface {
-  createTimelineMode?: boolean;
-  tagId: number;
-}
+import { ITimelineSection } from './TimelineSection';
 
 export const CreateTimelineCard = () => {
   return (
@@ -71,7 +67,7 @@ export const CreateTimelineCard = () => {
   );
 };
 
-const TimelineSection: React.FunctionComponent<TimelineSectionInterface> = ({
+const TimelineSection: React.FunctionComponent<ITimelineSection.IProps> = ({
   tagId,
   createTimelineMode,
 }) => {

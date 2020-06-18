@@ -3,19 +3,10 @@ import { EventTitle, EventDescription } from '@Components';
 // import { Button } from 'antd';
 import { useSelector } from 'react-redux';
 import { getTag, getTagEventIdList } from '@Selectors';
+import { ITagHeaderCard } from './TagHeaderCard';
 // import { timelineData } from './dummyData';
 
-export interface TagHeaderCardInterface {
-  tagId: number;
-  createTimelineMode?: boolean;
-  onCreateTimeline?: () => void;
-}
-
-export const TagHeaderCard: React.FunctionComponent<TagHeaderCardInterface> = ({
-  tagId,
-  //   onCreateTimeline,
-  //   createTimelineMode,
-}) => {
+export const TagHeaderCard: React.FunctionComponent<ITagHeaderCard.IProps> = ({ tagId }) => {
   const tag = useSelector(getTag(tagId));
   const timelines = useSelector(getTagEventIdList(tagId));
   const numTimeline = timelines.length;

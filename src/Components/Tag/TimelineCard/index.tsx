@@ -4,16 +4,13 @@ import { getEvent, getEventContributorIdList, getEventOwner } from '@Selectors';
 import { UtilService } from '@Services';
 import { EventContributorList } from '@Components';
 import Link from 'next/link';
+import { ITimelineCard } from './TimelineCard';
 
 export const Timeline = () => {
   return <></>;
 };
 
-export interface TimelineCardInterface {
-  eventId: number;
-}
-
-const TimelineCard: React.FunctionComponent<TimelineCardInterface> = ({ eventId, children }) => {
+const TimelineCard: React.FunctionComponent<ITimelineCard.IProps> = ({ eventId, children }) => {
   const event = useSelector(getEvent(eventId));
   const contributors = useSelector(getEventContributorIdList(eventId));
   const eventOwner = useSelector(getEventOwner(eventId));
