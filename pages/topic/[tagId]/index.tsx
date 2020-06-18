@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TagActions } from '@Actions';
-import { TagHeaderCard, TagBodySection } from '@Components';
+import { TagHeaderCard, TagBodySection, Footer } from '@Components';
 import { NextPage } from 'next';
 import { ITagPage, ReduxNextPageContext } from '@Interfaces';
 import { RedstoneService } from '@Services';
@@ -9,6 +9,7 @@ import { getTag } from '@Selectors';
 
 const TagPage: NextPage<ITagPage.IProps, ITagPage.InitialProps> = ({ tagId }) => {
   const tag = useSelector(getTag(tagId));
+  const [createTimelineMode, setCreateTimelineMode] = useState<boolean>(false);
 
   if (tag === null) {
     return <React.Fragment />;
@@ -16,8 +17,15 @@ const TagPage: NextPage<ITagPage.IProps, ITagPage.InitialProps> = ({ tagId }) =>
 
   return (
     <div>
-      <TagHeaderCard tagId={tagId} />
-      <TagBodySection tagId={tagId} createTimelineMode={false} />
+      <TagHeaderCard
+        tagId={tagId}
+        onCreateTimeline={() => {
+          setCreateTimelineMode(prevState => !prevState);
+        }}
+        createTimelineMode={createTimelineMode}
+      />
+      <TagBodySection tagId={tagId} createTimelineMode={createTimelineMode} />
+      <Footer />
 
       <style jsx>
         {`

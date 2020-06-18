@@ -1,6 +1,6 @@
 import React from 'react';
 import { EventTitle, EventDescription } from '@Components';
-import { Button } from 'antd';
+// import { Button } from 'antd';
 import { useSelector } from 'react-redux';
 import { getTag, getTagEventIdList } from '@Selectors';
 // import { timelineData } from './dummyData';
@@ -13,8 +13,8 @@ export interface TagHeaderCardInterface {
 
 export const TagHeaderCard: React.FunctionComponent<TagHeaderCardInterface> = ({
   tagId,
-  onCreateTimeline,
-  createTimelineMode,
+  //   onCreateTimeline,
+  //   createTimelineMode,
 }) => {
   const tag = useSelector(getTag(tagId));
   const timelines = useSelector(getTagEventIdList(tagId));
@@ -28,7 +28,7 @@ export const TagHeaderCard: React.FunctionComponent<TagHeaderCardInterface> = ({
           <EventDescription description={tag.description || ''} />
           <div className="bottom">
             <div className="share">
-              分享到
+              {/* 分享到 */}
               {/* <Share event={tag} /> */}
             </div>
             {/* <EventContributorList tagId={tag.id} /> */}
@@ -54,7 +54,7 @@ export const TagHeaderCard: React.FunctionComponent<TagHeaderCardInterface> = ({
             </div>
           </div>
 
-          <div className={`button ${createTimelineMode && 'cancel-button'}`}>
+          {/* <div className={`button ${createTimelineMode && 'cancel-button'}`}>
             <Button
               style={{ backgroundColor: 'black', borderColor: 'black' }}
               type="primary"
@@ -62,7 +62,7 @@ export const TagHeaderCard: React.FunctionComponent<TagHeaderCardInterface> = ({
             >
               {createTimelineMode ? '取消' : '创建时间线'}
             </Button>
-          </div>
+          </div> */}
         </div>
 
         <style jsx>
