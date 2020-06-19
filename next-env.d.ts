@@ -5,3 +5,9 @@ declare module '*.scss' {
   const classNames: IClassNames;
   export = classNames;
 }
+
+declare module 'react-stack-grid' {
+  import React from 'react';
+
+  export = React.Component;
+}

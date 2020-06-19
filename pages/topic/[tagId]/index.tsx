@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { NextPage } from 'next';
+
 import { TagActions } from '@Actions';
 import { TagHeaderCard, TagBodySection, Footer } from '@Components';
-import { NextPage } from 'next';
 import { ITagPage, ReduxNextPageContext } from '@Interfaces';
-import { RedstoneService } from '@Services';
-import { useSelector } from 'react-redux';
+import { RedstoneService, UtilService } from '@Services';
 import { getTag } from '@Selectors';
 
 const TagPage: NextPage<ITagPage.IProps, ITagPage.InitialProps> = ({ tagId }) => {
   const tag = useSelector(getTag(tagId));
   const [createTimelineMode, setCreateTimelineMode] = useState<boolean>(false);
 
-  if (tag === null) {
-    return <React.Fragment />;
-  }
+  if (tag === null) return <React.Fragment />;
 
   return (
     <div>
@@ -41,6 +40,11 @@ const TagPage: NextPage<ITagPage.IProps, ITagPage.InitialProps> = ({ tagId }) =>
 TagPage.getInitialProps = async (ctx: ReduxNextPageContext): Promise<ITagPage.InitialProps> => {
   const tagId = +(ctx.query.tagId as string);
   const tag = await RedstoneService.getTag(tagId);
+
+  if (!tag) {
+    UtilService.redirect(ctx, '/', { hiddenQuery: { tag_not_found: 1 } });
+  }
+
   ctx.store.dispatch(TagActions.AddTag(tag));
 
   return { tagId, namespaceRequired: ['common'] };

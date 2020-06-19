@@ -1,10 +1,10 @@
 import React from 'react';
-import { EventTitle, EventDescription } from '@Components';
-// import { Button } from 'antd';
 import { useSelector } from 'react-redux';
+
+import { EventTitle, EventDescription, Share } from '@Components';
 import { getTag, getTagEventIdList } from '@Selectors';
+
 import { ITagHeaderCard } from './TagHeaderCard';
-// import { timelineData } from './dummyData';
 
 export const TagHeaderCard: React.FunctionComponent<ITagHeaderCard.IProps> = ({ tagId }) => {
   const tag = useSelector(getTag(tagId));
@@ -16,13 +16,11 @@ export const TagHeaderCard: React.FunctionComponent<ITagHeaderCard.IProps> = ({ 
       <div className="event-header-card">
         <div className="left">
           <EventTitle>{tag.name}</EventTitle>
-          <EventDescription description={tag.description || ''} />
+          <EventDescription description={tag.description || '该话题暂无简介'} />
           <div className="bottom">
             <div className="share">
-              {/* 分享到 */}
-              {/* <Share event={tag} /> */}
+              <Share type="tag" tag={tag} tagId={tag.id} />
             </div>
-            {/* <EventContributorList tagId={tag.id} /> */}
           </div>
         </div>
 
