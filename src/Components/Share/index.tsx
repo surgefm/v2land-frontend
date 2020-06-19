@@ -55,6 +55,8 @@ const Share: React.FunctionComponent<IShare.IProps> = ({
     if (type === 'tag' && !tag) return <React.Fragment />;
   }
 
+  const colorful = type === 'event' || type === 'tag';
+
   const sites = ['twitter', 'facebook', 'telegram', 'weibo'];
   const icons: { [index: string]: React.ReactElement } = {
     twitter: <TwitterOutlined className="border-color twitter" />,
@@ -176,17 +178,17 @@ const Share: React.FunctionComponent<IShare.IProps> = ({
 
   return (
     <div className="share">
-      <Space size={type === 'event' ? 8 : 20}>
+      <Space size={colorful ? 8 : 20}>
         {sites.map(site => (
           <Tooltip title={`分享至${names[site]}`} key={`share-${site}`}>
-            <a href={shareTo(site)} onClick={handleClick(site)} className={type}>
+            <a href={shareTo(site)} onClick={handleClick(site)} className={colorful ? 'event' : ''}>
               {icons[site]}
             </a>
           </Tooltip>
         ))}
         <Popover content={popoverContent} visible={showPopover}>
           <Tooltip title="分享至微信" overlayStyle={showPopover ? { display: 'none' } : {}}>
-            <a href={shareUrl} onClick={togglePopover} className={type}>
+            <a href={shareUrl} onClick={togglePopover} className={colorful ? 'event' : ''}>
               {icons.wechat}
             </a>
           </Tooltip>

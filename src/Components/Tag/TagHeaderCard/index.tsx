@@ -58,7 +58,7 @@ export const TagHeaderCard: React.FunctionComponent<ITagHeaderCard.IProps> = ({ 
           {`
             .event-header-card {
               margin: -4rem -4rem 2rem;
-              padding: 4rem 18% 3rem 18%;
+              padding: 4rem 18% 2rem 18%;
               background-color: white;
               display: flex;
               flex-direction: row;
@@ -137,7 +137,6 @@ export const TagHeaderCard: React.FunctionComponent<ITagHeaderCard.IProps> = ({ 
               align-items: flex-start;
               margin-top: 0.5rem;
               justify-content: space-between;
-              height: 8.6rem;
             }
           `}
         </style>
