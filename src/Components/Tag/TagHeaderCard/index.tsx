@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { NumberOutlined } from '@ant-design/icons';
 
 import { EventTitle, EventDescription, Share } from '@Components';
 import { getTag, getTagEventIdList } from '@Selectors';
@@ -15,7 +16,10 @@ export const TagHeaderCard: React.FunctionComponent<ITagHeaderCard.IProps> = ({ 
     tag && (
       <div className="event-header-card">
         <div className="left">
-          <EventTitle>{tag.name}</EventTitle>
+          <EventTitle>
+            <NumberOutlined style={{ transform: 'skewX(-10deg)' }} />
+            {tag.name}
+          </EventTitle>
           <EventDescription description={tag.description || '该话题暂无简介'} />
           <div className="bottom">
             <div className="share">

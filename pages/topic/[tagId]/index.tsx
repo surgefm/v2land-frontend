@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { NextPage } from 'next';
 
 import { TagActions } from '@Actions';
-import { TagHeaderCard, TagBodySection, Footer } from '@Components';
+import { TagHeaderCard, TagBodySection, Footer, TagHead } from '@Components';
 import { ITagPage, ReduxNextPageContext } from '@Interfaces';
 import { RedstoneService, UtilService } from '@Services';
 import { getTag } from '@Selectors';
@@ -16,6 +16,7 @@ const TagPage: NextPage<ITagPage.IProps, ITagPage.InitialProps> = ({ tagId }) =>
 
   return (
     <div>
+      <TagHead tagId={tagId} />
       <TagHeaderCard
         tagId={tagId}
         onCreateTimeline={() => {

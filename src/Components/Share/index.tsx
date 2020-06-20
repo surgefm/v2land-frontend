@@ -90,7 +90,7 @@ const Share: React.FunctionComponent<IShare.IProps> = ({
   else if (type === 'event') shareUrl = eventBaseUrl;
   else if (type === 'stack') shareUrl = `${eventBaseUrl}/${stack.id}`;
   else if (type === 'news') shareUrl = `${eventBaseUrl}/${stack.id}/${news.id}`;
-  else if (type === 'tag') shareUrl = `/topic/${tag.id}`;
+  else if (type === 'tag') shareUrl = `${SITE_URL}/topic/${tag.id}`;
 
   const shareTo = (site: string) => {
     const url = shareUrl;

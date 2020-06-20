@@ -7,7 +7,7 @@ import { message } from 'antd';
 
 // #region Local Imports
 import { withTranslation } from '@Server/i18n';
-import { EventActions } from '@Actions';
+import { EventActions, TagActions } from '@Actions';
 import {
   Head,
   Footer,
@@ -94,7 +94,11 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList }) =
 
 Home.getInitialProps = async (ctx: ReduxNextPageContext): Promise<IHomePage.InitialProps> => {
   await ctx.store.dispatch(EventActions.GetEventList());
-  const tagList = await RedstoneService.getTagList({});
+  let tagList = await RedstoneService.getTagList();
+  for (let i = 0; i < tagList.length; i += 1) {
+    ctx.store.dispatch(TagActions.AddTag(tagList[i]));
+  }
+  tagList = tagList.filter(tag => tag.eventIdList.length > 0);
   return { namespacesRequired: ['common'], tagList };
 };
 

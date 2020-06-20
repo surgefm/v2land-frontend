@@ -47,7 +47,13 @@ export const getEventStackIdList = (eventId: number) =>
 export const getEventContributorIdList = (eventId: number) =>
   createSelector(
     getEvent(eventId),
-    event => (event && event.contributorIdList ? event.contributorIdList : []) as number[]
+    event => {
+      if (!event) return [] as number[];
+      if (event.contributors) {
+        return event.contributors.sort((a, b) => b.points - a.points).map(c => c.contributorId);
+      }
+      return (event.contributorIdList ? event.contributorIdList : []) as number[];
+    }
   );
 
 export const getEventOffshelfStackIdList = (eventId: number) =>

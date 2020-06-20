@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Link from 'next/link';
+import { Skeleton } from 'antd';
 
 import { getEvent, getEventContributorIdList, getEventOwner } from '@Selectors';
 import { UtilService } from '@Services';
@@ -24,34 +25,41 @@ const TimelineCard: React.FunctionComponent<ITimelineCard.IProps> = ({ eventId }
   if (!event) {
     dispatch(EventActions.GetEvent(eventId));
     return (
-      <div className={styles['timeline-card']}>
-        <div className={styles['timeline-card-top']} />
-      </div>
+      <Card className={styles['timeline-card']}>
+        <div className={styles['timeline-card-top']}>
+          <Skeleton active />
+        </div>
+        <div className={styles['timeline-card-bottom']}>
+          <Skeleton title={false} paragraph={{ rows: 2 }} active />
+        </div>
+      </Card>
     );
   }
 
   return (
     <Link href="/[username]/[eventName]" as={UtilService.getEventPath(event, eventOwner)}>
-      <Card className={styles['timeline-card']}>
-        <div className={styles['timeline-card-top']}>
-          <div className={styles.title}>
-            {event.time && <p>{UtilService.getTimeLapseString(event.time, 'general')}更新</p>}
-            <h2>{event.name}</h2>
+      <a>
+        <Card className={styles['timeline-card']}>
+          <div className={styles['timeline-card-top']}>
+            <div className={styles.title}>
+              {event.time && <p>{UtilService.getTimeLapseString(event.time, 'general')}更新</p>}
+              <h2>{event.name}</h2>
+            </div>
+
+            {event.description && <p className={styles.description}>{event.description}</p>}
+
+            <div className={styles.info}>
+              {event.numUpvote && <p>赞 {event.numUpvote}</p>}
+              {event.stackCount && <p>进展 {event.stackCount}</p>}
+            </div>
           </div>
 
-          {event.description && <p className={styles.description}>{event.description}</p>}
-
-          <div className={styles.info}>
-            {event.numUpvote && <p>赞 {event.numUpvote}</p>}
-            {event.stackCount && <p>进展 {event.stackCount}</p>}
+          <div className={styles['timeline-card-bottom']}>
+            <EventContributorList contributorList={contributors} eventId={eventId} />
+            <Timeline />
           </div>
-        </div>
-
-        <div className={styles['timeline-card-bottom']}>
-          <EventContributorList contributorList={contributors} eventId={eventId} />
-          <Timeline />
-        </div>
-      </Card>
+        </Card>
+      </a>
     </Link>
   );
 };

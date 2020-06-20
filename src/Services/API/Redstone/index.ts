@@ -109,7 +109,7 @@ type GetTagListOptions = {
   where?: any;
 };
 
-export const getTagList = async ({ page = 1, where = {} }: GetTagListOptions) => {
+export const getTagList = async ({ page = 1, where = {} }: GetTagListOptions = {}) => {
   const { tags } = await post<RedstoneModel.GetTagListResponse>('/tag/list', {
     page,
     where,

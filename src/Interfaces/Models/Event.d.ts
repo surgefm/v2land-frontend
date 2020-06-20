@@ -36,4 +36,9 @@ export interface Event extends SimplifiedEvent {
   ownerId: number;
   time?: Date;
   numUpvote?: number;
+  contributors?: {
+    commitId: number;
+    contributorId: number;
+    points: number;
+  }[];
 }
