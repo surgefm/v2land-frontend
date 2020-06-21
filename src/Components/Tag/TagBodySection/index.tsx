@@ -22,11 +22,23 @@ const TagBodySection: React.FunctionComponent<ITagBodySection.IProps> = ({
 
       <style jsx>
         {`
+          .topic-section {
+            padding-left: 6%;
+            padding-right: 6%;
+          }
+
           .topic-list {
             display: flex;
             justify-content: flex-start;
             max-width: 78vw;
             margin-left: 4vw;
+          }
+
+          @media (min-width: 1800px) {
+            .topic-section {
+              padding-left: 7%;
+              padding-right: 7%;
+            }
           }
         `}
       </style>

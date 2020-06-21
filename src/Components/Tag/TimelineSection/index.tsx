@@ -2,7 +2,7 @@ import React from 'react';
 import StackGrid from 'react-stack-grid';
 import { getTagEventIdList } from '@Selectors';
 import { useSelector } from 'react-redux';
-import TimelineCard from '../TimelineCard';
+import { TimelineCard } from '../TimelineCard';
 import { ITimelineSection } from './TimelineSection';
 
 const TimelineSection: React.FunctionComponent<ITimelineSection.IProps> = ({ tagId }) => {

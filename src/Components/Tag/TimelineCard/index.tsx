@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Link from 'next/link';
-import { Skeleton } from 'antd';
+import { Skeleton, Timeline } from 'antd';
 
-import { getEvent, getEventContributorIdList, getEventOwner } from '@Selectors';
+import { getEvent, getEventContributorIdList, getEventOwner, getStackList } from '@Selectors';
 import { UtilService } from '@Services';
 import { EventContributorList, Card } from '@Components';
 import { ThunkDispatch } from '@Interfaces';
@@ -12,18 +12,15 @@ import { EventActions } from '@Actions';
 import { ITimelineCard } from './TimelineCard';
 import styles from './TimelineCard.module.scss';
 
-export const Timeline = () => {
-  return <></>;
-};
-
-const TimelineCard: React.FunctionComponent<ITimelineCard.IProps> = ({ eventId }) => {
+export const TimelineCard: React.FunctionComponent<ITimelineCard.IProps> = ({ eventId }) => {
   const event = useSelector(getEvent(eventId));
   const contributors = useSelector(getEventContributorIdList(eventId));
   const eventOwner = useSelector(getEventOwner(eventId));
   const dispatch = useDispatch() as ThunkDispatch;
+  const stackList = useSelector(getStackList((event && event.stackIdList) || []));
+  dispatch(EventActions.GetEvent(eventId));
 
   if (!event) {
-    dispatch(EventActions.GetEvent(eventId));
     return (
       <Card className={styles['timeline-card']}>
         <div className={styles['timeline-card-top']}>
@@ -42,7 +39,9 @@ const TimelineCard: React.FunctionComponent<ITimelineCard.IProps> = ({ eventId }
         <Card className={styles['timeline-card']}>
           <div className={styles['timeline-card-top']}>
             <div className={styles.title}>
-              {event.time && <p>{UtilService.getTimeLapseString(event.time, 'general')}更新</p>}
+              <div className={styles['latest-update']}>
+                {event.time && <p>{UtilService.getTimeLapseString(event.time, 'general')}更新</p>}
+              </div>
               <h2>{event.name}</h2>
             </div>
 
@@ -56,12 +55,16 @@ const TimelineCard: React.FunctionComponent<ITimelineCard.IProps> = ({ eventId }
 
           <div className={styles['timeline-card-bottom']}>
             <EventContributorList contributorList={contributors} eventId={eventId} />
-            <Timeline />
+            <div className={styles['timeline-list']}>
+              <Timeline>
+                {stackList.map(
+                  (stack, index) => index < 3 && <Timeline.Item>{stack.title}</Timeline.Item>
+                )}
+              </Timeline>
+            </div>
           </div>
         </Card>
       </a>
     </Link>
   );
 };
-
-export default TimelineCard;
