@@ -61,6 +61,7 @@
     "react-lazyload": "^2.6.7",
     "react-redux": "^7.1.1",
     "react-scroll": "^1.7.16",
+    "react-stack-grid": "^0.7.1",
     "reduce-reducers": "^1.0.4",
     "redux": "^4.0.4",
     "redux-batched-actions": "^0.5.0",

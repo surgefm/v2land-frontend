@@ -29,6 +29,7 @@ export const getUrlFromAsPath = (asPath: string | UrlObject, options: RedirectOp
   const pathname = index >= 0 ? as.slice(0, index) : as;
   const query = getQuery(as, options);
 
+  if (/^\/topic\/[^/]+$/.test(pathname)) return `/topic/[tagId]${query}`;
   if (/^\/@[^/]+$/.test(pathname)) return `/[username]${query}`;
   if (/^\/@[^/]+\/[^/]+$/.test(pathname)) return `/[username]/[eventName]${query}`;
   if (/^\/@[^/]+\/[^/]+\/newsroom$/.test(pathname))

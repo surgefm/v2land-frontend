@@ -56,6 +56,10 @@ declare namespace RedstoneModel {
     message: string;
     tag: Tag;
   }
+
+  export interface GetTagResponse {
+    tag: Tag;
+  }
 }
 
 export { RedstoneModel };

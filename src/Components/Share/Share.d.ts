@@ -1,5 +1,5 @@
 import { WithTranslation } from 'next-i18next';
-import { Event, Stack, News } from '@Interfaces';
+import { Event, Stack, News, Tag } from '@Interfaces';
 
 declare namespace IShare {
   export interface IProps extends WithTranslation {
@@ -11,7 +11,9 @@ declare namespace IShare {
     stackId?: number;
     news?: News;
     newsId?: number;
-    type?: 'event' | 'stack' | 'news';
+    tag?: Tag;
+    tagId?: number;
+    type?: 'event' | 'stack' | 'news' | 'tag';
   }
 }
 

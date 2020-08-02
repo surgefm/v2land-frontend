@@ -8,6 +8,7 @@ export * from '@Interfaces/Pages/EventNewsroom';
 export * from '@Interfaces/Pages/Home';
 export * from '@Interfaces/Pages/Login';
 export * from '@Interfaces/Pages/Register';
+export * from '@Interfaces/Pages/Tag';
 // #endregion Page Interfaces
 
 // #region Redux Interfaces

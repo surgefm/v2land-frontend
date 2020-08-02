@@ -10,6 +10,7 @@ const NewsroomPanelTitle: React.FunctionComponent<INewsroomPanelTitle.IProps> = 
           margin: 0 0.5rem;
           font-weight: 500;
           line-height: 2;
+          white-space: nowrap;
         }
       `}
     </style>
