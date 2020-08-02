@@ -5,12 +5,14 @@ import { PlusOutlined } from '@ant-design/icons';
 
 import { NewsroomActions } from '@Actions';
 import { canCurrentClientManageEvent, isNewsroomSocketConnected } from '@Selectors';
+import { withTranslation } from '@I18n';
 
 import { INewsroomPanelAddClientButton } from './AddClientButton';
 
-export const NewsroomPanelAddClientButton: React.FunctionComponent<
-  INewsroomPanelAddClientButton.IProps
-> = ({ eventId }) => {
+const NewsroomPanelAddClientButtonImpl: React.FC<INewsroomPanelAddClientButton.IProps> = ({
+  eventId,
+  t,
+}) => {
   const dispatch = useDispatch();
   const canManage = useSelector(canCurrentClientManageEvent(eventId));
   const isConnected = useSelector(isNewsroomSocketConnected(eventId));
@@ -27,7 +29,11 @@ export const NewsroomPanelAddClientButton: React.FunctionComponent<
       disabled={!canManage || !isConnected}
       icon={<PlusOutlined />}
     >
-      添加用户
+      {t('Newsroom_AddClient')}
     </Button>
   );
 };
+
+export const NewsroomPanelAddClientButton = withTranslation('common')(
+  NewsroomPanelAddClientButtonImpl
+);

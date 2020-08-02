@@ -1,4 +1,5 @@
 export { Background } from './Background';
+export { BasicHead } from './BasicHead';
 export { Card } from './Card';
 export { ClientHead } from './ClientHead';
 export { EventHead } from './EventHead';

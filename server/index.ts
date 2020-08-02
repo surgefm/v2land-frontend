@@ -6,7 +6,7 @@ import nextI18NextMiddleware from 'next-i18next/middleware';
 // #endregion Global Imports
 
 // #region Local Imports
-import nextI18next from './i18n';
+import nextI18next, { withTranslation } from './i18n';
 import routes from './routes';
 import devProxy from './proxy';
 import redirect from './redirect';
@@ -44,3 +44,5 @@ app.prepare().then(() => {
     }`
   );
 });
+
+export { withTranslation };

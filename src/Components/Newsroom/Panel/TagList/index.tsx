@@ -7,12 +7,14 @@ import { getEvent } from '@Selectors';
 import { TagActions } from '@Actions';
 import { RedstoneService, getNewsroomSocket } from '@Services';
 import { Tag as T } from '@Interfaces';
+import { withTranslation } from '@I18n';
 
 import { Tag } from '@Components/Tag';
 import { INewsroomPanelTagList } from './TagList';
 
-export const NewsroomPanelTagList: React.FunctionComponent<INewsroomPanelTagList.IProps> = ({
+const NewsroomPanelTagListImpl: React.FunctionComponent<INewsroomPanelTagList.IProps> = ({
   eventId,
+  t,
 }) => {
   const dispatch = useDispatch();
   const event = useSelector(getEvent(eventId));
@@ -67,7 +69,7 @@ export const NewsroomPanelTagList: React.FunctionComponent<INewsroomPanelTagList
       if (id < 0) return;
       await socket.addEventToTag(id);
       dispatch(TagActions.AddEventToTag(id, eventId));
-      message.success('成功添加话题');
+      message.success(t('Newsroom_TagList_AddSuccess'));
       setInput('');
     } finally {
       setLoading(false);
@@ -91,7 +93,7 @@ export const NewsroomPanelTagList: React.FunctionComponent<INewsroomPanelTagList
           >
             {showCreateOption && (
               <AutoComplete.Option value="">
-                <span>创建话题“{input}”</span>
+                <span>{t('Newsroom_Create', { tagName: input })}</span>
               </AutoComplete.Option>
             )}
             {results.map(result => (
@@ -113,7 +115,7 @@ export const NewsroomPanelTagList: React.FunctionComponent<INewsroomPanelTagList
       )}
       {!isEditing && (
         <TagC className="more" icon={<PlusOutlined />} onClick={() => setIsEditing(true)}>
-          添加话题
+          {t('Newsroom_ConfirmAdd')}
         </TagC>
       )}
       <style jsx>
@@ -141,3 +143,5 @@ export const NewsroomPanelTagList: React.FunctionComponent<INewsroomPanelTagList
     </div>
   );
 };
+
+export const NewsroomPanelTagList = withTranslation('common')(NewsroomPanelTagListImpl);

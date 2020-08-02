@@ -8,6 +8,7 @@ import { getEvent, canCurrentClientEditEvent, isNewsroomSocketConnected } from '
 import { getNewsroomSocket, imageUploadEndpoint, UtilService } from '@Services';
 import { Event, HeaderImage } from '@Interfaces';
 import { NewsroomPanelTagList } from '@Components/Newsroom/Panel/TagList';
+import { withTranslation } from '@I18n';
 
 import { INewsroomPanelEventDetail } from './EventDetail';
 
@@ -20,9 +21,10 @@ const tailLayout = {
   wrapperCol: { offset: 5, span: 18 },
 };
 
-export const NewsroomPanelEventDetail: React.FunctionComponent<
-  INewsroomPanelEventDetail.IProps
-> = ({ eventId }) => {
+const NewsroomPanelEventDetailImpl: React.FC<INewsroomPanelEventDetail.IProps> = ({
+  eventId,
+  t,
+}) => {
   const [form] = Form.useForm();
   const event = useSelector(getEvent(eventId)) as Event;
   const canClientEdit = useSelector(canCurrentClientEditEvent());
@@ -74,7 +76,7 @@ export const NewsroomPanelEventDetail: React.FunctionComponent<
       await socket.updateEvent(data);
 
       await submitHeaderImage();
-      message.success('成功更新事件信息');
+      message.success(t('Newsroom_EventDetail_UpdateSuccess'));
     } catch (err) {
       // Do nothing
     } finally {
@@ -111,11 +113,11 @@ export const NewsroomPanelEventDetail: React.FunctionComponent<
   const beforeUpload = (file: RcFile) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
     if (!isJpgOrPng) {
-      message.error('请上传 .jpg 或 .png 格式的图片');
+      message.error(t('Newsroom_EventDetail_ImageFormatLimit'));
     }
     const isLt4M = file.size / 1024 / 1024 <= 4;
     if (!isLt4M) {
-      message.error('图片不得大于 4MB');
+      message.error(t('Newsroom_EventDetail_ImageSizeLimit'));
     }
     return isJpgOrPng && isLt4M;
   };
@@ -123,13 +125,13 @@ export const NewsroomPanelEventDetail: React.FunctionComponent<
   const onUploadChange = (info: UploadChangeParam<UploadFile<any>>) => {
     const { status } = info.file;
     if (status === 'done') {
-      message.success('成功上传题图');
+      message.success(t('Newsroom_EventDetail_ImageUpdateSuccess'));
       form.setFieldsValue({
         headerImageUrl: info.file.response.name,
       });
       setHeaderImageUrl(UtilService.getImageUrl(info.file.response.name, 300, 160));
     } else if (status === 'error') {
-      message.error('题图上传失败');
+      message.error(t('Newsroom_EventDetail_ImageUpdateError'));
     }
   };
 
@@ -188,17 +190,17 @@ export const NewsroomPanelEventDetail: React.FunctionComponent<
   return (
     <div className="top">
       <Form {...layout} form={form} name="event-detail" onChange={onChange}>
-        <Form.Item name="name" label="事件名" rules={[{ required: true }]}>
-          <Input placeholder="百度魏则西事件" disabled={!canEdit} />
+        <Form.Item name="name" label={t('Newsroom_EventDetail_Name')} rules={[{ required: true }]}>
+          <Input placeholder={t('Newsroom_EventDetail_NamePlaceholder')} disabled={!canEdit} />
         </Form.Item>
-        <Form.Item name="description" label="简介">
+        <Form.Item name="description" label={t('Newsroom_EventDetail_Description')}>
           <Input.TextArea
             disabled={!canEdit}
             autoSize={{ minRows: 3 }}
-            placeholder="2016 年 4 月 12 日，21 岁的魏则西因滑膜肉瘤去世，在其生前求医过程中，通过百度搜索到武警北京总队第二医院..."
+            placeholder={t('Newsroom_EventDetail_DescriptionPlaceholder')}
           />
         </Form.Item>
-        <Form.Item label="题图">
+        <Form.Item label={t('Newsroom_EventDetail_HeaderImage')}>
           <Upload.Dragger
             accept=".jpg,.jpeg,.png"
             action={imageUploadEndpoint}
@@ -223,7 +225,7 @@ export const NewsroomPanelEventDetail: React.FunctionComponent<
                   key="remove-header-image-button"
                   disabled={!canEdit}
                 >
-                  移除题图
+                  {t('Newsroom_EventDetail_RemoveHeaderImage')}
                 </Button>
               </>
             ) : (
@@ -231,7 +233,7 @@ export const NewsroomPanelEventDetail: React.FunctionComponent<
                 <p className="ant-upload-drag-icon">
                   <PictureOutlined />
                 </p>
-                <p className="ant-upload-hint">添加事件题图</p>
+                <p className="ant-upload-hint">{t('Newsroom_EventDetail_AddHeaderImage')}</p>
               </>
             )}
           </Upload.Dragger>
@@ -239,17 +241,20 @@ export const NewsroomPanelEventDetail: React.FunctionComponent<
         <Form.Item
           style={headerImageUrl ? {} : { display: 'none' }}
           name="headerImageSource"
-          label="图片来源"
+          label={t('Newsroom_EventDetail_ImageSource')}
         >
-          <Input placeholder="如新京报、人民日报等" disabled={!canEdit} />
+          <Input
+            placeholder={t('Newsroom_EventDetail_ImageSourcePlaceholder')}
+            disabled={!canEdit}
+          />
         </Form.Item>
         <Form.Item
           style={headerImageUrl ? {} : { display: 'none' }}
           name="headerImageSourceUrl"
-          label="来源链接"
+          label={t('Newsroom_EventDetail_ImageSourceUrl')}
         >
           <Input
-            placeholder="http://www.bjnews.com.cn/news/2016/05/03/402053.html"
+            placeholder={t('Newsroom_EventDetail_ImageSourceUrlPlaceholder')}
             disabled={!canEdit}
           />
         </Form.Item>
@@ -261,13 +266,13 @@ export const NewsroomPanelEventDetail: React.FunctionComponent<
             disabled={disabled || !canEdit}
             onClick={submit}
           >
-            保存
+            {t('Newsroom_EventDetail_Save')}
           </Button>
           <Button type="link" htmlType="reset" disabled={disabled || !canEdit} onClick={reset}>
-            重置
+            {t('Newsroom_EventDetail_Reset')}
           </Button>
         </Form.Item>
-        <Form.Item label="话题">
+        <Form.Item label={t('Newsroom_EventDetail_Topics')}>
           <NewsroomPanelTagList eventId={eventId} />
         </Form.Item>
       </Form>
@@ -303,3 +308,5 @@ export const NewsroomPanelEventDetail: React.FunctionComponent<
     </div>
   );
 };
+
+export const NewsroomPanelEventDetail = withTranslation('common')(NewsroomPanelEventDetailImpl);

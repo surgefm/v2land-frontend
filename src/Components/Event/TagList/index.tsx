@@ -1,35 +1,21 @@
 import React from 'react';
 
+import { withTranslation } from '@I18n';
 import { Tag } from '@Components/Tag';
 
 import { IEventTagList } from './TagList';
+import styles from './TagList.module.scss';
 
-export const EventTagList: React.FunctionComponent<IEventTagList.IProps> = ({ tagIdList }) => {
+const EventTagListComp: React.FunctionComponent<IEventTagList.IProps> = ({ tagIdList, t }) => {
   if (!tagIdList || tagIdList.length === 0) return <React.Fragment />;
   return (
-    <div className="tag-list">
-      <span>相关话题：</span>
+    <div className={styles.tagList}>
+      <span className={styles.label}>{t('Event_TagList_Tag')}</span>
       {tagIdList.map(id => (
         <Tag tagId={id} key={`tag-${id}`} asLink />
       ))}
-      <style jsx>
-        {`
-          .tag-list {
-            margin-top: 0.75rem;
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-          }
-
-          .tag-list span {
-            white-space: nowrap;
-          }
-
-          .tag-list > :global(*):not(:first-child) {
-            margin: 1.5px 4px 1.5px 0;
-          }
-        `}
-      </style>
     </div>
   );
 };
+
+export const EventTagList = withTranslation('common')(EventTagListComp);

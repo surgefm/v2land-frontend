@@ -1,7 +1,8 @@
+import { WithTranslation } from 'next-i18next';
 import { Event, Stack, News } from '@Interfaces';
 
 declare namespace IShare {
-  export interface IProps {
+  export interface IProps extends WithTranslation {
     message?: string;
     url?: string;
     event?: Event;

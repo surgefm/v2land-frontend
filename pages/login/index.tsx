@@ -7,30 +7,31 @@ import { message } from 'antd';
 import { Head, Card, LoginForm, Background, Footer, EventTitle } from '@Components';
 import { isLoggedIn as isLoggedInSelector } from '@Selectors';
 import { UtilService } from '@Services';
-import { ReduxNextPageContext } from '@Interfaces';
+import { ReduxNextPageContext, ILoginPage } from '@Interfaces';
+import { withTranslation } from '@I18n';
 
-const LoginPage: NextPage = () => {
+const LoginPage: NextPage<ILoginPage.IProps, ILoginPage.InitialProps> = ({ t }) => {
   const isLoggedIn = useSelector(isLoggedInSelector);
   const router = useRouter();
 
   useEffect(() => {
     if (router.query.redirect && !router.query.silent) {
-      message.info('请先登录');
+      message.info(t('Login_PleaseLogin'));
     }
   }, []);
 
   useEffect(() => {
     if (isLoggedIn) {
       UtilService.redirect((router.query.redirect as string) || '/');
-      message.success('登录成功');
+      message.success(t('Login_LoginSuccess'));
     }
   }, [isLoggedIn]);
 
   return (
     <Background>
-      <Head title="登录浪潮" />
+      <Head title={t('Login_Title')} />
       <Card>
-        <EventTitle>登录浪潮</EventTitle>
+        <EventTitle>{t('Login_Title')}</EventTitle>
         <LoginForm />
       </Card>
       <Footer />
@@ -46,4 +47,4 @@ LoginPage.getInitialProps = async (ctx: ReduxNextPageContext): Promise<any> => {
   return { namespacesRequired: ['common'] };
 };
 
-export default LoginPage;
+export default withTranslation('common')(LoginPage);

@@ -3,8 +3,8 @@ import NextI18Next from 'next-i18next';
 // #endregion Global Imports
 
 const NextI18NextInstance = new NextI18Next({
-  defaultLanguage: 'zh_Hans',
-  otherLanguages: ['en'],
+  defaultLanguage: 'en',
+  otherLanguages: ['zh_Hans'],
 });
 
 export const { appWithTranslation, withTranslation } = NextI18NextInstance;

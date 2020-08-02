@@ -3,10 +3,12 @@ import { NextPage } from 'next';
 import Link from 'next/link';
 
 import { Head, Card, EventTitle, Logo, Background, Footer } from '@Components';
+import { withTranslation } from '@I18n';
+import { IAboutPage } from '@Interfaces';
 
-const About: NextPage = () => (
+const About: NextPage<IAboutPage.IProps, IAboutPage.InitialProps> = ({ t }) => (
   <Background>
-    <Head title="关于浪潮" showSlogan={false} />
+    <Head title={t('About_Title')} showSlogan={false} />
     <Card>
       <p className="tag light-font">从一首诗开始</p>
       <EventTitle>关于浪潮</EventTitle>
@@ -62,4 +64,6 @@ const About: NextPage = () => (
   </Background>
 );
 
-export default About;
+About.getInitialProps = () => ({ namespacesRequired: ['common'] });
+
+export default withTranslation('common')(About);

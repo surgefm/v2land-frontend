@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, message } from 'antd';
 import { useDispatch } from 'react-redux';
+
 import { RedstoneService, clearNewsroomSockets } from '@Services';
 import { ClientActions } from '@Actions';
 import { Rules } from '@Definitions';
+import { withTranslation } from '@I18n';
+
+import { IRegistrationForm } from './Form';
 
 const layout = {
   labelCol: { span: 4 },
@@ -14,7 +18,7 @@ const tailLayout = {
   wrapperCol: { offset: 4, span: 16 },
 };
 
-export const RegistrationForm: React.FunctionComponent = (): JSX.Element => {
+const RegistrationFormImpl: React.FC<IRegistrationForm.IProps> = ({ t }): JSX.Element => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [form] = Form.useForm();
@@ -36,27 +40,44 @@ export const RegistrationForm: React.FunctionComponent = (): JSX.Element => {
 
   return (
     <Form {...layout} name="basic" form={form} onFinish={onFinish} hideRequiredMark>
-      <Form.Item label="用户名" name="username" validateFirst rules={Rules.username}>
+      <Form.Item
+        label={t('Registration_Username')}
+        name="username"
+        validateFirst
+        rules={Rules.username}
+      >
         <Input />
       </Form.Item>
 
-      <Form.Item label="昵称" name="nickname" validateFirst rules={Rules.nickname}>
+      <Form.Item
+        label={t('Registration_Nickname')}
+        name="nickname"
+        validateFirst
+        rules={Rules.nickname}
+      >
         <Input />
       </Form.Item>
 
-      <Form.Item label="邮箱" name="email" validateFirst rules={Rules.email}>
+      <Form.Item label={t('Registration_Email')} name="email" validateFirst rules={Rules.email}>
         <Input />
       </Form.Item>
 
-      <Form.Item label="密码" name="password" validateFirst rules={Rules.password}>
+      <Form.Item
+        label={t('Registration_Password')}
+        name="password"
+        validateFirst
+        rules={Rules.password}
+      >
         <Input.Password />
       </Form.Item>
 
       <Form.Item {...tailLayout}>
         <Button type="primary" htmlType="submit" loading={isLoading}>
-          创建
+          {t('Registration_Submit')}
         </Button>
       </Form.Item>
     </Form>
   );
 };
+
+export const RegistrationForm = withTranslation('common')(RegistrationFormImpl);

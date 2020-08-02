@@ -5,9 +5,12 @@ import { useSelector } from 'react-redux';
 import { Breadcrumb } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
 
+import { withTranslation } from '@I18n';
 import { getEvent, getEventId, getClientIdWithUsername, getClient } from '@Selectors';
 
-export const NewsroomHeaderBreadcrumb: React.FunctionComponent = () => {
+import { INewsroomHeaderBreadcrumb } from './Breadcrumb';
+
+const NewsroomHeaderBreadcrumbImpl: React.FC<INewsroomHeaderBreadcrumb.IProps> = ({ t }) => {
   const router = useRouter();
   const { username, eventName } = router.query as { [index: string]: string };
   const eventId = -Math.abs(useSelector(getEventId(username, eventName)));
@@ -43,9 +46,11 @@ export const NewsroomHeaderBreadcrumb: React.FunctionComponent = () => {
           href="/[username]/[eventName]/newsroom"
           as={`/@${client.username}/${eventPath}/newsroom`}
         >
-          <a>新闻编辑室</a>
+          <a>{t('Newsroom_Title')}</a>
         </Link>
       </Breadcrumb.Item>
     </Breadcrumb>
   );
 };
+
+export const NewsroomHeaderBreadcrumb = withTranslation('common')(NewsroomHeaderBreadcrumbImpl);

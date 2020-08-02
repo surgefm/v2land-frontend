@@ -1,14 +1,18 @@
 import React from 'react';
 import H from 'next/head';
+
+import { withTranslation } from '@I18n';
+
 import { IHead } from './Head';
 
-export const Head: React.FunctionComponent<IHead.IProps> = ({
+const HeadComp: React.FunctionComponent<IHead.IProps> = ({
   title: t = '',
+  t: i18n,
   showSlogan = true,
 }) => {
   let title = t;
   if (showSlogan) {
-    title += t.length > 0 ? ' - 浪潮' : '浪潮 - 你的社会事件追踪工具';
+    title += t.length > 0 ? i18n('Head_Suffix') : i18n('Head_Title');
   }
 
   return (
@@ -17,3 +21,5 @@ export const Head: React.FunctionComponent<IHead.IProps> = ({
     </H>
   );
 };
+
+export const Head = withTranslation('common')(HeadComp);

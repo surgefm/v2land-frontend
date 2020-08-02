@@ -4,12 +4,14 @@ import { useSelector } from 'react-redux';
 
 import { getClient } from '@Selectors';
 import { UtilService } from '@Services';
+import { withTranslation } from '@I18n';
 
 import { Head } from '../Head';
 import { IClientHead } from './ClientHead';
 
-export const ClientHead: React.FunctionComponent<IClientHead.IProps> = ({
+const ClientHeadComp: React.FunctionComponent<IClientHead.IProps> = ({
   title: t = '',
+  t: i18n,
   clientId,
 }) => {
   const client = useSelector(getClient(clientId));
@@ -18,7 +20,7 @@ export const ClientHead: React.FunctionComponent<IClientHead.IProps> = ({
   let title = `@${client.username}`;
   if (client.nickname) title += ` (${client.nickname})`;
   if (t.length > 0) title = `${title} - ${t}`;
-  title += ' - 浪潮';
+  title += i18n('Head_Suffix');
 
   const list = [
     <meta key="twitter:title" name="twitter:title" content={title} />,
@@ -38,3 +40,5 @@ export const ClientHead: React.FunctionComponent<IClientHead.IProps> = ({
     </H>
   );
 };
+
+export const ClientHead = withTranslation('common')(ClientHeadComp);

@@ -14,15 +14,17 @@ import {
   isNewsroomSocketConnected,
 } from '@Selectors';
 import { ClientRoleConsts } from '@Definitions';
+import { withTranslation } from '@I18n';
 import { ClientAvatar } from '@Components/Client';
 
 import { INewsroomPanelRoleItem } from './RoleItem';
 
 const { Option } = Select;
 
-const NewsroomPanelRoleItem: React.FunctionComponent<INewsroomPanelRoleItem.IProps> = ({
+const NewsroomPanelRoleItemImpl: React.FunctionComponent<INewsroomPanelRoleItem.IProps> = ({
   eventId,
   clientId,
+  t,
 }) => {
   const dispatch = useDispatch();
   const client = useSelector(getClient(clientId));
@@ -45,7 +47,7 @@ const NewsroomPanelRoleItem: React.FunctionComponent<INewsroomPanelRoleItem.IPro
     if (value === 'manager') await socket.inviteManager(clientId);
     else if (value === 'editor') await socket.inviteEditor(clientId);
     else if (value === 'viewer') await socket.inviteViewer(clientId);
-    message.success('成功修改用户权限');
+    message.success(t('Newsroom_RoleItem_UpdateSuccess'));
   };
 
   const handleRemoveButtonClick = async () => {
@@ -53,7 +55,7 @@ const NewsroomPanelRoleItem: React.FunctionComponent<INewsroomPanelRoleItem.IPro
     const socket = getNewsroomSocket(eventId);
     if (!socket) return;
     await socket.changeRole(clientId, role, false);
-    message.success(`成功移除用户「${client.username}」`);
+    message.success(t('Newsroom_RemoveSuccess', { username: client.username }));
   };
 
   const getRoleComponent = () => {
@@ -86,7 +88,7 @@ const NewsroomPanelRoleItem: React.FunctionComponent<INewsroomPanelRoleItem.IPro
             </Option>
           ))}
         </Select>
-        <Tooltip title="移除用户">
+        <Tooltip title={t('Newsroom_Tooltip')}>
           <Button
             type="link"
             size="small"
@@ -127,4 +129,4 @@ const NewsroomPanelRoleItem: React.FunctionComponent<INewsroomPanelRoleItem.IPro
   );
 };
 
-export { NewsroomPanelRoleItem };
+export const NewsroomPanelRoleItem = withTranslation('common')(NewsroomPanelRoleItemImpl);

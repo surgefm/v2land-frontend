@@ -9,8 +9,10 @@ import { ThunkDispatch } from '@Interfaces';
 import { isLoggedIn as isLoggedInSelector, getLoggedInClient } from '@Selectors';
 
 import { ClientAvatar } from '@Components/Client';
+import { withTranslation } from '@I18n';
+import { IHeaderUserInfo } from './UserInfo';
 
-export const HeaderUserInfo: React.FunctionComponent = () => {
+const HeaderUserInfoImpl: React.FC<IHeaderUserInfo.IProps> = ({ t }) => {
   const dispatch = useDispatch() as ThunkDispatch;
   const isLoggedIn = useSelector(isLoggedInSelector);
   const prevIsLoggedIn = usePrevious(isLoggedIn);
@@ -46,12 +48,12 @@ export const HeaderUserInfo: React.FunctionComponent = () => {
       <>
         {router.pathname === '/login' ? null : (
           <Button href="/login" type="link" onClick={handleLoginClick}>
-            登录
+            {t('Login_Login')}
           </Button>
         )}
         {router.pathname === '/register' ? null : (
           <Button href="/register" type="link" onClick={handleRegisterClick}>
-            创建账号
+            {t('Registration_Title')}
           </Button>
         )}
       </>
@@ -117,3 +119,5 @@ export const HeaderUserInfo: React.FunctionComponent = () => {
     </Dropdown>
   );
 };
+
+export const HeaderUserInfo = withTranslation('common')(HeaderUserInfoImpl);

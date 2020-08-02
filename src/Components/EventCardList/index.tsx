@@ -3,12 +3,13 @@ import { useSelector } from 'react-redux';
 
 import { getHomepageEventIdList, getHomepageEventList, getEventTimeList } from '@Selectors';
 import { UtilService } from '@Services';
+import { withTranslation } from '@I18n';
 
 import { SectionHeader } from '@Components/Basic';
 import { EventCard } from '@Components/EventCard';
 import { IEventCardList } from './EventCardList';
 
-export const EventCardList: React.FunctionComponent<IEventCardList.IProps> = ({ className }) => {
+const EventCardListImpl: React.FunctionComponent<IEventCardList.IProps> = ({ className, t }) => {
   const eventIdList = useSelector(getHomepageEventIdList);
   const eventList = useSelector(getHomepageEventList);
   const eventTimeList = useSelector(getEventTimeList(eventIdList));
@@ -19,10 +20,10 @@ export const EventCardList: React.FunctionComponent<IEventCardList.IProps> = ({ 
     const event = eventList[i];
     const time = eventTimeList[i];
     if (event) {
-      const lapseStr = time ? UtilService.getTimeLapseString(time, 'general') : lastLapseStr;
+      const lapseStr = time ? UtilService.getTimeLapseString(t, time, 'general') : lastLapseStr;
       if (!lastLapseStr || lastLapseStr !== lapseStr) {
         lastLapseStr = lapseStr;
-        cards.push(<SectionHeader key={`section-${lapseStr}`}>{lapseStr}更新</SectionHeader>);
+        cards.push(<SectionHeader key={`section-${lapseStr}`}>{lapseStr}</SectionHeader>);
       }
       cards.push(<EventCard key={`event-${event.id}`} eventId={event.id} />);
     }
@@ -41,3 +42,5 @@ export const EventCardList: React.FunctionComponent<IEventCardList.IProps> = ({ 
     </div>
   );
 };
+
+export const EventCardList = withTranslation('common')(EventCardListImpl);

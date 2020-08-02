@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Button, message } from 'antd';
 import { FormOutlined } from '@ant-design/icons';
 
+import { withTranslation } from '@I18n';
 import { getNewsroomSocket, NewsroomSocket } from '@Services';
 import {
   getActiveNewsroomId,
@@ -10,7 +11,9 @@ import {
   isNewsroomSocketConnected,
 } from '@Selectors';
 
-export const NewsroomHeaderCommitButton: React.FunctionComponent = () => {
+import { INewsroomHeaderCommitButton } from './CommitButton';
+
+const NewsroomHeaderCommitButtonImpl: React.FC<INewsroomHeaderCommitButton.IProps> = ({ t }) => {
   const [isLoading, setLoading] = useState(false);
   const eventId = useSelector(getActiveNewsroomId);
   const canEdit = useSelector(canCurrentClientEditEvent());
@@ -22,9 +25,9 @@ export const NewsroomHeaderCommitButton: React.FunctionComponent = () => {
       const socket = getNewsroomSocket(eventId) as NewsroomSocket;
       const { commit } = await socket.makeCommit('Hey', 'Yo');
       if (commit) {
-        message.success('成功更新时间线');
+        message.success(t('Newsroom_CommitButton_Success'));
       } else {
-        message.info('更新失败，时间线没有任何改变');
+        message.info(t('Newsroom_CommitButton_NoChange'));
       }
     } catch (err) {
       // Do nothing
@@ -44,7 +47,7 @@ export const NewsroomHeaderCommitButton: React.FunctionComponent = () => {
         disabled={!canEdit || !isConnected}
         onClick={makeCommit}
       >
-        更新时间线
+        {t('Newsroom_CommitButton_Label')}
       </Button>
       <style jsx>
         {`
@@ -61,3 +64,5 @@ export const NewsroomHeaderCommitButton: React.FunctionComponent = () => {
     </div>
   );
 };
+
+export const NewsroomHeaderCommitButton = withTranslation('common')(NewsroomHeaderCommitButtonImpl);

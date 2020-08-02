@@ -1,14 +1,17 @@
 import React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
+import { TFunction } from 'next-i18next';
+
+import { withTranslation } from '@I18n';
 
 import { NewsroomPanelNewsCard } from '../NewsCard';
 import { INewsroomPanelNewsList } from './NewsList';
 
-const showPlaceholder = (newsIdList: number[]) => {
+const showPlaceholder = (newsIdList: number[], t: TFunction) => {
   const show = newsIdList.length === 0;
   return (
     <div>
-      <span>将新闻卡片拖拽到这里</span>
+      <span>{t('Newsroom_NewsList_DragSuggestion')}</span>
       <style jsx>
         {`
           div {
@@ -32,11 +35,12 @@ const showPlaceholder = (newsIdList: number[]) => {
   );
 };
 
-const NewsroomPanelNewsList: React.FunctionComponent<INewsroomPanelNewsList.IProps> = ({
+const NewsroomPanelNewsListImpl: React.FunctionComponent<INewsroomPanelNewsList.IProps> = ({
   newsIdList,
   droppableId = 'newsroom-news-panel',
   isNested = false,
   style,
+  t,
 }) => (
   <Droppable droppableId={droppableId} type="NEWS">
     {provided => (
@@ -45,7 +49,7 @@ const NewsroomPanelNewsList: React.FunctionComponent<INewsroomPanelNewsList.IPro
           <NewsroomPanelNewsCard newsId={newsId} key={`news-${newsId}`} index={index} />
         ))}
         {provided.placeholder}
-        {showPlaceholder(newsIdList)}
+        {showPlaceholder(newsIdList, t)}
         <style jsx>
           {`
             div {
@@ -68,4 +72,4 @@ const NewsroomPanelNewsList: React.FunctionComponent<INewsroomPanelNewsList.IPro
   </Droppable>
 );
 
-export { NewsroomPanelNewsList };
+export const NewsroomPanelNewsList = withTranslation('common')(NewsroomPanelNewsListImpl);

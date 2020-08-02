@@ -28,7 +28,7 @@ import { IClientPage, ReduxNextPageContext } from '@Interfaces';
 
 const { TextArea } = Input;
 
-const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ clientId }) => {
+const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ clientId, t }) => {
   const dispatch = useDispatch();
   const client = useSelector(getClient(clientId));
   const loggedInClientId = useSelector(getLoggedInClientId);
@@ -66,7 +66,7 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
         nickname: form.getFieldValue('nickname') as string,
         description: form.getFieldValue('description') as string,
       });
-      message.success('成功修改用户信息');
+      message.success(t('Client_EditSuccess'));
       dispatch(ClientActions.UpdateClient(clientId, response.client));
       setIsEditing(false);
     } catch (err) {
@@ -87,11 +87,11 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
                 {client.nickname ? <EventTitle>{client.nickname}</EventTitle> : null}
                 <span className="username">@{client.username}</span>
               </div>
-              <p>{client.description || '暂无简介'}</p>
+              <p>{client.description || t('Client_NoDescription')}</p>
             </Space>
             {isCurrentClient ? (
               <div className="edit-buttons">
-                <Button onClick={handleEditClick}>编辑资料</Button>
+                <Button onClick={handleEditClick}>{t('Client_Edit')}</Button>
               </div>
             ) : null}
           </div>
@@ -119,21 +119,21 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
                 >
                   <Input
                     size="large"
-                    placeholder="昵称"
+                    placeholder={t('Client_Nickname')}
                     style={{ fontSize: '1.5rem', width: '250px' }}
                   />
                 </Form.Item>
                 <span className="username">@{client.username}</span>
               </div>
               <Form.Item name="description" initialValue={client.description}>
-                <TextArea maxLength={80} placeholder="请输入简介" />
+                <TextArea maxLength={80} placeholder={t('Client_DescriptionPlaceholder')} />
               </Form.Item>
 
               <div className="edit-buttons">
                 <Space>
-                  <Button onClick={handleCancelClick}>取消</Button>
+                  <Button onClick={handleCancelClick}>{t('Client_Cancel')}</Button>
                   <Button htmlType="submit" type="primary" disabled={disabled} loading={loading}>
-                    保存
+                    {t('Newsroom_EventDetail_Save')}
                   </Button>
                 </Space>
               </div>

@@ -15,15 +15,16 @@ import { ClientRoleConsts } from '@Definitions';
 import { Client } from '@Interfaces';
 import { ClientActions, NewsroomActions } from '@Actions';
 import { ClientService, RedstoneService, getNewsroomSocket } from '@Services';
+import { withTranslation } from '@I18n';
 
 import { ClientAvatar } from '@Components/Client';
 import { INewsroomPanelRoleItemCreator } from './RoleItemCreator';
 
 const { Option } = Select;
 
-const NewsroomPanelRoleItemCreator: React.FunctionComponent<
+const NewsroomPanelRoleItemCreatorImpl: React.FunctionComponent<
   INewsroomPanelRoleItemCreator.IProps
-> = ({ eventId }) => {
+> = ({ eventId, t }) => {
   const dispatch = useDispatch();
   const newsroomRoles = useSelector(getNewsroomRoles(eventId));
   const currentClientRole = useSelector(getNewsroomCurrentClientRole(eventId));
@@ -48,7 +49,7 @@ const NewsroomPanelRoleItemCreator: React.FunctionComponent<
     if (!socket) return;
 
     await socket.changeRole(clientId, role);
-    message.success(`成功添加用户「${client.username}」`);
+    message.success(t('Newsroom_RoleItemCreator_AddSuccess', { username: client.username }));
     setInput('');
   };
 
@@ -72,7 +73,7 @@ const NewsroomPanelRoleItemCreator: React.FunctionComponent<
     }
 
     return (
-      <Tooltip title="确认添加">
+      <Tooltip title={t('Newsroom_ConfirmAdd')}>
         <Button
           type="link"
           size="small"
@@ -135,7 +136,7 @@ const NewsroomPanelRoleItemCreator: React.FunctionComponent<
           style={{ width: 200 }}
           onSearch={handleSearch}
           onChange={setInput}
-          placeholder="请输入用户名"
+          placeholder={t('Newsroom_UsernamePlaceholder')}
           disabled={!isConnected}
         >
           {result.map(c => (
@@ -168,4 +169,6 @@ const NewsroomPanelRoleItemCreator: React.FunctionComponent<
   );
 };
 
-export { NewsroomPanelRoleItemCreator };
+export const NewsroomPanelRoleItemCreator = withTranslation('common')(
+  NewsroomPanelRoleItemCreatorImpl
+);

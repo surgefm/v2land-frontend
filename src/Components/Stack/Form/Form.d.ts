@@ -1,5 +1,7 @@
+import { WithTranslation } from 'next-i18next';
+
 declare namespace IStackForm {
-  export interface IProps {
+  export interface IProps extends WithTranslation {
     eventId: number;
     stackId?: number;
     useSocket?: boolean;

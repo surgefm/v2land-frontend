@@ -4,6 +4,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { Space } from 'antd';
 
+import { withTranslation } from '@I18n';
 import {
   NewsroomHeaderBreadcrumb,
   NewsroomHeaderClientAvatars,
@@ -14,8 +15,9 @@ import {
 import { HeaderLogo } from './Logo';
 import { HeaderButton } from './Button';
 import { HeaderUserInfo } from './UserInfo';
+import { IHeader } from './Header';
 
-const Header: React.FunctionComponent = (): JSX.Element => {
+const HeaderImpl: React.FC<IHeader.IProps> = ({ t }): JSX.Element => {
   const router = useRouter();
   const isInNewsroom = router.route === '/[username]/[eventName]/newsroom';
 
@@ -33,11 +35,8 @@ const Header: React.FunctionComponent = (): JSX.Element => {
               </>
             ) : (
               <>
-                <HeaderButton href="/">首页</HeaderButton>
-                <HeaderButton href="/about">关注</HeaderButton>
-                <HeaderButton href="/[username]" as="/@计量经济学家的AI">
-                  我的事件
-                </HeaderButton>
+                <HeaderButton href="/">{t('Header_Homepage')}</HeaderButton>
+                <HeaderButton href="/about">{t('About_Title')}</HeaderButton>
               </>
             )}
           </Space>
@@ -84,4 +83,4 @@ const Header: React.FunctionComponent = (): JSX.Element => {
   );
 };
 
-export { Header };
+export const Header = withTranslation('common')(HeaderImpl);

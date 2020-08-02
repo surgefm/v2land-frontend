@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Button } from 'antd';
 import { DownCircleOutlined, UpCircleOutlined } from '@ant-design/icons';
 
+import { withTranslation } from '@I18n';
+
 import { INewsItemList } from './NewsItems';
 import { NewsItem } from '../NewsItem/index';
 
-export const NewsItemList: React.FunctionComponent<INewsItemList.IProps> = ({ newsIdList }) => {
+const NewsItemListImpl: React.FunctionComponent<INewsItemList.IProps> = ({ newsIdList, t }) => {
   const [showMore, setShowMore] = useState(false);
 
   let newsItems: React.ReactElement[] = [];
@@ -25,7 +27,7 @@ export const NewsItemList: React.FunctionComponent<INewsItemList.IProps> = ({ ne
         onClick={toggleShowMore}
         icon={showMore ? <UpCircleOutlined /> : <DownCircleOutlined />}
       >
-        {showMore ? '收起更多相关新闻' : '展示更多相关新闻'}
+        {showMore ? t('Stack_Card_CollapseMoreNews') : t('Stack_Card_ShowMoreNews')}
       </Button>
     );
   }
@@ -46,3 +48,5 @@ export const NewsItemList: React.FunctionComponent<INewsItemList.IProps> = ({ ne
     </div>
   );
 };
+
+export const NewsItemList = withTranslation('common')(NewsItemListImpl);

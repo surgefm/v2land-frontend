@@ -1,7 +1,8 @@
 import React from 'react';
+import { WithTranslation } from 'next-i18next';
 
 declare namespace INewsroomPanelNewsList {
-  export interface IProps {
+  export interface IProps extends WithTranslation {
     newsIdList: number[];
     droppableId?: string;
     isNested?: boolean;

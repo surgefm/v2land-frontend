@@ -7,24 +7,25 @@ import { message } from 'antd';
 import { Head, Card, RegistrationForm, Background, Footer, EventTitle } from '@Components';
 import { isLoggedIn as isLoggedInSelector } from '@Selectors';
 import { UtilService } from '@Services';
-import { ReduxNextPageContext } from '@Interfaces';
+import { ReduxNextPageContext, IRegisterPage } from '@Interfaces';
+import { withTranslation } from '@I18n';
 
-const RegistrationPage: NextPage = () => {
+const RegistrationPage: NextPage<IRegisterPage.IProps, IRegisterPage.InitialProps> = ({ t }) => {
   const isLoggedIn = useSelector(isLoggedInSelector);
   const router = useRouter();
 
   useEffect(() => {
     if (isLoggedIn) {
       UtilService.redirect((router.query.redirect as string) || '/');
-      message.success('注册成功');
+      message.success(t('Registration_RegisterSuccess'));
     }
   }, [isLoggedIn]);
 
   return (
     <Background>
-      <Head title="创建浪潮账号" />
+      <Head title={t('Registration_Title')} />
       <Card>
-        <EventTitle>创建浪潮账号</EventTitle>
+        <EventTitle>{t('Registration_Title')}</EventTitle>
         <RegistrationForm />
       </Card>
       <Footer />
@@ -40,4 +41,4 @@ RegistrationPage.getInitialProps = async (ctx: ReduxNextPageContext): Promise<an
   return { namespacesRequired: ['common'] };
 };
 
-export default RegistrationPage;
+export default withTranslation('common')(RegistrationPage);

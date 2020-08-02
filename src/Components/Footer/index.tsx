@@ -3,12 +3,14 @@ import * as React from 'react';
 import Link from 'next/link';
 // #endregion Global Imports
 
+import { withTranslation } from '@I18n';
+
 // #region Local Imports
-import { Logo, LogoType } from '@Components/Basic';
+import { Logo } from '@Components/Basic';
 import { IFooter } from './Footer';
 // #endregion Local Imports
 
-const Footer: React.FunctionComponent<IFooter.IProps> = (): JSX.Element => {
+const FooterComp: React.FunctionComponent<IFooter.IProps> = ({ t }): JSX.Element => {
   return (
     <div className="footer">
       <div className="logo-container">
@@ -17,27 +19,26 @@ const Footer: React.FunctionComponent<IFooter.IProps> = (): JSX.Element => {
             <div className="logo-image">
               <Logo mode="simple" height={32} />
             </div>
-            <LogoType color="#0083a8" height={32} className="logotype" />
           </a>
         </Link>
       </div>
       <div className="content">
         <div className="about-v2land">
           <Link href="/about">
-            <a className="link">关于浪潮</a>
+            <a className="link">{t('Footer_About')}</a>
           </Link>
           <span>·</span>
           <a href="https://github.com/v2land" target="_blank" rel="noopener noreferrer">
-            参与项目开发
+            {t('Footer_Participate')}
           </a>
         </div>
         <div className="about-v2land">
           <a href="https://twitter.com/langchao_org" target="_blank" rel="noopener noreferrer">
-            Twitter
+            {t('Share_Site_Twitter')}
           </a>
           <span>·</span>
           <a href="https://www.weibo.com/v2land" target="_blank" rel="noopener noreferrer">
-            微博
+            {t('Share_Site_Weibo')}
           </a>
           <span>·</span>
           <a
@@ -45,17 +46,10 @@ const Footer: React.FunctionComponent<IFooter.IProps> = (): JSX.Element => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Telegram 交流群
+            {t('Share_Site_Telegram')}
           </a>
         </div>
-        <span>
-          本站与
-          <a href="http://langchao.com" target="_blank" rel="noopener noreferrer">
-            浪潮集团有限公司
-          </a>
-          无关
-        </span>
-        <span>{`Langchao.org ${new Date().getFullYear()}`}</span>
+        <span>{`Surge.fm ${new Date().getFullYear()}`}</span>
       </div>
 
       <style jsx>
@@ -128,4 +122,4 @@ const Footer: React.FunctionComponent<IFooter.IProps> = (): JSX.Element => {
   );
 };
 
-export { Footer };
+export const Footer = withTranslation('common')(FooterComp);

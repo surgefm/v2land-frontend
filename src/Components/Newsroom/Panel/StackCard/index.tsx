@@ -14,6 +14,7 @@ import {
   isNewsroomSocketConnected,
   canCurrentClientEditEvent,
 } from '@Selectors';
+import { withTranslation } from '@I18n';
 import { NewsroomActions } from '@Actions';
 import { getNewsroomSocket } from '@Services';
 import { StackForm } from '@Components/Stack';
@@ -25,10 +26,11 @@ import { NewsroomPanelNewsList } from '../NewsList';
 import { NewsroomPanelLockMask } from '../LockMask';
 import { INewsroomPanelStackCard } from './StackCard';
 
-const NewsroomPanelStackCard: React.FunctionComponent<INewsroomPanelStackCard.IProps> = ({
+const NewsroomPanelStackCardImpl: React.FunctionComponent<INewsroomPanelStackCard.IProps> = ({
   stackId,
   index,
   dark,
+  t,
 }) => {
   const dispatch = useDispatch();
   const stack = useSelector(getStack(stackId));
@@ -122,7 +124,7 @@ const NewsroomPanelStackCard: React.FunctionComponent<INewsroomPanelStackCard.IP
           </NewsroomPanelCard>
           {isLocked ? <NewsroomPanelLockMask locker={locker} dark={dark} /> : <React.Fragment />}
           <Modal
-            title="修改进展"
+            title={t('Newsroom_StackCard_Edit')}
             visible={modalVisible && canEdit}
             onCancel={finishEditing}
             footer={null}
@@ -174,4 +176,4 @@ const NewsroomPanelStackCard: React.FunctionComponent<INewsroomPanelStackCard.IP
   );
 };
 
-export { NewsroomPanelStackCard };
+export const NewsroomPanelStackCard = withTranslation('common')(NewsroomPanelStackCardImpl);

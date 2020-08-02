@@ -65,6 +65,7 @@ import { IEventNewsroomPage, ReduxNextPageContext } from '@Interfaces';
 
 const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.InitialProps> = ({
   eventId: id,
+  t,
 }) => {
   const eventId = -Math.abs(id);
   const event = useSelector(getEvent(eventId));
@@ -151,26 +152,22 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
         <Card className="panel y-scroll">
           <div className="panel-header-container">
             <Space size={0}>
-              <NewsroomPanelTitle>用户列表</NewsroomPanelTitle>
+              <NewsroomPanelTitle>{t('Event_ContributorList_Contributor')}</NewsroomPanelTitle>
               <Popover
                 content={
                   // eslint-disable-next-line react/jsx-wrap-multilines
                   <>
                     <p>
-                      <b>观察者</b>
-                      ：可以查看时间线的最新编辑情况，但不可以进行编辑
+                      <b>{t('Newsroom_Role_Observer')}</b>：{t('Newsroom_Role_ObserverPermission')}
                     </p>
                     <p>
-                      <b>编辑者</b>
-                      ：可以对时间线进行编辑
+                      <b>{t('Newsroom_Role_Editor')}</b>：{t('Newsroom_Role_EditorPermission')}
                     </p>
                     <p>
-                      <b>管理者</b>
-                      ：可以添加或移除编辑者和观察者
+                      <b>{t('Newsroom_Role_Manager')}</b>：{t('Newsroom_Role_ManagerPermission')}
                     </p>
                     <span>
-                      <b>所有者</b>
-                      ：可以添加或移除管理者
+                      <b>{t('Newsroom_Role_Owner')}</b>：{t('Newsroom_Role_OwnerPermission')}
                     </span>
                   </>
                 }
@@ -191,7 +188,7 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
       <div className="panel-wrapper" ref={provided.innerRef} {...provided.draggableProps}>
         <Card className="panel">
           <div className="panel-header-container">
-            <NewsroomPanelTitle>备选新闻</NewsroomPanelTitle>
+            <NewsroomPanelTitle>{t('Newsroom_OffshelfNews')}</NewsroomPanelTitle>
             <DragOutlined {...provided.dragHandleProps} />
           </div>
           <NewsroomPanelNewsList newsIdList={offshelfNewsIdList} droppableId="newsroom-news-list" />
@@ -202,7 +199,7 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
       <div className="panel-wrapper" ref={provided.innerRef} {...provided.draggableProps}>
         <Card className="panel offshelf-stack">
           <div className="panel-header-container">
-            <NewsroomPanelTitle>备选进展</NewsroomPanelTitle>
+            <NewsroomPanelTitle>{t('Newsroom_OffshelfStacks')}</NewsroomPanelTitle>
             <Space size={0}>
               <NewsroomPanelSortStacksButton eventId={eventId} offshelf />
               <NewsroomPanelCreateStackButton eventId={eventId} />
@@ -227,14 +224,18 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
             ref={droppableProvided.innerRef}
             {...droppableProvided.droppableProps}
           >
-            <EventHead eventId={eventId} title="新闻编辑室" />
+            <EventHead eventId={eventId} title={t('Newsroom_Title')} />
             <div className="panel-wrapper">
               <Card className="panel public-stack">
                 <div className="panel-header-container">
-                  <NewsroomPanelTitle>事件时间线</NewsroomPanelTitle>
+                  <NewsroomPanelTitle>{t('Newsroom_Timeline')}</NewsroomPanelTitle>
                   <Space size={0}>
                     <NewsroomPanelSortStacksButton eventId={eventId} />
-                    <Tooltip title={showStackNews ? '隐藏新闻' : '显示新闻'}>
+                    <Tooltip
+                      title={
+                        showStackNews ? t('Newsroom_HideStackNews') : t('Newsroom_ShowStackNews')
+                      }
+                    >
                       <Switch
                         checkedChildren={<EyeOutlined />}
                         unCheckedChildren={<EyeInvisibleOutlined />}
