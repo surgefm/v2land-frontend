@@ -61,3 +61,8 @@ export const Tag: React.FunctionComponent<ITag.IProps> = ({
   if (!isLongTag) return tagContent;
   return <Tooltip title={tag.name}>{tagContent}</Tooltip>;
 };
+
+export * from './TagHeaderCard';
+export * from './TagBodySection';
+export * from './TimelineSection';
+export * from './TimelineCard';

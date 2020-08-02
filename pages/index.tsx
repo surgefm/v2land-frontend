@@ -7,7 +7,7 @@ import { message } from 'antd';
 
 // #region Local Imports
 import { withTranslation } from '@Server/i18n';
-import { EventActions } from '@Actions';
+import { EventActions, TagActions } from '@Actions';
 import {
   Head,
   Footer,
@@ -17,14 +17,14 @@ import {
   Background,
   SectionHeader,
 } from '@Components';
-import { UtilService } from '@Services';
+import { UtilService, RedstoneService } from '@Services';
 // #endregion Local Imports
 
 // #region Interface Imports
 import { IHomePage, ReduxNextPageContext } from '@Interfaces';
 // #endregion Interface Imports
 
-const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = () => {
+const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList }) => {
   const router = useRouter();
   useEffect(() => {
     if (router.query.event_not_found) {
@@ -49,12 +49,9 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = () => {
           <div>
             <SectionHeader>热点话题</SectionHeader>
             <>
-              <TagCard tag="新冠肺炎" />
-              <TagCard tag="医患纠纷" />
-              <TagCard tag="百度" />
-              <TagCard tag="娱乐圈" />
-              <TagCard tag="劳资纠纷" />
-              <TagCard tag="非洲猪瘟" />
+              {tagList.map(tag => (
+                <TagCard tag={tag} key={tag.id} />
+              ))}
             </>
             <SectionHeader>贡献榜</SectionHeader>
             <>
@@ -97,7 +94,12 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = () => {
 
 Home.getInitialProps = async (ctx: ReduxNextPageContext): Promise<IHomePage.InitialProps> => {
   await ctx.store.dispatch(EventActions.GetEventList());
-  return { namespacesRequired: ['common'] };
+  let tagList = await RedstoneService.getTagList();
+  for (let i = 0; i < tagList.length; i += 1) {
+    ctx.store.dispatch(TagActions.AddTag(tagList[i]));
+  }
+  tagList = tagList.filter(tag => tag.eventIdList.length > 0);
+  return { namespacesRequired: ['common'], tagList };
 };
 
 const Extended = withTranslation('common')(Home);

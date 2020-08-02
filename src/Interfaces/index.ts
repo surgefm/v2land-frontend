@@ -5,6 +5,7 @@ export * from '@Interfaces/Pages/Client';
 export * from '@Interfaces/Pages/Error';
 export * from '@Interfaces/Pages/Event';
 export * from '@Interfaces/Pages/EventNewsroom';
+export * from '@Interfaces/Pages/Tag';
 // #endregion Page Interfaces
 
 // #region Redux Interfaces

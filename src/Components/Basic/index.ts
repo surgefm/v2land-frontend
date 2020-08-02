@@ -7,5 +7,6 @@ export { Image } from './Image';
 export { Logo } from './Logo';
 export { LogoType } from './LogoType';
 export { SectionHeader } from './SectionHeader';
+export { TagHead } from './TagHead';
 export { TelegramLogo } from './TelegramLogo';
 export { Time } from './Time';

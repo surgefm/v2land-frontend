@@ -12,3 +12,4 @@ export * from '@Components/Login';
 export * from '@Components/Share';
 export * from '@Components/Stack';
 export * from '@Components/TagCard';
+export * from '@Components/Tag';

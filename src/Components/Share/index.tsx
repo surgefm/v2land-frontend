@@ -11,8 +11,8 @@ import Icon, {
 import QRCode from 'qrcode.react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
-import { getEvent, getStack, getNews, getEventOwner } from '@Selectors';
-import { Event, Stack, News } from '@Interfaces';
+import { getEvent, getStack, getNews, getEventOwner, getTag } from '@Selectors';
+import { Event, Stack, News, Tag } from '@Interfaces';
 import { TelegramLogo } from '@Components/Basic';
 
 import { IShare } from './Share';
@@ -31,6 +31,8 @@ const Share: React.FunctionComponent<IShare.IProps> = ({
   stackId,
   news: n,
   newsId,
+  tag: t,
+  tagId,
 }) => {
   const [showPopover, setShowPopover] = useState(false);
   const selectStack = useSelector(getStack(stackId || 0));
@@ -38,16 +40,22 @@ const Share: React.FunctionComponent<IShare.IProps> = ({
   const stack = (s || selectStack) as Stack;
   const selectEvent = useSelector(getEvent(eventId || (stack ? stack.eventId : 0)));
   const selectNews = useSelector(getNews(newsId || 0));
+  const selectTag = useSelector(getTag(tagId || 0));
   const eventOwner = useSelector(getEventOwner(eventId || (stack ? stack.eventId : 0)));
 
   const event = (e || selectEvent) as Event;
   const news = (n || selectNews) as News;
 
+  const tag = (t || selectTag) as Tag;
+
   if (!m || !u) {
     if (type === 'event' && !event) return <React.Fragment />;
     if (type === 'stack' && (!stack || !event)) return <React.Fragment />;
     if (type === 'news' && (!news || !stack || !event)) return <React.Fragment />;
+    if (type === 'tag' && !tag) return <React.Fragment />;
   }
+
+  const colorful = type === 'event' || type === 'tag';
 
   const sites = ['twitter', 'facebook', 'telegram', 'weibo'];
   const icons: { [index: string]: React.ReactElement } = {
@@ -70,16 +78,19 @@ const Share: React.FunctionComponent<IShare.IProps> = ({
   else if (type === 'event') shareMessage = `上浪潮查看「${event.name}」的最新动态`;
   else if (type === 'stack') shareMessage = `上浪潮查看「${event.name}」的进展「${stack.title}」`;
   else if (type === 'news') shareMessage = `上浪潮查看「${event.name}」的新闻「${news.title}」`;
+  else if (type === 'tag') shareMessage = `上浪潮查看话题 #${tag.name}`;
 
-  const eventBaseUrl = `${SITE_URL}/@${eventOwner ? eventOwner.username : 'newspect'}/${event.id}-${
-    event.pinyin
-  }`;
+  const eventBaseUrl =
+    type === 'tag'
+      ? ''
+      : `${SITE_URL}/@${eventOwner ? eventOwner.username : 'newspect'}/${event.id}-${event.pinyin}`;
 
   let shareUrl = SITE_URL;
   if (u) shareUrl = u;
   else if (type === 'event') shareUrl = eventBaseUrl;
   else if (type === 'stack') shareUrl = `${eventBaseUrl}/${stack.id}`;
   else if (type === 'news') shareUrl = `${eventBaseUrl}/${stack.id}/${news.id}`;
+  else if (type === 'tag') shareUrl = `${SITE_URL}/topic/${tag.id}`;
 
   const shareTo = (site: string) => {
     const url = shareUrl;
@@ -105,19 +116,29 @@ const Share: React.FunctionComponent<IShare.IProps> = ({
           news.abstract.length > 50 ? '… ' : ' '
         }来源：${news.source} `;
       }
+    } else if (type === 'tag') {
+      if (!tag.description) message = `${tag.name}话题`;
+      else {
+        message = `${tag.name}话题 - ${tag.description.slice(0, 50)}${
+          tag.description.length > 50 ? '… ' : ' '
+        }`;
+      }
     }
 
     switch (site) {
       case 'twitter':
         return encodeURI(
-          `https://twitter.com/intent/tweet?text=${message}&url=${url}&hashtags=${event.name},浪潮`
+          `https://twitter.com/intent/tweet?text=${message}&url=${url}&hashtags=${event &&
+            event.name},浪潮`
         );
       case 'facebook':
         return encodeURI(`https://www.facebook.com/sharer/sharer.php?u=${url}`);
       case 'telegram':
         return encodeURI(`https://telegram.me/share?url=${url}&text=${shareMessage}`);
       case 'weibo':
-        message += `%23${event.name}%23 %23浪潮，你的社会事件追踪工具%23`;
+        message += `%23${
+          type === 'tag' ? tag.name : event.name
+        }%23 %23浪潮，你的社会事件追踪工具%23`;
         return encodeURI(`http://service.weibo.com/share/share.php?url=${url}&title=${message}`);
       default:
         return '';
@@ -157,17 +178,17 @@ const Share: React.FunctionComponent<IShare.IProps> = ({
 
   return (
     <div className="share">
-      <Space size={type === 'event' ? 8 : 20}>
+      <Space size={colorful ? 8 : 20}>
         {sites.map(site => (
           <Tooltip title={`分享至${names[site]}`} key={`share-${site}`}>
-            <a href={shareTo(site)} onClick={handleClick(site)} className={type}>
+            <a href={shareTo(site)} onClick={handleClick(site)} className={colorful ? 'event' : ''}>
               {icons[site]}
             </a>
           </Tooltip>
         ))}
         <Popover content={popoverContent} visible={showPopover}>
           <Tooltip title="分享至微信" overlayStyle={showPopover ? { display: 'none' } : {}}>
-            <a href={shareUrl} onClick={togglePopover} className={type}>
+            <a href={shareUrl} onClick={togglePopover} className={colorful ? 'event' : ''}>
               {icons.wechat}
             </a>
           </Tooltip>
