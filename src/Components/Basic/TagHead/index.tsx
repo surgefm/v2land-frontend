@@ -3,17 +3,22 @@ import H from 'next/head';
 import { useSelector } from 'react-redux';
 
 import { getTag } from '@Selectors';
+import { withTranslation } from '@I18n';
 
 import { Head } from '../Head';
 import { ITagHead } from './TagHead';
 
-export const TagHead: React.FunctionComponent<ITagHead.IProps> = ({ title: t = '', tagId }) => {
+const TagHeadImpl: React.FunctionComponent<ITagHead.IProps> = ({
+  title: t = '',
+  tagId,
+  t: i18n,
+}) => {
   const tag = useSelector(getTag(tagId));
   if (!tag) return <Head />;
 
-  let title = `#${tag.name} 话题`;
+  let title = `#${tag.name}`;
   if (t.length > 0) title = `${title} - ${t}`;
-  title += ' - 浪潮';
+  title += i18n('Head_Suffix');
 
   const list = [
     <meta key="twitter:title" name="twitter:title" content={title} />,
@@ -34,3 +39,5 @@ export const TagHead: React.FunctionComponent<ITagHead.IProps> = ({ title: t = '
     </H>
   );
 };
+
+export const TagHead = withTranslation('common')(TagHeadImpl);

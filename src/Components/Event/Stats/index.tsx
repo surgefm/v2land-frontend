@@ -13,8 +13,8 @@ const styles = css`
 `;
 
 const EventStatsComp: React.FunctionComponent<IEventStats.IProps> = ({
-  stackCount,
-  newsCount,
+  stackCount = 0,
+  newsCount = 0,
   t,
 }) => {
   if (!newsCount && !stackCount) {
@@ -28,24 +28,25 @@ const EventStatsComp: React.FunctionComponent<IEventStats.IProps> = ({
 
   return (
     <div className="status">
-      <span>{'事件共有 '}</span>
+      <span>{'This timeline has '}</span>
       {stackCount ? (
         <span>
           <span className={commonStyles['light-font']}>{`${stackCount} `}</span>
-          个进展
+          {`stack${t('Common_S', { count: stackCount })}`}
         </span>
       ) : (
         <React.Fragment />
       )}
-      {stackCount && newsCount ? <span>、</span> : <React.Fragment />}
+      {stackCount && newsCount ? <span>{' and '}</span> : <React.Fragment />}
       {newsCount ? (
         <span>
           <span className={commonStyles['light-font']}>{`${newsCount} `}</span>
-          条新闻
+          {`piece${t('Common_S', { count: newsCount })} of news`}
         </span>
       ) : (
         <React.Fragment />
       )}
+      <span>.</span>
       <style jsx>{styles}</style>
     </div>
   );

@@ -1,10 +1,26 @@
-const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const fullMonths = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 type GetTimeStringOptions = {
   showWeekday?: boolean;
   forceShowYear?: boolean;
   withSpaceBetween?: boolean;
   showMonthOnly?: boolean;
+  showFullMonth?: boolean;
 };
 
 /**
@@ -16,6 +32,7 @@ export const getTimeString = (t?: string | Date | number, options: GetTimeString
     forceShowYear = false,
     withSpaceBetween = true,
     showMonthOnly = false,
+    showFullMonth = true,
   } = options;
 
   if (!t) return '';
@@ -27,17 +44,18 @@ export const getTimeString = (t?: string | Date | number, options: GetTimeString
   }
 
   const year = time.getFullYear();
-  const month = time.getMonth() + 1;
+  const month = time.getMonth();
   const date = time.getDate();
   const weekday = weekdays[time.getDay()];
   const space = withSpaceBetween ? ' ' : '';
   let showYear = forceShowYear;
   showYear = forceShowYear ? showYear : year !== new Date().getFullYear();
 
-  let str = `${month}${space}月`;
-  if (!showMonthOnly) str += `${space}${date}${space}日`;
+  let str = showFullMonth ? fullMonths[month] : months[month];
+  if (!showMonthOnly) str += `${space}${date}`;
   if (showYear) {
-    str = `${space}${year}${space}年${space}${str}`;
+    if (!showMonthOnly) str += ',';
+    str += `${space}${year}`;
   }
   if (showWeekday) {
     str += ` ${weekday}`;

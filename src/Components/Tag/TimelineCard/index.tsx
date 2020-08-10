@@ -41,9 +41,7 @@ const TimelineCardImpl: React.FunctionComponent<ITimelineCard.IProps> = ({ event
           <div className={styles['timeline-card-top']}>
             <div className={styles.title}>
               <div className={styles['latest-update']}>
-                {event.time && (
-                  <p>{UtilService.getTimeLapseString(t, event.time, 'general')}更新</p>
-                )}
+                {event.time && <p>{UtilService.getTimeLapseString(t, event.time, 'general')}</p>}
               </div>
               <h2>{event.name}</h2>
             </div>
@@ -51,8 +49,16 @@ const TimelineCardImpl: React.FunctionComponent<ITimelineCard.IProps> = ({ event
             {event.description && <p className={styles.description}>{event.description}</p>}
 
             <div className={styles.info}>
-              {event.numUpvote && <p>赞 {event.numUpvote}</p>}
-              {event.stackCount && <p>进展 {event.stackCount}</p>}
+              {event.numUpvote && (
+                <p>
+                  {event.numUpvote} Like{t('Common_S', { count: event.numUpvote })}
+                </p>
+              )}
+              {event.stackCount && (
+                <p>
+                  {event.stackCount} Stack{t('Common_S', { count: event.stackCount })}
+                </p>
+              )}
             </div>
           </div>
 

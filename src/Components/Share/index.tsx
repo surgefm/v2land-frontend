@@ -47,7 +47,6 @@ const ShareImpl: React.FunctionComponent<IShare.IProps> = ({
 
   const event = (e || selectEvent) as Event;
   const news = (n || selectNews) as News;
-
   const tag = (t || selectTag) as Tag;
 
   if (!m || !u) {
@@ -58,6 +57,7 @@ const ShareImpl: React.FunctionComponent<IShare.IProps> = ({
   }
 
   const colorful = type === 'event' || type === 'tag';
+  const title = type === 'tag' ? tag.name : event.name;
 
   const sites = ['twitter', 'facebook', 'telegram', 'weibo'];
   const icons: { [index: string]: React.ReactElement } = {
@@ -128,9 +128,9 @@ const ShareImpl: React.FunctionComponent<IShare.IProps> = ({
         }${tf('Share_NewsSource', { source: news.source })} `;
       }
     } else if (type === 'tag') {
-      if (!tag.description) message = `${tag.name}话题`;
+      if (!tag.description) message = `#${tag.name}`;
       else {
-        message = `${tag.name}话题 - ${tag.description.slice(0, 50)}${
+        message = `#${tag.name} - ${tag.description.slice(0, 50)}${
           tag.description.length > 50 ? '… ' : ' '
         }`;
       }
@@ -139,14 +139,14 @@ const ShareImpl: React.FunctionComponent<IShare.IProps> = ({
     switch (site) {
       case 'twitter':
         return encodeURI(
-          `https://twitter.com/intent/tweet?text=${message}&url=${url}&hashtags=${event.name}`
+          `https://twitter.com/intent/tweet?text=${message}&url=${url}&hashtags=${title}`
         );
       case 'facebook':
         return encodeURI(`https://www.facebook.com/sharer/sharer.php?u=${url}`);
       case 'telegram':
         return encodeURI(`https://telegram.me/share?url=${url}&text=${shareMessage}`);
       case 'weibo':
-        message += `%23${event.name}%23 %23${tf('Share_Slogan')}%23`;
+        message += `%23${title}%23 %23${tf('Share_Slogan')}%23`;
         return encodeURI(`http://service.weibo.com/share/share.php?url=${url}&title=${message}`);
       default:
         return '';
