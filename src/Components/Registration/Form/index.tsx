@@ -32,7 +32,8 @@ const RegistrationFormImpl: React.FC<IRegistrationForm.IProps> = ({ t }): JSX.El
       dispatch(ClientActions.SetLoggedInClient(client.id));
       clearNewsroomSockets();
     } catch (err) {
-      message.error(err.message);
+      const errorMessage = await err.json();
+      message.error(errorMessage.message);
     } finally {
       setIsLoading(false);
     }
@@ -44,7 +45,7 @@ const RegistrationFormImpl: React.FC<IRegistrationForm.IProps> = ({ t }): JSX.El
         label={t('Registration_Username')}
         name="username"
         validateFirst
-        rules={Rules.username}
+        rules={Rules(t).username}
       >
         <Input />
       </Form.Item>
@@ -53,12 +54,12 @@ const RegistrationFormImpl: React.FC<IRegistrationForm.IProps> = ({ t }): JSX.El
         label={t('Registration_Nickname')}
         name="nickname"
         validateFirst
-        rules={Rules.nickname}
+        rules={Rules(t).nickname}
       >
         <Input />
       </Form.Item>
 
-      <Form.Item label={t('Registration_Email')} name="email" validateFirst rules={Rules.email}>
+      <Form.Item label={t('Registration_Email')} name="email" validateFirst rules={Rules(t).email}>
         <Input />
       </Form.Item>
 
@@ -66,7 +67,7 @@ const RegistrationFormImpl: React.FC<IRegistrationForm.IProps> = ({ t }): JSX.El
         label={t('Registration_Password')}
         name="password"
         validateFirst
-        rules={Rules.password}
+        rules={Rules(t).password}
       >
         <Input.Password />
       </Form.Item>
