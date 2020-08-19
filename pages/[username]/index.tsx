@@ -115,7 +115,7 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
                   name="nickname"
                   initialValue={client.nickname}
                   validateFirst
-                  rules={Rules.nickname}
+                  rules={Rules(t).nickname}
                 >
                   <Input
                     size="large"
