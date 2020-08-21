@@ -37,6 +37,7 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
+  const decoratedRules = Rules(t);
   if (!client) return <React.Fragment />;
 
   const isCurrentClient = loggedInClientId === clientId;
@@ -115,7 +116,7 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
                   name="nickname"
                   initialValue={client.nickname}
                   validateFirst
-                  rules={Rules(t).nickname}
+                  rules={decoratedRules.nickname}
                 >
                   <Input
                     size="large"

@@ -3,7 +3,6 @@ import { Rule } from 'rc-field-form/lib/interface';
 import { RedstoneService } from '@Services';
 import { TFunction } from 'next-i18next';
 
-// @ts-ignore
 export const Rules = (t: TFunction) => {
   return {
     username: [

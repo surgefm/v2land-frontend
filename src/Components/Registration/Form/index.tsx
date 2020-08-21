@@ -22,6 +22,7 @@ const RegistrationFormImpl: React.FC<IRegistrationForm.IProps> = ({ t }): JSX.El
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [form] = Form.useForm();
+  const decoratedRules = Rules(t);
 
   const onFinish = async (values: any) => {
     const { username, password, nickname, email } = values;
@@ -45,7 +46,7 @@ const RegistrationFormImpl: React.FC<IRegistrationForm.IProps> = ({ t }): JSX.El
         label={t('Registration_Username')}
         name="username"
         validateFirst
-        rules={Rules(t).username}
+        rules={decoratedRules.username}
       >
         <Input />
       </Form.Item>
@@ -54,12 +55,17 @@ const RegistrationFormImpl: React.FC<IRegistrationForm.IProps> = ({ t }): JSX.El
         label={t('Registration_Nickname')}
         name="nickname"
         validateFirst
-        rules={Rules(t).nickname}
+        rules={decoratedRules.nickname}
       >
         <Input />
       </Form.Item>
 
-      <Form.Item label={t('Registration_Email')} name="email" validateFirst rules={Rules(t).email}>
+      <Form.Item
+        label={t('Registration_Email')}
+        name="email"
+        validateFirst
+        rules={decoratedRules.email}
+      >
         <Input />
       </Form.Item>
 
@@ -67,7 +73,7 @@ const RegistrationFormImpl: React.FC<IRegistrationForm.IProps> = ({ t }): JSX.El
         label={t('Registration_Password')}
         name="password"
         validateFirst
-        rules={Rules(t).password}
+        rules={decoratedRules.password}
       >
         <Input.Password />
       </Form.Item>
