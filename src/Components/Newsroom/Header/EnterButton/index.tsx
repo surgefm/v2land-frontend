@@ -4,14 +4,16 @@ import { useRouter } from 'next/router';
 import { Button } from 'antd';
 import { ExportOutlined } from '@ant-design/icons';
 
+import { withTranslation } from '@I18n';
 import { UtilService } from '@Services';
 import { getEventId, getEvent, getEventOwner, canCurrentClientViewEvent } from '@Selectors';
 
 import { INewsroomHeaderEnterButton } from './EnterButton';
 
-export const NewsroomHeaderEnterButton: React.FunctionComponent<
-  INewsroomHeaderEnterButton.IProps
-> = ({ eventId: id }) => {
+const NewsroomHeaderEnterButtonImpl: React.FC<INewsroomHeaderEnterButton.IProps> = ({
+  eventId: id,
+  t,
+}) => {
   const router = useRouter();
   const routeEventId = useSelector(
     getEventId(router.query.username as string, router.query.eventName as string)
@@ -44,7 +46,7 @@ export const NewsroomHeaderEnterButton: React.FunctionComponent<
         icon={<ExportOutlined />}
         onClick={handleButtonClick}
       >
-        进入新闻编辑室
+        {t('Newsroom_EnterButton_Label')}
       </Button>
       <style jsx>
         {`
@@ -61,3 +63,5 @@ export const NewsroomHeaderEnterButton: React.FunctionComponent<
     </div>
   );
 };
+
+export const NewsroomHeaderEnterButton = withTranslation('common')(NewsroomHeaderEnterButtonImpl);

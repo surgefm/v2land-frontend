@@ -4,12 +4,14 @@ import { useSelector } from 'react-redux';
 
 import { getEvent, getEventOwner } from '@Selectors';
 import { UtilService } from '@Services';
+import { withTranslation } from '@I18n';
 
 import { Head } from '../Head';
 import { IEventHead } from './EventHead';
 
-export const EventHead: React.FunctionComponent<IEventHead.IProps> = ({
+const EventHeadComp: React.FunctionComponent<IEventHead.IProps> = ({
   title: t = '',
+  t: i18n,
   eventId,
 }) => {
   const event = useSelector(getEvent(eventId));
@@ -20,7 +22,7 @@ export const EventHead: React.FunctionComponent<IEventHead.IProps> = ({
   if (t.length > 0) {
     title = `${title} - ${t}`;
   }
-  title += ' - 浪潮';
+  title += i18n('Head_Suffix');
 
   const list = [
     <meta key="twitter:title" name="twitter:title" content={title} />,
@@ -47,3 +49,5 @@ export const EventHead: React.FunctionComponent<IEventHead.IProps> = ({
     </H>
   );
 };
+
+export const EventHead = withTranslation('common')(EventHeadComp);

@@ -8,11 +8,12 @@ import { UtilService } from '@Services';
 import { EventContributorList, Card } from '@Components';
 import { ThunkDispatch } from '@Interfaces';
 import { EventActions } from '@Actions';
+import { withTranslation } from '@I18n';
 
 import { ITimelineCard } from './TimelineCard';
 import styles from './TimelineCard.module.scss';
 
-export const TimelineCard: React.FunctionComponent<ITimelineCard.IProps> = ({ eventId }) => {
+const TimelineCardImpl: React.FunctionComponent<ITimelineCard.IProps> = ({ eventId, t }) => {
   const event = useSelector(getEvent(eventId));
   const contributors = useSelector(getEventContributorIdList(eventId));
   const eventOwner = useSelector(getEventOwner(eventId));
@@ -40,7 +41,7 @@ export const TimelineCard: React.FunctionComponent<ITimelineCard.IProps> = ({ ev
           <div className={styles['timeline-card-top']}>
             <div className={styles.title}>
               <div className={styles['latest-update']}>
-                {event.time && <p>{UtilService.getTimeLapseString(event.time, 'general')}更新</p>}
+                {event.time && <p>{UtilService.getTimeLapseString(t, event.time, 'general')}</p>}
               </div>
               <h2>{event.name}</h2>
             </div>
@@ -48,8 +49,16 @@ export const TimelineCard: React.FunctionComponent<ITimelineCard.IProps> = ({ ev
             {event.description && <p className={styles.description}>{event.description}</p>}
 
             <div className={styles.info}>
-              {event.numUpvote && <p>赞 {event.numUpvote}</p>}
-              {event.stackCount && <p>进展 {event.stackCount}</p>}
+              {event.numUpvote && (
+                <p>
+                  {event.numUpvote} Like{t('Common_S', { count: event.numUpvote })}
+                </p>
+              )}
+              {event.stackCount && (
+                <p>
+                  {event.stackCount} Stack{t('Common_S', { count: event.stackCount })}
+                </p>
+              )}
             </div>
           </div>
 
@@ -68,3 +77,5 @@ export const TimelineCard: React.FunctionComponent<ITimelineCard.IProps> = ({ ev
     </Link>
   );
 };
+
+export const TimelineCard = withTranslation('common')(TimelineCardImpl);

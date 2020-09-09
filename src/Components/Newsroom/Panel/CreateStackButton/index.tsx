@@ -5,12 +5,14 @@ import { PlusOutlined } from '@ant-design/icons';
 
 import { StackForm } from '@Components/Stack';
 import { canCurrentClientEditEvent, isNewsroomSocketConnected } from '@Selectors';
+import { withTranslation } from '@I18n';
 
 import { INewsroomPanelCreateStackButton } from './CreateStackButton';
 
-export const NewsroomPanelCreateStackButton: React.FunctionComponent<
-  INewsroomPanelCreateStackButton.IProps
-> = ({ eventId }) => {
+const NewsroomPanelCreateStackButtonImpl: React.FC<INewsroomPanelCreateStackButton.IProps> = ({
+  eventId,
+  t,
+}) => {
   const canEdit = useSelector(canCurrentClientEditEvent());
   const isConnected = useSelector(isNewsroomSocketConnected(eventId));
   const [visible, setVisible] = useState(false);
@@ -28,10 +30,10 @@ export const NewsroomPanelCreateStackButton: React.FunctionComponent<
         disabled={!canEdit || !isConnected}
         icon={<PlusOutlined />}
       >
-        创建进展
+        {t('Newsroom_CreateStack')}
       </Button>
       <Modal
-        title="创建进展"
+        title={t('Newsroom_CreateStack')}
         visible={visible}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -42,3 +44,7 @@ export const NewsroomPanelCreateStackButton: React.FunctionComponent<
     </>
   );
 };
+
+export const NewsroomPanelCreateStackButton = withTranslation('common')(
+  NewsroomPanelCreateStackButtonImpl
+);

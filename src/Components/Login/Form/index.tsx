@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, Checkbox, message } from 'antd';
 import { useDispatch } from 'react-redux';
+
 import { RedstoneService, clearNewsroomSockets } from '@Services';
 import { ClientActions } from '@Actions';
+import { withTranslation } from '@I18n';
+
+import { ILoginForm } from './Form';
 
 const layout = {
   labelCol: { span: 4 },
@@ -13,7 +17,7 @@ const tailLayout = {
   wrapperCol: { offset: 4, span: 16 },
 };
 
-export const LoginForm: React.FunctionComponent = (): JSX.Element => {
+const LoginFormImpl: React.FC<ILoginForm.IProps> = ({ t }): JSX.Element => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -26,7 +30,7 @@ export const LoginForm: React.FunctionComponent = (): JSX.Element => {
       dispatch(ClientActions.SetLoggedInClient(client.id));
       clearNewsroomSockets();
     } catch (err) {
-      message.error('用户名或密码不正确');
+      message.error(t('Login_AuthenticationFailed'));
     } finally {
       setIsLoading(false);
     }
@@ -41,26 +45,32 @@ export const LoginForm: React.FunctionComponent = (): JSX.Element => {
       hideRequiredMark
     >
       <Form.Item
-        label="用户名"
+        label={t('Login_Username')}
         name="username"
-        rules={[{ required: true, message: '请输入用户名' }]}
+        rules={[{ required: true, message: t('Login_UsernameRequired') }]}
       >
         <Input />
       </Form.Item>
 
-      <Form.Item label="密码" name="password" rules={[{ required: true, message: '请输入密码' }]}>
+      <Form.Item
+        label={t('Login_Password')}
+        name="password"
+        rules={[{ required: true, message: t('Login_PasswordRequired') }]}
+      >
         <Input.Password />
       </Form.Item>
 
       <Form.Item {...tailLayout} name="remember" valuePropName="checked">
-        <Checkbox>记住我</Checkbox>
+        <Checkbox>{t('Login_RememberMe')}</Checkbox>
       </Form.Item>
 
       <Form.Item {...tailLayout}>
         <Button type="primary" htmlType="submit" loading={isLoading}>
-          登录
+          {t('Login_Login')}
         </Button>
       </Form.Item>
     </Form>
   );
 };
+
+export const LoginForm = withTranslation('common')(LoginFormImpl);

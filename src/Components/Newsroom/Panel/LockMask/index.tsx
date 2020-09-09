@@ -1,17 +1,19 @@
 import React from 'react';
 
+import { withTranslation } from '@I18n';
 import { ClientAvatar } from '@Components/Client';
 
 import { INewsroomPanelLockMask } from './LockMask';
 
-const NewsroomPanelLockMask: React.FunctionComponent<INewsroomPanelLockMask.IProps> = ({
+const NewsroomPanelLockMaskImpl: React.FunctionComponent<INewsroomPanelLockMask.IProps> = ({
   locker,
   text,
   dark,
+  t,
 }) => (
   <div>
     <ClientAvatar clientId={locker} />
-    <span>{'正在编辑' || text}</span>
+    <span>{t('Newsroom_Lock') || text}</span>
     <style jsx>
       {`
         div {
@@ -38,4 +40,4 @@ const NewsroomPanelLockMask: React.FunctionComponent<INewsroomPanelLockMask.IPro
   </div>
 );
 
-export { NewsroomPanelLockMask };
+export const NewsroomPanelLockMask = withTranslation('common')(NewsroomPanelLockMaskImpl);

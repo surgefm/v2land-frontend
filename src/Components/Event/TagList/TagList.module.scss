@@ -1,0 +1,15 @@
+.tagList {
+  margin-top: 0.75rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.tagList > span {
+  white-space: nowrap;
+  margin-right: 0.5rem;
+}
+
+.tagList > :not(:first-child) {
+  margin: 1.5px 4px 1.5px 0;
+}

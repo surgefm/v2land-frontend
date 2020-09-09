@@ -4,6 +4,7 @@ import { Element as ScrollElement } from 'react-scroll';
 
 import { getStack, getStackNewsIdList, getStackTime, getEvent, getEventOwner } from '@Selectors';
 import { UtilService } from '@Services';
+import { withTranslation } from '@I18n';
 import { EventCard } from '@Components/EventCard';
 import { Card, Time } from '@Components/Basic';
 import { Share } from '@Components/Share';
@@ -16,11 +17,12 @@ export * from './Form';
 export * from './Shimmer';
 export * from './SideMenu';
 
-const Stack: React.FunctionComponent<IStack.IProps> = ({
+const StackImpl: React.FunctionComponent<IStack.IProps> = ({
   stackId,
   isLatestStack = false,
   displayOrder = true,
   showEventName = false,
+  t,
 }) => {
   const stack = useSelector(getStack(stackId));
   const newsIdList = useSelector(getStackNewsIdList(stackId));
@@ -45,7 +47,7 @@ const Stack: React.FunctionComponent<IStack.IProps> = ({
           ·
         </span>
       );
-    items.push(<span key="3">最新进展</span>);
+    items.push(<span key="3">{t('Stack_Card_LatestStack')}</span>);
   }
 
   if (time) {
@@ -136,4 +138,4 @@ const Stack: React.FunctionComponent<IStack.IProps> = ({
   );
 };
 
-export { Stack };
+export const Stack = withTranslation('common')(StackImpl);

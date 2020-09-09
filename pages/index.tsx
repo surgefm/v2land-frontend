@@ -24,18 +24,18 @@ import { UtilService, RedstoneService } from '@Services';
 import { IHomePage, ReduxNextPageContext } from '@Interfaces';
 // #endregion Interface Imports
 
-const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList }) => {
+const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList, t }) => {
   const router = useRouter();
   useEffect(() => {
     if (router.query.event_not_found) {
-      message.error('未找到该事件');
+      message.error(t('Home_EventNotFound'));
       UtilService.replace('/', { shallow: true });
     }
   }, [router.query.event_not_found]);
 
   useEffect(() => {
     if (router.query.client_not_found) {
-      message.error('未找到该用户');
+      message.error(t('Home_ClientNotFound'));
       UtilService.replace('/', { shallow: true });
     }
   }, [router.query.client_not_found]);
@@ -47,17 +47,17 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList }) =
         <EventCardList className="left" />
         <div className="right">
           <div>
-            <SectionHeader>热点话题</SectionHeader>
+            <SectionHeader>{t('Home_Topics_TrendingTopics')}</SectionHeader>
             <>
               {tagList.map(tag => (
                 <TagCard tag={tag} key={tag.id} />
               ))}
             </>
-            <SectionHeader>贡献榜</SectionHeader>
+            <SectionHeader>{t('Home_Contributions_ContributionRanking')}</SectionHeader>
             <>
               <ContributorCard contributor="Vincent" />
               <ContributorCard contributor="CCAV" />
-              <ContributorCard contributor="陈博士" />
+              <ContributorCard contributor="Alan" />
               <ContributorCard contributor="Erick" />
             </>
           </div>

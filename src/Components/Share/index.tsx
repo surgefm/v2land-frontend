@@ -11,6 +11,7 @@ import Icon, {
 import QRCode from 'qrcode.react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
+import { withTranslation } from '@I18n';
 import { getEvent, getStack, getNews, getEventOwner, getTag } from '@Selectors';
 import { Event, Stack, News, Tag } from '@Interfaces';
 import { TelegramLogo } from '@Components/Basic';
@@ -21,7 +22,7 @@ const {
   publicRuntimeConfig: { SITE_URL },
 } = getConfig();
 
-const Share: React.FunctionComponent<IShare.IProps> = ({
+const ShareImpl: React.FunctionComponent<IShare.IProps> = ({
   message: m,
   url: u,
   type = 'event',
@@ -31,6 +32,7 @@ const Share: React.FunctionComponent<IShare.IProps> = ({
   stackId,
   news: n,
   newsId,
+  t: tf,
   tag: t,
   tagId,
 }) => {
@@ -45,7 +47,6 @@ const Share: React.FunctionComponent<IShare.IProps> = ({
 
   const event = (e || selectEvent) as Event;
   const news = (n || selectNews) as News;
-
   const tag = (t || selectTag) as Tag;
 
   if (!m || !u) {
@@ -56,6 +57,7 @@ const Share: React.FunctionComponent<IShare.IProps> = ({
   }
 
   const colorful = type === 'event' || type === 'tag';
+  const title = type === 'tag' ? tag.name : event.name;
 
   const sites = ['twitter', 'facebook', 'telegram', 'weibo'];
   const icons: { [index: string]: React.ReactElement } = {
@@ -66,24 +68,32 @@ const Share: React.FunctionComponent<IShare.IProps> = ({
     telegram: <Icon component={TelegramLogo} className="border-color telegram" />,
   };
   const names: { [index: string]: string } = {
-    twitter: ' Twitter',
-    facebook: ' Facebook',
-    wechat: '微信',
-    weibo: '微博',
-    telegram: ' Telegram',
+    twitter: tf('Share_Site_Twitter'),
+    facebook: tf('Share_Site_Facebook'),
+    wechat: tf('Share_Site_Wechat'),
+    weibo: tf('Share_Site_Weibo'),
+    telegram: tf('Share_Site_Telegram'),
   };
 
-  let shareMessage = '追事件，上浪潮';
+  let shareMessage = tf('Share_Slogan');
   if (m) shareMessage = m;
-  else if (type === 'event') shareMessage = `上浪潮查看「${event.name}」的最新动态`;
-  else if (type === 'stack') shareMessage = `上浪潮查看「${event.name}」的进展「${stack.title}」`;
-  else if (type === 'news') shareMessage = `上浪潮查看「${event.name}」的新闻「${news.title}」`;
-  else if (type === 'tag') shareMessage = `上浪潮查看话题 #${tag.name}`;
+  else if (type === 'event') shareMessage = tf('Share_EventSpecific', { eventName: event.name });
+  else if (type === 'stack')
+    shareMessage = tf('Share_StackSpecific', {
+      eventName: event.name,
+      stacktitle: stack.title,
+    });
+  else if (type === 'news')
+    shareMessage = tf('Share_NewsSpecific', {
+      eventName: event.name,
+      newsTitle: news.title,
+    });
+  else if (type === 'tag') shareMessage = `Check out the topic #${tag.name} on Surge.`;
 
   const eventBaseUrl =
     type === 'tag'
       ? ''
-      : `${SITE_URL}/@${eventOwner ? eventOwner.username : 'newspect'}/${event.id}-${event.pinyin}`;
+      : `${SITE_URL}/@${eventOwner ? eventOwner.username : 'surge'}/${event.id}-${event.pinyin}`;
 
   let shareUrl = SITE_URL;
   if (u) shareUrl = u;
@@ -94,7 +104,7 @@ const Share: React.FunctionComponent<IShare.IProps> = ({
 
   const shareTo = (site: string) => {
     const url = shareUrl;
-    let message = m || '追事件，上浪潮';
+    let message = m || tf('Share_Slogan');
     if (type === 'event') {
       if (!event.description) message = event.name;
       else {
@@ -110,16 +120,17 @@ const Share: React.FunctionComponent<IShare.IProps> = ({
         }${event.name} `;
       }
     } else if (type === 'news') {
-      if (!news.abstract) message = `${news.title} - 来源：${news.source} `;
+      if (!news.abstract)
+        message = `${news.title} - ${tf('Share_NewsSource', { source: news.source })} `;
       else {
         message = `${news.title} - ${news.abstract.slice(0, 50)}${
           news.abstract.length > 50 ? '… ' : ' '
-        }来源：${news.source} `;
+        }${tf('Share_NewsSource', { source: news.source })} `;
       }
     } else if (type === 'tag') {
-      if (!tag.description) message = `${tag.name}话题`;
+      if (!tag.description) message = `#${tag.name}`;
       else {
-        message = `${tag.name}话题 - ${tag.description.slice(0, 50)}${
+        message = `#${tag.name} - ${tag.description.slice(0, 50)}${
           tag.description.length > 50 ? '… ' : ' '
         }`;
       }
@@ -128,17 +139,14 @@ const Share: React.FunctionComponent<IShare.IProps> = ({
     switch (site) {
       case 'twitter':
         return encodeURI(
-          `https://twitter.com/intent/tweet?text=${message}&url=${url}&hashtags=${event &&
-            event.name},浪潮`
+          `https://twitter.com/intent/tweet?text=${message}&url=${url}&hashtags=${title}`
         );
       case 'facebook':
         return encodeURI(`https://www.facebook.com/sharer/sharer.php?u=${url}`);
       case 'telegram':
         return encodeURI(`https://telegram.me/share?url=${url}&text=${shareMessage}`);
       case 'weibo':
-        message += `%23${
-          type === 'tag' ? tag.name : event.name
-        }%23 %23浪潮，你的社会事件追踪工具%23`;
+        message += `%23${title}%23 %23${tf('Share_Slogan')}%23`;
         return encodeURI(`http://service.weibo.com/share/share.php?url=${url}&title=${message}`);
       default:
         return '';
@@ -159,17 +167,17 @@ const Share: React.FunctionComponent<IShare.IProps> = ({
     setShowPopover(!showPopover);
   };
 
-  const handleCopyClick = () => antMessage.success('链接已复制至剪贴板');
+  const handleCopyClick = () => antMessage.success(tf('Share_ClipboardSuccess'));
 
   const popoverContent = (
     <div className="share-popover">
-      <QRCode size={128} value={shareUrl} level="H" renderAs="svg" />
-      <p className="qrcode-text">微信扫码分享</p>
+      <QRCode size={128} value={shareUrl} className="qrcode" level="H" renderAs="svg" />
+      <p className="qrcode-text">{tf('Share_ScanWechatQrCode')}</p>
       <div className="wechat-copy-url">
-        <span>或</span>
+        <span>{tf('Share_Or')}</span>
         <CopyToClipboard text={`${shareMessage}：${shareUrl}`}>
           <Button onClick={handleCopyClick} size="small" shape="round">
-            点击复制链接
+            {tf('Share_CopyUrl')}
           </Button>
         </CopyToClipboard>
       </div>
@@ -180,14 +188,17 @@ const Share: React.FunctionComponent<IShare.IProps> = ({
     <div className="share">
       <Space size={colorful ? 8 : 20}>
         {sites.map(site => (
-          <Tooltip title={`分享至${names[site]}`} key={`share-${site}`}>
+          <Tooltip title={`${tf('Share_ShareTo')}${names[site]}`} key={`share-${site}`}>
             <a href={shareTo(site)} onClick={handleClick(site)} className={colorful ? 'event' : ''}>
               {icons[site]}
             </a>
           </Tooltip>
         ))}
         <Popover content={popoverContent} visible={showPopover}>
-          <Tooltip title="分享至微信" overlayStyle={showPopover ? { display: 'none' } : {}}>
+          <Tooltip
+            title={`${tf('Share_ShareTo')}${names.wechat}`}
+            overlayStyle={showPopover ? { display: 'none' } : {}}
+          >
             <a href={shareUrl} onClick={togglePopover} className={colorful ? 'event' : ''}>
               {icons.wechat}
             </a>
@@ -249,11 +260,11 @@ const Share: React.FunctionComponent<IShare.IProps> = ({
             color: #1da1f2;
           }
 
-          .share a:not(.event) :global(.border-color) {
+          .share a:notf(.event) :global(.border-color) {
             color: rgb(104, 180, 252);
           }
 
-          .share a:not(.event) :global(.border-color):hover {
+          .share a:notf(.event) :global(.border-color):hover {
             background-color: transparent;
             border-color: transparent;
           }
@@ -298,6 +309,7 @@ const Share: React.FunctionComponent<IShare.IProps> = ({
             text-align: center;
             user-select: none;
             margin-bottom: 0.2rem;
+            max-width: 10rem;
           }
 
           :global(.share-popover) :global(.wechat-copy-url) {
@@ -316,4 +328,4 @@ const Share: React.FunctionComponent<IShare.IProps> = ({
   );
 };
 
-export { Share };
+export const Share = withTranslation('common')(ShareImpl);

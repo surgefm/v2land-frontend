@@ -13,12 +13,13 @@ import {
 } from '@Selectors';
 import { getNewsroomSocket } from '@Services';
 import { EventActions } from '@Actions';
+import { withTranslation } from '@I18n';
 
 import { INewsroomPanelSortStacksButton } from './SortStacksButton';
 
-export const NewsroomPanelSortStacksButton: React.FunctionComponent<
+const NewsroomPanelSortStacksButtonImpl: React.FunctionComponent<
   INewsroomPanelSortStacksButton.IProps
-> = ({ eventId, offshelf = false }) => {
+> = ({ eventId, offshelf = false, t }) => {
   const canEdit = useSelector(canCurrentClientEditEvent());
   const isConnected = useSelector(isNewsroomSocketConnected(eventId));
   const stackList = useSelector(
@@ -47,7 +48,7 @@ export const NewsroomPanelSortStacksButton: React.FunctionComponent<
         )
         .then(() => {
           setLoading(false);
-          message.success('成功调整进展顺序');
+          message.success(t('Newsroom_SortStacksButton_SortSuccess'));
         });
       setChanged(false);
     }
@@ -69,7 +70,7 @@ export const NewsroomPanelSortStacksButton: React.FunctionComponent<
         onClick={handleClick}
         icon={<SortAscendingOutlined />}
       >
-        整理进展
+        {t('Newsroom_Label')}
       </Button>
       <style jsx>
         {`
@@ -93,3 +94,7 @@ export const NewsroomPanelSortStacksButton: React.FunctionComponent<
     </div>
   );
 };
+
+export const NewsroomPanelSortStacksButton = withTranslation('common')(
+  NewsroomPanelSortStacksButtonImpl
+);

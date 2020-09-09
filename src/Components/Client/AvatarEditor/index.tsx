@@ -4,6 +4,7 @@ import { Upload, message } from 'antd';
 import { PictureOutlined } from '@ant-design/icons';
 import { UploadChangeParam, UploadFile, RcFile } from 'antd/lib/upload/interface';
 
+import { withTranslation } from '@I18n';
 import { imageUploadEndpoint } from '@Services';
 import { getClient } from '@Selectors';
 
@@ -13,8 +14,9 @@ import styles from './AvatarEditor.module.scss';
 
 const { Dragger } = Upload;
 
-export const ClientAvatarEditor: React.FunctionComponent<IClientAvatarEditor.IProps> = ({
+const ClientAvatarEditorComp: React.FunctionComponent<IClientAvatarEditor.IProps> = ({
   clientId,
+  t,
   onChange = () => {},
 }) => {
   const client = useSelector(getClient(clientId));
@@ -25,11 +27,11 @@ export const ClientAvatarEditor: React.FunctionComponent<IClientAvatarEditor.IPr
   const beforeUpload = (file: RcFile) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
     if (!isJpgOrPng) {
-      message.error('请上传 .jpg 或 .png 格式的图片');
+      message.error(t('Newsroom_EventDetail_ImageFormatLimit'));
     }
     const isLt4M = file.size / 1024 / 1024 <= 4;
     if (!isLt4M) {
-      message.error('图片不得大于 4MB');
+      message.error(t('Newsroom_EventDetail_ImageSizeLimit'));
     }
     if (isJpgOrPng && !isLt4M) {
       setLoading(true);
@@ -82,3 +84,5 @@ export const ClientAvatarEditor: React.FunctionComponent<IClientAvatarEditor.IPr
     </div>
   );
 };
+
+export const ClientAvatarEditor = withTranslation('common')(ClientAvatarEditorComp);

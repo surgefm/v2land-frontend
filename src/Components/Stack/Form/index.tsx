@@ -12,18 +12,20 @@ import {
 } from '@Selectors';
 import { getNewsroomSocket, RedstoneService } from '@Services';
 import { Stack, Event } from '@Interfaces';
+import { withTranslation } from '@I18n';
 
 import { EventCard } from '@Components/EventCard';
 import { StackFormEventItem } from './EventItem';
 import { IStackForm } from './Form';
 
-export const StackForm: React.FunctionComponent<IStackForm.IProps> = ({
+const StackFormImpl: React.FunctionComponent<IStackForm.IProps> = ({
   eventId,
   stackId,
   useSocket = true,
   disabled = false,
   onOk = () => {},
   onCancel = () => {},
+  t,
 }) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
@@ -32,8 +34,8 @@ export const StackForm: React.FunctionComponent<IStackForm.IProps> = ({
   const stackEvent = useSelector(getStackEvent(stackId || 0));
   const offshelfStackIdList = useSelector(getEventOffshelfStackIdList(eventId));
   const latestStack = useSelector(getStack(stackIdList[0] || 0)) || {
-    title: '进展标题',
-    description: '进展简介',
+    title: t('Stack_Form_Title'),
+    description: t('Stack_Form_Description'),
   };
   const [loading, setLoading] = useState(false);
   const [stackEventId, setStackEventId] = useState((stack && stack.stackEventId) || 0);
@@ -153,25 +155,33 @@ export const StackForm: React.FunctionComponent<IStackForm.IProps> = ({
 
   return (
     <Form layout="vertical" form={form}>
-      <Form.Item name="title" label="标题" rules={[{ required: true }]}>
+      <Form.Item name="title" label={t('Stack_Form_Title')} rules={[{ required: true }]}>
         <Input placeholder={(stack || latestStack).title} />
       </Form.Item>
-      <Form.Item name="description" label="简介" rules={[{ required: true }]}>
+      <Form.Item
+        name="description"
+        label={t('Stack_Form_Description')}
+        rules={[{ required: true }]}
+      >
         <Input.TextArea
           autoSize={{ minRows: 3 }}
           placeholder={(stack || latestStack).description}
         />
       </Form.Item>
-      <Form.Item name="time" label="时间" rules={[{ required: false }]}>
+      <Form.Item name="time" label={t('Stack_Form_Time')} rules={[{ required: false }]}>
         <DatePicker showTime />
       </Form.Item>
-      <Form.Item name="stackEventIdInput" label="相关时间线" rules={[{ required: false }]}>
+      <Form.Item
+        name="stackEventIdInput"
+        label={t('Stack_Form_RelatedTimeline')}
+        rules={[{ required: false }]}
+      >
         <AutoComplete
           style={{ width: '100%' }}
           onSearch={handleEventSearch}
           onSelect={handleEventSelect}
           onChange={() => setStackEventId(0)}
-          placeholder="请输入事件名"
+          placeholder={t('Stack_Form_RelatedTimelinePlaceholder')}
         >
           {result.map(c => (
             <AutoComplete.Option key={`event-${c.id}`} value={`${c.id}-${c.name}`}>
@@ -192,7 +202,7 @@ export const StackForm: React.FunctionComponent<IStackForm.IProps> = ({
       <Form.Item>
         <Space>
           <Button htmlType="button" disabled={loading} onClick={cancel}>
-            取消
+            {t('Stack_Form_Cancel')}
           </Button>
           <Button
             type="primary"
@@ -201,10 +211,12 @@ export const StackForm: React.FunctionComponent<IStackForm.IProps> = ({
             loading={loading}
             onClick={submit}
           >
-            保存
+            {t('Stack_Form_Save')}
           </Button>
         </Space>
       </Form.Item>
     </Form>
   );
 };
+
+export const StackForm = withTranslation('common')(StackFormImpl);

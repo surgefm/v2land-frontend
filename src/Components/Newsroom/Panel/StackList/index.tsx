@@ -1,14 +1,17 @@
 import React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
+import { TFunction } from 'next-i18next';
+
+import { withTranslation } from '@I18n';
 
 import { NewsroomPanelStackCard } from '../StackCard';
 import { INewsroomPanelStackList } from './StackList';
 
-const showPlaceholder = (stackIdList: number[]) => {
+const showPlaceholder = (stackIdList: number[], t: TFunction) => {
   if (stackIdList.length > 0) return <div />;
   return (
     <div>
-      <span>将进展卡片拖拽到这里</span>
+      <span>{t('Newsroom_StackList_DragSuggestion')}</span>
       <style jsx>
         {`
           div {
@@ -31,9 +34,10 @@ const showPlaceholder = (stackIdList: number[]) => {
   );
 };
 
-const NewsroomPanelStackList: React.FunctionComponent<INewsroomPanelStackList.IProps> = ({
+const NewsroomPanelStackListImpl: React.FunctionComponent<INewsroomPanelStackList.IProps> = ({
   stackIdList,
   droppableId = 'newsroom-stack-panel',
+  t,
 }) => {
   const dark = droppableId !== 'newsroom-stack-panel';
 
@@ -50,7 +54,7 @@ const NewsroomPanelStackList: React.FunctionComponent<INewsroomPanelStackList.IP
             />
           ))}
           {provided.placeholder}
-          {showPlaceholder(stackIdList)}
+          {showPlaceholder(stackIdList, t)}
           <style jsx>
             {`
               div {
@@ -72,4 +76,4 @@ const NewsroomPanelStackList: React.FunctionComponent<INewsroomPanelStackList.IP
   );
 };
 
-export { NewsroomPanelStackList };
+export const NewsroomPanelStackList = withTranslation('common')(NewsroomPanelStackListImpl);

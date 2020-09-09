@@ -1,13 +1,13 @@
 export const getRoleName = (role: string) => {
   switch (role) {
     case 'owner':
-      return '所有者';
+      return 'Owner';
     case 'manager':
-      return '管理者';
+      return 'Manager';
     case 'editor':
-      return '编辑者';
+      return 'Editor';
     case 'viewer':
-      return '观察者';
+      return 'Observer';
     default:
       return role;
   }

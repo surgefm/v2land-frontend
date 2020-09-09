@@ -4,10 +4,11 @@ import { NumberOutlined } from '@ant-design/icons';
 
 import { EventTitle, EventDescription, Share } from '@Components';
 import { getTag, getTagEventIdList } from '@Selectors';
+import { withTranslation } from '@I18n';
 
 import { ITagHeaderCard } from './TagHeaderCard';
 
-export const TagHeaderCard: React.FunctionComponent<ITagHeaderCard.IProps> = ({ tagId }) => {
+const TagHeaderCardImpl: React.FunctionComponent<ITagHeaderCard.IProps> = ({ tagId, t }) => {
   const tag = useSelector(getTag(tagId));
   const timelines = useSelector(getTagEventIdList(tagId));
   const numTimeline = timelines.length;
@@ -20,7 +21,9 @@ export const TagHeaderCard: React.FunctionComponent<ITagHeaderCard.IProps> = ({ 
             <NumberOutlined style={{ transform: 'skewX(-10deg)' }} />
             {tag.name}
           </EventTitle>
-          <EventDescription description={tag.description || '该话题暂无简介'} />
+          <EventDescription
+            description={tag.description || 'This topic does not have a description.'}
+          />
           <div className="bottom">
             <div className="share">
               <Share type="tag" tag={tag} tagId={tag.id} />
@@ -33,7 +36,7 @@ export const TagHeaderCard: React.FunctionComponent<ITagHeaderCard.IProps> = ({ 
             <div className="open-for-edit">
               <div className="open-for-edit-circle" />
               <p>
-                <strong>开放编辑</strong>
+                <strong>Open for editing</strong>
               </p>
             </div>
 
@@ -42,7 +45,7 @@ export const TagHeaderCard: React.FunctionComponent<ITagHeaderCard.IProps> = ({ 
                 <strong>{numTimeline}</strong>
               </p>
               <p>
-                <strong>条时间线</strong>
+                <strong>{t('Tag_Timeline', { count: numTimeline })}</strong>
               </p>
             </div>
           </div>
@@ -148,3 +151,5 @@ export const TagHeaderCard: React.FunctionComponent<ITagHeaderCard.IProps> = ({ 
     )
   );
 };
+
+export const TagHeaderCard = withTranslation('common')(TagHeaderCardImpl);

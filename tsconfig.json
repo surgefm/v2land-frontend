@@ -30,6 +30,7 @@
       "@Redux/*": ["src/Redux/*"],
       "@Selectors": ["src/Selectors"],
       "@Selectors/*": ["src/Selectors/*"],
+      "@I18n": ["server/i18n"],
       "@Server/*": ["server/*"],
       "@Services": ["src/Services"],
       "@Services/*": ["src/Services/*"],
