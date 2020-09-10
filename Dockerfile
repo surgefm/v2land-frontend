@@ -1,20 +1,15 @@
-FROM node:dubnium
+FROM node:10-alpine
 
-# Create app directory
-WORKDIR /usr/src/app
+WORKDIR /opt/app
 
-# If you are building your code for production
-# RUN npm install --only=production
+ENV NODE_ENV production
 
-# Bundle app source
-COPY . .
+COPY package*.json ./
 
-# Install app dependencies
-RUN npm install -g cross-env
-RUN yarn
-RUN yarn run build
+RUN npm ci 
 
-LABEL name="frontend"
+COPY . /opt/app
 
-EXPOSE 3000
-CMD [ "cross-env", "HOST=0.0.0.0", "yarn", "start" ]
+RUN npm install --dev && npm run build
+
+CMD [ "npm", "start" ]

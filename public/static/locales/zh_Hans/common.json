@@ -1,0 +1,23 @@
+{
+  "Hello": "你好",
+  "World": "世界",
+  "Error": "嗷!",
+  "Registration_Username_empty": "请输入用户名",
+  "Registration_Username_min_length": "用户名不得短于 2 个字符",
+  "Registration_Username_max_length": "用户名不得长于 16 个字符",
+  "Registration_Username_no_space": "用户名不得含有空格",
+  "Registration_Username_no_special_character": "用户名不得含有除 a-z，A-Z，0-9 外的字符",
+  "Registration_Username_not_all_num": "用户名不得全为数字",
+  "Registration_Username_used": "该用户名已经被占用",
+  "Registration_Nickname_empty": "请输入昵称",
+  "Registration_Nickname_min_length": "昵称不得短于 2 个字符",
+  "Registration_Nickname_max_length": "昵称不得长于 16 个字符",
+  "Registration_Nickname_invalid": "昵称不得含有 @ 或 %",
+  "Registration_Nickname_not_all_num": "昵称不得全为数字",
+  "Registration_Email_empty": "请输入邮箱地址",
+  "Registration_Email_invalid": "请输入正确的邮箱地址",
+  "Registration_Password_empty": "请输入密码",
+  "Registration_Password_should_num_letter_mix": "密码必须是数字和字母的混合",
+  "Registration_Password_min_length": "密码不得短于 6 个字符",
+  "Registration_Password_max_length": "密码不得长于 32 个字符"
+}

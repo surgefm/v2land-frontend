@@ -1,0 +1,34 @@
+.container {
+  border-radius: 50%;
+  background-color: rgb(197, 239, 247);
+  background-image: linear-gradient(135deg, rgb(197, 239, 247), rgb(82, 179, 217));
+}
+
+.container * {
+  border-radius: 50%;
+}
+
+.clickable {
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.clickable:hover {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+.link {
+  color: inherit !important;
+}
+
+.container span {
+  text-align: center;
+  display: block;
+  user-select: none;
+}
+
+.mask {
+  width: 100%;
+  height: 100%;
+  transition: all 0.25s;
+}

@@ -1,0 +1,31 @@
+{
+  "extends": [
+    "react-app",
+    "airbnb-typescript",
+    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended"
+  ],
+  "rules": {
+    "react/prop-types": "off",
+    "react/jsx-indent": [2, 2, { "checkAttributes": false }],
+    "react/jsx-indent-props": [2],
+    "react-hooks/exhaustive-deps": "off",
+    "import/prefer-default-export": "off",
+    "import/no-cycle": "off",
+    "no-multi-assign": "off",
+    "quotes": [1, "single"],
+    "import/no-extraneous-dependencies": "off",
+    "jsx-a11y/anchor-is-valid": "off",
+    "no-self-compare": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "prefer-destructuring": "off"
+  },
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "typescript": {}
+    }
+  }
+}
