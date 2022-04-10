@@ -13,13 +13,14 @@ import {
 } from '@Selectors';
 import { getNewsroomSocket } from '@Services';
 import { EventActions } from '@Actions';
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 
 import { INewsroomPanelSortStacksButton } from './SortStacksButton';
 
 const NewsroomPanelSortStacksButtonImpl: React.FunctionComponent<
   INewsroomPanelSortStacksButton.IProps
-> = ({ eventId, offshelf = false, t }) => {
+> = ({ eventId, offshelf = false }) => {
+  const { t } = useTranslation('common');
   const canEdit = useSelector(canCurrentClientEditEvent());
   const isConnected = useSelector(isNewsroomSocketConnected(eventId));
   const stackList = useSelector(
@@ -95,6 +96,4 @@ const NewsroomPanelSortStacksButtonImpl: React.FunctionComponent<
   );
 };
 
-export const NewsroomPanelSortStacksButton = withTranslation('common')(
-  NewsroomPanelSortStacksButtonImpl
-);
+export const NewsroomPanelSortStacksButton = NewsroomPanelSortStacksButtonImpl;

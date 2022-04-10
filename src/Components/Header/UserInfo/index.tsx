@@ -9,10 +9,11 @@ import { ThunkDispatch } from '@Interfaces';
 import { isLoggedIn as isLoggedInSelector, getLoggedInClient } from '@Selectors';
 
 import { ClientAvatar } from '@Components/Client';
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 import { IHeaderUserInfo } from './UserInfo';
 
-const HeaderUserInfoImpl: React.FC<IHeaderUserInfo.IProps> = ({ t }) => {
+const HeaderUserInfoImpl: React.FC<IHeaderUserInfo.IProps> = () => {
+  const { t } = useTranslation('common');
   const dispatch = useDispatch() as ThunkDispatch;
   const isLoggedIn = useSelector(isLoggedInSelector);
   const prevIsLoggedIn = usePrevious(isLoggedIn);
@@ -120,4 +121,4 @@ const HeaderUserInfoImpl: React.FC<IHeaderUserInfo.IProps> = ({ t }) => {
   );
 };
 
-export const HeaderUserInfo = withTranslation('common')(HeaderUserInfoImpl);
+export const HeaderUserInfo = HeaderUserInfoImpl;

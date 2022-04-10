@@ -1,7 +1,5 @@
-import { WithTranslation } from 'next-i18next';
-
 declare namespace IHead {
-  export interface IProps extends WithTranslation {
+  export interface IProps {
     title?: string;
     showSlogan?: boolean;
   }

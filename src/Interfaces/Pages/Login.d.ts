@@ -1,9 +1,9 @@
 // #region Global Imports
-import { WithTranslation } from 'next-i18next';
+import { useTranslation } from '@I18n';
 // #endregion Global Imports
 
 declare namespace ILoginPage {
-  export interface IProps extends WithTranslation {}
+  export interface IProps {}
 
   export interface InitialProps {
     namespacesRequired: string[];

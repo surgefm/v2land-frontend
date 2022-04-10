@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Button, message } from 'antd';
 import { FormOutlined } from '@ant-design/icons';
 
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 import { getNewsroomSocket, NewsroomSocket } from '@Services';
 import {
   getActiveNewsroomId,
@@ -13,7 +13,8 @@ import {
 
 import { INewsroomHeaderCommitButton } from './CommitButton';
 
-const NewsroomHeaderCommitButtonImpl: React.FC<INewsroomHeaderCommitButton.IProps> = ({ t }) => {
+const NewsroomHeaderCommitButtonImpl: React.FC<INewsroomHeaderCommitButton.IProps> = () => {
+  const { t } = useTranslation('common');
   const [isLoading, setLoading] = useState(false);
   const eventId = useSelector(getActiveNewsroomId);
   const canEdit = useSelector(canCurrentClientEditEvent());
@@ -65,4 +66,4 @@ const NewsroomHeaderCommitButtonImpl: React.FC<INewsroomHeaderCommitButton.IProp
   );
 };
 
-export const NewsroomHeaderCommitButton = withTranslation('common')(NewsroomHeaderCommitButtonImpl);
+export const NewsroomHeaderCommitButton = NewsroomHeaderCommitButtonImpl;

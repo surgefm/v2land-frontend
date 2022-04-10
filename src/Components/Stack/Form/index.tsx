@@ -12,7 +12,7 @@ import {
 } from '@Selectors';
 import { getNewsroomSocket, RedstoneService } from '@Services';
 import { Stack, Event } from '@Interfaces';
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 
 import { EventCard } from '@Components/EventCard';
 import { StackFormEventItem } from './EventItem';
@@ -25,8 +25,8 @@ const StackFormImpl: React.FunctionComponent<IStackForm.IProps> = ({
   disabled = false,
   onOk = () => {},
   onCancel = () => {},
-  t,
 }) => {
+  const { t } = useTranslation('common');
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const stack = useSelector(getStack(stackId || 0));
@@ -219,4 +219,4 @@ const StackFormImpl: React.FunctionComponent<IStackForm.IProps> = ({
   );
 };
 
-export const StackForm = withTranslation('common')(StackFormImpl);
+export const StackForm = StackFormImpl;

@@ -8,9 +8,10 @@ import { Head, Card, LoginForm, Background, Footer, EventTitle } from '@Componen
 import { isLoggedIn as isLoggedInSelector } from '@Selectors';
 import { UtilService } from '@Services';
 import { ReduxNextPageContext, ILoginPage } from '@Interfaces';
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 
-const LoginPage: NextPage<ILoginPage.IProps, ILoginPage.InitialProps> = ({ t }) => {
+const LoginPage: NextPage<ILoginPage.IProps, ILoginPage.InitialProps> = () => {
+  const { t } = useTranslation('common');
   const isLoggedIn = useSelector(isLoggedInSelector);
   const router = useRouter();
 
@@ -47,4 +48,4 @@ LoginPage.getInitialProps = async (ctx: ReduxNextPageContext): Promise<any> => {
   return { namespacesRequired: ['common'] };
 };
 
-export default withTranslation('common')(LoginPage);
+export default LoginPage;

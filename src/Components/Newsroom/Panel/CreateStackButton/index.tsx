@@ -5,14 +5,14 @@ import { PlusOutlined } from '@ant-design/icons';
 
 import { StackForm } from '@Components/Stack';
 import { canCurrentClientEditEvent, isNewsroomSocketConnected } from '@Selectors';
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 
 import { INewsroomPanelCreateStackButton } from './CreateStackButton';
 
 const NewsroomPanelCreateStackButtonImpl: React.FC<INewsroomPanelCreateStackButton.IProps> = ({
   eventId,
-  t,
 }) => {
+  const { t } = useTranslation('common');
   const canEdit = useSelector(canCurrentClientEditEvent());
   const isConnected = useSelector(isNewsroomSocketConnected(eventId));
   const [visible, setVisible] = useState(false);
@@ -45,6 +45,4 @@ const NewsroomPanelCreateStackButtonImpl: React.FC<INewsroomPanelCreateStackButt
   );
 };
 
-export const NewsroomPanelCreateStackButton = withTranslation('common')(
-  NewsroomPanelCreateStackButtonImpl
-);
+export const NewsroomPanelCreateStackButton = NewsroomPanelCreateStackButtonImpl;

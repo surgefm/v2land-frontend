@@ -11,7 +11,7 @@ import Icon, {
 import QRCode from 'qrcode.react';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 import { getEvent, getStack, getNews, getEventOwner, getTag } from '@Selectors';
 import { Event, Stack, News, Tag } from '@Interfaces';
 import { TelegramLogo } from '@Components/Basic';
@@ -32,10 +32,10 @@ const ShareImpl: React.FunctionComponent<IShare.IProps> = ({
   stackId,
   news: n,
   newsId,
-  t: tf,
   tag: t,
   tagId,
 }) => {
+  const { t: tf } = useTranslation('common');
   const [showPopover, setShowPopover] = useState(false);
   const selectStack = useSelector(getStack(stackId || 0));
 
@@ -328,4 +328,4 @@ const ShareImpl: React.FunctionComponent<IShare.IProps> = ({
   );
 };
 
-export const Share = withTranslation('common')(ShareImpl);
+export const Share = ShareImpl;

@@ -5,12 +5,13 @@ import { useSelector } from 'react-redux';
 import { Breadcrumb } from 'antd';
 import { HomeOutlined } from '@ant-design/icons';
 
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 import { getEvent, getEventId, getClientIdWithUsername, getClient } from '@Selectors';
 
 import { INewsroomHeaderBreadcrumb } from './Breadcrumb';
 
-const NewsroomHeaderBreadcrumbImpl: React.FC<INewsroomHeaderBreadcrumb.IProps> = ({ t }) => {
+const NewsroomHeaderBreadcrumbImpl: React.FC<INewsroomHeaderBreadcrumb.IProps> = () => {
+  const { t } = useTranslation('common');
   const router = useRouter();
   const { username, eventName } = router.query as { [index: string]: string };
   const eventId = -Math.abs(useSelector(getEventId(username, eventName)));
@@ -53,4 +54,4 @@ const NewsroomHeaderBreadcrumbImpl: React.FC<INewsroomHeaderBreadcrumb.IProps> =
   );
 };
 
-export const NewsroomHeaderBreadcrumb = withTranslation('common')(NewsroomHeaderBreadcrumbImpl);
+export const NewsroomHeaderBreadcrumb = NewsroomHeaderBreadcrumbImpl;

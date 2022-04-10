@@ -1,15 +1,12 @@
 import React from 'react';
 import H from 'next/head';
 
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 
 import { IHead } from './Head';
 
-const HeadComp: React.FunctionComponent<IHead.IProps> = ({
-  title: t = '',
-  t: i18n,
-  showSlogan = true,
-}) => {
+const HeadComp: React.FunctionComponent<IHead.IProps> = ({ title: t = '', showSlogan = true }) => {
+  const { t: i18n } = useTranslation('common');
   let title = t;
   if (showSlogan) {
     title += t.length > 0 ? i18n('Head_Suffix') : i18n('Head_Title');
@@ -22,4 +19,4 @@ const HeadComp: React.FunctionComponent<IHead.IProps> = ({
   );
 };
 
-export const Head = withTranslation('common')(HeadComp);
+export const Head = HeadComp;

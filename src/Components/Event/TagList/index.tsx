@@ -1,12 +1,13 @@
 import React from 'react';
 
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 import { Tag } from '@Components/Tag';
 
 import { IEventTagList } from './TagList';
 import styles from './TagList.module.scss';
 
-const EventTagListComp: React.FunctionComponent<IEventTagList.IProps> = ({ tagIdList, t }) => {
+const EventTagListComp: React.FunctionComponent<IEventTagList.IProps> = ({ tagIdList }) => {
+  const { t } = useTranslation('common');
   if (!tagIdList || tagIdList.length === 0) return <React.Fragment />;
   return (
     <div className={styles.tagList}>
@@ -18,4 +19,4 @@ const EventTagListComp: React.FunctionComponent<IEventTagList.IProps> = ({ tagId
   );
 };
 
-export const EventTagList = withTranslation('common')(EventTagListComp);
+export const EventTagList = EventTagListComp;

@@ -4,14 +4,15 @@ import { NextPage } from 'next';
 // #endregion Global Imports
 
 // #region Local Imports
-import { withTranslation } from '@Server/i18n';
+import { useTranslation } from '@I18n';
 // #endregion Local Imports
 
 // #region Interface Imports
 import { IErrorPage } from '@Interfaces';
 // #endregion Interface Imports
 
-const Error: NextPage<IErrorPage.IProps, IErrorPage.InitialProps> = ({ t, statusCode }) => {
+const Error: NextPage<IErrorPage.IProps, IErrorPage.InitialProps> = ({ statusCode }) => {
+  const { t } = useTranslation('common');
   return (
     <div>
       {t('common:Error')}
@@ -35,4 +36,4 @@ Error.getInitialProps = async ({ res, err }) => {
   };
 };
 
-export default withTranslation('common')(Error);
+export default Error;

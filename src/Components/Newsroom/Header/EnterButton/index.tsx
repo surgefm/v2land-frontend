@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { Button } from 'antd';
 import { ExportOutlined } from '@ant-design/icons';
 
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 import { UtilService } from '@Services';
 import { getEventId, getEvent, getEventOwner, canCurrentClientViewEvent } from '@Selectors';
 
@@ -12,8 +12,8 @@ import { INewsroomHeaderEnterButton } from './EnterButton';
 
 const NewsroomHeaderEnterButtonImpl: React.FC<INewsroomHeaderEnterButton.IProps> = ({
   eventId: id,
-  t,
 }) => {
+  const { t } = useTranslation('common');
   const router = useRouter();
   const routeEventId = useSelector(
     getEventId(router.query.username as string, router.query.eventName as string)
@@ -64,4 +64,4 @@ const NewsroomHeaderEnterButtonImpl: React.FC<INewsroomHeaderEnterButton.IProps>
   );
 };
 
-export const NewsroomHeaderEnterButton = withTranslation('common')(NewsroomHeaderEnterButtonImpl);
+export const NewsroomHeaderEnterButton = NewsroomHeaderEnterButtonImpl;

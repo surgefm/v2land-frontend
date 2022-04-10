@@ -6,7 +6,7 @@ import { message } from 'antd';
 // #endregion Global Imports
 
 // #region Local Imports
-import { withTranslation } from '@Server/i18n';
+import { useTranslation } from '@I18n';
 import { EventActions, TagActions } from '@Actions';
 import {
   Head,
@@ -24,7 +24,8 @@ import { UtilService, RedstoneService } from '@Services';
 import { IHomePage, ReduxNextPageContext } from '@Interfaces';
 // #endregion Interface Imports
 
-const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList, t }) => {
+const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList }) => {
+  const { t } = useTranslation('common');
   const router = useRouter();
   useEffect(() => {
     if (router.query.event_not_found) {
@@ -99,9 +100,10 @@ Home.getInitialProps = async (ctx: ReduxNextPageContext): Promise<IHomePage.Init
     ctx.store.dispatch(TagActions.AddTag(tagList[i]));
   }
   tagList = tagList.filter(tag => tag.eventIdList.length > 0);
-  return { namespacesRequired: ['common'], tagList };
+  return {
+    namespacesRequired: ['common'],
+    tagList,
+  };
 };
 
-const Extended = withTranslation('common')(Home);
-
-export default Extended;
+export default Home;

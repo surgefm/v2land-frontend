@@ -4,16 +4,13 @@ import { useSelector } from 'react-redux';
 
 import { getEvent, getEventOwner } from '@Selectors';
 import { UtilService } from '@Services';
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 
 import { Head } from '../Head';
 import { IEventHead } from './EventHead';
 
-const EventHeadComp: React.FunctionComponent<IEventHead.IProps> = ({
-  title: t = '',
-  t: i18n,
-  eventId,
-}) => {
+const EventHeadComp: React.FunctionComponent<IEventHead.IProps> = ({ title: t = '', eventId }) => {
+  const { t: i18n } = useTranslation('common');
   const event = useSelector(getEvent(eventId));
   const owner = useSelector(getEventOwner(eventId));
   if (!event || !owner) return <Head />;
@@ -50,4 +47,4 @@ const EventHeadComp: React.FunctionComponent<IEventHead.IProps> = ({
   );
 };
 
-export const EventHead = withTranslation('common')(EventHeadComp);
+export const EventHead = EventHeadComp;

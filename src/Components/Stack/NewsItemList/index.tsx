@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { Button } from 'antd';
 import { DownCircleOutlined, UpCircleOutlined } from '@ant-design/icons';
 
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 
 import { INewsItemList } from './NewsItems';
 import { NewsItem } from '../NewsItem/index';
 
-const NewsItemListImpl: React.FunctionComponent<INewsItemList.IProps> = ({ newsIdList, t }) => {
+const NewsItemListImpl: React.FunctionComponent<INewsItemList.IProps> = ({ newsIdList }) => {
+  const { t } = useTranslation('common');
   const [showMore, setShowMore] = useState(false);
 
   let newsItems: React.ReactElement[] = [];
@@ -49,4 +50,4 @@ const NewsItemListImpl: React.FunctionComponent<INewsItemList.IProps> = ({ newsI
   );
 };
 
-export const NewsItemList = withTranslation('common')(NewsItemListImpl);
+export const NewsItemList = NewsItemListImpl;

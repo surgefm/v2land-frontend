@@ -1,7 +1,5 @@
-import { WithTranslation } from 'next-i18next';
-
 declare namespace IClientAvatarEditor {
-  export interface IProps extends WithTranslation {
+  export interface IProp {
     clientId: number;
     onChange?: (value: string) => void | Promise<void>;
   }

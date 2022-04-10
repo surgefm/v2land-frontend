@@ -1,7 +1,5 @@
-import { WithTranslation } from 'next-i18next';
-
 declare namespace ITagPage {
-  export interface IProps extends WithTranslation {
+  export interface IProps {
     tagId: number;
   }
 

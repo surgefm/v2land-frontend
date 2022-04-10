@@ -1,7 +1,5 @@
-import { WithTranslation } from 'next-i18next';
-
 declare namespace IEventContributorList {
-  export interface IProps extends WithTranslation {
+  export interface IProps {
     contributorList?: number[];
     eventId?: number;
   }

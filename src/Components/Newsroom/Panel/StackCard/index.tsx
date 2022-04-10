@@ -14,7 +14,7 @@ import {
   isNewsroomSocketConnected,
   canCurrentClientEditEvent,
 } from '@Selectors';
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 import { NewsroomActions } from '@Actions';
 import { getNewsroomSocket } from '@Services';
 import { StackForm } from '@Components/Stack';
@@ -30,8 +30,8 @@ const NewsroomPanelStackCardImpl: React.FunctionComponent<INewsroomPanelStackCar
   stackId,
   index,
   dark,
-  t,
 }) => {
+  const { t } = useTranslation('common');
   const dispatch = useDispatch();
   const stack = useSelector(getStack(stackId));
   const newsIdList = useSelector(getStackNewsIdList(stackId));
@@ -176,4 +176,4 @@ const NewsroomPanelStackCardImpl: React.FunctionComponent<INewsroomPanelStackCar
   );
 };
 
-export const NewsroomPanelStackCard = withTranslation('common')(NewsroomPanelStackCardImpl);
+export const NewsroomPanelStackCard = NewsroomPanelStackCardImpl;

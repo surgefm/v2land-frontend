@@ -3,16 +3,13 @@ import H from 'next/head';
 import { useSelector } from 'react-redux';
 
 import { getTag } from '@Selectors';
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 
 import { Head } from '../Head';
 import { ITagHead } from './TagHead';
 
-const TagHeadImpl: React.FunctionComponent<ITagHead.IProps> = ({
-  title: t = '',
-  tagId,
-  t: i18n,
-}) => {
+const TagHeadImpl: React.FunctionComponent<ITagHead.IProps> = ({ title: t = '', tagId }) => {
+  const { t: i18n } = useTranslation('common');
   const tag = useSelector(getTag(tagId));
   if (!tag) return <Head />;
 
@@ -40,4 +37,4 @@ const TagHeadImpl: React.FunctionComponent<ITagHead.IProps> = ({
   );
 };
 
-export const TagHead = withTranslation('common')(TagHeadImpl);
+export const TagHead = TagHeadImpl;

@@ -15,7 +15,7 @@ import { ClientRoleConsts } from '@Definitions';
 import { Client } from '@Interfaces';
 import { ClientActions, NewsroomActions } from '@Actions';
 import { ClientService, RedstoneService, getNewsroomSocket } from '@Services';
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 
 import { ClientAvatar } from '@Components/Client';
 import { INewsroomPanelRoleItemCreator } from './RoleItemCreator';
@@ -24,7 +24,8 @@ const { Option } = Select;
 
 const NewsroomPanelRoleItemCreatorImpl: React.FunctionComponent<
   INewsroomPanelRoleItemCreator.IProps
-> = ({ eventId, t }) => {
+> = ({ eventId }) => {
+  const { t } = useTranslation('common');
   const dispatch = useDispatch();
   const newsroomRoles = useSelector(getNewsroomRoles(eventId));
   const currentClientRole = useSelector(getNewsroomCurrentClientRole(eventId));
@@ -169,6 +170,4 @@ const NewsroomPanelRoleItemCreatorImpl: React.FunctionComponent<
   );
 };
 
-export const NewsroomPanelRoleItemCreator = withTranslation('common')(
-  NewsroomPanelRoleItemCreatorImpl
-);
+export const NewsroomPanelRoleItemCreator = NewsroomPanelRoleItemCreatorImpl;

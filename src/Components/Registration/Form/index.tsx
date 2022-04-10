@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, message } from 'antd';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from '@I18n';
 
 import { RedstoneService, clearNewsroomSockets } from '@Services';
 import { ClientActions } from '@Actions';
 import { Rules } from '@Definitions';
-import { withTranslation } from '@I18n';
 
 import { IRegistrationForm } from './Form';
 
@@ -18,7 +18,8 @@ const tailLayout = {
   wrapperCol: { offset: 4, span: 16 },
 };
 
-const RegistrationFormImpl: React.FC<IRegistrationForm.IProps> = ({ t }): JSX.Element => {
+const RegistrationFormImpl: React.FC<IRegistrationForm.IProps> = (): JSX.Element => {
+  const { t } = useTranslation('common');
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [form] = Form.useForm();
@@ -87,4 +88,4 @@ const RegistrationFormImpl: React.FC<IRegistrationForm.IProps> = ({ t }): JSX.El
   );
 };
 
-export const RegistrationForm = withTranslation('common')(RegistrationFormImpl);
+export const RegistrationForm = RegistrationFormImpl;

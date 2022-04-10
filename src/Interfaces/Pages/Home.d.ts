@@ -1,11 +1,7 @@
-// #region Global Imports
-import { WithTranslation } from 'next-i18next';
-// #endregion Global Imports
-
 import { Tag } from '@Interfaces/Models/Tag';
 
 declare namespace IHomePage {
-  export interface IProps extends WithTranslation {
+  export interface IProps {
     tagList: Tag[];
   }
 

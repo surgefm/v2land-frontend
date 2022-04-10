@@ -8,7 +8,6 @@ import { ConfigProvider } from 'antd';
 // #endregion Global Imports
 
 // #region Local Imports
-import { appWithTranslation } from '@Server/i18n';
 import { AppWithStore, ReduxNextPageContext } from '@Interfaces';
 import { makeStore } from '@Redux';
 import { isLoggedIn as isLoggedInSelector } from '@Selectors';
@@ -78,4 +77,4 @@ class WebApp extends App<AppWithStore> {
   }
 }
 
-export default withRedux(makeStore)(appWithTranslation(WebApp));
+export default withRedux(makeStore)(WebApp);

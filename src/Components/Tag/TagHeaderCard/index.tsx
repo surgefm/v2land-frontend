@@ -4,11 +4,12 @@ import { NumberOutlined } from '@ant-design/icons';
 
 import { EventTitle, EventDescription, Share } from '@Components';
 import { getTag, getTagEventIdList } from '@Selectors';
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 
 import { ITagHeaderCard } from './TagHeaderCard';
 
-const TagHeaderCardImpl: React.FunctionComponent<ITagHeaderCard.IProps> = ({ tagId, t }) => {
+const TagHeaderCardImpl: React.FunctionComponent<ITagHeaderCard.IProps> = ({ tagId }) => {
+  const { t } = useTranslation('common');
   const tag = useSelector(getTag(tagId));
   const timelines = useSelector(getTagEventIdList(tagId));
   const numTimeline = timelines.length;
@@ -152,4 +153,4 @@ const TagHeaderCardImpl: React.FunctionComponent<ITagHeaderCard.IProps> = ({ tag
   );
 };
 
-export const TagHeaderCard = withTranslation('common')(TagHeaderCardImpl);
+export const TagHeaderCard = TagHeaderCardImpl;

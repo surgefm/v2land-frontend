@@ -21,7 +21,7 @@ import {
 // #endregion Global Imports
 
 // #region Local Imports
-import { withTranslation } from '@Server/i18n';
+import { useTranslation } from '@I18n';
 import { NewsroomActions } from '@Actions';
 import {
   getNewsroomSocket,
@@ -65,8 +65,8 @@ import { IEventNewsroomPage, ReduxNextPageContext } from '@Interfaces';
 
 const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.InitialProps> = ({
   eventId: id,
-  t,
 }) => {
+  const { t } = useTranslation('common');
   const eventId = -Math.abs(id);
   const event = useSelector(getEvent(eventId));
   const prevEvent = usePrevious(event);
@@ -353,4 +353,4 @@ EventNewsroomPage.getInitialProps = async (
   };
 };
 
-export default withTranslation('common')(EventNewsroomPage);
+export default EventNewsroomPage;

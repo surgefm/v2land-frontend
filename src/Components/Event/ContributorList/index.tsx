@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Space } from 'antd';
 
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 import { getEventContributorIdList } from '@Selectors';
 import { ClientAvatar } from '@Components/Client';
 
@@ -12,8 +12,8 @@ import styles from './ContributorList.module.scss';
 const EventContributorListComp: React.FunctionComponent<IEventContributorList.IProps> = ({
   contributorList,
   eventId,
-  t,
 }) => {
+  const { t } = useTranslation('common');
   const contributorIdList = useSelector(getEventContributorIdList(eventId || 0));
   const list = contributorList || contributorIdList;
 
@@ -29,4 +29,4 @@ const EventContributorListComp: React.FunctionComponent<IEventContributorList.IP
   );
 };
 
-export const EventContributorList = withTranslation('common')(EventContributorListComp);
+export const EventContributorList = EventContributorListComp;

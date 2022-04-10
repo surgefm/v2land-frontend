@@ -8,7 +8,7 @@ import { getEvent, canCurrentClientEditEvent, isNewsroomSocketConnected } from '
 import { getNewsroomSocket, imageUploadEndpoint, UtilService } from '@Services';
 import { Event, HeaderImage } from '@Interfaces';
 import { NewsroomPanelTagList } from '@Components/Newsroom/Panel/TagList';
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 
 import { INewsroomPanelEventDetail } from './EventDetail';
 
@@ -21,10 +21,8 @@ const tailLayout = {
   wrapperCol: { offset: 5, span: 18 },
 };
 
-const NewsroomPanelEventDetailImpl: React.FC<INewsroomPanelEventDetail.IProps> = ({
-  eventId,
-  t,
-}) => {
+const NewsroomPanelEventDetailImpl: React.FC<INewsroomPanelEventDetail.IProps> = ({ eventId }) => {
+  const { t } = useTranslation('common');
   const [form] = Form.useForm();
   const event = useSelector(getEvent(eventId)) as Event;
   const canClientEdit = useSelector(canCurrentClientEditEvent());
@@ -309,4 +307,4 @@ const NewsroomPanelEventDetailImpl: React.FC<INewsroomPanelEventDetail.IProps> =
   );
 };
 
-export const NewsroomPanelEventDetail = withTranslation('common')(NewsroomPanelEventDetailImpl);
+export const NewsroomPanelEventDetail = NewsroomPanelEventDetailImpl;

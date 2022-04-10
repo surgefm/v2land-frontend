@@ -14,7 +14,7 @@ import {
   isNewsroomSocketConnected,
 } from '@Selectors';
 import { ClientRoleConsts } from '@Definitions';
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 import { ClientAvatar } from '@Components/Client';
 
 import { INewsroomPanelRoleItem } from './RoleItem';
@@ -24,8 +24,8 @@ const { Option } = Select;
 const NewsroomPanelRoleItemImpl: React.FunctionComponent<INewsroomPanelRoleItem.IProps> = ({
   eventId,
   clientId,
-  t,
 }) => {
+  const { t } = useTranslation('common');
   const dispatch = useDispatch();
   const client = useSelector(getClient(clientId));
   const role = useSelector(getNewsroomClientRole(eventId, clientId));
@@ -129,4 +129,4 @@ const NewsroomPanelRoleItemImpl: React.FunctionComponent<INewsroomPanelRoleItem.
   );
 };
 
-export const NewsroomPanelRoleItem = withTranslation('common')(NewsroomPanelRoleItemImpl);
+export const NewsroomPanelRoleItem = NewsroomPanelRoleItemImpl;

@@ -3,13 +3,14 @@ import { useSelector } from 'react-redux';
 
 import { getHomepageEventIdList, getHomepageEventList, getEventTimeList } from '@Selectors';
 import { UtilService } from '@Services';
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 
 import { SectionHeader } from '@Components/Basic';
 import { EventCard } from '@Components/EventCard';
 import { IEventCardList } from './EventCardList';
 
-const EventCardListImpl: React.FunctionComponent<IEventCardList.IProps> = ({ className, t }) => {
+const EventCardListImpl: React.FunctionComponent<IEventCardList.IProps> = ({ className }) => {
+  const { t } = useTranslation('common');
   const eventIdList = useSelector(getHomepageEventIdList);
   const eventList = useSelector(getHomepageEventList);
   const eventTimeList = useSelector(getEventTimeList(eventIdList));
@@ -43,4 +44,4 @@ const EventCardListImpl: React.FunctionComponent<IEventCardList.IProps> = ({ cla
   );
 };
 
-export const EventCardList = withTranslation('common')(EventCardListImpl);
+export const EventCardList = EventCardListImpl;

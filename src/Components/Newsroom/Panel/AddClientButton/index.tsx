@@ -5,14 +5,14 @@ import { PlusOutlined } from '@ant-design/icons';
 
 import { NewsroomActions } from '@Actions';
 import { canCurrentClientManageEvent, isNewsroomSocketConnected } from '@Selectors';
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 
 import { INewsroomPanelAddClientButton } from './AddClientButton';
 
 const NewsroomPanelAddClientButtonImpl: React.FC<INewsroomPanelAddClientButton.IProps> = ({
   eventId,
-  t,
 }) => {
+  const { t } = useTranslation('common');
   const dispatch = useDispatch();
   const canManage = useSelector(canCurrentClientManageEvent(eventId));
   const isConnected = useSelector(isNewsroomSocketConnected(eventId));
@@ -34,6 +34,4 @@ const NewsroomPanelAddClientButtonImpl: React.FC<INewsroomPanelAddClientButton.I
   );
 };
 
-export const NewsroomPanelAddClientButton = withTranslation('common')(
-  NewsroomPanelAddClientButtonImpl
-);
+export const NewsroomPanelAddClientButton = NewsroomPanelAddClientButtonImpl;

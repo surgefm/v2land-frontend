@@ -1,7 +1,5 @@
-import { WithTranslation } from 'next-i18next';
-
 declare namespace IEventStats {
-  export interface IProps extends WithTranslation {
+  export interface IProps {
     stackCount?: number;
     newsCount?: number;
   }

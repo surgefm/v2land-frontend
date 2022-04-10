@@ -8,9 +8,10 @@ import { Head, Card, RegistrationForm, Background, Footer, EventTitle } from '@C
 import { isLoggedIn as isLoggedInSelector } from '@Selectors';
 import { UtilService } from '@Services';
 import { ReduxNextPageContext, IRegisterPage } from '@Interfaces';
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 
-const RegistrationPage: NextPage<IRegisterPage.IProps, IRegisterPage.InitialProps> = ({ t }) => {
+const RegistrationPage: NextPage<IRegisterPage.IProps, IRegisterPage.InitialProps> = () => {
+  const { t } = useTranslation('common');
   const isLoggedIn = useSelector(isLoggedInSelector);
   const router = useRouter();
 
@@ -41,4 +42,4 @@ RegistrationPage.getInitialProps = async (ctx: ReduxNextPageContext): Promise<an
   return { namespacesRequired: ['common'] };
 };
 
-export default withTranslation('common')(RegistrationPage);
+export default RegistrationPage;

@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 
 import { RedstoneService, clearNewsroomSockets } from '@Services';
 import { ClientActions } from '@Actions';
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 
 import { ILoginForm } from './Form';
 
@@ -17,7 +17,8 @@ const tailLayout = {
   wrapperCol: { offset: 4, span: 16 },
 };
 
-const LoginFormImpl: React.FC<ILoginForm.IProps> = ({ t }): JSX.Element => {
+const LoginFormImpl: React.FC<ILoginForm.IProps> = (): JSX.Element => {
+  const { t } = useTranslation('common');
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -73,4 +74,4 @@ const LoginFormImpl: React.FC<ILoginForm.IProps> = ({ t }): JSX.Element => {
   );
 };
 
-export const LoginForm = withTranslation('common')(LoginFormImpl);
+export const LoginForm = LoginFormImpl;

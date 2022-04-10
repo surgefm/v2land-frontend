@@ -2,11 +2,9 @@
 import next from 'next';
 import express from 'express';
 import path from 'path';
-import nextI18NextMiddleware from 'next-i18next/middleware';
 // #endregion Global Imports
 
 // #region Local Imports
-import nextI18next, { withTranslation } from './i18n';
 import routes from './routes';
 import devProxy from './proxy';
 import redirect from './redirect';
@@ -23,7 +21,6 @@ app.prepare().then(() => {
   app.setAssetPrefix(process.env.STATIC_PATH);
   server.use(express.static(path.join(__dirname, '../public')));
   server.use(redirect);
-  server.use(nextI18NextMiddleware(nextI18next));
 
   if (process.env.PROXY_MODE === 'local') {
     // eslint-disable-next-line global-require
@@ -44,5 +41,3 @@ app.prepare().then(() => {
     }`
   );
 });
-
-export { withTranslation };

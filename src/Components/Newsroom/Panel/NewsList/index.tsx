@@ -1,8 +1,6 @@
 import React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
-import { TFunction } from 'next-i18next';
-
-import { withTranslation } from '@I18n';
+import { useTranslation, TFunction } from 'next-i18next';
 
 import { NewsroomPanelNewsCard } from '../NewsCard';
 import { INewsroomPanelNewsList } from './NewsList';
@@ -40,36 +38,38 @@ const NewsroomPanelNewsListImpl: React.FunctionComponent<INewsroomPanelNewsList.
   droppableId = 'newsroom-news-panel',
   isNested = false,
   style,
-  t,
-}) => (
-  <Droppable droppableId={droppableId} type="NEWS">
-    {provided => (
-      <div style={style} ref={provided.innerRef} {...provided.droppableProps}>
-        {newsIdList.map((newsId, index) => (
-          <NewsroomPanelNewsCard newsId={newsId} key={`news-${newsId}`} index={index} />
-        ))}
-        {provided.placeholder}
-        {showPlaceholder(newsIdList, t)}
-        <style jsx>
-          {`
-            div {
-              position: relative;
-              padding: ${isNested ? '0 0 0.25rem' : '0 0.5rem 0.5rem'};
-              min-height: ${isNested ? '2.5rem' : '3rem'};
-              ${isNested ? '' : 'overflow-y: scroll'};
-            }
+}) => {
+  const { t } = useTranslation('common');
+  return (
+    <Droppable droppableId={droppableId} type="NEWS">
+      {provided => (
+        <div style={style} ref={provided.innerRef} {...provided.droppableProps}>
+          {newsIdList.map((newsId, index) => (
+            <NewsroomPanelNewsCard newsId={newsId} key={`news-${newsId}`} index={index} />
+          ))}
+          {provided.placeholder}
+          {showPlaceholder(newsIdList, t)}
+          <style jsx>
+            {`
+              div {
+                position: relative;
+                padding: ${isNested ? '0 0 0.25rem' : '0 0.5rem 0.5rem'};
+                min-height: ${isNested ? '2.5rem' : '3rem'};
+                ${isNested ? '' : 'overflow-y: scroll'};
+              }
 
-            div > :global(div:last-child) {
-              width: ${isNested ? '100%' : 'calc(100% - 1rem)'};
-              left: ${isNested ? '0' : '0.5rem'};
-              top: ${isNested ? '0.3rem' : '0.5rem'};
-              height: ${isNested ? 'calc(100% - 0.5rem)' : 'calc(100% - 1rem)'};
-            }
-          `}
-        </style>
-      </div>
-    )}
-  </Droppable>
-);
+              div > :global(div:last-child) {
+                width: ${isNested ? '100%' : 'calc(100% - 1rem)'};
+                left: ${isNested ? '0' : '0.5rem'};
+                top: ${isNested ? '0.3rem' : '0.5rem'};
+                height: ${isNested ? 'calc(100% - 0.5rem)' : 'calc(100% - 1rem)'};
+              }
+            `}
+          </style>
+        </div>
+      )}
+    </Droppable>
+  );
+};
 
-export const NewsroomPanelNewsList = withTranslation('common')(NewsroomPanelNewsListImpl);
+export const NewsroomPanelNewsList = NewsroomPanelNewsListImpl;

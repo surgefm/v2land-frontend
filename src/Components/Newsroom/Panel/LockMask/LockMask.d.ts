@@ -1,7 +1,7 @@
-import { WithTranslation } from 'next-i18next';
+import { useTranslation } from '@I18n';
 
 declare namespace INewsroomPanelLockMask {
-  export interface IProps extends WithTranslation {
+  export interface IProps {
     locker: number;
     text?: string;
     dark?: boolean;

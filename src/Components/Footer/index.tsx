@@ -3,14 +3,15 @@ import * as React from 'react';
 import Link from 'next/link';
 // #endregion Global Imports
 
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 
 // #region Local Imports
 import { Logo } from '@Components/Basic';
 import { IFooter } from './Footer';
 // #endregion Local Imports
 
-const FooterComp: React.FunctionComponent<IFooter.IProps> = ({ t }): JSX.Element => {
+const FooterComp: React.FunctionComponent<IFooter.IProps> = (): JSX.Element => {
+  const { t } = useTranslation('common');
   return (
     <div className="footer">
       <div className="logo-container">
@@ -28,7 +29,7 @@ const FooterComp: React.FunctionComponent<IFooter.IProps> = ({ t }): JSX.Element
             <a className="link">{t('Footer_About')}</a>
           </Link>
           <span>·</span>
-          <a href="https://github.com/v2land" target="_blank" rel="noopener noreferrer">
+          <a href="https://github.com/surgefm" target="_blank" rel="noopener noreferrer">
             {t('Footer_Participate')}
           </a>
         </div>
@@ -122,4 +123,4 @@ const FooterComp: React.FunctionComponent<IFooter.IProps> = ({ t }): JSX.Element
   );
 };
 
-export const Footer = withTranslation('common')(FooterComp);
+export const Footer = FooterComp;

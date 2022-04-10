@@ -8,12 +8,13 @@ import { UtilService } from '@Services';
 import { EventContributorList, Card } from '@Components';
 import { ThunkDispatch } from '@Interfaces';
 import { EventActions } from '@Actions';
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 
 import { ITimelineCard } from './TimelineCard';
 import styles from './TimelineCard.module.scss';
 
-const TimelineCardImpl: React.FunctionComponent<ITimelineCard.IProps> = ({ eventId, t }) => {
+const TimelineCardImpl: React.FunctionComponent<ITimelineCard.IProps> = ({ eventId }) => {
+  const { t } = useTranslation('common');
   const event = useSelector(getEvent(eventId));
   const contributors = useSelector(getEventContributorIdList(eventId));
   const eventOwner = useSelector(getEventOwner(eventId));
@@ -78,4 +79,4 @@ const TimelineCardImpl: React.FunctionComponent<ITimelineCard.IProps> = ({ event
   );
 };
 
-export const TimelineCard = withTranslation('common')(TimelineCardImpl);
+export const TimelineCard = TimelineCardImpl;

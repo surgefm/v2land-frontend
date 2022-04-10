@@ -1,7 +1,7 @@
 import React from 'react';
 import css from 'styled-jsx/css';
 
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 
 import commonStyles from '@Static/css/common.scss';
 import { IEventStats } from './Stats';
@@ -15,8 +15,9 @@ const styles = css`
 const EventStatsComp: React.FunctionComponent<IEventStats.IProps> = ({
   stackCount = 0,
   newsCount = 0,
-  t,
 }) => {
+  const { t } = useTranslation('common');
+
   if (!newsCount && !stackCount) {
     return (
       <div className="status">
@@ -52,4 +53,4 @@ const EventStatsComp: React.FunctionComponent<IEventStats.IProps> = ({
   );
 };
 
-export const EventStats = withTranslation('common')(EventStatsComp);
+export const EventStats = EventStatsComp;

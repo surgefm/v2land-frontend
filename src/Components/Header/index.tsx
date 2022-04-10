@@ -4,7 +4,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { Space } from 'antd';
 
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 import {
   NewsroomHeaderBreadcrumb,
   NewsroomHeaderClientAvatars,
@@ -17,7 +17,8 @@ import { HeaderButton } from './Button';
 import { HeaderUserInfo } from './UserInfo';
 import { IHeader } from './Header';
 
-const HeaderImpl: React.FC<IHeader.IProps> = ({ t }): JSX.Element => {
+const HeaderImpl: React.FC<IHeader.IProps> = (): JSX.Element => {
+  const { t } = useTranslation('common');
   const router = useRouter();
   const isInNewsroom = router.route === '/[username]/[eventName]/newsroom';
 
@@ -83,4 +84,4 @@ const HeaderImpl: React.FC<IHeader.IProps> = ({ t }): JSX.Element => {
   );
 };
 
-export const Header = withTranslation('common')(HeaderImpl);
+export const Header = HeaderImpl;

@@ -1,7 +1,7 @@
-import { WithTranslation } from 'next-i18next';
+import { useTranslation } from '@I18n';
 
 declare namespace IRegistrationForm {
-  export interface IProps extends WithTranslation {}
+  export interface IProps {}
 }
 
 export { IRegistrationForm };

@@ -4,7 +4,7 @@ import { Upload, message } from 'antd';
 import { PictureOutlined } from '@ant-design/icons';
 import { UploadChangeParam, UploadFile, RcFile } from 'antd/lib/upload/interface';
 
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 import { imageUploadEndpoint } from '@Services';
 import { getClient } from '@Selectors';
 
@@ -16,9 +16,9 @@ const { Dragger } = Upload;
 
 const ClientAvatarEditorComp: React.FunctionComponent<IClientAvatarEditor.IProps> = ({
   clientId,
-  t,
   onChange = () => {},
 }) => {
+  const { t } = useTranslation('common');
   const client = useSelector(getClient(clientId));
   const [avatar, setAvatar] = useState(client ? client.avatar : '');
   const [loading, setLoading] = useState(false);
@@ -85,4 +85,4 @@ const ClientAvatarEditorComp: React.FunctionComponent<IClientAvatarEditor.IProps
   );
 };
 
-export const ClientAvatarEditor = withTranslation('common')(ClientAvatarEditorComp);
+export const ClientAvatarEditor = ClientAvatarEditorComp;

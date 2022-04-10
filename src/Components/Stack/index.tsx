@@ -4,7 +4,7 @@ import { Element as ScrollElement } from 'react-scroll';
 
 import { getStack, getStackNewsIdList, getStackTime, getEvent, getEventOwner } from '@Selectors';
 import { UtilService } from '@Services';
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 import { EventCard } from '@Components/EventCard';
 import { Card, Time } from '@Components/Basic';
 import { Share } from '@Components/Share';
@@ -22,8 +22,8 @@ const StackImpl: React.FunctionComponent<IStack.IProps> = ({
   isLatestStack = false,
   displayOrder = true,
   showEventName = false,
-  t,
 }) => {
+  const { t } = useTranslation('common');
   const stack = useSelector(getStack(stackId));
   const newsIdList = useSelector(getStackNewsIdList(stackId));
   const time = useSelector(getStackTime(stackId));
@@ -138,4 +138,4 @@ const StackImpl: React.FunctionComponent<IStack.IProps> = ({
   );
 };
 
-export const Stack = withTranslation('common')(StackImpl);
+export const Stack = StackImpl;

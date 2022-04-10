@@ -4,16 +4,16 @@ import { useSelector } from 'react-redux';
 
 import { getClient } from '@Selectors';
 import { UtilService } from '@Services';
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 
 import { Head } from '../Head';
 import { IClientHead } from './ClientHead';
 
 const ClientHeadComp: React.FunctionComponent<IClientHead.IProps> = ({
   title: t = '',
-  t: i18n,
   clientId,
 }) => {
+  const { t: i18n } = useTranslation('common');
   const client = useSelector(getClient(clientId));
   if (!client) return <Head />;
 
@@ -41,4 +41,4 @@ const ClientHeadComp: React.FunctionComponent<IClientHead.IProps> = ({
   );
 };
 
-export const ClientHead = withTranslation('common')(ClientHeadComp);
+export const ClientHead = ClientHeadComp;

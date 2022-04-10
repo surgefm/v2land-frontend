@@ -1,8 +1,7 @@
 import React from 'react';
-import { WithTranslation } from 'next-i18next';
 
 declare namespace INewsroomPanelRoleItem {
-  export interface IProps extends WithTranslation {
+  export interface IProps {
     clientId: number;
     eventId: number;
     style?: React.CSSProperties;

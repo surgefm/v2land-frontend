@@ -7,15 +7,15 @@ import { getEvent } from '@Selectors';
 import { TagActions } from '@Actions';
 import { RedstoneService, getNewsroomSocket } from '@Services';
 import { Tag as T } from '@Interfaces';
-import { withTranslation } from '@I18n';
+import { useTranslation } from '@I18n';
 
 import { Tag } from '@Components/Tag';
 import { INewsroomPanelTagList } from './TagList';
 
 const NewsroomPanelTagListImpl: React.FunctionComponent<INewsroomPanelTagList.IProps> = ({
   eventId,
-  t,
 }) => {
+  const { t } = useTranslation('common');
   const dispatch = useDispatch();
   const event = useSelector(getEvent(eventId));
   const tagIdList = event ? event.tagIdList : [];
@@ -144,4 +144,4 @@ const NewsroomPanelTagListImpl: React.FunctionComponent<INewsroomPanelTagList.IP
   );
 };
 
-export const NewsroomPanelTagList = withTranslation('common')(NewsroomPanelTagListImpl);
+export const NewsroomPanelTagList = NewsroomPanelTagListImpl;

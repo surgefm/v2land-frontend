@@ -6,7 +6,7 @@ import { Space, Button, Input, Form, message } from 'antd';
 // #endregion Global Imports
 
 // #region Local Imports
-import { withTranslation } from '@Server/i18n';
+import { useTranslation } from '@I18n';
 import {
   Background,
   ClientHead,
@@ -28,7 +28,8 @@ import { IClientPage, ReduxNextPageContext } from '@Interfaces';
 
 const { TextArea } = Input;
 
-const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ clientId, t }) => {
+const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ clientId }) => {
+  const { t } = useTranslation('common');
   const dispatch = useDispatch();
   const client = useSelector(getClient(clientId));
   const loggedInClientId = useSelector(getLoggedInClientId);
@@ -231,4 +232,4 @@ ClientPage.getInitialProps = async (
   };
 };
 
-export default withTranslation('common')(ClientPage);
+export default ClientPage;

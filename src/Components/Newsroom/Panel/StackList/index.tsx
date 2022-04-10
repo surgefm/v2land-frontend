@@ -1,8 +1,6 @@
 import React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
-import { TFunction } from 'next-i18next';
-
-import { withTranslation } from '@I18n';
+import { TFunction, useTranslation } from 'next-i18next';
 
 import { NewsroomPanelStackCard } from '../StackCard';
 import { INewsroomPanelStackList } from './StackList';
@@ -37,8 +35,8 @@ const showPlaceholder = (stackIdList: number[], t: TFunction) => {
 const NewsroomPanelStackListImpl: React.FunctionComponent<INewsroomPanelStackList.IProps> = ({
   stackIdList,
   droppableId = 'newsroom-stack-panel',
-  t,
 }) => {
+  const { t } = useTranslation('common');
   const dark = droppableId !== 'newsroom-stack-panel';
 
   return (
@@ -76,4 +74,4 @@ const NewsroomPanelStackListImpl: React.FunctionComponent<INewsroomPanelStackLis
   );
 };
 
-export const NewsroomPanelStackList = withTranslation('common')(NewsroomPanelStackListImpl);
+export const NewsroomPanelStackList = NewsroomPanelStackListImpl;
