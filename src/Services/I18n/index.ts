@@ -4,7 +4,7 @@ import en from '@Static/static/locales/en/common.json';
 import zhHans from '@Static/static/locales/zh_Hans/common.json';
 
 i18next.init({
-  lng: 'en',
+  lng: 'zhHans',
   ns: ['common'],
   defaultNS: 'common',
   resources: {
