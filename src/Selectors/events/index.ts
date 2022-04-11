@@ -64,14 +64,14 @@ export const getEventOffshelfStackIdList = (eventId: number) =>
 
 export const getEventStackList = (eventId: number, sorted = false) =>
   createSelector(
-    state => state,
+    (state: IStore) => state,
     getEventStackIdList(eventId),
     (state, stackIdList) => getStackList(stackIdList, sorted)(state)
   );
 
 export const getEventOffshelfStackList = (eventId: number, sorted = false) =>
   createSelector(
-    state => state,
+    (state: IStore) => state,
     getEventOffshelfStackIdList(eventId),
     (state, stackIdList) => getStackList(stackIdList, sorted)(state)
   );
@@ -92,14 +92,14 @@ export const isStackListSorted = (stackIdList: number[]) => (state: IStore) => {
 
 export const isEventStackListSorted = (eventId: number) =>
   createSelector(
-    state => state,
+    (state: IStore) => state,
     getEventStackIdList(eventId),
     (state, idList) => isStackListSorted(idList)(state)
   );
 
 export const isEventOffshelfStackListSorted = (eventId: number) =>
   createSelector(
-    state => state,
+    (state: IStore) => state,
     getEventOffshelfStackIdList(eventId),
     (state, idList) => isStackListSorted(idList)(state)
   );
@@ -124,21 +124,21 @@ export const getEventOffshelfNewsIdList = (eventId: number) =>
 
 export const getEventNewsList = (eventId: number, sorted = false) =>
   createSelector(
-    state => state,
+    (state: IStore) => state,
     getEventNewsIdList(eventId),
     (state, newsIdList) => getNewsList(newsIdList, sorted)(state)
   );
 
 export const getEventOffshelfNewsList = (eventId: number, sorted = false) =>
   createSelector(
-    state => state,
+    (state: IStore) => state,
     getEventOffshelfNewsIdList(eventId),
     (state, newsIdList) => getNewsList(newsIdList, sorted)(state)
   );
 
 export const getEventTemporaryStackNewsList = (eventId: number, sorted = false) =>
   createSelector(
-    state => state,
+    (state: IStore) => state,
     getEventTemporaryStackNewsIdList(eventId),
     (state, newsIdList) => getNewsList(newsIdList, sorted)(state)
   );

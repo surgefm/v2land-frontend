@@ -42,7 +42,7 @@ export const getNewsroom = (eventId: number) =>
   );
 
 export const getActiveNewsroom = createSelector(
-  state => state,
+  (state: IStore) => state,
   getActiveNewsroomId,
   (state, eventId) => getNewsroom(eventId)(state)
 );
@@ -87,7 +87,7 @@ export const getNewsroomClientRole = (eventId: number, clientId: number) =>
 
 export const getNewsroomCurrentClientRole = (eventId?: number) =>
   createSelector(
-    state => state,
+    (state: IStore) => state,
     getLoggedInClientId,
     getActiveNewsroomId,
     (state, clientId, newsroomId) =>

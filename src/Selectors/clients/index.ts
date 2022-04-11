@@ -42,7 +42,7 @@ export const getClientIdWithUsername = (username: string) =>
 
 export const getClientWithUsername = (username: string) =>
   createSelector(
-    state => state,
+    (state: IStore) => state,
     getClientIdWithUsername(username),
     (state, id) => getClient(id)(state)
   );
@@ -59,7 +59,7 @@ export const getClientList = (clientIds: number[]) =>
 
 export const getEventOwner = (eventId: number) =>
   createSelector(
-    state => state,
+    (state: IStore) => state,
     getEventOwnerId(eventId),
     (state, id) => (id === null ? null : getClient(id)(state))
   );

@@ -11,7 +11,7 @@ export const getHomepageEventIdList = createSelector(
 );
 
 export const getHomepageEventList = createSelector(
-  state => state,
+  (state: IStore) => state,
   getHomepageEventIdList,
   (state, idList) => getEventList(idList)(state)
 );

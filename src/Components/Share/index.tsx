@@ -169,9 +169,11 @@ const ShareImpl: React.FunctionComponent<IShare.IProps> = ({
 
   const handleCopyClick = () => antMessage.success(tf('Share_ClipboardSuccess'));
 
+  const QRCodeImpl = QRCode as any;
+
   const popoverContent = (
     <div className="share-popover">
-      <QRCode size={128} value={shareUrl} className="qrcode" level="H" renderAs="svg" />
+      <QRCodeImpl size={128} value={shareUrl} className="qrcode" level="H" renderAs="svg" />
       <p className="qrcode-text">{tf('Share_ScanWechatQrCode')}</p>
       <div className="wechat-copy-url">
         <span>{tf('Share_Or')}</span>

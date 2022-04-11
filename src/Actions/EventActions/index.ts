@@ -102,7 +102,8 @@ const GetEvent = (
       typeof eventId === 'number'
         ? await RedstoneService.getEvent(Math.abs(eventId), username, getLatest)
         : await RedstoneService.getEvent(eventId, username, getLatest);
-  } catch (err) {
+  } catch (e) {
+    const err = e as any;
     if (err.status === 401) {
       // eslint-disable-next-line prefer-destructuring
       event = (await err.json()).event;

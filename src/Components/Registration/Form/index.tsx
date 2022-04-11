@@ -33,7 +33,8 @@ const RegistrationFormImpl: React.FC<IRegistrationForm.IProps> = (): JSX.Element
       dispatch(ClientActions.AddClient(client));
       dispatch(ClientActions.SetLoggedInClient(client.id));
       clearNewsroomSockets();
-    } catch (err) {
+    } catch (e) {
+      const err = e as any;
       const errorMessage = await err.json();
       message.error(errorMessage.message);
     } finally {

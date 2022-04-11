@@ -18,8 +18,7 @@
           "@Server": "./server",
           "@Static": "./public",
           "@Styled": "./src/Styled",
-          "@I18n": "./src/Services/i18n",
-          "@": "./",
+          "@I18n": "./src/Services/I18n"
         }
       }
     ],

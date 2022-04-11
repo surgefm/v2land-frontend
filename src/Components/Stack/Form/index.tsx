@@ -153,6 +153,8 @@ const StackFormImpl: React.FunctionComponent<IStackForm.IProps> = ({
     return form.setFieldsValue({ stackEventIdInput: name });
   };
 
+  const DatePickerImpl = DatePicker as any;
+
   return (
     <Form layout="vertical" form={form}>
       <Form.Item name="title" label={t('Stack_Form_Title')} rules={[{ required: true }]}>
@@ -169,7 +171,7 @@ const StackFormImpl: React.FunctionComponent<IStackForm.IProps> = ({
         />
       </Form.Item>
       <Form.Item name="time" label={t('Stack_Form_Time')} rules={[{ required: false }]}>
-        <DatePicker showTime />
+        <DatePickerImpl showTime />
       </Form.Item>
       <Form.Item
         name="stackEventIdInput"

@@ -8,9 +8,11 @@ import { ITimelineSection } from './TimelineSection';
 const TimelineSection: React.FunctionComponent<ITimelineSection.IProps> = ({ tagId }) => {
   const tagEventIdList = useSelector(getTagEventIdList(tagId));
 
+  const StackGridImpl = StackGrid as any;
+
   return (
     <div className="timeline-section">
-      <StackGrid
+      <StackGridImpl
         columnWidth={380}
         style={{ width: 'calc(100% - 4rem)' }}
         gutterWidth={24}
@@ -19,7 +21,7 @@ const TimelineSection: React.FunctionComponent<ITimelineSection.IProps> = ({ tag
         {tagEventIdList.map(id => (
           <TimelineCard eventId={id} key={id} />
         ))}
-      </StackGrid>
+      </StackGridImpl>
 
       <style jsx>
         {`

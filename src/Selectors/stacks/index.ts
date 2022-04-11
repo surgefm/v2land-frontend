@@ -44,21 +44,21 @@ export const getStackNewsIdList = (stackId: number) =>
 
 export const getStackNewsList = (stackId: number) =>
   createSelector(
-    state => state,
+    (state: IStore) => state,
     getStackNewsIdList(stackId),
     (state, newsIdList) => getNewsList(newsIdList)(state)
   );
 
 export const getStackEvent = (stackId: number) =>
   createSelector(
-    state => state,
+    (state: IStore) => state,
     getStack(stackId),
     (state, stack) => (stack && stack.stackEventId ? getEvent(stack.stackEventId)(state) : null)
   );
 
 export const getStackTime = (stackId: number) =>
   createSelector(
-    state => state,
+    (state: IStore) => state,
     getStack(stackId),
     (state, stack) => {
       if (!stack) return undefined;

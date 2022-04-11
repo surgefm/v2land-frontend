@@ -45,13 +45,14 @@ class WebApp extends App<AppWithStore> {
 
   render() {
     const { Component, pageProps, store, router } = this.props;
+    const C = Component as any;
 
     return (
       <Provider store={store}>
         <ConfigProvider>
           <BasicHead />
           <Header />
-          <Component {...pageProps} key={router.route} />
+          <C {...pageProps} key={router.route} />
           <style jsx>
             {`
               :global(body) {
