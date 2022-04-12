@@ -15,9 +15,7 @@ const TagCard: React.FunctionComponent<ITagCard.IProps> = ({ tag }) => {
             div {
               display: flex;
               align-items: center;
-              padding: 0.25rem 1rem;
-              background-color: #fff;
-              box-shadow: 0 2.5px 7.5px rgba(0, 0, 0, 0.0375);
+              padding: 0.2rem 0rem;
               cursor: pointer;
             }
 
@@ -41,7 +39,12 @@ const TagCard: React.FunctionComponent<ITagCard.IProps> = ({ tag }) => {
 
             span {
               font-size: 1.25rem;
-              margin-left: 0.5rem;
+              margin-left: 0.4rem;
+              transition: all 0.2s;
+            }
+
+            div:hover * {
+              color: rgb(30, 139, 195);
             }
           `}
         </style>

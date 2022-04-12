@@ -13,9 +13,8 @@ const ContributorCard: React.FunctionComponent<IContributorCard.IProps> = ({ con
           div {
             display: flex;
             align-items: center;
-            padding: 0.25rem 1rem;
-            background-color: #fff;
-            box-shadow: 0 2.5px 7.5px rgba(0, 0, 0, 0.0375);
+            padding: 0.25rem 0;
+            cursor: pointer;
           }
 
           div:first-child,
@@ -34,6 +33,11 @@ const ContributorCard: React.FunctionComponent<IContributorCard.IProps> = ({ con
           span {
             font-size: 1.25rem;
             margin-left: 0.75rem;
+            transition: all 0.2s;
+          }
+
+          div:hover * {
+            color: rgb(30, 139, 195);
           }
         `}
       </style>
