@@ -187,7 +187,7 @@ const NewsroomPanelEventDetailImpl: React.FC<INewsroomPanelEventDetail.IProps> =
 
   return (
     <div className="top">
-      <Form {...layout} form={form} name="event-detail" onChange={onChange}>
+      <Form form={form} name="event-detail" onChange={onChange} layout="vertical">
         <Form.Item name="name" label={t('Newsroom_EventDetail_Name')} rules={[{ required: true }]}>
           <Input placeholder={t('Newsroom_EventDetail_NamePlaceholder')} disabled={!canEdit} />
         </Form.Item>
@@ -278,6 +278,7 @@ const NewsroomPanelEventDetailImpl: React.FC<INewsroomPanelEventDetail.IProps> =
         {`
           .top {
             margin-top: 0.5rem;
+            padding: 0 0.5rem 0.5rem;
           }
 
           .top :global(.upload) {
