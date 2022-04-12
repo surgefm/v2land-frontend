@@ -1,7 +1,7 @@
-declare namespace IStackForm {
+declare namespace INewsForm {
   export interface IProps {
     eventId: number;
-    stackId?: number;
+    newsId?: number;
     useSocket?: boolean;
     onOk?: Function;
     onCancel?: Function;
@@ -9,4 +9,4 @@ declare namespace IStackForm {
   }
 }
 
-export { IStackForm };
+export { INewsForm };

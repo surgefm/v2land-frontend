@@ -1,6 +1,8 @@
 import React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
-import { TFunction, useTranslation } from 'next-i18next';
+import { TFunction } from 'next-i18next';
+
+import { useTranslation } from '@I18n';
 
 import { NewsroomPanelStackCard } from '../StackCard';
 import { INewsroomPanelStackList } from './StackList';

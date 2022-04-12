@@ -37,6 +37,7 @@ import {
   Card,
   EventHead,
   NewsroomPanelAddClientButton,
+  NewsroomPanelAddNewsButton,
   NewsroomPanelTitle,
   NewsroomPanelNewsList,
   NewsroomPanelStackList,
@@ -152,7 +153,7 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
         <Card className="panel y-scroll">
           <div className="panel-header-container">
             <Space size={0}>
-              <NewsroomPanelTitle>{t('Event_ContributorList_Contributor')}</NewsroomPanelTitle>
+              <NewsroomPanelTitle>{t('Newsroom_ContributorList')}</NewsroomPanelTitle>
               <Popover
                 content={
                   // eslint-disable-next-line react/jsx-wrap-multilines
@@ -189,7 +190,10 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
         <Card className="panel">
           <div className="panel-header-container">
             <NewsroomPanelTitle>{t('Newsroom_OffshelfNews')}</NewsroomPanelTitle>
-            <DragOutlined {...provided.dragHandleProps} />
+            <Space size={0}>
+              <NewsroomPanelAddNewsButton eventId={eventId} />
+              <DragOutlined {...provided.dragHandleProps} />
+            </Space>
           </div>
           <NewsroomPanelNewsList newsIdList={offshelfNewsIdList} droppableId="newsroom-news-list" />
         </Card>
@@ -269,10 +273,10 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
 
           .container {
             min-width: 100%;
-            height: 100vh;
+            height: calc(100vh - 1rem);
             padding: 5rem 1rem 1rem 1rem;
             overflow-y: hidden;
-            overflow-x: scroll;
+            overflow-x: hidden;
             display: inline-flex;
           }
 
