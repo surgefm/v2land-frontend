@@ -22,12 +22,12 @@ const BasicHeadComp: React.FunctionComponent<IBasicHead.IProps> = () => {
       <meta
         key="twitter:image"
         name="twitter:image"
-        content="https://assets.v2land.net/twitter-icon.png"
+        content="https://cdn.surge.fm/twitter-icon.png"
       />
       <meta key="og:title" property="og:title" content={t('Head_Title')} />
       <meta key="og:type" property="og:type" content="website" />
       <meta key="og:description" property="og:description" content={t('Head_Description')} />
-      <meta key="og:image" name="og:image" content="https://assets.v2land.net/twitter-icon.png" />
+      <meta key="og:image" name="og:image" content="https://cdn.surge.fm/twitter-icon.png" />
       <meta key="og:site_name" name="og:site_name" content={t('Title') || '浪潮'} />
     </Head>
   );
