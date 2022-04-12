@@ -18,7 +18,7 @@ const handler = routes.getRequestHandler(app);
 app.prepare().then(() => {
   const server = express();
 
-  app.setAssetPrefix(process.env.STATIC_PATH);
+  app.setAssetPrefix(process.env.STATIC_PATH || '');
   server.use(express.static(path.join(__dirname, '../public')));
   server.use(redirect);
 

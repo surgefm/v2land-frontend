@@ -1,0 +1,37 @@
+@import "variables";
+
+@font-face {
+  font-family: 'Lexend Giga';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lexend Giga Regular'), local('LexendGiga-Regular'), url('/lexend.woff2') format('woff2');
+}
+
+* {
+  outline: 0;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  transition: font-size 0;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+html, body {
+  background-color: $background-color !important;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  transition: opacity .2s;
+}
+
+img[src=""], img:not([src]) {
+  opacity: 0 !important;
+}

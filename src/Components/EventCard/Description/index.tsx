@@ -1,6 +1,6 @@
 import React from 'react';
 
-import commonStyles from '@Static/css/common.scss';
+import commonStyles from '@Static/css/common.module.scss';
 import { IEventCardDescription } from './Description';
 
 export const EventCardDescription: React.FunctionComponent<IEventCardDescription.IProps> = ({

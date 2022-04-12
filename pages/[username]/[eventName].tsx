@@ -27,7 +27,7 @@ import {
 } from '@Components';
 import { getEvent, getEventStackIdList, getStackListTime, isLoading } from '@Selectors';
 import { UtilService } from '@Services';
-import styles from '@Static/css/common.scss';
+import styles from '@Static/css/common.module.scss';
 // #endregion Local Imports
 
 // #region Interface Imports

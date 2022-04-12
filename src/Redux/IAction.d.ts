@@ -62,6 +62,10 @@ export interface LoadingAction extends ReduxAction {
   identifier: string;
 }
 
+export interface HydrationAction extends ReduxAction {
+  payload: IStore;
+}
+
 export type Action = EventAction | StackAction | NewsAction | ClientAction | LoadingAction;
 
 export interface IAction<T> extends ReduxAction {
