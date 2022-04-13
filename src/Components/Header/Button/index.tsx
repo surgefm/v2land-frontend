@@ -6,16 +6,20 @@ import { IHeaderButton } from './Button';
 export const HeaderButton: React.FunctionComponent<IHeaderButton.IProps> = ({
   text,
   children,
+  onClick,
   href,
   as,
 }): JSX.Element => {
   const router = useRouter();
+  const isLink = as || href;
   const isActiveRoute = router.asPath === (as || href);
 
+  const buttonProps = isLink ? { href: as || href } : { onClick };
+
   const content = (
-    <a className="button-container" href={as || href}>
+    <a className="button-container" {...buttonProps}>
       <div className={`button ${!isActiveRoute || 'active'}`}>{children || text}</div>
-      <div className={`bottom-line ${!isActiveRoute || 'active'}`} />
+      {isLink && <div className={`bottom-line ${!isActiveRoute || 'active'}`} />}
       <style jsx>
         {`
           .button-container {

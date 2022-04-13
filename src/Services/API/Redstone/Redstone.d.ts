@@ -1,6 +1,16 @@
 import { HttpModel, Event, Client, Tag } from '@Interfaces';
 
 declare namespace RedstoneModel {
+  export interface CreateEventOptions extends HttpModel.IRequestPayload {
+    name: string;
+    description: string;
+  }
+
+  export interface CreateEventResponse {
+    message: string;
+    event: Event;
+  }
+
   export interface GetEventListResponse {
     eventList: Event[];
   }

@@ -60,6 +60,10 @@ export const logout = async () => {
   return get('/client/logout');
 };
 
+export const createEvent = async (data: RedstoneModel.CreateEventOptions) => {
+  return post<RedstoneModel.CreateEventResponse>('/event', data);
+};
+
 export const getClientInfo = async () => {
   return get<{ client: Client }>('/client/me');
 };

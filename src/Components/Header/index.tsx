@@ -12,6 +12,7 @@ import {
   NewsroomHeaderEnterButton,
   NewsroomHeaderSocketStatus,
 } from '@Components/Newsroom';
+import { EventCreateButton } from '@Components/Event';
 import { HeaderLogo } from './Logo';
 import { HeaderButton } from './Button';
 import { HeaderUserInfo } from './UserInfo';
@@ -43,6 +44,7 @@ const HeaderImpl: React.FC<IHeader.IProps> = (): JSX.Element => {
           </Space>
         </div>
         <div className="right">
+          {!isInNewsroom && <EventCreateButton />}
           <HeaderUserInfo />
           <NewsroomHeaderEnterButton />
           {!isInNewsroom || <NewsroomHeaderCommitButton />}

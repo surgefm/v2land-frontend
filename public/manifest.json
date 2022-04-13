@@ -2,7 +2,7 @@
   "name": "浪潮",
   "short_name": "浪潮",
   "theme_color": "#2196f3",
-  "background_color": "#2196f3",
+  "background_color": "#ffffff",
   "display": "standalone",
   "scope": "/",
   "start_url": "/",

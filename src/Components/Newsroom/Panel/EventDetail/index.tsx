@@ -12,7 +12,6 @@ import { useTranslation } from '@I18n';
 
 import { INewsroomPanelEventDetail } from './EventDetail';
 
-
 const NewsroomPanelEventDetailImpl: React.FC<INewsroomPanelEventDetail.IProps> = ({ eventId }) => {
   const { t } = useTranslation('common');
   const [form] = Form.useForm();
