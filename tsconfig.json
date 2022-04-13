@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "sourceMap": true,
     "allowJs": true,
     "skipLibCheck": true,
@@ -16,30 +20,77 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "@Actions": ["src/Actions"],
-      "@Components/*": ["src/Components/*"],
-      "@Components": ["src/Components"],
-      "@Definitions/*": ["src/Definitions/*"],
-      "@Definitions": ["src/Definitions"],
-      "@Interfaces": ["src/Interfaces"],
-      "@Interfaces/*": ["src/Interfaces/*"],
-      "@Pages/*": ["pages/*"],
-      "@Reducers": ["src/Redux/Reducers"],
-      "@Reducers/*": ["src/Redux/Reducers/*"],
-      "@Redux": ["src/Redux"],
-      "@Redux/*": ["src/Redux/*"],
-      "@Selectors": ["src/Selectors"],
-      "@Selectors/*": ["src/Selectors/*"],
-      "@I18n": ["src/Services/I18n"],
-      "@I18n/*": ["src/Services/I18n/*"],
-      "@Server/*": ["server/*"],
-      "@Services": ["src/Services"],
-      "@Services/*": ["src/Services/*"],
-      "@Static/*": ["public/*"],
-      "@Styled/*": ["src/Styled/*"],
-      "@/*": ["*"],
-      "@Test/*": ["test/*"]
-    }
+      "@Actions": [
+        "src/Actions"
+      ],
+      "@Components/*": [
+        "src/Components/*"
+      ],
+      "@Components": [
+        "src/Components"
+      ],
+      "@Definitions/*": [
+        "src/Definitions/*"
+      ],
+      "@Definitions": [
+        "src/Definitions"
+      ],
+      "@Interfaces": [
+        "src/Interfaces"
+      ],
+      "@Interfaces/*": [
+        "src/Interfaces/*"
+      ],
+      "@Pages/*": [
+        "pages/*"
+      ],
+      "@Reducers": [
+        "src/Redux/Reducers"
+      ],
+      "@Reducers/*": [
+        "src/Redux/Reducers/*"
+      ],
+      "@Redux": [
+        "src/Redux"
+      ],
+      "@Redux/*": [
+        "src/Redux/*"
+      ],
+      "@Selectors": [
+        "src/Selectors"
+      ],
+      "@Selectors/*": [
+        "src/Selectors/*"
+      ],
+      "@I18n": [
+        "src/Services/I18n"
+      ],
+      "@I18n/*": [
+        "src/Services/I18n/*"
+      ],
+      "@Server/*": [
+        "server/*"
+      ],
+      "@Services": [
+        "src/Services"
+      ],
+      "@Services/*": [
+        "src/Services/*"
+      ],
+      "@Static/*": [
+        "public/*"
+      ],
+      "@Styled/*": [
+        "src/Styled/*"
+      ],
+      "@/*": [
+        "*"
+      ],
+      "@Test/*": [
+        "test/*"
+      ]
+    },
+    "incremental": true
   },
   "exclude": [
     "node_modules",
@@ -52,5 +103,9 @@
     "coverage",
     "test/*"
   ],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ]
 }

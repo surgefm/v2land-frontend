@@ -1,5 +1,3 @@
-import { useTranslation } from '@I18n';
-
 declare namespace IStackForm {
   export interface IProps {
     eventId: number;

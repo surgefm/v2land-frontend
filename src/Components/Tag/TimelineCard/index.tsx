@@ -68,7 +68,8 @@ const TimelineCardImpl: React.FunctionComponent<ITimelineCard.IProps> = ({ event
             <div className={styles['timeline-list']}>
               <Timeline>
                 {stackList.map(
-                  (stack, index) => index < 3 && <Timeline.Item>{stack.title}</Timeline.Item>
+                  (stack, index) =>
+                    index < 3 && <Timeline.Item key={stack.id}>{stack.title}</Timeline.Item>
                 )}
               </Timeline>
             </div>

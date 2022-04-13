@@ -2,7 +2,7 @@
 import { createStore, applyMiddleware, Store } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { enableBatching } from 'redux-batched-actions';
-import { createWrapper, Context, HYDRATE } from 'next-redux-wrapper';
+import { createWrapper, HYDRATE } from 'next-redux-wrapper';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 // #endregion Global Imports
@@ -23,7 +23,7 @@ const reducer = (state: IStore = getInitialState(), action: Action) => {
   return enableBatching(Reducers)(state, action);
 };
 
-export const makeStore = (context: Context) => {
+export const makeStore = () => {
   return createStore(
     reducer,
     getInitialState(),
