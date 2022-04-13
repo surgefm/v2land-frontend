@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styles from '@Static/css/shimmer.scss';
+import styles from '@Static/css/shimmer.module.scss';
 
 export const EventCardShimmer: React.FunctionComponent = () => (
   <div className="event-container">

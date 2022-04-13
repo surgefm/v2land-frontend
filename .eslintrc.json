@@ -18,7 +18,9 @@
     "jsx-a11y/anchor-is-valid": "off",
     "no-self-compare": "off",
     "react/jsx-one-expression-per-line": "off",
-    "prefer-destructuring": "off"
+    "prefer-destructuring": "off",
+    "import/no-unresolved": "off",
+    "react/destructuring-assignment": "off"
   },
   "settings": {
     "import/parsers": {

@@ -3,7 +3,7 @@ import css from 'styled-jsx/css';
 
 import { useTranslation } from '@I18n';
 
-import commonStyles from '@Static/css/common.scss';
+import commonStyles from '@Static/css/common.module.scss';
 import { IEventStats } from './Stats';
 
 const styles = css`

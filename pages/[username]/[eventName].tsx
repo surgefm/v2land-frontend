@@ -7,7 +7,6 @@ import { message } from 'antd';
 // #endregion Global Imports
 
 // #region Local Imports
-import { useTranslation } from '@I18n';
 import {
   Background,
   EventHead,
@@ -27,7 +26,7 @@ import {
 } from '@Components';
 import { getEvent, getEventStackIdList, getStackListTime, isLoading } from '@Selectors';
 import { UtilService } from '@Services';
-import styles from '@Static/css/common.scss';
+import styles from '@Static/css/common.module.scss';
 // #endregion Local Imports
 
 // #region Interface Imports
@@ -35,7 +34,6 @@ import { IEventPage, ReduxNextPageContext } from '@Interfaces';
 // #endregion Interface Imports
 
 const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ eventId }) => {
-  const { t } = useTranslation('common');
   const event = useSelector(getEvent(eventId));
   const stackIdList = useSelector(getEventStackIdList(eventId));
   const stackTimeList = useSelector(getStackListTime(stackIdList));

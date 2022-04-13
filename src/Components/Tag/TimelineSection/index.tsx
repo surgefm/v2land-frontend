@@ -7,7 +7,6 @@ import { ITimelineSection } from './TimelineSection';
 
 const TimelineSection: React.FunctionComponent<ITimelineSection.IProps> = ({ tagId }) => {
   const tagEventIdList = useSelector(getTagEventIdList(tagId));
-
   const StackGridImpl = StackGrid as any;
 
   return (

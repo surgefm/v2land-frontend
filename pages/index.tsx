@@ -65,7 +65,7 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList }) =
         </div>
       </div>
       <Footer />
-      <style jsx>
+      <style>
         {`
           .grid {
             display: grid;
@@ -91,6 +91,7 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList }) =
       </style>
     </Background>
   );
+  // return <div />;
 };
 
 Home.getInitialProps = async (ctx: ReduxNextPageContext): Promise<IHomePage.InitialProps> => {
@@ -101,8 +102,8 @@ Home.getInitialProps = async (ctx: ReduxNextPageContext): Promise<IHomePage.Init
   }
   tagList = tagList.filter(tag => tag.eventIdList.length > 0);
   return {
-    namespacesRequired: ['common'],
     tagList,
+    namespacesRequired: ['common'],
   };
 };
 

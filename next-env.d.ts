@@ -1,13 +1,5 @@
-declare module '*.scss' {
-  interface IClassNames {
-    [className: string]: string;
-  }
-  const classNames: IClassNames;
-  export = classNames;
-}
+/// <reference types="next" />
+/// <reference types="next/image-types/global" />
 
-declare module 'react-stack-grid' {
-  import React from 'react';
-
-  export = React.Component;
-}
+// NOTE: This file should not be edited
+// see https://nextjs.org/docs/basic-features/typescript for more information.
