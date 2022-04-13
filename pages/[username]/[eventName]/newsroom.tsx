@@ -195,7 +195,11 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
               <DragOutlined {...provided.dragHandleProps} />
             </Space>
           </div>
-          <NewsroomPanelNewsList newsIdList={offshelfNewsIdList} droppableId="newsroom-news-list" />
+          <NewsroomPanelNewsList
+            newsIdList={offshelfNewsIdList}
+            droppableId="newsroom-news-list"
+            removable
+          />
         </Card>
       </div>
     ),

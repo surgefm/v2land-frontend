@@ -5,6 +5,7 @@ declare namespace INewsroomPanelNewsList {
     newsIdList: number[];
     droppableId?: string;
     isNested?: boolean;
+    removable?: boolean;
     style?: React.CSSProperties;
   }
 }

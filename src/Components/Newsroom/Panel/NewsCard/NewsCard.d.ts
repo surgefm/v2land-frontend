@@ -3,6 +3,7 @@ declare namespace INewsroomPanelNewsCard {
     newsId: number;
     index?: number;
     draggableId?: string;
+    removable?: boolean;
   }
 }
 

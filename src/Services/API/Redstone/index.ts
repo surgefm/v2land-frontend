@@ -87,9 +87,10 @@ export const updateNews = async (newsId: number, data: RedstoneModel.UpdateNewsO
 };
 
 export const createNews = async (
+  eventId: string,
   data: RedstoneModel.CreateNewsOptions
 ): Promise<RedstoneModel.CreateNewsResponse> => {
-  return post<RedstoneModel.CreateNewsResponse>('/news', data);
+  return post<RedstoneModel.CreateNewsResponse>(`/event/${eventId}/news`, data);
 };
 
 export const addTag = async (eventId: number, tagId: number) => {

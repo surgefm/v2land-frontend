@@ -40,6 +40,7 @@ const NewsroomPanelNewsListImpl: React.FunctionComponent<INewsroomPanelNewsList.
   newsIdList,
   droppableId = 'newsroom-news-panel',
   isNested = false,
+  removable = false,
   style,
 }) => {
   const { t } = useTranslation('common');
@@ -48,7 +49,12 @@ const NewsroomPanelNewsListImpl: React.FunctionComponent<INewsroomPanelNewsList.
       {provided => (
         <div style={style} ref={provided.innerRef} {...provided.droppableProps}>
           {newsIdList.map((newsId, index) => (
-            <NewsroomPanelNewsCard newsId={newsId} key={`news-${newsId}`} index={index} />
+            <NewsroomPanelNewsCard
+              newsId={newsId}
+              key={`news-${newsId}`}
+              index={index}
+              removable={removable}
+            />
           ))}
           {provided.placeholder}
           {showPlaceholder(newsIdList, t)}

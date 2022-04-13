@@ -5,13 +5,13 @@ const addNewsToEventOffshelfNewsList = (state: EventsState, action: EventAction)
   const { eventId, newsId } = action;
   const index = state.idIndexMap[eventId];
   if (typeof index === 'undefined') return state;
-  const event = state.list[index];
+  const event = { ...state.list[index] };
 
   if (event.offshelfNewsIdList.includes(newsId)) return state;
 
-  event.offshelfNewsIdList.push(newsId);
+  event.offshelfNewsIdList = [newsId, ...event.offshelfNewsIdList];
   if (!event.newsIdList.includes(newsId)) {
-    event.newsIdList.push(newsId);
+    event.newsIdList = [newsId, ...event.newsIdList];
   }
 
   return {
