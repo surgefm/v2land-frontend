@@ -48,7 +48,7 @@ export const EventForm = ({ onOk = () => {}, onCancel = () => {} }) => {
 
   return (
     <Form layout="vertical" form={form}>
-      <Form.Item name="name" label="时间线标题" rules={[requiredRule]}>
+      <Form.Item name="name" label="标题" rules={[requiredRule]}>
         <Input placeholder="李彦宏入选中国工程院院士候选人事件" />
       </Form.Item>
       <Form.Item name="description" label="简介" rules={[requiredRule]}>

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Modal, message } from 'antd';
+import { Button, Modal, message } from 'antd';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 
 import { getLoggedInClient } from '@Selectors';
 
-import { HeaderButton } from '@Components/Header/Button';
+import { SubnodeOutlined } from '@ant-design/icons';
 import { EventForm } from '../Form';
 
 export const EventCreateButton = () => {
@@ -27,10 +27,18 @@ export const EventCreateButton = () => {
   const handleCancel = () => setVisible(false);
 
   return (
-    <>
-      <HeaderButton onClick={showModal}>新建时间线</HeaderButton>
+    <div className="button">
+      <Button
+        type="primary"
+        size="large"
+        shape="round"
+        icon={<SubnodeOutlined />}
+        onClick={showModal}
+      >
+        创建时间线
+      </Button>
       <Modal
-        title="新建时间线"
+        title="创建时间线"
         visible={visible}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -38,6 +46,14 @@ export const EventCreateButton = () => {
       >
         <EventForm onOk={handleOk} onCancel={handleCancel} />
       </Modal>
-    </>
+      <style jsx>
+        {`
+          .button {
+            transition: all 0.5s;
+            margin-left: 0.5rem;
+          }
+        `}
+      </style>
+    </div>
   );
 };

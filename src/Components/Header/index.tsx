@@ -22,6 +22,7 @@ const HeaderImpl: React.FC<IHeader.IProps> = (): JSX.Element => {
   const { t } = useTranslation('common');
   const router = useRouter();
   const isInNewsroom = router.route === '/[username]/[eventName]/newsroom';
+  const isHomepage = router.route.length <= 1;
 
   return (
     <div className="container">
@@ -44,9 +45,9 @@ const HeaderImpl: React.FC<IHeader.IProps> = (): JSX.Element => {
           </Space>
         </div>
         <div className="right">
-          {!isInNewsroom && <EventCreateButton />}
           <HeaderUserInfo />
           <NewsroomHeaderEnterButton />
+          {isHomepage && <EventCreateButton />}
           {!isInNewsroom || <NewsroomHeaderCommitButton />}
         </div>
       </div>
