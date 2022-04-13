@@ -1,12 +1,15 @@
 import React from 'react';
 import { Droppable } from 'react-beautiful-dnd';
-import { useTranslation, TFunction } from 'next-i18next';
+import { TFunction } from 'next-i18next';
+
+import { useTranslation } from '@I18n';
 
 import { NewsroomPanelNewsCard } from '../NewsCard';
 import { INewsroomPanelNewsList } from './NewsList';
 
 const showPlaceholder = (newsIdList: number[], t: TFunction) => {
   const show = newsIdList.length === 0;
+
   return (
     <div>
       <span>{t('Newsroom_NewsList_DragSuggestion')}</span>

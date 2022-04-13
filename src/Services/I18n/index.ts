@@ -21,3 +21,5 @@ export function useTranslation(namespace = 'common') {
   const t = (key: string, data: any = {}) => i18next.t(key, data, { ns: namespace });
   return { t };
 }
+
+export const getTranslation = useTranslation;

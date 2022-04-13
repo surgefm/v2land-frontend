@@ -1,13 +1,17 @@
+import { getTranslation } from '@I18n';
+
 export const getRoleName = (role: string) => {
+  const { t } = getTranslation('common');
+
   switch (role) {
     case 'owner':
-      return 'Owner';
+      return t('Newsroom_Role_Owner');
     case 'manager':
-      return 'Manager';
+      return t('Newsroom_Role_Manager');
     case 'editor':
-      return 'Editor';
+      return t('Newsroom_Role_Editor');
     case 'viewer':
-      return 'Observer';
+      return t('Newsroom_Role_Observer');
     default:
       return role;
   }

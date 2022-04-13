@@ -1,4 +1,5 @@
 export * from './AddClientButton';
+export * from './AddNewsButton';
 export * from './CreateStackButton';
 export * from './EventDetail';
 export * from './NewsCard';

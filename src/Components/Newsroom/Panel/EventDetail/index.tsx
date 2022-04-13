@@ -12,9 +12,6 @@ import { useTranslation } from '@I18n';
 
 import { INewsroomPanelEventDetail } from './EventDetail';
 
-const tailLayout = {
-  wrapperCol: { offset: 5, span: 18 },
-};
 
 const NewsroomPanelEventDetailImpl: React.FC<INewsroomPanelEventDetail.IProps> = ({ eventId }) => {
   const { t } = useTranslation('common');
@@ -251,7 +248,7 @@ const NewsroomPanelEventDetailImpl: React.FC<INewsroomPanelEventDetail.IProps> =
             disabled={!canEdit}
           />
         </Form.Item>
-        <Form.Item {...tailLayout}>
+        <Form.Item>
           <Button
             type="primary"
             htmlType="submit"
@@ -273,7 +270,7 @@ const NewsroomPanelEventDetailImpl: React.FC<INewsroomPanelEventDetail.IProps> =
         {`
           .top {
             margin-top: 0.5rem;
-            padding: 0 0.5rem 0.5rem;
+            padding: 0 1rem 0.5rem;
           }
 
           .top :global(.upload) {
