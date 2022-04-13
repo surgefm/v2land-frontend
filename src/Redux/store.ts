@@ -12,15 +12,21 @@ import { IStore, Action, HydrationAction } from '@Interfaces';
 import Reducers, { getInitialState } from './Reducers';
 // #endregion Local Imports
 
+const batchedReducer = enableBatching(Reducers);
+
 const reducer = (state: IStore = getInitialState(), action: Action) => {
   if (action.type === HYDRATE) {
-    const nextState = {
-      ...state, // use previous state
-      ...(action as HydrationAction).payload, // apply delta from hydration
+    const payload = (action as HydrationAction).payload;
+    return {
+      ...state,
+      ...payload,
+      newsrooms: {
+        ...payload.newsrooms,
+        activeNewsroom: state.newsrooms.activeNewsroom || payload.newsrooms.activeNewsroom,
+      },
     };
-    return nextState;
   }
-  return enableBatching(Reducers)(state, action);
+  return batchedReducer(state, action);
 };
 
 export const makeStore = () => {

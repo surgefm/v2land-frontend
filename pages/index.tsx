@@ -65,7 +65,7 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList }) =
         </div>
       </div>
       <Footer />
-      <style>
+      <style jsx>
         {`
           .grid {
             display: grid;
@@ -91,7 +91,6 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList }) =
       </style>
     </Background>
   );
-  // return <div />;
 };
 
 Home.getInitialProps = async (ctx: ReduxNextPageContext): Promise<IHomePage.InitialProps> => {

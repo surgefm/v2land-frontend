@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Skeleton, Space, Button, Select, Tooltip, message } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
@@ -34,9 +34,11 @@ const NewsroomPanelRoleItemImpl: React.FunctionComponent<INewsroomPanelRoleItem.
   const canEdit = useSelector(canCurrentClientManageEvent(eventId));
   const isConnected = useSelector(isNewsroomSocketConnected(eventId));
 
-  if (!client || !role) {
-    dispatch(ClientActions.GetClient(clientId));
-  }
+  useEffect(() => {
+    if (!client || !role) {
+      dispatch(ClientActions.GetClient(clientId));
+    }
+  }, [client, role]);
 
   const handleSelectionChange = async (value: string) => {
     if (value === role) return;
