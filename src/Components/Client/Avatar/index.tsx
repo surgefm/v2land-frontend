@@ -62,7 +62,7 @@ export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = props
         <Image
           alt="avatar"
           style={{ width: '100%', height: '100%' }}
-          className={`${className} ${cn || ''}`}
+          className={`${className} ${cn || ''} ${styles.img}`}
           src={UtilService.getImageUrl(avatarUrl, Math.max(size, 64), Math.max(size, 64))}
         />
       );
@@ -75,6 +75,13 @@ export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = props
         {client ? (client.nickname || client.username)[0].toUpperCase() : ''}
       </span>
     );
+  };
+
+  const style = {
+    style: {
+      width: `${size}px`,
+      height: `${size}px`,
+    },
   };
 
   const getAvatar = () => {
@@ -92,18 +99,12 @@ export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = props
         onKeyPress={goToProfilePage}
         onClick={goToProfilePage}
         className={styles.link}
+        style={style.style}
         tabIndex={0}
       >
         {getAvatarIcon(true)}
       </div>
     );
-  };
-
-  const style = {
-    style: {
-      width: `${size}px`,
-      height: `${size}px`,
-    },
   };
 
   let classes = styles.container;

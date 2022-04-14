@@ -90,10 +90,10 @@ const NewsFormImpl: React.FunctionComponent<INewsForm.IProps> = ({
       >
         <DatePickerImpl showTime />
       </Form.Item>
-      <Form.Item name="abstract" label="摘要" rules={[{ required: false }]}>
+      <Form.Item name="abstract" label="摘要" rules={[{ required: false, max: 200 }]}>
         <Input.TextArea autoSize={{ minRows: 2 }} placeholder="" />
       </Form.Item>
-      <Form.Item name="comment" label="备注" rules={[{ required: false }]}>
+      <Form.Item name="comment" label="备注" rules={[{ required: false, max: 200 }]}>
         <Input.TextArea autoSize={{ minRows: 2 }} placeholder="" />
       </Form.Item>
       <Form.Item>

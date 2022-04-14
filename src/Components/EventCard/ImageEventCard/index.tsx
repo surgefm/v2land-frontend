@@ -24,7 +24,7 @@ export const ImageEventCard: React.FunctionComponent<IImageEventCard.IProps> = (
       <div className="event-image-container">
         <Image
           alt={event.headerImage.source || 'image source'}
-          src={`https://cdn.surge.fm/240x240/${event.headerImage.imageUrl}`}
+          src={`https://cdn.surge.fm/${event.headerImage.imageUrl}`}
           className="event-image"
         />
         <button onClick={openImageSourceUrl} type="button">
