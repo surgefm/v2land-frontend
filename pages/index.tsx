@@ -13,7 +13,7 @@ import {
   Footer,
   EventCardList,
   TagCard,
-  ContributorCard,
+  // ContributorCard,
   Background,
   SectionHeader,
 } from '@Components';
@@ -54,13 +54,13 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList }) =
                 <TagCard tag={tag} key={tag.id} />
               ))}
             </>
-            <SectionHeader>{t('Home_Contributions_ContributionRanking')}</SectionHeader>
+            {/* <SectionHeader>{t('Home_Contributions_ContributionRanking')}</SectionHeader>
             <>
               <ContributorCard contributor="Vincent" />
               <ContributorCard contributor="CCAV" />
               <ContributorCard contributor="Alan" />
               <ContributorCard contributor="Erick" />
-            </>
+            </> */}
           </div>
         </div>
       </div>
