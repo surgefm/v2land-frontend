@@ -41,4 +41,5 @@ export interface Event extends SimplifiedEvent {
     contributorId: number;
     points: number;
   }[];
+  updatedAt: string;
 }

@@ -6,6 +6,7 @@ import { Client, IThunkStore } from '@Interfaces';
 import { isLoading, isLoggedIn } from '@Selectors';
 import { LoadingActions } from '@Actions';
 import { RedstoneService, getState } from '@Services';
+import { EventActions } from '../EventActions';
 // #endregion Local Imports
 
 const AddClient = (client: Client) => ({
@@ -44,7 +45,14 @@ const GetClient = (clientId: number | string) => async (dispatch: Dispatch, stor
   dispatch(LoadingActions.BeginLoading(identifier));
   try {
     const { client } = await RedstoneService.getClient(clientId);
+    const events = client.events || [];
+
     dispatch(AddClient(client));
+
+    for (let i = 0; i < events.length; i += 1) {
+      const event = events[i];
+      dispatch(EventActions.AddEvent(event));
+    }
   } catch (err) {
     // Do nothing
   } finally {

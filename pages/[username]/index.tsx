@@ -1,5 +1,5 @@
 // #region Global Imports
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { NextPage } from 'next';
 import { Space, Button, Input, Form, message } from 'antd';
@@ -8,13 +8,14 @@ import { Space, Button, Input, Form, message } from 'antd';
 // #region Local Imports
 import { useTranslation } from '@I18n';
 import {
-  Background,
+  HeaderCard,
   ClientHead,
   Footer,
-  Card,
+  EventCard,
   EventTitle,
   ClientAvatar,
   ClientAvatarEditor,
+  SectionHeader,
 } from '@Components';
 import { ClientActions } from '@Actions';
 import { getClientWithUsername, getClient, getLoggedInClientId } from '@Selectors';
@@ -37,8 +38,35 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
   const [avatar, setAvatar] = useState(client ? client.avatar : '');
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [eventColumns, setEventColumns] = useState<number[][]>([]);
   const [form] = Form.useForm();
   const decoratedRules = Rules(t);
+  const events = client && client.events ? client.events : [];
+  events.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
+
+  const updateEventColumns = () => {
+    const columns: number[][] = [];
+    const width =
+      window.innerWidth / parseFloat(window.getComputedStyle(document.documentElement).fontSize);
+    const numColumns = Math.floor(width / 25);
+    for (let i = 0; i < numColumns; i += 1) columns.push([]);
+    for (let i = 0; i < events.length; i += 1) {
+      const c = i % numColumns;
+      const event = events[i];
+      columns[c].push(event.id);
+    }
+    setEventColumns(columns);
+  };
+
+  useEffect(() => {
+    updateEventColumns();
+    window.addEventListener('resize', updateEventColumns);
+
+    return () => {
+      window.removeEventListener('resize', updateEventColumns);
+    };
+  }, []);
+
   if (!client) return <React.Fragment />;
 
   const isCurrentClient = loggedInClientId === clientId;
@@ -148,15 +176,35 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
 
   return (
     <div className="top">
-      <Background>
-        <ClientHead clientId={clientId} />
-        <Card>{getClientInfoComponent()}</Card>
-        <Footer />
-      </Background>
+      <ClientHead clientId={clientId} />
+      <HeaderCard>{getClientInfoComponent()}</HeaderCard>
+      {events.length && (
+        <div className="body">
+          <div
+            style={{
+              width: `${Math.max(25 * eventColumns.length, 24)}rem`,
+              padding: '0 0.5rem',
+            }}
+          >
+            <SectionHeader>{client.nickname || `@${client.username}`} 的时间线</SectionHeader>
+          </div>
+          <div className="event-list">
+            {eventColumns.map(column => (
+              <div className="column" key={JSON.stringify(column)}>
+                {column.map(eventId => (
+                  <EventCard eventId={eventId} key={eventId} forcePlain />
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      <Footer />
       <style jsx>
         {`
           .top :global(.row) {
             display: flex;
+            width: 100%;
           }
 
           .top :global(.info) {
@@ -191,6 +239,36 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
           .top :global(.ant-avatar-string) {
             font-size: 96px;
           }
+
+          .body {
+            position: relative;
+            z-index: 0;
+            min-height: calc(100vh - 3.5rem);
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            background-color: #f6f8fa;
+          }
+
+          @media (max-width: 600px) {
+            .body {
+              padding: 4rem 1rem 2rem 1rem;
+            }
+          }
+
+          .event-list {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+          }
+
+          .column {
+            display: flex;
+            width: 24rem;
+            margin: 0.5rem;
+            flex-direction: column;
+          }
         `}
       </style>
     </div>
@@ -211,9 +289,7 @@ ClientPage.getInitialProps = async (
   if (username.startsWith('@')) username = username.slice(1);
   let client = getClientWithUsername(username)(ctx.store.getState());
 
-  if (!client) {
-    await ctx.store.dispatch(ClientActions.GetClient(username));
-  }
+  await ctx.store.dispatch(ClientActions.GetClient(username));
 
   client = getClientWithUsername(username)(ctx.store.getState());
   if (!client) {

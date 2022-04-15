@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { IStore } from '@Interfaces';
-import { getEventOwnerId } from '@Selectors/events';
+import { getEventOwnerId, getEventsState } from '@Selectors/events';
 
 export const getClientsState = (state: IStore) => state.clients;
 
@@ -62,4 +62,10 @@ export const getEventOwner = (eventId: number) =>
     (state: IStore) => state,
     getEventOwnerId(eventId),
     (state, id) => (id === null ? null : getClient(id)(state))
+  );
+
+export const getEventsOwnedByClient = (clientId: number) =>
+  createSelector(
+    getEventsState,
+    state => state.list.filter(e => e.ownerId === clientId)
   );

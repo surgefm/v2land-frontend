@@ -4,6 +4,7 @@ export { Card } from './Card';
 export { ClientHead } from './ClientHead';
 export { EventHead } from './EventHead';
 export { Head } from './Head';
+export { HeaderCard } from './HeaderCard';
 export { Image } from './Image';
 export { Logo } from './Logo';
 export { LogoType } from './LogoType';
