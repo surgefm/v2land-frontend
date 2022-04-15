@@ -22,9 +22,7 @@ const TagHeaderCardImpl: React.FunctionComponent<ITagHeaderCard.IProps> = ({ tag
             <NumberOutlined style={{ transform: 'skewX(-10deg)' }} />
             {tag.name}
           </EventTitle>
-          <EventDescription
-            description={tag.description || 'This topic does not have a description.'}
-          />
+          <EventDescription description={tag.description || '该话题暂无简介'} />
           <div className="bottom">
             <div className="share">
               <Share type="tag" tag={tag} tagId={tag.id} />
@@ -37,7 +35,7 @@ const TagHeaderCardImpl: React.FunctionComponent<ITagHeaderCard.IProps> = ({ tag
             <div className="open-for-edit">
               <div className="open-for-edit-circle" />
               <p>
-                <strong>Open for editing</strong>
+                <strong>开放编辑</strong>
               </p>
             </div>
 
@@ -92,6 +90,7 @@ const TagHeaderCardImpl: React.FunctionComponent<ITagHeaderCard.IProps> = ({ tag
               flex-direction: row;
               align-items: center;
               justify-content: flex-end;
+              min-width: 10rem;
             }
 
             .open-for-edit p {
@@ -111,6 +110,7 @@ const TagHeaderCardImpl: React.FunctionComponent<ITagHeaderCard.IProps> = ({ tag
               flex-direction: row;
               align-items: center;
               justify-content: flex-end;
+              min-width: 10rem;
             }
 
             #number-of-timeline-number {

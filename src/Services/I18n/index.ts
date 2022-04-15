@@ -19,7 +19,7 @@ i18next.init({
 
 export function useTranslation(namespace = 'common') {
   const t = (key: string, data: any = {}) => i18next.t(key, data, { ns: namespace });
-  return { t };
+  return { t, i18next };
 }
 
 export const getTranslation = useTranslation;

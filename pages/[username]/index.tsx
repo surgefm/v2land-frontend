@@ -48,7 +48,7 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
     const columns: number[][] = [];
     const width =
       window.innerWidth / parseFloat(window.getComputedStyle(document.documentElement).fontSize);
-    const numColumns = Math.floor(width / 25);
+    const numColumns = Math.max(1, Math.floor((width - 2) / 25));
     for (let i = 0; i < numColumns; i += 1) columns.push([]);
     for (let i = 0; i < events.length; i += 1) {
       const c = i % numColumns;
@@ -66,6 +66,10 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
       window.removeEventListener('resize', updateEventColumns);
     };
   }, []);
+
+  useEffect(() => {
+    updateEventColumns();
+  }, [client]);
 
   if (!client) return <React.Fragment />;
 
@@ -178,7 +182,7 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
     <div className="top">
       <ClientHead clientId={clientId} />
       <HeaderCard>{getClientInfoComponent()}</HeaderCard>
-      {events.length && (
+      {events.length > 0 && (
         <div className="body">
           <div
             style={{
@@ -200,6 +204,7 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
         </div>
       )}
       <Footer />
+      <div style={{ height: '1rem' }} />
       <style jsx>
         {`
           .top :global(.row) {
@@ -243,18 +248,11 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
           .body {
             position: relative;
             z-index: 0;
-            min-height: calc(100vh - 3.5rem);
             padding: 1rem;
             display: flex;
             align-items: center;
             flex-direction: column;
             background-color: #f6f8fa;
-          }
-
-          @media (max-width: 600px) {
-            .body {
-              padding: 4rem 1rem 2rem 1rem;
-            }
           }
 
           .event-list {

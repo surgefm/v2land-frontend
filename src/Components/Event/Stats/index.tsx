@@ -29,25 +29,24 @@ const EventStatsComp: React.FunctionComponent<IEventStats.IProps> = ({
 
   return (
     <div className="status">
-      <span>{'This timeline has '}</span>
+      <span>{t('Event_Stats_With')}</span>
       {stackCount ? (
         <span>
-          <span className={commonStyles['light-font']}>{`${stackCount} `}</span>
-          {`stack${t('Common_S', { count: stackCount })}`}
+          <span className={commonStyles['light-font']}>{` ${stackCount} `}</span>
+          {t('Event_Stats_Stacks')}
         </span>
       ) : (
         <React.Fragment />
       )}
-      {stackCount && newsCount ? <span>{' and '}</span> : <React.Fragment />}
+      {stackCount && newsCount ? <span>{t('Event_Stats_Delineator')}</span> : <React.Fragment />}
       {newsCount ? (
         <span>
           <span className={commonStyles['light-font']}>{`${newsCount} `}</span>
-          {`piece${t('Common_S', { count: newsCount })} of news`}
+          {t('Event_Stats_News')}
         </span>
       ) : (
         <React.Fragment />
       )}
-      <span>.</span>
       <style jsx>{styles}</style>
     </div>
   );

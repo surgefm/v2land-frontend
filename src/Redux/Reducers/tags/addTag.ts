@@ -15,6 +15,7 @@ export default function addTag(state: TagsState, action: TagAction) {
   const index = state.idIndexMap[tagId];
   if (typeof index !== 'undefined') {
     const oldTag = newState.list[index];
+    if (!tag.description) tag.description = oldTag.description;
     let newEventIdList = [...oldTag.eventIdList, ...tag.eventIdList];
     newEventIdList = newEventIdList.filter((id, idx) => newEventIdList.indexOf(id) === idx);
     newState.list[index] = {
