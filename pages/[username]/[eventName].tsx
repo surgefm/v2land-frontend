@@ -67,7 +67,9 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
       <EventTagList tagIdList={event.tagIdList} />
       <div className="bottom">
         <EventContributorList eventId={event.id} />
-        <Share event={event} />
+        <div className="share">
+          <Share event={event} />
+        </div>
       </div>
       <style jsx>
         {`
@@ -76,6 +78,20 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
             justify-content: space-between;
             align-items: center;
             margin-top: 0.5rem;
+          }
+
+          @media (max-width: 550px) {
+            .bottom {
+              flex-direction: column;
+              align-items: flex-start;
+            }
+
+            .share {
+              display: flex;
+              justify-content: flex-end;
+              margin-top: 0.75rem;
+              width: 100%;
+            }
           }
         `}
       </style>

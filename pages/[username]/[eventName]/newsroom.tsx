@@ -271,13 +271,12 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
         {`
           :global(html),
           :global(body) {
-            width: fit-content;
             position: relative;
           }
 
           .container {
             min-width: 100%;
-            height: calc(100vh - 1rem);
+            height: calc(100vh - 0.5rem);
             padding: 5rem 1rem 1rem 1rem;
             overflow-y: hidden;
             overflow-x: hidden;
