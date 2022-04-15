@@ -42,11 +42,7 @@ const FooterComp: React.FunctionComponent<IFooter.IProps> = (): JSX.Element => {
             {t('Share_Site_Weibo')}
           </a>
           <span>·</span>
-          <a
-            href="https://t.me/joinchat/AwWDRE3b5ZasxWROvz4y7w"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="https://t.me/+o5T_HxHHgYdjMTJl" target="_blank" rel="noopener noreferrer">
             {t('Share_Site_Telegram')}
           </a>
         </div>

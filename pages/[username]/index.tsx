@@ -188,7 +188,7 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
     <div className="top">
       <ClientHead clientId={clientId} />
       <HeaderCard>{getClientInfoComponent()}</HeaderCard>
-      {events.length > 0 && (
+      {eventColumns.length > 0 && (
         <div className="body">
           <div
             style={{
