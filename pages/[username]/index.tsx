@@ -60,15 +60,12 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
 
   useEffect(() => {
     updateEventColumns();
+    window.removeEventListener('resize', updateEventColumns);
     window.addEventListener('resize', updateEventColumns);
 
     return () => {
       window.removeEventListener('resize', updateEventColumns);
     };
-  }, []);
-
-  useEffect(() => {
-    updateEventColumns();
   }, [client]);
 
   if (!client) return <React.Fragment />;
@@ -114,12 +111,21 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
     if (!isEditing) {
       return (
         <div className="row">
-          <ClientAvatar clientId={client.id} size={160} showTooltip={false} />
+          <div className="large">
+            <ClientAvatar clientId={client.id} size={160} showTooltip={false} />
+          </div>
+          <div className="small">
+            <ClientAvatar clientId={client.id} size={48} showTooltip={false} className="small" />
+          </div>
           <div className="info">
             <Space direction="vertical">
               <div className="name">
-                {client.nickname ? <EventTitle>{client.nickname}</EventTitle> : null}
-                <span className="username">@{client.username}</span>
+                <EventTitle>
+                  {client.nickname || ''}
+                  <span className="username">
+                    {client.nickname ? ' ' : ''}@{client.username}
+                  </span>
+                </EventTitle>
               </div>
               <p>{client.description || t('Client_NoDescription')}</p>
             </Space>
@@ -189,12 +195,16 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
               width: `${Math.max(25 * eventColumns.length, 24)}rem`,
               padding: '0 0.5rem',
             }}
+            className={`${eventColumns.length === 1 && 'only-one'}`}
           >
             <SectionHeader>{client.nickname || `@${client.username}`} 的时间线</SectionHeader>
           </div>
           <div className="event-list">
             {eventColumns.map(column => (
-              <div className="column" key={JSON.stringify(column)}>
+              <div
+                className={`column ${eventColumns.length === 1 && 'only-one'}`}
+                key={column.length > 0 ? JSON.stringify(column) : Math.random()}
+              >
                 {column.map(eventId => (
                   <EventCard eventId={eventId} key={eventId} forcePlain />
                 ))}
@@ -245,6 +255,20 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
             font-size: 96px;
           }
 
+          .top :global(.small) {
+            display: none;
+          }
+
+          @media (max-width: 600px) {
+            .top :global(.small) {
+              display: block;
+            }
+
+            .top :global(.large) {
+              display: none;
+            }
+          }
+
           .body {
             position: relative;
             z-index: 0;
@@ -266,6 +290,11 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
             width: 24rem;
             margin: 0.5rem;
             flex-direction: column;
+            max-width: calc(100vw - 1rem);
+          }
+
+          .only-one {
+            max-width: calc(100vw - 2rem);
           }
         `}
       </style>
