@@ -1,5 +1,5 @@
 // #region Global Imports
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { NextPage } from 'next';
 import { Space, Button, Input, Form, message } from 'antd';
@@ -16,6 +16,7 @@ import {
   ClientAvatar,
   ClientAvatarEditor,
   SectionHeader,
+  Wall,
 } from '@Components';
 import { ClientActions } from '@Actions';
 import { getClientWithUsername, getClient, getLoggedInClientId } from '@Selectors';
@@ -38,35 +39,11 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
   const [avatar, setAvatar] = useState(client ? client.avatar : '');
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [eventColumns, setEventColumns] = useState<number[][]>([]);
+  const [numEventColumns, setNumEventColumns] = useState<number>(0);
   const [form] = Form.useForm();
   const decoratedRules = Rules(t);
   const events = client && client.events ? client.events : [];
   events.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
-
-  const updateEventColumns = () => {
-    const columns: number[][] = [];
-    const width =
-      window.innerWidth / parseFloat(window.getComputedStyle(document.documentElement).fontSize);
-    const numColumns = Math.max(1, Math.floor((width - 2) / 25));
-    for (let i = 0; i < numColumns; i += 1) columns.push([]);
-    for (let i = 0; i < events.length; i += 1) {
-      const c = i % numColumns;
-      const event = events[i];
-      columns[c].push(event.id);
-    }
-    setEventColumns(columns);
-  };
-
-  useEffect(() => {
-    updateEventColumns();
-    window.removeEventListener('resize', updateEventColumns);
-    window.addEventListener('resize', updateEventColumns);
-
-    return () => {
-      window.removeEventListener('resize', updateEventColumns);
-    };
-  }, [client]);
 
   if (!client) return <React.Fragment />;
 
@@ -188,31 +165,24 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
     <div className="top">
       <ClientHead clientId={clientId} />
       <HeaderCard>{getClientInfoComponent()}</HeaderCard>
-      {eventColumns.length > 0 && (
-        <div className="body">
-          <div
-            style={{
-              width: `${Math.max(25 * eventColumns.length, 24)}rem`,
-              padding: '0 0.5rem',
-            }}
-            className={`${eventColumns.length === 1 && 'only-one'}`}
-          >
-            <SectionHeader>{client.nickname || `@${client.username}`} 的时间线</SectionHeader>
-          </div>
-          <div className="event-list">
-            {eventColumns.map(column => (
-              <div
-                className={`column ${eventColumns.length === 1 && 'only-one'}`}
-                key={column.length > 0 ? JSON.stringify(column) : Math.random()}
-              >
-                {column.map(eventId => (
-                  <EventCard eventId={eventId} key={eventId} forcePlain />
-                ))}
-              </div>
-            ))}
-          </div>
+      <div className="body" style={{ visibility: numEventColumns > 0 ? 'visible' : 'hidden' }}>
+        <div
+          style={{
+            width: `${Math.max(25 * numEventColumns, 24)}rem`,
+            padding: '0 0.5rem',
+          }}
+          className={`${numEventColumns === 1 && 'only-one'}`}
+        >
+          <SectionHeader>{client.nickname || `@${client.username}`} 的时间线</SectionHeader>
         </div>
-      )}
+        <Wall
+          elementProps={events.map(e => ({ eventId: e.id, forcePlain: true }))}
+          elementWidth={24}
+          gutterWidth={1}
+          Component={EventCard}
+          onSetColumns={setNumEventColumns}
+        />
+      </div>
       <Footer />
       <div style={{ height: '1rem' }} />
       <style jsx>
@@ -277,20 +247,6 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
             align-items: center;
             flex-direction: column;
             background-color: #f6f8fa;
-          }
-
-          .event-list {
-            display: flex;
-            width: 100%;
-            justify-content: center;
-          }
-
-          .column {
-            display: flex;
-            width: 24rem;
-            margin: 0.5rem;
-            flex-direction: column;
-            max-width: calc(100vw - 1rem);
           }
 
           .only-one {

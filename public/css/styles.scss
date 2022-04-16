@@ -51,3 +51,7 @@ img {
 img[src=""], img:not([src]) {
   opacity: 0 !important;
 }
+
+.tooltip-fit-content {
+  width: fit-content;
+}

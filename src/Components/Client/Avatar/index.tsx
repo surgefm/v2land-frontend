@@ -122,7 +122,7 @@ export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = props
   }
 
   return (
-    <Tooltip title={getTooltipText()} overlayClassName="avatar-icon-tooltip">
+    <Tooltip title={getTooltipText()} overlayClassName="avatar-icon-tooltip tooltip-fit-content">
       <div className={classes} {...style}>
         <div className={styles.mask} style={{ opacity: client ? 1 : 0 }}>
           {getAvatar()}

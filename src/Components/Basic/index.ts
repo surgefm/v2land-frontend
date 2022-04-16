@@ -12,3 +12,4 @@ export { SectionHeader } from './SectionHeader';
 export { TagHead } from './TagHead';
 export { TelegramLogo } from './TelegramLogo';
 export { Time } from './Time';
+export { Wall } from './Wall';

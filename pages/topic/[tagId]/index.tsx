@@ -15,7 +15,7 @@ const TagPage: NextPage<ITagPage.IProps, ITagPage.InitialProps> = ({ tagId }) =>
   if (tag === null) return <React.Fragment />;
 
   return (
-    <div>
+    <div className="container">
       <TagHead tagId={tagId} />
       <TagHeaderCard
         tagId={tagId}
@@ -30,7 +30,7 @@ const TagPage: NextPage<ITagPage.IProps, ITagPage.InitialProps> = ({ tagId }) =>
 
       <style jsx>
         {`
-          div {
+          .container {
             margin-top: 7.5rem;
           }
         `}

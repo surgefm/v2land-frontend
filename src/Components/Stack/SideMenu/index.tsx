@@ -60,6 +60,10 @@ export const StackSideMenu: React.FunctionComponent<IStackSideMenu.IProps> = ({
             transition: opacity 0.2s;
           }
 
+          .top::-webkit-scrollbar {
+            display: none;
+          }
+
           .top > div {
             padding-right: 1rem;
           }

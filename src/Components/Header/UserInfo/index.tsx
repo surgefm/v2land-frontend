@@ -89,7 +89,7 @@ const HeaderUserInfoImpl: React.FC<IHeaderUserInfo.IProps> = () => {
   );
 
   return (
-    <Dropdown overlay={menu} trigger={['click']}>
+    <Dropdown overlay={menu} trigger={['click']} overlayClassName="tooltip-fit-content">
       <button type="button" className="container">
         <ClientAvatar showTooltip={false} clientId={client.id} />
         <span>{client.nickname || `@${client.username}`}</span>

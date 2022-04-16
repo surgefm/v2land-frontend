@@ -155,6 +155,7 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
             <Space size={0}>
               <NewsroomPanelTitle>{t('Newsroom_ContributorList')}</NewsroomPanelTitle>
               <Popover
+                overlayClassName="tooltip-fit-content"
                 content={
                   // eslint-disable-next-line react/jsx-wrap-multilines
                   <>
@@ -276,7 +277,7 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
 
           .container {
             min-width: 100%;
-            height: calc(100vh - 0.5rem);
+            height: calc(100vh - 15px);
             padding: 5rem 1rem 1rem 1rem;
             overflow-y: hidden;
             overflow-x: hidden;
@@ -296,6 +297,10 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
             display: flex;
             flex-direction: column;
             overflow: hidden;
+          }
+
+          .container :global(*)::-webkit-scrollbar {
+            display: none;
           }
 
           .container > :global(.panel-wrapper) > :global(.panel.public-stack),
