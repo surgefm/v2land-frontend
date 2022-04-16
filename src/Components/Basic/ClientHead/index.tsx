@@ -22,9 +22,14 @@ const ClientHeadComp: React.FunctionComponent<IClientHead.IProps> = ({
   if (t.length > 0) title = `${title} - ${t}`;
   title += i18n('Head_Suffix');
 
+  const description = client.description || `@${client.username} 暂无简介`;
+
   const list = [
     <meta key="twitter:title" name="twitter:title" content={title} />,
     <meta key="og:title" property="og:title" content={title} />,
+    <meta key="description" name="description" content={description} />,
+    <meta key="twitter:description" name="twitter:description" content={description} />,
+    <meta key="og:description" name="og:description" content={description} />,
   ];
 
   if (client.avatar) {

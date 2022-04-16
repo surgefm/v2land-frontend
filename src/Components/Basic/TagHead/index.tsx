@@ -22,12 +22,10 @@ const TagHeadImpl: React.FunctionComponent<ITagHead.IProps> = ({ title: t = '', 
     <meta key="og:title" property="og:title" content={title} />,
   ];
 
-  if (tag.description) {
-    const description = tag.description.split('\n').join('');
-    list.push(<meta key="description" name="description" content={description} />);
-    list.push(<meta key="twitter:description" name="twitter:description" content={description} />);
-    list.push(<meta key="og:description" property="og:description" content={description} />);
-  }
+  const description = tag.description ? tag.description.split('\n').join(' ') : '该话题暂无简介';
+  list.push(<meta key="description" name="description" content={description} />);
+  list.push(<meta key="twitter:description" name="twitter:description" content={description} />);
+  list.push(<meta key="og:description" property="og:description" content={description} />);
 
   return (
     <H>
