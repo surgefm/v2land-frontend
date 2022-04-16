@@ -34,6 +34,7 @@ export const EventCreateButton = () => {
         shape="round"
         icon={<SubnodeOutlined />}
         onClick={showModal}
+        className="fab-btn"
       >
         创建时间线
       </Button>

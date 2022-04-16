@@ -7,6 +7,7 @@ export { Head } from './Head';
 export { HeaderCard } from './HeaderCard';
 export { Image } from './Image';
 export { Logo } from './Logo';
+export { LogoIcon } from './LogoIcon';
 export { LogoType } from './LogoType';
 export { SectionHeader } from './SectionHeader';
 export { TagHead } from './TagHead';

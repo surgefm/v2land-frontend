@@ -47,6 +47,7 @@ const NewsroomHeaderCommitButtonImpl: React.FC<INewsroomHeaderCommitButton.IProp
         loading={isLoading}
         disabled={!canEdit || !isConnected}
         onClick={makeCommit}
+        className="fab-btn"
       >
         {t('Newsroom_CommitButton_Label')}
       </Button>

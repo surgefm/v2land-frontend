@@ -26,6 +26,12 @@ export const HeaderLogo: React.FunctionComponent = () => {
             a:active {
               transform: scale(0.9);
             }
+
+            @media (max-width: 700px) {
+              a {
+                display: none;
+              }
+            }
           `}
         </style>
       </a>

@@ -53,7 +53,12 @@ const HeaderUserInfoImpl: React.FC<IHeaderUserInfo.IProps> = () => {
           </Button>
         )}
         {router.pathname === '/register' ? null : (
-          <Button href="/register" type="link" onClick={handleRegisterClick}>
+          <Button
+            href="/register"
+            type="link"
+            onClick={handleRegisterClick}
+            className={router.pathname === '/login' ? undefined : 'large'}
+          >
             {t('Registration_Title')}
           </Button>
         )}
@@ -89,10 +94,15 @@ const HeaderUserInfoImpl: React.FC<IHeaderUserInfo.IProps> = () => {
   );
 
   return (
-    <Dropdown overlay={menu} trigger={['click']} overlayClassName="tooltip-fit-content">
+    <Dropdown
+      overlay={menu}
+      trigger={['click']}
+      overlayClassName="tooltip-fit-content"
+      placement="bottomRight"
+    >
       <button type="button" className="container">
         <ClientAvatar showTooltip={false} clientId={client.id} />
-        <span>{client.nickname || `@${client.username}`}</span>
+        <span className="large">{client.nickname || `@${client.username}`}</span>
         <style jsx>
           {`
             .container {
@@ -113,6 +123,12 @@ const HeaderUserInfoImpl: React.FC<IHeaderUserInfo.IProps> = () => {
 
             span:not(:first-child) {
               margin-left: 0.3rem;
+            }
+
+            @media (max-width: 600px) {
+              .container {
+                padding: 0.25rem;
+              }
             }
           `}
         </style>

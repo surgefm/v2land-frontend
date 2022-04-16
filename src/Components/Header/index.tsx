@@ -3,8 +3,10 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { Space } from 'antd';
+import { QuestionCircleOutlined, HomeOutlined } from '@ant-design/icons';
 
 import { useTranslation } from '@I18n';
+import { LogoIcon } from '@Components/Basic';
 import {
   NewsroomHeaderBreadcrumb,
   NewsroomHeaderClientAvatars,
@@ -16,9 +18,8 @@ import { EventCreateButton } from '@Components/Event';
 import { HeaderLogo } from './Logo';
 import { HeaderButton } from './Button';
 import { HeaderUserInfo } from './UserInfo';
-import { IHeader } from './Header';
 
-const HeaderImpl: React.FC<IHeader.IProps> = (): JSX.Element => {
+export const Header: React.FC = (): JSX.Element => {
   const { t } = useTranslation('common');
   const router = useRouter();
   const isInNewsroom = router.route === '/[username]/[eventName]/newsroom';
@@ -33,22 +34,34 @@ const HeaderImpl: React.FC<IHeader.IProps> = (): JSX.Element => {
             {isInNewsroom ? (
               <>
                 <NewsroomHeaderBreadcrumb />
-                <NewsroomHeaderClientAvatars />
+                <span className="large"><NewsroomHeaderClientAvatars /></span>
                 <NewsroomHeaderSocketStatus />
               </>
             ) : (
               <>
-                <HeaderButton href="/">{t('Header_Homepage')}</HeaderButton>
-                <HeaderButton href="/about">{t('About_Title')}</HeaderButton>
+                <span className="large"><HeaderButton href="/" Icon={HomeOutlined}>{t('Header_Homepage')}</HeaderButton></span>
+                <span className="small"><HeaderButton href="/" Icon={LogoIcon}>{t('Header_Homepage')}</HeaderButton></span>
+                <HeaderButton href="/about" Icon={QuestionCircleOutlined}>{t('About_Title')}</HeaderButton>
               </>
             )}
           </Space>
         </div>
         <div className="right">
           <HeaderUserInfo />
-          <NewsroomHeaderEnterButton />
-          {isHomepage && <EventCreateButton />}
-          {!isInNewsroom || <NewsroomHeaderCommitButton />}
+          <div className="large"><NewsroomHeaderEnterButton /></div>
+          <div className="small fab"><NewsroomHeaderEnterButton /></div>
+          {isHomepage && (
+            <>
+              <div className="large"><EventCreateButton /></div>
+              <div className="small fab"><EventCreateButton /></div>
+            </>
+          )}
+          {!isInNewsroom || (
+            <>
+              <div className="large"><NewsroomHeaderCommitButton /></div>
+              <div className="small fab"><NewsroomHeaderCommitButton /></div>
+            </>
+          )}
         </div>
       </div>
       <style jsx>
@@ -81,10 +94,28 @@ const HeaderImpl: React.FC<IHeader.IProps> = (): JSX.Element => {
             display: flex;
             align-items: center;
           }
+
+          .fab {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1rem;
+          }
+
+          @media (max-width: 600px) {
+            .container {
+              height: 3rem;
+            }
+
+            .center {
+              padding: 0 .75rem;
+            }
+
+            .large {
+              display: none;
+            }
+          }
         `}
       </style>
     </div>
   );
 };
-
-export const Header = HeaderImpl;

@@ -1,10 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+
 import { IHeaderButton } from './Button';
 
 export const HeaderButton: React.FunctionComponent<IHeaderButton.IProps> = ({
   text,
+  Icon,
   children,
   onClick,
   href,
@@ -18,7 +20,10 @@ export const HeaderButton: React.FunctionComponent<IHeaderButton.IProps> = ({
 
   const content = (
     <a className="button-container" {...buttonProps}>
-      <div className={`button ${!isActiveRoute || 'active'}`}>{children || text}</div>
+      <div className={`button ${!isActiveRoute || 'active'}`}>
+        {Icon && <Icon style={{ fontSize: 20, position: 'relative', top: 2, marginRight: 8 }} />}
+        {children || text}
+      </div>
       {isLink && <div className={`bottom-line ${!isActiveRoute || 'active'}`} />}
       <style jsx>
         {`
@@ -43,13 +48,17 @@ export const HeaderButton: React.FunctionComponent<IHeaderButton.IProps> = ({
             user-select: none;
             border-radius: 0.5rem;
             transition: all 0.2s;
+            align-items: center;
           }
 
           .button.active {
             color: rgb(30, 139, 195);
           }
 
-          .button:hover {
+          .button.small {
+          }
+
+          .button:hover:not(.small) {
             background-color: rgba(0, 0, 0, 0.075);
           }
 
@@ -70,6 +79,17 @@ export const HeaderButton: React.FunctionComponent<IHeaderButton.IProps> = ({
 
           .bottom-line.active {
             transform: translateY(0);
+          }
+
+          @media (max-width: 600px) {
+            .button-container {
+              height: 3rem;
+            }
+
+            .button {
+              padding: 0.1rem 0.5rem;
+              margin: 0.35rem 0.1rem;
+            }
           }
         `}
       </style>

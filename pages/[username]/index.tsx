@@ -165,7 +165,10 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
     <div className="top">
       <ClientHead clientId={clientId} />
       <HeaderCard>{getClientInfoComponent()}</HeaderCard>
-      <div className="body" style={{ visibility: numEventColumns > 0 ? 'visible' : 'hidden' }}>
+      <div
+        className="body"
+        style={{ visibility: events.length > 0 && numEventColumns > 0 ? 'visible' : 'hidden' }}
+      >
         <div
           style={{
             width: `${Math.max(25 * numEventColumns, 24)}rem`,

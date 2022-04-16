@@ -55,3 +55,23 @@ img[src=""], img:not([src]) {
 .tooltip-fit-content {
   width: fit-content;
 }
+
+.small {
+  position: fixed;
+  left: -100000rem;
+}
+
+@media (max-width: 700px) {
+  .large {
+    display: none;
+  }
+
+  .small {
+    position: relative;
+    left: inherit;
+  }
+
+  .fab-btn {
+    box-shadow: 0 2.5px 7.5px rgba(25, 144, 255, 0.3);
+  }
+}

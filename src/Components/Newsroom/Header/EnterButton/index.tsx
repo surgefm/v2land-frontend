@@ -45,6 +45,7 @@ const NewsroomHeaderEnterButtonImpl: React.FC<INewsroomHeaderEnterButton.IProps>
         loading={clicked}
         icon={<ExportOutlined />}
         onClick={handleButtonClick}
+        className="fab-btn"
       >
         {t('Newsroom_EnterButton_Label')}
       </Button>
