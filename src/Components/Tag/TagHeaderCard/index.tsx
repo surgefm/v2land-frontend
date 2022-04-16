@@ -63,7 +63,7 @@ const TagHeaderCardImpl: React.FunctionComponent<ITagHeaderCard.IProps> = ({ tag
         <style jsx>
           {`
             .event-header-card {
-              margin: -4rem -4rem 2rem;
+              margin: -4rem 0 2rem;
               padding: 4rem 18% 2rem 18%;
               background-color: white;
               display: flex;

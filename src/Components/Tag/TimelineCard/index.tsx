@@ -50,16 +50,8 @@ const TimelineCardImpl: React.FunctionComponent<ITimelineCard.IProps> = ({ event
             {event.description && <p className={styles.description}>{event.description}</p>}
 
             <div className={styles.info}>
-              {event.numUpvote && (
-                <p>
-                  {event.numUpvote} Like{t('Common_S', { count: event.numUpvote })}
-                </p>
-              )}
-              {event.stackCount && (
-                <p>
-                  {event.stackCount} Stack{t('Common_S', { count: event.stackCount })}
-                </p>
-              )}
+              {(event.numUpvote || 0) > 0 && <p>{event.numUpvote} 个人赞</p>}
+              {(event.stackCount || 0) > 0 && <p>共有 {event.stackCount} 个进展</p>}
             </div>
           </div>
 

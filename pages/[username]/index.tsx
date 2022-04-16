@@ -169,7 +169,6 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
         <div
           style={{
             width: `${Math.max(25 * numEventColumns, 24)}rem`,
-            padding: '0 0.5rem',
           }}
           className={`${numEventColumns === 1 && 'only-one'}`}
         >
@@ -226,16 +225,19 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
           }
 
           .top :global(.small) {
-            display: none;
+            position: fixed;
+            left: -10000rem;
           }
 
           @media (max-width: 600px) {
             .top :global(.small) {
-              display: block;
+              position: relative;
+              left: 0;
             }
 
             .top :global(.large) {
-              display: none;
+              position: fixed;
+              left: -10000rem;
             }
           }
 

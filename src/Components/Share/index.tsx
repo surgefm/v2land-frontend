@@ -302,7 +302,6 @@ const ShareImpl: React.FunctionComponent<IShare.IProps> = ({
           }
 
           :global(.share-popover) :global(.qrcode) {
-            width: 100%;
             height: auto;
             opacity: 1;
           }

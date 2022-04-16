@@ -45,17 +45,16 @@ export const Wall: React.FC<IWall.IProps> = ({
   return (
     <div className="list">
       {columns.map(column => (
-        <div
-          className={`column ${columns.length === 1 && 'only-one'}`}
-          key={column.length > 0 ? JSON.stringify(column) : Math.random()}
-        >
-          {column.map(props => (
-            <React.Fragment key={JSON.stringify(props)}>
-              <Component {...props} />
-              <div className="gutter" style={{ width: `${gutterWidth}rem` }} />
-            </React.Fragment>
-          ))}
-        </div>
+        <React.Fragment key={column.length > 0 ? JSON.stringify(column) : Math.random()}>
+          <div className={`column ${columns.length === 1 && 'only-one'}`}>
+            {column.map(props => (
+              <React.Fragment key={JSON.stringify(props)}>
+                <Component {...props} />
+              </React.Fragment>
+            ))}
+          </div>
+          <div className="gutter" />
+        </React.Fragment>
       ))}
       <style jsx>
         {`
@@ -67,8 +66,7 @@ export const Wall: React.FC<IWall.IProps> = ({
 
           .column {
             display: flex;
-            width: 24rem;
-            margin: 0.5rem;
+            width: ${elementWidth}rem;
             flex-direction: column;
             max-width: calc(100vw - 1rem);
           }
@@ -77,7 +75,11 @@ export const Wall: React.FC<IWall.IProps> = ({
             max-width: calc(100vw - 2rem);
           }
 
-          .column .gutter:last-child {
+          .gutter {
+            width: ${gutterWidth}rem;
+          }
+
+          .column:last-child .gutter {
             display: none;
           }
         `}
