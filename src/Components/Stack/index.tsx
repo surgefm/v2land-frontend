@@ -13,7 +13,6 @@ import { IStack } from './Stack';
 import { NewsItemList } from './NewsItemList';
 import { StackShimmer } from './Shimmer';
 
-export * from './Form';
 export * from './Shimmer';
 export * from './SideMenu';
 

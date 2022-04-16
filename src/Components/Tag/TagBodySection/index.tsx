@@ -23,8 +23,8 @@ const TagBodySection: React.FunctionComponent<ITagBodySection.IProps> = ({
       <style jsx>
         {`
           .topic-section {
-            padding-left: 6%;
-            padding-right: 6%;
+            padding-left: 2rem;
+            padding-right: 2rem;
           }
 
           .topic-list {

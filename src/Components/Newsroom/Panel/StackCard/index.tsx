@@ -17,7 +17,7 @@ import {
 import { useTranslation } from '@I18n';
 import { NewsroomActions } from '@Actions';
 import { getNewsroomSocket } from '@Services';
-import { StackForm } from '@Components/Stack';
+import { StackForm } from '@Components/Stack/Form';
 import { EventCard } from '@Components/EventCard';
 import { Time } from '@Components/Basic';
 

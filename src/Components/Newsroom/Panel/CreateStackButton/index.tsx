@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Button, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 
-import { StackForm } from '@Components/Stack';
+import { StackForm } from '@Components/Stack/Form';
 import { canCurrentClientEditEvent, isNewsroomSocketConnected } from '@Selectors';
 import { useTranslation } from '@I18n';
 

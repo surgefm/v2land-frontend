@@ -14,6 +14,7 @@ const TimelineSection: React.FunctionComponent<ITimelineSection.IProps> = ({ tag
         elementProps={tagEventIdList.map(id => ({ eventId: id }))}
         elementWidth={28}
         gutterWidth={1}
+        marginWidth={4}
         Component={TimelineCard}
         key={JSON.stringify(tagEventIdList)}
       />

@@ -33,9 +33,8 @@ import {
   usePrevious,
 } from '@Services';
 import { NewsroomPanelConsts } from '@Definitions';
+import { Card, EventHead } from '@Components';
 import {
-  Card,
-  EventHead,
   NewsroomPanelAddClientButton,
   NewsroomPanelAddNewsButton,
   NewsroomPanelTitle,
@@ -45,7 +44,7 @@ import {
   NewsroomPanelCreateStackButton,
   NewsroomPanelRoleList,
   NewsroomPanelSortStacksButton,
-} from '@Components';
+} from '@Components/Newsroom/Panel';
 import {
   getEvent,
   getEventStackIdList,

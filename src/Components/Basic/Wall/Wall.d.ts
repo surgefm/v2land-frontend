@@ -6,6 +6,7 @@ declare namespace IWall {
     elementProps: Record[];
     elementWidth?: number;
     gutterWidth?: number;
+    marginWidth?: number;
     onSetColumns?: (numColumns: number) => any;
   }
 }

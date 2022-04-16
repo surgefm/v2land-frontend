@@ -6,6 +6,7 @@ export const Wall: React.FC<IWall.IProps> = ({
   elementProps = [],
   elementWidth = 24,
   gutterWidth = 1,
+  marginWidth = 2,
   Component,
   onSetColumns = numColumns => numColumns,
 }) => {
@@ -16,7 +17,7 @@ export const Wall: React.FC<IWall.IProps> = ({
     const width =
       window.innerWidth / parseFloat(window.getComputedStyle(document.documentElement).fontSize);
     let numColumns = 1;
-    let remaining = width - 2 - elementWidth;
+    let remaining = width - marginWidth - elementWidth;
     while (remaining - elementWidth - gutterWidth >= 0) {
       numColumns += 1;
       remaining -= elementWidth + gutterWidth;

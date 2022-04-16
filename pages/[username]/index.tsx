@@ -14,10 +14,10 @@ import {
   EventCard,
   EventTitle,
   ClientAvatar,
-  ClientAvatarEditor,
   SectionHeader,
   Wall,
 } from '@Components';
+import { ClientAvatarEditor } from '@Components/Client/AvatarEditor';
 import { ClientActions } from '@Actions';
 import { getClientWithUsername, getClient, getLoggedInClientId } from '@Selectors';
 import { UtilService, RedstoneService } from '@Services';
