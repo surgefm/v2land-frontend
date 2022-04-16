@@ -2,24 +2,21 @@
 import React, { useEffect } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { message } from 'antd';
+import { Col, message, Row } from 'antd';
 // #endregion Global Imports
-
 // #region Local Imports
 import { useTranslation } from '@I18n';
 import { EventActions, TagActions } from '@Actions';
 import {
-  Head,
-  Footer,
-  EventCardList,
-  TagCard,
-  // ContributorCard,
   Background,
+  EventCardList,
+  Footer,
+  Head,
   SectionHeader,
+  TagCard,
 } from '@Components';
-import { UtilService, RedstoneService } from '@Services';
+import { RedstoneService, UtilService } from '@Services';
 // #endregion Local Imports
-
 // #region Interface Imports
 import { IHomePage, ReduxNextPageContext } from '@Interfaces';
 // #endregion Interface Imports
@@ -44,10 +41,13 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList }) =
   return (
     <Background>
       <Head />
-      <div className="grid">
-        <EventCardList className="left" />
-        <div className="right">
-          <div>
+      <Row className="grid" justify="space-between" gutter={32}>
+        <Col span={18}>
+          <EventCardList className="left" />
+        </Col>
+
+        <Col span={6}>
+          <div className="tagList">
             <SectionHeader>{t('Home_Topics_TrendingTopics')}</SectionHeader>
             <>
               {tagList.map(tag => (
@@ -62,28 +62,28 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList }) =
               <ContributorCard contributor="Erick" />
             </> */}
           </div>
-        </div>
-      </div>
+        </Col>
+      </Row>
       <Footer />
       <style jsx>
         {`
           .grid {
-            display: grid;
+            //display: grid;
             width: 100%;
             max-width: 58rem;
-            grid-auto-columns: 40rem 2rem 16rem;
+            //grid-auto-columns: 40rem 2rem 16rem;
           }
 
-          .left > :global(*) {
-            grid-column: 1;
-          }
+          //.left > :global(*) {
+          //  grid-column: 1;
+          //}
+          //
+          //.right {
+          //  display: block;
+          //  grid-column: 3;
+          //}
 
-          .right {
-            display: block;
-            grid-column: 3;
-          }
-
-          .right > div {
+          .tagList {
             position: sticky;
             top: 5rem;
           }
