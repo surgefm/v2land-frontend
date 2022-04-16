@@ -21,6 +21,18 @@ import { RedstoneService, UtilService } from '@Services';
 import { IHomePage, ReduxNextPageContext } from '@Interfaces';
 // #endregion Interface Imports
 
+const eventGrid = {
+  xs: 24,
+  sm: 24,
+  md: 18,
+};
+
+const tagGrid = {
+  xs: 0,
+  sm: 0,
+  md: 6,
+};
+
 const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList }) => {
   const { t } = useTranslation('common');
   const router = useRouter();
@@ -42,11 +54,11 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList }) =
     <Background>
       <Head />
       <Row className="grid" justify="space-between" gutter={32}>
-        <Col span={18}>
+        <Col {...eventGrid}>
           <EventCardList className="left" />
         </Col>
 
-        <Col span={6}>
+        <Col {...tagGrid}>
           <div className="tagList">
             <SectionHeader>{t('Home_Topics_TrendingTopics')}</SectionHeader>
             <>
@@ -68,20 +80,9 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList }) =
       <style jsx>
         {`
           .grid {
-            //display: grid;
             width: 100%;
             max-width: 58rem;
-            //grid-auto-columns: 40rem 2rem 16rem;
           }
-
-          //.left > :global(*) {
-          //  grid-column: 1;
-          //}
-          //
-          //.right {
-          //  display: block;
-          //  grid-column: 3;
-          //}
 
           .tagList {
             position: sticky;
