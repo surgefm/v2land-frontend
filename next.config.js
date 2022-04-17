@@ -29,6 +29,9 @@ const nextConfig = {
   pwa: {
     dest: 'public',
   },
+  images: {
+    domains: ['cdn.surge.fm'],
+  },
   cssModules: true,
   cssLoaderOptions: { importLoaders: 1, localIdentName: '[local]___[hash:base64:5]' },
   // lessLoaderOptions: {

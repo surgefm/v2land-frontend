@@ -13,7 +13,7 @@ export const NewsItem: React.FunctionComponent<INewsItem.IProps> = ({ id }) => {
     <div className="news-item">
       <div className="news-link">
         <div className="img">
-          <Image src="/images/defaultSource.png" alt="media icon" />
+          <Image src="/images/defaultSource.png" alt="media icon" width={64} height={64} />
         </div>
         <a href={url} target="_blank" rel="noreferrer">
           {news && news.title}
