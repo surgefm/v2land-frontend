@@ -2,27 +2,29 @@
 import React, { useEffect } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { message } from 'antd';
+import { Col, message, Row } from 'antd';
 // #endregion Global Imports
-
 // #region Local Imports
 import { useTranslation } from '@I18n';
 import { EventActions, TagActions } from '@Actions';
-import {
-  Head,
-  Footer,
-  EventCardList,
-  TagCard,
-  // ContributorCard,
-  Background,
-  SectionHeader,
-} from '@Components';
-import { UtilService, RedstoneService } from '@Services';
+import { Background, EventCardList, Footer, Head, SectionHeader, TagCard } from '@Components';
+import { RedstoneService, UtilService } from '@Services';
 // #endregion Local Imports
-
 // #region Interface Imports
 import { IHomePage, ReduxNextPageContext } from '@Interfaces';
 // #endregion Interface Imports
+
+const eventGrid = {
+  xs: 24,
+  sm: 24,
+  md: 18,
+};
+
+const tagGrid = {
+  xs: 0,
+  sm: 0,
+  md: 6,
+};
 
 const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList }) => {
   const { t } = useTranslation('common');
@@ -44,10 +46,13 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList }) =
   return (
     <Background>
       <Head />
-      <div className="grid">
-        <EventCardList className="left" />
-        <div className="right">
-          <div>
+      <Row className="grid" justify="space-between" gutter={32}>
+        <Col {...eventGrid}>
+          <EventCardList className="left" />
+        </Col>
+
+        <Col {...tagGrid}>
+          <div className="tagList">
             <SectionHeader>{t('Home_Topics_TrendingTopics')}</SectionHeader>
             <>
               {tagList.map(tag => (
@@ -62,28 +67,17 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList }) =
               <ContributorCard contributor="Erick" />
             </> */}
           </div>
-        </div>
-      </div>
+        </Col>
+      </Row>
       <Footer />
       <style jsx>
         {`
           .grid {
-            display: grid;
             width: 100%;
             max-width: 58rem;
-            grid-auto-columns: 40rem 2rem 16rem;
           }
 
-          .left > :global(*) {
-            grid-column: 1;
-          }
-
-          .right {
-            display: block;
-            grid-column: 3;
-          }
-
-          .right > div {
+          .tagList {
             position: sticky;
             top: 5rem;
           }
