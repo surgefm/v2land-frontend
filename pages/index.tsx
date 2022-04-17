@@ -7,14 +7,7 @@ import { Col, message, Row } from 'antd';
 // #region Local Imports
 import { useTranslation } from '@I18n';
 import { EventActions, TagActions } from '@Actions';
-import {
-  Background,
-  EventCardList,
-  Footer,
-  Head,
-  SectionHeader,
-  TagCard,
-} from '@Components';
+import { Background, EventCardList, Footer, Head, SectionHeader, TagCard } from '@Components';
 import { RedstoneService, UtilService } from '@Services';
 // #endregion Local Imports
 // #region Interface Imports

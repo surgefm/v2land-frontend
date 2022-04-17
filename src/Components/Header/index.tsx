@@ -34,32 +34,56 @@ export const Header: React.FC = (): JSX.Element => {
             {isInNewsroom ? (
               <>
                 <NewsroomHeaderBreadcrumb />
-                <span className="large"><NewsroomHeaderClientAvatars /></span>
+                <span className="large">
+                  <NewsroomHeaderClientAvatars />
+                </span>
                 <NewsroomHeaderSocketStatus />
               </>
             ) : (
               <>
-                <span className="large"><HeaderButton href="/" Icon={HomeOutlined}>{t('Header_Homepage')}</HeaderButton></span>
-                <span className="small"><HeaderButton href="/" Icon={LogoIcon}>{t('Header_Homepage')}</HeaderButton></span>
-                <HeaderButton href="/about" Icon={QuestionCircleOutlined}>{t('About_Title')}</HeaderButton>
+                <span className="large">
+                  <HeaderButton href="/" Icon={HomeOutlined}>
+                    {t('Header_Homepage')}
+                  </HeaderButton>
+                </span>
+                <span className="small">
+                  <HeaderButton href="/" Icon={LogoIcon}>
+                    {t('Header_Homepage')}
+                  </HeaderButton>
+                </span>
+                <HeaderButton href="/about" Icon={QuestionCircleOutlined}>
+                  {t('About_Title')}
+                </HeaderButton>
               </>
             )}
           </Space>
         </div>
         <div className="right">
           <HeaderUserInfo />
-          <div className="large"><NewsroomHeaderEnterButton /></div>
-          <div className="small fab"><NewsroomHeaderEnterButton /></div>
+          <div className="large">
+            <NewsroomHeaderEnterButton />
+          </div>
+          <div className="small fab">
+            <NewsroomHeaderEnterButton />
+          </div>
           {isHomepage && (
             <>
-              <div className="large"><EventCreateButton /></div>
-              <div className="small fab"><EventCreateButton /></div>
+              <div className="large">
+                <EventCreateButton />
+              </div>
+              <div className="small fab">
+                <EventCreateButton />
+              </div>
             </>
           )}
           {!isInNewsroom || (
             <>
-              <div className="large"><NewsroomHeaderCommitButton /></div>
-              <div className="small fab"><NewsroomHeaderCommitButton /></div>
+              <div className="large">
+                <NewsroomHeaderCommitButton />
+              </div>
+              <div className="small fab">
+                <NewsroomHeaderCommitButton />
+              </div>
             </>
           )}
         </div>
@@ -107,7 +131,7 @@ export const Header: React.FC = (): JSX.Element => {
             }
 
             .center {
-              padding: 0 .75rem;
+              padding: 0 0.75rem;
             }
 
             .large {
