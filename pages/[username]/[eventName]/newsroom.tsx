@@ -321,6 +321,8 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
             padding: 0.5rem 0.5rem 0;
             background-color: #fff;
             z-index: 200;
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
           }
 
           .container

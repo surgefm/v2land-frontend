@@ -1,5 +1,5 @@
 import { ReduxNextPageContext } from '@Interfaces';
-import { EventActions } from '@Actions';
+import { EventActions, ClientActions } from '@Actions';
 import {
   isLoggedIn,
   getEvent,
@@ -44,15 +44,18 @@ export const getEventIdMiddleware = async (
 
   let eventId = getEventId(username, id)(ctx.store.getState());
 
-  const then = () => {
+  const then = async () => {
     eventId = getEventId(username, id)(ctx.store.getState());
     eventId = options.needViewPermission ? -Math.abs(eventId) : Math.abs(eventId);
     const event = getEvent(eventId)(ctx.store.getState());
-    const owner = getEventOwner(eventId)(ctx.store.getState());
     if (!event) {
       redirect(ctx, '/', { hiddenQuery: { event_not_found: 1 } });
       return null;
     }
+    if (!getEventOwner(eventId)(ctx.store.getState())) {
+      await ctx.store.dispatch(ClientActions.GetClient(event.ownerId));
+    }
+    const owner = getEventOwner(eventId)(ctx.store.getState());
     const base = `/@${owner ? owner.username : username}/${Math.abs(eventId)}-${event.pinyin ||
       pinyin}`;
     if (options.needViewPermission && !canCurrentClientViewEvent(event.id)(ctx.store.getState())) {
@@ -71,9 +74,10 @@ export const getEventIdMiddleware = async (
   };
 
   if (eventId && options.lazyLoad && !ctx.req) {
-    ctx.store
-      .dispatch(EventActions.GetEvent(id, username as string, options.needViewPermission))
-      .then(then);
+    await ctx.store.dispatch(
+      EventActions.GetEvent(id, username as string, options.needViewPermission)
+    );
+    await then();
     return eventId;
   }
 
