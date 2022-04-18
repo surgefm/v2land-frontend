@@ -134,7 +134,8 @@ export const Header: React.FC = (): JSX.Element => {
             top: 0;
             left: 0;
             background-color: #fff;
-            box-shadow: 0 4px 4px rgba(0, 0, 0, 0.075);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 4px rgba(0, 0, 0, 0.01);
             display: flex;
             justify-content: center;
             z-index: 900;
