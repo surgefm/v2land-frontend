@@ -79,7 +79,7 @@ export const Wall: React.FC<IWall.IProps> = ({
             width: ${gutterWidth}rem;
           }
 
-          .column:last-child .gutter {
+          .gutter:last-child {
             display: none;
           }
         `}

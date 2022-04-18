@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Link from 'next/link';
 import { Skeleton, Timeline } from 'antd';
@@ -20,7 +20,10 @@ const TimelineCardImpl: React.FunctionComponent<ITimelineCard.IProps> = ({ event
   const eventOwner = useSelector(getEventOwner(eventId));
   const dispatch = useDispatch() as ThunkDispatch;
   const stackList = useSelector(getStackList((event && event.stackIdList) || []));
-  dispatch(EventActions.GetEvent(eventId));
+
+  useEffect(() => {
+    dispatch(EventActions.GetEvent(eventId));
+  }, []);
 
   if (!event) {
     return (

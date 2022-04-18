@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Skeleton, Space, Button, Select, AutoComplete, Tooltip, message } from 'antd';
+import { Skeleton, Space, Button, Select, Tooltip, message } from 'antd';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 
 import {
@@ -12,12 +12,12 @@ import {
   isNewsroomSocketConnected,
 } from '@Selectors';
 import { ClientRoleConsts } from '@Definitions';
-import { Client } from '@Interfaces';
-import { ClientActions, NewsroomActions } from '@Actions';
-import { ClientService, RedstoneService, getNewsroomSocket } from '@Services';
+import { NewsroomActions } from '@Actions';
+import { ClientService, getNewsroomSocket } from '@Services';
 import { useTranslation } from '@I18n';
 
 import { ClientAvatar } from '@Components/Client';
+import { ClientSelector } from '@Components/Client/ClientSelector';
 import { INewsroomPanelRoleItemCreator } from './RoleItemCreator';
 
 const { Option } = Select;
@@ -32,9 +32,7 @@ const NewsroomPanelRoleItemCreatorImpl: React.FunctionComponent<
   const currentClientId = useSelector(getLoggedInClientId);
   const isConnected = useSelector(isNewsroomSocketConnected(eventId));
   const [role, setRole] = useState('viewer');
-  const [result, setResult] = useState<Client[]>([]);
   const [input, setInput] = useState('');
-  const [timer, setTimer] = useState<number>();
   const clientId = useSelector(getClientIdWithUsername(input));
   const client = useSelector(getClient(clientId));
 
@@ -60,6 +58,12 @@ const NewsroomPanelRoleItemCreatorImpl: React.FunctionComponent<
     if (currentClientRole === 'owner' && newsroomRoles.owners.includes(id)) return false;
     return !newsroomRoles.owners.includes(id) && !newsroomRoles.managers.includes(id);
   };
+
+  let exceptions = [currentClientId];
+  if (currentClientRole === 'owner' && newsroomRoles)
+    exceptions = [...exceptions, ...newsroomRoles.owners];
+  if (currentClientRole !== 'owner' && newsroomRoles)
+    exceptions = [...exceptions, ...newsroomRoles.managers];
 
   const getButton = () => {
     if (input.length === 0) {
@@ -108,48 +112,17 @@ const NewsroomPanelRoleItemCreatorImpl: React.FunctionComponent<
     );
   };
 
-  const search = async (value: string) => {
-    if (value.length === 0) {
-      setResult([]);
-      return;
-    }
-    const { clientList } = await RedstoneService.findClients(value);
-    const list: Client[] = [];
-    for (let i = 0; i < clientList.length; i += 1) {
-      const c = clientList[i];
-      dispatch(ClientActions.AddClient(c));
-      if (isClientChangeable(c.id)) list.push(c);
-    }
-    setResult(list);
-  };
-
-  const handleSearch = (value: string) => {
-    if (timer) clearTimeout(timer);
-    setTimer(setTimeout(() => search(value), 200));
-  };
-
   return (
     <div>
       <Space>
         {clientId ? <ClientAvatar showTooltip={false} clientId={clientId} /> : <Skeleton.Avatar />}
-        <AutoComplete
+        <ClientSelector
           value={input}
-          style={{ width: 200 }}
-          onSearch={handleSearch}
           onChange={setInput}
-          placeholder={t('Newsroom_UsernamePlaceholder')}
           disabled={!isConnected}
-        >
-          {result.map(c => (
-            <AutoComplete.Option key={`client-${c.id}`} value={c.username}>
-              <Space>
-                <ClientAvatar clientId={c.id} />
-                {c.nickname ? <span style={{ marginRight: '0.25rem' }}>{c.nickname}</span> : null}
-                <span>@{c.username}</span>
-              </Space>
-            </AutoComplete.Option>
-          ))}
-        </AutoComplete>
+          placeholder={t('Newsroom_UsernamePlaceholder')}
+          exceptions={exceptions}
+        />
       </Space>
       <Space>
         {getRoleComponent()}

@@ -10,12 +10,14 @@ export default function addTag(state: TagsState, action: TagAction) {
     delete tag.events;
   }
   tag.eventIdList = tag.eventIdList || [];
+  tag.curatorIdList = tag.curators ? tag.curators.map(c => c.id) : undefined;
 
   const newState = { ...state };
   const index = state.idIndexMap[tagId];
   if (typeof index !== 'undefined') {
     const oldTag = newState.list[index];
     if (!tag.description) tag.description = oldTag.description;
+    if (!tag.curators) tag.curatorIdList = oldTag.curatorIdList || [];
     let newEventIdList = [...oldTag.eventIdList, ...tag.eventIdList];
     newEventIdList = newEventIdList.filter((id, idx) => newEventIdList.indexOf(id) === idx);
     newState.list[index] = {

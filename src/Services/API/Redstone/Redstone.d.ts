@@ -70,6 +70,28 @@ declare namespace RedstoneModel {
   export interface GetTagResponse {
     tag: Tag;
   }
+
+  export interface UpdateTagOptions extends HttpModel.IRequestPayload {
+    name?: string;
+    description?: string;
+    redirectTo?: number;
+  }
+
+  export interface UpdateTagResposne {
+    message: string;
+  }
+
+  export interface AddTagCuratorResponse {
+    message: string;
+    tagId?: number;
+    curatorId?: number;
+  }
+
+  export interface RemoveCuratorResponse {
+    message: string;
+    tagId?: number;
+    curatorId?: number;
+  }
 }
 
 export { RedstoneModel };

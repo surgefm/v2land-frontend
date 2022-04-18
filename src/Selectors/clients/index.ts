@@ -19,6 +19,11 @@ export const getLoggedInClient = createSelector(
   state => state.list[state.idIndexMap[state.clientId]]
 );
 
+export const isCurrentClientManager = createSelector(
+  getLoggedInClient,
+  client => client && ['admin', 'manager'].includes(client.role)
+);
+
 export const getClient = (clientId: number) =>
   createSelector(
     getClientsState,
@@ -39,6 +44,12 @@ export const getClientIdWithUsername = (username: string) =>
       return 0;
     }
   );
+
+export const getClientsIdWithUsername = (usernames: (string | number)[]) => (state: IStore) =>
+  usernames.map(c => {
+    if (typeof c === 'number') return c;
+    return getClientIdWithUsername(c)(state);
+  });
 
 export const getClientWithUsername = (username: string) =>
   createSelector(

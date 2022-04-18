@@ -1,8 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { NumberOutlined } from '@ant-design/icons';
+import { Space } from 'antd';
 
-import { EventTitle, EventDescription, Share } from '@Components';
+import { EventTitle, EventDescription, Share, ClientAvatar } from '@Components';
 import { getTag, getTagEventIdList } from '@Selectors';
 import { useTranslation } from '@I18n';
 
@@ -24,6 +25,14 @@ const TagHeaderCardImpl: React.FunctionComponent<ITagHeaderCard.IProps> = ({ tag
           </EventTitle>
           <EventDescription description={tag.description || '该话题暂无简介'} />
           <div className="bottom">
+            {tag.curatorIdList && tag.curatorIdList.length > 0 && (
+              <Space style={{ marginBottom: '.5rem' }}>
+                <span>话题主持人：</span>
+                {tag.curatorIdList.map(clientId => (
+                  <ClientAvatar clientId={clientId} key={clientId} asLink />
+                ))}
+              </Space>
+            )}
             <div className="share">
               <Share type="tag" tag={tag} tagId={tag.id} />
             </div>
@@ -135,6 +144,8 @@ const TagHeaderCardImpl: React.FunctionComponent<ITagHeaderCard.IProps> = ({ tag
               flex-direction: row;
               align-items: center;
               justify-content: space-between;
+              position: relative;
+              left: -0.5rem;
             }
 
             .bottom {

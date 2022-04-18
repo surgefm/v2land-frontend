@@ -20,10 +20,12 @@ import { getEventId, getEvent, canCurrentClientViewEvent } from '@Selectors';
 import { HeaderLogo } from './Logo';
 import { HeaderButton } from './Button';
 import { HeaderUserInfo } from './UserInfo';
+import { HeaderTagManage } from './TagManage';
 
 export const Header: React.FC = (): JSX.Element => {
   const { t } = useTranslation('common');
   const router = useRouter();
+  const leftRef: LegacyRef<HTMLDivElement> = createRef();
   const rightRef: LegacyRef<HTMLDivElement> = createRef();
   const eventId = useSelector(
     getEventId(router.query.username as string, router.query.eventName as string)
@@ -32,6 +34,7 @@ export const Header: React.FC = (): JSX.Element => {
   const canView = useSelector(canCurrentClientViewEvent(eventId));
 
   const isInNewsroom = router.route === '/[username]/[eventName]/newsroom';
+  const isInTagPage = router.route === '/topic/[tagId]';
   const isHomepage = router.route.length <= 1;
   const [rightWidth, setRightWidth] = useState(32);
 
@@ -58,9 +61,9 @@ export const Header: React.FC = (): JSX.Element => {
   return (
     <div className="container">
       <div className="center">
-        <div className="left" style={{ paddingRight: 4 + rightWidth }}>
+        <div className="left" style={{ paddingRight: 4 + rightWidth }} ref={leftRef}>
           <HeaderLogo />
-          <Space size={0}>
+          <Space size={4}>
             {isInNewsroom ? (
               <>
                 <NewsroomHeaderBreadcrumb />
@@ -92,6 +95,7 @@ export const Header: React.FC = (): JSX.Element => {
           </Space>
         </div>
         <div className="right" ref={rightRef}>
+          {isInTagPage && <HeaderTagManage />}
           <HeaderUserInfo />
           <div className="large">
             <NewsroomHeaderEnterButton />

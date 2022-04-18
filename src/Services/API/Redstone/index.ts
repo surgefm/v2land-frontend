@@ -109,6 +109,18 @@ export const createTag = async (name: string, description = '') => {
   return post<RedstoneModel.CreateTagResponse>('/tag', { name, description });
 };
 
+export const updateTag = async (tagId: number, options: RedstoneModel.UpdateTagOptions) => {
+  return put<RedstoneModel.UpdateTagResposne>(`/tag/${tagId}`, options);
+};
+
+export const addTagCurator = async (tagId: number, curatorId: number) => {
+  return post<RedstoneModel.AddTagCuratorResponse>(`/tag/${tagId}/curator`, { curatorId });
+};
+
+export const removeTagCurator = async (tagId: number, curatorId: number) => {
+  return del<RedstoneModel.RemoveCuratorResponse>(`/tag/${tagId}/curator/${curatorId}`);
+};
+
 type GetTagListOptions = {
   page?: number;
   where?: any;
