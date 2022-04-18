@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { Form, Input, Button, Space, message } from 'antd';
 
-import { RedstoneService } from '@Services';
+import { RedstoneService, UtilService } from '@Services';
 import { getLoggedInClient } from '@Selectors';
 import { useTranslation } from '@I18n';
 
@@ -38,7 +38,7 @@ export const EventForm = ({ onOk = () => {}, onCancel = () => {} }) => {
       message.success('创建成功');
       router.push(`/@${client.username}/${event.id}`);
     } catch (err) {
-      message.error('创建失败');
+      message.error(await UtilService.getErrorMessage(err, '创建失败'));
     } finally {
       setLoading(false);
     }

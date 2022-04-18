@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Form, Input, Button, Space, DatePicker, message } from 'antd';
 
 import { NewsActions, EventActions } from '@Actions';
-import { getNewsroomSocket, RedstoneService } from '@Services';
+import { getNewsroomSocket, RedstoneService, UtilService } from '@Services';
 import { News } from '@Interfaces';
 import { useTranslation } from '@I18n';
 
@@ -57,7 +57,7 @@ const NewsFormImpl: React.FunctionComponent<INewsForm.IProps> = ({
       form.resetFields();
       message.success('添加成功');
     } catch (err) {
-      message.error('新闻添加失败');
+      message.error(await UtilService.getErrorMessage(err, '新闻添加失败'));
     } finally {
       setLoading(false);
     }
@@ -88,7 +88,7 @@ const NewsFormImpl: React.FunctionComponent<INewsForm.IProps> = ({
           { type: 'object' as const, required: true, warningOnly: true, message: '请选择时间' },
         ]}
       >
-        <DatePickerImpl showTime />
+        <DatePickerImpl showTime format="YYYY-MM-DD HH:mm" />
       </Form.Item>
       <Form.Item name="abstract" label="摘要" rules={[{ required: false, max: 200 }]}>
         <Input.TextArea autoSize={{ minRows: 2 }} placeholder="" />

@@ -4,7 +4,7 @@ import { Form, Input, Space, Button, message } from 'antd';
 
 import { TagActions } from '@Actions';
 import { getTag, getClientsIdWithUsername, isCurrentClientManager } from '@Selectors';
-import { RedstoneService } from '@Services';
+import { RedstoneService, UtilService } from '@Services';
 import { ClientAvatar } from '@Components/Client';
 import { ClientSelector } from '@Components/Client/ClientSelector';
 
@@ -82,7 +82,7 @@ export const TagForm: React.FC<ITagForm.IProps> = ({
       message.success('修改成功');
     } catch (err) {
       console.error(err);
-      message.error('发生错误');
+      message.error(await UtilService.getErrorMessage(err, '发生错误'));
     } finally {
       setLoading(false);
     }

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form, Input, Button, Checkbox, message } from 'antd';
 import { useDispatch } from 'react-redux';
 
-import { RedstoneService, clearNewsroomSockets } from '@Services';
+import { RedstoneService, clearNewsroomSockets, UtilService } from '@Services';
 import { ClientActions } from '@Actions';
 import { useTranslation } from '@I18n';
 
@@ -31,7 +31,7 @@ const LoginFormImpl: React.FC<ILoginForm.IProps> = (): JSX.Element => {
       dispatch(ClientActions.SetLoggedInClient(client.id));
       clearNewsroomSockets();
     } catch (err) {
-      message.error(t('Login_AuthenticationFailed'));
+      message.error(await UtilService.getErrorMessage(err, t('Login_AuthenticationFailed')));
     } finally {
       setIsLoading(false);
     }

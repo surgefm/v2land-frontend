@@ -10,7 +10,7 @@ import {
   getEventOffshelfStackIdList,
   getStackEvent,
 } from '@Selectors';
-import { getNewsroomSocket, RedstoneService } from '@Services';
+import { getNewsroomSocket, RedstoneService, UtilService } from '@Services';
 import { Stack, Event } from '@Interfaces';
 import { useTranslation } from '@I18n';
 
@@ -104,7 +104,7 @@ const StackFormImpl: React.FunctionComponent<IStackForm.IProps> = ({
       }
       onOk();
     } catch (err) {
-      // Do nothing
+      message.error(await UtilService.getErrorMessage(err, '进展编辑失败'));
     } finally {
       setLoading(false);
     }

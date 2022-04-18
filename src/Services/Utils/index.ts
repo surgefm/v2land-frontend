@@ -1,3 +1,4 @@
+export * from './getErrorMessage';
 export * from './getEventIdMiddleware';
 export * from './getEventPath';
 export * from './getImageUrl';
