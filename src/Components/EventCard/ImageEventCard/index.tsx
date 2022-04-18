@@ -60,6 +60,7 @@ export const ImageEventCard: React.FunctionComponent<IImageEventCard.IProps> = (
             right: 0;
             top: 0;
             background-color: rgba(0, 131, 168, 0.035);
+            box-shadow: 0 0 2px rgb(0 0 0 / 10%);
           }
 
           .event-container :global(.event-image) {
