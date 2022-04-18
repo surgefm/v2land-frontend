@@ -6,7 +6,7 @@ import { Logo } from '@Components/Basic/Logo';
 export const HeaderLogo: React.FunctionComponent = () => {
   return (
     <Link href="/">
-      <a href="/">
+      <a href="/" className="link">
         <Logo styles={{ width: '1.85rem', height: '1.85rem' }} />
         <style jsx>
           {`
@@ -17,6 +17,7 @@ export const HeaderLogo: React.FunctionComponent = () => {
               margin-right: 1.5rem;
               border-radius: 50%;
               transition: all 0.2s;
+              display: block;
             }
 
             a:hover {
@@ -25,6 +26,11 @@ export const HeaderLogo: React.FunctionComponent = () => {
 
             a:active {
               transform: scale(0.9);
+            }
+
+            .link > :global(span) {
+              width: 2.75rem !important;
+              display: block;
             }
 
             @media (max-width: 700px) {

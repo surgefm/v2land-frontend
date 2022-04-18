@@ -1,7 +1,8 @@
 /* eslint-disable react/jsx-indent */
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, { useEffect, useState, createRef, LegacyRef } from 'react';
 import { useRouter } from 'next/router';
+import { useSelector } from 'react-redux';
 import { Space } from 'antd';
 import { QuestionCircleOutlined, HomeOutlined } from '@ant-design/icons';
 
@@ -15,6 +16,7 @@ import {
   NewsroomHeaderSocketStatus,
 } from '@Components/Newsroom';
 import { EventCreateButton } from '@Components/Event';
+import { getEventId, getEvent, canCurrentClientViewEvent } from '@Selectors';
 import { HeaderLogo } from './Logo';
 import { HeaderButton } from './Button';
 import { HeaderUserInfo } from './UserInfo';
@@ -22,15 +24,43 @@ import { HeaderUserInfo } from './UserInfo';
 export const Header: React.FC = (): JSX.Element => {
   const { t } = useTranslation('common');
   const router = useRouter();
+  const rightRef: LegacyRef<HTMLDivElement> = createRef();
+  const eventId = useSelector(
+    getEventId(router.query.username as string, router.query.eventName as string)
+  );
+  const event = useSelector(getEvent(eventId));
+  const canView = useSelector(canCurrentClientViewEvent(eventId));
+
   const isInNewsroom = router.route === '/[username]/[eventName]/newsroom';
   const isHomepage = router.route.length <= 1;
+  const [rightWidth, setRightWidth] = useState(32);
+
+  const updateRightWidth = () => {
+    if (!rightRef.current) return;
+    setRightWidth(rightRef.current.offsetWidth);
+  }
+
+  useEffect(() => {
+    updateRightWidth();
+
+    window.removeEventListener('resize', updateRightWidth);
+    window.addEventListener('resize', updateRightWidth);
+
+    return () => {
+      window.removeEventListener('resize', updateRightWidth);
+    };
+  });
+
+  useEffect(() => {
+    updateRightWidth();
+  }, [router, event, canView]);
 
   return (
     <div className="container">
       <div className="center">
-        <div className="left">
+        <div className="left" style={{ paddingRight: 4 + rightWidth }}>
           <HeaderLogo />
-          <Space>
+          <Space size={0}>
             {isInNewsroom ? (
               <>
                 <NewsroomHeaderBreadcrumb />
@@ -51,6 +81,9 @@ export const Header: React.FC = (): JSX.Element => {
                     {t('Header_Homepage')}
                   </HeaderButton>
                 </span>
+                {/* <HeaderButton href="/tags" Icon={NumberOutlined}>
+                  热门话题
+                </HeaderButton> */}
                 <HeaderButton href="/about" Icon={QuestionCircleOutlined}>
                   {t('About_Title')}
                 </HeaderButton>
@@ -58,7 +91,7 @@ export const Header: React.FC = (): JSX.Element => {
             )}
           </Space>
         </div>
-        <div className="right">
+        <div className="right" ref={rightRef}>
           <HeaderUserInfo />
           <div className="large">
             <NewsroomHeaderEnterButton />
@@ -106,7 +139,7 @@ export const Header: React.FC = (): JSX.Element => {
           .center {
             width: 100%;
             height: 100%;
-            padding: 0 2rem;
+            padding: 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -119,23 +152,43 @@ export const Header: React.FC = (): JSX.Element => {
             align-items: center;
           }
 
+          .left {
+            padding-left: 2rem;
+            padding-right: 6rem;
+            overflow-x: scroll;
+            scroll-behavior: smooth;
+          }
+
+          .left::-webkit-scrollbar {
+            display: none;
+          }
+
+          .right {
+            padding-right: 2rem;
+            position: absolute;
+            right: 0;
+            background-color: #fff;
+          }
+
           .fab {
             position: fixed;
             bottom: 1.5rem;
             right: 1rem;
           }
 
-          @media (max-width: 600px) {
+          @media (max-width: 700px) {
             .container {
               height: 3rem;
             }
 
-            .center {
-              padding: 0 0.75rem;
+            .left {
+              padding-left: 0.75rem;
+              padding-right: 3.5rem;
+              gap: 4px;
             }
 
-            .large {
-              display: none;
+            .right {
+              padding-right: 0.75rem;
             }
           }
         `}

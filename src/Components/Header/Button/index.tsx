@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, createRef, LegacyRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -14,12 +14,25 @@ export const HeaderButton: React.FunctionComponent<IHeaderButton.IProps> = ({
 }): JSX.Element => {
   const router = useRouter();
   const isLink = as || href;
-  const isActiveRoute = router.asPath === (as || href);
+  const ref: LegacyRef<HTMLAnchorElement> = createRef();
+  const [isActiveRoute, setIsActiveRoute] = useState(router.asPath === (as || href));
+
+  useEffect(() => {
+    const isActive = router.asPath === (as || href);
+    if (!isActiveRoute && isActive && ref.current) {
+      try {
+        ref.current.scrollIntoView();
+      } catch (err) {
+        // Do nothing
+      }
+    }
+    setIsActiveRoute(isActive);
+  }, [router]);
 
   const buttonProps = isLink ? { href: as || href } : { onClick };
 
   const content = (
-    <a className="button-container" {...buttonProps}>
+    <a className="button-container" {...buttonProps} ref={ref}>
       <div className={`button ${!isActiveRoute || 'active'}`}>
         {Icon && <Icon style={{ fontSize: 20, position: 'relative', top: 2, marginRight: 8 }} />}
         {children || text}
@@ -40,7 +53,8 @@ export const HeaderButton: React.FunctionComponent<IHeaderButton.IProps> = ({
 
           .button {
             color: #333;
-            padding: 0.35rem 1.5rem;
+            padding: 0.35rem 0;
+            width: 7.25rem;
             cursor: pointer;
             white-space: nowrap;
             margin: 1rem 0.25rem;
@@ -53,9 +67,6 @@ export const HeaderButton: React.FunctionComponent<IHeaderButton.IProps> = ({
 
           .button.active {
             color: rgb(30, 139, 195);
-          }
-
-          .button.small {
           }
 
           .button:hover:not(.small) {
@@ -81,7 +92,7 @@ export const HeaderButton: React.FunctionComponent<IHeaderButton.IProps> = ({
             transform: translateY(0);
           }
 
-          @media (max-width: 600px) {
+          @media (max-width: 700px) {
             .button-container {
               height: 3rem;
             }
@@ -89,6 +100,7 @@ export const HeaderButton: React.FunctionComponent<IHeaderButton.IProps> = ({
             .button {
               padding: 0.1rem 0.5rem;
               margin: 0.35rem 0.1rem;
+              width: initial;
             }
           }
         `}
