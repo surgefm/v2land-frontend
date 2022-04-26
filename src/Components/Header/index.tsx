@@ -87,8 +87,11 @@ export const Header: React.FC = (): JSX.Element => {
                 {/* <HeaderButton href="/tags" Icon={NumberOutlined}>
                   热门话题
                 </HeaderButton> */}
-                <HeaderButton href="/about" Icon={QuestionCircleOutlined}>
+                {/* <HeaderButton href="/about" Icon={QuestionCircleOutlined}>
                   {t('About_Title')}
+                </HeaderButton> */}
+                <HeaderButton href="/wiki" Icon={QuestionCircleOutlined}>
+                  使用指南
                 </HeaderButton>
               </>
             )}
