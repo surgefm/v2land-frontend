@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { IStore } from '@Interfaces';
 
-import { getLoggedInClientId } from '@Selectors/clients';
+import { getLoggedInClientId, isCurrentClientEditor } from '@Selectors/clients';
 
 export const getNewsroomsState = (state: IStore) => state.newsrooms;
 
@@ -75,7 +75,9 @@ export const getNewsroomAllClientIds = (eventId: number) =>
 export const getNewsroomClientRole = (eventId: number, clientId: number) =>
   createSelector(
     getNewsroomRoles(eventId),
-    roles => {
+    isCurrentClientEditor,
+    (roles, isEditor) => {
+      if (isEditor) return 'editor';
       if (roles === null) return null;
       if (roles.owners.includes(clientId)) return 'owner';
       if (roles.managers.includes(clientId)) return 'manager';

@@ -24,6 +24,11 @@ export const isCurrentClientManager = createSelector(
   client => client && ['admin', 'manager'].includes(client.role)
 );
 
+export const isCurrentClientEditor = createSelector(
+  getLoggedInClient,
+  client => client && ['admin', 'manager', 'editor'].includes(client.role)
+);
+
 export const getClient = (clientId: number) =>
   createSelector(
     getClientsState,
