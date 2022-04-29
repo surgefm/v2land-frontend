@@ -38,7 +38,7 @@ const HeaderUserInfoImpl: React.FC<IHeaderUserInfo.IProps> = () => {
   const handleRegisterClick = (e: React.MouseEvent) => {
     e.preventDefault();
     if (!isLoggedIn) {
-      UtilService.redirect(`/register?redirect=${router.asPath}`, {
+      UtilService.redirect(`/signup?redirect=${router.asPath}`, {
         hiddenQuery: { silent: 1 },
       });
     }
@@ -52,9 +52,9 @@ const HeaderUserInfoImpl: React.FC<IHeaderUserInfo.IProps> = () => {
             {t('Login_Login')}
           </Button>
         )}
-        {router.pathname === '/register' ? null : (
+        {router.pathname === '/signup' ? null : (
           <Button
-            href="/register"
+            href="/signup"
             type="link"
             onClick={handleRegisterClick}
             className={router.pathname === '/login' ? undefined : 'large'}

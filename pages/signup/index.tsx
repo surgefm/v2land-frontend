@@ -1,39 +1,41 @@
 import React, { useEffect } from 'react';
-import { NextPage } from 'next';
-import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
+import { NextPage } from 'next';
 import { message } from 'antd';
 
-import { Head, Card, LoginForm, Background, Footer, EventTitle, SSOButtons } from '@Components';
+import {
+  Head,
+  Card,
+  RegistrationForm,
+  Background,
+  Footer,
+  EventTitle,
+  SSOButtons,
+} from '@Components';
 import { isLoggedIn as isLoggedInSelector } from '@Selectors';
 import { UtilService } from '@Services';
-import { ReduxNextPageContext, ILoginPage } from '@Interfaces';
+import { ReduxNextPageContext, IRegisterPage } from '@Interfaces';
 import { useTranslation } from '@I18n';
 
-const LoginPage: NextPage<ILoginPage.IProps, ILoginPage.InitialProps> = () => {
+const RegistrationPage: NextPage<IRegisterPage.IProps, IRegisterPage.InitialProps> = () => {
   const { t } = useTranslation('common');
   const isLoggedIn = useSelector(isLoggedInSelector);
   const router = useRouter();
 
   useEffect(() => {
-    if (router.query.redirect && !router.query.silent) {
-      message.info(t('Login_PleaseLogin'));
-    }
-  }, []);
-
-  useEffect(() => {
     if (isLoggedIn) {
       UtilService.redirect((router.query.redirect as string) || '/');
-      message.success(t('Login_LoginSuccess'));
+      message.success(t('Registration_RegisterSuccess'));
     }
   }, [isLoggedIn]);
 
   return (
     <Background>
-      <Head title={t('Login_Title')} />
+      <Head title={t('Registration_Title')} />
       <Card>
-        <EventTitle>{t('Login_Title')}</EventTitle>
-        <LoginForm />
+        <EventTitle>{t('Registration_Title')}</EventTitle>
+        <RegistrationForm />
         <SSOButtons />
       </Card>
       <Footer />
@@ -41,7 +43,7 @@ const LoginPage: NextPage<ILoginPage.IProps, ILoginPage.InitialProps> = () => {
   );
 };
 
-LoginPage.getInitialProps = async (ctx: ReduxNextPageContext): Promise<any> => {
+RegistrationPage.getInitialProps = async (ctx: ReduxNextPageContext): Promise<any> => {
   const isLoggedIn = isLoggedInSelector(ctx.store.getState());
   if (isLoggedIn) {
     UtilService.redirect(ctx, (ctx.query.redirect as string) || '/');
@@ -49,4 +51,4 @@ LoginPage.getInitialProps = async (ctx: ReduxNextPageContext): Promise<any> => {
   return { namespacesRequired: ['common'] };
 };
 
-export default LoginPage;
+export default RegistrationPage;
