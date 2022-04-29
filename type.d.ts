@@ -10,3 +10,8 @@ declare module 'react' {
     global?: boolean;
   }
 }
+
+declare module 'react-telegram-login' {
+  declare const Login: React.FC<any>;
+  export default Login;
+}

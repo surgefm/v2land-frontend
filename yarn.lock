@@ -12817,6 +12817,13 @@ react-syntax-highlighter@^11.0.2:
     prismjs "^1.8.4"
     refractor "^2.4.1"
 
+react-telegram-login@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.npmjs.org/react-telegram-login/-/react-telegram-login-1.1.2.tgz#28b9bdd68bb2710afca19354ac1f9428092836f0"
+  integrity sha512-pDP+bvfaklWgnK5O6yvZnIwgky0nnYUU6Zhk0EjdMSkPsLQoOzZRsXIoZnbxyBXhi7346bsxMH+EwwJPTxClDw==
+  dependencies:
+    react "^16.13.1"
+
 react-test-renderer@^16.0.0-0:
   version "16.14.0"
   resolved "https://registry.npmjs.org/react-test-renderer/-/react-test-renderer-16.14.0.tgz#e98360087348e260c56d4fe2315e970480c228ae"
@@ -12866,7 +12873,7 @@ react-transition-group@^4.3.0:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-react@^16.8.3:
+react@^16.13.1, react@^16.8.3:
   version "16.14.0"
   resolved "https://registry.npmjs.org/react/-/react-16.14.0.tgz#94d776ddd0aaa37da3eda8fc5b6b18a4c9a3114d"
   integrity sha512-0X2CImDkJGApiAlcf0ODKIneSwBPhqJawOa5wCtKbu7ZECrmS26NvtSILynQ66cgkT/RJ4LidJOc3bUESwmU8g==
