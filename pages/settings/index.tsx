@@ -40,7 +40,7 @@ const SettingsPage: NextPage<ISettingsPage.IProps, ISettingsPage.InitialProps> =
   return (
     <div className="container">
       <Head title="用户设置" />
-      <Layout>
+      <Layout className="container">
         <Sider theme="light" width={256} style={{ paddingTop: '1rem' }} breakpoint="lg">
           <Menu
             mode="inline"
@@ -50,14 +50,19 @@ const SettingsPage: NextPage<ISettingsPage.IProps, ISettingsPage.InitialProps> =
             defaultOpenKeys={['settings']}
           />
         </Sider>
-        <Content style={{ padding: '2rem' }}>
+        <Content style={{ padding: '2rem', overflowY: 'scroll' }}>
           <Space direction="vertical" style={{ width: '100%' }}>
             <EventTitle>管理邀请链接</EventTitle>
             {invites.length > 0 ? (
               <Space direction="vertical" style={{ width: '100%' }}>
                 {invites.map(invite => (
-                  <Space key={invite.id} style={{ whiteSpace: 'nowrap' }}>
+                  <Space
+                    key={invite.id}
+                    style={{ whiteSpace: 'nowrap', width: '100%', maxWidth: '28rem' }}
+                    className="invite-code-item"
+                  >
                     <Input
+                      style={{ display: 'flex', flexGrow: '1', width: '100%' }}
                       value={`${SITE_URL}/signup?r=${invite.code}`}
                       disabled={!!invite.userId}
                     />
@@ -91,12 +96,26 @@ const SettingsPage: NextPage<ISettingsPage.IProps, ISettingsPage.InitialProps> =
         {`
           .container {
             width: 100%;
-            margin-top: 3.5rem;
+            padding-top: 3.5rem;
+            height: 100vh;
           }
 
-          @media (max-width: 600px) {
+          .container > :global(.container) {
+            height: calc(100vh - 3.5rem);
+          }
+
+          :global(.invite-code-item) > :global(.ant-space-item):first-child {
+            display: flex;
+            flex-grow: 1;
+          }
+
+          @media (max-width: 700px) {
             .container {
-              margin-top: 3rem;
+              padding-top: 3rem;
+            }
+
+            .container > :global(.container) {
+              height: calc(100vh - 3rem);
             }
           }
         `}
