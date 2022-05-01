@@ -9,6 +9,7 @@ declare namespace IClientAvatar {
     asLink?: boolean;
     avatar?: string;
     size?: number;
+    showRole?: boolean;
   }
 }
 

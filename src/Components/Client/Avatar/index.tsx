@@ -13,6 +13,7 @@ import styles from './Avatar.module.scss';
 export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = props => {
   const [clientId, setClientId] = useState(props.clientId);
   const [eventId, setEventId] = useState(props.eventId);
+  const { showRole = true } = props;
   const [role, setRole] = useState(props.role);
   const [showTooltip, setShowTooltip] = useState(
     props.showTooltip === undefined ? true : props.showTooltip
@@ -48,7 +49,9 @@ export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = props
     return (
       <span>
         {client.nickname || `@${client.username}`}
-        {role || clientRole ? `：${ClientService.getRoleName(role || (clientRole as string))}` : ''}
+        {showRole && (role || clientRole)
+          ? `：${ClientService.getRoleName(role || (clientRole as string))}`
+          : ''}
       </span>
     );
   };

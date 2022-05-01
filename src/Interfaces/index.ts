@@ -8,6 +8,7 @@ export * from '@Interfaces/Pages/EventNewsroom';
 export * from '@Interfaces/Pages/Home';
 export * from '@Interfaces/Pages/Login';
 export * from '@Interfaces/Pages/Register';
+export * from '@Interfaces/Pages/Settings';
 export * from '@Interfaces/Pages/Tag';
 // #endregion Page Interfaces
 
@@ -28,6 +29,7 @@ export * from '@Interfaces/Models/Contact';
 export * from '@Interfaces/Models/Event';
 export * from '@Interfaces/Models/EventStackNews';
 export * from '@Interfaces/Models/HeaderImage';
+export * from '@Interfaces/Models/InviteCode';
 export * from '@Interfaces/Models/News';
 export * from '@Interfaces/Models/Newsroom';
 export * from '@Interfaces/Models/Record';

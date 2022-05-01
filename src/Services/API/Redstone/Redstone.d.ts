@@ -1,4 +1,4 @@
-import { HttpModel, Event, Client, Tag } from '@Interfaces';
+import { HttpModel, Event, Client, Tag, InviteCode } from '@Interfaces';
 
 declare namespace RedstoneModel {
   export interface CreateEventOptions extends HttpModel.IRequestPayload {
@@ -91,6 +91,10 @@ declare namespace RedstoneModel {
     message: string;
     tagId?: number;
     curatorId?: number;
+  }
+
+  export interface GetInviteCodesResponse {
+    invites: InviteCode[];
   }
 }
 

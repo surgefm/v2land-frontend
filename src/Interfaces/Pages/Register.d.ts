@@ -1,18 +1,15 @@
 import { Client } from '../Models/Client';
+import { InviteCode } from '../Models/InviteCode';
 
 declare namespace IRegisterPage {
   export interface IProps {
-    invite?: {
-      ownerId: number;
-    };
+    invite?: InviteCode;
     inviter?: Client;
   }
 
   export interface InitialProps {
     namespacesRequired: string[];
-    invite?: {
-      ownerId: number;
-    };
+    invite?: InviteCode;
     inviter?: Client;
   }
 }

@@ -31,7 +31,7 @@
     "@zeit/next-less": "^1.0.1",
     "@zeit/next-sass": "^1.0.1",
     "algoliasearch": "^4.13.0",
-    "antd": "^4.19.5",
+    "antd": "^4.20.2",
     "autoprefixer": "^9.6.1",
     "cross-env": "^5.2.1",
     "deep-object-diff": "^1.1.7",
