@@ -73,6 +73,12 @@ const HeaderUserInfoImpl: React.FC<IHeaderUserInfo.IProps> = () => {
     UtilService.redirect(`/@${client.username}`);
   };
 
+  const goToSettingsPage = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (router.pathname === '/settings') return;
+    UtilService.redirect('/settings');
+  };
+
   const handleLogout = async (e: React.MouseEvent) => {
     e.preventDefault();
     await dispatch(ClientActions.Logout());
@@ -83,6 +89,11 @@ const HeaderUserInfoImpl: React.FC<IHeaderUserInfo.IProps> = () => {
       <Menu.Item>
         <a href={`/@${client.username}`} onClick={goToProfilePage}>
           个人资料
+        </a>
+      </Menu.Item>
+      <Menu.Item>
+        <a href="/settings" onClick={goToSettingsPage}>
+          用户设置
         </a>
       </Menu.Item>
       <Menu.Item>
