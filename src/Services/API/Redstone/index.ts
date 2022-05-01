@@ -46,13 +46,15 @@ export const register = async (
   username: string,
   nickname: string,
   email: string,
-  password: string
+  password: string,
+  inviteCode?: string
 ) => {
   return post<RedstoneModel.ClientLogInResponse>('/client/register', {
     username,
     password,
     nickname,
     email,
+    inviteCode: inviteCode || '',
   });
 };
 

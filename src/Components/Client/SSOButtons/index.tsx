@@ -14,7 +14,7 @@ const {
 
 export const SSOButtons = () => {
   const router = useRouter();
-  const inviteCode = router.query.inviteCode || '';
+  const inviteCode = router.query.r || '';
   const redirectTo = router.query.redirect || '/';
   const redirect = `${SITE_URL}/sso?redirect=${encodeURIComponent(`${redirectTo}`)}`;
   const query = `?redirect=${encodeURIComponent(redirect)}&inviteCode=${inviteCode}`;

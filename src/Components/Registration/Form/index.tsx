@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useRouter } from 'next/router';
 import { Form, Input, Button, message } from 'antd';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from '@I18n';
@@ -21,15 +22,23 @@ const tailLayout = {
 const RegistrationFormImpl: React.FC<IRegistrationForm.IProps> = (): JSX.Element => {
   const { t } = useTranslation('common');
   const dispatch = useDispatch();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [form] = Form.useForm();
   const decoratedRules = Rules(t);
 
   const onFinish = async (values: any) => {
     const { username, password, nickname, email } = values;
+    const inviteCode = router.query.r as string;
     setIsLoading(true);
     try {
-      const { client } = await RedstoneService.register(username, nickname, email, password);
+      const { client } = await RedstoneService.register(
+        username,
+        nickname,
+        email,
+        password,
+        inviteCode
+      );
       dispatch(ClientActions.AddClient(client));
       dispatch(ClientActions.SetLoggedInClient(client.id));
       clearNewsroomSockets();
