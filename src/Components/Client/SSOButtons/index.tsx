@@ -4,9 +4,9 @@ import getConfig from 'next/config';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { get } from '@Services/API/Http';
-import TelegramLoginButton from 'react-telegram-login';
 import { Button, Space, Tooltip } from 'antd';
 import { TwitterOutlined } from '@ant-design/icons';
+import { TelegramLoginButton } from './TelegramLoginButton';
 
 const {
   publicRuntimeConfig: { API_URL, SITE_URL },
@@ -88,11 +88,10 @@ export const SSOButtons = () => {
           <TelegramLoginButton
             botName="langchao_bot"
             buttonSize="medium"
-            dataOnauth={handleTelegramResponse}
+            onAuth={handleTelegramResponse}
             requestAccess="write"
-            lang="zh_CN"
             widgetVersion={19}
-            usePic="true"
+            usePic
           />
         </Space>
       </Space>
