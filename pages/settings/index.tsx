@@ -1,126 +1,108 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NextPage } from 'next';
-import getConfig from 'next/config';
-import { Layout, Menu, MenuProps, Space, Input, Button, message } from 'antd';
-import { MailOutlined } from '@ant-design/icons';
-import CopyToClipboard from 'react-copy-to-clipboard';
+import { useSelector, useDispatch } from 'react-redux';
+import { Space, Form, Input, Button, message } from 'antd';
 
-import { Head, EventTitle, EventDescription, ClientAvatar } from '@Components';
+import { Head, EventTitle } from '@Components';
+import { SettingsFrame } from '@Components/Settings';
+import { ClientAvatarEditor } from '@Components/Client/AvatarEditor';
 import { UtilService, RedstoneService } from '@Services';
 import { ReduxNextPageContext, ISettingsPage } from '@Interfaces';
-import { isLoggedIn as isLoggedInSelector } from '@Selectors';
+import { ClientActions } from '@Actions';
+import { isLoggedIn as isLoggedInSelector, getLoggedInClient } from '@Selectors';
+import { Rules } from '@Definitions';
+import { useTranslation } from '@I18n';
 
-const { Content, Sider } = Layout;
-const {
-  publicRuntimeConfig: { SITE_URL },
-} = getConfig();
+const { TextArea } = Input;
 
-type MenuItem = Required<MenuProps>['items'][number];
+const SettingsPage: NextPage<ISettingsPage.IProps, ISettingsPage.InitialProps> = () => {
+  const { t } = useTranslation('common');
+  const client = useSelector(getLoggedInClient);
+  const [form] = Form.useForm();
+  const [avatar, setAvatar] = useState(client ? client.avatar : '');
+  const dispatch = useDispatch();
+  const [disabled, setDisabled] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const decoratedRules = Rules(t, { username: client.username });
 
-function getItem(
-  label: React.ReactNode,
-  key: React.Key,
-  icon?: React.ReactNode,
-  children?: MenuItem[],
-  type?: 'group'
-): MenuItem {
-  return {
-    key,
-    icon,
-    children,
-    label,
-    type,
-    title: label,
-  } as MenuItem;
-}
+  const handleFormChange = () => {
+    let d =
+      avatar === client.avatar &&
+      form.getFieldValue('nickname') === client.nickname &&
+      form.getFieldValue('description') === client.description &&
+      form.getFieldValue('username') === client.username;
+    d =
+      d ||
+      form.getFieldValue('nickname').length === 0 ||
+      form.getFieldValue('username').length === 0;
+    setDisabled(d);
+  };
 
-const SettingsPage: NextPage<ISettingsPage.IProps, ISettingsPage.InitialProps> = ({ invites }) => {
-  const menuItems: MenuProps['items'] = [getItem('邀请链接', 'invite', <MailOutlined />)];
+  const handleAvatarChange = (value: string) => {
+    setAvatar(value);
+    if (value !== client.avatar) setDisabled(false);
+  };
+
+  const submit = async () => {
+    setLoading(true);
+    try {
+      const response = await RedstoneService.updateClient(client.id, {
+        avatar: avatar as string,
+        nickname: form.getFieldValue('nickname') as string,
+        username: form.getFieldValue('username') as string,
+        description: form.getFieldValue('description') as string,
+      });
+      message.success(t('Client_EditSuccess'));
+      dispatch(ClientActions.UpdateClient(client.id, response.client));
+    } catch (err) {
+      // Do nothing
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="container">
+    <SettingsFrame>
       <Head title="用户设置" />
-      <Layout className="container">
-        <Sider theme="light" width={256} style={{ paddingTop: '1rem' }} breakpoint="lg">
-          <Menu
-            mode="inline"
-            items={menuItems}
-            theme="light"
-            defaultSelectedKeys={['invite']}
-            defaultOpenKeys={['settings']}
-          />
-        </Sider>
-        <Content style={{ padding: '2rem', overflowY: 'scroll' }}>
-          <Space direction="vertical" style={{ width: '100%' }}>
-            <EventTitle>管理邀请链接</EventTitle>
-            {invites.length > 0 ? (
-              <Space direction="vertical" style={{ width: '100%' }}>
-                {invites.map(invite => (
-                  <Space
-                    key={invite.id}
-                    style={{ whiteSpace: 'nowrap', width: '100%', maxWidth: '28rem' }}
-                    className="invite-code-item"
-                  >
-                    <Input
-                      style={{ display: 'flex', flexGrow: '1', width: '100%' }}
-                      value={`${SITE_URL}/signup?r=${invite.code}`}
-                      disabled={!!invite.userId}
-                    />
-                    {!invite.userId && (
-                      <CopyToClipboard text={`${SITE_URL}/signup?r=${invite.code}`}>
-                        <Button
-                          onClick={() => message.success('链接已复制至剪贴板')}
-                          type="primary"
-                        >
-                          复制链接
-                        </Button>
-                      </CopyToClipboard>
-                    )}
-                    {invite.userId && (
-                      <>
-                        <span>已被</span>
-                        <ClientAvatar clientId={invite.userId} asLink showRole={false} />
-                        <span>使用</span>
-                      </>
-                    )}
-                  </Space>
-                ))}
-              </Space>
-            ) : (
-              <EventDescription description="你暂无可用的邀请链接" />
-            )}
-          </Space>
-        </Content>
-      </Layout>
-      <style jsx>
-        {`
-          .container {
-            width: 100%;
-            padding-top: 3.5rem;
-            height: 100vh;
-          }
+      <Space direction="vertical" style={{ width: '100%', maxWidth: '28rem' }}>
+        <EventTitle>个人资料</EventTitle>
+        <Form form={form} layout="vertical" onValuesChange={handleFormChange} onFinish={submit}>
+          <Form.Item
+            name="username"
+            initialValue={client.username}
+            validateFirst
+            rules={decoratedRules.username}
+            label={t('Registration_Username')}
+          >
+            <Input placeholder={client.username} />
+          </Form.Item>
 
-          .container > :global(.container) {
-            height: calc(100vh - 3.5rem);
-          }
+          <Form.Item
+            name="nickname"
+            initialValue={client.nickname}
+            validateFirst
+            rules={decoratedRules.nickname}
+            label={t('Client_Nickname')}
+          >
+            <Input placeholder={client.nickname} />
+          </Form.Item>
 
-          :global(.invite-code-item) > :global(.ant-space-item):first-child {
-            display: flex;
-            flex-grow: 1;
-          }
+          <Form.Item name="description" initialValue={client.description} label="简介">
+            <TextArea maxLength={80} placeholder={t('Client_DescriptionPlaceholder')} />
+          </Form.Item>
 
-          @media (max-width: 700px) {
-            .container {
-              padding-top: 3rem;
-            }
+          <Form.Item label="头像">
+            <ClientAvatarEditor clientId={client.id} onChange={handleAvatarChange} />
+          </Form.Item>
 
-            .container > :global(.container) {
-              height: calc(100vh - 3rem);
-            }
-          }
-        `}
-      </style>
-    </div>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" disabled={disabled} loading={loading}>
+              保存
+            </Button>
+          </Form.Item>
+        </Form>
+      </Space>
+    </SettingsFrame>
   );
 };
 
@@ -131,9 +113,7 @@ SettingsPage.getInitialProps = async (ctx: ReduxNextPageContext): Promise<any> =
     return {};
   }
 
-  return {
-    invites: await RedstoneService.getInviteCodes(),
-  };
+  return {};
 };
 
 export default SettingsPage;

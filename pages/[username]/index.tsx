@@ -1,8 +1,9 @@
 // #region Global Imports
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { NextPage } from 'next';
-import { Space, Button, Input, Form, message } from 'antd';
+import { useRouter } from 'next/router';
+import { Space, Button } from 'antd';
 // #endregion Global Imports
 
 // #region Local Imports
@@ -17,31 +18,21 @@ import {
   SectionHeader,
   Wall,
 } from '@Components';
-import { ClientAvatarEditor } from '@Components/Client/AvatarEditor';
 import { ClientActions } from '@Actions';
 import { getClientWithUsername, getClient, getLoggedInClientId } from '@Selectors';
-import { UtilService, RedstoneService } from '@Services';
-import { Rules } from '@Definitions';
+import { UtilService } from '@Services';
 // #endregion Local Imports
 
 // #region Interface Imports
 import { IClientPage, ReduxNextPageContext } from '@Interfaces';
 // #endregion Interface Imports
 
-const { TextArea } = Input;
-
 const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ clientId }) => {
   const { t } = useTranslation('common');
-  const dispatch = useDispatch();
+  const router = useRouter();
   const client = useSelector(getClient(clientId));
   const loggedInClientId = useSelector(getLoggedInClientId);
-  const [isEditing, setIsEditing] = useState(false);
-  const [avatar, setAvatar] = useState(client ? client.avatar : '');
-  const [disabled, setDisabled] = useState(true);
-  const [loading, setLoading] = useState(false);
   const [numEventColumns, setNumEventColumns] = useState<number>(0);
-  const [form] = Form.useForm();
-  const decoratedRules = Rules(t);
   const events = client && client.events ? client.events : [];
   events.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
 
@@ -49,113 +40,34 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
 
   const isCurrentClient = loggedInClientId === clientId;
 
-  const handleEditClick = () => setIsEditing(true);
-  const handleCancelClick = () => setIsEditing(false);
-
-  const handleFormChange = () => {
-    let d =
-      avatar === client.avatar &&
-      form.getFieldValue('nickname') === client.nickname &&
-      form.getFieldValue('description') === client.description;
-    d = d || form.getFieldValue('nickname').length === 0;
-    setDisabled(d);
-  };
-
-  const handleAvatarChange = (value: string) => {
-    setAvatar(value);
-    if (value !== client.avatar) setDisabled(false);
-  };
-
-  const submit = async () => {
-    setLoading(true);
-    try {
-      const response = await RedstoneService.updateClient(clientId, {
-        avatar: avatar as string,
-        nickname: form.getFieldValue('nickname') as string,
-        description: form.getFieldValue('description') as string,
-      });
-      message.success(t('Client_EditSuccess'));
-      dispatch(ClientActions.UpdateClient(clientId, response.client));
-      setIsEditing(false);
-    } catch (err) {
-      // Do nothing
-    } finally {
-      setLoading(false);
-    }
-  };
+  const handleEditClick = () => router.push('/settings');
 
   const getClientInfoComponent = () => {
-    if (!isEditing) {
-      return (
-        <div className="row">
-          <div className="large">
-            <ClientAvatar clientId={client.id} size={160} showTooltip={false} />
-          </div>
-          <div className="small">
-            <ClientAvatar clientId={client.id} size={48} showTooltip={false} className="small" />
-          </div>
-          <div className="info">
-            <Space direction="vertical">
-              <div className="name">
-                <EventTitle>
-                  {client.nickname || ''}
-                  <span className="username">
-                    {client.nickname ? ' ' : ''}@{client.username}
-                  </span>
-                </EventTitle>
-              </div>
-              <p>{client.description || t('Client_NoDescription')}</p>
-            </Space>
-            {isCurrentClient ? (
-              <div className="edit-buttons">
-                <Button onClick={handleEditClick}>{t('Client_Edit')}</Button>
-              </div>
-            ) : null}
-          </div>
-        </div>
-      );
-    }
-
     return (
       <div className="row">
-        <ClientAvatarEditor clientId={clientId} onChange={handleAvatarChange} />
+        <div className="large">
+          <ClientAvatar clientId={client.id} size={160} showTooltip={false} />
+        </div>
+        <div className="small">
+          <ClientAvatar clientId={client.id} size={48} showTooltip={false} className="small" />
+        </div>
         <div className="info">
           <Space direction="vertical">
-            <Form
-              form={form}
-              name="client-detail"
-              onValuesChange={handleFormChange}
-              onFinish={submit}
-            >
-              <div className="name">
-                <Form.Item
-                  name="nickname"
-                  initialValue={client.nickname}
-                  validateFirst
-                  rules={decoratedRules.nickname}
-                >
-                  <Input
-                    size="large"
-                    placeholder={t('Client_Nickname')}
-                    style={{ fontSize: '1.5rem', width: '250px' }}
-                  />
-                </Form.Item>
-                <span className="username">@{client.username}</span>
-              </div>
-              <Form.Item name="description" initialValue={client.description}>
-                <TextArea maxLength={80} placeholder={t('Client_DescriptionPlaceholder')} />
-              </Form.Item>
-
-              <div className="edit-buttons">
-                <Space>
-                  <Button onClick={handleCancelClick}>{t('Client_Cancel')}</Button>
-                  <Button htmlType="submit" type="primary" disabled={disabled} loading={loading}>
-                    {t('Newsroom_EventDetail_Save')}
-                  </Button>
-                </Space>
-              </div>
-            </Form>
+            <div className="name">
+              <EventTitle>
+                {client.nickname || ''}
+                <span className="username">
+                  {client.nickname ? ' ' : ''}@{client.username}
+                </span>
+              </EventTitle>
+            </div>
+            <p>{client.description || t('Client_NoDescription')}</p>
           </Space>
+          {isCurrentClient ? (
+            <div className="edit-buttons">
+              <Button onClick={handleEditClick}>{t('Client_Edit')}</Button>
+            </div>
+          ) : null}
         </div>
       </div>
     );
@@ -171,7 +83,7 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
       >
         <div
           style={{
-            width: `${Math.max(25 * numEventColumns, 24)}rem`,
+            width: `${Math.max(25 * numEventColumns - 1, 24)}rem`,
           }}
           className={`${numEventColumns === 1 && 'only-one'}`}
         >

@@ -3,7 +3,11 @@ import { Rule } from 'rc-field-form/lib/interface';
 import { RedstoneService } from '@Services';
 import { TFunction } from 'next-i18next';
 
-export const Rules = (t: TFunction) => {
+type RulesProps = {
+  username?: string;
+};
+
+export const Rules = (t: TFunction, { username }: RulesProps = {}) => {
   return {
     username: [
       { required: true, message: t('Registration_Username_empty') },
@@ -15,6 +19,9 @@ export const Rules = (t: TFunction) => {
         async validator(rule, value) {
           if (value && +value === +value)
             return Promise.reject(new Error(t('Registration_Username_not_all_num')));
+          if (value === username) {
+            return Promise.resolve();
+          }
           try {
             await RedstoneService.getClient(value);
             return Promise.reject(new Error(t('Registration_Username_used')));

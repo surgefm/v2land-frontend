@@ -20,7 +20,7 @@ export const TelegramLoginButton: React.FC<TelegramLoginButtonProps> = props => 
   const {
     botName = 'langchao_bot',
     buttonSize = 'medium',
-    cornerRadius = 100,
+    cornerRadius,
     requestAccess,
     usePic = true,
     onAuth,
