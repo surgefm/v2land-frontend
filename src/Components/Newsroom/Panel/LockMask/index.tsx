@@ -13,7 +13,7 @@ const NewsroomPanelLockMaskImpl: React.FunctionComponent<INewsroomPanelLockMask.
   const { t } = useTranslation('common');
   return (
     <div>
-      <ClientAvatar clientId={locker} />
+      <ClientAvatar clientId={locker} showRole />
       <span>{t('Newsroom_Lock') || text}</span>
       <style jsx>
         {`

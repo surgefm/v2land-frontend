@@ -13,7 +13,7 @@ import styles from './Avatar.module.scss';
 export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = props => {
   const [clientId, setClientId] = useState(props.clientId);
   const [eventId, setEventId] = useState(props.eventId);
-  const { showRole = true } = props;
+  const { showRole = false } = props;
   const [role, setRole] = useState(props.role);
   const [showTooltip, setShowTooltip] = useState(
     props.showTooltip === undefined ? true : props.showTooltip
