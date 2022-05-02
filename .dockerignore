@@ -1,6 +1,1 @@
 node_modules
-*.log
-# Elastic Beanstalk Files
-.elasticbeanstalk/*
-.git
-.gitignore

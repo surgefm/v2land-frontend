@@ -1,0 +1,77 @@
+@import "variables";
+
+@font-face {
+  font-family: 'Lexend Giga';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: local('Lexend Giga Regular'), local('LexendGiga-Regular'), url('/lexend.woff2') format('woff2');
+}
+
+* {
+  outline: 0;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  transition: font-size 0;
+}
+
+body {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 14px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+  font-variant: tabular-nums;
+  line-height: 1.5715;
+  font-feature-settings: 'tnum';
+}
+
+.ant-avatar-string {
+  font-size: 14px;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 16px;
+}
+
+html, body {
+  background-color: $background-color !important;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  transition: opacity .2s;
+}
+
+img[src=""], img:not([src]) {
+  opacity: 0 !important;
+}
+
+.tooltip-fit-content {
+  width: fit-content;
+}
+
+.small {
+  position: fixed;
+  left: -100000rem;
+}
+
+@media (max-width: 700px) {
+  .large {
+    display: none;
+  }
+
+  .small {
+    position: relative;
+    left: inherit;
+  }
+
+  .fab-btn {
+    box-shadow: 0 2.5px 7.5px rgba(25, 144, 255, 0.3);
+  }
+}

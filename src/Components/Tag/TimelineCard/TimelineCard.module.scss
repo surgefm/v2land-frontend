@@ -1,0 +1,78 @@
+.timeline-card {
+  width: 100%;
+  background-color: white;
+  color: white;
+  padding: 0 !important;
+  cursor: pointer;
+}
+
+.timeline-card:hover {
+  box-shadow: 0 7.5px 32px rgba(0, 0, 0, 0.075), 0 2.5px 7.5px rgba(0, 0, 0, 0.0375);
+}
+
+.timeline-card-top {
+  padding: 1.3rem 1.3rem 0.6rem 1.3rem;
+  background-color: #0288d1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 0.4rem;
+}
+
+.timeline-card-bottom {
+  padding: 0.6rem 1.3rem 0.6rem 1.3rem;
+  color: #333;
+}
+
+.title p {
+  margin-bottom: 0;
+  line-height: 1;
+}
+
+.title h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.1rem;
+  color: white;
+}
+
+.contributor-list {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1rem;
+}
+
+.contributor-list a {
+  margin-bottom: 1.5rem;
+  color: white;
+  margin-right: 0.5rem;
+  flex-wrap: wrap;
+  height: 1.6rem;
+  font-weight: 320;
+}
+
+.contributor-list a:hover {
+  border-bottom: solid 2px;
+  cursor: pointer;
+}
+
+.description {
+  font-size: 1rem;
+  line-height: 1.7rem;
+}
+
+.info {
+  display: flex;
+  flex-direction: row;
+}
+
+.info p {
+  padding-right: 0.5rem;
+}
+
+.timeline-list {
+  padding-top: 1.75rem;
+  margin-bottom: -1.5rem;
+}
+
+.latest-update {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
