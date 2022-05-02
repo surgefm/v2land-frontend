@@ -29,7 +29,7 @@ const EventCard: React.FunctionComponent<IEventCard.IProps> = ({
     dispatch(ClientActions.GetClient(event.ownerId));
   }
 
-  if (!event || !owner) {
+  if (!event) {
     return (
       <Card styles={{ padding: 0, ...styles }} className={className}>
         <EventCardShimmer />
