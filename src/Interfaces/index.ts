@@ -1,5 +1,6 @@
 // #region Page Interfaces
 export * from '@Interfaces/Pages/About';
+export * from '@Interfaces/Pages/Admin';
 export * from '@Interfaces/Pages/App';
 export * from '@Interfaces/Pages/Client';
 export * from '@Interfaces/Pages/Error';

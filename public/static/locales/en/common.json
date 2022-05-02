@@ -10,6 +10,7 @@
   "Common_Be": "is",
   "Common_Be_plural": "are",
   "Common_S": "",
+  "Admin_Users": "Users",
   "Common_S_plural": "s",
   "Event_Stats_WithStacksAndNews": "This timeline has {{stackCount}} stack(s) and {{newsCount}} stories.",
   "Event_Stats_WithOnlyStacks": "This timeline has {{stackCount}} stack(s).",
