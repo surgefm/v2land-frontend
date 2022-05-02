@@ -12,6 +12,8 @@ import { ClientAvatar } from '@Components/Client';
 import { useTranslation } from '@I18n';
 import { IHeaderUserInfo } from './UserInfo';
 
+const guardedRoutes = ['/settings', '/settings/invite'];
+
 const HeaderUserInfoImpl: React.FC<IHeaderUserInfo.IProps> = () => {
   const { t } = useTranslation('common');
   const dispatch = useDispatch() as ThunkDispatch;
@@ -23,6 +25,12 @@ const HeaderUserInfoImpl: React.FC<IHeaderUserInfo.IProps> = () => {
   useEffect(() => {
     if (prevIsLoggedIn && !isLoggedIn) {
       message.success('成功退出登录');
+
+      if (guardedRoutes.includes(router.route)) {
+        UtilService.redirect(`/login?redirect=${router.asPath}`, {
+          hiddenQuery: { silent: 1 },
+        });
+      }
     }
   }, [isLoggedIn]);
 

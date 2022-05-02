@@ -23,6 +23,8 @@ const SettingsPage: NextPage<ISettingsPage.IProps, ISettingsPage.InitialProps> =
   const dispatch = useDispatch();
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
+  if (!client) return <React.Fragment />;
+
   const decoratedRules = Rules(t, { username: client.username });
 
   const handleFormChange = () => {
