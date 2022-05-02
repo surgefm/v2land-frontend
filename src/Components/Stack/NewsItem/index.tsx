@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { getNews } from '@Selectors';
+import { LinkOutlined } from '@ant-design/icons';
 
-import { Image } from '@Components/Basic';
+import { getNews } from '@Selectors';
 
 import { INewsItem } from './NewsItem';
 
@@ -13,7 +13,7 @@ export const NewsItem: React.FunctionComponent<INewsItem.IProps> = ({ id }) => {
     <div className="news-item">
       <div className="news-link">
         <div className="img">
-          <Image src="/images/defaultSource.png" alt="media icon" width={64} height={64} />
+          <LinkOutlined style={{ fontSize: '1rem' }} />
         </div>
         <a href={url} target="_blank" rel="noreferrer">
           {news && news.title}
@@ -42,17 +42,12 @@ export const NewsItem: React.FunctionComponent<INewsItem.IProps> = ({ id }) => {
           }
 
           .news-item .img {
-            height: 1.2rem;
-            width: 1.2rem;
+            height: 1rem;
+            width: 1rem;
             margin-right: 0.3rem;
             display: flex;
             justify-content: center;
             align-items: center;
-          }
-
-          .news-item :global(img) {
-            height: 1rem;
-            width: 1rem;
           }
 
           .news-source {
