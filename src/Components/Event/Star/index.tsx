@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, Tooltip, Typography, Space, message } from 'antd';
+import { Button, Tooltip, Space, message } from 'antd';
 import { StarTwoTone, StarFilled } from '@ant-design/icons';
 
 import {
@@ -36,11 +36,7 @@ export const EventStar: React.FunctionComponent<IEventStar.IProps> = ({ eventId 
   return (
     <div className="container">
       <Space size={0}>
-        {starCount > 0 && (
-          <Typography.Text type="secondary" style={{ fontSize: '1rem' }}>
-            {starCount}
-          </Typography.Text>
-        )}
+        {starCount > 0 && <span>{starCount}</span>}
         <Tooltip title={hasStarred ? '取消收藏时间线' : '收藏时间线'}>
           <Button
             size="large"
@@ -67,6 +63,12 @@ export const EventStar: React.FunctionComponent<IEventStar.IProps> = ({ eventId 
             display: inline-flex;
             flex-direction: column;
             align-items: center;
+          }
+
+          .container span {
+            font-size: 1rem;
+            font-family: 'Lexend Giga', sans-serif;
+            color: rgba(0, 0, 0, 0.45);
           }
 
           @media (max-width: 600px) {
