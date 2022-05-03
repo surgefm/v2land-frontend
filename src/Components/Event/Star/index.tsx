@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, Tooltip, Space, message } from 'antd';
+import { Button, Space, message } from 'antd';
 import { StarTwoTone, StarFilled } from '@ant-design/icons';
 
 import {
@@ -31,6 +31,8 @@ export const EventStar: React.FunctionComponent<IEventStar.IProps> = ({ eventId 
     const { client } = await RedstoneService.getClientInfo();
     dispatch(ClientActions.AddClient(client));
     dispatch(EventActions.GetEvent(eventId));
+    if (hasStarred) message.info('成功取消收藏');
+    if (hasStarred) message.info('收藏成功');
   };
 
   return (
@@ -45,20 +47,18 @@ export const EventStar: React.FunctionComponent<IEventStar.IProps> = ({ eventId 
             {starCount}
           </span>
         )}
-        <Tooltip title={hasStarred ? '取消收藏时间线' : '收藏时间线'}>
-          <Button
-            size="large"
-            type="link"
-            onClick={star}
-            icon={
-              hasStarred || !isLoggedIn ? (
-                <StarFilled style={iconStyle} />
-              ) : (
-                <StarTwoTone style={iconStyle} twoToneColor="#f7ca18" />
-              )
-            }
-          />
-        </Tooltip>
+        <Button
+          size="large"
+          type="link"
+          onClick={star}
+          icon={
+            hasStarred || !isLoggedIn ? (
+              <StarFilled style={iconStyle} />
+            ) : (
+              <StarTwoTone style={iconStyle} twoToneColor="#f7ca18" />
+            )
+          }
+        />
       </Space>
 
       <style jsx>
