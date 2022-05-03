@@ -10,7 +10,7 @@ export const EventInfoList: React.FC<IInfoList.IProps> = ({
   starCount,
   tagIdList = [],
 }) => {
-  if (tagIdList.length === 0 && !starCount) return <React.Fragment />;
+  const empty = tagIdList.length === 0 && !starCount;
 
   return (
     <div className={`container ${className}`}>
@@ -21,10 +21,10 @@ export const EventInfoList: React.FC<IInfoList.IProps> = ({
       <style jsx>
         {`
         .container {
-          margin-top: .5rem;
+          margin-top: ${empty ? 0 : '0.5rem'};
           display; flex;
           flex-wrap: wrap;
-          height: 1.5rem;
+          height: ${empty ? '0' : '1.5rem'};
           overflow: hidden;
         }
       `}
