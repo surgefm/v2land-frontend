@@ -1,15 +1,20 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, Tooltip, Typography, Space } from 'antd';
+import { Button, Tooltip, Typography, Space, message } from 'antd';
 import { StarTwoTone, StarFilled } from '@ant-design/icons';
 
-import { getEventStarCount, hasLoggedInClientStarredEvent } from '@Selectors';
+import {
+  getEventStarCount,
+  hasLoggedInClientStarredEvent,
+  isLoggedIn as isLoggedInSelector,
+} from '@Selectors';
 import { post, del } from '@Services/API/Http';
 import { RedstoneService } from '@Services';
 import { ClientActions, EventActions } from '@Actions';
 import { IEventStar } from './Star';
 
 export const EventStar: React.FunctionComponent<IEventStar.IProps> = ({ eventId }) => {
+  const isLoggedIn = useSelector(isLoggedInSelector);
   const starCount = useSelector(getEventStarCount(eventId));
   const hasStarred = useSelector(hasLoggedInClientStarredEvent(eventId));
   const dispatch = useDispatch();
@@ -17,6 +22,10 @@ export const EventStar: React.FunctionComponent<IEventStar.IProps> = ({ eventId 
   const iconStyle = { fontSize: '1.5rem', color: '#f7ca18' };
 
   const star = async () => {
+    if (!isLoggedIn) {
+      message.info('请先登录');
+      return;
+    }
     if (hasStarred) await del(`/event/${eventId}/star`);
     else await post(`/event/${eventId}/star`);
     const { client } = await RedstoneService.getClientInfo();
@@ -38,7 +47,7 @@ export const EventStar: React.FunctionComponent<IEventStar.IProps> = ({ eventId 
             type="link"
             onClick={star}
             icon={
-              hasStarred ? (
+              hasStarred || !isLoggedIn ? (
                 <StarFilled style={iconStyle} />
               ) : (
                 <StarTwoTone style={iconStyle} twoToneColor="#f7ca18" />
