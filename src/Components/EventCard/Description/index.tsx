@@ -12,7 +12,7 @@ export const EventCardDescription: React.FunctionComponent<IEventCardDescription
   let cloneChild: HTMLElement;
   let grandparent: HTMLElement;
   const ref = createRef<HTMLParagraphElement>();
-  const [text, setText] = useState(children);
+  const [text, setText] = useState<string>();
 
   const resize = () => {
     const rem = parseFloat(window.getComputedStyle(document.documentElement).fontSize);
@@ -61,9 +61,9 @@ export const EventCardDescription: React.FunctionComponent<IEventCardDescription
     let shortText = children;
     while (child.offsetHeight > height) {
       shortText = shortText.slice(0, shortText.length - 1);
-      (child.firstChild as any).textContent = `${shortText} ...`;
+      (child.firstChild as any).textContent = shortText;
     }
-    setText(`${shortText} ...`);
+    setText(shortText);
   };
 
   useEffect(() => {
@@ -83,7 +83,8 @@ export const EventCardDescription: React.FunctionComponent<IEventCardDescription
       className={`description ${commonStyles['light-font']} ${className || ''}`}
       style={styles}
     >
-      <span>{text}</span>
+      <span>{children}</span>
+      <div className="fade" style={{ opacity: text !== undefined && text === children ? 0 : 1 }} />
       <div className="hide" />
       <style jsx>
         {`
@@ -99,6 +100,21 @@ export const EventCardDescription: React.FunctionComponent<IEventCardDescription
           span {
             line-height: 1.8 !important;
             display: block;
+          }
+
+          .fade {
+            content: '';
+            text-align: right;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 5rem;
+            height: 1.5rem;
+            background: linear-gradient(
+              to right,
+              rgba(255, 255, 255, 0),
+              rgba(255, 255, 255, 1) 90%
+            );
           }
 
           .hide {

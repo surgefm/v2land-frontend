@@ -32,7 +32,7 @@ export const EventStar: React.FunctionComponent<IEventStar.IProps> = ({ eventId 
     dispatch(ClientActions.AddClient(client));
     dispatch(EventActions.GetEvent(eventId));
     if (hasStarred) message.info('成功取消收藏');
-    if (hasStarred) message.info('收藏成功');
+    else message.info('收藏成功');
   };
 
   return (
