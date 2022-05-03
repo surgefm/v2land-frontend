@@ -201,7 +201,15 @@ const GetEventList = (page = 1) => async (dispatch: Dispatch, state: IThunkStore
 
   dispatch(LoadingActions.BeginLoading(identifier));
   const eventList = await RedstoneService.getEventList({ page });
+
   const actions: Action[] = eventList.map(AddEvent);
+  for (let i = 0; i < eventList.length; i += 1) {
+    const tags = eventList[i].tags || [];
+    for (let j = 0; j < tags.length; j += 1) {
+      actions.push(TagActions.AddTag(tags[j]));
+    }
+  }
+
   actions.push(HomepageActions.SetEventList(eventList.map(event => event.id)));
   const clientIds: number[] = [];
   const promises: Promise<void>[] = [];

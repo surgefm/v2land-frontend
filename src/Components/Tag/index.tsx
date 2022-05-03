@@ -10,14 +10,17 @@ import { UtilService, getNewsroomSocket } from '@Services';
 import { ITag } from './Tag';
 
 export const Tag: React.FunctionComponent<ITag.IProps> = ({
-  tagId,
+  tagId: _tagId,
   removable = false,
   asLink = false,
   eventId,
+  tag: _tag,
 }) => {
-  const tag = useSelector(getTag(tagId));
+  const selectorTag = useSelector(getTag(_tagId || 0));
+  const tag = _tag || selectorTag;
   const dispatch = useDispatch();
   if (!tag) return <React.Fragment />;
+  const tagId = tag.id;
 
   const redirect = () => {
     if (!asLink) return;

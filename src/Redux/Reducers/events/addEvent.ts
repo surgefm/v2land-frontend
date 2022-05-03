@@ -20,6 +20,9 @@ const addEvent = (state: EventsState, action: EventAction) => {
       .sort((a, b) => (a.order || 0) - (b.order || 0))
       .map(stack => Math.abs(stack.id) * (event.id > 0 ? 1 : -1));
   }
+  if (event.tags) {
+    event.tagIdList = event.tags.map(tag => tag.id);
+  }
   event.stackIdList = event.stackIdList || [];
   event.newsIdList = event.newsIdList || [];
   event.tagIdList = event.tagIdList || [];
