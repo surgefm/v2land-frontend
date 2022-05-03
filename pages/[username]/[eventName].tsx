@@ -13,6 +13,7 @@ import {
   Footer,
   Card,
   EventTitle,
+  EventStar,
   EventStats,
   EventTagList,
   EventDescription,
@@ -61,6 +62,7 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
 
   const eventCard = event ? (
     <Card>
+      <EventStar eventId={event.id} />
       <EventTitle>{event.name}</EventTitle>
       <EventStats newsCount={event.newsCount} stackCount={event.stackCount} />
       <EventDescription description={event.description || ''} />

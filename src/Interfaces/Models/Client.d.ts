@@ -1,6 +1,7 @@
 import { Auth } from './Auth';
 import { Record } from './Record';
 import { Event } from './Event';
+import { Star } from './Star';
 
 export interface Client {
   id: number;
@@ -15,4 +16,5 @@ export interface Client {
   records?: Record[];
   events?: Event[];
   avatar?: string;
+  stars?: Star[];
 }
