@@ -2,10 +2,11 @@ import { Dispatch } from 'redux';
 
 // #region Local Imports
 import { ActionConsts } from '@Definitions';
-import { Client, IThunkStore } from '@Interfaces';
+import { Action, Client, IThunkStore } from '@Interfaces';
 import { isLoading, isLoggedIn } from '@Selectors';
-import { LoadingActions } from '@Actions';
+import { LoadingActions, TagActions } from '@Actions';
 import { RedstoneService, getState } from '@Services';
+import { batchActions } from 'redux-batched-actions';
 import { EventActions } from '../EventActions';
 // #endregion Local Imports
 
@@ -46,13 +47,21 @@ const GetClient = (clientId: number | string) => async (dispatch: Dispatch, stor
   try {
     const { client } = await RedstoneService.getClient(clientId);
     const events = client.events || [];
+    const actions: Action[] = [];
 
-    dispatch(AddClient(client));
+    actions.push(AddClient(client));
 
     for (let i = 0; i < events.length; i += 1) {
       const event = events[i];
-      dispatch(EventActions.AddEvent(event));
+      const tags = event.tags || [];
+      actions.push(EventActions.AddEvent(event));
+      for (let j = 0; j < tags.length; j += 1) {
+        const tag = tags[j];
+        actions.push(TagActions.AddTag(tag));
+        actions.push(TagActions.AddEventToTag(tag.id, event.id));
+      }
     }
+    dispatch(batchActions(actions));
   } catch (err) {
     // Do nothing
   } finally {

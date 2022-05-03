@@ -36,7 +36,15 @@ export const EventStar: React.FunctionComponent<IEventStar.IProps> = ({ eventId 
   return (
     <div className="container">
       <Space size={0}>
-        {starCount > 0 && <span>{starCount}</span>}
+        {starCount > 0 && (
+          <span
+            style={{
+              width: `${`${starCount}`.length * 11}px`,
+            }}
+          >
+            {starCount}
+          </span>
+        )}
         <Tooltip title={hasStarred ? '取消收藏时间线' : '收藏时间线'}>
           <Button
             size="large"
