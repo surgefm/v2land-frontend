@@ -46,12 +46,13 @@ export const EventCardDescription: React.FunctionComponent<IEventCardDescription
 
       cloneChild = child;
       cloneElement = element;
+      cloneChild.style.maxHeight = 'initial';
     } else {
       cloneElement.style.width = `${grandparent.offsetWidth}px`;
     }
 
     if (!child) return;
-    const height = window.innerHeight >= 600 ? 7.8 * rem : 9 * rem;
+    const height = window.innerWidth >= 600 ? 6.5 * rem : 7.9 * rem;
     (child.firstChild as any).textContent = children;
     if (child.offsetHeight <= height) {
       setText(children);
@@ -83,6 +84,7 @@ export const EventCardDescription: React.FunctionComponent<IEventCardDescription
       style={styles}
     >
       <span>{text}</span>
+      <div className="hide" />
       <style jsx>
         {`
           .description {
@@ -90,8 +92,8 @@ export const EventCardDescription: React.FunctionComponent<IEventCardDescription
             padding: 0;
             position: relative;
             margin-top: 0.5rem;
-            max-height: 7.8rem;
             margin-bottom: 0 !important;
+            max-height: 6.2rem;
           }
 
           span {
@@ -99,9 +101,17 @@ export const EventCardDescription: React.FunctionComponent<IEventCardDescription
             display: block;
           }
 
+          .hide {
+            background-color: white;
+            width: 100%;
+            position: absolute;
+            height: 100%;
+            top: 100%;
+          }
+
           @media (max-width: 600px) {
             .description {
-              max-height: 9rem;
+              max-height: 7.8rem;
             }
           }
         `}

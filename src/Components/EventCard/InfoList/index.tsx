@@ -26,6 +26,8 @@ export const EventInfoList: React.FC<IInfoList.IProps> = ({
           flex-wrap: wrap;
           height: ${empty ? '0' : '1.5rem'};
           overflow: hidden;
+          position: relative;
+          z-index: 10;
         }
       `}
       </style>
