@@ -12,14 +12,18 @@ import { ImageEventCard } from './ImageEventCard';
 import { IEventCard } from './EventCard';
 
 const EventCard: React.FunctionComponent<IEventCard.IProps> = ({
-  eventId,
+  eventId = 0,
   forcePlain,
   styles,
+  event: e,
+  owner: o,
   className = '',
 }) => {
-  const event = useSelector(getEvent(eventId));
-  const owner = useSelector(getEventOwner(eventId));
+  const selectorEvent = useSelector(getEvent(e ? 0 : eventId));
+  const selectorOwner = useSelector(getEventOwner(e ? 0 : eventId));
   const dispatch = useDispatch();
+  const event = e || selectorEvent;
+  const owner = o || selectorOwner;
 
   if (!event) {
     dispatch(EventActions.GetEvent(eventId));

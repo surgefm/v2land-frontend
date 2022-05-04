@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 import { useSelector, useStore, useDispatch } from 'react-redux';
 import {
   DragDropContext,
@@ -89,7 +90,8 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
   const prevRole = usePrevious(role);
   const store = useStore();
   const dispatch = useDispatch();
-  const [showChatroom, setShowChatroom] = useState(false);
+  const router = useRouter();
+  const [showChatroom, setShowChatroom] = useState(!!router.query.c);
   let socket = getNewsroomSocket(eventId, store) as NewsroomSocket;
 
   const getEventPath = () =>
@@ -244,7 +246,13 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
             {...droppableProvided.droppableProps}
           >
             <EventHead eventId={eventId} title={t('Newsroom_Title')} />
-            {showChatroom && <ChatroomButton type="newsroom" ids={Math.abs(event.id)} />}
+            {showChatroom && (
+              <ChatroomButton
+                type="newsroom"
+                ids={Math.abs(event.id)}
+                openByDefault={!!router.query.c}
+              />
+            )}
             <div className="panel-wrapper">
               <Card className="panel public-stack">
                 <div className="panel-header-container">

@@ -9,12 +9,16 @@ import { getChatroomMessages } from '@Selectors';
 import { ChatroomWindow } from '../Window';
 import { ChatroomButtonProps } from './Button';
 
-export const ChatroomButton: React.FC<ChatroomButtonProps> = ({ type, ids }) => {
+export const ChatroomButton: React.FC<ChatroomButtonProps> = ({
+  type,
+  ids,
+  openByDefault = false,
+}) => {
   const store = useStore();
   let socket = getChatroomSocket(type, ids, store);
   const chatId = getChatroomId(type, ids);
   const [lastReadAt, setLastReadAt] = useState(new Date());
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(openByDefault);
   const [numUnread, setNumUnread] = useState(0);
   const messages = useSelector(getChatroomMessages(chatId));
 
