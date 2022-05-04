@@ -23,7 +23,7 @@ export const ChatroomWindow: React.FC<WindowProps> = ({ type, ids, onClose }) =>
   const [message, setMessage] = useState('');
   const [sending, setSending] = useState(false);
 
-  let title = '聊天室 — ';
+  let title = '讨论 — ';
   if (type === 'newsroom' && event) {
     if (eventOwner) {
       title += `@${eventOwner.username}/${event.name}`;
@@ -76,7 +76,7 @@ export const ChatroomWindow: React.FC<WindowProps> = ({ type, ids, onClose }) =>
           value={message}
           onChange={val => setMessage(val.target.value)}
           onPressEnter={sendMessage}
-          placeholder="我们应该这样编辑这条时间线……"
+          placeholder="请输入……"
         />
         <Button
           type="primary"
@@ -98,6 +98,7 @@ export const ChatroomWindow: React.FC<WindowProps> = ({ type, ids, onClose }) =>
             background-color: #ffffff;
             border-radius: 0.5rem;
             width: 18rem;
+            max-width: calc(100vw - 2rem);
           }
 
           .header {

@@ -65,8 +65,16 @@ export const ChatroomButton: React.FC<ButtonProps> = ({ type, ids }) => {
         {`
           .container {
             position: fixed;
-            bottom: 2rem;
+            bottom: 1.5rem;
             right: 1rem;
+            z-index: 100000;
+          }
+
+          @media (max-width: 600px) {
+            .container {
+              right: initial;
+              left: 1rem;
+            }
           }
         `}
       </style>

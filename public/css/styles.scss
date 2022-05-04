@@ -30,6 +30,11 @@ body {
   font-size: 14px;
 }
 
+.ant-breadcrumb ol {
+  flex-wrap: nowrap !important;
+  width: max-content !important;
+}
+
 html {
   box-sizing: border-box;
   font-size: 16px;
