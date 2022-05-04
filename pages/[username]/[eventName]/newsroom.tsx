@@ -45,6 +45,7 @@ import {
   NewsroomPanelRoleList,
   NewsroomPanelSortStacksButton,
 } from '@Components/Newsroom/Panel';
+import { ChatroomButton } from '@Components/Chatroom';
 import {
   getEvent,
   getEventStackIdList,
@@ -266,6 +267,8 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
           </div>
         )}
       </Droppable>
+
+      <ChatroomButton type="newsroom" ids={Math.abs(event.id)} />
 
       <style jsx>
         {`

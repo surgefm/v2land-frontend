@@ -182,6 +182,7 @@ export const Header: React.FC = (): JSX.Element => {
             position: fixed;
             bottom: 1.5rem;
             right: 1rem;
+            display: none;
           }
 
           @media (max-width: 700px) {
@@ -197,6 +198,10 @@ export const Header: React.FC = (): JSX.Element => {
 
             .right {
               padding-right: 0.75rem;
+            }
+
+            .fab {
+              display: block;
             }
           }
         `}

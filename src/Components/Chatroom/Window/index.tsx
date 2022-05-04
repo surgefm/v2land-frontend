@@ -1,31 +1,39 @@
-import React, { useEffect, useState } from 'react';
-import { useStore, useSelector } from 'react-redux';
-import { Input, Button } from 'antd';
-import { SendOutlined, CloseOutlined } from '@ant-design/icons';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Input, Button, Typography, Empty } from 'antd';
+import { SendOutlined, CloseOutlined, MessageTwoTone } from '@ant-design/icons';
 
 import { getChatroomSocket, getChatroomId } from '@Services';
-import { getChatroomMessages } from '@Selectors';
+import { getChatroomMessages, getEvent, getEventOwner } from '@Selectors';
 
 import { ChatroomMessage } from '../Message';
 
 interface WindowProps {
   type: 'client' | 'newsroom';
   ids: number | number[];
+  onClose: React.MouseEventHandler<HTMLElement>;
 }
 
-export const ChatroomWindow: React.FC<WindowProps> = ({ type, ids }) => {
-  const store = useStore();
-  const socket = getChatroomSocket(type, ids, store);
+export const ChatroomWindow: React.FC<WindowProps> = ({ type, ids, onClose }) => {
+  const socket = getChatroomSocket(type, ids);
   const chatId = getChatroomId(type, ids);
+  const event = useSelector(getEvent(type === 'newsroom' ? -(ids as number) : 0));
+  const eventOwner = useSelector(getEventOwner(type === 'newsroom' ? -(ids as number) : 0));
   const messages = useSelector(getChatroomMessages(chatId));
   const [message, setMessage] = useState('');
   const [sending, setSending] = useState(false);
 
-  useEffect(() => {
-    socket.joinChatroom();
-  }, []);
+  let title = '聊天室 — ';
+  if (type === 'newsroom' && event) {
+    if (eventOwner) {
+      title += `@${eventOwner.username}/${event.name}`;
+    } else {
+      title += event.name;
+    }
+  }
 
   const sendMessage = async () => {
+    if (!socket) return;
     if (message.trim().length === 0) return;
     try {
       setSending(true);
@@ -41,13 +49,21 @@ export const ChatroomWindow: React.FC<WindowProps> = ({ type, ids }) => {
   return (
     <div className="container">
       <div className="header">
-        <Button type="text" icon={<CloseOutlined />} />
+        <Typography.Text ellipsis style={{ margin: 0 }}>
+          <MessageTwoTone /> {title}
+        </Typography.Text>
+        <Button type="text" icon={<CloseOutlined />} onClick={onClose} />
       </div>
       <div className="messages">
         {messages.map(m => (
           <ChatroomMessage key={m.id} message={m} />
         ))}
-        <p className="blank">.</p>
+        {messages.length === 0 && (
+          <div className="empty">
+            <Empty description="在这里讨论如何编辑这条时间线吧" />
+          </div>
+        )}
+        {messages.length > 0 && <p className="blank">.</p>}
       </div>
       <Input.Group compact>
         <Input
@@ -60,6 +76,7 @@ export const ChatroomWindow: React.FC<WindowProps> = ({ type, ids }) => {
           value={message}
           onChange={val => setMessage(val.target.value)}
           onPressEnter={sendMessage}
+          placeholder="我们应该这样编辑这条时间线……"
         />
         <Button
           type="primary"
@@ -89,9 +106,9 @@ export const ChatroomWindow: React.FC<WindowProps> = ({ type, ids }) => {
             border-top-left-radius: 0.5rem;
             border-top-right-radius: 0.5rem;
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
             align-items: center;
-            padding: 0 0.25rem;
+            padding: 0 0.25rem 0 0.5rem;
             background-color: rgba(0, 0, 0, 0.01);
           }
 
@@ -103,6 +120,13 @@ export const ChatroomWindow: React.FC<WindowProps> = ({ type, ids }) => {
             flex-direction: column-reverse;
             border-left: 1px solid #d9d9d9;
             border-right: 1px solid #d9d9d9;
+          }
+
+          .empty {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
           }
 
           .blank {

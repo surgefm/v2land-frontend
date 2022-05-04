@@ -2,12 +2,15 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Space } from 'antd';
 
-import { getNewsroomClients, getActiveNewsroomId } from '@Selectors';
+import { getNewsroomClients, getActiveNewsroomId, getLoggedInClientId } from '@Selectors';
 import { ClientAvatar } from '@Components/Client';
 
 export const NewsroomHeaderClientAvatars: React.FunctionComponent = () => {
   const eventId = useSelector(getActiveNewsroomId);
-  const newsroomClients = useSelector(getNewsroomClients(eventId));
+  const loggedInClientId = useSelector(getLoggedInClientId);
+  const newsroomClients = useSelector(getNewsroomClients(eventId)).filter(
+    c => c !== loggedInClientId
+  );
   return (
     <Space size={4} style={{ height: '2rem', display: 'flex' }}>
       {newsroomClients.map(clientId => (
