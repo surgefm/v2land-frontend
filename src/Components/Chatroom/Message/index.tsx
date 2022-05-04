@@ -59,7 +59,7 @@ export const ChatroomMessage = ({ message }: { message: ChatMessage }) => {
           }
 
           .name :global(.ant-skeleton-paragraph) {
-            margin: 0 0.25rem 0;
+            margin: 0 0.25rem 0 0;
           }
 
           .name :global(.ant-skeleton-paragraph) :global(li) {

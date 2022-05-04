@@ -15,7 +15,7 @@ interface ButtonProps {
 
 export const ChatroomButton: React.FC<ButtonProps> = ({ type, ids }) => {
   const store = useStore();
-  const socket = getChatroomSocket(type, ids, store);
+  let socket = getChatroomSocket(type, ids, store);
   const chatId = getChatroomId(type, ids);
   const [lastReadAt, setLastReadAt] = useState(new Date());
   const [isOpen, setIsOpen] = useState(false);
@@ -29,6 +29,10 @@ export const ChatroomButton: React.FC<ButtonProps> = ({ type, ids }) => {
       socket.destroy();
     };
   }, []);
+
+  useEffect(() => {
+    socket = getChatroomSocket(type, ids, store);
+  });
 
   useEffect(() => {
     if (isOpen) return;
@@ -52,11 +56,11 @@ export const ChatroomButton: React.FC<ButtonProps> = ({ type, ids }) => {
       {!isOpen && (
         <Badge count={numUnread} color="gold" offset={[-5, 5]}>
           <Button
-            icon={<MessageOutlined style={{ fontSize: '1.75rem' }} />}
+            icon={<MessageOutlined className="icon" />}
             onClick={open}
             type="primary"
             shape="circle"
-            style={{ width: '3rem', height: '3rem' }}
+            className="button"
           />
         </Badge>
       )}
@@ -70,10 +74,32 @@ export const ChatroomButton: React.FC<ButtonProps> = ({ type, ids }) => {
             z-index: 100000;
           }
 
-          @media (max-width: 600px) {
+          .container :global(.icon) {
+            font-size: 1.75rem;
+          }
+
+          .container :global(.button) {
+            width: 3rem;
+            height: 3rem;
+          }
+
+          :global(.fab) {
+            display: ${isOpen ? 'none' : 'block'} !important;
+          }
+
+          @media (max-width: 700px) {
             .container {
               right: initial;
               left: 1rem;
+            }
+
+            .container :global(.icon) {
+              font-size: 1.35rem;
+            }
+
+            .container :global(.button) {
+              width: 2.5rem;
+              height: 2.5rem;
             }
           }
         `}
