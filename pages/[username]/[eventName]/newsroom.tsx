@@ -1,6 +1,7 @@
 // #region Global Imports
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
+import dynamic from 'next/dynamic';
 import { useSelector, useStore, useDispatch } from 'react-redux';
 import {
   DragDropContext,
@@ -45,7 +46,7 @@ import {
   NewsroomPanelRoleList,
   NewsroomPanelSortStacksButton,
 } from '@Components/Newsroom/Panel';
-import { ChatroomButton } from '@Components/Chatroom';
+import { ChatroomButtonProps } from '@Components/Chatroom/Button/Button';
 import {
   getEvent,
   getEventStackIdList,
@@ -63,6 +64,10 @@ import {
 // #region Interface Imports
 import { IEventNewsroomPage, ReduxNextPageContext } from '@Interfaces';
 // #endregion Interface Imports
+
+const ChatroomButton = dynamic(() => import('@Components/Chatroom')) as React.FC<
+  ChatroomButtonProps
+>;
 
 const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.InitialProps> = ({
   eventId: id,
@@ -84,6 +89,7 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
   const prevRole = usePrevious(role);
   const store = useStore();
   const dispatch = useDispatch();
+  const [showChatroom, setShowChatroom] = useState(false);
   let socket = getNewsroomSocket(eventId, store) as NewsroomSocket;
 
   const getEventPath = () =>
@@ -98,6 +104,10 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
       closeNewsroomSocket(eventId);
     };
   }, []);
+
+  useEffect(() => {
+    setShowChatroom(true);
+  });
 
   useEffect(() => {
     if (loggedIn && prevRole && role && role !== prevRole) {
@@ -234,7 +244,7 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
             {...droppableProvided.droppableProps}
           >
             <EventHead eventId={eventId} title={t('Newsroom_Title')} />
-            <ChatroomButton type="newsroom" ids={Math.abs(event.id)} />
+            {showChatroom && <ChatroomButton type="newsroom" ids={Math.abs(event.id)} />}
             <div className="panel-wrapper">
               <Card className="panel public-stack">
                 <div className="panel-header-container">

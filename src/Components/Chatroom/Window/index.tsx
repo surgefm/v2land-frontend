@@ -3,16 +3,11 @@ import { useSelector } from 'react-redux';
 import { Input, Button, Typography, Empty } from 'antd';
 import { SendOutlined, CloseOutlined, MessageTwoTone } from '@ant-design/icons';
 
-import { getChatroomSocket, getChatroomId } from '@Services';
+import { getChatroomSocket, getChatroomId } from '@Services/Socket/chatroom';
 import { getChatroomMessages, getEvent, getEventOwner } from '@Selectors';
 
 import { ChatroomMessage } from '../Message';
-
-interface WindowProps {
-  type: 'client' | 'newsroom';
-  ids: number | number[];
-  onClose: React.MouseEventHandler<HTMLElement>;
-}
+import { WindowProps } from './Window';
 
 export const ChatroomWindow: React.FC<WindowProps> = ({ type, ids, onClose }) => {
   const socket = getChatroomSocket(type, ids);
@@ -23,12 +18,12 @@ export const ChatroomWindow: React.FC<WindowProps> = ({ type, ids, onClose }) =>
   const [message, setMessage] = useState('');
   const [sending, setSending] = useState(false);
 
-  let title = '讨论 — ';
+  let title = '讨论';
   if (type === 'newsroom' && event) {
     if (eventOwner) {
-      title += `@${eventOwner.username}/${event.name}`;
+      title += ` — @${eventOwner.username}/${event.name}`;
     } else {
-      title += event.name;
+      title += ` — ${event.name}`;
     }
   }
 
@@ -146,3 +141,5 @@ export const ChatroomWindow: React.FC<WindowProps> = ({ type, ids, onClose }) =>
     </div>
   );
 };
+
+export default ChatroomWindow;

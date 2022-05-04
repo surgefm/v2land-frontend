@@ -1,2 +1,4 @@
+import { ChatroomButton } from './Button';
+
 export * from './Button';
-export * from './Window';
+export default ChatroomButton;
