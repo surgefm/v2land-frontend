@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /redirect
+
+User-agent: *
+Disallow: /redirect.html
