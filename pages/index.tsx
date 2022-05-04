@@ -59,13 +59,6 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList }) =
                 <TagCard tag={tag} key={tag.id} />
               ))}
             </>
-            {/* <SectionHeader>{t('Home_Contributions_ContributionRanking')}</SectionHeader>
-            <>
-              <ContributorCard contributor="Vincent" />
-              <ContributorCard contributor="CCAV" />
-              <ContributorCard contributor="Alan" />
-              <ContributorCard contributor="Erick" />
-            </> */}
           </div>
         </Col>
       </Row>

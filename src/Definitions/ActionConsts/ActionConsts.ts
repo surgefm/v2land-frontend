@@ -57,6 +57,11 @@ export const ActionConsts = {
     SetNewsroomClientInvitationVisible: 'Newsroom_SetNewsroomClientInvitationVisible',
     SetNewsroomSocketStatus: 'Newsroom_SetNewsroomSocketStatus',
   },
+  Chatroom: {
+    AddChatroom: 'Chatroom_AddChatroom',
+    AddMessage: 'Chatroom_AddMessage',
+    SetActiveChatroom: 'Chatroom_SetActiveChatroom',
+  },
   Loading: {
     BeginLoading: 'Loading_BeginLoading',
     FinishLoading: 'Loading_FinishLoading',

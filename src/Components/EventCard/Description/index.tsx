@@ -58,12 +58,7 @@ export const EventCardDescription: React.FunctionComponent<IEventCardDescription
       setText(children);
       return;
     }
-    let shortText = children;
-    while (child.offsetHeight > height) {
-      shortText = shortText.slice(0, shortText.length - 1);
-      (child.firstChild as any).textContent = shortText;
-    }
-    setText(shortText);
+    setText('');
   };
 
   useEffect(() => {

@@ -66,7 +66,7 @@ export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = props
           alt="avatar"
           width={size}
           height={size}
-          style={{ width: '100%', height: '100%' }}
+          style={{ width: size, height: size }}
           className={`${className} ${cn || ''} ${styles.img}`}
           src={UtilService.getImageUrl(avatarUrl, Math.max(size, 64), Math.max(size, 64))}
         />
