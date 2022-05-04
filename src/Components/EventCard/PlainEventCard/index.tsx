@@ -31,6 +31,12 @@ export const PlainEventCard: React.FunctionComponent<IPlainEventCard.IProps> = (
             float: right;
             margin-left: 0.25rem;
           }
+
+          @media (max-width: 600px) {
+            .event-container {
+              padding: 1rem;
+            }
+          }
         `}
       </style>
     </div>
