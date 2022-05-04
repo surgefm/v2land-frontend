@@ -99,6 +99,7 @@ export const ChatroomWindow: React.FC<WindowProps> = ({ type, ids, onClose }) =>
             border-radius: 0.5rem;
             width: 18rem;
             max-width: calc(100vw - 2rem);
+            box-shadow: 0 4px 4px rgba(0, 0, 0, 0.01);
           }
 
           .header {
@@ -133,6 +134,12 @@ export const ChatroomWindow: React.FC<WindowProps> = ({ type, ids, onClose }) =>
           .blank {
             height: 0.25rem;
             visibility: hidden;
+          }
+
+          @media (max-width: 500px) {
+            .container {
+              width: 100vw;
+            }
           }
         `}
       </style>

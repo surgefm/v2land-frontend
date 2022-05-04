@@ -234,6 +234,7 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
             {...droppableProvided.droppableProps}
           >
             <EventHead eventId={eventId} title={t('Newsroom_Title')} />
+            <ChatroomButton type="newsroom" ids={Math.abs(event.id)} />
             <div className="panel-wrapper">
               <Card className="panel public-stack">
                 <div className="panel-header-container">
@@ -267,8 +268,6 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
           </div>
         )}
       </Droppable>
-
-      <ChatroomButton type="newsroom" ids={Math.abs(event.id)} />
 
       <style jsx>
         {`
