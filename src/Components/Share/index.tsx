@@ -81,7 +81,7 @@ const ShareImpl: React.FunctionComponent<IShare.IProps> = ({
   else if (type === 'stack')
     shareMessage = tf('Share_StackSpecific', {
       eventName: event.name,
-      stacktitle: stack.title,
+      stackTitle: stack.title,
     });
   else if (type === 'news')
     shareMessage = tf('Share_NewsSpecific', {
