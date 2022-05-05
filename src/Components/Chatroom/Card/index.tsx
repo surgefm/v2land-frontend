@@ -28,6 +28,8 @@ export const ChatroomCard: React.FC<ChatroomCardProps> = ({ chatroom, asCard = f
   } else if (showActivity) {
     showEditor = editorIds.length * 1.5 > speakerIds.length;
     ids = showEditor ? editorIds : speakerIds;
+  } else {
+    ids = [chatroom.event.ownerId];
   }
 
   const [numAvatar, setNumAvatar] = useState(ids.length);
@@ -82,7 +84,7 @@ export const ChatroomCard: React.FC<ChatroomCardProps> = ({ chatroom, asCard = f
           <span className="username">@{chatroom.eventOwner.username}</span>
           {showActivity ? (
             <div className="stats">
-              {!showEditor && chatterIds.length > 0 && (
+              {!showEditor && (
                 <span style={{ color: 'rgb(24, 144, 255)' }}>
                   <MessageTwoTone /> {ids.length}人{showNow ? '正在' : '近期'}讨论
                 </span>
