@@ -143,6 +143,12 @@ export const getEventTemporaryStackNewsList = (eventId: number, sorted = false) 
     (state, newsIdList) => getNewsList(newsIdList, sorted)(state)
   );
 
+export const getEventStarCount = (eventId: number) =>
+  createSelector(
+    getEvent(eventId),
+    event => (event ? event.starCount || 0 : 0)
+  );
+
 export const getEventTimeList = (eventIdList: number[]) => (state: IStore) =>
   eventIdList.map(id => {
     const event = getEvent(id)(state);

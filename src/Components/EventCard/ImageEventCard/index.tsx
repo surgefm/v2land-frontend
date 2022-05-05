@@ -4,6 +4,7 @@ import { Image } from '@Components/Basic';
 import { ClientAvatar } from '@Components/Client';
 import { EventCardTitle } from '../Title';
 import { EventCardDescription } from '../Description';
+import { EventInfoList } from '../InfoList';
 import { IImageEventCard } from './ImageEventCard';
 
 export const ImageEventCard: React.FunctionComponent<IImageEventCard.IProps> = ({ event }) => {
@@ -13,8 +14,8 @@ export const ImageEventCard: React.FunctionComponent<IImageEventCard.IProps> = (
     ? `/redirect.html?to=${encodeURIComponent(event.headerImage.sourceUrl)}`
     : undefined;
   const openImageSourceUrl = (e: React.MouseEvent) => {
-    e.preventDefault();
     if (sourceUrl) {
+      e.preventDefault();
       window.open(sourceUrl, '_blank');
     }
   };
@@ -39,6 +40,11 @@ export const ImageEventCard: React.FunctionComponent<IImageEventCard.IProps> = (
       ) : null}
       <EventCardTitle className="title">{event.name}</EventCardTitle>
       <EventCardDescription className="description">{event.description}</EventCardDescription>
+      <EventInfoList
+        className="info-list"
+        starCount={event.starCount || 0}
+        tagIdList={event.tagIdList}
+      />
 
       <style jsx>
         {`
@@ -111,6 +117,10 @@ export const ImageEventCard: React.FunctionComponent<IImageEventCard.IProps> = (
             }
 
             .event-container > :global(.description) {
+              margin: 0.5rem 1rem 1rem 1rem;
+            }
+
+            .event-container > :global(.info-list) {
               margin: 0.5rem 1rem 1rem 1rem;
             }
 

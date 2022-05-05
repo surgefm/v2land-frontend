@@ -85,3 +85,14 @@ export const getEventsOwnedByClient = (clientId: number) =>
     getEventsState,
     state => state.list.filter(e => e.ownerId === clientId)
   );
+
+export const getLoggedInClientStars = createSelector(
+  getLoggedInClient,
+  client => (client ? client.stars || [] : [])
+);
+
+export const hasLoggedInClientStarredEvent = (eventId: number) =>
+  createSelector(
+    getLoggedInClientStars,
+    stars => stars.findIndex(s => s.eventId === eventId) >= 0
+  );

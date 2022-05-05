@@ -77,12 +77,12 @@ export const getNewsroomClientRole = (eventId: number, clientId: number) =>
     getNewsroomRoles(eventId),
     isCurrentClientEditor,
     (roles, isEditor) => {
-      if (isEditor) return 'editor';
       if (roles === null) return null;
       if (roles.owners.includes(clientId)) return 'owner';
       if (roles.managers.includes(clientId)) return 'manager';
       if (roles.editors.includes(clientId)) return 'editor';
       if (roles.viewers.includes(clientId)) return 'viewer';
+      if (isEditor) return 'editor';
       return 'passerby';
     }
   );

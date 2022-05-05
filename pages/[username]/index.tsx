@@ -61,7 +61,9 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
                 </span>
               </EventTitle>
             </div>
-            <p>{client.description || t('Client_NoDescription')}</p>
+            <p style={{ whiteSpace: 'pre-line' }}>
+              {client.description || t('Client_NoDescription')}
+            </p>
           </Space>
           {isCurrentClient ? (
             <div className="edit-buttons">

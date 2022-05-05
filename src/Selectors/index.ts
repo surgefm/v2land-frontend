@@ -1,3 +1,4 @@
+export * from './chatrooms';
 export * from './clients';
 export * from './events';
 export * from './homepage';

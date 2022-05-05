@@ -3,6 +3,7 @@ import React from 'react';
 import { ClientAvatar } from '@Components/Client';
 import { EventCardTitle } from '../Title';
 import { EventCardDescription } from '../Description';
+import { EventInfoList } from '../InfoList';
 import { IPlainEventCard } from './PlainEventCard';
 
 export const PlainEventCard: React.FunctionComponent<IPlainEventCard.IProps> = ({ event }) => {
@@ -15,6 +16,7 @@ export const PlainEventCard: React.FunctionComponent<IPlainEventCard.IProps> = (
       ) : null}
       <EventCardTitle>{event.name}</EventCardTitle>
       <EventCardDescription>{event.description}</EventCardDescription>
+      <EventInfoList starCount={event.starCount || 0} tagIdList={event.tagIdList} />
 
       <style jsx>
         {`
@@ -28,6 +30,12 @@ export const PlainEventCard: React.FunctionComponent<IPlainEventCard.IProps> = (
           .avatar {
             float: right;
             margin-left: 0.25rem;
+          }
+
+          @media (max-width: 600px) {
+            .event-container {
+              padding: 1rem;
+            }
           }
         `}
       </style>

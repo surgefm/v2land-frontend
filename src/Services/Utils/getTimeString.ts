@@ -85,6 +85,13 @@ export const getTimeStringEn = (t?: string | Date | number, options: GetTimeStri
  * @param {Date|String|Number} time 时间
  */
 export const getTimeStringCn = (t?: string | Date | number, options: GetTimeStringOptions = {}) => {
+  const {
+    showWeekday = false,
+    forceShowYear = false,
+    withSpaceBetween = true,
+    showMonthOnly = false,
+  } = options;
+
   const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
   const fullMonths = [
     '一月',
@@ -100,14 +107,8 @@ export const getTimeStringCn = (t?: string | Date | number, options: GetTimeStri
     '十一月',
     '十二月',
   ];
-  const months = oneThruTwelve.map(month => `${month} 月`);
-
-  const {
-    showWeekday = false,
-    forceShowYear = false,
-    withSpaceBetween = true,
-    showMonthOnly = false,
-  } = options;
+  const space = withSpaceBetween ? ' ' : '';
+  const months = oneThruTwelve.map(month => `${month}${space}月`);
 
   if (!t) return '';
   let time: Date;
@@ -121,7 +122,6 @@ export const getTimeStringCn = (t?: string | Date | number, options: GetTimeStri
   const month = time.getMonth();
   const date = time.getDate();
   const weekday = weekdays[time.getDay()];
-  const space = withSpaceBetween ? ' ' : '';
   let showYear = forceShowYear;
   showYear = forceShowYear ? showYear : year !== new Date().getFullYear();
 

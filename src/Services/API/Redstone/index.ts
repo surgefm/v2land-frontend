@@ -1,6 +1,6 @@
 // #region Local Imports
 import { get, post, put, del } from '@Services/API/Http';
-import { Event, News, Client, Tag, InviteCode } from '@Interfaces';
+import { Event, News, Client, Tag, InviteCode, PopularChatroom } from '@Interfaces';
 import { RedstoneModel } from './Redstone';
 // #endregion Local Imports
 
@@ -144,4 +144,9 @@ export const getTag = async (tagId: number | string): Promise<Tag> => {
 export const getInviteCodes = async (): Promise<InviteCode[]> => {
   const { invites } = await get<RedstoneModel.GetInviteCodesResponse>('/client/inviteCode');
   return invites;
+};
+
+export const getPopularChatrooms = async (): Promise<PopularChatroom[]> => {
+  const { chatrooms } = await get<RedstoneModel.GetPopularChatroomsResponse>('/chat');
+  return chatrooms;
 };

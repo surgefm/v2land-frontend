@@ -24,6 +24,9 @@ export * from '@Services/API/Http/Http';
 
 // #region Model Interfaces
 export * from '@Interfaces/Models/Auth';
+export * from '@Interfaces/Models/Chat';
+export * from '@Interfaces/Models/ChatMember';
+export * from '@Interfaces/Models/ChatMessage';
 export * from '@Interfaces/Models/Client';
 export * from '@Interfaces/Models/Commit';
 export * from '@Interfaces/Models/Contact';

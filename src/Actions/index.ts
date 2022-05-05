@@ -1,4 +1,5 @@
 export * from './AppActions';
+export * from './ChatroomActions';
 export * from './ClientActions';
 export * from './EventActions';
 export * from './HomepageActions';

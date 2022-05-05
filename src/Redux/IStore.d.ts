@@ -1,5 +1,5 @@
 // #region Interface Imports
-import { Event, Stack, News, Client, Newsroom, Tag } from '@Interfaces';
+import { Event, Stack, News, Client, Newsroom, Tag, ChatMessage } from '@Interfaces';
 // #endregion Interface Imports
 
 export interface HomepageState {
@@ -38,6 +38,19 @@ export interface NewsroomsState {
   idIndexMap: { [index: number]: number };
 }
 
+export interface ChatroomsState {
+  activeChatroom: string;
+  chatrooms: {
+    [index: string]: {
+      id: string;
+      type: 'client' | 'newsroom';
+      ids: number | number[];
+      messages: ChatMessage[];
+      messageIds: { [index: string]: number };
+    };
+  };
+}
+
 export interface TagsState {
   list: Tag[];
   idIndexMap: { [index: number]: number };
@@ -55,6 +68,7 @@ export interface IStore {
   newsrooms: NewsroomsState;
   tags: TagsState;
   loading: LoadingState;
+  chatrooms: ChatroomsState;
 }
 
 export type IThunkStore = IStore | (() => IStore);

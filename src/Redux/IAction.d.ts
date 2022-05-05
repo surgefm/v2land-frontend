@@ -4,7 +4,16 @@ import { ThunkDispatch as TDispatch } from 'redux-thunk';
 // #endregion Global Imports
 
 // #region Local Imports
-import { Event, Stack, News, Client, Newsroom, Tag, NewsroomSocketStatus } from '@Interfaces';
+import {
+  Event,
+  Stack,
+  News,
+  Client,
+  Newsroom,
+  Tag,
+  NewsroomSocketStatus,
+  ChatMessage,
+} from '@Interfaces';
 import { IStore } from './IStore';
 // #endregion Local Imports
 
@@ -51,6 +60,13 @@ export interface NewsroomAction extends ReduxAction {
   locker?: number;
   role?: string;
   status?: NewsroomSocketStatus;
+}
+
+export interface ChatroomAction extends ReduxAction {
+  chatId?: string;
+  chatType?: 'client' | 'newsroom';
+  ids?: number | number[];
+  message?: ChatMessage;
 }
 
 export interface ClientAction extends ReduxAction {

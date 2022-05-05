@@ -15,6 +15,7 @@ import { NewsReducer, getNewsInitialState } from './news';
 import { NewsroomReducer, getNewsroomInitialState } from './newsrooms';
 import { StackReducer, getStackInitialState } from './stacks';
 import { TagReducer, getTagInitialState } from './tags';
+import { ChatroomReducer, getChatroomInitialState } from './chatrooms';
 
 import sortEventStackList from './events/sortEventStackList';
 import sortEventOffshelfStackList from './events/sortEventOffshelfStackList';
@@ -30,6 +31,7 @@ export const getInitialState = (): IStore => ({
   newsrooms: getNewsroomInitialState(),
   stacks: getStackInitialState(),
   tags: getTagInitialState(),
+  chatrooms: getChatroomInitialState(),
 });
 
 const reduced = combineReducers({
@@ -41,6 +43,7 @@ const reduced = combineReducers({
   newsrooms: NewsroomReducer,
   stacks: StackReducer,
   tags: TagReducer,
+  chatrooms: ChatroomReducer,
 }) as Reducer<IStore, Action>;
 
 export default reduceReducers((state: IStore = getInitialState(), action?: AnyAction) => {

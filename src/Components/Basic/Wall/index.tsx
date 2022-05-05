@@ -10,10 +10,10 @@ export const Wall: React.FC<IWall.IProps> = ({
   Component,
   onSetColumns = numColumns => numColumns,
 }) => {
-  const [columns, setColumns] = useState<number[][]>([]);
+  const [columns, setColumns] = useState<any[][]>([]);
 
   const updateColumns = () => {
-    const cs: number[][] = [];
+    const cs: any[][] = [];
     const width =
       window.innerWidth / parseFloat(window.getComputedStyle(document.documentElement).fontSize);
     let numColumns = 1;

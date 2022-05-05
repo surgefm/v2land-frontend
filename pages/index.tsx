@@ -8,6 +8,7 @@ import { Col, message, Row } from 'antd';
 import { useTranslation } from '@I18n';
 import { EventActions, TagActions } from '@Actions';
 import { Background, EventCardList, Footer, Head, SectionHeader, TagCard } from '@Components';
+import { ChatroomCard } from '@Components/Chatroom/Card';
 import { RedstoneService, UtilService } from '@Services';
 // #endregion Local Imports
 // #region Interface Imports
@@ -26,7 +27,7 @@ const tagGrid = {
   md: 6,
 };
 
-const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList }) => {
+const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList, chatrooms }) => {
   const { t } = useTranslation('common');
   const router = useRouter();
   useEffect(() => {
@@ -46,26 +47,23 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList }) =
   return (
     <Background>
       <Head />
-      <Row className="grid" justify="space-between" gutter={32}>
-        <Col {...eventGrid}>
+      <Row className="grid" justify="space-between" gutter={32} style={{ maxWidth: '60rem' }}>
+        <Col {...eventGrid} style={{ maxWidth: '45rem' }}>
           <EventCardList className="left" />
         </Col>
 
         <Col {...tagGrid}>
           <div className="tagList">
+            <SectionHeader>活跃新闻编辑室</SectionHeader>
+            {chatrooms.map(chatroom => (
+              <ChatroomCard chatroom={chatroom} key={chatroom.id} />
+            ))}
             <SectionHeader>{t('Home_Topics_TrendingTopics')}</SectionHeader>
-            <>
+            <div className="tags">
               {tagList.map(tag => (
                 <TagCard tag={tag} key={tag.id} />
               ))}
-            </>
-            {/* <SectionHeader>{t('Home_Contributions_ContributionRanking')}</SectionHeader>
-            <>
-              <ContributorCard contributor="Vincent" />
-              <ContributorCard contributor="CCAV" />
-              <ContributorCard contributor="Alan" />
-              <ContributorCard contributor="Erick" />
-            </> */}
+            </div>
           </div>
         </Col>
       </Row>
@@ -80,6 +78,18 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList }) =
           .tagList {
             position: sticky;
             top: 5rem;
+            height: calc(100vh - 10rem);
+            overflow-x: visible;
+            display: flex;
+            flex-direction: column;
+          }
+
+          .tags {
+            display: flex;
+            flex-direction: column;
+            margin-top: -0.25rem;
+            flex-grow: 1;
+            overflow-y: scroll;
           }
         `}
       </style>
@@ -88,14 +98,19 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList }) =
 };
 
 Home.getInitialProps = async (ctx: ReduxNextPageContext): Promise<IHomePage.InitialProps> => {
-  await ctx.store.dispatch(EventActions.GetEventList());
-  let tagList = await RedstoneService.getTagList();
+  // eslint-disable-next-line
+  let [_, chatrooms, tagList] = await Promise.all([
+    ctx.store.dispatch(EventActions.GetEventList()),
+    RedstoneService.getPopularChatrooms(),
+    RedstoneService.getTagList(),
+  ]);
   for (let i = 0; i < tagList.length; i += 1) {
     ctx.store.dispatch(TagActions.AddTag(tagList[i]));
   }
   tagList = tagList.filter(tag => tag.eventIdList.length > 0);
   return {
     tagList,
+    chatrooms,
     namespacesRequired: ['common'],
   };
 };

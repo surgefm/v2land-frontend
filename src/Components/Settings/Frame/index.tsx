@@ -62,7 +62,9 @@ export const SettingsFrame = ({ children }: { children: React.ReactNode }) => {
             onClick={onClick}
           />
         </Sider>
-        <Content style={{ padding: '2rem', overflowY: 'scroll' }}>{children}</Content>
+        <Content className="sider" style={{ padding: '2rem' }}>
+          {children}
+        </Content>
       </Layout>
       <style jsx>
         {`
@@ -74,6 +76,7 @@ export const SettingsFrame = ({ children }: { children: React.ReactNode }) => {
 
           .container :global(.sider) {
             height: calc(100vh - 3.5rem);
+            overflow-y: auto;
           }
 
           @media (max-width: 700px) {

@@ -18,5 +18,5 @@ Please provide details about the changes.
 请在确保下列各点都满足的情况下提交 PR
 Please submit your PR after checking out all the following items.
 
-* [ ] 确保你在请求合并至 `dev` 分支（Make sure you are requesting to merge to the `dev` branch）
+* [ ] 确保你在请求合并至 `develop` 分支（Make sure you are requesting to merge to the `develop` branch）
 * [ ] 在「详情」处填写与你的合并请求有关的信息（Fill in necessary information about your changes in the "detail" part）
