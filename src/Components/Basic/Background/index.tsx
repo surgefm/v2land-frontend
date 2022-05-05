@@ -19,7 +19,7 @@ export const Background: React.FunctionComponent = ({ children }) => (
 
         @media (max-width: 600px) {
           .background {
-            padding: 4rem 1rem 2rem 1rem;
+            padding: 2rem 1rem 2rem 1rem;
           }
         }
       `}

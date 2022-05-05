@@ -104,7 +104,7 @@ export const ChatroomCard: React.FC<ChatroomCardProps> = ({ chatroom, asCard = f
                   key={id}
                   style={{ left: `${idx * 12}px`, zIndex: numAvatar + 1 - idx }}
                 >
-                  <ClientAvatar clientId={id} size={20} />
+                  <ClientAvatar clientId={id} size={20} showTooltip={!asCard} />
                 </div>
               ))}
             </div>
@@ -129,6 +129,7 @@ export const ChatroomCard: React.FC<ChatroomCardProps> = ({ chatroom, asCard = f
             .card.white {
               background-color: #fff;
               margin-bottom: 0;
+              box-shadow: 0 4px 4px rgba(0, 0, 0, 0.01);
             }
 
             .card:hover {

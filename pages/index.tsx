@@ -114,14 +114,12 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ chatrooms })
 
 Home.getInitialProps = async (ctx: ReduxNextPageContext): Promise<IHomePage.InitialProps> => {
   // eslint-disable-next-line
-  let [_, chatrooms, tagList] = await Promise.all([
+  let [_, chatrooms] = await Promise.all([
     ctx.store.dispatch(EventActions.GetEventList()),
     RedstoneService.getPopularChatrooms(),
-    RedstoneService.getTagList(),
   ]);
-  tagList = tagList.filter(tag => tag.eventIdList.length > 0);
   return {
-    tagList,
+    tagList: [],
     chatrooms,
     namespacesRequired: ['common'],
   };
