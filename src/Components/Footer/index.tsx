@@ -1,6 +1,7 @@
 // #region Global Imports
 import * as React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 // #endregion Global Imports
 
 import { useTranslation } from '@I18n';
@@ -46,7 +47,18 @@ const FooterComp: React.FunctionComponent<IFooter.IProps> = (): JSX.Element => {
             {t('Share_Site_Telegram')}
           </a>
         </div>
+
         <span>{`Surge.fm ${new Date().getFullYear()}`}</span>
+
+        <a
+          href="https://vercel.com/?utm_source=surgefm&utm_campaign=oss"
+          target="_blank"
+          rel="noreferrer"
+          className="vercel"
+        >
+          <span>Powered by</span>
+          <Image src="/images/vercel-logotype-dark.svg" height={20} width={(4438 / 1000) * 20} />
+        </a>
       </div>
 
       <style jsx>
@@ -105,6 +117,17 @@ const FooterComp: React.FunctionComponent<IFooter.IProps> = (): JSX.Element => {
           .link,
           a:not(:last-child) {
             margin-right: 0.25rem;
+          }
+
+          .vercel {
+            display: inline-flex;
+            align-items: center;
+            line-height: 1;
+            margin-top: 1.5rem;
+          }
+
+          .vercel span {
+            margin-right: 0.5rem;
           }
 
           @media (max-width: 600px) {
