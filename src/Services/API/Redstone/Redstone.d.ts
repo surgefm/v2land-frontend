@@ -1,4 +1,12 @@
-import { HttpModel, Event, Client, Tag, InviteCode, PopularChatroom } from '@Interfaces';
+import {
+  HttpModel,
+  Event,
+  Client,
+  Tag,
+  InviteCode,
+  PopularChatroom,
+  ChatMessage,
+} from '@Interfaces';
 
 declare namespace RedstoneModel {
   export interface CreateEventOptions extends HttpModel.IRequestPayload {
@@ -99,6 +107,10 @@ declare namespace RedstoneModel {
 
   export interface GetPopularChatroomsResponse {
     chatrooms: PopularChatroom[];
+  }
+
+  export interface LoadChatMessagesResponse {
+    messages: ChatMessage[];
   }
 }
 

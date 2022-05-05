@@ -5,6 +5,7 @@ import { message as msg } from 'antd';
 
 import { ChatMessage, AppStore } from '@Interfaces';
 import { ChatroomActions } from '@Actions';
+import { getChatId } from '@Services/Utils';
 
 const {
   publicRuntimeConfig: { API_URL },
@@ -13,11 +14,6 @@ const {
 type ConnectionResponse = {
   messages: ChatMessage[];
 };
-
-export const getChatroomId = (type: 'client' | 'newsroom', ids: number | number[]) =>
-  type === 'client'
-    ? `chat-clients:${(ids as number[]).sort().join('-')}`
-    : `chat-newsroom:${ids as number}`;
 
 export class ChatroomSocket {
   private socket: SocketIOClient.Socket;
@@ -32,7 +28,7 @@ export class ChatroomSocket {
 
   constructor(type: 'client' | 'newsroom', ids: number | number[], store: Store<any, AnyAction>) {
     this.store = store;
-    this.id = getChatroomId(type, ids);
+    this.id = getChatId(type, ids);
     this.type = type;
     this.ids = ids;
     const url = new URL(API_URL);
@@ -86,9 +82,7 @@ export class ChatroomSocket {
     this.socket.on('connect', connectSucceededResponse);
     this.socket.on('reconnect', connectSucceededResponse);
 
-    const connectFailedResponse = () => {
-      console.log('sad');
-    };
+    const connectFailedResponse = () => {};
 
     this.socket.on('connect_failed', connectFailedResponse);
     this.socket.on('reconnect_failed', connectFailedResponse);
@@ -130,7 +124,7 @@ export function getChatroomSocket(
   store?: Store<any, AnyAction>
 ): ChatroomSocket | null {
   if (typeof window === 'undefined') return null;
-  const id = getChatroomId(type, ids);
+  const id = getChatId(type, ids);
   if (typeof chatroomSocketMap[id] !== 'undefined') {
     return chatroomSocketMap[id];
   }
@@ -141,7 +135,7 @@ export function getChatroomSocket(
 
 export function closeChatroomSocket(type: 'client' | 'newsroom', ids: number | number[]) {
   if (typeof window === 'undefined') return;
-  const id = getChatroomId(type, ids);
+  const id = getChatId(type, ids);
   if (typeof chatroomSocketMap[id] === 'undefined') return;
   chatroomSocketMap[id].destroy();
   delete chatroomSocketMap[id];

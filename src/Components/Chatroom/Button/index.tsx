@@ -3,7 +3,8 @@ import { useStore, useSelector } from 'react-redux';
 import { Button, Badge } from 'antd';
 import { MessageOutlined } from '@ant-design/icons';
 
-import { getChatroomSocket, getChatroomId } from '@Services/Socket/chatroom';
+import { getChatroomSocket } from '@Services/Socket/chatroom';
+import { getChatId } from '@Services/Utils';
 import { getChatroomMessages } from '@Selectors';
 
 import { ChatroomWindow } from '../Window';
@@ -16,7 +17,7 @@ export const ChatroomButton: React.FC<ChatroomButtonProps> = ({
 }) => {
   const store = useStore();
   let socket = getChatroomSocket(type, ids, store);
-  const chatId = getChatroomId(type, ids);
+  const chatId = getChatId(type, ids);
   const [lastReadAt, setLastReadAt] = useState(new Date());
   const [isOpen, setIsOpen] = useState(openByDefault);
   const [numUnread, setNumUnread] = useState(0);

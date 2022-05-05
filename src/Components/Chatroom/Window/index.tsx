@@ -3,7 +3,8 @@ import { useSelector } from 'react-redux';
 import { Input, Button, Typography, Empty } from 'antd';
 import { SendOutlined, CloseOutlined, MessageTwoTone } from '@ant-design/icons';
 
-import { getChatroomSocket, getChatroomId } from '@Services/Socket/chatroom';
+import { getChatroomSocket } from '@Services/Socket/chatroom';
+import { getChatId } from '@Services/Utils';
 import { getChatroomMessages, getEvent, getEventOwner } from '@Selectors';
 
 import { ChatroomMessage } from '../Message';
@@ -11,7 +12,7 @@ import { WindowProps } from './Window';
 
 export const ChatroomWindow: React.FC<WindowProps> = ({ type, ids, onClose }) => {
   const socket = getChatroomSocket(type, ids);
-  const chatId = getChatroomId(type, ids);
+  const chatId = getChatId(type, ids);
   const event = useSelector(getEvent(type === 'newsroom' ? -(ids as number) : 0));
   const eventOwner = useSelector(getEventOwner(type === 'newsroom' ? -(ids as number) : 0));
   const messages = useSelector(getChatroomMessages(chatId));

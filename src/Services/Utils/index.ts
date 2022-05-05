@@ -1,3 +1,4 @@
+export * from './getChatId';
 export * from './getErrorMessage';
 export * from './getEventIdMiddleware';
 export * from './getEventPath';

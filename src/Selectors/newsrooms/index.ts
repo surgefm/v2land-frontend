@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 import { IStore } from '@Interfaces';
 
 import { getLoggedInClientId, isCurrentClientEditor } from '@Selectors/clients';
+import { getEvent } from '@Selectors/events';
 
 export const getNewsroomsState = (state: IStore) => state.newsrooms;
 
@@ -98,8 +99,12 @@ export const getNewsroomCurrentClientRole = (eventId?: number) =>
 
 export const canCurrentClientViewEvent = (eventId?: number) =>
   createSelector(
+    getEvent(eventId || 0),
     getNewsroomCurrentClientRole(eventId),
-    role => role && role !== 'passerby'
+    (event, role) => {
+      if (event && event.status === 'admitted') return true;
+      return role && role !== 'passerby';
+    }
   );
 
 export const canCurrentClientEditEvent = (eventId?: number) =>

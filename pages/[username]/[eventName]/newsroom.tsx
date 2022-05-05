@@ -24,7 +24,7 @@ import {
 
 // #region Local Imports
 import { useTranslation } from '@I18n';
-import { NewsroomActions } from '@Actions';
+import { NewsroomActions, ChatroomActions } from '@Actions';
 import {
   getNewsroomSocket,
   closeNewsroomSocket,
@@ -32,6 +32,7 @@ import {
   handleNewsroomDragEnd,
   ClientService,
   UtilService,
+  RedstoneService,
   usePrevious,
 } from '@Services';
 import { NewsroomPanelConsts } from '@Definitions';
@@ -379,6 +380,13 @@ EventNewsroomPage.getInitialProps = async (
 ): Promise<IEventNewsroomPage.InitialProps> => {
   const eventId =
     (await UtilService.getEventIdMiddleware(ctx, '/newsroom', { needViewPermission: true })) || 0;
+
+  const messages = await RedstoneService.loadChatMessages('newsroom', Math.abs(eventId));
+  const chatId = UtilService.getChatId('newsroom', Math.abs(eventId));
+  ctx.store.dispatch(ChatroomActions.AddNewsroom(chatId, 'newsroom', Math.abs(eventId)));
+  for (let i = 0; i < messages.length; i += 1) {
+    ctx.store.dispatch(ChatroomActions.AddMessage(chatId, messages[i]));
+  }
 
   return {
     namespacesRequired: ['common'],
