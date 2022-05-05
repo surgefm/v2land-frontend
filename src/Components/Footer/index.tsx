@@ -48,7 +48,7 @@ const FooterComp: React.FunctionComponent<IFooter.IProps> = (): JSX.Element => {
           </a>
         </div>
 
-        <span>{`Surge.fm ${new Date().getFullYear()}`}</span>
+        <span>{`Langchao.org ${new Date().getFullYear()}`}</span>
 
         <a
           href="https://vercel.com/?utm_source=surgefm&utm_campaign=oss"
