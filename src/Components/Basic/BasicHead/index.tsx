@@ -28,7 +28,7 @@ const BasicHeadComp: React.FunctionComponent<IBasicHead.IProps> = () => {
       <meta key="og:type" property="og:type" content="website" />
       <meta key="og:description" property="og:description" content={t('Head_Description')} />
       <meta key="og:image" name="og:image" content="https://cdn.surge.fm/twitter-icon.png" />
-      <meta key="og:site_name" name="og:site_name" content={t('Title') || '浪潮'} />
+      <meta key="og:site_name" name="og:site_name" content={t('Head_Title')} />
     </Head>
   );
 };

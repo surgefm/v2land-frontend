@@ -8,6 +8,7 @@
   "Client_Cancel": "取消",
   "Event_Stats_With": "时间线共有",
   "Event_Stats_Stacks": "个进展",
+  "Admin_Users": "用户",
   "Event_Stats_Delineator": "、",
   "Event_Stats_News": "条新闻",
   "Event_Stats_WithStacksAndNews": "时间线共有 {{stackCount}} 个进展、{{newsCount}} 条新闻",
