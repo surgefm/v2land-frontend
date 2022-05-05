@@ -381,11 +381,13 @@ EventNewsroomPage.getInitialProps = async (
   const eventId =
     (await UtilService.getEventIdMiddleware(ctx, '/newsroom', { needViewPermission: true })) || 0;
 
-  const messages = await RedstoneService.loadChatMessages('newsroom', Math.abs(eventId));
-  const chatId = UtilService.getChatId('newsroom', Math.abs(eventId));
-  ctx.store.dispatch(ChatroomActions.AddNewsroom(chatId, 'newsroom', Math.abs(eventId)));
-  for (let i = 0; i < messages.length; i += 1) {
-    ctx.store.dispatch(ChatroomActions.AddMessage(chatId, messages[i]));
+  if (eventId !== 0) {
+    const messages = await RedstoneService.loadChatMessages('newsroom', Math.abs(eventId));
+    const chatId = UtilService.getChatId('newsroom', Math.abs(eventId));
+    ctx.store.dispatch(ChatroomActions.AddNewsroom(chatId, 'newsroom', Math.abs(eventId)));
+    for (let i = 0; i < messages.length; i += 1) {
+      ctx.store.dispatch(ChatroomActions.AddMessage(chatId, messages[i]));
+    }
   }
 
   return {

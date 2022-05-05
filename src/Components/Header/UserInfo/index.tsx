@@ -12,7 +12,7 @@ import { ClientAvatar } from '@Components/Client';
 import { useTranslation } from '@I18n';
 import { IHeaderUserInfo } from './UserInfo';
 
-const guardedRoutes = ['/settings', '/settings/invite'];
+const guardedRoutes = ['/settings', '/settings/invite', '/[username]/[eventName]/newsroom'];
 
 const HeaderUserInfoImpl: React.FC<IHeaderUserInfo.IProps> = () => {
   const { t } = useTranslation('common');
