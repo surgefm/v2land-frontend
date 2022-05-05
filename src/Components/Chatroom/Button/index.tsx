@@ -85,7 +85,7 @@ export const ChatroomButton: React.FC<ChatroomButtonProps> = ({
           }
 
           :global(.fab) {
-            display: ${isOpen ? 'none' : 'block'} !important;
+            ${ isOpen ? "display: none !important;" : '' }
           }
 
           @media (max-width: 700px) {

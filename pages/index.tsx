@@ -72,6 +72,7 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ chatrooms })
         <Col
           {...tagGrid}
           style={{
+            overflowX: 'visible',
             overflowY: 'auto',
             maxHeight: 'calc(100vh - 8.5rem)',
             height: '100%',

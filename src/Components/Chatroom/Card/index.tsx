@@ -2,7 +2,7 @@
 import React, { useState, createRef, useEffect } from 'react';
 import Link from 'next/link';
 import { Typography } from 'antd';
-import { MessageTwoTone, EditTwoTone } from '@ant-design/icons';
+import { MessageTwoTone, EditTwoTone, CompassTwoTone } from '@ant-design/icons';
 
 import { PopularChatroom } from '@Interfaces';
 import { ClientAvatar } from '@Components/Client';
@@ -13,20 +13,25 @@ type ChatroomCardProps = {
 };
 
 export const ChatroomCard: React.FC<ChatroomCardProps> = ({ chatroom, asCard = false }) => {
-  const { editorIds, speakerIds, editorIdsNow, speakerIdsNow } = chatroom;
-  const [chatterIds] = useState(Array.from(new Set([...chatroom.chatterIds, ...speakerIdsNow])));
+  const { editorIds, speakerIds, editorIdsNow, speakerIdsNow, chatterIds } = chatroom;
   const divRef = createRef<HTMLDivElement>();
 
-  const showNow = editorIdsNow.length > 0 || chatterIds.length > 0;
+  const showNow = editorIdsNow.length > 0 || chatterIds.length > 0 || speakerIdsNow.length > 0;
+  const showViewer = chatterIds.length > editorIdsNow.length * 5 && chatterIds.length > speakerIdsNow.length * 5;
   const showActivity = showNow || editorIds.length > 0 || speakerIds.length > 0;
   let showEditor = false;
+  let showSpeaker = false;
   let ids: number[] = [];
 
   if (showNow) {
-    showEditor = editorIdsNow.length * 1.5 > chatterIds.length;
-    ids = showEditor ? editorIdsNow : chatterIds;
+    showEditor = !showViewer && editorIdsNow.length > speakerIdsNow.length;
+    showSpeaker = !showViewer && !showEditor;
+    ids = showViewer
+      ? chatterIds
+      : (showEditor ? editorIdsNow : speakerIdsNow);
   } else if (showActivity) {
-    showEditor = editorIds.length * 1.5 > speakerIds.length;
+    showEditor = editorIds.length > speakerIds.length;
+    showSpeaker = !showEditor;
     ids = showEditor ? editorIds : speakerIds;
   } else {
     ids = [chatroom.event.ownerId];
@@ -84,7 +89,12 @@ export const ChatroomCard: React.FC<ChatroomCardProps> = ({ chatroom, asCard = f
           <span className="username">@{chatroom.eventOwner.username}</span>
           {showActivity ? (
             <div className="stats">
-              {!showEditor && (
+              {showViewer && (
+                <span style={{ color: 'rgb(24, 144, 255)' }}>
+                  <CompassTwoTone /> {ids.length}人在线
+                </span>
+              )}
+              {showSpeaker && (
                 <span style={{ color: 'rgb(24, 144, 255)' }}>
                   <MessageTwoTone /> {ids.length}人{showNow ? '正在' : '近期'}讨论
                 </span>

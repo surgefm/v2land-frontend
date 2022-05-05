@@ -68,6 +68,8 @@ export const Flow: React.FC<IFlow.IProps> = ({ Component, elementProps, numLine 
             width: calc(100% + 2rem);
             margin-left: -1rem;
             overflow-x: auto;
+            overflow-y: visible;
+            height: max-content;
             padding-bottom: 0.7rem;
           }
 
