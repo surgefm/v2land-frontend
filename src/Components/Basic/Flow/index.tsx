@@ -61,12 +61,13 @@ export const Flow: React.FC<IFlow.IProps> = ({ Component, elementProps, numLine 
             width: 100%;
             position: relative;
             display: grid;
+            margin-bottom: .3rem;
           }
 
           .sub-container {
             width: calc(100% + 2rem);
             margin-left: -1rem;
-            overflow: auto;
+            overflow-x: auto;
             padding-bottom: 0.7rem;
           }
 

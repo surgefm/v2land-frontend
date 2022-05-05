@@ -52,6 +52,7 @@ export const EventCreateButton = () => {
           .button {
             transition: all 0.5s;
             margin-left: 0.5rem;
+            width: min-content;
           }
         `}
       </style>

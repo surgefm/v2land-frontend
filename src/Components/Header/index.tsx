@@ -59,77 +59,90 @@ export const Header: React.FC = (): JSX.Element => {
   }, [router, event, canView]);
 
   return (
-    <div className="container">
-      <div className="center">
-        <div className="left" style={{ paddingRight: 4 + rightWidth }} ref={leftRef}>
-          <HeaderLogo />
-          <Space size={4}>
-            {isInNewsroom ? (
-              <>
-                <NewsroomHeaderBreadcrumb />
-                <span className="large">
-                  <NewsroomHeaderClientAvatars />
-                </span>
-                <NewsroomHeaderSocketStatus />
-              </>
-            ) : (
-              <>
-                <span className="large">
-                  <HeaderButton href="/" Icon={HomeOutlined}>
-                    {t('Header_Homepage')}
+    <div className="super">
+      <div className="container">
+        <div className="center">
+          <div className="left" style={{ paddingRight: 4 + rightWidth }} ref={leftRef}>
+            <HeaderLogo />
+            <Space size={4}>
+              {isInNewsroom ? (
+                <>
+                  <NewsroomHeaderBreadcrumb />
+                  <span className="large">
+                    <NewsroomHeaderClientAvatars />
+                  </span>
+                  <NewsroomHeaderSocketStatus />
+                </>
+              ) : (
+                <>
+                  <span className="large">
+                    <HeaderButton href="/" Icon={HomeOutlined}>
+                      {t('Header_Homepage')}
+                    </HeaderButton>
+                  </span>
+                  <span className="small">
+                    <HeaderButton href="/" Icon={LogoIcon}>
+                      {t('Header_Homepage')}
+                    </HeaderButton>
+                  </span>
+                  {/* <HeaderButton href="/tags" Icon={NumberOutlined}>
+                    热门话题
+                  </HeaderButton> */}
+                  {/* <HeaderButton href="/about" Icon={QuestionCircleOutlined}>
+                    {t('About_Title')}
+                  </HeaderButton> */}
+                  <HeaderButton href="/wiki" Icon={QuestionCircleOutlined}>
+                    使用指南
                   </HeaderButton>
-                </span>
-                <span className="small">
-                  <HeaderButton href="/" Icon={LogoIcon}>
-                    {t('Header_Homepage')}
-                  </HeaderButton>
-                </span>
-                {/* <HeaderButton href="/tags" Icon={NumberOutlined}>
-                  热门话题
-                </HeaderButton> */}
-                {/* <HeaderButton href="/about" Icon={QuestionCircleOutlined}>
-                  {t('About_Title')}
-                </HeaderButton> */}
-                <HeaderButton href="/wiki" Icon={QuestionCircleOutlined}>
-                  使用指南
-                </HeaderButton>
-              </>
+                </>
+              )}
+            </Space>
+          </div>
+          <div className="right" ref={rightRef}>
+            {isInTagPage && <HeaderTagManage />}
+            <HeaderUserInfo />
+            <div className="large">
+              <NewsroomHeaderEnterButton />
+            </div>
+            {isHomepage && (
+              <div className="large">
+                <EventCreateButton />
+              </div>
             )}
-          </Space>
-        </div>
-        <div className="right" ref={rightRef}>
-          {isInTagPage && <HeaderTagManage />}
-          <HeaderUserInfo />
-          <div className="large">
-            <NewsroomHeaderEnterButton />
-          </div>
-          <div className="small fab">
-            <NewsroomHeaderEnterButton />
-          </div>
-          {isHomepage && (
-            <>
-              <div className="large">
-                <EventCreateButton />
-              </div>
-              <div className="small fab">
-                <EventCreateButton />
-              </div>
-            </>
-          )}
-          {!isInNewsroom || (
-            <>
+            {!isInNewsroom || (
               <div className="large">
                 <NewsroomHeaderCommitButton />
               </div>
-              <div className="small fab">
-                <NewsroomHeaderCommitButton />
-              </div>
-            </>
-          )}
+            )}
+          </div>
         </div>
       </div>
+
+      <div className="small fab">
+        <NewsroomHeaderEnterButton />
+      </div>
+
+      {isHomepage && (
+        <div className="small fab">
+          <EventCreateButton />
+        </div>
+      )}
+
+      {!isInNewsroom || (
+        <div className="small fab">
+          <NewsroomHeaderCommitButton />
+        </div>
+      )}
+
       <style jsx>
         {`
+          .super {
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 10;
+          }
+
           .container {
             width: 100%;
             height: 3.5rem;
@@ -182,7 +195,10 @@ export const Header: React.FC = (): JSX.Element => {
             position: fixed;
             bottom: 1.5rem;
             right: 1rem;
+            left: initial;
             display: none;
+            width: min-content;
+            z-index: 1;
           }
 
           @media (max-width: 700px) {
