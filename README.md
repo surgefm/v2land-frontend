@@ -23,3 +23,7 @@ If you are interested in helping us develop Surge.fm, you should:
 ## Twitter
 Follow us on Twitter [@langchao_org](https://twitter.com/langchao_org).
 
+## Sponsor
+We thank Vercel for its [open-source sponsorship](https://vercel.com/support/articles/can-vercel-sponsor-my-open-source-project) to Surge.fm.
+
+[![Vercel](https://www.datocms-assets.com/31049/1618983297-powered-by-vercel.svg)](https://vercel.com/?utm_source=surgefm&utm_campaign=oss)
