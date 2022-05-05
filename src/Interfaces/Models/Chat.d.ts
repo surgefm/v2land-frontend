@@ -11,4 +11,9 @@ export interface Chat {
 export interface PopularChatroom extends Chat {
   event: Event;
   eventOwner: Client;
+  chatterIds: number[];
+  speakerIds: number[];
+  editorIds: number[];
+  speakerIdsNow: number[];
+  editorIdsNow: number[];
 }

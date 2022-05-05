@@ -3,6 +3,7 @@ export { BasicHead } from './BasicHead';
 export { Card } from './Card';
 export { ClientHead } from './ClientHead';
 export { EventHead } from './EventHead';
+export { Flow } from './Flow';
 export { Head } from './Head';
 export { HeaderCard } from './HeaderCard';
 export { Image } from './Image';

@@ -6,8 +6,8 @@ import { Col, message, Row } from 'antd';
 // #endregion Global Imports
 // #region Local Imports
 import { useTranslation } from '@I18n';
-import { EventActions, TagActions } from '@Actions';
-import { Background, EventCardList, Footer, Head, SectionHeader, TagCard } from '@Components';
+import { EventActions } from '@Actions';
+import { Background, EventCardList, Footer, Head, SectionHeader, Flow } from '@Components';
 import { ChatroomCard } from '@Components/Chatroom/Card';
 import { RedstoneService, UtilService } from '@Services';
 // #endregion Local Imports
@@ -27,7 +27,13 @@ const tagGrid = {
   md: 6,
 };
 
-const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList, chatrooms }) => {
+const tagMiniGrid = {
+  xs: 24,
+  sm: 24,
+  md: 0,
+};
+
+const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ chatrooms }) => {
   const { t } = useTranslation('common');
   const router = useRouter();
   useEffect(() => {
@@ -49,21 +55,34 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList, cha
       <Head />
       <Row className="grid" justify="space-between" gutter={32} style={{ maxWidth: '60rem' }}>
         <Col {...eventGrid} style={{ maxWidth: '45rem' }}>
+          <Col {...tagMiniGrid} style={{ padding: 0 }}>
+            <SectionHeader>活跃新闻编辑室</SectionHeader>
+            <Flow
+              numLine={2}
+              Component={ChatroomCard}
+              elementProps={chatrooms.map(c => ({
+                chatroom: c,
+                asCard: true,
+              }))}
+            />
+          </Col>
           <EventCardList className="left" />
         </Col>
 
-        <Col {...tagGrid}>
+        <Col
+          {...tagGrid}
+          style={{
+            overflowY: 'auto',
+            height: 'calc(100vh - 8.5rem)',
+            position: 'sticky',
+            top: '5rem',
+          }}
+        >
           <div className="tagList">
             <SectionHeader>活跃新闻编辑室</SectionHeader>
             {chatrooms.map(chatroom => (
-              <ChatroomCard chatroom={chatroom} key={chatroom.id} />
+              <ChatroomCard chatroom={chatroom} key={chatroom.event.id} />
             ))}
-            <SectionHeader>{t('Home_Topics_TrendingTopics')}</SectionHeader>
-            <div className="tags">
-              {tagList.map(tag => (
-                <TagCard tag={tag} key={tag.id} />
-              ))}
-            </div>
           </div>
         </Col>
       </Row>
@@ -76,9 +95,6 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList, cha
           }
 
           .tagList {
-            position: sticky;
-            top: 5rem;
-            height: calc(100vh - 10rem);
             overflow-x: visible;
             display: flex;
             flex-direction: column;
@@ -89,7 +105,6 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ tagList, cha
             flex-direction: column;
             margin-top: -0.25rem;
             flex-grow: 1;
-            overflow-y: scroll;
           }
         `}
       </style>
@@ -104,9 +119,6 @@ Home.getInitialProps = async (ctx: ReduxNextPageContext): Promise<IHomePage.Init
     RedstoneService.getPopularChatrooms(),
     RedstoneService.getTagList(),
   ]);
-  for (let i = 0; i < tagList.length; i += 1) {
-    ctx.store.dispatch(TagActions.AddTag(tagList[i]));
-  }
   tagList = tagList.filter(tag => tag.eventIdList.length > 0);
   return {
     tagList,

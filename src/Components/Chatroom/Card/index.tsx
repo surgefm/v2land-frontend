@@ -1,139 +1,192 @@
-import React from 'react';
+/* eslint-disable react/require-default-props */
+import React, { useState, createRef, useEffect } from 'react';
 import Link from 'next/link';
 import { Typography } from 'antd';
-import { ArrowRightOutlined } from '@ant-design/icons';
+import { MessageTwoTone, EditTwoTone } from '@ant-design/icons';
 
 import { PopularChatroom } from '@Interfaces';
 import { ClientAvatar } from '@Components/Client';
 
 type ChatroomCardProps = {
   chatroom: PopularChatroom;
+  asCard?: boolean;
 };
 
-export const ChatroomCard: React.FC<ChatroomCardProps> = ({ chatroom }) => {
-  const Card = () => {
-    let name = (
-      <Typography.Text ellipsis className="username" strong>
-        @{chatroom.eventOwner.username}
-      </Typography.Text>
-    );
-    if (chatroom.eventOwner.nickname) {
-      name = (
-        <Typography.Text ellipsis className="username">
-          <strong>{chatroom.eventOwner.nickname}</strong> @{chatroom.eventOwner.username}
-        </Typography.Text>
-      );
+export const ChatroomCard: React.FC<ChatroomCardProps> = ({ chatroom, asCard = false }) => {
+  const { editorIds, speakerIds, editorIdsNow, speakerIdsNow } = chatroom;
+  const [chatterIds] = useState(Array.from(new Set([...chatroom.chatterIds, ...speakerIdsNow])));
+  const divRef = createRef<HTMLDivElement>();
+
+  const showNow = editorIdsNow.length > 0 || chatterIds.length > 0;
+  const showActivity = showNow || editorIds.length > 0 || speakerIds.length > 0;
+  let showEditor = false;
+  let ids: number[] = [];
+
+  if (showNow) {
+    showEditor = editorIdsNow.length * 1.5 > chatterIds.length;
+    ids = showEditor ? editorIdsNow : chatterIds;
+  } else if (showActivity) {
+    showEditor = editorIds.length * 1.5 > speakerIds.length;
+    ids = showEditor ? editorIds : speakerIds;
+  }
+
+  const [numAvatar, setNumAvatar] = useState(ids.length);
+
+  const resize = () => {
+    if (asCard) {
+      setNumAvatar(Math.min(ids.length, 5));
+      return;
     }
 
-    return (
-      <Link
-        href={{
-          pathname: '/[username]/[eventName]/newsroom',
-          query: {
-            username: `@${chatroom.eventOwner.username}`,
-            eventName: `${chatroom.event.id}-${chatroom.event.pinyin}`,
-            c: 1,
-          },
-        }}
-      >
-        <div className="card">
-          <div className="avatar">
-            <ClientAvatar clientId={chatroom.eventOwner.id} showTooltip={false} size={40} />
-          </div>
-          <div className="names">
-            {name}
-            <Typography.Text
-              ellipsis
-              style={{ color: '#333', lineHeight: 1.2, marginTop: '.1rem' }}
-            >
-              {chatroom.event.name}
-            </Typography.Text>
-          </div>
-
-          <style jsx>
-            {`
-              .card {
-                max-width: 18rem;
-                display: flex;
-                align-items: center;
-                padding: 0.25rem 0.5rem 0.25rem 0.25rem;
-                border-radius: 0.5rem;
-                border-top-left-radius: 1000px;
-                border-bottom-left-radius: 1000px;
-                transition: all 0.2s;
-                position: relative;
-                cursor: pointer;
-              }
-
-              .avatar {
-                margin-right: 0.5rem;
-              }
-
-              .names {
-                display: grid;
-              }
-
-              .card :global(.username) {
-                font-size: 12px;
-                line-height: 1.2;
-                color: rgba(0, 0, 0, 0.5);
-              }
-            `}
-          </style>
-        </div>
-      </Link>
-    );
+    if (!divRef.current || !window) return;
+    const node = divRef.current;
+    const width = node.offsetWidth;
+    const rem = parseFloat(window.getComputedStyle(document.documentElement).fontSize);
+    const nameWidth = (node.children[0] as HTMLSpanElement).offsetWidth;
+    const statusWidth = (node.children[1] as HTMLDivElement).offsetWidth;
+    let remaining = width - nameWidth - statusWidth - 0.5 * rem - (statusWidth > 0 ? 0.5 * rem : 0);
+    if (remaining < 20) {
+      setNumAvatar(0);
+      return;
+    }
+    remaining -= 20;
+    const num = 1 + Math.floor(remaining / 12);
+    setNumAvatar(num);
   };
 
+  useEffect(() => {
+    resize();
+    window.addEventListener('resize', resize);
+
+    return () => {
+      window.removeEventListener('resize', resize);
+    };
+  });
+
   return (
-    <div className="container">
-      <div className="phantom">
-        <ArrowRightOutlined className="arrow" />
-        <Card />
+    <Link
+      href={{
+        pathname: '/[username]/[eventName]/newsroom',
+        query: {
+          username: `@${chatroom.eventOwner.username}`,
+          eventName: `${chatroom.event.id}-${chatroom.event.pinyin}`,
+          c: 1,
+        },
+      }}
+    >
+      <div className={`card ${asCard && 'white'}`}>
+        <Typography.Paragraph ellipsis={{ rows: 1 }} className="title">
+          {chatroom.event.name}
+        </Typography.Paragraph>
+        <div className="second-line" ref={divRef}>
+          <span className="username">@{chatroom.eventOwner.username}</span>
+          {showActivity ? (
+            <div className="stats">
+              {!showEditor && chatterIds.length > 0 && (
+                <span style={{ color: 'rgb(24, 144, 255)' }}>
+                  <MessageTwoTone /> {ids.length}人{showNow ? '正在' : '近期'}讨论
+                </span>
+              )}
+              {showEditor && (
+                <span style={{ color: 'rgb(24, 144, 255)' }}>
+                  <EditTwoTone /> {ids.length}人{showNow ? '正在' : '近期'}编辑
+                </span>
+              )}
+            </div>
+          ) : (
+            <div />
+          )}
+          {numAvatar > 0 && (
+            <div className="avatar" style={{ width: `${8 + numAvatar * 12}px` }}>
+              {ids.slice(0, numAvatar).map((id, idx) => (
+                <div
+                  className="avatar-small"
+                  key={id}
+                  style={{ left: `${idx * 12}px`, zIndex: numAvatar + 1 - idx }}
+                >
+                  <ClientAvatar clientId={id} size={20} />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <style jsx>
+          {`
+            .card {
+              max-width: 18rem;
+              transition: all 0.2s;
+              position: relative;
+              background-color: rgba(255, 255, 255, 0);
+              padding: 0.25rem 0.5rem;
+              margin-left: -0.5rem;
+              margin-bottom: 0.125rem;
+              transition: all 0.2s;
+              cursor: pointer;
+              border-radius: 0.5rem;
+            }
+
+            .card.white {
+              background-color: #fff;
+              margin-bottom: 0;
+            }
+
+            .card:hover {
+              background-color: #fff;
+              box-shadow: 0 4px 4px rgba(0, 0, 0, 0.01);
+            }
+
+            .second-line {
+              display: flex;
+              align-items: center;
+              flex-wrap: nowrap;
+            }
+
+            .second-line * {
+              white-space: nowrap;
+            }
+
+            .right {
+              display: flex;
+              align-items: center;
+            }
+
+            .stats {
+              margin-left: 0.5rem;
+              font-size: 12px;
+              line-height: 1.2;
+            }
+
+            .avatar {
+              margin-left: 0.5rem;
+              display: flex;
+              position: relative;
+              height: 20px;
+            }
+
+            .avatar-small {
+              position: absolute;
+              top: 0;
+              height: 20px;
+              width: 20px;
+              border-radius: 50%;
+              box-shadow: 0 4px 4px rgba(0, 0, 0, 0.01);
+            }
+
+            .card .username {
+              font-size: 12px;
+              line-height: 1.2;
+              color: rgba(0, 0, 0, 0.5);
+            }
+
+            .card :global(.title) {
+              color: #333;
+              line-height: 1.2;
+              margin: 0.2rem 0;
+            }
+          `}
+        </style>
       </div>
-      <Card />
-
-      <style jsx>
-        {`
-          .container,
-          .phantom {
-            max-width: 18rem;
-            display: flex;
-            align-items: center;
-            margin-left: -0.25rem;
-            transition: all 0.2s;
-            position: relative;
-          }
-
-          .phantom {
-            width: 100%;
-            max-width: 18rem;
-            position: absolute;
-            opacity: 0;
-            transform: translateX(0.25rem);
-            background-color: #fff;
-            transition: all 0.2s;
-            border-radius: 1rem;
-            border-top-left-radius: 1000px;
-            border-bottom-left-radius: 1000px;
-            overflow: hidden;
-            z-index: 100;
-          }
-
-          .container:hover .phantom {
-            opacity: 1;
-          }
-
-          .phantom :global(.arrow) {
-            font-size: 12px;
-            position: absolute;
-            right: 0.55rem;
-            top: 0.55rem;
-            background-color: #fff;
-            z-index: 100;
-          }
-        `}
-      </style>
-    </div>
+    </Link>
   );
 };
