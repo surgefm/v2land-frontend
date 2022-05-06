@@ -1,6 +1,5 @@
 import React, { useState, useEffect, createRef } from 'react';
 
-import commonStyles from '@Static/css/common.module.scss';
 import { IEventCardDescription } from './Description';
 
 export const EventCardDescription: React.FunctionComponent<IEventCardDescription.IProps> = ({
@@ -73,18 +72,14 @@ export const EventCardDescription: React.FunctionComponent<IEventCardDescription
   }, []);
 
   return (
-    <div
-      ref={ref}
-      className={`description ${commonStyles['light-font']} ${className || ''}`}
-      style={styles}
-    >
+    <div ref={ref} className={`description ${className || ''}`} style={styles}>
       <span>{children}</span>
       <div className="fade" style={{ opacity: text !== undefined && text === children ? 0 : 1 }} />
       <div className="hide" />
       <style jsx>
         {`
           .description {
-            color: #333;
+            color: rgba(0, 0, 0, 0.65);
             padding: 0;
             position: relative;
             margin-top: 0.5rem;

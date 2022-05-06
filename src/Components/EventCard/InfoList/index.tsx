@@ -24,10 +24,14 @@ export const EventInfoList: React.FC<IInfoList.IProps> = ({
           margin-top: ${empty ? 0 : '0.5rem'};
           display; flex;
           flex-wrap: wrap;
-          height: ${empty ? '0' : '23px'};
+          height: ${empty ? '0' : '25px'};
           overflow: hidden;
           position: relative;
           z-index: 10;
+        }
+
+        .container > :global(*) {
+          margin-bottom: 1rem;
         }
       `}
       </style>
