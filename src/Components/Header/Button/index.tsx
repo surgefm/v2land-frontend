@@ -54,7 +54,7 @@ export const HeaderButton: React.FunctionComponent<IHeaderButton.IProps> = ({
           .button {
             color: #333;
             padding: 0.35rem 0;
-            width: 7.25rem;
+            width: 6rem;
             cursor: pointer;
             white-space: nowrap;
             margin: 1rem 0.25rem;

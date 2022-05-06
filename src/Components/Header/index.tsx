@@ -99,10 +99,10 @@ export const Header: React.FC = (): JSX.Element => {
                       />
                     )}
                   >
-                    话题列表
+                    话题
                   </HeaderButton>
                   <HeaderButton href="/wiki" Icon={QuestionCircleOutlined}>
-                    使用指南
+                    指南
                   </HeaderButton>
                 </>
               )}
