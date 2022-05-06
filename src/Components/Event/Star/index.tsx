@@ -31,8 +31,8 @@ export const EventStar: React.FunctionComponent<IEventStar.IProps> = ({ eventId 
     const { client } = await RedstoneService.getClientInfo();
     dispatch(ClientActions.AddClient(client));
     dispatch(EventActions.GetEvent(eventId));
-    if (hasStarred) message.info('成功取消收藏');
-    else message.info('收藏成功');
+    if (hasStarred) message.success('成功取消收藏');
+    else message.success('收藏成功');
   };
 
   return (

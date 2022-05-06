@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Modal, message } from 'antd';
+import { Button, Modal } from 'antd';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 
@@ -15,7 +15,6 @@ export const EventCreateButton = () => {
 
   const showModal = () => {
     if (!user) {
-      message.info('请先登录');
       router.push(`/login?redirect=${router.asPath}`);
       return;
     }
