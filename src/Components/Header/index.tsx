@@ -150,7 +150,7 @@ export const Header: React.FC = (): JSX.Element => {
             position: absolute;
             left: 0;
             top: 0;
-            z-index: 100000;
+            z-index: 201;
           }
 
           .container {

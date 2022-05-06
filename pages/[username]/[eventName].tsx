@@ -1,9 +1,10 @@
 // #region Global Imports
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
-import { message } from 'antd';
+import { Button, message } from 'antd';
+import { SwapOutlined } from '@ant-design/icons';
 // #endregion Global Imports
 
 // #region Local Imports
@@ -38,6 +39,7 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
   const event = useSelector(getEvent(eventId));
   const stackIdList = useSelector(getEventStackIdList(eventId));
   const stackTimeList = useSelector(getStackListTime(stackIdList));
+  const [latestFirst, setLatestFirst] = useState(true);
   const router = useRouter();
 
   let username = (router.query.username as string) || '';
@@ -102,22 +104,62 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
     <EventCardShimmer />
   );
 
+  const toggleOrder = () => {
+    setLatestFirst(!latestFirst);
+  };
+
+  const toggleButton = (
+    <Button type="link" onClick={toggleOrder}>
+      <SwapOutlined rotate={90} style={{ fontSize: '1rem' }} />
+    </Button>
+  );
+
   const stacks: React.ReactElement[] = [];
   let lastTimeStr = '';
   let lastTime = new Date();
-  for (let i = 0; i < stackIdList.length; i += 1) {
+  const firstIsSection = false;
+  for (let j = 0; j < stackIdList.length; j += 1) {
+    const i = latestFirst ? j : stackIdList.length - 1 - j;
     const time = stackTimeList[i];
     const timeStr = UtilService.getTimeString(time, { showMonthOnly: true, forceShowYear: true });
-    if (
-      time &&
-      timeStr &&
-      (!lastTimeStr || timeStr !== lastTimeStr) &&
-      time.getTime() < lastTime.getTime()
-    ) {
+    if (time && timeStr && (!lastTimeStr || timeStr !== lastTimeStr)) {
       lastTimeStr = timeStr;
       stacks.push(
         <SectionHeader key={`section-${timeStr}`} className={styles['stack-section-header']}>
-          {timeStr}
+          {j === 0 ? (
+            <div className="space-between">
+              <span>{timeStr}</span>
+              {toggleButton}
+              <style jsx>
+                {`
+                  .space-between {
+                    display: flex;
+                    align-items: flex-end;
+                    justify-content: space-between;
+                  }
+                `}
+              </style>
+            </div>
+          ) : (
+            timeStr
+          )}
+        </SectionHeader>
+      );
+    } else if (j === 0) {
+      stacks.push(
+        <SectionHeader key="toggle-button" className={styles['stack-section-header']}>
+          <div className="end">
+            {toggleButton}
+            <style jsx>
+              {`
+                .end {
+                  display: flex;
+                  align-items: flex-end;
+                  justify-content: flex-end;
+                }
+              `}
+            </style>
+          </div>
         </SectionHeader>
       );
     }
@@ -144,6 +186,7 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
         loading={showShimmer}
       />
       {eventCard}
+      {firstIsSection && <div className="with-section reorder" />}
       {stacks}
       <Footer />
     </Background>
