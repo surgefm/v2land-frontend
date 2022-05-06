@@ -73,18 +73,16 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ chatrooms })
           {...tagGrid}
           style={{
             overflowX: 'visible',
-            marginBottom: '1.1rem',
             position: 'relative',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'flex-end',
           }}
         >
-          <div className="tagList">
-            <SectionHeader>活跃新闻编辑室</SectionHeader>
-            {chatrooms.map(chatroom => (
-              <ChatroomCard chatroom={chatroom} key={chatroom.event.id} />
-            ))}
+          <div className="right-container">
+            <div className="tagList">
+              <SectionHeader>活跃新闻编辑室</SectionHeader>
+              {chatrooms.map(chatroom => (
+                <ChatroomCard chatroom={chatroom} key={chatroom.event.id} />
+              ))}
+            </div>
           </div>
         </Col>
       </Row>
@@ -96,12 +94,21 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ chatrooms })
             max-width: 58rem;
           }
 
+          .right-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            justify-content: flex-end;
+            padding-bottom: 1.1rem;
+          }
+
           .tagList {
             overflow-x: visible;
             display: flex;
             flex-direction: column;
             position: sticky;
             bottom: 1.5rem;
+            min-height: calc(100vh - 7.5rem);
           }
 
           .tags {
