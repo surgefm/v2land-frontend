@@ -55,22 +55,21 @@ const NewsroomHeaderBreadcrumbImpl: React.FC<INewsroomHeaderBreadcrumb.IProps> =
         {`
           :global(.breadcrumb-logo) {
             display: inline-block;
-            height: 24px;
+            height: 20px;
             position: relative;
-            bottom: 1px;
           }
 
           :global(.breadcrumb-logo) :global(.anticon) {
-            font-size: 24px;
+            font-size: 20px;
           }
 
           :global(.ant-breadcrumb) :global(li):first-child {
-            height: 24px;
+            height: 20px;
           }
 
           :global(.ant-breadcrumb) :global(li):first-child :global(.ant-breadcrumb-separator) {
             position: relative;
-            bottom: 4.5px;
+            bottom: 2px;
           }
         `}
       </style>

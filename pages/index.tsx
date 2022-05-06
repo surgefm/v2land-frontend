@@ -73,12 +73,11 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ chatrooms })
           {...tagGrid}
           style={{
             overflowX: 'visible',
-            overflowY: 'auto',
-            maxHeight: 'calc(100vh - 8.5rem)',
-            height: '100%',
             marginBottom: '1.1rem',
-            position: 'sticky',
-            top: '5rem',
+            position: 'relative',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-end',
           }}
         >
           <div className="tagList">
@@ -101,6 +100,8 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ chatrooms })
             overflow-x: visible;
             display: flex;
             flex-direction: column;
+            position: sticky;
+            bottom: 1.5rem;
           }
 
           .tags {
