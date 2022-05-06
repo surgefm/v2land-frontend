@@ -129,11 +129,11 @@ type GetTagListOptions = {
 };
 
 export const getTagList = async ({ page = 1, where = {} }: GetTagListOptions = {}) => {
-  const { tags, count } = await post<RedstoneModel.GetTagListResponse>('/tag/list', {
+  const { tags } = await post<RedstoneModel.GetTagListResponse>('/tag/list', {
     page,
     where,
   });
-  return { tags, count };
+  return tags;
 };
 
 export const getTag = async (tagId: number | string): Promise<Tag> => {

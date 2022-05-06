@@ -85,12 +85,22 @@ export const Header: React.FC = (): JSX.Element => {
                       {t('Header_Homepage')}
                     </HeaderButton>
                   </span>
-                  <HeaderButton href="/topic" Icon={NumberOutlined}>
+                  <HeaderButton
+                    href="/topic"
+                    Icon={() => (
+                      <NumberOutlined
+                        style={{
+                          transform: 'skewX(-10deg)',
+                          fontSize: 20,
+                          position: 'relative',
+                          top: 2,
+                          marginRight: 8
+                        }}
+                      />
+                    )}
+                  >
                     话题列表
                   </HeaderButton>
-                  {/* <HeaderButton href="/about" Icon={QuestionCircleOutlined}>
-                    {t('About_Title')}
-                  </HeaderButton> */}
                   <HeaderButton href="/wiki" Icon={QuestionCircleOutlined}>
                     使用指南
                   </HeaderButton>
