@@ -3,10 +3,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { Breadcrumb } from 'antd';
-import { HomeOutlined } from '@ant-design/icons';
 
 import { useTranslation } from '@I18n';
 import { getEvent, getEventId, getClientIdWithUsername, getClient } from '@Selectors';
+import { LogoIcon } from '@Components/Basic';
 
 import { INewsroomHeaderBreadcrumb } from './Breadcrumb';
 
@@ -25,10 +25,10 @@ const NewsroomHeaderBreadcrumbImpl: React.FC<INewsroomHeaderBreadcrumb.IProps> =
 
   return (
     <Breadcrumb>
-      <Breadcrumb.Item>
+      <Breadcrumb.Item className="breadcrumb-logo">
         <Link href="/">
           <a>
-            <HomeOutlined />
+            <LogoIcon width={(36 / 256) * 243} height={36} fill="fixed" />
           </a>
         </Link>
       </Breadcrumb.Item>
@@ -50,6 +50,30 @@ const NewsroomHeaderBreadcrumbImpl: React.FC<INewsroomHeaderBreadcrumb.IProps> =
           <a>{t('Newsroom_Title')}</a>
         </Link>
       </Breadcrumb.Item>
+
+      <style jsx>
+        {`
+          :global(.breadcrumb-logo) {
+            display: inline-block;
+            height: 24px;
+            position: relative;
+            bottom: 1px;
+          }
+
+          :global(.breadcrumb-logo) :global(.anticon) {
+            font-size: 24px;
+          }
+
+          :global(.ant-breadcrumb) :global(li):first-child {
+            height: 24px;
+          }
+
+          :global(.ant-breadcrumb) :global(li):first-child :global(.ant-breadcrumb-separator) {
+            position: relative;
+            bottom: 4.5px;
+          }
+        `}
+      </style>
     </Breadcrumb>
   );
 };

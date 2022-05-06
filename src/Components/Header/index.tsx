@@ -63,7 +63,7 @@ export const Header: React.FC = (): JSX.Element => {
       <div className="container">
         <div className="center">
           <div className="left" style={{ paddingRight: 4 + rightWidth }} ref={leftRef}>
-            <HeaderLogo />
+            {!isInNewsroom && <HeaderLogo />}
             <Space size={4}>
               {isInNewsroom ? (
                 <>
