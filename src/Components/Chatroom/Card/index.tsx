@@ -17,7 +17,8 @@ export const ChatroomCard: React.FC<ChatroomCardProps> = ({ chatroom, asCard = f
   const divRef = createRef<HTMLDivElement>();
 
   const showNow = editorIdsNow.length > 0 || chatterIds.length > 0 || speakerIdsNow.length > 0;
-  const showViewer = chatterIds.length > editorIdsNow.length * 5 && chatterIds.length > speakerIdsNow.length * 5;
+  const showViewer =
+    chatterIds.length > editorIdsNow.length * 5 && chatterIds.length > speakerIdsNow.length * 5;
   const showActivity = showNow || editorIds.length > 0 || speakerIds.length > 0;
   let showEditor = false;
   let showSpeaker = false;
@@ -26,9 +27,9 @@ export const ChatroomCard: React.FC<ChatroomCardProps> = ({ chatroom, asCard = f
   if (showNow) {
     showEditor = !showViewer && editorIdsNow.length > speakerIdsNow.length;
     showSpeaker = !showViewer && !showEditor;
-    ids = showViewer
-      ? chatterIds
-      : (showEditor ? editorIdsNow : speakerIdsNow);
+    if (showViewer) ids = chatterIds;
+    if (showEditor) ids = editorIdsNow;
+    if (showSpeaker) ids = speakerIdsNow;
   } else if (showActivity) {
     showEditor = editorIds.length > speakerIds.length;
     showSpeaker = !showEditor;

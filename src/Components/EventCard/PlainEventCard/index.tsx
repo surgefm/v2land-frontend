@@ -11,7 +11,7 @@ export const PlainEventCard: React.FunctionComponent<IPlainEventCard.IProps> = (
     <div className="event-container">
       {event.ownerId ? (
         <div className="avatar">
-          <ClientAvatar clientId={event.ownerId} asLink />
+          <ClientAvatar clientId={event.ownerId} asLink asA={false} />
         </div>
       ) : null}
       <EventCardTitle>{event.name}</EventCardTitle>

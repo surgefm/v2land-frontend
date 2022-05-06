@@ -10,6 +10,7 @@ declare namespace IClientAvatar {
     avatar?: string;
     size?: number;
     showRole?: boolean;
+    asA?: boolean;
   }
 }
 

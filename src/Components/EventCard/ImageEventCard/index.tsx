@@ -35,7 +35,7 @@ export const ImageEventCard: React.FunctionComponent<IImageEventCard.IProps> = (
       </div>
       {event.ownerId ? (
         <div className="avatar">
-          <ClientAvatar clientId={event.ownerId} asLink />
+          <ClientAvatar clientId={event.ownerId} asLink asA={false} />
         </div>
       ) : null}
       <EventCardTitle className="title">{event.name}</EventCardTitle>

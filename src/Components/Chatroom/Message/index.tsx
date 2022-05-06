@@ -32,7 +32,7 @@ export const ChatroomMessage = ({ message }: { message: ChatMessage }) => {
   return (
     <div className="message">
       <div className="avatar">
-        <ClientAvatar clientId={message.authorId} size={32} showTooltip={false} />
+        <ClientAvatar clientId={message.authorId} size={32} showTooltip={false} asLink />
       </div>
       <p style={{ paddingLeft: '.5rem' }}>
         <span className="name">

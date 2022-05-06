@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Tooltip, Skeleton } from 'antd';
+import Link from 'next/link';
 
 import { ClientActions } from '@Actions';
 import { getClient, getNewsroomClientRole } from '@Selectors';
@@ -19,6 +20,7 @@ export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = props
     props.showTooltip === undefined ? true : props.showTooltip
   );
   const [asLink, setAsLink] = useState(props.asLink || false);
+  const [asA, setAsA] = useState(props.asA === undefined ? true : props.asA);
   const [size, setSize] = useState(props.size || 32);
   const [avatar, setAvatar] = useState(props.avatar);
 
@@ -30,6 +32,7 @@ export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = props
     setAsLink(props.asLink || false);
     setSize(props.size || 32);
     setAvatar(props.avatar);
+    setAsA(props.asA === undefined ? true : props.asA);
   }, [props]);
 
   const cn = (props as any).className;
@@ -98,17 +101,35 @@ export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = props
       UtilService.redirect(`/@${client.username}`);
     };
 
+    if (!asA) {
+      return (
+        <div
+          role="button"
+          onKeyPress={goToProfilePage}
+          onClick={goToProfilePage}
+          className={styles.link}
+          style={style.style}
+          tabIndex={0}
+        >
+          {getAvatarIcon(true)}
+        </div>
+      );
+    }
+
     return (
-      <div
-        role="button"
-        onKeyPress={goToProfilePage}
-        onClick={goToProfilePage}
-        className={styles.link}
-        style={style.style}
-        tabIndex={0}
-      >
-        {getAvatarIcon(true)}
-      </div>
+      <Link href={`/@${client.username}`}>
+        <a
+          href={`/@${client.username}`}
+          role="button"
+          onKeyPress={goToProfilePage}
+          onClick={goToProfilePage}
+          className={styles.link}
+          style={style.style}
+          tabIndex={0}
+        >
+          {getAvatarIcon(true)}
+        </a>
+      </Link>
     );
   };
 
