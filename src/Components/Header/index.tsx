@@ -4,7 +4,7 @@ import React, { useEffect, useState, createRef, LegacyRef } from 'react';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { Space } from 'antd';
-import { QuestionCircleOutlined, HomeOutlined } from '@ant-design/icons';
+import { QuestionCircleOutlined, HomeOutlined, NumberOutlined } from '@ant-design/icons';
 
 import { useTranslation } from '@I18n';
 import { LogoIcon } from '@Components/Basic';
@@ -85,9 +85,9 @@ export const Header: React.FC = (): JSX.Element => {
                       {t('Header_Homepage')}
                     </HeaderButton>
                   </span>
-                  {/* <HeaderButton href="/tags" Icon={NumberOutlined}>
-                    热门话题
-                  </HeaderButton> */}
+                  <HeaderButton href="/topic" Icon={NumberOutlined}>
+                    话题列表
+                  </HeaderButton>
                   {/* <HeaderButton href="/about" Icon={QuestionCircleOutlined}>
                     {t('About_Title')}
                   </HeaderButton> */}

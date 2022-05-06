@@ -24,6 +24,10 @@ body {
   font-variant: tabular-nums;
   line-height: 1.5715;
   font-feature-settings: 'tnum';
+  overscroll-behavior-y: none;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .ant-avatar-string {

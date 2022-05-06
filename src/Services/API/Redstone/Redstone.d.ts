@@ -68,6 +68,7 @@ declare namespace RedstoneModel {
 
   export interface GetTagListResponse {
     tags: Tag[];
+    count: number;
   }
 
   export interface CreateTagResponse {
@@ -111,6 +112,14 @@ declare namespace RedstoneModel {
 
   export interface LoadChatMessagesResponse {
     messages: ChatMessage[];
+  }
+
+  export interface GetTagListStatsResponse {
+    tagListStats: { [index: string]: number };
+  }
+
+  export interface GetAllTagsResponse {
+    allTags: { [index: string]: Tag[] };
   }
 }
 

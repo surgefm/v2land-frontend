@@ -17,19 +17,11 @@ const TagCard: React.FunctionComponent<ITagCard.IProps> = ({ tag }) => {
               align-items: center;
               padding: 0.2rem 0rem;
               cursor: pointer;
-            }
-
-            div:first-child,
-            div.first-child {
-              border-top-right-radius: 0.25rem;
-              border-top-left-radius: 0.25rem;
-              padding-top: 0.5rem;
+              margin-right: 0.75rem;
             }
 
             div:last-child {
-              border-bottom-right-radius: 0.25rem;
-              border-bottom-left-radius: 0.25rem;
-              padding-bottom: 0.5rem;
+              margin-right: 0;
             }
 
             div > :global(.hashtag) {

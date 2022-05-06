@@ -11,6 +11,7 @@ export * from '@Interfaces/Pages/Login';
 export * from '@Interfaces/Pages/Register';
 export * from '@Interfaces/Pages/Settings';
 export * from '@Interfaces/Pages/Tag';
+export * from '@Interfaces/Pages/Tags';
 // #endregion Page Interfaces
 
 // #region Redux Interfaces

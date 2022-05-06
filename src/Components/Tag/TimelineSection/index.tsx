@@ -16,7 +16,6 @@ const TimelineSection: React.FunctionComponent<ITimelineSection.IProps> = ({ tag
         gutterWidth={1}
         marginWidth={4}
         Component={TimelineCard}
-        key={JSON.stringify(tagEventIdList)}
       />
 
       <style jsx>

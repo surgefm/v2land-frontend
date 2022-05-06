@@ -129,11 +129,11 @@ type GetTagListOptions = {
 };
 
 export const getTagList = async ({ page = 1, where = {} }: GetTagListOptions = {}) => {
-  const { tags } = await post<RedstoneModel.GetTagListResponse>('/tag/list', {
+  const { tags, count } = await post<RedstoneModel.GetTagListResponse>('/tag/list', {
     page,
     where,
   });
-  return tags;
+  return { tags, count };
 };
 
 export const getTag = async (tagId: number | string): Promise<Tag> => {
@@ -162,4 +162,19 @@ export const loadChatMessages = async (
     before: before ? before.toISOString() : new Date(Date.now() + 100000).toISOString(),
   });
   return messages;
+};
+
+export const getTagListStats = async () => {
+  const { tagListStats } = await get<RedstoneModel.GetTagListStatsResponse>('/tag/stats');
+  return tagListStats;
+};
+
+export const getTagListByAlphabet = async (letter: string) => {
+  const { tags } = await get<RedstoneModel.GetTagListResponse>(`/tag/list/${letter}`);
+  return tags;
+};
+
+export const getAllTags = async () => {
+  const { allTags } = await get<RedstoneModel.GetAllTagsResponse>('/tag/list/all');
+  return allTags;
 };
