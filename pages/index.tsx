@@ -76,7 +76,7 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ chatrooms })
             overflowY: 'auto',
             maxHeight: 'calc(100vh - 8.5rem)',
             height: '100%',
-            marginBottom: '1.25rem',
+            marginBottom: '1.1rem',
             position: 'sticky',
             top: '5rem',
           }}
