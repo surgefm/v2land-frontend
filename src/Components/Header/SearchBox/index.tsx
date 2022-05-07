@@ -4,8 +4,10 @@ import algoliasearch from 'algoliasearch/lite';
 import { AutoComplete, Input, Typography } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import Link from 'next/link';
+import { useDispatch } from 'react-redux';
 
 import { Tag as TagInterface, Event } from '@Interfaces';
+import { ClientActions } from '@Actions';
 import { ClientAvatar } from '@Components/Client';
 import { Tag } from '@Components/Tag';
 
@@ -24,6 +26,7 @@ let timeout: number;
 export const HeaderSearchBox: React.FC = () => {
   const [input, setInput] = useState('');
   const [results, setResults] = useState<Results>({});
+  const dispatch = useDispatch();
   if (!searchClient) return <></>;
 
   const search = (query: string) => {
@@ -39,12 +42,16 @@ export const HeaderSearchBox: React.FC = () => {
 
     timeout = setTimeout(async () => {
       const { results: rs } = await searchClient.search(queries);
-      const eventResults = rs[0].hits;
-      const tagResults = rs[1].hits;
+      const eventResults = (rs[0].hits as any) as Event[];
+      const tagResults = (rs[1].hits as any) as TagInterface[];
+
+      for (let i = 0; i < eventResults.length; i += 1) {
+        dispatch(ClientActions.AddClient(eventResults[i].owner));
+      }
 
       setResults({
-        events: (eventResults as any) as Event[],
-        tags: (tagResults as any) as TagInterface[],
+        events: eventResults,
+        tags: tagResults,
       });
     }, 100);
   };

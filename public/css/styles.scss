@@ -74,6 +74,11 @@ img[src=""], img:not([src]) {
   max-height: 70vh !important;
 }
 
+.header-search-box .ant-select-item-option {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
 @media (max-width: 700px) {
   .large {
     display: none;

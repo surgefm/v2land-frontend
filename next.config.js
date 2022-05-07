@@ -27,6 +27,8 @@ const nextConfig = {
     CDN_URL: process.env.CDN_URL,
     STATIC_PATH: process.env.STATIC_PATH,
     SITE_URL: process.env.SITE_URL,
+    ALGOLIA_ID: process.env.ALGOLIA_ID,
+    ALGOLIA_KEY: process.env.ALGOLIA_KEY,
   },
   pwa: {
     dest: 'public',
