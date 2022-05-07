@@ -171,7 +171,7 @@ const StackFormImpl: React.FunctionComponent<IStackForm.IProps> = ({
         />
       </Form.Item>
       <Form.Item name="time" label={t('Stack_Form_Time')} rules={[{ required: false }]}>
-        <DatePickerImpl showTime />
+        <DatePickerImpl showTime format="YYYY-MM-DD HH:mm" />
       </Form.Item>
       <Form.Item
         name="stackEventIdInput"

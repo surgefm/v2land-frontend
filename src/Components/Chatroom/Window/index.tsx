@@ -66,7 +66,6 @@ export const ChatroomWindow: React.FC<WindowProps> = ({ type, ids, onClose, pres
           style={{
             width: 'calc(100% - 2rem + 1px)',
             borderRadius: 0,
-            borderBottomLeftRadius: '.5rem',
           }}
           defaultValue={message}
           value={message}
@@ -79,8 +78,7 @@ export const ChatroomWindow: React.FC<WindowProps> = ({ type, ids, onClose, pres
           icon={<SendOutlined />}
           style={{
             width: '2rem',
-            borderTopRightRadius: 0,
-            borderBottomRightRadius: '0.5rem',
+            borderRadius: 0,
           }}
           loading={sending}
           onClick={sendMessage}

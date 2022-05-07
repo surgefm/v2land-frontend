@@ -51,7 +51,7 @@ export const StackSideMenu: React.FunctionComponent<IStackSideMenu.IProps> = ({
             position: fixed;
             right: calc(50% + 22.5rem);
             top: 8rem;
-            max-height: calc(100vh - 10rem);
+            max-height: calc(100vh - 15rem);
             overflow-y: scroll;
             width: 15rem;
             display: flex;

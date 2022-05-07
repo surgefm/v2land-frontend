@@ -73,7 +73,7 @@ export const ChatroomButton: React.FC<ChatroomButtonProps> = ({
         {`
           .container {
             position: fixed;
-            bottom: 1.5rem;
+            bottom: ${isOpen ? 0 : 1.5}rem;
             right: 1rem;
             z-index: 100000;
           }
