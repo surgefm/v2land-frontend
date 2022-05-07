@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import getConfig from 'next/config';
 import algoliasearch from 'algoliasearch/lite';
-import { AutoComplete, Input, Typography } from 'antd';
+import { AutoComplete, Input, Typography, Empty } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';
 
 import { Tag as TagInterface, Event } from '@Interfaces';
@@ -25,7 +26,8 @@ const searchClient = ALGOLIA_ID && ALGOLIA_KEY ? algoliasearch(ALGOLIA_ID, ALGOL
 let timeout: number;
 export const HeaderSearchBox: React.FC = () => {
   const [input, setInput] = useState('');
-  const [results, setResults] = useState<Results>({});
+  const router = useRouter();
+  const [results, setResults] = useState<Results | undefined>();
   const dispatch = useDispatch();
   if (!searchClient) return <></>;
 
@@ -59,7 +61,7 @@ export const HeaderSearchBox: React.FC = () => {
   const onChange = (e = '') => {
     setInput(e);
     if (e.trim().length === 0) {
-      setResults({});
+      setResults(undefined);
     } else {
       search(e);
     }
@@ -70,13 +72,14 @@ export const HeaderSearchBox: React.FC = () => {
 
     return {
       value: event.name,
+      to: url,
       label: (
         <Link href={url}>
           <a href={url} style={{ display: 'flex', alignItems: 'center', color: '#333' }}>
             <span style={{ marginRight: '.5rem' }}>
               <ClientAvatar clientId={event.ownerId} />
             </span>
-            <Typography.Text>
+            <Typography.Text ellipsis>
               <span style={{ color: 'rgba(0, 0, 0, 0.5)' }}>@{event.owner.username}/</span>
               {event.name}
             </Typography.Text>
@@ -88,7 +91,7 @@ export const HeaderSearchBox: React.FC = () => {
 
   const options: { label: React.ReactNode; options: React.ReactNode[] }[] = [];
 
-  if (results.tags && results.tags.length > 0) {
+  if (results && results.tags && results.tags.length > 0) {
     options.push({
       label: <b>话题</b>,
       options: [
@@ -106,7 +109,7 @@ export const HeaderSearchBox: React.FC = () => {
     });
   }
 
-  if (results.events && results.events.length > 0) {
+  if (results && results.events && results.events.length > 0) {
     options.push({
       label: <b>时间线</b>,
       options: results.events.map(getEventItem),
@@ -117,16 +120,23 @@ export const HeaderSearchBox: React.FC = () => {
     <AutoComplete
       value={input}
       onChange={onChange}
+      onClear={() => onChange('')}
+      onSelect={(value: any, e: any) => {
+        if (e.to) {
+          router.push(e.to);
+        }
+      }}
       options={options}
       dropdownMatchSelectWidth={300}
       dropdownClassName="header-search-box"
       allowClear
       backfill={false}
+      notFoundContent={results === undefined ? undefined : <Empty description="未找到相关内容" />}
       {...({ listHeight: '100%' } as {})}
     >
       <Input
         placeholder="搜索…"
-        style={{ borderRadius: '10000rem', minWidth: '4.6rem' }}
+        style={{ borderRadius: '10000rem', minWidth: '4.6rem', top: '1px' }}
         prefix={<SearchOutlined style={{ color: 'rgba(0, 0, 0, .3)' }} />}
       />
     </AutoComplete>
