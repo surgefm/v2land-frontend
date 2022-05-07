@@ -3,7 +3,9 @@ const withBundleAnalyzer = require('@zeit/next-bundle-analyzer');
 const withPWA = require('next-pwa');
 const nextRuntimeDotenv = require('next-runtime-dotenv');
 
-const withConfig = nextRuntimeDotenv({ public: ['API_URL', 'API_KEY', 'CDN_URL', 'SITE_URL'] });
+const withConfig = nextRuntimeDotenv({
+  public: ['API_URL', 'API_KEY', 'CDN_URL', 'SITE_URL', 'ALGOLIA_ID', 'ALGOLIA_KEY'],
+});
 
 const nextConfig = {
   analyzeServer: ['server', 'both'].includes(process.env.BUNDLE_ANALYZE),

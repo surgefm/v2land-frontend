@@ -21,6 +21,7 @@ import { HeaderLogo } from './Logo';
 import { HeaderButton } from './Button';
 import { HeaderUserInfo } from './UserInfo';
 import { HeaderTagManage } from './TagManage';
+import { HeaderSearchBox } from './SearchBox';
 
 export const Header: React.FC = (): JSX.Element => {
   const { t } = useTranslation('common');
@@ -35,7 +36,14 @@ export const Header: React.FC = (): JSX.Element => {
 
   const isInNewsroom = router.route === '/[username]/[eventName]/newsroom';
   const isInTagPage = router.route === '/topic/[tagId]';
+  const isInTagListPage = router.route === '/topic';
+  const isInWikiPage = router.route === '/wiki';
+  const isInAboutPage = router.route === '/about';
   const isHomepage = router.route.length <= 1;
+  const isInEventPage = router.route === '/[username]/[eventName]';
+  const showSearchBox = isHomepage || isInTagPage || isInEventPage || isInTagListPage
+    || isInWikiPage || isInAboutPage;
+
   const [rightWidth, setRightWidth] = useState(32);
 
   const updateRightWidth = () => {
@@ -104,6 +112,9 @@ export const Header: React.FC = (): JSX.Element => {
                   <HeaderButton href="/wiki" Icon={QuestionCircleOutlined}>
                     指南
                   </HeaderButton>
+                  {showSearchBox && (
+                    <HeaderSearchBox />
+                  )}
                 </>
               )}
             </Space>

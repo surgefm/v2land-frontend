@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, createRef, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Input, Button, Typography, Empty } from 'antd';
 import { SendOutlined, CloseOutlined, MessageTwoTone } from '@ant-design/icons';
 
 import { getChatroomSocket } from '@Services/Socket/chatroom';
 import { getChatId } from '@Services/Utils';
+import { RedstoneService } from '@Services';
+import { ChatroomActions } from '@Actions';
 import { getChatroomMessages, getEvent, getEventOwner } from '@Selectors';
 
 import { ChatroomMessage } from '../Message';
@@ -13,11 +15,53 @@ import { WindowProps } from './Window';
 export const ChatroomWindow: React.FC<WindowProps> = ({ type, ids, onClose, presetMessage }) => {
   const socket = getChatroomSocket(type, ids);
   const chatId = getChatId(type, ids);
+  const dispatch = useDispatch();
   const event = useSelector(getEvent(type === 'newsroom' ? -(ids as number) : 0));
   const eventOwner = useSelector(getEventOwner(type === 'newsroom' ? -(ids as number) : 0));
   const messages = useSelector(getChatroomMessages(chatId));
   const [message, setMessage] = useState(presetMessage || '');
   const [sending, setSending] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [isTop, setIsTop] = useState(false);
+
+  const divRef = createRef<HTMLDivElement>();
+
+  const loadMore = async () => {
+    if (isTop || loading) return;
+    setLoading(true);
+    try {
+      const earliest = messages[messages.length - 1].createdAt;
+      const moreMessages = await RedstoneService.loadChatMessages(type, ids, new Date(earliest));
+      for (let i = 0; i < moreMessages.length; i += 1) {
+        dispatch(ChatroomActions.AddMessage(chatId, moreMessages[i]));
+      }
+      if (moreMessages.length < 30) {
+        setIsTop(true);
+      }
+    } catch (err) {
+      // Do nothing;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  let div: HTMLDivElement;
+  useEffect(() => {
+    if (!divRef.current) return () => {};
+    div = divRef.current;
+
+    const update = () => {
+      if (div.scrollHeight < div.offsetHeight - div.scrollTop + 200) {
+        loadMore();
+      }
+    };
+    update();
+    div.addEventListener('scroll', update);
+
+    return () => {
+      div.removeEventListener('scroll', update);
+    };
+  });
 
   let title = '讨论';
   if (type === 'newsroom' && event) {
@@ -50,7 +94,7 @@ export const ChatroomWindow: React.FC<WindowProps> = ({ type, ids, onClose, pres
         </Typography.Text>
         <Button type="text" icon={<CloseOutlined />} onClick={onClose} />
       </div>
-      <div className="messages">
+      <div className="messages" ref={divRef}>
         {messages.map(m => (
           <ChatroomMessage key={m.id} message={m} />
         ))}
