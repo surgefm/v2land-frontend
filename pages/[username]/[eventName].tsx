@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
-import { Button, message } from 'antd';
-import { SwapOutlined } from '@ant-design/icons';
+import Link from 'next/link';
+import { Button, Divider, Space, message } from 'antd';
+import { SwapOutlined, SoundTwoTone, TeamOutlined } from '@ant-design/icons';
 // #endregion Global Imports
 
 // #region Local Imports
@@ -62,6 +63,8 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
     }
   }, [router.query.client_not_authorized]);
 
+  const applyUrl = `/@${username}/${eventId}-${event ? event.pinyin : ''}/newsroom?apply=1`;
+
   const eventCard = event ? (
     <Card>
       <EventStar eventId={event.id} />
@@ -75,6 +78,28 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
           <Share event={event} />
         </div>
       </div>
+      {event.needContributor && (
+        <>
+          <Divider />
+          <p>
+            <SoundTwoTone /> 该时间线正在招募社区贡献者，我们需要志愿者来帮助完善它。
+          </p>
+          <Space align="end" style={{ width: '100%', justifyContent: 'flex-end' }}>
+            <Link href="/wiki">
+              <a href="/wiki">
+                <Button type="link">贡献指南</Button>
+              </a>
+            </Link>
+            <Link href={applyUrl}>
+              <a href={applyUrl}>
+                <Button type="primary" icon={<TeamOutlined />}>
+                  申请成为编辑
+                </Button>
+              </a>
+            </Link>
+          </Space>
+        </>
+      )}
       <style jsx>
         {`
           .bottom {
@@ -82,6 +107,10 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
             justify-content: space-between;
             align-items: center;
             margin-top: 0.5rem;
+          }
+
+          p {
+            margin-bottom: 0.5rem;
           }
 
           @media (max-width: 550px) {

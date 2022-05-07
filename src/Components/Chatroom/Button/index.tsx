@@ -14,6 +14,7 @@ export const ChatroomButton: React.FC<ChatroomButtonProps> = ({
   type,
   ids,
   openByDefault = false,
+  presetMessage,
 }) => {
   const store = useStore();
   let socket = getChatroomSocket(type, ids, store);
@@ -65,7 +66,9 @@ export const ChatroomButton: React.FC<ChatroomButtonProps> = ({
           />
         </Badge>
       )}
-      {isOpen && <ChatroomWindow type={type} ids={ids} onClose={close} />}
+      {isOpen && (
+        <ChatroomWindow type={type} ids={ids} onClose={close} presetMessage={presetMessage} />
+      )}
       <style jsx>
         {`
           .container {

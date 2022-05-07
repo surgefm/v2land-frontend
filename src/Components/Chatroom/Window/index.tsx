@@ -10,13 +10,13 @@ import { getChatroomMessages, getEvent, getEventOwner } from '@Selectors';
 import { ChatroomMessage } from '../Message';
 import { WindowProps } from './Window';
 
-export const ChatroomWindow: React.FC<WindowProps> = ({ type, ids, onClose }) => {
+export const ChatroomWindow: React.FC<WindowProps> = ({ type, ids, onClose, presetMessage }) => {
   const socket = getChatroomSocket(type, ids);
   const chatId = getChatId(type, ids);
   const event = useSelector(getEvent(type === 'newsroom' ? -(ids as number) : 0));
   const eventOwner = useSelector(getEventOwner(type === 'newsroom' ? -(ids as number) : 0));
   const messages = useSelector(getChatroomMessages(chatId));
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState(presetMessage || '');
   const [sending, setSending] = useState(false);
 
   let title = '讨论';

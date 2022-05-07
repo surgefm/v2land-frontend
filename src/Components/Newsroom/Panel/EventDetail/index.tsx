@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Form, Button, Input, Upload, message } from 'antd';
+import { Form, Button, Input, Upload, Switch, message } from 'antd';
 import { PictureOutlined } from '@ant-design/icons';
 import { UploadChangeParam, UploadFile, RcFile } from 'antd/lib/upload/interface';
 
-import { getEvent, canCurrentClientEditEvent, isNewsroomSocketConnected } from '@Selectors';
+import {
+  getEvent,
+  canCurrentClientEditEvent,
+  canCurrentClientManageEvent,
+  isNewsroomSocketConnected,
+} from '@Selectors';
 import { getNewsroomSocket, imageUploadEndpoint, UtilService } from '@Services';
 import { Event, HeaderImage } from '@Interfaces';
 import { NewsroomPanelTagList } from '@Components/Newsroom/Panel/TagList';
@@ -17,16 +22,19 @@ const NewsroomPanelEventDetailImpl: React.FC<INewsroomPanelEventDetail.IProps> =
   const [form] = Form.useForm();
   const event = useSelector(getEvent(eventId)) as Event;
   const canClientEdit = useSelector(canCurrentClientEditEvent());
+  const canClientManage = useSelector(canCurrentClientManageEvent());
   const isConnected = useSelector(isNewsroomSocketConnected(eventId));
   const canEdit = canClientEdit && isConnected;
+  const canManage = canClientManage && isConnected;
 
   const [origData, setOrigData] = useState({
     name: event.name,
     description: event.description,
+    needContributor: event.needContributor,
     headerImageUrl: (event.headerImage || {}).imageUrl || '',
     headerImageSource: (event.headerImage || {}).source || '',
     headerImageSourceUrl: (event.headerImage || {}).sourceUrl || '',
-  } as { [index: string]: string });
+  } as { [index: string]: string | boolean });
   const [headerImageUrl, setHeaderImageUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(true);
@@ -53,6 +61,24 @@ const NewsroomPanelEventDetailImpl: React.FC<INewsroomPanelEventDetail.IProps> =
     } as HeaderImage);
   };
 
+  const onChange = (data = origData) => {
+    const keys = [
+      'name',
+      'description',
+      'needContributor',
+      'headerImageUrl',
+      'headerImageSource',
+      'headerImageSourceUrl',
+    ];
+    for (let i = 0; i < keys.length; i += 1) {
+      if (data[keys[i]] !== form.getFieldValue(keys[i])) {
+        setDisabled(false);
+        return;
+      }
+    }
+    setDisabled(true);
+  };
+
   const submit = async () => {
     const socket = getNewsroomSocket(eventId);
     if (!socket) return;
@@ -61,6 +87,7 @@ const NewsroomPanelEventDetailImpl: React.FC<INewsroomPanelEventDetail.IProps> =
       const data = {
         name: form.getFieldValue('name'),
         description: form.getFieldValue('description'),
+        needContributor: form.getFieldValue('needContributor'),
       } as Event;
       await socket.updateEvent(data);
 
@@ -73,26 +100,10 @@ const NewsroomPanelEventDetailImpl: React.FC<INewsroomPanelEventDetail.IProps> =
     }
   };
 
-  const onChange = () => {
-    const keys = [
-      'name',
-      'description',
-      'headerImageUrl',
-      'headerImageSource',
-      'headerImageSourceUrl',
-    ];
-    for (let i = 0; i < keys.length; i += 1) {
-      if (origData[keys[i]] !== form.getFieldValue(keys[i])) {
-        return setDisabled(false);
-      }
-    }
-    return setDisabled(true);
-  };
-
   const reset = () => {
     form.setFieldsValue(origData);
     if (origData.headerImageUrl) {
-      setHeaderImageUrl(UtilService.getImageUrl(origData.headerImageUrl, 300, 160));
+      setHeaderImageUrl(UtilService.getImageUrl(origData.headerImageUrl as string, 300, 160));
     } else {
       setHeaderImageUrl('');
     }
@@ -137,7 +148,7 @@ const NewsroomPanelEventDetailImpl: React.FC<INewsroomPanelEventDetail.IProps> =
 
   useEffect(() => {
     const changes: { [index: string]: any } = {};
-    const keys = ['name', 'description'];
+    const keys = ['name', 'description', 'needContributor'];
     for (let i = 0; i < keys.length; i += 1) {
       const key = keys[i];
       if (origData[key] !== event[key]) {
@@ -154,6 +165,7 @@ const NewsroomPanelEventDetailImpl: React.FC<INewsroomPanelEventDetail.IProps> =
         changes[`headerImage${pair[1]}`] = ((event.headerImage as any) || {})[pair[0]] || '';
       }
     }
+
     if (Object.keys(changes).length > 0) {
       const newData = { ...origData, ...changes };
       setOrigData(newData);
@@ -164,6 +176,19 @@ const NewsroomPanelEventDetailImpl: React.FC<INewsroomPanelEventDetail.IProps> =
         setHeaderImageUrl('');
       }
     }
+  }, [event]);
+
+  useEffect(() => {
+    const data = {
+      name: event.name,
+      description: event.description,
+      needContributor: event.needContributor || false,
+      headerImageUrl: (event.headerImage || {}).imageUrl || '',
+      headerImageSource: (event.headerImage || {}).source || '',
+      headerImageSourceUrl: (event.headerImage || {}).sourceUrl || '',
+    };
+    setOrigData(data);
+    onChange(data);
   }, [event]);
 
   useEffect(() => {
@@ -178,7 +203,7 @@ const NewsroomPanelEventDetailImpl: React.FC<INewsroomPanelEventDetail.IProps> =
 
   return (
     <div className="top">
-      <Form form={form} name="event-detail" onChange={onChange} layout="vertical">
+      <Form form={form} name="event-detail" onChange={() => onChange()} layout="vertical">
         <Form.Item name="name" label={t('Newsroom_EventDetail_Name')} rules={[{ required: true }]}>
           <Input placeholder={t('Newsroom_EventDetail_NamePlaceholder')} disabled={!canEdit} />
         </Form.Item>
@@ -188,6 +213,9 @@ const NewsroomPanelEventDetailImpl: React.FC<INewsroomPanelEventDetail.IProps> =
             autoSize={{ minRows: 3 }}
             placeholder={t('Newsroom_EventDetail_DescriptionPlaceholder')}
           />
+        </Form.Item>
+        <Form.Item name="needContributor" label="需要更多贡献者" valuePropName="checked">
+          <Switch disabled={!canManage} onChange={() => onChange()} />
         </Form.Item>
         <Form.Item label={t('Newsroom_EventDetail_HeaderImage')}>
           <Upload.Dragger

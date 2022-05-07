@@ -92,7 +92,7 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
   const store = useStore();
   const dispatch = useDispatch();
   const router = useRouter();
-  const [showChatroom, setShowChatroom] = useState(!!router.query.c);
+  const [showChatroom, setShowChatroom] = useState(!!(router.query.apply || router.query.c));
   let socket = getNewsroomSocket(eventId, store) as NewsroomSocket;
 
   const getEventPath = () =>
@@ -251,7 +251,8 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
               <ChatroomButton
                 type="newsroom"
                 ids={Math.abs(event.id)}
-                openByDefault={!!router.query.c}
+                openByDefault={!!(router.query.apply || router.query.c)}
+                presetMessage={router.query.apply ? '你好，我想帮忙整理这条时间线！' : undefined}
               />
             )}
             <div className="panel-wrapper">
