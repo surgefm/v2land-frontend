@@ -9,7 +9,6 @@ const addMember = (state: ChatroomsState, action: ChatroomAction): ChatroomsStat
 
   const { members } = chatroom;
   const memberIdx = members.findIndex(m => m.clientId === clientId);
-  if (memberIdx < 0) return state;
   const member =
     memberIdx >= 0
       ? members[memberIdx]

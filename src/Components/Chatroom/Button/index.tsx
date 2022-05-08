@@ -3,7 +3,7 @@ import { useStore, useSelector } from 'react-redux';
 import { Button, Badge } from 'antd';
 import { MessageOutlined } from '@ant-design/icons';
 
-import { getChatroomSocket } from '@Services/Socket/chatroom';
+import { getChatroomSocket, closeChatroomSocket } from '@Services/Socket/chatroom';
 import { getChatId } from '@Services/Utils';
 import { getChatroomMessages } from '@Selectors';
 
@@ -28,7 +28,7 @@ export const ChatroomButton: React.FC<ChatroomButtonProps> = ({
     socket.joinChatroom();
 
     return () => {
-      socket.destroy();
+      closeChatroomSocket(type, ids);
     };
   }, []);
 
