@@ -1,8 +1,8 @@
 // #region Global Imports
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import { Col, message, Row } from 'antd';
+import { Col, Row, Segmented, message } from 'antd';
 // #endregion Global Imports
 // #region Local Imports
 import { useTranslation } from '@I18n';
@@ -34,12 +34,28 @@ const tagMiniGrid = {
   md: 0,
 };
 
+const chatroomOptions = [
+  {
+    value: 'client-chatrooms',
+    label: '我的新闻编辑室',
+  },
+  {
+    value: 'popular-chatrooms',
+    label: '活跃新闻编辑室',
+  },
+];
+
 const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({
   chatrooms: popularChatrooms,
   clientChatrooms,
 }) => {
   const { t } = useTranslation('common');
   const router = useRouter();
+  const [chatrooms, setChatrooms] = useState('client-chatrooms');
+  const filteredPopularChatrooms = popularChatrooms.filter(
+    c => !clientChatrooms.find(cc => cc.id === c.id)
+  );
+
   useEffect(() => {
     if (router.query.event_not_found) {
       message.error(t('Home_EventNotFound'));
@@ -60,7 +76,7 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({
       <Row className="grid" justify="space-between" gutter={32} style={{ maxWidth: '60rem' }}>
         <Col {...eventGrid} style={{ maxWidth: '45rem' }}>
           <Col {...tagMiniGrid} style={{ padding: 0 }}>
-            {clientChatrooms.length > 0 && (
+            {clientChatrooms.length > 0 && popularChatrooms.length === 0 && (
               <>
                 <SectionHeader>我的新闻编辑室</SectionHeader>
                 <Flow
@@ -73,13 +89,34 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({
                 />
               </>
             )}
-            {popularChatrooms.length > 0 && (
+            {popularChatrooms.length > 0 && clientChatrooms.length === 0 && (
               <>
                 <SectionHeader>活跃新闻编辑室</SectionHeader>
                 <Flow
                   numLine={2}
                   Component={ChatroomCard}
                   elementProps={popularChatrooms.map(c => ({
+                    chatroom: c,
+                    asCard: true,
+                  }))}
+                />
+              </>
+            )}
+            {popularChatrooms.length > 0 && clientChatrooms.length > 0 && (
+              <>
+                <Segmented
+                  options={chatroomOptions}
+                  value={chatrooms}
+                  onChange={value => setChatrooms(value.toString())}
+                  style={{ marginBottom: '.5rem' }}
+                />
+                <Flow
+                  numLine={2}
+                  Component={ChatroomCard}
+                  elementProps={(chatrooms === 'client-chatrooms'
+                    ? clientChatrooms
+                    : popularChatrooms
+                  ).map(c => ({
                     chatroom: c,
                     asCard: true,
                   }))}
@@ -108,10 +145,10 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({
                 </>
               )}
 
-              {popularChatrooms.length > 0 && (
+              {filteredPopularChatrooms.length > 0 && (
                 <>
                   <SectionHeader>活跃新闻编辑室</SectionHeader>
-                  {popularChatrooms.map(chatroom => (
+                  {filteredPopularChatrooms.map(chatroom => (
                     <ChatroomCard chatroom={chatroom} key={chatroom.event.id} />
                   ))}
                 </>
@@ -166,7 +203,7 @@ Home.getInitialProps = async (ctx: ReduxNextPageContext): Promise<IHomePage.Init
   ]);
   return {
     tagList: [],
-    chatrooms: chatrooms.filter(c => !clientChatrooms.find(cc => cc.id === c.id)),
+    chatrooms,
     clientChatrooms,
     namespacesRequired: ['common'],
   };
