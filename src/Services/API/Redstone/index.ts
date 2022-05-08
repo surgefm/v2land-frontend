@@ -151,6 +151,11 @@ export const getPopularChatrooms = async (): Promise<PopularChatroom[]> => {
   return chatrooms;
 };
 
+export const getClientChatrooms = async (): Promise<PopularChatroom[]> => {
+  const { chatrooms } = await get<RedstoneModel.GetPopularChatroomsResponse>('/chat/my');
+  return chatrooms;
+};
+
 export const loadChatMessages = async (
   type: 'client' | 'newsroom',
   ids: number | number[],

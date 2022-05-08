@@ -16,4 +16,5 @@ export interface PopularChatroom extends Chat {
   editorIds: number[];
   speakerIdsNow: number[];
   editorIdsNow: number[];
+  unreadMessagesCount: number;
 }

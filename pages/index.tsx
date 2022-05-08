@@ -9,6 +9,7 @@ import { useTranslation } from '@I18n';
 import { EventActions } from '@Actions';
 import { Background, EventCardList, Footer, Head, SectionHeader, Flow } from '@Components';
 import { ChatroomCard } from '@Components/Chatroom/Card';
+import { isLoggedIn } from '@Selectors';
 import { RedstoneService, UtilService } from '@Services';
 // #endregion Local Imports
 // #region Interface Imports
@@ -33,7 +34,10 @@ const tagMiniGrid = {
   md: 0,
 };
 
-const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ chatrooms }) => {
+const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({
+  chatrooms: popularChatrooms,
+  clientChatrooms,
+}) => {
   const { t } = useTranslation('common');
   const router = useRouter();
   useEffect(() => {
@@ -56,15 +60,32 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ chatrooms })
       <Row className="grid" justify="space-between" gutter={32} style={{ maxWidth: '60rem' }}>
         <Col {...eventGrid} style={{ maxWidth: '45rem' }}>
           <Col {...tagMiniGrid} style={{ padding: 0 }}>
-            <SectionHeader>活跃新闻编辑室</SectionHeader>
-            <Flow
-              numLine={2}
-              Component={ChatroomCard}
-              elementProps={chatrooms.map(c => ({
-                chatroom: c,
-                asCard: true,
-              }))}
-            />
+            {clientChatrooms.length > 0 && (
+              <>
+                <SectionHeader>我的新闻编辑室</SectionHeader>
+                <Flow
+                  numLine={2}
+                  Component={ChatroomCard}
+                  elementProps={clientChatrooms.map(c => ({
+                    chatroom: c,
+                    asCard: true,
+                  }))}
+                />
+              </>
+            )}
+            {popularChatrooms.length > 0 && (
+              <>
+                <SectionHeader>活跃新闻编辑室</SectionHeader>
+                <Flow
+                  numLine={2}
+                  Component={ChatroomCard}
+                  elementProps={popularChatrooms.map(c => ({
+                    chatroom: c,
+                    asCard: true,
+                  }))}
+                />
+              </>
+            )}
           </Col>
           <EventCardList className="left" />
         </Col>
@@ -78,10 +99,23 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ chatrooms })
         >
           <div className="right-container">
             <div className="tagList">
-              <SectionHeader>活跃新闻编辑室</SectionHeader>
-              {chatrooms.map(chatroom => (
-                <ChatroomCard chatroom={chatroom} key={chatroom.event.id} />
-              ))}
+              {clientChatrooms.length > 0 && (
+                <>
+                  <SectionHeader>我的新闻编辑室</SectionHeader>
+                  {clientChatrooms.map(chatroom => (
+                    <ChatroomCard chatroom={chatroom} key={chatroom.event.id} />
+                  ))}
+                </>
+              )}
+
+              {popularChatrooms.length > 0 && (
+                <>
+                  <SectionHeader>活跃新闻编辑室</SectionHeader>
+                  {popularChatrooms.map(chatroom => (
+                    <ChatroomCard chatroom={chatroom} key={chatroom.event.id} />
+                  ))}
+                </>
+              )}
             </div>
           </div>
         </Col>
@@ -125,13 +159,15 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({ chatrooms })
 
 Home.getInitialProps = async (ctx: ReduxNextPageContext): Promise<IHomePage.InitialProps> => {
   // eslint-disable-next-line
-  let [_, chatrooms] = await Promise.all([
+  let [_, chatrooms, clientChatrooms] = await Promise.all([
     ctx.store.dispatch(EventActions.GetEventList()),
     RedstoneService.getPopularChatrooms(),
+    isLoggedIn(ctx.store.getState()) ? RedstoneService.getClientChatrooms() : [],
   ]);
   return {
     tagList: [],
-    chatrooms,
+    chatrooms: chatrooms.filter(c => !clientChatrooms.find(cc => cc.id === c.id)),
+    clientChatrooms,
     namespacesRequired: ['common'],
   };
 };

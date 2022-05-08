@@ -2,7 +2,7 @@
 import React, { useState, createRef, useEffect } from 'react';
 import Link from 'next/link';
 import { Typography } from 'antd';
-import { MessageTwoTone, EditTwoTone, CompassTwoTone } from '@ant-design/icons';
+import { MessageTwoTone, EditTwoTone, CompassTwoTone, BellTwoTone } from '@ant-design/icons';
 
 import { PopularChatroom } from '@Interfaces';
 import { ClientAvatar } from '@Components/Client';
@@ -13,9 +13,17 @@ type ChatroomCardProps = {
 };
 
 export const ChatroomCard: React.FC<ChatroomCardProps> = ({ chatroom, asCard = false }) => {
-  const { editorIds, speakerIds, editorIdsNow, speakerIdsNow, chatterIds } = chatroom;
+  const {
+    editorIds,
+    speakerIds,
+    editorIdsNow,
+    speakerIdsNow,
+    chatterIds,
+    unreadMessagesCount,
+  } = chatroom;
   const divRef = createRef<HTMLDivElement>();
 
+  const showUnread = unreadMessagesCount > 0;
   const showNow = editorIdsNow.length > 0 || chatterIds.length > 0 || speakerIdsNow.length > 0;
   const showViewer =
     chatterIds.length > editorIdsNow.length * 5 && chatterIds.length > speakerIdsNow.length * 5;
@@ -90,20 +98,28 @@ export const ChatroomCard: React.FC<ChatroomCardProps> = ({ chatroom, asCard = f
           <span className="username">@{chatroom.eventOwner.username}</span>
           {showActivity ? (
             <div className="stats">
-              {showViewer && (
+              {showUnread ? (
                 <span style={{ color: 'rgb(24, 144, 255)' }}>
-                  <CompassTwoTone /> {ids.length}人在线
+                  <BellTwoTone /> {chatroom.unreadMessagesCount}条消息未读{' '}
                 </span>
-              )}
-              {showSpeaker && (
-                <span style={{ color: 'rgb(24, 144, 255)' }}>
-                  <MessageTwoTone /> {ids.length}人{showNow ? '正在' : '近期'}讨论
-                </span>
-              )}
-              {showEditor && (
-                <span style={{ color: 'rgb(24, 144, 255)' }}>
-                  <EditTwoTone /> {ids.length}人{showNow ? '正在' : '近期'}编辑
-                </span>
+              ) : (
+                <>
+                  {showViewer && (
+                    <span style={{ color: 'rgb(24, 144, 255)' }}>
+                      <CompassTwoTone /> {ids.length}人在线
+                    </span>
+                  )}
+                  {showSpeaker && (
+                    <span style={{ color: 'rgb(24, 144, 255)' }}>
+                      <MessageTwoTone /> {ids.length}人{showNow ? '正在' : '近期'}讨论
+                    </span>
+                  )}
+                  {showEditor && (
+                    <span style={{ color: 'rgb(24, 144, 255)' }}>
+                      <EditTwoTone /> {ids.length}人{showNow ? '正在' : '近期'}编辑
+                    </span>
+                  )}
+                </>
               )}
             </div>
           ) : (

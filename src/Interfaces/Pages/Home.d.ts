@@ -5,12 +5,14 @@ declare namespace IHomePage {
   export interface IProps {
     tagList: Tag[];
     chatrooms: PopularChatroom[];
+    clientChatrooms: PopularChatroom[];
   }
 
   export interface InitialProps {
     namespacesRequired: string[];
     tagList: Tag[];
     chatrooms: PopularChatroom[];
+    clientChatrooms: PopularChatroom[];
   }
 
   export interface IStateProps {
