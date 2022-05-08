@@ -99,24 +99,34 @@ export const ChatroomCard: React.FC<ChatroomCardProps> = ({ chatroom, asCard = f
           {showActivity ? (
             <div className="stats">
               {showUnread ? (
-                <span style={{ color: 'rgb(24, 144, 255)' }}>
-                  <BellTwoTone /> {chatroom.unreadMessagesCount}条消息未读{' '}
+                <span className="info">
+                  <BellTwoTone />
+                  <span style={{ marginLeft: '0.1rem' }}>
+                    {chatroom.unreadMessagesCount}条消息未读
+                  </span>
                 </span>
               ) : (
                 <>
                   {showViewer && (
-                    <span style={{ color: 'rgb(24, 144, 255)' }}>
-                      <CompassTwoTone /> {ids.length}人在线
+                    <span className="info">
+                      <CompassTwoTone />
+                      <span>{ids.length}人在线</span>
                     </span>
                   )}
                   {showSpeaker && (
-                    <span style={{ color: 'rgb(24, 144, 255)' }}>
-                      <MessageTwoTone /> {ids.length}人{showNow ? '正在' : '近期'}讨论
+                    <span className="info">
+                      <MessageTwoTone />
+                      <span>
+                        {ids.length}人{showNow ? '正在' : '近期'}讨论
+                      </span>
                     </span>
                   )}
                   {showEditor && (
-                    <span style={{ color: 'rgb(24, 144, 255)' }}>
-                      <EditTwoTone /> {ids.length}人{showNow ? '正在' : '近期'}编辑
+                    <span className="info">
+                      <EditTwoTone />
+                      <span>
+                        {ids.length}人{showNow ? '正在' : '近期'}编辑
+                      </span>
                     </span>
                   )}
                 </>
@@ -185,6 +195,16 @@ export const ChatroomCard: React.FC<ChatroomCardProps> = ({ chatroom, asCard = f
               margin-left: 0.5rem;
               font-size: 12px;
               line-height: 1.2;
+            }
+
+            .info {
+              color: rgb(24, 144, 255);
+              display: inline-flex;
+              align-items: center;
+            }
+
+            .info span {
+              margin-left: 0.25rem;
             }
 
             .avatar {
