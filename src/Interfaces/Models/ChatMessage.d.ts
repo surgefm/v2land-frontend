@@ -7,4 +7,5 @@ export interface ChatMessage {
   authorId: number;
   author?: Client;
   createdAt: string;
+  lastReadBy: number[];
 }

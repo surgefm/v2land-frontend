@@ -3,7 +3,7 @@ import getConfig from 'next/config';
 import { Store, AnyAction } from 'redux';
 import { message as msg } from 'antd';
 
-import { ChatMessage, AppStore } from '@Interfaces';
+import { ChatMessage, ChatMember, AppStore } from '@Interfaces';
 import { ChatroomActions } from '@Actions';
 import { getChatId } from '@Services/Utils';
 
@@ -13,6 +13,7 @@ const {
 
 type ConnectionResponse = {
   messages: ChatMessage[];
+  members: ChatMember[];
 };
 
 export class ChatroomSocket {
@@ -70,6 +71,10 @@ export class ChatroomSocket {
       this.store.dispatch(ChatroomActions.AddMessage(this.id, response.messages[i]));
     }
 
+    for (let i = 0; i < response.members.length; i += 1) {
+      this.store.dispatch(ChatroomActions.AddMember(this.id, response.members[i]));
+    }
+
     const connectTimeout = 0;
     const connectAttemptResponse = () => {};
     this.socket.on('reconnect_attempt', connectAttemptResponse);
@@ -91,6 +96,10 @@ export class ChatroomSocket {
     this.socket.on('send message', (message: ChatMessage) => {
       this.store.dispatch(ChatroomActions.AddMessage(message.chatId, message));
     });
+
+    this.socket.on('client read', (chatId: string, clientId: number, lastRead: string) => {
+      this.store.dispatch(ChatroomActions.UpdateMemberLastRead(chatId, clientId, lastRead));
+    });
   }
 
   async sendMessage(message: string) {
@@ -99,6 +108,10 @@ export class ChatroomSocket {
 
   async leaveChatroom() {
     return this.emit('leave chatroom', this.type, this.ids);
+  }
+
+  async readMessage(messageId: string) {
+    await this.emit('read message', messageId);
   }
 
   destroy() {

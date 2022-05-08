@@ -60,6 +60,8 @@ export const ActionConsts = {
   Chatroom: {
     AddChatroom: 'Chatroom_AddChatroom',
     AddMessage: 'Chatroom_AddMessage',
+    AddMember: 'Chatroom_AddMember',
+    UpdateMemberLastRead: 'Chatroom_UpdateMemberLastRead',
     SetActiveChatroom: 'Chatroom_SetActiveChatroom',
   },
   Loading: {

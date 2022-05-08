@@ -63,6 +63,14 @@ export const ChatroomWindow: React.FC<WindowProps> = ({ type, ids, onClose, pres
     };
   });
 
+  useEffect(() => {
+    if (!divRef.current || !window || !socket || messages.length === 0) return;
+    const { right, bottom } = divRef.current.getBoundingClientRect();
+    if (right <= window.innerWidth && bottom <= window.innerHeight) {
+      socket.readMessage(messages[0].id);
+    }
+  }, [messages]);
+
   let title = '讨论';
   if (type === 'newsroom' && event) {
     if (eventOwner) {

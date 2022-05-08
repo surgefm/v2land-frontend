@@ -79,6 +79,18 @@ img[src=""], img:not([src]) {
   padding-right: 12px;
 }
 
+.ant-segmented {
+  padding: .2rem;
+}
+
+.ant-segmented {
+  border-radius: .7rem;
+}
+
+.ant-segmented-item, .ant-segmented-thumb {
+  border-radius: .5rem;
+}
+
 @media (max-width: 700px) {
   .large {
     display: none;

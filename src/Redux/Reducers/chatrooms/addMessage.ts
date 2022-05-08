@@ -1,4 +1,5 @@
 import { ChatroomsState, ChatroomAction, ChatMessage } from '@Interfaces';
+import updateMessagesLastReadBy from './updateMessagesLastReadBy';
 
 const sortMessages = (sortedMessages: ChatMessage[], message: ChatMessage): ChatMessage[] => {
   if (sortedMessages.length === 0) return [message];
@@ -31,7 +32,7 @@ const addMessage = (state: ChatroomsState, action: ChatroomAction) => {
   const { messages, messageIds } = chatroom;
   if (messageIds[message.id]) return state;
 
-  return {
+  const newState = {
     ...state,
     chatrooms: {
       ...state.chatrooms,
@@ -45,6 +46,8 @@ const addMessage = (state: ChatroomsState, action: ChatroomAction) => {
       },
     },
   };
+
+  return updateMessagesLastReadBy(newState, chatId);
 };
 
 export default addMessage;

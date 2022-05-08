@@ -13,6 +13,7 @@ import {
   Tag,
   NewsroomSocketStatus,
   ChatMessage,
+  ChatMember,
 } from '@Interfaces';
 import { IStore } from './IStore';
 // #endregion Local Imports
@@ -67,6 +68,9 @@ export interface ChatroomAction extends ReduxAction {
   chatType?: 'client' | 'newsroom';
   ids?: number | number[];
   message?: ChatMessage;
+  member?: ChatMember;
+  clientId?: number;
+  lastRead?: string;
 }
 
 export interface ClientAction extends ReduxAction {

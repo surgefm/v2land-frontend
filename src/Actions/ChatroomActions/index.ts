@@ -1,6 +1,6 @@
 // #region Local Imports
 import { ActionConsts } from '@Definitions';
-import { ChatMessage } from '@Interfaces';
+import { ChatMessage, ChatMember } from '@Interfaces';
 // #endregion Local Imports
 
 export const ChatroomActions = {
@@ -15,6 +15,19 @@ export const ChatroomActions = {
     chatId,
     message,
     type: ActionConsts.Chatroom.AddMessage,
+  }),
+
+  AddMember: (chatId: string, member: ChatMember) => ({
+    chatId,
+    member,
+    type: ActionConsts.Chatroom.AddMember,
+  }),
+
+  UpdateMemberLastRead: (chatId: string, clientId: number, lastRead: string) => ({
+    chatId,
+    clientId,
+    lastRead,
+    type: ActionConsts.Chatroom.UpdateMemberLastRead,
   }),
 
   SetActiveChatroom: (chatId: string) => ({

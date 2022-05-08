@@ -9,7 +9,7 @@ const addChatroom = (state: ChatroomsState, action: ChatroomAction): ChatroomsSt
     ...state,
     chatrooms: {
       ...state.chatrooms,
-      [chatId]: { id: chatId, type: chatType, ids, messages: [], messageIds: {} },
+      [chatId]: { id: chatId, type: chatType, ids, messages: [], messageIds: {}, members: [] },
     },
   };
 };

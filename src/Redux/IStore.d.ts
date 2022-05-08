@@ -1,5 +1,5 @@
 // #region Interface Imports
-import { Event, Stack, News, Client, Newsroom, Tag, ChatMessage } from '@Interfaces';
+import { Event, Stack, News, Client, Newsroom, Tag, ChatMessage, ChatMember } from '@Interfaces';
 // #endregion Interface Imports
 
 export interface HomepageState {
@@ -47,6 +47,7 @@ export interface ChatroomsState {
       ids: number | number[];
       messages: ChatMessage[];
       messageIds: { [index: string]: number };
+      members: ChatMember[];
     };
   };
 }
