@@ -3,7 +3,9 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { Space, Button } from 'antd';
+import { StarOutlined, SisternodeOutlined } from '@ant-design/icons';
 // #endregion Global Imports
 
 // #region Local Imports
@@ -64,6 +66,29 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
             <p style={{ whiteSpace: 'pre-line' }}>
               {client.description || t('Client_NoDescription')}
             </p>
+
+            <Space style={{ transform: 'translateX(-0.5rem)' }}>
+              <Link href={`/@${client.username}`}>
+                <a href={`/@${client.username}`}>
+                  <Button type="text" size="small">
+                    <SisternodeOutlined />
+                    {client.events && client.events.length > 0
+                      ? `${client.events.length} 条时间线`
+                      : '暂无贡献'}
+                  </Button>
+                </a>
+              </Link>
+              <Link href={`/@${client.username}/star`}>
+                <a href={`/@${client.username}/star`}>
+                  <Button type="text" size="small">
+                    <StarOutlined />
+                    {client.stars && client.stars.length > 0
+                      ? `${client.stars.length} 个收藏`
+                      : '暂无收藏'}
+                  </Button>
+                </a>
+              </Link>
+            </Space>
           </Space>
           {isCurrentClient ? (
             <div className="edit-buttons">
@@ -89,10 +114,17 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
           }}
           className={`${numEventColumns === 1 && 'only-one'}`}
         >
-          <SectionHeader>{client.nickname || `@${client.username}`} 的收藏</SectionHeader>
+          <SectionHeader>
+            {client.stars && client.stars.length > 0
+              ? `${client.nickname || `@${client.username}`} 的收藏`
+              : `${client.nickname || `@${client.username}`} 暂无收藏`}
+          </SectionHeader>
         </div>
         <Wall
-          elementProps={events.map(e => ({ eventId: e.id, forcePlain: true }))}
+          elementProps={(client.stars || []).map(star => ({
+            eventId: star.eventId,
+            forcePlain: true,
+          }))}
           elementWidth={24}
           gutterWidth={1}
           Component={EventCard}

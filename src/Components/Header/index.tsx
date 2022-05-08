@@ -41,8 +41,9 @@ export const Header: React.FC = (): JSX.Element => {
   const isInAboutPage = router.route === '/about';
   const isHomepage = router.route.length <= 1;
   const isInEventPage = router.route === '/[username]/[eventName]';
+  const isInProfilePage = ['/[username]', '/[username]/star'].includes(router.route);
   const showSearchBox = isHomepage || isInTagPage || isInEventPage || isInTagListPage
-    || isInWikiPage || isInAboutPage;
+    || isInWikiPage || isInAboutPage || isInProfilePage;
 
   const [rightWidth, setRightWidth] = useState(32);
 
