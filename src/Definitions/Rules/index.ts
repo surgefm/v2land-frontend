@@ -7,6 +7,20 @@ type RulesProps = {
   username?: string;
 };
 
+const unavailableUsernameSet: Set<string> = new Set<string>([
+  'event',
+  'topic',
+  'register',
+  'login',
+  'logout',
+  'about',
+  'dashboard',
+  'trending',
+  'topics',
+  'settings',
+  'signup',
+]);
+
 export const Rules = (t: TFunction, { username }: RulesProps = {}) => {
   return {
     username: [
@@ -17,21 +31,8 @@ export const Rules = (t: TFunction, { username }: RulesProps = {}) => {
       { pattern: /^[a-zA-Z0-9]+$/, message: t('Registration_Username_no_special_character') },
       {
         validator(rule, value) {
-          const forbiddenUsernameSet: Set<string> = new Set<string>([
-            'event',
-            'topic',
-            'register',
-            'login',
-            'logout',
-            'about',
-            'dashboard',
-            'trending',
-            'topics',
-            'settings',
-            'signup',
-          ]);
-          if (forbiddenUsernameSet.has(value))
-            return Promise.reject(new Error(t('Registration_Username_not_forbidden')));
+          if (unavailableUsernameSet.has(value))
+            return Promise.reject(new Error(t('Registration_Username_not_available')));
 
           return Promise.resolve();
         },
