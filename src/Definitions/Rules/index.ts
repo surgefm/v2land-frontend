@@ -16,6 +16,27 @@ export const Rules = (t: TFunction, { username }: RulesProps = {}) => {
       { whitespace: true, message: t('Registration_Username_no_space') },
       { pattern: /^[a-zA-Z0-9]+$/, message: t('Registration_Username_no_special_character') },
       {
+        validator(rule, value) {
+          const forbiddenUsernameSet: Set<string> = new Set<string>([
+            'event',
+            'topic',
+            'register',
+            'login',
+            'logout',
+            'about',
+            'dashboard',
+            'trending',
+            'topics',
+            'settings',
+            'signup',
+          ]);
+          if (forbiddenUsernameSet.has(value))
+            return Promise.reject(new Error(t('Registration_Username_not_forbidden')));
+
+          return Promise.resolve();
+        },
+      },
+      {
         async validator(rule, value) {
           if (value && +value === +value)
             return Promise.reject(new Error(t('Registration_Username_not_all_num')));
