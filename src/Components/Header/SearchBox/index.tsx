@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import getConfig from 'next/config';
 import algoliasearch from 'algoliasearch/lite';
-import { AutoComplete, Input, Typography, Empty } from 'antd';
+import { AutoComplete, Input, Typography, Empty, Button } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -26,9 +26,25 @@ const searchClient = ALGOLIA_ID && ALGOLIA_KEY ? algoliasearch(ALGOLIA_ID, ALGOL
 let timeout: number;
 export const HeaderSearchBox: React.FC = () => {
   const [input, setInput] = useState('');
+  const inputRef = useRef(null);
   const router = useRouter();
   const [results, setResults] = useState<Results | undefined>();
+  const [focused, setFocused] = useState(false);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const update = () => {
+      if (window.innerWidth >= 600) {
+        setFocused(false);
+      }
+    };
+
+    window.addEventListener('resize', update);
+    return () => {
+      window.removeEventListener('resize', update);
+    };
+  });
+
   if (!searchClient) return <></>;
 
   const search = (query: string) => {
@@ -117,28 +133,56 @@ export const HeaderSearchBox: React.FC = () => {
   }
 
   return (
-    <AutoComplete
-      value={input}
-      onChange={onChange}
-      onClear={() => onChange('')}
-      onSelect={(value: any, e: any) => {
-        if (e.to) {
-          router.push(e.to);
-        }
-      }}
-      options={options}
-      dropdownMatchSelectWidth={300}
-      dropdownClassName="header-search-box"
-      allowClear
-      backfill={false}
-      notFoundContent={results === undefined ? undefined : <Empty description="未找到相关内容" />}
-      {...({ listHeight: '100%' } as {})}
-    >
-      <Input
-        placeholder="搜索…"
-        style={{ borderRadius: '10000rem', minWidth: '4.6rem', top: '1px' }}
-        prefix={<SearchOutlined style={{ color: 'rgba(0, 0, 0, .3)' }} />}
-      />
-    </AutoComplete>
+    <>
+      <Button
+        type="text"
+        className="mini"
+        size="small"
+        onClick={() => {
+          setFocused(true);
+          if (inputRef.current) {
+            setTimeout(() => {
+              (inputRef.current as any).focus();
+            }, 100);
+          }
+        }}
+        style={{
+          paddingTop: '.2rem',
+          ...(focused ? { display: 'none' } : {}),
+        }}
+      >
+        <SearchOutlined style={{ color: 'rgba(0, 0, 0, .8)', fontSize: '1.1rem' }} />
+      </Button>
+      <AutoComplete
+        value={input}
+        onChange={onChange}
+        onClear={() => onChange('')}
+        onBlur={() => setFocused(false)}
+        onSelect={(value: any, e: any) => {
+          if (e.to) {
+            router.push(e.to);
+          }
+        }}
+        options={options}
+        dropdownMatchSelectWidth={300}
+        dropdownClassName="header-search-box"
+        allowClear
+        backfill={false}
+        className={`header-search-box-input ${focused ? 'focused-search-box-input' : 'big'}`}
+        notFoundContent={results === undefined ? undefined : <Empty description="未找到相关内容" />}
+        {...({ listHeight: '100%' } as {})}
+      >
+        <Input
+          placeholder="搜索…"
+          ref={inputRef}
+          prefix={<SearchOutlined style={{ color: 'rgba(0, 0, 0, .3)' }} />}
+          onBlur={() => setFocused(false)}
+          style={{
+            borderRadius: '10000rem',
+            minWidth: '4.6rem',
+          }}
+        />
+      </AutoComplete>
+    </>
   );
 };
