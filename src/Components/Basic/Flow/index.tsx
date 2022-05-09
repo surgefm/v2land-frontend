@@ -71,8 +71,6 @@ export const Flow: React.FC<IFlow.IProps> = ({ Component, elementProps, numLine 
             overflow-y: visible;
             height: max-content;
             padding-bottom: 0.7rem;
-            flex-direction: column;
-            display: flex;
           }
 
           .row {
