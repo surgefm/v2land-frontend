@@ -32,6 +32,9 @@ import { IClientPage, ReduxNextPageContext } from '@Interfaces';
 const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ clientId }) => {
   const { t } = useTranslation('common');
   const router = useRouter();
+  const { query } = router;
+  const isInStarPage = query.t === 'star';
+  const isInProfilePage = !isInStarPage;
   const client = useSelector(getClient(clientId));
   const loggedInClientId = useSelector(getLoggedInClientId);
   const [numEventColumns, setNumEventColumns] = useState<number>(0);
@@ -68,7 +71,7 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
             </p>
 
             <Space style={{ transform: 'translateX(-0.5rem)' }}>
-              <Link href={`/@${client.username}`}>
+              <Link href={`/@${client.username}`} shallow>
                 <a href={`/@${client.username}`}>
                   <Button type="text" size="small">
                     <SisternodeOutlined />
@@ -78,8 +81,8 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
                   </Button>
                 </a>
               </Link>
-              <Link href={`/@${client.username}/star`}>
-                <a href={`/@${client.username}/star`}>
+              <Link href={`/@${client.username}?t=star`} shallow>
+                <a href={`/@${client.username}?t=star`}>
                   <Button type="text" size="small">
                     <StarOutlined />
                     {client.stars && client.stars.length > 0
@@ -104,27 +107,56 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
     <div className="top">
       <ClientHead clientId={clientId} />
       <HeaderCard>{getClientInfoComponent()}</HeaderCard>
-      <div className="body" style={{ visibility: numEventColumns > 0 ? 'visible' : 'hidden' }}>
-        <div
-          style={{
-            width: `${Math.max(25 * numEventColumns - 1, 24)}rem`,
-          }}
-          className={`${numEventColumns === 1 && 'only-one'}`}
-        >
-          <SectionHeader>
-            {client.events && client.events.length > 0
-              ? `${client.nickname || `@${client.username}`} 的时间线`
-              : `${client.nickname || `@${client.username}`} 暂无时间线`}
-          </SectionHeader>
+      {isInProfilePage && (
+        <div className="body" style={{ visibility: numEventColumns > 0 ? 'visible' : 'hidden' }}>
+          <div
+            style={{
+              width: `${Math.max(25 * numEventColumns - 1, 24)}rem`,
+            }}
+            className={`${numEventColumns === 1 && 'only-one'}`}
+          >
+            <SectionHeader>
+              {client.events && client.events.length > 0
+                ? `${client.nickname || `@${client.username}`} 的时间线`
+                : `${client.nickname || `@${client.username}`} 暂无时间线`}
+            </SectionHeader>
+          </div>
+          <Wall
+            elementProps={events.map(e => ({ eventId: e.id, forcePlain: true }))}
+            elementWidth={24}
+            gutterWidth={1}
+            Component={EventCard}
+            onSetColumns={setNumEventColumns}
+          />
         </div>
-        <Wall
-          elementProps={events.map(e => ({ eventId: e.id, forcePlain: true }))}
-          elementWidth={24}
-          gutterWidth={1}
-          Component={EventCard}
-          onSetColumns={setNumEventColumns}
-        />
-      </div>
+      )}
+
+      {isInStarPage && (
+        <div className="body" style={{ visibility: numEventColumns > 0 ? 'visible' : 'hidden' }}>
+          <div
+            style={{
+              width: `${Math.max(25 * numEventColumns - 1, 24)}rem`,
+            }}
+            className={`${numEventColumns === 1 && 'only-one'}`}
+          >
+            <SectionHeader>
+              {client.stars && client.stars.length > 0
+                ? `${client.nickname || `@${client.username}`} 的收藏`
+                : `${client.nickname || `@${client.username}`} 暂无收藏`}
+            </SectionHeader>
+          </div>
+          <Wall
+            elementProps={(client.stars || []).map(star => ({
+              eventId: star.eventId,
+              forcePlain: true,
+            }))}
+            elementWidth={24}
+            gutterWidth={1}
+            Component={EventCard}
+            onSetColumns={setNumEventColumns}
+          />
+        </div>
+      )}
       <Footer />
       <div style={{ height: '1rem' }} />
       <style jsx>
@@ -172,7 +204,7 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
             left: -10000rem;
           }
 
-          @media (max-width: 600px) {
+          @media (max-width: 700px) {
             .top :global(.small) {
               position: relative;
               left: 0;
@@ -210,7 +242,7 @@ ClientPage.getInitialProps = async (
 
   let username = ctx.query.username as string;
   if (+username === +username) {
-    UtilService.redirect(ctx, `/@Newspect/${username}`);
+    UtilService.redirect(ctx, `/@surge/${username}`);
     return props;
   }
 
