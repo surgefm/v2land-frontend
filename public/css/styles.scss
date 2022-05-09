@@ -91,6 +91,26 @@ img[src=""], img:not([src]) {
   border-radius: .3rem;
 }
 
+.focused-search-box-input {
+  position: absolute;
+  left: 0;
+  width: calc(100% - 1rem);
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  top: 0;
+  height: 47px;
+  z-index: 10;
+}
+
+.focused-search-box-input .ant-select-selection-search-input {
+  position: absolute;
+  top: .375rem;
+  left: 1rem;
+  height: 2.25rem;
+  width: calc(100% - 1rem) !important;
+}
+
 @media (max-width: 700px) {
   .large {
     display: none;
@@ -103,5 +123,28 @@ img[src=""], img:not([src]) {
 
   .fab-btn {
     box-shadow: 0 2.5px 7.5px rgba(25, 144, 255, 0.3);
+  }
+}
+
+.mini {
+  position: fixed;
+  left: -100000rem;
+}
+
+@media (max-width: 600px) {
+  .big {
+    display: none;
+  }
+
+  .mini {
+    position: relative;
+    left: inherit;
+  }
+
+  .header-search-box {
+    top: 3rem !important;
+    left: 1rem !important;
+    width: calc(100% - 2rem) !important;
+    min-width: 0 !important;
   }
 }

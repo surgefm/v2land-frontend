@@ -163,6 +163,7 @@ export const ChatroomCard: React.FC<ChatroomCardProps> = ({ chatroom, asCard = f
               transition: all 0.2s;
               cursor: pointer;
               border-radius: 0.5rem;
+              overflow: hidden;
             }
 
             .card.white {
