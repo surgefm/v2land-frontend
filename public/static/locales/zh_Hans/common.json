@@ -156,7 +156,9 @@
   "Utils_TimeLapse_DayBeforeYesterday": "前天",
   "Utils_TimeLapse_ThreeDaysAgo": "三天前",
   "Utils_TimeLapse_OneWeekAgo": "一周前",
+  "Utils_TimeLapse_TwoWeeksAgo": "两周前",
   "Utils_TimeLapse_OneMonthAgo": "一个月前",
+  "Utils_TimeLapse_TwoMonthsAgo": "两个月前",
   "Utils_TimeLapse_ThreeMonthsAgo": "三个月前",
   "Utils_TimeLapse_HalfAYearAgo": "半年前",
   "Utils_TimeLapse_YearsAgo": "{{years}} 年前"

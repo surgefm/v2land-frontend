@@ -51,8 +51,10 @@ export const getTimeLapseString = (
 
   if (dayDiff <= 3) return tf('Utils_TimeLapse_DayBeforeYesterday');
   if (dayDiff <= 7) return tf('Utils_TimeLapse_ThreeDaysAgo');
-  if (dayDiff <= 31) return tf('Utils_TimeLapse_OneWeekAgo');
-  if (dayDiff <= 92) return tf('Utils_TimeLapse_OneMonthAgo');
+  if (dayDiff <= 13) return tf('Utils_TimeLapse_OneWeekAgo');
+  if (dayDiff <= 31) return tf('Utils_TimeLapse_TwoWeeksAgo');
+  if (dayDiff <= 61) return tf('Utils_TimeLapse_OneMonthAgo');
+  if (dayDiff <= 92) return tf('Utils_TimeLapse_TwoMonthsAgo');
   if (dayDiff <= 183) return tf('Utils_TimeLapse_ThreeMonthsAgo');
   if (dayDiff <= 365) return tf('Utils_TimeLapse_HalfAYearAgo');
   return tf('Utils_TimeLapse_YearsAgo', {
