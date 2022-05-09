@@ -57,6 +57,8 @@ export const ChatroomMessage = ({ message }: { message: ChatMessage }) => {
           {lastReadBy.length > 4 && (
             <Tooltip
               color="#fff"
+              placement="topRight"
+              arrowPointAtCenter
               title={
                 <div className="user-list">
                   {lastReadBy.map(clientId => (
