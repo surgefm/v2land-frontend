@@ -101,7 +101,7 @@
   "Registration_Username_max_length": "Username should contain at most 16 characters",
   "Registration_Username_no_space": "Username should not contain space",
   "Registration_Username_no_special_character": "Username should only contain character from a-z, A-Z, 0-9",
-  "Registration_Username_not_forbidden": "Username is forbidden",
+  "Registration_Username_not_available": "Username is not available",
   "Registration_Username_not_all_num": "Username should not be all numbers",
   "Registration_Username_used": "This username has already been used",
   "Registration_Nickname": "Nickname",
