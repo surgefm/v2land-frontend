@@ -39,6 +39,7 @@ export * from '@Interfaces/Models/News';
 export * from '@Interfaces/Models/Newsroom';
 export * from '@Interfaces/Models/Record';
 export * from '@Interfaces/Models/Stack';
+export * from '@Interfaces/Models/Star';
 export * from '@Interfaces/Models/Subscription';
 export * from '@Interfaces/Models/Tag';
 // #endregion Model Interfaces

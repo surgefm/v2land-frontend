@@ -183,3 +183,8 @@ export const getAllTags = async () => {
   const { allTags } = await get<RedstoneModel.GetAllTagsResponse>('/tag/list/all');
   return allTags;
 };
+
+export const getAllStars = async (eventId: number) => {
+  const { stars } = await get<RedstoneModel.GetAllStarsResponse>(`/event/${eventId}/star`);
+  return stars;
+};

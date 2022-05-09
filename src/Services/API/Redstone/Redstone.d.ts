@@ -6,6 +6,7 @@ import {
   InviteCode,
   PopularChatroom,
   ChatMessage,
+  Star,
 } from '@Interfaces';
 
 declare namespace RedstoneModel {
@@ -120,6 +121,10 @@ declare namespace RedstoneModel {
 
   export interface GetAllTagsResponse {
     allTags: { [index: string]: Tag[] };
+  }
+
+  export interface GetAllStarsResponse {
+    stars: Star[];
   }
 }
 

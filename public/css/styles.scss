@@ -84,11 +84,11 @@ img[src=""], img:not([src]) {
 }
 
 .ant-segmented {
-  border-radius: .7rem;
+  border-radius: .5rem;
 }
 
 .ant-segmented-item, .ant-segmented-thumb {
-  border-radius: .5rem;
+  border-radius: .3rem;
 }
 
 @media (max-width: 700px) {

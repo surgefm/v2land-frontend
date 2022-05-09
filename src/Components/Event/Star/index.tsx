@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, Space, message } from 'antd';
+import { Button, Space, Tooltip, Spin, message } from 'antd';
 import { StarTwoTone, StarFilled } from '@ant-design/icons';
 
 import {
@@ -10,6 +10,8 @@ import {
 } from '@Selectors';
 import { post, del } from '@Services/API/Http';
 import { RedstoneService } from '@Services';
+import { ClientItem } from '@Components/Client';
+import { Star } from '@Interfaces';
 import { ClientActions, EventActions } from '@Actions';
 import { IEventStar } from './Star';
 
@@ -35,17 +37,58 @@ export const EventStar: React.FunctionComponent<IEventStar.IProps> = ({ eventId 
     else message.success('收藏成功');
   };
 
+  const Stargazers = () => {
+    const [stars, setStars] = useState<Star[]>([]);
+
+    useEffect(() => {
+      if (stars.length > 0) return;
+      RedstoneService.getAllStars(eventId).then(starList => {
+        setStars(starList);
+      });
+    });
+
+    if (stars.length === 0) return <Spin />;
+
+    return (
+      <div className="user-list">
+        {stars.map(s => (
+          <div key={s.clientId}>
+            <ClientItem clientId={s.clientId} />
+          </div>
+        ))}
+        <style jsx>
+          {`
+            .user-list {
+              display: flex;
+              flex-direction: column;
+              max-height: 50vh;
+              width: 14rem;
+            }
+          `}
+        </style>
+      </div>
+    );
+  };
+
   return (
     <div className="container">
       <Space size={0}>
         {starCount > 0 && (
-          <span
-            style={{
-              width: `${`${starCount}`.length * 11}px`,
-            }}
+          <Tooltip
+            color="white"
+            title={<Stargazers />}
+            placement="bottomRight"
+            align={{ offset: [18, 0] }}
           >
-            {starCount}
-          </span>
+            <span
+              style={{
+                width: `${`${starCount}`.length * 11}px`,
+                cursor: 'pointer',
+              }}
+            >
+              {starCount}
+            </span>
+          </Tooltip>
         )}
         <Button
           size="large"
