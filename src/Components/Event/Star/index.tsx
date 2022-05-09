@@ -47,8 +47,6 @@ export const EventStar: React.FunctionComponent<IEventStar.IProps> = ({ eventId 
       });
     });
 
-    if (stars.length === 0) return <Spin />;
-
     return (
       <div className="user-list">
         {stars.map(s => (
@@ -56,6 +54,7 @@ export const EventStar: React.FunctionComponent<IEventStar.IProps> = ({ eventId 
             <ClientItem clientId={s.clientId} />
           </div>
         ))}
+        {stars.length === 0 && <Spin />}
         <style jsx>
           {`
             .user-list {
