@@ -102,6 +102,7 @@
   "Registration_Username_max_length": "用户名不得超过 16 个字符",
   "Registration_Username_no_space": "用户名不得含有空格",
   "Registration_Username_no_special_character": "用户名只能由 a-z, A-Z 或 0-9 组成",
+  "Registration_Username_not_forbidden": "用户名不合法",
   "Registration_Username_not_all_num": "用户名不得全为数字",
   "Registration_Username_used": "该用户名已被占用",
   "Registration_Nickname": "昵称",
