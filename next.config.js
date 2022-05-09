@@ -4,7 +4,15 @@ const withPWA = require('next-pwa');
 const nextRuntimeDotenv = require('next-runtime-dotenv');
 
 const withConfig = nextRuntimeDotenv({
-  public: ['API_URL', 'API_KEY', 'CDN_URL', 'SITE_URL', 'ALGOLIA_ID', 'ALGOLIA_KEY'],
+  public: [
+    'API_URL',
+    'API_KEY',
+    'CDN_URL',
+    'SITE_URL',
+    'ALGOLIA_ID',
+    'ALGOLIA_KEY',
+    'NEXT_PUBLIC_GA_ID',
+  ],
 });
 
 const nextConfig = {
@@ -29,6 +37,7 @@ const nextConfig = {
     SITE_URL: process.env.SITE_URL,
     ALGOLIA_ID: process.env.ALGOLIA_ID,
     ALGOLIA_KEY: process.env.ALGOLIA_KEY,
+    NEXT_PUBLIC_GA_ID: process.env.NEXT_PUBLIC_GA_ID,
   },
   pwa: {
     dest: 'public',

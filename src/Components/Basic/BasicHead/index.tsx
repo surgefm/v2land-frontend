@@ -16,7 +16,7 @@ const BasicHeadComp: React.FunctionComponent<IBasicHead.IProps> = () => {
       <meta key="keywords" name="keywords" content={t('Head_Keywords')} />
       <meta key="description" name="description" content={t('Head_Description')} />
       <meta key="twitter:card" name="twitter:card" content="summary" />
-      <meta key="twitter:site" name="twitter:site" content="@Wave2Land" />
+      <meta key="twitter:site" name="twitter:site" content="@langchao_org" />
       <meta key="twitter:title" name="twitter:title" content={t('Head_Title')} />
       <meta key="twitter:description" name="twitter:description" content={t('Head_Description')} />
       <meta
