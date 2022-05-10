@@ -15,6 +15,7 @@ import { useTranslation } from '@I18n';
 import { getEvent, getStack, getNews, getEventOwner, getTag } from '@Selectors';
 import { Event, Stack, News, Tag } from '@Interfaces';
 import { TelegramLogo } from '@Components/Basic';
+import { gtag } from '@Services';
 
 import { IShare } from './Share';
 
@@ -153,8 +154,23 @@ const ShareImpl: React.FunctionComponent<IShare.IProps> = ({
     }
   };
 
+  const recordGtag = (site: string) => {
+    let value = 0;
+    if (type === 'event') value = event.id;
+    else if (type === 'stack') value = stack.id;
+    else if (type === 'news') value = news.id;
+    else if (type === 'tag') value = tag.id;
+
+    gtag.tagRecommendedEvent('share', {
+      method: site,
+      content_type: type,
+      item_id: value,
+    });
+  };
+
   const handleClick = (site: string) => (mouseEvent: React.MouseEvent) => {
     mouseEvent.preventDefault();
+    recordGtag(site);
     window.open(
       shareTo(site),
       '',
@@ -164,10 +180,16 @@ const ShareImpl: React.FunctionComponent<IShare.IProps> = ({
 
   const togglePopover = (mouseEvent: React.MouseEvent) => {
     mouseEvent.preventDefault();
+    if (!showPopover) {
+      recordGtag('wechat');
+    }
     setShowPopover(!showPopover);
   };
 
-  const handleCopyClick = () => antMessage.success(tf('Share_ClipboardSuccess'));
+  const handleCopyClick = () => {
+    recordGtag('clipboard');
+    antMessage.success(tf('Share_ClipboardSuccess'));
+  };
 
   const QRCodeImpl = QRCode as any;
 
