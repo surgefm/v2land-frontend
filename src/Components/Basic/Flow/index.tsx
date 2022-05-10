@@ -102,12 +102,12 @@ export const Flow: React.FC<IFlow.IProps> = ({ Component, elementProps, numLine 
 
           .left {
             left: -1rem;
-            background: linear-gradient(90deg, #f6f8fa, transparent);
+            background: linear-gradient(90deg, rgba(246, 248, 250, 1), rgba(246, 248, 250, 0));
           }
 
           .right {
             left: 100%;
-            background: linear-gradient(270deg, #f6f8fa, transparent);
+            background: linear-gradient(270deg, rgba(246, 248, 250, 1), rgba(246, 248, 250, 0));
           }
         `}
       </style>
