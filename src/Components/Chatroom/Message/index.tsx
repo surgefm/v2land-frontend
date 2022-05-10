@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-wrap-multilines */
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Skeleton, Tooltip } from 'antd';
+import { Skeleton, Tooltip, Typography } from 'antd';
 import { EllipsisOutlined } from '@ant-design/icons';
 
 import { ChatMessage } from '@Interfaces';
@@ -20,17 +20,11 @@ export const ChatroomMessage = ({ message }: { message: ChatMessage }) => {
     now.getMonth() === time.getMonth() &&
     now.getFullYear() === time.getFullYear();
 
-  const Name = () => {
-    if (!client)
-      return <Skeleton active title={false} paragraph={{ rows: 1 }} style={{ width: '4rem' }} />;
-    if (client.nickname)
-      return (
-        <span>
-          <b>{client.nickname}</b> @{client.username}
-        </span>
-      );
-    return <b>@{client.username}</b>;
-  };
+  let timeStr = ` ${time.getHours()}:${`0${time.getMinutes()}`.slice(-2)}`;
+  if (!sameDay) {
+    timeStr = ` ${UtilService.getTimeString(time, { withSpaceBetween: false })}${timeStr}`;
+  }
+  timeStr = (<span style={{ color: 'rgba(0, 0, 0, 0.3)' }}>{timeStr}</span> as any) as string;
 
   const lastReadBy = (message.lastReadBy || []).filter(id => id !== loggedInClientId);
 
@@ -39,13 +33,20 @@ export const ChatroomMessage = ({ message }: { message: ChatMessage }) => {
       <div className="avatar">
         <ClientAvatar clientId={message.authorId} size={32} showTooltip={false} asLink />
       </div>
-      <div style={{ padding: '0 .5rem .5rem .5rem', display: 'block', width: '100%' }}>
+      <div style={{ padding: '0 .5rem .5rem .5rem', display: 'block', width: 'calc(100% - 2rem)' }}>
         <span className="name">
-          <Name />
-          <span className="time">
-            {sameDay ? '' : `${UtilService.getTimeString(time, { withSpaceBetween: false })} `}
-            {time.getHours()}:{`0${time.getMinutes()}`.slice(-2)}
-          </span>
+          {client && (
+            <Typography.Text
+              ellipsis={{
+                suffix: timeStr,
+              }}
+            >
+              {client.nickname && <b>{client.nickname} </b>}@{client.username}
+            </Typography.Text>
+          )}
+          {!client && (
+            <Skeleton active title={false} paragraph={{ rows: 1 }} style={{ width: '4rem' }} />
+          )}
         </span>
         <span className="message-text">{message.text}</span>
         <div className="read-by" style={{ height: lastReadBy.length > 0 ? '16px' : '0' }}>
@@ -98,11 +99,6 @@ export const ChatroomMessage = ({ message }: { message: ChatMessage }) => {
 
           .name :global(.ant-skeleton-paragraph) :global(li) {
             width: 100% !important;
-          }
-
-          .time {
-            padding-left: 0.4rem;
-            color: rgba(0, 0, 0, 0.3);
           }
 
           .message-text {

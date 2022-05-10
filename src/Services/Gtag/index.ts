@@ -43,6 +43,7 @@ export const tagCustomEvent = ({
   label: string;
   value?: any;
 }) => {
+  if (!GA_TRACKING_ID) return;
   (window as any).gtag('event', action, {
     event_category: category,
     event_label: label,
