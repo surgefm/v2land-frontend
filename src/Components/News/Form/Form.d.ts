@@ -1,3 +1,5 @@
+import { News } from '@Interfaces';
+
 declare namespace INewsForm {
   export interface IProps {
     eventId: number;
@@ -6,6 +8,7 @@ declare namespace INewsForm {
     onOk?: Function;
     onCancel?: Function;
     disabled?: boolean;
+    initialValues?: News;
   }
 }
 

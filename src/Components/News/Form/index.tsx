@@ -13,6 +13,7 @@ const NewsFormImpl: React.FunctionComponent<INewsForm.IProps> = ({
   eventId,
   useSocket = true,
   disabled = false,
+  initialValues = {},
   onOk = () => {},
   onCancel = () => {},
 }) => {
@@ -67,7 +68,7 @@ const NewsFormImpl: React.FunctionComponent<INewsForm.IProps> = ({
   const requiredRule = { required: true, warningOnly: true, message: '该栏为必填项' };
 
   return (
-    <Form layout="vertical" form={form}>
+    <Form layout="vertical" form={form} initialValues={initialValues}>
       <Form.Item
         name="url"
         label="链接"

@@ -1,11 +1,13 @@
 /* eslint-disable react/require-default-props */
 import React, { useState, createRef, useEffect } from 'react';
 import Link from 'next/link';
-import { Typography } from 'antd';
+import { useSelector } from 'react-redux';
+import { Typography, message } from 'antd';
 import { MessageTwoTone, EditTwoTone, CompassTwoTone, BellTwoTone } from '@ant-design/icons';
 
 import { PopularChatroom } from '@Interfaces';
 import { ClientAvatar } from '@Components/Client';
+import { isLoggedIn as isLoggedInSelector } from '@Selectors';
 
 type ChatroomCardProps = {
   chatroom: PopularChatroom;
@@ -22,6 +24,7 @@ export const ChatroomCard: React.FC<ChatroomCardProps> = ({ chatroom, asCard = f
     unreadMessagesCount,
   } = chatroom;
   const divRef = createRef<HTMLDivElement>();
+  const isLoggedIn = useSelector(isLoggedInSelector);
 
   const showUnread = unreadMessagesCount > 0;
   const showNow = editorIdsNow.length > 0 || chatterIds.length > 0 || speakerIdsNow.length > 0;
@@ -79,18 +82,34 @@ export const ChatroomCard: React.FC<ChatroomCardProps> = ({ chatroom, asCard = f
     };
   });
 
+  const onEnter = () => {
+    if (!isLoggedIn) {
+      message.info('新闻编辑室仅对已登录用户开放');
+    }
+  };
+
   return (
     <Link
-      href={{
-        pathname: '/[username]/[eventName]/newsroom',
-        query: {
-          username: `@${chatroom.eventOwner.username}`,
-          eventName: `${chatroom.event.id}-${chatroom.event.pinyin}`,
-          c: 1,
-        },
-      }}
+      href={
+        isLoggedIn
+          ? {
+              pathname: '/[username]/[eventName]/newsroom',
+              query: {
+                username: `@${chatroom.eventOwner.username}`,
+                eventName: `${chatroom.event.id}-${chatroom.event.pinyin}`,
+                c: 1,
+              },
+            }
+          : `/@${chatroom.eventOwner.username}/${chatroom.event.id}-${chatroom.event.pinyin}`
+      }
     >
-      <div className={`card ${asCard && 'white'}`}>
+      <div
+        className={`card ${asCard && 'white'}`}
+        role="button"
+        tabIndex={0}
+        onKeyDown={() => {}}
+        onClick={onEnter}
+      >
         <Typography.Paragraph ellipsis={{ rows: 1 }} className="title">
           {chatroom.event.name}
         </Typography.Paragraph>

@@ -39,9 +39,9 @@ import { NewsroomPanelConsts } from '@Definitions';
 import { Card, EventHead } from '@Components';
 import {
   NewsroomPanelAddClientButton,
-  NewsroomPanelAddNewsButton,
   NewsroomPanelTitle,
   NewsroomPanelNewsList,
+  NewsroomPanelNewsSearchBox,
   NewsroomPanelStackList,
   NewsroomPanelEventDetail,
   NewsroomPanelCreateStackButton,
@@ -54,6 +54,7 @@ import {
   getEventStackIdList,
   getEventOffshelfNewsIdList,
   getEventOffshelfStackIdList,
+  getEventNewsIdList,
   getNewsroomPanels,
   getEventOwner,
   isStackNewsVisible,
@@ -79,6 +80,7 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
   const event = useSelector(getEvent(eventId));
   const prevEvent = usePrevious(event);
   const owner = useSelector(getEventOwner(eventId));
+  const newsIdList = useSelector(getEventNewsIdList(eventId));
   const offshelfNewsIdList = useSelector(getEventOffshelfNewsIdList(eventId));
   const offshelfStackIdList = useSelector(getEventOffshelfStackIdList(eventId));
   const stackIdList = useSelector(getEventStackIdList(eventId));
@@ -204,11 +206,9 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
         <Card className="panel">
           <div className="panel-header-container">
             <NewsroomPanelTitle>{t('Newsroom_OffshelfNews')}</NewsroomPanelTitle>
-            <Space size={0}>
-              <NewsroomPanelAddNewsButton eventId={eventId} />
-              <DragOutlined {...provided.dragHandleProps} />
-            </Space>
+            <DragOutlined {...provided.dragHandleProps} />
           </div>
+          <NewsroomPanelNewsSearchBox eventId={eventId} newsIdList={newsIdList} />
           <NewsroomPanelNewsList
             newsIdList={offshelfNewsIdList}
             droppableId="newsroom-news-list"

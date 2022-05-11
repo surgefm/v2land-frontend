@@ -92,7 +92,7 @@ const NewsroomPanelNewsCard: React.FunctionComponent<INewsroomPanelNewsCard.IPro
             )}
             <Time time={news.time} className="time" />
             <br />
-            {`${news.source} | ${news.title}`}
+            {`${news.source || new URL(news.url).hostname.replace('www.', '')} | ${news.title}`}
           </NewsroomPanelCard>
           <style jsx>
             {`

@@ -21,7 +21,8 @@ export const NewsItem: React.FunctionComponent<INewsItem.IProps> = ({ id }) => {
       </div>
 
       <div className="news-source">
-        <p>{news && news.source}</p>
+        {news && news.source && <p>{news.source}</p>}
+        {news && !news.source && <p>{new URL(news.url).hostname.replace('www.', '')}</p>}
       </div>
 
       <style jsx>
