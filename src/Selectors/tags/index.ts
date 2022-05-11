@@ -32,18 +32,6 @@ export const getTagEventIdList = (tagId: TagId) =>
     tag => (tag ? tag.eventIdList : [])
   );
 
-export const canCurrentClientEditTag = (tagId: TagId) =>
-  createSelector(
-    isCurrentClientManager,
-    getLoggedInClientId,
-    getTag(tagId),
-    (isManager, clientId, tag) => {
-      if (isManager) return true;
-      if (!clientId || !tag) return false;
-      return (tag.curatorIdList || []).includes(clientId);
-    }
-  );
-
 export const canCurrentClientManageTag = (tagId: TagId) =>
   createSelector(
     isCurrentClientManager,
@@ -59,5 +47,17 @@ export const canCurrentClientManageTag = (tagId: TagId) =>
         }
       }
       return false;
+    }
+  );
+
+export const canCurrentClientEditTag = (tagId: TagId) =>
+  createSelector(
+    canCurrentClientManageTag(tagId),
+    getLoggedInClientId,
+    getTag(tagId),
+    (canManage, clientId, tag) => {
+      if (canManage) return true;
+      if (!clientId || !tag) return false;
+      return (tag.curatorIdList || []).includes(clientId);
     }
   );

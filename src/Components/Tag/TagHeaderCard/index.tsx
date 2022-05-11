@@ -43,7 +43,9 @@ const TagHeaderCardImpl: React.FunctionComponent<ITagHeaderCard.IProps> = ({ tag
                   <React.Fragment key={id}>
                     <Tag tagId={id} asLink />
                     {idx !== tag.hierarchyPath.length - 1 && (
-                      <ArrowRightOutlined style={{ marginRight: '.5rem' }} />
+                      <ArrowRightOutlined
+                        style={{ transform: 'translateX(-.125rem)', marginRight: '0.25rem' }}
+                      />
                     )}
                   </React.Fragment>
                 ))}
