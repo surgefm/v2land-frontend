@@ -1,12 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { NumberOutlined } from '@ant-design/icons';
+import { NumberOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Space } from 'antd';
 
 import { EventTitle, EventDescription, Share, ClientAvatar } from '@Components';
 import { getTag, getTagEventIdList } from '@Selectors';
 import { useTranslation } from '@I18n';
 
+import { Tag } from '../index';
 import { ITagHeaderCard } from './TagHeaderCard';
 
 const TagHeaderCardImpl: React.FunctionComponent<ITagHeaderCard.IProps> = ({ tagId }) => {
@@ -25,9 +26,30 @@ const TagHeaderCardImpl: React.FunctionComponent<ITagHeaderCard.IProps> = ({ tag
           </EventTitle>
           <EventDescription description={tag.description || '该话题暂无简介'} />
           <div className="bottom">
+            {tag.hierarchyPath && tag.hierarchyPath.length > 1 && (
+              <Space style={{ marginBottom: '.5rem', width: '100%' }} size={0} wrap>
+                <span style={{ whiteSpace: 'nowrap' }}>话题层级：</span>
+                {tag.hierarchyPath.map((id, idx) => (
+                  <React.Fragment key={id}>
+                    <Tag tagId={id} asLink />
+                    {idx !== tag.hierarchyPath.length - 1 && (
+                      <ArrowRightOutlined style={{ marginRight: '6px' }} />
+                    )}
+                  </React.Fragment>
+                ))}
+              </Space>
+            )}
+            {tag.children && tag.children.length > 0 && (
+              <Space style={{ marginBottom: '.5rem' }} size={0}>
+                <span style={{ whiteSpace: 'nowrap' }}>下属话题：</span>
+                {tag.children.map(childTag => (
+                  <Tag tagId={childTag.id} key={childTag.id} asLink />
+                ))}
+              </Space>
+            )}
             {tag.curatorIdList && tag.curatorIdList.length > 0 && (
               <Space style={{ marginBottom: '.5rem' }}>
-                <span>话题主持人：</span>
+                <span style={{ whiteSpace: 'nowrap' }}>话题主持人：</span>
                 {tag.curatorIdList.map(clientId => (
                   <ClientAvatar clientId={clientId} key={clientId} asLink />
                 ))}
@@ -57,16 +79,6 @@ const TagHeaderCardImpl: React.FunctionComponent<ITagHeaderCard.IProps> = ({ tag
               </p>
             </div>
           </div>
-
-          {/* <div className={`button ${createTimelineMode && 'cancel-button'}`}>
-            <Button
-              style={{ backgroundColor: 'black', borderColor: 'black' }}
-              type="primary"
-              onClick={onCreateTimeline}
-            >
-              {createTimelineMode ? '取消' : '创建时间线'}
-            </Button>
-          </div> */}
         </div>
 
         <style jsx>
@@ -150,7 +162,7 @@ const TagHeaderCardImpl: React.FunctionComponent<ITagHeaderCard.IProps> = ({ tag
 
             .bottom {
               padding-top: 3rem;
-              width: 20rem;
+              width: 100%;
               display: flex;
               flex-direction: column;
               align-items: flex-start;

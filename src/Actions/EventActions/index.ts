@@ -151,7 +151,7 @@ const GetEvent = (
   event.tags = event.tags || [];
   for (let i = 0; i < event.tags.length; i += 1) {
     const tag = event.tags[i];
-    actions.push(TagActions.AddTag(tag));
+    actions.push(TagActions.AddSingleTag(tag));
     actions.push(TagActions.AddEventToTag(tag.id, id));
   }
 
@@ -206,7 +206,7 @@ const GetEventList = (page = 1) => async (dispatch: Dispatch, state: IThunkStore
   for (let i = 0; i < eventList.length; i += 1) {
     const tags = eventList[i].tags || [];
     for (let j = 0; j < tags.length; j += 1) {
-      actions.push(TagActions.AddTag(tags[j]));
+      actions.push(TagActions.AddSingleTag(tags[j]));
     }
   }
 
