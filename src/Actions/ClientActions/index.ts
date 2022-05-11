@@ -57,7 +57,7 @@ const GetClient = (clientId: number | string) => async (dispatch: Dispatch, stor
       actions.push(EventActions.AddEvent(event));
       for (let j = 0; j < tags.length; j += 1) {
         const tag = tags[j];
-        actions.push(TagActions.AddTag(tag));
+        actions.push(TagActions.AddSingleTag(tag));
         actions.push(TagActions.AddEventToTag(tag.id, event.id));
       }
     }
