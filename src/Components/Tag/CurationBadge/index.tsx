@@ -40,7 +40,7 @@ export const TagCurationBadge = ({
       <span>
         该时间线被
         <Tag tagId={needImprovement.tagId} style={{ margin: '0 .25rem' }} />
-        话题主持人标记为「需改进」。
+        的话题主持人标记为「需改进」。
         {needImprovement.comment && <>理由：“{needImprovement.comment}”</>}
       </span>
     );
