@@ -41,7 +41,7 @@ export const TagSelector = ({
     if (selectedTag) {
       setInput(selectedTag.name);
     }
-  }, [selectedTag]);
+  }, [selectedTag, tagId]);
 
   const searchTag = async (value: string) => {
     const tags = await RedstoneService.getTagList({

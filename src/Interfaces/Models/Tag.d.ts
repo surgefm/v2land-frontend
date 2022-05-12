@@ -13,4 +13,5 @@ export interface Tag {
   parents?: Tag[];
   children?: Tag[];
   hierarchyPath: number[];
+  slug: string;
 }
