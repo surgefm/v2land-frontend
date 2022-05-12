@@ -4,6 +4,7 @@ import { batchActions } from 'redux-batched-actions';
 // #region Local Imports
 import { ActionConsts } from '@Definitions';
 import { Tag } from '@Interfaces';
+import { EventActions } from '../EventActions';
 // #endregion Local Imports
 
 export const TagActions = {
@@ -14,13 +15,15 @@ export const TagActions = {
 
   AddTag: (tag: Tag) => (dispatch: Dispatch) => {
     const tags = [...(tag.parents || []), tag, ...(tag.children || [])];
+
     dispatch(
-      batchActions(
-        tags.map(t => ({
+      batchActions([
+        ...tags.map(t => ({
           tag: t,
           type: ActionConsts.Tag.AddTag,
-        }))
-      )
+        })),
+        ...(tag.events || []).map(EventActions.AddEvent),
+      ])
     );
   },
 

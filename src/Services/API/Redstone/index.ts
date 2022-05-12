@@ -188,3 +188,6 @@ export const getAllStars = async (eventId: number) => {
   const { stars } = await get<RedstoneModel.GetAllStarsResponse>(`/event/${eventId}/star`);
   return stars;
 };
+
+export const addCuration = async (tagId: number, eventId: number, state: string, comment: string) =>
+  post(`/tag/${tagId}/event/${eventId}`, { state, comment });

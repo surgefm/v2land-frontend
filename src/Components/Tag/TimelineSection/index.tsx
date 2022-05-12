@@ -11,7 +11,7 @@ const TimelineSection: React.FunctionComponent<ITimelineSection.IProps> = ({ tag
   return (
     <div className="timeline-section">
       <Wall
-        elementProps={tagEventIdList.map(id => ({ eventId: id }))}
+        elementProps={tagEventIdList.map(id => ({ eventId: id, tagId }))}
         elementWidth={28}
         gutterWidth={1}
         marginWidth={4}

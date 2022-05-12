@@ -7,6 +7,7 @@ declare namespace ITag {
     removable?: boolean;
     eventId?: number;
     asLink?: boolean;
+    style?: React.StyleHTMLAttributes;
   }
 }
 

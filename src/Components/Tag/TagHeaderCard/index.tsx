@@ -34,7 +34,7 @@ const TagHeaderCardImpl: React.FunctionComponent<ITagHeaderCard.IProps> = ({ tag
             </p>
           </div>
 
-          <EventDescription description={tag.description || '该话题暂无简介'} />
+          {tag.description && <EventDescription description={tag.description} />}
           <div className="bottom">
             {tag.hierarchyPath && tag.hierarchyPath.length > 1 && (
               <Space style={{ marginBottom: '.5rem', width: '100%' }} size={0} wrap>

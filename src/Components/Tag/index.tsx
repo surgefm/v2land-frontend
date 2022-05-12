@@ -15,6 +15,7 @@ export const Tag: React.FunctionComponent<ITag.IProps> = ({
   asLink = false,
   eventId,
   tag: _tag,
+  style = {},
 }) => {
   const selectorTag = useSelector(getTag(_tagId || 0));
   const tag = _tag || selectorTag;
@@ -45,6 +46,7 @@ export const Tag: React.FunctionComponent<ITag.IProps> = ({
       onClick={redirect}
       onClose={handleClose}
       closable={removable}
+      style={style}
     >
       {isLongTag ? `${tag.name.slice(0, 20)}...` : tag.name}
       <style jsx global>
@@ -65,6 +67,7 @@ export const Tag: React.FunctionComponent<ITag.IProps> = ({
   return <Tooltip title={tag.name}>{tagContent}</Tooltip>;
 };
 
+export * from './CurationBadge';
 export * from './TagHeaderCard';
 export * from './TagBodySection';
 export * from './TimelineSection';

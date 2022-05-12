@@ -2,6 +2,8 @@ import React from 'react';
 
 import { Image } from '@Components/Basic';
 import { ClientAvatar } from '@Components/Client';
+import { TagCurationBadge } from '@Components/Tag';
+
 import { EventCardTitle } from '../Title';
 import { EventCardDescription } from '../Description';
 import { EventInfoList } from '../InfoList';
@@ -38,7 +40,14 @@ export const ImageEventCard: React.FunctionComponent<IImageEventCard.IProps> = (
           <ClientAvatar clientId={event.ownerId} asLink asA={false} />
         </div>
       ) : null}
-      <EventCardTitle className="title">{event.name}</EventCardTitle>
+      <EventCardTitle className="title">
+        {event.name}
+        <TagCurationBadge
+          curations={event.curations || []}
+          style={{ fontSize: '1rem', marginLeft: '.25rem' }}
+          onlyShowReviewed
+        />
+      </EventCardTitle>
       <EventCardDescription className="description">{event.description}</EventCardDescription>
       <EventInfoList
         className="info-list"

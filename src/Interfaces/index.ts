@@ -42,5 +42,6 @@ export * from '@Interfaces/Models/Stack';
 export * from '@Interfaces/Models/Star';
 export * from '@Interfaces/Models/Subscription';
 export * from '@Interfaces/Models/Tag';
+export * from '@Interfaces/Models/TagCuration';
 export * from '@Interfaces/Models/TagCurator';
 // #endregion Model Interfaces

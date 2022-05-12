@@ -1,6 +1,8 @@
 import React from 'react';
 
 import { ClientAvatar } from '@Components/Client';
+import { TagCurationBadge } from '@Components/Tag';
+
 import { EventCardTitle } from '../Title';
 import { EventCardDescription } from '../Description';
 import { EventInfoList } from '../InfoList';
@@ -14,7 +16,10 @@ export const PlainEventCard: React.FunctionComponent<IPlainEventCard.IProps> = (
           <ClientAvatar clientId={event.ownerId} asLink asA={false} />
         </div>
       ) : null}
-      <EventCardTitle>{event.name}</EventCardTitle>
+      <EventCardTitle>
+        {event.name}
+        <TagCurationBadge curations={event.curations || []} onlyShowReviewed />
+      </EventCardTitle>
       <EventCardDescription>{event.description}</EventCardDescription>
       <EventInfoList starCount={event.starCount || 0} tagIdList={event.tagIdList} />
 
