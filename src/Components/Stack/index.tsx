@@ -102,16 +102,11 @@ const StackImpl: React.FunctionComponent<IStack.IProps> = ({
           h2 {
             line-height: 1.5;
             display: block;
+            margin-bottom: 0;
           }
 
-          .order {
-            font-family: 'Lexend Giga', sans-serif;
-            margin-top: 0.75rem;
-            font-size: 3.5rem;
-            line-height: 3.35rem;
-            color: rgb(30, 139, 195);
-            float: left;
-            margin-right: 0.5rem;
+          .stack-main {
+            overflow: hidden;
           }
 
           .content-area {
@@ -130,6 +125,29 @@ const StackImpl: React.FunctionComponent<IStack.IProps> = ({
 
           .stack :global(.event-card):hover {
             box-shadow: 0 2.5px 7.5px rgba(0, 0, 0, 0.0375);
+          }
+
+          .order {
+            display: inline-block;
+            font-family: 'Lexend Giga', sans-serif;
+            margin-top: 0.75rem;
+            font-size: 3.5rem;
+            line-height: 3.35rem;
+            color: rgb(30, 139, 195);
+            float: left;
+            opacity: 0;
+            margin-right: 0.5rem;
+            transition: all 0.5s;
+            transform: translateX(-15rem);
+            margin-left: -15rem;
+          }
+
+          @media (max-width: 1212px) {
+            .order {
+              margin-left: 0;
+              transform: translateX(0);
+              opacity: 1;
+            }
           }
         `}
       </style>
