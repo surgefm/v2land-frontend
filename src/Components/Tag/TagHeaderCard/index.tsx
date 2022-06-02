@@ -1,12 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { NumberOutlined } from '@ant-design/icons';
+import { NumberOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Space } from 'antd';
 
-import { EventTitle, EventDescription, Share, ClientAvatar } from '@Components';
+import { EventTitle, EventDescription, Share, ClientAvatar, HeaderCard } from '@Components';
 import { getTag, getTagEventIdList } from '@Selectors';
 import { useTranslation } from '@I18n';
 
+import { Tag } from '../index';
 import { ITagHeaderCard } from './TagHeaderCard';
 
 const TagHeaderCardImpl: React.FunctionComponent<ITagHeaderCard.IProps> = ({ tagId }) => {
@@ -17,17 +18,50 @@ const TagHeaderCardImpl: React.FunctionComponent<ITagHeaderCard.IProps> = ({ tag
 
   return (
     tag && (
-      <div className="event-header-card">
-        <div className="left">
+      <HeaderCard>
+        <Space direction="vertical" size={0} style={{ width: '100%' }}>
           <EventTitle>
             <NumberOutlined style={{ transform: 'skewX(-10deg)' }} />
             {tag.name}
           </EventTitle>
-          <EventDescription description={tag.description || '该话题暂无简介'} />
+
+          <div className="number-of-timeline">
+            <p style={{ color: 'rgba(0, 153, 239, 1)' }} id="number-of-timeline-number">
+              <strong>{numTimeline}</strong>
+            </p>
+            <p>
+              <strong>{t('Tag_Timeline', { count: numTimeline })}</strong>
+            </p>
+          </div>
+
+          {tag.description && <EventDescription description={tag.description} />}
           <div className="bottom">
+            {tag.hierarchyPath && tag.hierarchyPath.length > 1 && (
+              <Space style={{ marginBottom: '.5rem', width: '100%' }} size={0} wrap>
+                <span style={{ whiteSpace: 'nowrap' }}>话题层级：</span>
+                {tag.hierarchyPath.map((id, idx) => (
+                  <React.Fragment key={id}>
+                    <Tag tagId={id} asLink />
+                    {idx !== tag.hierarchyPath.length - 1 && (
+                      <ArrowRightOutlined
+                        style={{ transform: 'translateX(-.125rem)', marginRight: '0.25rem' }}
+                      />
+                    )}
+                  </React.Fragment>
+                ))}
+              </Space>
+            )}
+            {tag.children && tag.children.length > 0 && (
+              <Space style={{ marginBottom: '.5rem' }} size={0} wrap>
+                <span style={{ whiteSpace: 'nowrap' }}>下属话题：</span>
+                {tag.children.map(childTag => (
+                  <Tag tagId={childTag.id} key={childTag.id} asLink />
+                ))}
+              </Space>
+            )}
             {tag.curatorIdList && tag.curatorIdList.length > 0 && (
-              <Space style={{ marginBottom: '.5rem' }}>
-                <span>话题主持人：</span>
+              <Space style={{ marginBottom: '.5rem' }} wrap>
+                <span style={{ whiteSpace: 'nowrap' }}>话题主持人：</span>
                 {tag.curatorIdList.map(clientId => (
                   <ClientAvatar clientId={clientId} key={clientId} asLink />
                 ))}
@@ -37,129 +71,86 @@ const TagHeaderCardImpl: React.FunctionComponent<ITagHeaderCard.IProps> = ({ tag
               <Share type="tag" tag={tag} tagId={tag.id} />
             </div>
           </div>
-        </div>
 
-        <div className="right">
-          <div>
-            <div className="open-for-edit">
-              <div className="open-for-edit-circle" />
-              <p>
-                <strong>开放编辑</strong>
-              </p>
-            </div>
+          <style jsx>
+            {`
+              .event-header-card {
+                margin: -4rem 0 2rem;
+                padding: 4rem 18% 2rem 18%;
+                background-color: white;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+              }
 
-            <div className="number-of-timeline">
-              <p style={{ color: 'rgba(0, 153, 239, 1)' }} id="number-of-timeline-number">
-                <strong>{numTimeline}</strong>
-              </p>
-              <p>
-                <strong>{t('Tag_Timeline', { count: numTimeline })}</strong>
-              </p>
-            </div>
-          </div>
+              .button {
+                display: flex;
+                justify-content: flex-end;
+              }
 
-          {/* <div className={`button ${createTimelineMode && 'cancel-button'}`}>
-            <Button
-              style={{ backgroundColor: 'black', borderColor: 'black' }}
-              type="primary"
-              onClick={onCreateTimeline}
-            >
-              {createTimelineMode ? '取消' : '创建时间线'}
-            </Button>
-          </div> */}
-        </div>
+              .cancel-button {
+                padding-right: 2.7rem;
+                margin-right: 0.6rem;
+              }
 
-        <style jsx>
-          {`
-            .event-header-card {
-              margin: -4rem 0 2rem;
-              padding: 4rem 18% 2rem 18%;
-              background-color: white;
-              display: flex;
-              flex-direction: row;
-              justify-content: space-between;
-            }
+              .left {
+                max-width: 100rem;
+              }
 
-            .button {
-              display: flex;
-              justify-content: flex-end;
-            }
+              .open-for-edit {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: flex-end;
+                min-width: 10rem;
+              }
 
-            .cancel-button {
-              padding-right: 2.7rem;
-              margin-right: 0.6rem;
-            }
+              .open-for-edit p {
+                margin-bottom: 0;
+              }
 
-            .left {
-              max-width: 100rem;
-            }
+              .open-for-edit-circle {
+                width: 0.6rem;
+                height: 0.6rem;
+                border-radius: 50%;
+                background-color: rgba(105, 189, 37, 1);
+                margin-right: 0.75rem;
+              }
 
-            .open-for-edit {
-              display: flex;
-              flex-direction: row;
-              align-items: center;
-              justify-content: flex-end;
-              min-width: 10rem;
-            }
+              .number-of-timeline {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+              }
 
-            .open-for-edit p {
-              margin-bottom: 0;
-            }
+              #number-of-timeline-number {
+                margin-right: 0.5rem;
+              }
 
-            .open-for-edit-circle {
-              width: 0.6rem;
-              height: 0.6rem;
-              border-radius: 50%;
-              background-color: rgba(105, 189, 37, 1);
-              margin-right: 0.75rem;
-            }
+              .share {
+                width: 18rem;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                position: relative;
+                left: -0.5rem;
+                margin-top: 0.5rem;
+              }
 
-            .number-of-timeline {
-              display: flex;
-              flex-direction: row;
-              align-items: center;
-              justify-content: flex-end;
-              min-width: 10rem;
-            }
-
-            #number-of-timeline-number {
-              margin-right: 0.75rem;
-            }
-
-            .right {
-              width: 25rem;
-              padding-left: 8rem;
-              display: flex;
-              flex-direction: column;
-              justify-content: space-between;
-            }
-
-            .right p {
-              font-size: 1rem;
-            }
-
-            .share {
-              width: 18rem;
-              display: flex;
-              flex-direction: row;
-              align-items: center;
-              justify-content: space-between;
-              position: relative;
-              left: -0.5rem;
-            }
-
-            .bottom {
-              padding-top: 3rem;
-              width: 20rem;
-              display: flex;
-              flex-direction: column;
-              align-items: flex-start;
-              margin-top: 0.5rem;
-              justify-content: space-between;
-            }
-          `}
-        </style>
-      </div>
+              .bottom {
+                padding-top: 3rem;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                margin-top: 0.5rem;
+                justify-content: space-between;
+              }
+            `}
+          </style>
+        </Space>
+      </HeaderCard>
     )
   );
 };

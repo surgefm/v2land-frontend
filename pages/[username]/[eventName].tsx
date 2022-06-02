@@ -26,6 +26,7 @@ import {
   StackSideMenu,
   Share,
   SectionHeader,
+  TagCurationBadge,
 } from '@Components';
 import { getEvent, getEventStackIdList, getStackListTime, isLoading } from '@Selectors';
 import { UtilService } from '@Services';
@@ -68,7 +69,13 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
   const eventCard = event ? (
     <Card>
       <EventStar eventId={event.id} />
-      <EventTitle>{event.name}</EventTitle>
+      <EventTitle>
+        {event.name}{' '}
+        <TagCurationBadge
+          curations={event.curations || []}
+          style={{ transform: 'translateY(-.1rem)' }}
+        />
+      </EventTitle>
       <EventStats newsCount={event.newsCount} stackCount={event.stackCount} />
       <EventDescription description={event.description || ''} />
       <EventTagList tagIdList={event.tagIdList} />

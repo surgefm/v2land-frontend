@@ -3,10 +3,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Form, Input, Space, Button, message } from 'antd';
 
 import { TagActions } from '@Actions';
-import { getTag, getClientsIdWithUsername, isCurrentClientManager } from '@Selectors';
+import {
+  getTag,
+  getClientsIdWithUsername,
+  canCurrentClientManageTag,
+  canCurrentClientEditTag,
+} from '@Selectors';
 import { RedstoneService, UtilService } from '@Services';
 import { ClientAvatar } from '@Components/Client';
 import { ClientSelector } from '@Components/Client/ClientSelector';
+import { TagSelector } from '@Components/Tag/Selector';
 
 import { ITagForm } from './Form';
 
@@ -17,7 +23,8 @@ export const TagForm: React.FC<ITagForm.IProps> = ({
 }) => {
   const dispatch = useDispatch();
   const tag = useSelector(getTag(tagId));
-  const isManager = useSelector(isCurrentClientManager);
+  const canEdit = useSelector(canCurrentClientEditTag(tagId));
+  const canManage = useSelector(canCurrentClientManageTag(tagId));
   const [curatorInput, setCuratorInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
@@ -32,7 +39,7 @@ export const TagForm: React.FC<ITagForm.IProps> = ({
 
   useEffect(() => {
     setFieldsValueWithTag();
-  }, []);
+  }, [tagId]);
 
   if (!tag) {
     return <></>;
@@ -49,7 +56,7 @@ export const TagForm: React.FC<ITagForm.IProps> = ({
     const changes: any = {};
     let changed = false;
     // eslint-disable-next-line no-restricted-syntax
-    for (const field of ['name', 'description']) {
+    for (const field of ['name', 'description', 'parentId']) {
       if (form.getFieldValue(field) !== (tag as any)[field]) {
         changes[field] = form.getFieldValue(field);
         changed = true;
@@ -81,7 +88,6 @@ export const TagForm: React.FC<ITagForm.IProps> = ({
       onOk(e);
       message.success('修改成功');
     } catch (err) {
-      console.error(err);
       message.error(await UtilService.getErrorMessage(err, '发生错误'));
     } finally {
       setLoading(false);
@@ -91,10 +97,21 @@ export const TagForm: React.FC<ITagForm.IProps> = ({
   return (
     <Form layout="vertical" form={form}>
       <Form.Item name="name" label="话题" required>
-        <Input disabled={!isManager || loading} />
+        <Input disabled={!canManage || loading} />
       </Form.Item>
       <Form.Item name="description" label="简介">
-        <Input.TextArea placeholder={tag.description} disabled={loading} />
+        <Input.TextArea placeholder={tag.description} disabled={!canEdit || loading} />
+      </Form.Item>
+      <Form.Item name="parentId" label="上级话题">
+        <TagSelector
+          tagId={form.getFieldValue('parentId')}
+          disabled={!canManage || loading}
+          onChange={parentId =>
+            form.setFieldsValue({
+              parentId,
+            })
+          }
+        />
       </Form.Item>
       <Form.Item label="话题主持人">
         <ClientSelector
@@ -103,7 +120,7 @@ export const TagForm: React.FC<ITagForm.IProps> = ({
           onChange={setCuratorInput}
           onSelect={addCurator}
           placeholder="@surge"
-          disabled={!isManager || loading}
+          disabled={!canManage || loading}
         />
         <div style={{ marginTop: '.5rem', height: '2rem', display: 'block' }}>
           <Space>

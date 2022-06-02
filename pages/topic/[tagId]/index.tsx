@@ -27,14 +27,6 @@ const TagPage: NextPage<ITagPage.IProps, ITagPage.InitialProps> = ({ tagId }) =>
       <TagBodySection tagId={tagId} createTimelineMode={createTimelineMode} />
       <Footer />
       <div style={{ height: '1rem' }} />
-
-      <style jsx>
-        {`
-          .container {
-            margin-top: 7.5rem;
-          }
-        `}
-      </style>
     </div>
   );
 };

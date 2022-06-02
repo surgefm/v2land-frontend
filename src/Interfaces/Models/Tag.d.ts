@@ -10,4 +10,8 @@ export interface Tag {
   status: 'visible' | 'hidden';
   events?: Event[];
   eventIdList: number[];
+  parents?: Tag[];
+  children?: Tag[];
+  hierarchyPath: number[];
+  slug: string;
 }

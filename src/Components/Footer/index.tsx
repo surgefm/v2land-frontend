@@ -2,6 +2,7 @@
 import * as React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Space } from 'antd';
 // #endregion Global Imports
 
 import { useTranslation } from '@I18n';
@@ -50,15 +51,25 @@ const FooterComp: React.FunctionComponent<IFooter.IProps> = (): JSX.Element => {
 
         <span>{`Langchao.org ${new Date().getFullYear()}`}</span>
 
-        <a
-          href="https://vercel.com/?utm_source=surgefm&utm_campaign=oss"
-          target="_blank"
-          rel="noreferrer"
-          className="vercel"
-        >
+        <Space style={{ alignItems: 'center', marginTop: '1.5rem' }}>
           <span>Powered by</span>
-          <Image src="/images/vercel-logotype-dark.svg" height={20} width={(4438 / 1000) * 20} />
-        </a>
+          <a
+            href="https://vercel.com/?utm_source=surgefm&utm_campaign=oss"
+            target="_blank"
+            rel="noreferrer"
+            style={{ height: '20px', display: 'block' }}
+          >
+            <Image src="/images/vercel-logotype-dark.svg" height={20} width={(4438 / 1000) * 20} />
+          </a>
+          <a
+            href="https://www.digitalocean.com/community/pages/hollies-hub-for-good"
+            target="_blank"
+            rel="noreferrer"
+            style={{ height: '24px', display: 'block' }}
+          >
+            <Image src="/images/DO_Logo_icon_blue.svg" height={24} width={24} />
+          </a>
+        </Space>
       </div>
 
       <style jsx>
@@ -117,17 +128,6 @@ const FooterComp: React.FunctionComponent<IFooter.IProps> = (): JSX.Element => {
           .link,
           a:not(:last-child) {
             margin-right: 0.25rem;
-          }
-
-          .vercel {
-            display: inline-flex;
-            align-items: center;
-            line-height: 1;
-            margin-top: 1.5rem;
-          }
-
-          .vercel span {
-            margin-right: 0.5rem;
           }
 
           @media (max-width: 600px) {

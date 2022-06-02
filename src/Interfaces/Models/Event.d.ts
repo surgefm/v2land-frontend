@@ -3,6 +3,7 @@ import { Stack } from './Stack';
 import { HeaderImage } from './HeaderImage';
 import { News } from './News';
 import { Tag } from './Tag';
+import { TagCuration } from './TagCuration';
 
 interface StringIndexInterface {
   [index: string]: any;
@@ -43,5 +44,6 @@ export interface Event extends SimplifiedEvent {
     contributorId: number;
     points: number;
   }[];
+  curations?: TagCuration[];
   updatedAt: string;
 }
