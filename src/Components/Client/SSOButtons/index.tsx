@@ -45,22 +45,6 @@ export const SSOButtons = () => {
               onClick={onClick('twitter')}
             />
           </Tooltip>
-          <Tooltip title="微博登录" placement="bottom">
-            <Button
-              type="primary"
-              shape="circle"
-              icon={<Image src="/images/Sina_Weibo.svg" width={26} height={(26 / 724.7) * 587.1} />}
-              size="large"
-              style={{
-              backgroundColor: '#fff',
-              borderColor: 'rgb(255, 89, 0)',
-              display: 'inline-flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-              onClick={onClick('weibo')}
-            />
-          </Tooltip>
           <Tooltip title="用 Google 账号登录" placement="bottom">
             <Button
               type="primary"
@@ -84,9 +68,25 @@ export const SSOButtons = () => {
               onClick={onClick('google')}
             />
           </Tooltip>
+          <Tooltip title="微博登录" placement="bottom">
+            <Button
+              type="primary"
+              shape="circle"
+              icon={<Image src="/images/Sina_Weibo.svg" width={26} height={(26 / 724.7) * 587.1} />}
+              size="large"
+              style={{
+              backgroundColor: '#fff',
+              borderColor: 'rgb(255, 89, 0)',
+              display: 'inline-flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+              onClick={onClick('weibo')}
+            />
+          </Tooltip>
+          <AppleLoginButton state={redirect} />
         </Space>
         <Space style={{ minHeight: '2.5rem' }} align="start" wrap>
-          <AppleLoginButton state={redirect} />
           <TelegramLoginButton
             botName="langchao_bot"
             buttonSize="medium"

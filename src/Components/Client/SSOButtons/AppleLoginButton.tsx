@@ -1,8 +1,12 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react/require-default-props */
 import React, { useEffect, createRef } from 'react';
 import H from 'next/head';
 import getConfig from 'next/config';
 import { useRouter } from 'next/router';
+import { Button, Tooltip } from 'antd';
+import { AppleFilled } from '@ant-design/icons';
+
 import { get } from '@Services/API/Http';
 
 const {
@@ -22,14 +26,18 @@ export const AppleLoginButton: React.FC<AppleLoginButtonProps> = ({ state }) => 
 
   const redirectUri = `${SITE_URL}/api/auth/apple`;
 
-  const onSuccess = async (event: any) => {
-    const encoded = encodeURIComponent(JSON.stringify(event.detail));
+  const signIn = async () => {
+    const response = await (window as any).AppleID.auth.signIn();
+
+    const encoded = encodeURIComponent(JSON.stringify(response));
     await get(`/auth/apple/redirect${query}&res=${encoded}`);
     window.location.href = `${SITE_URL}${redirectTo as string}`;
-  };
+  
+    return response;
+  }
 
   useEffect(() => {
-    if (!ref.current) return () => {};
+    if (!ref.current) return;
     (window as any).AppleLoginWidget = {};
 
     const script = document.createElement('script');
@@ -37,26 +45,31 @@ export const AppleLoginButton: React.FC<AppleLoginButtonProps> = ({ state }) => 
       'https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js';
     script.async = true;
     ref.current.appendChild(script);
-
-    document.addEventListener('AppleIDSignInOnSuccess', onSuccess);
-
-    return () => {
-      document.removeEventListener('AppleIDSignInOnSuccess', onSuccess);
-    };
   }, []);
 
   return (
     <div>
-      <div
-        id="appleid-signin"
-        data-color="white"
-        data-border="true"
-        data-type="sign in"
-        data-border-radius="50"
-        data-height="30"
-        data-width="150"
-        className="signin-button"
-      />
+      <Tooltip title="通过 Apple 登录" placement="bottom">
+        <Button
+          type="primary"
+          shape="circle"
+          icon={(
+            <AppleFilled
+              style={{ color: '#333', fontSize: '1.4rem', transform: 'translate(-0.5px, -1px)' }}
+            />
+          )}
+          size="large"
+          style={{
+            backgroundColor: '#fff',
+            borderColor: '#000',
+            display: 'inline-flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          onClick={signIn}
+        />
+      </Tooltip>
+
       <div ref={ref} />
       <H>
         <meta name="appleid-signin-client-id" content={APPLE_CLIENT_ID} />
