@@ -31,7 +31,7 @@ const LoginPage: NextPage<ILoginPage.IProps, ILoginPage.InitialProps> = () => {
   return (
     <Background>
       <Head title={t('Login_Title')} />
-      <Card>
+      <Card styles={{ overflow: 'hidden' }}>
         <EventTitle>{t('Login_Title')}</EventTitle>
         <LoginForm />
         <SSOButtons />
