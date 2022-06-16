@@ -7,6 +7,7 @@ import { get } from '@Services/API/Http';
 import { Button, Space, Tooltip } from 'antd';
 import { TwitterOutlined } from '@ant-design/icons';
 import { TelegramLoginButton } from './TelegramLoginButton';
+import { AppleLoginButton } from './AppleLoginButton';
 
 const {
   publicRuntimeConfig: { API_URL, SITE_URL },
@@ -84,7 +85,8 @@ export const SSOButtons = () => {
             />
           </Tooltip>
         </Space>
-        <Space style={{ minHeight: '2.5rem' }}>
+        <Space style={{ minHeight: '2.5rem' }} align="start">
+          <AppleLoginButton state={redirect} />
           <TelegramLoginButton
             botName="langchao_bot"
             buttonSize="medium"
