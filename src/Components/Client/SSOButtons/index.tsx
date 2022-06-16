@@ -7,6 +7,7 @@ import { get } from '@Services/API/Http';
 import { Button, Space, Tooltip } from 'antd';
 import { TwitterOutlined } from '@ant-design/icons';
 import { TelegramLoginButton } from './TelegramLoginButton';
+import { AppleLoginButton } from './AppleLoginButton';
 
 const {
   publicRuntimeConfig: { API_URL, SITE_URL },
@@ -31,7 +32,7 @@ export const SSOButtons = () => {
 
   return (
     <Space align="start">
-      <span style={{ lineHeight: '2.5rem', textAlign: 'center' }}>第三方平台：</span>
+      <span style={{ lineHeight: '2.5rem', textAlign: 'center', whiteSpace: 'nowrap' }}>第三方平台：</span>
       <Space direction="vertical">
         <Space>
           <Tooltip title="Twitter 登录" placement="bottom">
@@ -84,7 +85,8 @@ export const SSOButtons = () => {
             />
           </Tooltip>
         </Space>
-        <Space style={{ minHeight: '2.5rem' }}>
+        <Space style={{ minHeight: '2.5rem' }} align="start" wrap>
+          <AppleLoginButton state={redirect} />
           <TelegramLoginButton
             botName="langchao_bot"
             buttonSize="medium"

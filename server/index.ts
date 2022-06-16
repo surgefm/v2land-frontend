@@ -2,6 +2,9 @@
 import next from 'next';
 import express from 'express';
 import path from 'path';
+import fs from 'fs';
+import http from 'http';
+import https from 'https';
 // #endregion Global Imports
 
 // #region Local Imports
@@ -31,8 +34,18 @@ app.prepare().then(() => {
   }
 
   server.get('*', (req, res) => handler(req, res));
+  const webserver =
+    process.env.SSL_KEY && process.env.SSL_CRT
+      ? https.createServer(
+          {
+            key: fs.readFileSync(process.env.SSL_KEY, 'utf8'),
+            cert: fs.readFileSync(process.env.SSL_CRT, 'utf8'),
+          },
+          server
+        )
+      : http.createServer(server);
 
-  server.listen(port);
+  webserver.listen(port);
 
   // eslint-disable-next-line no-console
   console.log(

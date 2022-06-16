@@ -12,6 +12,7 @@ const withConfig = nextRuntimeDotenv({
     'ALGOLIA_ID',
     'ALGOLIA_KEY',
     'NEXT_PUBLIC_GA_ID',
+    'APPLE_CLIENT_ID',
   ],
 });
 
@@ -38,6 +39,7 @@ const nextConfig = {
     ALGOLIA_ID: process.env.ALGOLIA_ID,
     ALGOLIA_KEY: process.env.ALGOLIA_KEY,
     NEXT_PUBLIC_GA_ID: process.env.NEXT_PUBLIC_GA_ID,
+    APPLE_CLIENT_ID: process.env.APPLE_CLIENT_ID,
   },
   pwa: {
     dest: 'public',
