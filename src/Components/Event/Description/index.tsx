@@ -13,6 +13,7 @@ export const EventDescription: React.FunctionComponent<IEventDescription.IProps>
           padding: 0;
           margin-top: 1rem;
           position: relative;
+          white-space: pre-line;
         }
 
         span {
