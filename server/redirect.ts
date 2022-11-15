@@ -10,6 +10,5 @@ export default function redirect(req: Request, res: Response, next: NextFunction
       return res.end();
     }
   }
-
   return next();
 }

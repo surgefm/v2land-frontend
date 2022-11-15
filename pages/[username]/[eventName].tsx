@@ -53,6 +53,13 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
   const isEventLoading = useSelector(isLoading(identifier));
 
   useEffect(() => {
+    if (router.query.launch_newsroom) {
+      message.info('正在启动新闻编辑室');
+      UtilService.redirect(`/${router.query.username}/${router.query.eventName}/newsroom`);
+    }
+  }, []);
+
+  useEffect(() => {
     if (router.query.client_not_authorized) {
       message.error('你没有进入该事件新闻编辑室的权限');
       const index = router.asPath.indexOf('?');

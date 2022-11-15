@@ -65,6 +65,15 @@ const nextConfig = {
     });
     return config;
   },
+  async redirects() {
+    return [
+      {
+        source: '/:username/:eventName/newsroom',
+        destination: '/:username/:eventName?launch_newsroom=1',
+        permanent: false,
+      },
+    ];
+  },
 };
 
 const plugins = [[withBundleAnalyzer]];
