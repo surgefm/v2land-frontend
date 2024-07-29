@@ -3,7 +3,7 @@ import { Event, Stack, News, Client, Newsroom, Tag, ChatMessage, ChatMember } fr
 // #endregion Interface Imports
 
 export interface HomepageState {
-  eventList: number[];
+  eventList: number[][];
 }
 
 export interface EventsState {

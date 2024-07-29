@@ -210,7 +210,7 @@ const GetEventList = (page = 1) => async (dispatch: Dispatch, state: IThunkStore
     }
   }
 
-  actions.push(HomepageActions.SetEventList(eventList.map(event => event.id)));
+  actions.push(HomepageActions.SetEventList(eventList.map(event => event.id), page));
   const clientIds: number[] = [];
   const promises: Promise<void>[] = [];
   for (let i = 0; i < eventList.length; i += 1) {

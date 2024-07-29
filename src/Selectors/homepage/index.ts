@@ -7,7 +7,14 @@ export const getHomepageState = (state: IStore) => state.homepage || {};
 
 export const getHomepageEventIdList = createSelector(
   getHomepageState,
-  state => state.eventList || []
+  state => {
+    let eventList: number[] = [];
+    for (let i = 0; i < state.eventList.length; i += 1) {
+      eventList = eventList.concat(state.eventList[i]);
+    }
+    eventList = eventList.filter((id, index) => eventList.indexOf(id) === index);
+    return eventList;
+  }
 );
 
 export const getHomepageEventList = createSelector(
