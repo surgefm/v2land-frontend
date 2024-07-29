@@ -18,7 +18,7 @@ export const HomepageReducer = (state = getHomepageInitialState(), action: Homep
     case ActionConsts.Homepage.SetEventList:
       if (!action.eventList) return state;
       return {
-        eventList: action.eventList,
+        eventList: [...state.eventList.slice(0, action.page || 1), action.eventList],
       };
     default:
       return state;

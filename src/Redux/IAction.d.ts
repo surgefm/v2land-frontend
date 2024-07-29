@@ -20,6 +20,7 @@ import { IStore } from './IStore';
 
 export interface HomepageAction extends ReduxAction {
   eventList: number[];
+  page?: number;
 }
 
 export interface EventAction extends ReduxAction {
