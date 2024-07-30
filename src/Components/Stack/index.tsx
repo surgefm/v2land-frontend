@@ -116,6 +116,7 @@ const StackImpl: React.FunctionComponent<IStack.IProps> = ({
           .content-area p {
             line-height: 1.8;
             display: block;
+            white-space: break-spaces;
           }
 
           .stack :global(.event-card) {
