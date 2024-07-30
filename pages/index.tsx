@@ -170,7 +170,7 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({
             flex-direction: column;
             height: 100%;
             justify-content: flex-end;
-            padding-bottom: 1.1rem;
+            padding-bottom: 3.3rem;
           }
 
           .tagList {
