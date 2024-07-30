@@ -15,8 +15,9 @@ _self.addEventListener('push', event => {
 
 _self.addEventListener('notificationclick', event => {
   if (event === null) return;
+  event.preventDefault();
   event.notification.close();
-  const data = JSON.parse(event.notification.data.text() || '{}');
+  const data = event.notification.data;
   event.waitUntil(
     _self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clientList => {
       if (clientList.length > 0) {
