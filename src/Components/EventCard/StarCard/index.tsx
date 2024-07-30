@@ -7,7 +7,7 @@ import { IStarCard } from './StarCard';
 const StarCard: React.FunctionComponent<IStarCard.IProps> = ({ starCount }) => {
   return (
     <Tag color="gold" icon={<StarOutlined />}>
-      {starCount}
+      {starCount} 收藏
     </Tag>
   );
 };

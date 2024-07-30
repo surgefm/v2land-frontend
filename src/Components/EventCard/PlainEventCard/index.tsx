@@ -21,7 +21,11 @@ export const PlainEventCard: React.FunctionComponent<IPlainEventCard.IProps> = (
         <TagCurationBadge curations={event.curations || []} onlyShowReviewed />
       </EventCardTitle>
       <EventCardDescription>{event.description}</EventCardDescription>
-      <EventInfoList starCount={event.starCount || 0} tagIdList={event.tagIdList} />
+      <EventInfoList
+        starCount={event.starCount || 0}
+        subscriptionCount={event.subscriptionCount || 0}
+        tagIdList={event.tagIdList}
+      />
 
       <style jsx>
         {`

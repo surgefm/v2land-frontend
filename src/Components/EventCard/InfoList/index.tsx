@@ -2,12 +2,14 @@ import React from 'react';
 
 import { Tag } from '@Components/Tag';
 import { StarCard } from '../StarCard';
+import { SubscriptionCard } from '../SubscriptionCard';
 
 import { IInfoList } from './InfoList';
 
 export const EventInfoList: React.FC<IInfoList.IProps> = ({
   className,
   starCount,
+  subscriptionCount,
   tagIdList = [],
 }) => {
   const empty = tagIdList.length === 0 && !starCount;
@@ -15,6 +17,7 @@ export const EventInfoList: React.FC<IInfoList.IProps> = ({
   return (
     <div className={`container ${className}`}>
       {starCount ? <StarCard starCount={starCount} /> : null}
+      {subscriptionCount ? <SubscriptionCard subscriptionCount={subscriptionCount} /> : null}
       {tagIdList.map(tagId => (
         <Tag tagId={tagId} key={`tag-${tagId}`} />
       ))}

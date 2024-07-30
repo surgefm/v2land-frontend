@@ -52,6 +52,7 @@ export const ImageEventCard: React.FunctionComponent<IImageEventCard.IProps> = (
       <EventInfoList
         className="info-list"
         starCount={event.starCount || 0}
+        subscriptionCount={event.subscriptionCount || 0}
         tagIdList={event.tagIdList}
       />
 

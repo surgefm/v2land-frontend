@@ -14,6 +14,7 @@ export interface SimplifiedEvent extends StringIndexInterface {
   headerImage?: HeaderImage;
   contribution?: Record[];
   starCount?: number;
+  subscriptionCount?: number;
 }
 
 export interface Event extends SimplifiedEvent {
