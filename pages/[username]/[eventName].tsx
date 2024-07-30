@@ -143,9 +143,11 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
               margin-top: 0.75rem;
               width: 100%;
             }
+          }
 
+          @media (max-width: 600px) {
             .curation-badge {
-              padding-top: 0rem;
+              padding-top: 0.3rem;
             }
           }
         `}
