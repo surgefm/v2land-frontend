@@ -166,6 +166,7 @@ public/workbox-*
 .idea
 .vercel
 
-**/public/workbox-*.js
-**/public/sw.js
-**/public/fallback-*.js
+public/workbox-*.js
+public/worker-*.js
+public/sw.js
+public/fallback-*.js
