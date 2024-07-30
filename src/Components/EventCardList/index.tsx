@@ -9,7 +9,6 @@ import { EventActions } from '@Actions';
 import { SectionHeader } from '@Components/Basic';
 import { EventCard } from '@Components/EventCard';
 import { IEventCardList } from './EventCardList';
-import { isLoading } from '../../Selectors/loading/index';
 
 const EventCardListImpl: React.FunctionComponent<IEventCardList.IProps> = ({ className }) => {
   const { t } = useTranslation('common');
