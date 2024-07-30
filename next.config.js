@@ -13,10 +13,11 @@ const withConfig = nextRuntimeDotenv({
     'ALGOLIA_KEY',
     'NEXT_PUBLIC_GA_ID',
     'APPLE_CLIENT_ID',
+    'PWA',
   ],
 });
 
-const nextConfig = {
+let nextConfig = {
   analyzeServer: ['server', 'both'].includes(process.env.BUNDLE_ANALYZE),
   analyzeBrowser: ['browser', 'both'].includes(process.env.BUNDLE_ANALYZE),
   bundleAnalyzerConfig: {
@@ -76,7 +77,8 @@ const nextConfig = {
   },
 };
 
+if (process.env.PWA === '1') nextConfig = withPWA({ dest: 'public' })(nextConfig);
+
 const plugins = [[withBundleAnalyzer]];
-if (process.env.PWA === '1') plugins.push([withPWA]);
 
 module.exports = withConfig(withPlugins(plugins, nextConfig));

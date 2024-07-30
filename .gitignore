@@ -165,3 +165,7 @@ public/workbox-*
 # jetbrain
 .idea
 .vercel
+
+**/public/workbox-*.js
+**/public/sw.js
+**/public/fallback-*.js

@@ -13,6 +13,7 @@ const BasicHeadComp: React.FunctionComponent<IBasicHead.IProps> = () => {
         name="viewport"
         content="width=device-width, initial-scale=1.0, shrink-to-fit=no, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
       />
+      <link rel="manifest" href="/manifest.json" />
       <meta key="keywords" name="keywords" content={t('Head_Keywords')} />
       <meta key="description" name="description" content={t('Head_Description')} />
       <meta key="twitter:card" name="twitter:card" content="summary" />
