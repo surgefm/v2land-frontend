@@ -107,7 +107,7 @@ export const EventStar: React.FunctionComponent<IEventStar.IProps> = ({ eventId 
         {`
           .container {
             padding-top: 0.25rem;
-            padding-left: 0.25rem;
+            padding-left: 0;
             transform: translateX(0.5rem);
             float: right;
             display: inline-flex;
@@ -124,6 +124,8 @@ export const EventStar: React.FunctionComponent<IEventStar.IProps> = ({ eventId 
           @media (max-width: 600px) {
             .container {
               padding-top: 0;
+              margin-top: -0.4rem;
+              margin-left: -0.25rem;
               transform: translateX(0.5rem) translateY(-0.1rem);
             }
           }

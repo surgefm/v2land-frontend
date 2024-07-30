@@ -191,3 +191,6 @@ export const getAllStars = async (eventId: number) => {
 
 export const addCuration = async (tagId: number, eventId: number, state: string, comment: string) =>
   post(`/tag/${tagId}/event/${eventId}`, { state, comment });
+
+export const subscribeEvent = async (eventId: number, subscriptionJSON: string) =>
+  post(`/subscription/${eventId}/pwa`, { subscriptionJSON });

@@ -126,6 +126,9 @@ declare namespace RedstoneModel {
   export interface GetAllStarsResponse {
     stars: Star[];
   }
+  export interface SubscribeEventOptions extends HttpModel.IRequestPayload {
+    subscriptionJSON: string;
+  }
 }
 
 export { RedstoneModel };
