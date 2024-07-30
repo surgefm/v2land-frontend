@@ -13,6 +13,7 @@ const withConfig = nextRuntimeDotenv({
     'ALGOLIA_KEY',
     'NEXT_PUBLIC_GA_ID',
     'APPLE_CLIENT_ID',
+    'VAPID_PUBLIC_KEY',
     'PWA',
   ],
 });
@@ -41,6 +42,7 @@ let nextConfig = {
     ALGOLIA_KEY: process.env.ALGOLIA_KEY,
     NEXT_PUBLIC_GA_ID: process.env.NEXT_PUBLIC_GA_ID,
     APPLE_CLIENT_ID: process.env.APPLE_CLIENT_ID,
+    VAPID_PUBLIC_KEY: process.env.VAPID_PUBLIC_KEY,
   },
   pwa: {
     dest: 'public',
@@ -80,5 +82,4 @@ let nextConfig = {
 if (process.env.PWA === '1') nextConfig = withPWA({ dest: 'public' })(nextConfig);
 
 const plugins = [[withBundleAnalyzer]];
-
 module.exports = withConfig(withPlugins(plugins, nextConfig));

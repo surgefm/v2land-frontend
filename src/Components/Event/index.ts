@@ -4,5 +4,6 @@ export { EventDescription } from './Description';
 export { EventForm } from './Form';
 export { EventStar } from './Star';
 export { EventStats } from './Stats';
+export { EventSubscribe } from './Subscribe';
 export { EventTagList } from './TagList';
 export { EventTitle } from './Title';

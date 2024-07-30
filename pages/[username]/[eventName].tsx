@@ -17,6 +17,7 @@ import {
   EventTitle,
   EventStar,
   EventStats,
+  EventSubscribe,
   EventTagList,
   EventDescription,
   EventContributorList,
@@ -75,14 +76,12 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
 
   const eventCard = event ? (
     <Card>
+      <EventSubscribe eventId={event.id} />
       <EventStar eventId={event.id} />
-      <EventTitle>
-        {event.name}{' '}
-        <TagCurationBadge
-          curations={event.curations || []}
-          style={{ transform: 'translateY(-.1rem)' }}
-        />
-      </EventTitle>
+      <div className="curation-badge">
+        <TagCurationBadge curations={event.curations || []} />
+      </div>
+      <EventTitle>{event.name} </EventTitle>
       <EventStats newsCount={event.newsCount} stackCount={event.stackCount} />
       <EventDescription description={event.description || ''} />
       <EventTagList tagIdList={event.tagIdList} />
@@ -127,6 +126,11 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
             margin-bottom: 0.5rem;
           }
 
+          .curation-badge {
+            float: right;
+            padding-top: 0.75rem;
+          }
+
           @media (max-width: 550px) {
             .bottom {
               flex-direction: column;
@@ -138,6 +142,10 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
               justify-content: flex-end;
               margin-top: 0.75rem;
               width: 100%;
+            }
+
+            .curation-badge {
+              padding-top: 0rem;
             }
           }
         `}
