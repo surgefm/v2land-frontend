@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Space, message } from 'antd';
+import { Button, Space, Modal, Spin, message } from 'antd';
 import { BellTwoTone, BellOutlined } from '@ant-design/icons';
 import getConfig from 'next/config';
 
@@ -18,6 +18,7 @@ export const EventSubscribe: React.FunctionComponent<IEventSubscribe.IProps> = (
         Notification.permission === 'granted';
   const [hasSubscribed, setSubscribed] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const iconStyle = { fontSize: '1.5rem', color: '#9f5afd' };
 
   useEffect(() => {
@@ -29,6 +30,22 @@ export const EventSubscribe: React.FunctionComponent<IEventSubscribe.IProps> = (
     if (loading) return;
     if (hasSubscribed) {
       message.info('取消关注功能正在开发中');
+      return;
+    }
+
+    const ua = navigator.userAgent.toLowerCase();
+    if (ua.indexOf('android') > -1) {
+      message.info('安卓关注功能正在开发中');
+      return;
+    }
+
+    let displayMode = 'browser';
+    const mqStandAlone = '(display-mode: standalone)';
+    if ((navigator as any).standalone || window.matchMedia(mqStandAlone).matches) {
+      displayMode = 'standalone';
+    }
+    if (typeof Notification === 'undefined' && displayMode === 'browser') {
+      setShowModal(true);
       return;
     }
 
@@ -50,22 +67,29 @@ export const EventSubscribe: React.FunctionComponent<IEventSubscribe.IProps> = (
     setLoading(false);
   };
 
+  let icon = hasSubscribed ? (
+    <BellTwoTone style={iconStyle} twoToneColor="#9f5afd" />
+  ) : (
+    <BellOutlined style={iconStyle} />
+  );
+  if (loading) icon = <Spin style={{ paddingTop: '.25rem' }} />;
+
   return (
     <div className="container">
       <Space size={0}>
-        <Button
-          size="large"
-          type="link"
-          onClick={subscribe}
-          icon={
-            hasSubscribed ? (
-              <BellTwoTone style={iconStyle} twoToneColor="#9f5afd" />
-            ) : (
-              <BellOutlined style={iconStyle} />
-            )
-          }
-        />
+        <Button size="large" type="link" onClick={subscribe} icon={icon} />
       </Space>
+
+      <Modal
+        title="订阅说明"
+        visible={showModal}
+        onCancel={() => setShowModal(false)}
+        footer={null}
+      >
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <img src="/images/ios_pwa_guide.jpg" width={290} height={407} alt="订阅说明" />
+        </div>
+      </Modal>
 
       <style jsx>
         {`

@@ -19,6 +19,7 @@ export const EventStar: React.FunctionComponent<IEventStar.IProps> = ({ eventId 
   const isLoggedIn = useSelector(isLoggedInSelector);
   const starCount = useSelector(getEventStarCount(eventId));
   const hasStarred = useSelector(hasLoggedInClientStarredEvent(eventId));
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const iconStyle = { fontSize: '1.5rem', color: '#f7ca18' };
@@ -28,6 +29,8 @@ export const EventStar: React.FunctionComponent<IEventStar.IProps> = ({ eventId 
       message.info('请先登录');
       return;
     }
+    if (loading) return;
+    setLoading(true);
     if (hasStarred) await del(`/event/${eventId}/star`);
     else await post(`/event/${eventId}/star`);
     const { client } = await RedstoneService.getClientInfo();
@@ -35,6 +38,7 @@ export const EventStar: React.FunctionComponent<IEventStar.IProps> = ({ eventId 
     dispatch(EventActions.GetEvent(eventId));
     if (hasStarred) message.success('成功取消收藏');
     else message.success('收藏成功');
+    setLoading(false);
   };
 
   const Stargazers = () => {
@@ -69,6 +73,14 @@ export const EventStar: React.FunctionComponent<IEventStar.IProps> = ({ eventId 
     );
   };
 
+  let icon =
+    hasStarred || !isLoggedIn ? (
+      <StarFilled style={iconStyle} />
+    ) : (
+      <StarTwoTone style={iconStyle} twoToneColor="#f7ca18" />
+    );
+  if (loading) icon = <Spin style={{ paddingTop: '.25rem' }} />;
+
   return (
     <div className="container">
       <Space size={0}>
@@ -89,18 +101,7 @@ export const EventStar: React.FunctionComponent<IEventStar.IProps> = ({ eventId 
             </span>
           </Tooltip>
         )}
-        <Button
-          size="large"
-          type="link"
-          onClick={star}
-          icon={
-            hasStarred || !isLoggedIn ? (
-              <StarFilled style={iconStyle} />
-            ) : (
-              <StarTwoTone style={iconStyle} twoToneColor="#f7ca18" />
-            )
-          }
-        />
+        <Button size="large" type="link" onClick={star} icon={icon} />
       </Space>
 
       <style jsx>
