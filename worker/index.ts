@@ -28,11 +28,13 @@ _self.addEventListener('notificationclick', event => {
           }
         }
         if (data.purpose !== 'new registration') {
-          client.navigate(`/${event.notification.data.eventId || ''}`);
+          client.navigate(`${_self.location.origin}/${event.notification.data.eventId || ''}`);
         }
         return client.focus();
       }
-      return _self.clients.openWindow(`/${event.notification.data.eventId || ''}`);
+      return _self.clients.openWindow(
+        `${_self.location.origin}/${event.notification.data.eventId || ''}`
+      );
     })
   );
 });
