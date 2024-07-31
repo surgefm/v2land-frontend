@@ -74,9 +74,7 @@ export const getEventIdMiddleware = async (
   };
 
   if (eventId && options.lazyLoad && !ctx.req) {
-    await ctx.store.dispatch(
-      EventActions.GetEvent(id, username as string, options.needViewPermission)
-    );
+    ctx.store.dispatch(EventActions.GetEvent(id, username as string, options.needViewPermission));
     await then();
     return eventId;
   }
