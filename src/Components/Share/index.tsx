@@ -56,9 +56,8 @@ const ShareImpl: React.FunctionComponent<IShare.IProps> = ({
   const tag = (t || selectTag) as Tag;
 
   useEffect(() => {
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
     const hasFeature = typeof SVGForeignObjectElement !== 'undefined';
-    setCanGenerateScreenshot(hasFeature && !isSafari);
+    setCanGenerateScreenshot(hasFeature);
   });
 
   if (!m || !u) {
@@ -206,14 +205,18 @@ const ShareImpl: React.FunctionComponent<IShare.IProps> = ({
     dispatch(HomepageActions.SetGeneratingScreenshot(true));
     setTimeout(async () => {
       const node = document.getElementsByClassName('timeline')[0];
-      const dataUrl = await domtoimage.toJpeg(node, {
+      const options = {
         quality: 0.95,
         bgcolor: '#f6f8fa',
         scale: 3,
-      });
+        width: node.clientWidth,
+        height: node.clientHeight,
+      };
+      const dataUrl = await domtoimage.toJpeg(node, options);
       dispatch(HomepageActions.SetGeneratingScreenshot(false));
+
       const link = document.createElement('a');
-      link.download = 'my-image-name.jpeg';
+      link.download = `surgefm-timeline-${event.name}.jpeg`;
       link.href = dataUrl;
       link.click();
     }, 1000);
