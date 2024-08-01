@@ -2,10 +2,12 @@
 import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
+import getConfig from 'next/config';
 import { useSelector } from 'react-redux';
 import Link from 'next/link';
 import { Button, Divider, Space, message } from 'antd';
 import { SwapOutlined, SoundTwoTone, TeamOutlined } from '@ant-design/icons';
+import QRCode from 'qrcode.react';
 // #endregion Global Imports
 
 // #region Local Imports
@@ -43,6 +45,10 @@ import styles from '@Static/css/common.module.scss';
 // #region Interface Imports
 import { IEventPage, ReduxNextPageContext } from '@Interfaces';
 // #endregion Interface Imports
+
+const {
+  publicRuntimeConfig: { SITE_URL },
+} = getConfig();
 
 const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ eventId }) => {
   const event = useSelector(getEvent(eventId));
@@ -257,6 +263,9 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
     }
   }
 
+  const QRCodeImpl = QRCode as any;
+  const pageUrl = `${SITE_URL}/${eventId}`;
+
   return (
     <Background>
       <EventHead eventId={eventId} />
@@ -269,6 +278,21 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
         {eventCard}
         {firstIsSection && <div className="with-section reorder" />}
         {stacks}
+        {generatingScreenshot && (
+          <div className="column">
+            <QRCodeImpl size={96} value={pageUrl} className="qrcode" level="H" renderAs="svg" />
+            <p>
+              <code>{pageUrl}</code>
+              <br />
+              浪潮 - 你的社会事件追踪工具
+            </p>
+            <div className="row">
+              <img src="/images/icon.svg" alt="logo" className="logo" height="32" />
+              <img src="/images/logotype.svg" alt="logotype" height="28" />
+            </div>
+          </div>
+        )}
+        {generatingScreenshot || <Footer />}
         <style jsx>
           {`
             .timeline {
@@ -282,9 +306,31 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
             .generating-screenshot {
               max-width: 25rem;
             }
+
+            .column {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              width: 100%;
+              margin-top: 1rem;
+              margin-bottom: 3rem;
+            }
+
+            .column p {
+              margin-top: 0.5rem;
+              text-align: center;
+            }
+
+            .column .row {
+              display: flex;
+              align-items: center;
+            }
+
+            .column .row img {
+              margin-right: 0.5rem;
+            }
           `}
         </style>
-        <Footer />
       </div>
     </Background>
   );
