@@ -22,3 +22,8 @@ export const getHomepageEventList = createSelector(
   getHomepageEventIdList,
   (state, idList) => getEventList(idList)(state)
 );
+
+export const isGeneratingScreenshot = createSelector(
+  getHomepageState,
+  state => state.isGeneratingScreenshot
+);

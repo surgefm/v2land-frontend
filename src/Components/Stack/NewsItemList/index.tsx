@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Button } from 'antd';
 import { DownCircleOutlined, UpCircleOutlined } from '@ant-design/icons';
 
 import { useTranslation } from '@I18n';
+import { isGeneratingScreenshot } from '@Selectors';
 
 import { INewsItemList } from './NewsItems';
 import { NewsItem } from '../NewsItem/index';
@@ -10,9 +12,10 @@ import { NewsItem } from '../NewsItem/index';
 const NewsItemListImpl: React.FunctionComponent<INewsItemList.IProps> = ({ newsIdList }) => {
   const { t } = useTranslation('common');
   const [showMore, setShowMore] = useState(false);
+  const generatingScreenshot = useSelector(isGeneratingScreenshot);
 
   let newsItems: React.ReactElement[] = [];
-  if (newsIdList.length <= 3) {
+  if (newsIdList.length <= 3 || generatingScreenshot) {
     newsItems = newsIdList.map(id => <NewsItem id={id} key={`news-${id}`} />);
   } else {
     for (let i = 0; i < (showMore ? newsIdList.length : 3); i += 1) {

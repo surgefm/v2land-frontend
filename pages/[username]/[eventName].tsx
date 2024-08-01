@@ -29,7 +29,13 @@ import {
   SectionHeader,
   TagCurationBadge,
 } from '@Components';
-import { getEvent, getEventStackIdList, getStackListTime, isLoading } from '@Selectors';
+import {
+  getEvent,
+  getEventStackIdList,
+  getStackListTime,
+  isLoading,
+  isGeneratingScreenshot,
+} from '@Selectors';
 import { UtilService } from '@Services';
 import styles from '@Static/css/common.module.scss';
 // #endregion Local Imports
@@ -42,6 +48,7 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
   const event = useSelector(getEvent(eventId));
   const stackIdList = useSelector(getEventStackIdList(eventId));
   const stackTimeList = useSelector(getStackListTime(stackIdList));
+  const generatingScreenshot = useSelector(isGeneratingScreenshot);
   const [latestFirst, setLatestFirst] = useState(true);
   const router = useRouter();
 
@@ -85,32 +92,36 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
       <EventStats newsCount={event.newsCount} stackCount={event.stackCount} />
       <EventDescription description={event.description || ''} />
       <EventTagList tagIdList={event.tagIdList} />
-      <div className="bottom">
-        <EventContributorList eventId={event.id} />
-        <div className="share">
-          <Share event={event} />
+      {generatingScreenshot || (
+        <div className="bottom">
+          <EventContributorList eventId={event.id} />
+          <div className="share">
+            <Share event={event} />
+          </div>
         </div>
-      </div>
+      )}
       {event.needContributor && (
         <>
           <Divider />
           <p>
             <SoundTwoTone /> 该时间线正在招募社区贡献者，我们需要志愿者来帮助完善它。
           </p>
-          <Space align="end" style={{ width: '100%', justifyContent: 'flex-end' }}>
-            <Link href="/wiki">
-              <a href="/wiki">
-                <Button type="link">贡献指南</Button>
-              </a>
-            </Link>
-            <Link href={applyUrl}>
-              <a href={applyUrl}>
-                <Button type="primary" icon={<TeamOutlined />}>
-                  申请成为编辑
-                </Button>
-              </a>
-            </Link>
-          </Space>
+          {generatingScreenshot || (
+            <Space align="end" style={{ width: '100%', justifyContent: 'flex-end' }}>
+              <Link href="/wiki">
+                <a href="/wiki">
+                  <Button type="link">贡献指南</Button>
+                </a>
+              </Link>
+              <Link href={applyUrl}>
+                <a href={applyUrl}>
+                  <Button type="primary" icon={<TeamOutlined />}>
+                    申请成为编辑
+                  </Button>
+                </a>
+              </Link>
+            </Space>
+          )}
         </>
       )}
       <style jsx>
@@ -129,6 +140,22 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
           .curation-badge {
             float: right;
             padding-top: 0.75rem;
+          }
+
+          :global(.generating-screenshot) .bottom {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+
+          :global(.generating-screenshot) .share {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 0.75rem;
+            width: 100%;
+          }
+
+          :global(.generating-screenshot) .curation-badge {
+            padding-top: 0.3rem;
           }
 
           @media (max-width: 550px) {
@@ -238,10 +265,27 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
         title={event ? event.name : ''}
         loading={showShimmer}
       />
-      {eventCard}
-      {firstIsSection && <div className="with-section reorder" />}
-      {stacks}
-      <Footer />
+      <div className={`timeline ${generatingScreenshot ? 'generating-screenshot' : ''}`}>
+        {eventCard}
+        {firstIsSection && <div className="with-section reorder" />}
+        {stacks}
+        <style jsx>
+          {`
+            .timeline {
+              max-width: 46rem;
+              padding: 0.5rem;
+              width: calc(100% + 1rem);
+              display: block;
+              position: relative;
+            }
+
+            .generating-screenshot {
+              max-width: 25rem;
+            }
+          `}
+        </style>
+        <Footer />
+      </div>
     </Background>
   );
 };

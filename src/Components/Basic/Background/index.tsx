@@ -10,7 +10,7 @@ export const Background: React.FunctionComponent = ({ children }) => (
           z-index: 0;
           margin-top: 3.5rem;
           min-height: calc(100vh - 3.5rem);
-          padding: 3.5rem 1rem 1rem 1rem;
+          padding: 3rem 1rem 1rem 1rem;
           display: flex;
           align-items: center;
           flex-direction: column;

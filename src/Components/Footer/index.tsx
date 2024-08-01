@@ -1,5 +1,6 @@
 // #region Global Imports
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Space } from 'antd';
@@ -9,22 +10,27 @@ import { useTranslation } from '@I18n';
 
 // #region Local Imports
 import { Logo } from '@Components/Basic';
+import { isGeneratingScreenshot } from '@Selectors';
 import { IFooter } from './Footer';
 // #endregion Local Imports
 
 const FooterComp: React.FunctionComponent<IFooter.IProps> = (): JSX.Element => {
   const { t } = useTranslation('common');
+  const generatingScreenshot = useSelector(isGeneratingScreenshot);
+
   return (
     <div className="footer">
-      <div className="logo-container">
-        <Link href="/">
-          <a>
-            <div className="logo-image">
-              <Logo mode="simple" height={32} />
-            </div>
-          </a>
-        </Link>
-      </div>
+      {generatingScreenshot || (
+        <div className="logo-container">
+          <Link href="/">
+            <a>
+              <div className="logo-image">
+                <Logo mode="simple" height={32} />
+              </div>
+            </a>
+          </Link>
+        </div>
+      )}
       <div className="content">
         <div className="about-v2land">
           <Link href="/about">
@@ -51,25 +57,31 @@ const FooterComp: React.FunctionComponent<IFooter.IProps> = (): JSX.Element => {
 
         <span>{`Langchao.org ${new Date().getFullYear()}`}</span>
 
-        <Space style={{ alignItems: 'center', marginTop: '1.5rem' }}>
-          <span>Powered by</span>
-          <a
-            href="https://vercel.com/?utm_source=surgefm&utm_campaign=oss"
-            target="_blank"
-            rel="noreferrer"
-            style={{ height: '20px', display: 'block' }}
-          >
-            <Image src="/images/vercel-logotype-dark.svg" height={20} width={(4438 / 1000) * 20} />
-          </a>
-          <a
-            href="https://www.digitalocean.com/community/pages/hollies-hub-for-good"
-            target="_blank"
-            rel="noreferrer"
-            style={{ height: '24px', display: 'block' }}
-          >
-            <Image src="/images/DO_Logo_icon_blue.svg" height={24} width={24} />
-          </a>
-        </Space>
+        {generatingScreenshot || (
+          <Space style={{ alignItems: 'center', marginTop: '1.5rem' }}>
+            <span>Powered by</span>
+            <a
+              href="https://vercel.com/?utm_source=surgefm&utm_campaign=oss"
+              target="_blank"
+              rel="noreferrer"
+              style={{ height: '20px', display: 'block' }}
+            >
+              <Image
+                src="/images/vercel-logotype-dark.svg"
+                height={20}
+                width={(4438 / 1000) * 20}
+              />
+            </a>
+            <a
+              href="https://www.digitalocean.com/community/pages/hollies-hub-for-good"
+              target="_blank"
+              rel="noreferrer"
+              style={{ height: '24px', display: 'block' }}
+            >
+              <Image src="/images/DO_Logo_icon_blue.svg" height={24} width={24} />
+            </a>
+          </Space>
+        )}
       </div>
 
       <style jsx>

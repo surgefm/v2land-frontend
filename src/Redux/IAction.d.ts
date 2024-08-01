@@ -21,6 +21,7 @@ import { IStore } from './IStore';
 export interface HomepageAction extends ReduxAction {
   eventList: number[];
   page?: number;
+  isGeneratingScreenshot?: boolean;
 }
 
 export interface EventAction extends ReduxAction {

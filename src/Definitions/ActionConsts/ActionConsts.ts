@@ -5,6 +5,7 @@ export const ActionConsts = {
   },
   Homepage: {
     SetEventList: 'Homepage_SetEventList',
+    SetGeneratingScreenshot: 'Homepage_SetGeneratingScreenshot',
   },
   Event: {
     AddEvent: 'Event_AddEvent',
