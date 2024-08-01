@@ -4,6 +4,7 @@ import { Event, Stack, News, Client, Newsroom, Tag, ChatMessage, ChatMember } fr
 
 export interface HomepageState {
   eventList: number[][];
+  isGeneratingScreenshot: boolean;
 }
 
 export interface EventsState {

@@ -14,6 +14,11 @@ export const EventTitle: React.FunctionComponent<ITitle.IProps> = ({ className, 
             line-height: 1.5;
           }
 
+          :global(.generating-screenshot) .title {
+            font-size: 1.75rem;
+            line-height: 1.2;
+          }
+
           @media (max-width: 600px) {
             .title {
               font-size: 1.75rem;

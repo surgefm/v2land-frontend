@@ -8,4 +8,9 @@ export const HomepageActions = {
     page,
     type: ActionConsts.Homepage.SetEventList,
   }),
+
+  SetGeneratingScreenshot: (isGeneratingScreenshot: boolean) => ({
+    isGeneratingScreenshot,
+    type: ActionConsts.Homepage.SetGeneratingScreenshot,
+  }),
 };

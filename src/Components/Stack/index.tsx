@@ -2,7 +2,14 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Element as ScrollElement } from 'react-scroll';
 
-import { getStack, getStackNewsIdList, getStackTime, getEvent, getEventOwner } from '@Selectors';
+import {
+  getStack,
+  getStackNewsIdList,
+  getStackTime,
+  getEvent,
+  getEventOwner,
+  isGeneratingScreenshot,
+} from '@Selectors';
 import { UtilService } from '@Services';
 import { useTranslation } from '@I18n';
 import { EventCard } from '@Components/EventCard';
@@ -28,6 +35,7 @@ const StackImpl: React.FunctionComponent<IStack.IProps> = ({
   const time = useSelector(getStackTime(stackId));
   const event = useSelector(getEvent(stack ? stack.eventId : 0));
   const owner = useSelector(getEventOwner(stack ? stack.eventId : 0));
+  const generatingScreenshot = useSelector(isGeneratingScreenshot);
   if (!stack) return <StackShimmer />;
 
   const items = [];
@@ -83,7 +91,7 @@ const StackImpl: React.FunctionComponent<IStack.IProps> = ({
             ) : null}
           </div>
 
-          <Share type="stack" stack={stack} />
+          {generatingScreenshot || <Share type="stack" stack={stack} />}
 
           {newsIdList && newsIdList.length > 0 ? <NewsItemList newsIdList={newsIdList} /> : null}
         </div>
@@ -141,6 +149,12 @@ const StackImpl: React.FunctionComponent<IStack.IProps> = ({
             transition: all 0.5s;
             transform: translateX(-15rem);
             margin-left: -15rem;
+          }
+
+          :global(.generating-screenshot) .order {
+            margin-left: 0;
+            transform: translateX(0);
+            opacity: 1;
           }
 
           @media (max-width: 1212px) {

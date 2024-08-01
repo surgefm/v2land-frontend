@@ -9,6 +9,7 @@ import { HomepageAction, HomepageState } from '@Interfaces';
 export const getHomepageInitialState = () =>
   ({
     eventList: [],
+    isGeneratingScreenshot: false,
   } as HomepageState);
 
 export const HomepageReducer = (state = getHomepageInitialState(), action: HomepageAction) => {
@@ -18,7 +19,13 @@ export const HomepageReducer = (state = getHomepageInitialState(), action: Homep
     case ActionConsts.Homepage.SetEventList:
       if (!action.eventList) return state;
       return {
+        ...state,
         eventList: [...state.eventList.slice(0, action.page || 1), action.eventList],
+      };
+    case ActionConsts.Homepage.SetGeneratingScreenshot:
+      return {
+        ...state,
+        isGeneratingScreenshot: !!action.isGeneratingScreenshot,
       };
     default:
       return state;

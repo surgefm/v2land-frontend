@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import getConfig from 'next/config';
 import { Space, Button, Popover, Tooltip, message as antMessage } from 'antd';
 import Icon, {
@@ -7,13 +7,16 @@ import Icon, {
   TwitterOutlined,
   FacebookFilled,
   WechatOutlined,
+  PictureTwoTone,
 } from '@ant-design/icons';
 import QRCode from 'qrcode.react';
 import CopyToClipboard from 'react-copy-to-clipboard';
+import domtoimage from 'dom-to-image-more';
 
 import { useTranslation } from '@I18n';
 import { getEvent, getStack, getNews, getEventOwner, getTag } from '@Selectors';
 import { Event, Stack, News, Tag } from '@Interfaces';
+import { HomepageActions } from '@Actions';
 import { TelegramLogo } from '@Components/Basic';
 import { gtag } from '@Services';
 
@@ -37,7 +40,9 @@ const ShareImpl: React.FunctionComponent<IShare.IProps> = ({
   tagId,
 }) => {
   const { t: tf } = useTranslation('common');
+  const dispatch = useDispatch();
   const [showPopover, setShowPopover] = useState(false);
+  const [canGenerateScreenshot, setCanGenerateScreenshot] = useState(false);
   const selectStack = useSelector(getStack(stackId || 0));
 
   const stack = (s || selectStack) as Stack;
@@ -49,6 +54,12 @@ const ShareImpl: React.FunctionComponent<IShare.IProps> = ({
   const event = (e || selectEvent) as Event;
   const news = (n || selectNews) as News;
   const tag = (t || selectTag) as Tag;
+
+  useEffect(() => {
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    const hasFeature = typeof SVGForeignObjectElement !== 'undefined';
+    setCanGenerateScreenshot(hasFeature && !isSafari);
+  });
 
   if (!m || !u) {
     if (type === 'event' && !event) return <React.Fragment />;
@@ -191,6 +202,23 @@ const ShareImpl: React.FunctionComponent<IShare.IProps> = ({
     antMessage.success(tf('Share_ClipboardSuccess'));
   };
 
+  const generateScreenshot = async () => {
+    dispatch(HomepageActions.SetGeneratingScreenshot(true));
+    setTimeout(async () => {
+      const node = document.getElementsByClassName('timeline')[0];
+      const dataUrl = await domtoimage.toJpeg(node, {
+        quality: 0.95,
+        bgcolor: '#f6f8fa',
+        scale: 3,
+      });
+      dispatch(HomepageActions.SetGeneratingScreenshot(false));
+      const link = document.createElement('a');
+      link.download = 'my-image-name.jpeg';
+      link.href = dataUrl;
+      link.click();
+    }, 1000);
+  };
+
   const QRCodeImpl = QRCode as any;
 
   const popoverContent = (
@@ -211,6 +239,19 @@ const ShareImpl: React.FunctionComponent<IShare.IProps> = ({
   return (
     <div className="share">
       <Space size={colorful ? 8 : 20}>
+        {type === 'event' && canGenerateScreenshot && (
+          <Tooltip title="生成图片" key="share-image">
+            <a
+              onClick={generateScreenshot}
+              className={colorful ? 'event' : ''}
+              role="button"
+              tabIndex={0}
+              onKeyDown={generateScreenshot}
+            >
+              <PictureTwoTone className="border-color screenshot" />
+            </a>
+          </Tooltip>
+        )}
         {sites.map(site => (
           <Tooltip title={`${tf('Share_ShareTo')}${names[site]}`} key={`share-${site}`}>
             <a href={shareTo(site)} onClick={handleClick(site)} className={colorful ? 'event' : ''}>
@@ -321,6 +362,11 @@ const ShareImpl: React.FunctionComponent<IShare.IProps> = ({
             background-color: rgba(29, 161, 242, 0.1);
             border-color: rgba(29, 161, 242, 0.1);
             color: #1da1f2 !important;
+          }
+
+          .share :global(.screenshot):hover {
+            background-color: rgba(29, 161, 242, 0.1);
+            border-color: rgba(29, 161, 242, 0.1);
           }
 
           :global(.share-popover) :global(.qrcode) {

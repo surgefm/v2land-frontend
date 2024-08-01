@@ -122,6 +122,14 @@ export const EventStar: React.FunctionComponent<IEventStar.IProps> = ({ eventId 
             color: rgba(0, 0, 0, 0.45);
           }
 
+          :global(.generating-screenshot) .container {
+            padding-top: 0;
+            margin-top: -0.1rem;
+            margin-bottom: -0.35rem;
+            margin-left: -0.25rem;
+            transform: translateX(0.5rem) translateY(-0.1rem);
+          }
+
           @media (max-width: 600px) {
             .container {
               padding-top: 0;
