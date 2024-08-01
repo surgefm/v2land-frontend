@@ -212,6 +212,20 @@ const ShareImpl: React.FunctionComponent<IShare.IProps> = ({
         width: node.clientWidth,
         height: node.clientHeight,
       };
+
+      const img1 = new Image();
+      img1.src = '/images/icon.svg';
+      const img2 = new Image();
+      img2.src = '/images/logotype.svg';
+      await Promise.all([
+        new Promise(resolve => {
+          img1.onload = resolve;
+        }),
+        new Promise(resolve => {
+          img2.onload = resolve;
+        }),
+      ]);
+
       const dataUrl = await domtoimage.toJpeg(node, options);
       dispatch(HomepageActions.SetGeneratingScreenshot(false));
 

@@ -283,13 +283,12 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
             <QRCodeImpl size={96} value={pageUrl} className="qrcode" level="H" renderAs="svg" />
             <p>
               <code>{pageUrl}</code>
-              <br />
-              浪潮 - 你的社会事件追踪工具
             </p>
             <div className="row">
               <img src="/images/icon.svg" alt="logo" className="logo" height="32" />
               <img src="/images/logotype.svg" alt="logotype" height="28" />
             </div>
+            <span>你的社会事件追踪工具</span>
           </div>
         )}
         {generatingScreenshot || <Footer />}
@@ -326,8 +325,13 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
               align-items: center;
             }
 
-            .column .row img {
+            .column .row img:first-child {
               margin-right: 0.5rem;
+            }
+
+            .column span {
+              margin-top: 0.25rem;
+              font-size: 0.8rem;
             }
           `}
         </style>
