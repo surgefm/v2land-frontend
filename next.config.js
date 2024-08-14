@@ -9,6 +9,7 @@ const withConfig = nextRuntimeDotenv({
     'API_KEY',
     'CDN_URL',
     'SITE_URL',
+    'SHORT_URL',
     'ALGOLIA_ID',
     'ALGOLIA_KEY',
     'NEXT_PUBLIC_GA_ID',
@@ -38,6 +39,7 @@ let nextConfig = {
     CDN_URL: process.env.CDN_URL,
     STATIC_PATH: process.env.STATIC_PATH,
     SITE_URL: process.env.SITE_URL,
+    SHORT_URL: process.env.SHORT_URL,
     ALGOLIA_ID: process.env.ALGOLIA_ID,
     ALGOLIA_KEY: process.env.ALGOLIA_KEY,
     NEXT_PUBLIC_GA_ID: process.env.NEXT_PUBLIC_GA_ID,
@@ -79,7 +81,10 @@ let nextConfig = {
   },
 };
 
-if (process.env.PWA === '1') nextConfig = withPWA({ dest: 'public' })(nextConfig);
+if (process.env.PWA === '1')
+  nextConfig = withPWA({
+    dest: 'public',
+  })(nextConfig);
 
 const plugins = [[withBundleAnalyzer]];
 module.exports = withConfig(withPlugins(plugins, nextConfig));
