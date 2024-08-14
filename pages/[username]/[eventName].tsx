@@ -47,7 +47,7 @@ import { IEventPage, ReduxNextPageContext } from '@Interfaces';
 // #endregion Interface Imports
 
 const {
-  publicRuntimeConfig: { SITE_URL },
+  publicRuntimeConfig: { SITE_URL, SHORT_URL },
 } = getConfig();
 
 const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ eventId }) => {
@@ -264,7 +264,7 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
   }
 
   const QRCodeImpl = QRCode as any;
-  const pageUrl = `${SITE_URL}/${eventId}`;
+  const pageUrl = `${SHORT_URL || SITE_URL}/${eventId}`;
 
   return (
     <Background>
@@ -289,6 +289,7 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
               <img src="/images/logotype.svg" alt="logotype" height="28" />
             </div>
             <span>你的社会事件追踪工具</span>
+            {SITE_URL && SITE_URL !== SHORT_URL && <span>Langchao.org</span>}
           </div>
         )}
         {generatingScreenshot || <Footer />}
