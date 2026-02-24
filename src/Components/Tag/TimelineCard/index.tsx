@@ -12,7 +12,8 @@ import {
   canCurrentClientEditTag,
 } from '@Selectors';
 import { UtilService } from '@Services';
-import { EventContributorList, Card } from '@Components';
+import { EventContributorList } from '@Components/Event';
+import { Card } from '@Components/Basic';
 import { ThunkDispatch } from '@Interfaces';
 import { EventActions } from '@Actions';
 import { useTranslation } from '@I18n';

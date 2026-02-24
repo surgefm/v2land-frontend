@@ -3,7 +3,10 @@ import { useSelector } from 'react-redux';
 import { NumberOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Space } from 'antd';
 
-import { EventTitle, EventDescription, Share, ClientAvatar, HeaderCard } from '@Components';
+import { EventTitle, EventDescription } from '@Components/Event';
+import { HeaderCard } from '@Components/Basic';
+import { Share } from '@Components/Share';
+import { ClientAvatar } from '@Components/Client';
 import { getTag, getTagEventIdList } from '@Selectors';
 import { useTranslation } from '@I18n';
 

@@ -13,7 +13,7 @@ import { isLoggedIn } from '@Selectors';
 import { RedstoneService, UtilService } from '@Services';
 // #endregion Local Imports
 // #region Interface Imports
-import { IHomePage, ReduxNextPageContext } from '@Interfaces';
+import { IHomePage, ReduxNextPageContext, PopularChatroom } from '@Interfaces';
 // #endregion Interface Imports
 
 const eventGrid = {
@@ -195,12 +195,22 @@ const Home: NextPage<IHomePage.IProps, IHomePage.InitialProps> = ({
 };
 
 Home.getInitialProps = async (ctx: ReduxNextPageContext): Promise<IHomePage.InitialProps> => {
-  // eslint-disable-next-line
-  let [_, chatrooms, clientChatrooms] = await Promise.all([
-    ctx.store.dispatch(EventActions.GetEventList()),
-    RedstoneService.getPopularChatrooms(),
-    isLoggedIn(ctx.store.getState()) ? RedstoneService.getClientChatrooms() : [],
-  ]);
+  let chatrooms: PopularChatroom[] = [];
+  let clientChatrooms: PopularChatroom[] = [];
+  try {
+    // eslint-disable-next-line
+    const [_, c, cc] = await Promise.all([
+      ctx.store.dispatch(EventActions.GetEventList()),
+      RedstoneService.getPopularChatrooms().catch(() => [] as PopularChatroom[]),
+      isLoggedIn(ctx.store.getState())
+        ? RedstoneService.getClientChatrooms().catch(() => [] as PopularChatroom[])
+        : [],
+    ]);
+    chatrooms = c;
+    clientChatrooms = cc;
+  } catch (err) {
+    // Event list fetch failed, continue with empty chatrooms
+  }
   return {
     tagList: [],
     chatrooms,

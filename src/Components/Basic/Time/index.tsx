@@ -7,7 +7,7 @@ export const Time: React.FunctionComponent<ITime.IProps> = ({ time: t, className
   if (!t) return <React.Fragment />;
   const time = typeof t === 'string' ? new Date(t) : t;
   return (
-    <span className={className} style={style}>
+    <span className={className} style={style} suppressHydrationWarning>
       {UtilService.getTimeString(time, { showFullMonth: false })}
     </span>
   );

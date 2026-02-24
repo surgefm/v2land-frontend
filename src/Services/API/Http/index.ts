@@ -8,11 +8,11 @@ import { stringify } from 'query-string';
 import { HttpModel } from '@Interfaces';
 // #endregion Interface Imports
 
-const {
-  publicRuntimeConfig: { API_URL },
-} = getConfig();
+const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
 
-const BaseUrl = `${API_URL}`;
+const BaseUrl = typeof window === 'undefined'
+  ? (serverRuntimeConfig?.API_URL_INTERNAL || publicRuntimeConfig.API_URL)
+  : publicRuntimeConfig.API_URL;
 const cookies = {
   cookie: '',
 };

@@ -32,6 +32,9 @@ let nextConfig = {
       reportFilename: '../bundles/client.html',
     },
   },
+  serverRuntimeConfig: {
+    API_URL_INTERNAL: process.env.API_URL_INTERNAL,
+  },
   publicRuntimeConfig: {
     PROXY_MODE: process.env.PROXY_MODE,
     API_URL: process.env.API_URL,

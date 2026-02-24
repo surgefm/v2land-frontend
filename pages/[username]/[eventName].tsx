@@ -214,7 +214,7 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
         <SectionHeader key={`section-${timeStr}`} className={styles['stack-section-header']}>
           {j === 0 ? (
             <div className="space-between">
-              <span>{timeStr}</span>
+              <span suppressHydrationWarning>{timeStr}</span>
               {toggleButton}
               <style jsx>
                 {`
@@ -227,7 +227,7 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
               </style>
             </div>
           ) : (
-            timeStr
+            <span suppressHydrationWarning>{timeStr}</span>
           )}
         </SectionHeader>
       );
