@@ -90,16 +90,16 @@ export const HeaderSearchBox: React.FC = () => {
       value: event.name,
       to: url,
       label: (
-        <Link href={url}>
-          <a href={url} style={{ display: 'flex', alignItems: 'center', color: '#333' }}>
-            <span style={{ marginRight: '.5rem' }}>
-              <ClientAvatar clientId={event.ownerId} />
-            </span>
-            <Typography.Text ellipsis>
-              <span style={{ color: 'rgba(0, 0, 0, 0.5)' }}>@{event.owner.username}/</span>
-              {event.name}
-            </Typography.Text>
-          </a>
+        <Link
+          href={url}
+          style={{ display: 'flex', alignItems: 'center', color: '#333', textDecoration: 'none' }}>
+          <span style={{ marginRight: '.5rem' }}>
+            <ClientAvatar clientId={event.ownerId} />
+          </span>
+          <Typography.Text ellipsis>
+            <span style={{ color: 'rgba(0, 0, 0, 0.5)' }}>@{event.owner.username}/</span>
+            {event.name}
+          </Typography.Text>
         </Link>
       ),
     };

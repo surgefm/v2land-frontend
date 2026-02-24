@@ -19,17 +19,17 @@ const FooterComp: React.FunctionComponent<IFooter.IProps> = (): JSX.Element => {
     <div className="footer">
       <div className="logo-container">
         <Link href="/">
-          <a>
-            <div className="logo-image">
-              <Logo mode="simple" height={32} />
-            </div>
-          </a>
+
+          <div className="logo-image">
+            <Logo mode="simple" height={32} />
+          </div>
+
         </Link>
       </div>
       <div className="content">
         <div className="about-v2land">
-          <Link href="/about">
-            <a className="link">{t('Footer_About')}</a>
+          <Link href="/about" className="link">
+            {t('Footer_About')}
           </Link>
           <span>·</span>
           <a href="https://github.com/surgefm" target="_blank" rel="noopener noreferrer">
@@ -72,7 +72,6 @@ const FooterComp: React.FunctionComponent<IFooter.IProps> = (): JSX.Element => {
           </a>
         </Space>
       </div>
-
       <style jsx>
         {`
           .footer {

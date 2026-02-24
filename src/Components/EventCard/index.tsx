@@ -42,16 +42,14 @@ const EventCard: React.FunctionComponent<IEventCard.IProps> = ({
   }
 
   return (
-    <Link href="/[username]/[eventName]" as={UtilService.getEventPath(event, owner)}>
-      <a>
-        <Card styles={{ padding: 0, overflow: 'hidden', ...styles }} className={className}>
-          {event.headerImage && !forcePlain ? (
-            <ImageEventCard event={event} />
-          ) : (
-            <PlainEventCard event={event} />
-          )}
-        </Card>
-      </a>
+    <Link href={UtilService.getEventPath(event, owner)} style={{ textDecoration: 'none', color: 'inherit' }}>
+      <Card styles={{ padding: 0, overflow: 'hidden', ...styles }} className={className}>
+        {event.headerImage && !forcePlain ? (
+          <ImageEventCard event={event} />
+        ) : (
+          <PlainEventCard event={event} />
+        )}
+      </Card>
     </Link>
   );
 };

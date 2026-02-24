@@ -33,9 +33,9 @@ const About: NextPage<IAboutPage.IProps, IAboutPage.InitialProps> = () => {
         <p>浪潮，或许此刻退下沙滩，可我们知道，它终将重回土地。</p>
         <div className="image-container">
           <Link href="/">
-            <a href="/">
-              <Logo mode="simple" height={24} />
-            </a>
+
+            <Logo mode="simple" height={24} />
+
           </Link>
         </div>
       </Card>

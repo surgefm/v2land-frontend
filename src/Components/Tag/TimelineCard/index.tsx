@@ -66,49 +66,46 @@ const TimelineCardImpl: React.FunctionComponent<ITimelineCard.IProps> = ({ event
 
   return (
     <>
-      <Link href="/[username]/[eventName]" as={UtilService.getEventPath(event, eventOwner)}>
-        <a>
-          <Card className={styles['timeline-card']}>
-            <div className={styles['timeline-card-top']}>
-              <div className={styles.title}>
-                <Button
-                  style={{ float: 'right', right: '-.5rem', marginTop: '-.5rem' }}
-                  type="text"
-                  shape="circle"
-                  onClick={addCuration}
-                  icon={(
-                    <TagCurationBadge curations={event.curations || []} />
-                )}
-                />
-                <div className={styles['latest-update']}>
-                  {time && <p>{UtilService.getTimeLapseString(t, time, 'general')}</p>}
-                </div>
-                <h2>{event.name}</h2>
+      <Link href={UtilService.getEventPath(event, eventOwner)} style={{ textDecoration: 'none', color: 'inherit' }}>
+        <Card className={styles['timeline-card']}>
+          <div className={styles['timeline-card-top']}>
+            <div className={styles.title}>
+              <Button
+                style={{ float: 'right', right: '-.5rem', marginTop: '-.5rem' }}
+                type="text"
+                shape="circle"
+                onClick={addCuration}
+                icon={(
+                  <TagCurationBadge curations={event.curations || []} />
+              )}
+              />
+              <div className={styles['latest-update']}>
+                {time && <p>{UtilService.getTimeLapseString(t, time, 'general')}</p>}
               </div>
-
-              {event.description && <p className={styles.description}>{event.description}</p>}
-
-              <div className={styles.info}>
-                {(event.numUpvote || 0) > 0 && <p>{event.numUpvote} 个人赞</p>}
-                {(event.stackCount || 0) > 0 && <p>共有 {event.stackCount} 个进展</p>}
-              </div>
+              <h2>{event.name}</h2>
             </div>
 
-            <div className={styles['timeline-card-bottom']}>
-              <EventContributorList contributorList={contributors} eventId={eventId} />
-              <div className={styles['timeline-list']}>
-                <Timeline>
-                  {stackList.map(
-                  (stack, index) =>
-                    index < 3 && <Timeline.Item key={stack.id}>{stack.title}</Timeline.Item>
-                )}
-                </Timeline>
-              </div>
+            {event.description && <p className={styles.description}>{event.description}</p>}
+
+            <div className={styles.info}>
+              {(event.numUpvote || 0) > 0 && <p>{event.numUpvote} 个人赞</p>}
+              {(event.stackCount || 0) > 0 && <p>共有 {event.stackCount} 个进展</p>}
             </div>
-          </Card>
-        </a>
+          </div>
+
+          <div className={styles['timeline-card-bottom']}>
+            <EventContributorList contributorList={contributors} eventId={eventId} />
+            <div className={styles['timeline-list']}>
+              <Timeline>
+                {stackList.map(
+                (stack, index) =>
+                  index < 3 && <Timeline.Item key={stack.id}>{stack.title}</Timeline.Item>
+              )}
+              </Timeline>
+            </div>
+          </div>
+        </Card>
       </Link>
-
       <Modal visible={visible} footer={null} title="点评时间线">
         <TagCurationForm
           tagId={tagId}

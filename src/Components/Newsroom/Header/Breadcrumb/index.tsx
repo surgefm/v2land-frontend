@@ -27,19 +27,17 @@ const NewsroomHeaderBreadcrumbImpl: React.FC<INewsroomHeaderBreadcrumb.IProps> =
     <Breadcrumb>
       <Breadcrumb.Item className="breadcrumb-logo">
         <Link href="/">
-          <a>
-            <LogoIcon width={(36 / 256) * 243} height={36} fill="fixed" />
-          </a>
+          <LogoIcon width={(36 / 256) * 243} height={36} fill="fixed" />
         </Link>
       </Breadcrumb.Item>
       <Breadcrumb.Item>
         <Link href="/[username]" as={`/@${client.username}`}>
-          <a>{`${username}`}</a>
+          {`${username}`}
         </Link>
       </Breadcrumb.Item>
       <Breadcrumb.Item>
         <Link href="/[username]/[eventName]" as={`/@${client.username}/${eventPath}`}>
-          <a>{event.name}</a>
+          {event.name}
         </Link>
       </Breadcrumb.Item>
       <Breadcrumb.Item>
@@ -47,10 +45,9 @@ const NewsroomHeaderBreadcrumbImpl: React.FC<INewsroomHeaderBreadcrumb.IProps> =
           href="/[username]/[eventName]/newsroom"
           as={`/@${client.username}/${eventPath}/newsroom`}
         >
-          <a>{t('Newsroom_Title')}</a>
+          {t('Newsroom_Title')}
         </Link>
       </Breadcrumb.Item>
-
       <style jsx>
         {`
           :global(.breadcrumb-logo) {

@@ -72,24 +72,24 @@ const ClientPage: NextPage<IClientPage.IProps, IClientPage.InitialProps> = ({ cl
 
             <Space style={{ transform: 'translateX(-0.5rem)' }}>
               <Link href={`/@${client.username}`} shallow>
-                <a href={`/@${client.username}`}>
-                  <Button type="text" size="small">
-                    <SisternodeOutlined />
-                    {client.events && client.events.length > 0
-                      ? `${client.events.length} 条时间线`
-                      : '暂无贡献'}
-                  </Button>
-                </a>
+
+                <Button type="text" size="small">
+                  <SisternodeOutlined />
+                  {client.events && client.events.length > 0
+                    ? `${client.events.length} 条时间线`
+                    : '暂无贡献'}
+                </Button>
+
               </Link>
               <Link href={`/@${client.username}?t=star`} shallow>
-                <a href={`/@${client.username}?t=star`}>
-                  <Button type="text" size="small">
-                    <StarOutlined />
-                    {client.stars && client.stars.length > 0
-                      ? `${client.stars.length} 个收藏`
-                      : '暂无收藏'}
-                  </Button>
-                </a>
+
+                <Button type="text" size="small">
+                  <StarOutlined />
+                  {client.stars && client.stars.length > 0
+                    ? `${client.stars.length} 个收藏`
+                    : '暂无收藏'}
+                </Button>
+
               </Link>
             </Space>
           </Space>

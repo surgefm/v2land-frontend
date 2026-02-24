@@ -115,16 +115,16 @@ const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ event
           {generatingScreenshot || (
             <Space align="end" style={{ width: '100%', justifyContent: 'flex-end' }}>
               <Link href="/wiki">
-                <a href="/wiki">
-                  <Button type="link">贡献指南</Button>
-                </a>
+
+                <Button type="link">贡献指南</Button>
+
               </Link>
               <Link href={applyUrl}>
-                <a href={applyUrl}>
-                  <Button type="primary" icon={<TeamOutlined />}>
-                    申请成为编辑
-                  </Button>
-                </a>
+
+                <Button type="primary" icon={<TeamOutlined />}>
+                  申请成为编辑
+                </Button>
+
               </Link>
             </Space>
           )}

@@ -117,18 +117,15 @@ export const ClientAvatar: React.FunctionComponent<IClientAvatar.IProps> = props
     }
 
     return (
-      <Link href={`/@${client.username}`}>
-        <a
-          href={`/@${client.username}`}
-          role="button"
-          onKeyPress={goToProfilePage}
-          onClick={goToProfilePage}
-          className={styles.link}
-          style={style.style}
-          tabIndex={0}
-        >
-          {getAvatarIcon(true)}
-        </a>
+      <Link
+        href={`/@${client.username}`}
+        role="button"
+        onKeyPress={goToProfilePage}
+        onClick={goToProfilePage}
+        className={styles.link}
+        style={style.style}
+        tabIndex={0}>
+        {getAvatarIcon(true)}
       </Link>
     );
   };

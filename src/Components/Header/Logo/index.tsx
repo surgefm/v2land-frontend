@@ -5,8 +5,8 @@ import { Logo } from '@Components/Basic/Logo';
 
 export const HeaderLogo: React.FunctionComponent = () => {
   return (
-    <Link href="/">
-      <a href="/" className="link">
+    <Link href="/" className="link">
+      <>
         <Logo styles={{ width: '1.85rem', height: '1.85rem' }} />
         <style jsx>
           {`
@@ -40,7 +40,7 @@ export const HeaderLogo: React.FunctionComponent = () => {
             }
           `}
         </style>
-      </a>
+      </>
     </Link>
   );
 };

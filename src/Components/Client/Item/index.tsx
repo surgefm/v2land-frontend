@@ -47,7 +47,7 @@ export const ClientItem = ({ clientId }: { clientId: number }) => {
   if (client) {
     return (
       <Link href={`/@${client.username}`}>
-        <a>{content}</a>
+        {content}
       </Link>
     );
   }

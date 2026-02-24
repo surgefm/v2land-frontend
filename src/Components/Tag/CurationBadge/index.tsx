@@ -50,16 +50,14 @@ export const TagCurationBadge = ({
         该时间线被
         <Tag tagId={isCertified.tagId} style={{ margin: '0 .25rem' }} />
         的话题主持人标记为「符合
-        <Link href="/wiki">
-          <a
-            style={{
-              borderTop: '1px solid transparent',
-              borderBottom: '1px solid #fff',
-              color: '#fff',
-            }}
-          >
+        <Link
+          href="/wiki"
+          style={{
+            borderTop: '1px solid transparent',
+            borderBottom: '1px solid #fff',
+            color: '#fff',
+          }}>
             社区编辑标准
-          </a>
         </Link>
         」。
         {isCertified.comment && <>点评：“{isCertified.comment}”</>}
