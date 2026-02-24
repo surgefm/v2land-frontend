@@ -49,7 +49,7 @@ const NewsroomPanelStackListImpl: React.FunctionComponent<INewsroomPanelStackLis
   // No layout shifts — indicators are always full height, just change visibility.
   const activeSlotRef = useRef<number | null>(null);
   const lastValidSlotRef = useRef<number | null>(null);
-  const indicatorRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const indicatorRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const cardMidpointsRef = useRef<number[]>([]);
 
