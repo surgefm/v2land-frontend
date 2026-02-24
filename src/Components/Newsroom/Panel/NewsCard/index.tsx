@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Draggable } from 'react-beautiful-dnd';
+import { draggable } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { Tooltip, Button, message } from 'antd';
 import { CloseOutlined, EditOutlined } from '@ant-design/icons';
 
@@ -13,22 +13,41 @@ import {
 import { Time } from '@Components/Basic';
 import { getNewsroomSocket, RedstoneService } from '@Services';
 import { NewsActions, EventActions } from '@Actions';
+import { NewsDragData } from '@Services/NewsroomDndControl/types';
 
 import { NewsroomPanelCard } from '../Card';
 import { INewsroomPanelNewsCard } from './NewsCard';
 
 const NewsroomPanelNewsCard: React.FunctionComponent<INewsroomPanelNewsCard.IProps> = ({
   newsId,
-  index,
   removable = false,
-  draggableId = 'news-card',
+  sourceDroppableId = 'newsroom-news-panel',
 }) => {
   const news = useSelector(getNews(newsId));
   const canEdit = useSelector(canCurrentClientEditEvent());
   const isConnected = useSelector(isNewsroomSocketConnected());
   const newsroomId = useSelector(getActiveNewsroomId);
   const [loading, setLoading] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return undefined;
+    if (!canEdit || !isConnected) return undefined;
+
+    return draggable({
+      element: el,
+      getInitialData: (): NewsDragData => ({
+        type: 'news',
+        newsId: Math.abs(newsId),
+        sourceDroppableId,
+      }),
+      onDragStart: () => setIsDragging(true),
+      onDrop: () => setIsDragging(false),
+    });
+  }, [canEdit, isConnected, newsId, sourceDroppableId]);
 
   const loadNews = async () => {
     const res = await RedstoneService.getNews(Math.abs(newsId));
@@ -59,84 +78,76 @@ const NewsroomPanelNewsCard: React.FunctionComponent<INewsroomPanelNewsCard.IPro
   }
 
   return (
-    <Draggable
-      draggableId={`${draggableId}-${Math.abs(newsId)}`}
-      index={index || 0}
-      isDragDisabled={!canEdit || !isConnected}
-    >
-      {(provided, snapshot) => (
-        <div
-          className={snapshot.isDragging ? 'dragging' : ''}
-          ref={provided.innerRef}
-          {...provided.dragHandleProps}
-          {...provided.draggableProps}
-        >
-          <NewsroomPanelCard className="news-card">
-            {news && (
-              <>
-                {removable && (
-                  <span className="remove">
-                    <Tooltip title="移除备选新闻">
-                      <Button size="small" icon={<CloseOutlined />} disabled onClick={removeNews} />
-                    </Tooltip>
-                  </span>
-                )}
-                {removable && (
-                  <span className="remove">
-                    <Tooltip title="编辑新闻">
-                      <Button size="small" icon={<EditOutlined />} disabled onClick={removeNews} />
-                    </Tooltip>
-                  </span>
-                )}
-              </>
+    <div className={isDragging ? 'dragging' : ''} ref={ref}>
+      <NewsroomPanelCard className="news-card">
+        {news && (
+          <>
+            {removable && (
+              <span className="remove">
+                <Tooltip title="移除备选新闻">
+                  <Button size="small" icon={<CloseOutlined />} disabled onClick={removeNews} />
+                </Tooltip>
+              </span>
             )}
-            <Time time={news.time} className="time" />
-            <br />
-            {`${news.source || new URL(news.url).hostname.replace('www.', '')} | ${news.title}`}
-          </NewsroomPanelCard>
-          <style jsx>
-            {`
-              div {
-                width: 100%;
-                z-index: 1;
-                position: relative;
-              }
+            {removable && (
+              <span className="remove">
+                <Tooltip title="编辑新闻">
+                  <Button size="small" icon={<EditOutlined />} disabled onClick={removeNews} />
+                </Tooltip>
+              </span>
+            )}
+          </>
+        )}
+        <Time time={news.time} className="time" />
+        <br />
+        {`${news.source || new URL(news.url).hostname.replace('www.', '')} | ${news.title}`}
+      </NewsroomPanelCard>
+      <style jsx>
+        {`
+          div {
+            width: 100%;
+            z-index: 1;
+            position: relative;
+            cursor: ${canEdit && isConnected ? 'grab' : 'default'};
+          }
 
-              div > :global(.news-card) {
-                white-space: nowrap;
-                overflow-x: hidden;
-                line-height: 1.5;
-              }
+          div > :global(.news-card) {
+            white-space: nowrap;
+            overflow-x: hidden;
+            line-height: 1.5;
+          }
 
-              div :global(.time) {
-                line-height: 1;
-                font-size: 12px;
-              }
+          div :global(.time) {
+            line-height: 1;
+            font-size: 12px;
+          }
 
-              div > :global(.news-card::-webkit-scrollbar) {
-                display: none;
-              }
+          div > :global(.news-card::-webkit-scrollbar) {
+            display: none;
+          }
 
-              .dragging > :global(.news-card) {
-                border: 1px solid #555;
-              }
+          .dragging {
+            cursor: grabbing;
+          }
 
-              div {
-                margin-top: 0.5rem;
-              }
+          .dragging > :global(.news-card) {
+            border: 1px solid #555;
+          }
 
-              .remove {
-                float: right;
-              }
+          div {
+            margin-top: 0.5rem;
+          }
 
-              .remove:first-child {
-                margin-left: 0.25rem;
-              }
-            `}
-          </style>
-        </div>
-      )}
-    </Draggable>
+          .remove {
+            float: right;
+          }
+
+          .remove:first-child {
+            margin-left: 0.25rem;
+          }
+        `}
+      </style>
+    </div>
   );
 };
 

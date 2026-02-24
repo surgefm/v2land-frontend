@@ -11,7 +11,7 @@ import Icon, {
 } from '@ant-design/icons';
 import QRCode from 'qrcode.react';
 import CopyToClipboard from 'react-copy-to-clipboard';
-import domtoimage from 'dom-to-image-more';
+
 
 import { useTranslation } from '@I18n';
 import { getEvent, getStack, getNews, getEventOwner, getTag } from '@Selectors';
@@ -226,6 +226,7 @@ const ShareImpl: React.FunctionComponent<IShare.IProps> = ({
         }),
       ]);
 
+      const domtoimage = (await import('dom-to-image-more')).default;
       const dataUrl = await domtoimage.toJpeg(node, options);
       dispatch(HomepageActions.SetGeneratingScreenshot(false));
 

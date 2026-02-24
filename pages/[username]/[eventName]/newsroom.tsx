@@ -4,22 +4,10 @@ import { NextPage } from 'next';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useSelector, useStore, useDispatch } from 'react-redux';
-import {
-  DragDropContext,
-  OnDragEndResponder,
-  resetServerContext,
-  Droppable,
-  Draggable,
-  DraggableProvided,
-  DraggableChildrenFn,
-} from 'react-beautiful-dnd';
+import { monitorForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
+import { extractClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import { Switch, Tooltip, Space, Popover, message } from 'antd';
-import {
-  DragOutlined,
-  EyeOutlined,
-  EyeInvisibleOutlined,
-  QuestionCircleOutlined,
-} from '@ant-design/icons';
+import { EyeOutlined, EyeInvisibleOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 // #endregion Global Imports
 
 // #region Local Imports
@@ -29,11 +17,18 @@ import {
   getNewsroomSocket,
   closeNewsroomSocket,
   NewsroomSocket,
-  handleNewsroomDragEnd,
+  handleNewsDrop,
+  handleStackDrop,
   ClientService,
   UtilService,
   RedstoneService,
   usePrevious,
+  isNewsDragData,
+  isStackDragData,
+  isNewsListDropData,
+  isStackItemDropData,
+  isStackListDropData,
+  getDestinationIndex,
 } from '@Services';
 import { NewsroomPanelConsts } from '@Definitions';
 import { Card, EventHead } from '@Components';
@@ -139,32 +134,68 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
     socket = getNewsroomSocket(eventId, store) as NewsroomSocket;
   });
 
+  // Monitor for all drag-and-drop events
+  useEffect(() => {
+    return monitorForElements({
+      onDrop: ({ source, location }) => {
+        const destination = location.current.dropTargets[0];
+        if (!destination) return;
+
+        const sourceData = source.data;
+        const destData = destination.data;
+
+        if (isNewsDragData(sourceData) && isNewsListDropData(destData)) {
+          handleNewsDrop(sourceData, destData, eventId, store, socket);
+        } else if (isStackDragData(sourceData)) {
+          // Find the innermost drop target that is a stack-item (for edge detection)
+          const stackItemTarget = location.current.dropTargets.find(target =>
+            isStackItemDropData(target.data)
+          );
+
+          // Find the stack-list drop target for the destination droppableId
+          const stackListTarget = location.current.dropTargets.find(target =>
+            isStackListDropData(target.data)
+          );
+
+          if (!stackListTarget || !isStackListDropData(stackListTarget.data)) return;
+          const destDroppableId = stackListTarget.data.droppableId;
+
+          let destIndex: number;
+          if (stackItemTarget && isStackItemDropData(stackItemTarget.data)) {
+            const edge = extractClosestEdge(stackItemTarget.data);
+            destIndex = edge
+              ? getDestinationIndex(stackItemTarget.data.index, edge, sourceData.index)
+              : stackItemTarget.data.index;
+          } else {
+            // Dropped on empty list or directly on the list container
+            destIndex = 0;
+          }
+
+          handleStackDrop(sourceData, destDroppableId, destIndex, eventId, store, socket);
+        }
+      },
+    });
+  }, [eventId, store, socket]);
+
   if (!event) return <div />;
-
-  resetServerContext();
-
-  const onDragEnd: OnDragEndResponder = result => {
-    handleNewsroomDragEnd(result, eventId, store, socket);
-  };
 
   const onStackNewsVisibilityToggled = (checked: boolean) => {
     dispatch(NewsroomActions.SetStackNewsVisible(checked));
   };
 
-  const panels: { [index: string]: DraggableChildrenFn } = {
-    [NewsroomPanelConsts.EventInformation]: (provided: DraggableProvided) => (
-      <div className="panel-wrapper" ref={provided.innerRef} {...provided.draggableProps}>
+  const panels: { [index: string]: React.ReactNode } = {
+    [NewsroomPanelConsts.EventInformation]: (
+      <div className="panel-wrapper" key={NewsroomPanelConsts.EventInformation}>
         <Card className="panel y-scroll">
           <div className="panel-header-container">
             <NewsroomPanelTitle>事件信息</NewsroomPanelTitle>
-            <DragOutlined {...provided.dragHandleProps} />
           </div>
           <NewsroomPanelEventDetail eventId={eventId} />
         </Card>
       </div>
     ),
-    [NewsroomPanelConsts.EventRoleList]: (provided: DraggableProvided) => (
-      <div className="panel-wrapper" ref={provided.innerRef} {...provided.draggableProps}>
+    [NewsroomPanelConsts.EventRoleList]: (
+      <div className="panel-wrapper" key={NewsroomPanelConsts.EventRoleList}>
         <Card className="panel y-scroll">
           <div className="panel-header-container">
             <Space size={0}>
@@ -192,21 +223,17 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
                 <QuestionCircleOutlined />
               </Popover>
             </Space>
-            <Space size={0}>
-              <NewsroomPanelAddClientButton eventId={eventId} />
-              <DragOutlined {...provided.dragHandleProps} />
-            </Space>
+            <NewsroomPanelAddClientButton eventId={eventId} />
           </div>
           <NewsroomPanelRoleList eventId={eventId} />
         </Card>
       </div>
     ),
-    [NewsroomPanelConsts.OffshelfNewsList]: (provided: DraggableProvided) => (
-      <div className="panel-wrapper" ref={provided.innerRef} {...provided.draggableProps}>
+    [NewsroomPanelConsts.OffshelfNewsList]: (
+      <div className="panel-wrapper" key={NewsroomPanelConsts.OffshelfNewsList}>
         <Card className="panel">
           <div className="panel-header-container">
             <NewsroomPanelTitle>{t('Newsroom_OffshelfNews')}</NewsroomPanelTitle>
-            <DragOutlined {...provided.dragHandleProps} />
           </div>
           <NewsroomPanelNewsSearchBox eventId={eventId} newsIdList={newsIdList} />
           <NewsroomPanelNewsList
@@ -217,15 +244,14 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
         </Card>
       </div>
     ),
-    [NewsroomPanelConsts.OffshelfStackList]: (provided: DraggableProvided) => (
-      <div className="panel-wrapper" ref={provided.innerRef} {...provided.draggableProps}>
+    [NewsroomPanelConsts.OffshelfStackList]: (
+      <div className="panel-wrapper" key={NewsroomPanelConsts.OffshelfStackList}>
         <Card className="panel offshelf-stack">
           <div className="panel-header-container">
             <NewsroomPanelTitle>{t('Newsroom_OffshelfStacks')}</NewsroomPanelTitle>
             <Space size={0}>
               <NewsroomPanelSortStacksButton eventId={eventId} offshelf />
               <NewsroomPanelCreateStackButton eventId={eventId} />
-              <DragOutlined {...provided.dragHandleProps} />
             </Space>
           </div>
           <NewsroomPanelStackList
@@ -238,56 +264,41 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
   };
 
   return (
-    <DragDropContext onDragEnd={onDragEnd}>
-      <Droppable droppableId={`newsroom-${eventId}-panels`} direction="horizontal">
-        {droppableProvided => (
-          <div
-            className="container"
-            ref={droppableProvided.innerRef}
-            {...droppableProvided.droppableProps}
-          >
-            <EventHead eventId={eventId} title={t('Newsroom_Title')} />
-            {showChatroom && (
-              <ChatroomButton
-                type="newsroom"
-                ids={Math.abs(event.id)}
-                openByDefault={!!(router.query.apply || router.query.c)}
-                presetMessage={router.query.apply ? '你好，我想帮忙整理这条时间线！' : undefined}
-              />
-            )}
-            <div className="panel-wrapper">
-              <Card className="panel public-stack">
-                <div className="panel-header-container">
-                  <NewsroomPanelTitle>{t('Newsroom_Timeline')}</NewsroomPanelTitle>
-                  <Space size={0}>
-                    <NewsroomPanelSortStacksButton eventId={eventId} />
-                    <Tooltip
-                      title={
-                        showStackNews ? t('Newsroom_HideStackNews') : t('Newsroom_ShowStackNews')
-                      }
-                    >
-                      <Switch
-                        checkedChildren={<EyeOutlined />}
-                        unCheckedChildren={<EyeInvisibleOutlined />}
-                        className="show-news-toggle"
-                        onClick={onStackNewsVisibilityToggled}
-                        defaultChecked={showStackNews}
-                      />
-                    </Tooltip>
-                  </Space>
-                </div>
-                <NewsroomPanelStackList stackIdList={stackIdList} />
-              </Card>
-            </div>
-            {newsroomPanels.map((panel, index) => (
-              <Draggable draggableId={`newsroom-panel-${panel}`} index={index} key={panel}>
-                {panels[panel]}
-              </Draggable>
-            ))}
-            {droppableProvided.placeholder}
-          </div>
+    <>
+      <div className="container">
+        <EventHead eventId={eventId} title={t('Newsroom_Title')} />
+        {showChatroom && (
+          <ChatroomButton
+            type="newsroom"
+            ids={Math.abs(event.id)}
+            openByDefault={!!(router.query.apply || router.query.c)}
+            presetMessage={router.query.apply ? '你好，我想帮忙整理这条时间线！' : undefined}
+          />
         )}
-      </Droppable>
+        <div className="panel-wrapper">
+          <Card className="panel public-stack">
+            <div className="panel-header-container">
+              <NewsroomPanelTitle>{t('Newsroom_Timeline')}</NewsroomPanelTitle>
+              <Space size={0}>
+                <NewsroomPanelSortStacksButton eventId={eventId} />
+                <Tooltip
+                  title={showStackNews ? t('Newsroom_HideStackNews') : t('Newsroom_ShowStackNews')}
+                >
+                  <Switch
+                    checkedChildren={<EyeOutlined />}
+                    unCheckedChildren={<EyeInvisibleOutlined />}
+                    className="show-news-toggle"
+                    onClick={onStackNewsVisibilityToggled}
+                    defaultChecked={showStackNews}
+                  />
+                </Tooltip>
+              </Space>
+            </div>
+            <NewsroomPanelStackList stackIdList={stackIdList} />
+          </Card>
+        </div>
+        {newsroomPanels.map(panel => panels[panel])}
+      </div>
 
       <style jsx>
         {`
@@ -372,7 +383,7 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
           }
         `}
       </style>
-    </DragDropContext>
+    </>
   );
 };
 

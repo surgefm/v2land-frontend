@@ -1,36 +1,34 @@
-import { DropResult } from 'react-beautiful-dnd';
-
 import { AppStore } from '@Interfaces';
 import { NewsroomSocket } from '@Services';
 import { EventActions } from '@Actions';
 import { getEventOffshelfStackIdList, getEventStackIdList } from '@Selectors';
+import { StackDragData } from './types';
 
-export async function handleStackDragEnd(
-  result: DropResult,
+export async function handleStackDrop(
+  sourceData: StackDragData,
+  destDroppableId: string,
+  destIndex: number,
   eventId: number,
   store: AppStore,
   socket: NewsroomSocket
 ) {
-  const { destination, source, draggableId } = result;
-  if (!destination || !source) return;
   const id = -Math.abs(eventId);
-  const match = draggableId.match(/^stack-card-(\d+)$/);
-  if (!match) return;
-  const stackId = -match[1];
+  const stackId = -Math.abs(sourceData.stackId);
 
   const { dispatch } = store;
   const offshelfStackIdList = getEventOffshelfStackIdList(id)(store.getState());
   const stackIdList = getEventStackIdList(id)(store.getState());
 
-  const fromOffshelf = source.droppableId === 'newsroom-offshelf-stack-panel';
-  const toOffshelf = destination.droppableId === 'newsroom-offshelf-stack-panel';
+  const fromOffshelf = sourceData.sourceDroppableId === 'newsroom-offshelf-stack-panel';
+  const toOffshelf = destDroppableId === 'newsroom-offshelf-stack-panel';
+
   if (fromOffshelf === toOffshelf) {
     let newStackIdList = fromOffshelf ? [...offshelfStackIdList] : [...stackIdList];
     newStackIdList = newStackIdList.filter(i => i !== stackId);
     newStackIdList = [
-      ...newStackIdList.slice(0, destination.index),
+      ...newStackIdList.slice(0, destIndex),
       stackId,
-      ...newStackIdList.slice(destination.index),
+      ...newStackIdList.slice(destIndex),
     ];
     const action = fromOffshelf
       ? EventActions.UpdateEventOffshelfStackListOrder
@@ -54,7 +52,7 @@ export async function handleStackDragEnd(
     fromList = fromList.filter(i => i !== stackId);
     toList = toList.filter(i => i !== stackId);
 
-    toList = [...toList.slice(0, destination.index), stackId, ...toList.slice(destination.index)];
+    toList = [...toList.slice(0, destIndex), stackId, ...toList.slice(destIndex)];
     dispatch(removeAction(id, fromList.map(i => -Math.abs(i))));
     dispatch(addAction(id, toList.map(i => -Math.abs(i))));
     const offshelfList = fromOffshelf ? fromList : toList;

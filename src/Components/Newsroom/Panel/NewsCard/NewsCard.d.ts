@@ -1,8 +1,7 @@
 declare namespace INewsroomPanelNewsCard {
   export interface IProps {
     newsId: number;
-    index?: number;
-    draggableId?: string;
+    sourceDroppableId?: string;
     removable?: boolean;
   }
 }
