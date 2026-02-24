@@ -13,8 +13,9 @@ import {
   NewsroomRoles,
   AppStore,
 } from '@Interfaces';
-import { EventActions, StackActions, NewsroomActions, TagActions } from '@Actions';
+import { EventActions, StackActions, NewsActions, NewsroomActions, TagActions } from '@Actions';
 import { getNewsroom, isNewsroomSocketConnected, getEvent } from '@Selectors';
+import * as RedstoneService from '@Services/API/Redstone';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
 
@@ -120,6 +121,28 @@ export class NewsroomSocket {
       })
     );
 
+    // Load agent status history (statuses only, not thinking — that's loaded on demand)
+    try {
+      const { statuses, running } = await RedstoneService.loadAgentHistory(this.eventId);
+      if (statuses.length > 0) {
+        // Replay in chronological order to rebuild agentRun state
+        const chronological = [...statuses].reverse();
+        for (const s of chronological) {
+          this.store.dispatch(
+            NewsroomActions.SetAgentStatus(-this.eventId, s.status, s.runId, s.createdAt)
+          );
+        }
+        // If the run is no longer active, mark it as completed
+        if (!running) {
+          this.store.dispatch(
+            NewsroomActions.SetAgentStatus(-this.eventId, null, statuses[0].runId)
+          );
+        }
+      }
+    } catch (err) {
+      // Non-critical — agent history loading failure doesn't block newsroom join
+    }
+
     let connectTimeout = 0;
     const connectAttemptResponse = () => {
       connectTimeout = setTimeout(() => {
@@ -156,6 +179,19 @@ export class NewsroomSocket {
       this.store.dispatch(NewsroomActions.SetNewsroomSocketStatus(this.eventId, 'disconnected'));
     });
 
+    this.socket.on('agent status', (res: { eventId: number; status: string | null; runId?: string; timestamp?: string }) => {
+      this.store.dispatch(NewsroomActions.SetAgentStatus(-this.eventId, res.status, res.runId, res.timestamp));
+    });
+
+    this.socket.on('agent thinking', (res: { eventId: number; runId: string; chunk: string; done: boolean }) => {
+      if (res.chunk) {
+        this.store.dispatch(NewsroomActions.AppendAgentThinking(-this.eventId, res.runId, res.chunk));
+      }
+      if (res.done) {
+        this.store.dispatch(NewsroomActions.FinishAgentThinking(-this.eventId, res.runId));
+      }
+    });
+
     this.socket.on('join newsroom', (res: Response) => {
       const clientId = res.clientId as number;
       this.store.dispatch(NewsroomActions.AddNewsroomClient(this.eventId, clientId));
@@ -178,11 +214,26 @@ export class NewsroomSocket {
 
     this.socket.on('add news to event', (res: Response) => {
       const esn = res.eventStackNews as EventStackNews;
+      if (res.news) {
+        const news = res.news as News;
+        news.id = -Math.abs(news.id);
+        this.store.dispatch(NewsActions.AddNews(news));
+      }
       this.store.dispatch(EventActions.AddNewsToEvent(-esn.eventId, -(esn.newsId as number)));
+      if (!esn.stackId) {
+        this.store.dispatch(
+          EventActions.AddNewsToEventOffshelfNewsList(-esn.eventId, -(esn.newsId as number))
+        );
+      }
     });
 
     this.socket.on('add news to stack', (res: Response) => {
       const esn = res.eventStackNews as EventStackNews;
+      if (res.news) {
+        const news = res.news as News;
+        news.id = -Math.abs(news.id);
+        this.store.dispatch(NewsActions.AddNews(news));
+      }
       this.store.dispatch(
         StackActions.AddNewsToStack(-(esn.stackId as number), -(esn.newsId as number))
       );
@@ -191,10 +242,15 @@ export class NewsroomSocket {
     this.socket.on('create stack', (res: Response) => {
       const stack = res.stack as Stack;
       stack.id = -Math.abs(stack.id);
+      stack.eventId = -Math.abs(stack.eventId || 0);
       this.store.dispatch(StackActions.AddStack(stack));
-      this.store.dispatch(
-        EventActions.AddStackToEventOffshelfStackList(-(stack.eventId || 0), stack.id)
-      );
+      if ((stack.order || 0) >= 0) {
+        this.store.dispatch(EventActions.AddStackToEvent(stack.eventId, stack.id));
+      } else {
+        this.store.dispatch(
+          EventActions.AddStackToEventOffshelfStackList(stack.eventId, stack.id)
+        );
+      }
     });
 
     this.socket.on('remove event from stack', (res: Response) => {

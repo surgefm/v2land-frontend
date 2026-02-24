@@ -2,7 +2,7 @@
 import React from 'react';
 
 import { useRouter } from 'next/router';
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { get } from '@Services/API/Http';
 import { Button, Space, Tooltip } from 'antd';
 import { TwitterOutlined } from '@ant-design/icons';

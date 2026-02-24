@@ -87,4 +87,26 @@ export const NewsroomActions = {
     status,
     type: ActionConsts.Newsroom.SetNewsroomSocketStatus,
   }),
+
+  SetAgentStatus: (eventId: number, agentStatus: string | null, runId?: string, timestamp?: string) => ({
+    eventId,
+    agentStatus,
+    runId,
+    timestamp,
+    type: ActionConsts.Newsroom.SetAgentStatus,
+  }),
+
+  AppendAgentThinking: (eventId: number, runId: string, chunk: string) => ({
+    eventId,
+    runId,
+    thinkingChunk: chunk,
+    type: ActionConsts.Newsroom.AppendAgentThinking,
+  }),
+
+  FinishAgentThinking: (eventId: number, runId: string) => ({
+    eventId,
+    runId,
+    thinkingDone: true,
+    type: ActionConsts.Newsroom.FinishAgentThinking,
+  }),
 };

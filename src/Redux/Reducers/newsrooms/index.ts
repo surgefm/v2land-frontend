@@ -19,6 +19,9 @@ import setNewsroomSocketStatus from './setNewsroomSocketStatus';
 import setPanelsOrder from './setPanelsOrder';
 import setStackNewsVisible from './setStackNewsVisible';
 import setActiveNewsroom from './setActiveNewsroom';
+import setAgentStatus from './setAgentStatus';
+import appendAgentThinking from './appendAgentThinking';
+import finishAgentThinking from './finishAgentThinking';
 
 export const getNewsroomInitialState = () =>
   ({
@@ -60,6 +63,12 @@ export const NewsroomReducer = (state = getNewsroomInitialState(), action: Newsr
       return setNewsroomSocketStatus(state, action);
     case ActionConsts.Newsroom.SetActiveNewsroom:
       return setActiveNewsroom(state, action);
+    case ActionConsts.Newsroom.SetAgentStatus:
+      return setAgentStatus(state, action);
+    case ActionConsts.Newsroom.AppendAgentThinking:
+      return appendAgentThinking(state, action);
+    case ActionConsts.Newsroom.FinishAgentThinking:
+      return finishAgentThinking(state, action);
     case ActionConsts.Stack.AddStack:
       return addStack(state, action);
     default:

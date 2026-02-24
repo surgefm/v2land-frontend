@@ -20,7 +20,11 @@ export const ChatroomButton: React.FC<ChatroomButtonProps> = ({
   let socket = getChatroomSocket(type, ids, store);
   const chatId = getChatId(type, ids);
   const [lastReadAt, setLastReadAt] = useState(new Date());
-  const [isOpen, setIsOpen] = useState(openByDefault);
+  const [isOpen, setIsOpen] = useState(() => {
+    if (openByDefault) return true;
+    if (typeof window === 'undefined') return false;
+    return localStorage.getItem(`chatroom:open:${chatId}`) === '1';
+  });
   const [numUnread, setNumUnread] = useState(0);
   const messages = useSelector(getChatroomMessages(chatId));
 
@@ -45,12 +49,14 @@ export const ChatroomButton: React.FC<ChatroomButtonProps> = ({
   const open = () => {
     setIsOpen(true);
     setNumUnread(0);
+    localStorage.setItem(`chatroom:open:${chatId}`, '1');
   };
 
   const close = () => {
     setIsOpen(false);
     setNumUnread(0);
     setLastReadAt(new Date());
+    localStorage.removeItem(`chatroom:open:${chatId}`);
   };
 
   return (

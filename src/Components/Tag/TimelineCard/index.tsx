@@ -32,6 +32,11 @@ const TimelineCardImpl: React.FunctionComponent<ITimelineCard.IProps> = ({ event
   const stackList = useSelector(getStackList((event && event.stackIdList) || []));
   const canEdit = useSelector(canCurrentClientEditTag(tagId));
   const [visible, setVisible] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     dispatch(EventActions.GetEvent(eventId));
@@ -80,7 +85,7 @@ const TimelineCardImpl: React.FunctionComponent<ITimelineCard.IProps> = ({ event
               )}
               />
               <div className={styles['latest-update']}>
-                {time && <p>{UtilService.getTimeLapseString(t, time, 'general')}</p>}
+                {time && mounted && <p>{UtilService.getTimeLapseString(t, time, 'general')}</p>}
               </div>
               <h2>{event.name}</h2>
             </div>

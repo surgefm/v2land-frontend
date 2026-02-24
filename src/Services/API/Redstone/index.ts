@@ -194,3 +194,25 @@ export const addCuration = async (tagId: number, eventId: number, state: string,
 
 export const subscribeEvent = async (eventId: number, subscriptionJSON: string) =>
   post(`/subscription/${eventId}/pwa`, { subscriptionJSON });
+
+export const loadAgentHistory = async (
+  eventId: number,
+  before?: Date
+): Promise<{ statuses: any[]; running: boolean }> => {
+  const params: any = { type: 'status' };
+  if (before) params.before = before.toISOString();
+  return get<{ statuses: any[]; running: boolean }>(
+    `/event/${eventId}/agent/history`,
+    params
+  );
+};
+
+export const loadAgentThinking = async (
+  eventId: number,
+  runId: string
+): Promise<{ statuses: any[]; running: boolean }> => {
+  return get<{ statuses: any[]; running: boolean }>(
+    `/event/${eventId}/agent/history`,
+    { type: 'thinking', runId }
+  );
+};

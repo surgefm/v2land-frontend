@@ -3,6 +3,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Skeleton, Tooltip, Typography } from 'antd';
 import { EllipsisOutlined } from '@ant-design/icons';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 import { ChatMessage } from '@Interfaces';
 import { UtilService } from '@Services';
@@ -24,7 +26,6 @@ export const ChatroomMessage = ({ message }: { message: ChatMessage }) => {
   if (!sameDay) {
     timeStr = ` ${UtilService.getTimeString(time, { withSpaceBetween: false })}${timeStr}`;
   }
-  timeStr = (<span style={{ color: 'rgba(0, 0, 0, 0.3)' }}>{timeStr}</span> as any) as string;
 
   const lastReadBy = (message.lastReadBy || []).filter(id => id !== loggedInClientId);
 
@@ -36,19 +37,21 @@ export const ChatroomMessage = ({ message }: { message: ChatMessage }) => {
       <div style={{ padding: '0 .5rem .5rem .5rem', display: 'block', width: 'calc(100% - 2rem)' }}>
         <span className="name">
           {client && (
-            <Typography.Text
-              ellipsis={{
-                suffix: timeStr,
-              }}
-            >
-              {client.nickname && <b>{client.nickname} </b>}@{client.username}
+            <Typography.Text ellipsis style={{ minWidth: 0 }}>
+              {client.nickname && <b key="nickname">{client.nickname} </b>}
+              {`@${client.username}`}
             </Typography.Text>
+          )}
+          {client && (
+            <span style={{ color: 'rgba(0, 0, 0, 0.3)', whiteSpace: 'nowrap', flexShrink: 0 }}>{timeStr}</span>
           )}
           {!client && (
             <Skeleton active title={false} paragraph={{ rows: 1 }} style={{ width: '4rem' }} />
           )}
         </span>
-        <span className="message-text">{message.text}</span>
+        <div className="message-text">
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.text}</ReactMarkdown>
+        </div>
         <div className="read-by" style={{ height: lastReadBy.length > 0 ? '16px' : '0' }}>
           {lastReadBy.slice(0, 4).map(clientId => (
             <div className="read-by-item" key={clientId}>
@@ -103,7 +106,83 @@ export const ChatroomMessage = ({ message }: { message: ChatMessage }) => {
 
           .message-text {
             white-space: normal;
-            display: inline;
+            display: block;
+            word-break: break-word;
+          }
+
+          .message-text :global(p) {
+            margin: 0 0 0.25rem 0;
+          }
+
+          .message-text :global(p:last-child) {
+            margin-bottom: 0;
+          }
+
+          .message-text :global(ul),
+          .message-text :global(ol) {
+            margin: 0.125rem 0;
+            padding-left: 1.25rem;
+          }
+
+          .message-text :global(li) {
+            margin-bottom: 0.125rem;
+          }
+
+          .message-text :global(a) {
+            color: #1890ff;
+            text-decoration: none;
+          }
+
+          .message-text :global(a:hover) {
+            text-decoration: underline;
+          }
+
+          .message-text :global(code) {
+            background-color: rgba(0, 0, 0, 0.05);
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+            font-size: 0.85em;
+          }
+
+          .message-text :global(pre) {
+            background-color: rgba(0, 0, 0, 0.04);
+            padding: 0.5rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 0.25rem 0;
+          }
+
+          .message-text :global(pre code) {
+            background-color: transparent;
+            padding: 0;
+          }
+
+          .message-text :global(h1),
+          .message-text :global(h2),
+          .message-text :global(h3),
+          .message-text :global(h4) {
+            font-size: 1em;
+            font-weight: bold;
+            margin: 0.25rem 0;
+          }
+
+          .message-text :global(blockquote) {
+            border-left: 3px solid #d9d9d9;
+            margin: 0.25rem 0;
+            padding-left: 0.5rem;
+            color: rgba(0, 0, 0, 0.65);
+          }
+
+          .message-text :global(table) {
+            border-collapse: collapse;
+            margin: 0.25rem 0;
+            font-size: 0.9em;
+          }
+
+          .message-text :global(th),
+          .message-text :global(td) {
+            border: 1px solid #d9d9d9;
+            padding: 0.2rem 0.4rem;
           }
 
           .read-by {

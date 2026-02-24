@@ -63,6 +63,11 @@ export interface NewsroomAction extends ReduxAction {
   locker?: number;
   role?: string;
   status?: NewsroomSocketStatus;
+  agentStatus?: string | null;
+  runId?: string;
+  timestamp?: string;
+  thinkingChunk?: string;
+  thinkingDone?: boolean;
 }
 
 export interface ChatroomAction extends ReduxAction {

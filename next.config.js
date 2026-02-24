@@ -10,15 +10,15 @@ let nextConfig = {
   images: {
     domains: ['cdn.surge.fm'],
   },
-  async redirects() {
-    return [
-      {
-        source: '/:username/:eventName/newsroom',
-        destination: '/:username/:eventName?launch_newsroom=1',
-        permanent: false,
-      },
-    ];
-  },
+  // async redirects() {
+  //   return [
+  //     {
+  //       source: '/:username/:eventName/newsroom',
+  //       destination: '/:username/:eventName?launch_newsroom=1',
+  //       permanent: false,
+  //     },
+  //   ];
+  // },
 };
 
 if (process.env.PWA === '1') {

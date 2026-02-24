@@ -1,5 +1,8 @@
 import React, { useRef, useEffect, useLayoutEffect } from 'react';
 import { dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
+
+const useIsomorphicLayoutEffect =
+  typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 import { useTranslation } from '@I18n';
 import {
   StackListDropData,
@@ -58,7 +61,7 @@ const NewsroomPanelStackListImpl: React.FunctionComponent<INewsroomPanelStackLis
   const prevOrderRef = useRef<number[]>([]);
 
   // useLayoutEffect fires before paint — compute deltas and start FLIP animation.
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (consumeLocalReorderFlag()) return;
 
     const prevRects = prevRectsRef.current;

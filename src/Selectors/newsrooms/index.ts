@@ -58,6 +58,18 @@ export const isNewsroomSocketConnected = (eventId?: number) =>
     newsroom => (newsroom ? newsroom.socketStatus === 'connected' : false)
   );
 
+export const getAgentStatus = (eventId?: number) =>
+  createSelector(
+    eventId ? getNewsroom(eventId) : getActiveNewsroom,
+    newsroom => (newsroom ? newsroom.agentStatus : null)
+  );
+
+export const getAgentRun = (eventId?: number) =>
+  createSelector(
+    eventId ? getNewsroom(eventId) : getActiveNewsroom,
+    newsroom => (newsroom ? newsroom.agentRun : null)
+  );
+
 export const getNewsroomClients = (eventId: number) =>
   createSelector(
     getNewsroom(eventId),

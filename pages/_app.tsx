@@ -14,10 +14,10 @@ import { ClientActions, AppActions } from '@Actions';
 import { Header, BasicHead } from '@Components';
 import { setCookies, clearCookies, RedstoneService, gtag } from '@Services';
 
-import 'antd/dist/antd.min.css';
+import 'antd/dist/reset.css';
 import '@Static/css/styles.scss';
 
-const SurgeApp: React.FC<AppProps> = ({ Component, router, ...rest }) => {
+const SurgeAppContent: React.FC<{ Component: any; router: AppProps['router']; pageProps: any }> = ({ Component, router, pageProps }) => {
   useEffect(() => {
     const handleRouteChange = (url: string) => {
       gtag.pageview(url);
@@ -30,25 +30,23 @@ const SurgeApp: React.FC<AppProps> = ({ Component, router, ...rest }) => {
     };
   }, [router.events]);
 
-  const { store, props } = storeWrapper.useWrappedStore(rest);
   const C = Component as any;
 
   return (
-    <Provider store={store}>
-      <ConfigProvider>
-        <BasicHead />
-        <Header />
-        <C {...props.pageProps} key={router.route} />
+    <ConfigProvider>
+      <BasicHead />
+      <Header />
+      <C {...pageProps} key={router.route} />
 
-        <Script
-          strategy="afterInteractive"
-          src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
-        />
-        <Script
-          id="gtag-init"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
+      <Script
+        strategy="afterInteractive"
+        src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
+      />
+      <Script
+        id="gtag-init"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
@@ -56,9 +54,18 @@ const SurgeApp: React.FC<AppProps> = ({ Component, router, ...rest }) => {
               page_path: window.location.pathname,
             });
           `,
-          }}
-        />
-      </ConfigProvider>
+        }}
+      />
+    </ConfigProvider>
+  );
+};
+
+const SurgeApp: React.FC<AppProps> = ({ Component, router, ...rest }) => {
+  const { store, props } = storeWrapper.useWrappedStore(rest);
+
+  return (
+    <Provider store={store}>
+      <SurgeAppContent Component={Component} router={router} pageProps={props.pageProps} />
     </Provider>
   );
 };

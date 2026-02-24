@@ -9,6 +9,8 @@ const defaultNewsroom = {
     viewers: [],
   },
   resourceLocks: {},
+  agentStatus: null as string | null,
+  agentRun: null as import('@Interfaces').AgentRunState | null,
 };
 
 const addNewsroom = (state: NewsroomsState, action: NewsroomAction) => {
