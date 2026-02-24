@@ -1,3 +1,3 @@
-import NextImage from 'next/image';
+import NextImage from "next/image";
 
 export const Image = NextImage;

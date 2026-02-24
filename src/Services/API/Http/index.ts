@@ -1,6 +1,5 @@
 // #region Global Imports
 import 'isomorphic-unfetch';
-import getConfig from 'next/config';
 import { stringify } from 'query-string';
 // #endregion Global Imports
 
@@ -8,11 +7,9 @@ import { stringify } from 'query-string';
 import { HttpModel } from '@Interfaces';
 // #endregion Interface Imports
 
-const { serverRuntimeConfig, publicRuntimeConfig } = getConfig();
-
 const BaseUrl = typeof window === 'undefined'
-  ? (serverRuntimeConfig?.API_URL_INTERNAL || publicRuntimeConfig.API_URL)
-  : publicRuntimeConfig.API_URL;
+  ? (process.env.API_URL_INTERNAL || process.env.NEXT_PUBLIC_API_URL)
+  : process.env.NEXT_PUBLIC_API_URL;
 const cookies = {
   cookie: '',
 };

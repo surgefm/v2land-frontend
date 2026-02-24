@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import getConfig from 'next/config';
+
 import { useSelector } from 'react-redux';
 import Link from 'next/link';
 import { Button, Divider, Space, message } from 'antd';
@@ -46,9 +46,8 @@ import styles from '@Static/css/common.module.scss';
 import { IEventPage, ReduxNextPageContext } from '@Interfaces';
 // #endregion Interface Imports
 
-const {
-  publicRuntimeConfig: { SITE_URL, SHORT_URL },
-} = getConfig();
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
+const SHORT_URL = process.env.NEXT_PUBLIC_SHORT_URL;
 
 const EventPage: NextPage<IEventPage.IProps, IEventPage.InitialProps> = ({ eventId }) => {
   const event = useSelector(getEvent(eventId));

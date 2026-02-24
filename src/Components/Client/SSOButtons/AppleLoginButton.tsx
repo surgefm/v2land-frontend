@@ -2,16 +2,15 @@
 /* eslint-disable react/require-default-props */
 import React, { useEffect, createRef } from 'react';
 import H from 'next/head';
-import getConfig from 'next/config';
+
 import { useRouter } from 'next/router';
 import { Button, Tooltip } from 'antd';
 import { AppleFilled } from '@ant-design/icons';
 
 import { get } from '@Services/API/Http';
 
-const {
-  publicRuntimeConfig: { SITE_URL, APPLE_CLIENT_ID },
-} = getConfig();
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
+const APPLE_CLIENT_ID = process.env.NEXT_PUBLIC_APPLE_CLIENT_ID;
 
 type AppleLoginButtonProps = {
   state?: string;

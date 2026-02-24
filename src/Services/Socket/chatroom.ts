@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
-import getConfig from 'next/config';
+
 import { Store, AnyAction } from 'redux';
 import { message as msg } from 'antd';
 
@@ -7,9 +7,7 @@ import { ChatMessage, ChatMember, AppStore } from '@Interfaces';
 import { ChatroomActions } from '@Actions';
 import { getChatId } from '@Services/Utils';
 
-const {
-  publicRuntimeConfig: { API_URL },
-} = getConfig();
+const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
 
 type ConnectionResponse = {
   messages: ChatMessage[];

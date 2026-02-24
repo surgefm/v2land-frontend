@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { NextPage } from 'next';
-import getConfig from 'next/config';
+
 import { Space, Input, Button, message } from 'antd';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
@@ -11,9 +11,7 @@ import { UtilService, RedstoneService } from '@Services';
 import { ReduxNextPageContext, ISettingsPage } from '@Interfaces';
 import { isLoggedIn as isLoggedInSelector } from '@Selectors';
 
-const {
-  publicRuntimeConfig: { SITE_URL },
-} = getConfig();
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
 
 const SettingsInvitePage: NextPage<ISettingsPage.IProps, ISettingsPage.InitialProps> = ({
   invites,

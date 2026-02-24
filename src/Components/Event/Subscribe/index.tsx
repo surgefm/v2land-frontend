@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Space, Modal, Spin, message } from 'antd';
 import { BellTwoTone, BellOutlined } from '@ant-design/icons';
-import getConfig from 'next/config';
+
 
 import { RedstoneService } from '@Services';
 import { IEventSubscribe } from './Subscribe';
 
-const {
-  publicRuntimeConfig: { VAPID_PUBLIC_KEY },
-} = getConfig();
+const VAPID_PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
 
 export const EventSubscribe: React.FunctionComponent<IEventSubscribe.IProps> = ({ eventId }) => {
   const getHasSubscribed = () =>

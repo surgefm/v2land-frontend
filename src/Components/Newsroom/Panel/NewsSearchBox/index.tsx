@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import getConfig from 'next/config';
+
 import algoliasearch from 'algoliasearch/lite';
 import { Input, AutoComplete, Typography, Button, Divider, Modal } from 'antd';
 import {
@@ -19,10 +19,8 @@ import { get } from '@Services/API/Http';
 import { NewsForm } from '@Components/News';
 import { getActiveNewsroomId } from '@Selectors';
 
-const {
-  publicRuntimeConfig: { ALGOLIA_ID, ALGOLIA_KEY },
-} = getConfig();
-
+const ALGOLIA_ID = process.env.NEXT_PUBLIC_ALGOLIA_ID;
+const ALGOLIA_KEY = process.env.NEXT_PUBLIC_ALGOLIA_KEY;
 const searchClient = ALGOLIA_ID && ALGOLIA_KEY ? algoliasearch(ALGOLIA_ID, ALGOLIA_KEY) : null;
 
 let searchTimer: number;

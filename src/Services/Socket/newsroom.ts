@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
-import getConfig from 'next/config';
+
 import { Store, AnyAction } from 'redux';
 import { message } from 'antd';
 
@@ -16,9 +16,7 @@ import {
 import { EventActions, StackActions, NewsroomActions, TagActions } from '@Actions';
 import { getNewsroom, isNewsroomSocketConnected, getEvent } from '@Selectors';
 
-const {
-  publicRuntimeConfig: { API_URL },
-} = getConfig();
+const API_URL = process.env.NEXT_PUBLIC_API_URL as string;
 
 type ResourceLock = {
   model: string;

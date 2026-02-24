@@ -11,13 +11,7 @@ export const HeaderLogo: React.FunctionComponent = () => {
         <style jsx>
           {`
             a {
-              padding: 0.45rem;
-              width: 2.75rem;
-              height: 2.75rem;
-              margin-right: 1.5rem;
-              border-radius: 50%;
-              transition: all 0.2s;
-              display: block;
+              display: none;
             }
 
             a:hover {

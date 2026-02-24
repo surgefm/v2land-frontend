@@ -1,7 +1,7 @@
 // #region Global Imports
 import * as React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import Image from "next/image";
 import { Space } from 'antd';
 // #endregion Global Imports
 
@@ -60,7 +60,15 @@ const FooterComp: React.FunctionComponent<IFooter.IProps> = (): JSX.Element => {
             rel="noreferrer"
             style={{ height: '20px', display: 'block' }}
           >
-            <Image src="/images/vercel-logotype-dark.svg" height={20} width={(4438 / 1000) * 20} />
+            <Image
+              src="/images/vercel-logotype-dark.svg"
+              alt="Vercel"
+              height={20}
+              width={(4438 / 1000) * 20}
+              style={{
+                maxWidth: "100%",
+                height: "auto"
+              }} />
           </a>
           <a
             href="https://www.digitalocean.com/community/pages/hollies-hub-for-good"
@@ -68,7 +76,15 @@ const FooterComp: React.FunctionComponent<IFooter.IProps> = (): JSX.Element => {
             rel="noreferrer"
             style={{ height: '24px', display: 'block' }}
           >
-            <Image src="/images/DO_Logo_icon_blue.svg" height={24} width={24} />
+            <Image
+              src="/images/DO_Logo_icon_blue.svg"
+              alt="DigitalOcean"
+              height={24}
+              width={24}
+              style={{
+                maxWidth: "100%",
+                height: "auto"
+              }} />
           </a>
         </Space>
       </div>

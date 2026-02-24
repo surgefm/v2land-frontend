@@ -1,17 +1,16 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import getConfig from 'next/config';
+
 import { useRouter } from 'next/router';
-import Image from 'next/image';
+import Image from "next/image";
 import { get } from '@Services/API/Http';
 import { Button, Space, Tooltip } from 'antd';
 import { TwitterOutlined } from '@ant-design/icons';
 import { TelegramLoginButton } from './TelegramLoginButton';
 import { AppleLoginButton } from './AppleLoginButton';
 
-const {
-  publicRuntimeConfig: { API_URL, SITE_URL },
-} = getConfig();
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
 
 export const SSOButtons = () => {
   const router = useRouter();
@@ -52,10 +51,14 @@ export const SSOButtons = () => {
               icon={(
                 <Image
                   src="/images/google.svg"
+                  alt="Google"
                   width={23}
                   height={(23 / 18) * 19}
-                  style={{ transform: 'translateY(1px)' }}
-                />
+                  style={{
+                    transform: 'translateY(1px)',
+                    maxWidth: "100%",
+                    height: "auto"
+                  }} />
             )}
               size="large"
               style={{
@@ -72,7 +75,15 @@ export const SSOButtons = () => {
             <Button
               type="primary"
               shape="circle"
-              icon={<Image src="/images/Sina_Weibo.svg" width={26} height={(26 / 724.7) * 587.1} />}
+              icon={<Image
+                src="/images/Sina_Weibo.svg"
+                alt="Weibo"
+                width={26}
+                height={(26 / 724.7) * 587.1}
+                style={{
+                  maxWidth: "100%",
+                  height: "auto"
+                }} />}
               size="large"
               style={{
               backgroundColor: '#fff',

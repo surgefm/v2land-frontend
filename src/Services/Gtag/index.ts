@@ -1,10 +1,4 @@
-import getConfig from 'next/config';
-
-const {
-  publicRuntimeConfig: { NEXT_PUBLIC_GA_ID },
-} = getConfig();
-
-export const GA_TRACKING_ID = NEXT_PUBLIC_GA_ID;
+export const GA_TRACKING_ID = process.env.NEXT_PUBLIC_GA_ID;
 
 // https://developers.google.com/analytics/devguides/collection/gtagjs/pages
 export const pageview = (url: string) => {

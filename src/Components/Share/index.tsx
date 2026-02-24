@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import getConfig from 'next/config';
+
 import { Space, Button, Popover, Tooltip, message as antMessage } from 'antd';
 import Icon, {
   WeiboOutlined,
@@ -22,9 +22,7 @@ import { gtag } from '@Services';
 
 import { IShare } from './Share';
 
-const {
-  publicRuntimeConfig: { SITE_URL },
-} = getConfig();
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL;
 
 const ShareImpl: React.FunctionComponent<IShare.IProps> = ({
   message: m,
