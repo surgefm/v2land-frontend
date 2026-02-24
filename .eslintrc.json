@@ -20,7 +20,18 @@
     "react/jsx-one-expression-per-line": "off",
     "prefer-destructuring": "off",
     "import/no-unresolved": "off",
-    "react/destructuring-assignment": "off"
+    "react/destructuring-assignment": "off",
+    "react/no-unknown-property": ["error", { "ignore": ["jsx", "global"] }],
+    "react/require-default-props": "off",
+    "react/jsx-first-prop-new-line": "off",
+    "react/jsx-max-props-per-line": "off",
+    "react/jsx-closing-bracket-location": "off",
+    "no-plusplus": "off",
+    "no-continue": "off",
+    "no-underscore-dangle": "off",
+    "import/newline-after-import": "off",
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "prettier/prettier": "off"
   },
   "settings": {
     "import/parsers": {
