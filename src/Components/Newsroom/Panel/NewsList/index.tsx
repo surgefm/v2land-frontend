@@ -1,14 +1,12 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
-import { TFunction } from 'next-i18next';
-
 import { useTranslation } from '@I18n';
 import { NewsListDropData } from '@Services/NewsroomDndControl/types';
 
 import { NewsroomPanelNewsCard } from '../NewsCard';
 import { INewsroomPanelNewsList } from './NewsList';
 
-const showPlaceholder = (newsIdList: number[], t: TFunction) => {
+const showPlaceholder = (newsIdList: number[], t: (key: string) => string) => {
   const show = newsIdList.length === 0;
 
   return (

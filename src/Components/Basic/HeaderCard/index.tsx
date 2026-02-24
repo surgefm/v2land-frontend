@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const HeaderCard: React.FC = ({ children }) => {
+export const HeaderCard: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   return (
     <div className="header-card">
       {children}

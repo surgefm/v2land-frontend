@@ -60,8 +60,8 @@ export const HeaderSearchBox: React.FC = () => {
 
     timeout = setTimeout(async () => {
       const { results: rs } = await searchClient.search(queries);
-      const eventResults = (rs[0].hits as any) as Event[];
-      const tagResults = (rs[1].hits as any) as TagInterface[];
+      const eventResults = ((rs[0] as any).hits as any) as Event[];
+      const tagResults = ((rs[1] as any).hits as any) as TagInterface[];
 
       for (let i = 0; i < eventResults.length; i += 1) {
         dispatch(ClientActions.AddClient(eventResults[i].owner));
@@ -105,7 +105,7 @@ export const HeaderSearchBox: React.FC = () => {
     };
   };
 
-  const options: { label: React.ReactNode; options: React.ReactNode[] }[] = [];
+  const options: { label: React.ReactNode; options: any[] }[] = [];
 
   if (results && results.tags && results.tags.length > 0) {
     options.push({

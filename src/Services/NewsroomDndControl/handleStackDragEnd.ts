@@ -4,6 +4,15 @@ import { EventActions } from '@Actions';
 import { getEventOffshelfStackIdList, getEventStackIdList } from '@Selectors';
 import { StackDragData } from './types';
 
+// Module-level flag so StackList can skip FLIP animation for local reorders.
+// Set to true before dispatching, consumed & reset by the FLIP hook.
+let _isLocalReorder = false;
+export function consumeLocalReorderFlag(): boolean {
+  const val = _isLocalReorder;
+  _isLocalReorder = false;
+  return val;
+}
+
 export async function handleStackDrop(
   sourceData: StackDragData,
   destDroppableId: string,
@@ -12,6 +21,8 @@ export async function handleStackDrop(
   store: AppStore,
   socket: NewsroomSocket
 ) {
+  _isLocalReorder = true;
+
   const id = -Math.abs(eventId);
   const stackId = -Math.abs(sourceData.stackId);
 

@@ -1,17 +1,16 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useLayoutEffect } from 'react';
 import { dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
-import { TFunction } from 'next-i18next';
-
 import { useTranslation } from '@I18n';
 import {
   StackListDropData,
   getDestinationIndex,
 } from '@Services/NewsroomDndControl/types';
+import { consumeLocalReorderFlag } from '@Services/NewsroomDndControl/handleStackDragEnd';
 
 import { NewsroomPanelStackCard } from '../StackCard';
 import { INewsroomPanelStackList } from './StackList';
 
-const showPlaceholder = (stackIdList: number[], t: TFunction) => {
+const showPlaceholder = (stackIdList: number[], t: (key: string) => string) => {
   if (stackIdList.length > 0) return <div />;
   return (
     <div>
@@ -45,25 +44,93 @@ const NewsroomPanelStackListImpl: React.FunctionComponent<INewsroomPanelStackLis
   const { t } = useTranslation('common');
   const dark = droppableId !== 'newsroom-stack-panel';
   const ref = useRef<HTMLDivElement>(null);
-  const [isDraggedOver, setIsDraggedOver] = useState(false);
 
-  // Gap indicator state managed via refs + direct DOM manipulation to avoid
-  // React re-render delays that cause flicker feedback loops.
+  // Indicator state managed via refs + direct DOM manipulation.
+  // No layout shifts — indicators are always full height, just change visibility.
   const activeSlotRef = useRef<number | null>(null);
-  const gapRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const lastValidSlotRef = useRef<number | null>(null);
+  const indicatorRefs = useRef<(HTMLDivElement | null)[]>([]);
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
-  // Snapshot of card midpoints captured at drag start (before any gaps open).
-  // Using stable positions prevents feedback loops from layout shifts.
   const cardMidpointsRef = useRef<number[]>([]);
 
-  function setActiveGap(slot: number | null) {
+  // FLIP animation: snapshot card positions and order for animating remote reorders.
+  const prevRectsRef = useRef<Map<number, DOMRect>>(new Map());
+  const prevOrderRef = useRef<number[]>([]);
+
+  // useLayoutEffect fires before paint — compute deltas and start FLIP animation.
+  useLayoutEffect(() => {
+    if (consumeLocalReorderFlag()) return;
+
+    const prevRects = prevRectsRef.current;
+    if (prevRects.size === 0) return;
+
+    const prevOrder = prevOrderRef.current;
+    const movedIds = new Set<number>();
+    if (prevOrder.length > 0) {
+      const prevIndexMap = new Map<number, number>();
+      prevOrder.forEach((id, i) => prevIndexMap.set(id, i));
+      stackIdList.forEach((id, newIdx) => {
+        const oldIdx = prevIndexMap.get(id);
+        if (oldIdx !== undefined && oldIdx !== newIdx) {
+          movedIds.add(id);
+        }
+      });
+    }
+
+    stackIdList.forEach((stackId, idx) => {
+      if (!movedIds.has(stackId)) return;
+      const el = cardRefs.current[idx];
+      if (!el) return;
+      const prevRect = prevRects.get(stackId);
+      if (!prevRect) return;
+      const newRect = el.getBoundingClientRect();
+      const deltaY = prevRect.top - newRect.top;
+      if (Math.abs(deltaY) < 1) return;
+
+      el.style.transform = `translateY(${deltaY}px) scale(1.03)`;
+      el.style.boxShadow = '0 8px 24px rgba(0,0,0,0.15)';
+      el.style.zIndex = '10';
+      el.style.transition = 'none';
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          el.style.transition =
+            'transform 0.35s cubic-bezier(0.2,0,0,1), box-shadow 0.35s ease';
+          el.style.transform = 'none';
+          el.style.boxShadow = 'none';
+          const cleanup = () => {
+            el.style.zIndex = '';
+            el.style.transition = '';
+            el.removeEventListener('transitionend', cleanup);
+          };
+          el.addEventListener('transitionend', cleanup);
+        });
+      });
+    });
+  }, [stackIdList]);
+
+  // useEffect fires after paint — snapshot positions and order for the *next* reorder.
+  useEffect(() => {
+    const rects = new Map<number, DOMRect>();
+    stackIdList.forEach((stackId, idx) => {
+      const el = cardRefs.current[idx];
+      if (el) rects.set(stackId, el.getBoundingClientRect());
+    });
+    prevRectsRef.current = rects;
+    prevOrderRef.current = [...stackIdList];
+  }, [stackIdList]);
+
+  const indicatorColor = dark ? 'rgb(37, 116, 169)' : '#fff';
+
+  function setActiveIndicator(slot: number | null) {
     const prev = activeSlotRef.current;
     if (prev === slot) return;
-    if (prev !== null && gapRefs.current[prev]) {
-      gapRefs.current[prev]!.style.height = '0';
+    if (prev !== null && indicatorRefs.current[prev]) {
+      indicatorRefs.current[prev]!.style.backgroundColor = '';
     }
-    if (slot !== null && gapRefs.current[slot]) {
-      gapRefs.current[slot]!.style.height = '4rem';
+    if (slot !== null && indicatorRefs.current[slot]) {
+      indicatorRefs.current[slot]!.style.backgroundColor = indicatorColor;
+      lastValidSlotRef.current = slot;
     }
     activeSlotRef.current = slot;
   }
@@ -76,8 +143,6 @@ const NewsroomPanelStackListImpl: React.FunctionComponent<INewsroomPanelStackLis
     });
   }
 
-  // Compute which slot the cursor falls in using the snapshotted midpoints.
-  // Returns slot 0..N where slot i means "before card i" and slot N means "after last card".
   function computeSlotFromCursor(
     clientY: number,
     sourceData: Record<string | symbol, unknown>
@@ -85,8 +150,7 @@ const NewsroomPanelStackListImpl: React.FunctionComponent<INewsroomPanelStackLis
     const midpoints = cardMidpointsRef.current;
     if (midpoints.length === 0) return null;
 
-    // Find the slot: cursor above midpoint[0] → slot 0, between midpoint[i-1] and midpoint[i] → slot i, etc.
-    let slot = midpoints.length; // default: after last card
+    let slot = midpoints.length;
     for (let i = 0; i < midpoints.length; i++) {
       if (clientY < midpoints[i]) {
         slot = i;
@@ -94,12 +158,9 @@ const NewsroomPanelStackListImpl: React.FunctionComponent<INewsroomPanelStackLis
       }
     }
 
-    // Self-hover suppression: if dragging within the same list, don't show indicator
-    // when the card would end up at its original position.
+    // No-op suppression: don't show indicator if card would stay at its position.
     if (sourceData.sourceDroppableId === droppableId) {
       const srcIndex = sourceData.index as number;
-      // Compute the edge equivalent for getDestinationIndex:
-      // slot i with edge 'top' on card i, or slot i with edge 'bottom' on card i-1
       let targetIndex: number;
       let edge: 'top' | 'bottom';
       if (slot < midpoints.length) {
@@ -114,15 +175,13 @@ const NewsroomPanelStackListImpl: React.FunctionComponent<INewsroomPanelStackLis
       }
     }
 
-    // Self-stackId suppression: if cursor is on the dragged card itself, no indicator.
+    // Self-stackId suppression
     const sourceStackId = sourceData.stackId as number;
-    // Find which card the cursor is directly over
     for (let i = 0; i < cardRefs.current.length; i++) {
       const el = cardRefs.current[i];
       if (!el) continue;
       const rect = el.getBoundingClientRect();
       if (clientY >= rect.top && clientY <= rect.bottom) {
-        // Cursor is over card i — check if it's the dragged card
         if (stackIdList[i] !== undefined && Math.abs(stackIdList[i]) === sourceStackId) {
           return null;
         }
@@ -143,55 +202,57 @@ const NewsroomPanelStackListImpl: React.FunctionComponent<INewsroomPanelStackLis
       getData: (): StackListDropData => ({
         type: 'stack-list',
         droppableId,
+        activeSlot: activeSlotRef.current ?? lastValidSlotRef.current,
       }),
-      onDragEnter: ({ source }) => {
-        if (source.data.sourceDroppableId !== droppableId) {
-          setIsDraggedOver(true);
-        }
-        // Snapshot card positions on first entry (before any gap opens).
+      onDragEnter: () => {
         if (cardMidpointsRef.current.length === 0) {
           snapshotCardMidpoints();
         }
       },
       onDrag: ({ source, location }) => {
-        // Snapshot on first drag if not yet captured (e.g. dragging within same list).
         if (cardMidpointsRef.current.length === 0) {
           snapshotCardMidpoints();
         }
         const clientY = location.current.input.clientY;
         const slot = computeSlotFromCursor(clientY, source.data);
-        setActiveGap(slot);
+        setActiveIndicator(slot);
       },
       onDragLeave: () => {
-        setIsDraggedOver(false);
-        setActiveGap(null);
+        setActiveIndicator(null);
+        lastValidSlotRef.current = null;
         cardMidpointsRef.current = [];
       },
       onDrop: () => {
-        setIsDraggedOver(false);
-        setActiveGap(null);
+        setActiveIndicator(null);
+        lastValidSlotRef.current = null;
         cardMidpointsRef.current = [];
       },
     });
   }, [droppableId, stackIdList]);
 
-  // Render a gap div for each slot. Always in the DOM, height controlled imperatively via style.height.
-  const gap = (slot: number) => (
-    <div className="gap" ref={el => { gapRefs.current[slot] = el; }} key={`gap-${slot}`}>
-      <div className="gap-inner" />
+  // Indicator bar: zero height in flow so it doesn't affect spacing.
+  // The visible bar is the inner span, centered over the gap via transform.
+  const indicator = (slot: number) => (
+    <div className="indicator" key={`ind-${slot}`}>
+      <span
+        ref={el => { indicatorRefs.current[slot] = el; }}
+      />
       <style jsx>
         {`
-          .gap {
+          .indicator {
             height: 0;
-            overflow: hidden;
-            transition: height 0.15s ease-out;
+            position: relative;
+            z-index: 1;
             pointer-events: none;
           }
-          .gap-inner {
-            height: 4rem;
-            border-radius: 0.25rem;
-            border: 2px dashed rgb(37, 116, 169);
-            background-color: rgba(37, 116, 169, 0.06);
+          span {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 3px;
+            height: 2px;
+            border-radius: 1px;
+            transition: background-color 0.12s ease;
           }
         `}
       </style>
@@ -199,10 +260,10 @@ const NewsroomPanelStackListImpl: React.FunctionComponent<INewsroomPanelStackLis
   );
 
   return (
-    <div ref={ref} className={isDraggedOver ? 'drag-over' : ''}>
+    <div ref={ref}>
       {stackIdList.map((stackId, idx) => (
         <React.Fragment key={`stack-${stackId}`}>
-          {gap(idx)}
+          {indicator(idx)}
           <NewsroomPanelStackCard
             stackId={stackId}
             dark={dark}
@@ -212,12 +273,7 @@ const NewsroomPanelStackListImpl: React.FunctionComponent<INewsroomPanelStackLis
           />
         </React.Fragment>
       ))}
-      {gap(stackIdList.length)}
-      {isDraggedOver && (
-        <div className="drop-indicator">
-          <span>{t('Newsroom_StackList_DropHere')}</span>
-        </div>
-      )}
+      {indicator(stackIdList.length)}
       {showPlaceholder(stackIdList, t)}
       <style jsx>
         {`
@@ -227,29 +283,6 @@ const NewsroomPanelStackListImpl: React.FunctionComponent<INewsroomPanelStackLis
             min-height: 4rem;
             overflow-y: scroll;
             max-height: calc(100vh - 6rem);
-            transition: background-color 0.2s;
-          }
-
-          .drag-over {
-            background-color: rgba(0, 0, 0, 0.03);
-          }
-
-          .drop-indicator {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 4rem;
-            margin-top: 0.5rem;
-            border-radius: 0.25rem;
-            border: 2px dashed #bbb;
-            background-color: rgba(0, 0, 0, 0.03);
-          }
-
-          .drop-indicator > span {
-            color: #666;
-            font-size: 13px;
-            font-weight: 500;
-            user-select: none;
           }
 
           div::-webkit-scrollbar {

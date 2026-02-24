@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const Background: React.FunctionComponent = ({ children }) => (
+export const Background: React.FunctionComponent<{ children?: React.ReactNode }> = ({ children }) => (
   <div className="background">
     {children}
     <style jsx>

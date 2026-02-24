@@ -1,8 +1,6 @@
 import { Rule } from 'rc-field-form/lib/interface';
 
 import { RedstoneService } from '@Services';
-import { TFunction } from 'next-i18next';
-
 type RulesProps = {
   username?: string;
 };
@@ -21,7 +19,7 @@ const unavailableUsernameSet: Set<string> = new Set<string>([
   'signup',
 ]);
 
-export const Rules = (t: TFunction, { username }: RulesProps = {}) => {
+export const Rules = (t: (key: string) => string, { username }: RulesProps = {}) => {
   return {
     username: [
       { required: true, message: t('Registration_Username_empty') },

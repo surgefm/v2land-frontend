@@ -31,6 +31,7 @@ export interface StackListDropData {
   [key: string | symbol]: unknown;
   type: 'stack-list';
   droppableId: string;
+  activeSlot?: number | null;
 }
 
 export interface StackItemDropData {

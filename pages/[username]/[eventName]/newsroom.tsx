@@ -147,28 +147,39 @@ const EventNewsroomPage: NextPage<IEventNewsroomPage.IProps, IEventNewsroomPage.
         if (isNewsDragData(sourceData) && isNewsListDropData(destData)) {
           handleNewsDrop(sourceData, destData, eventId, store, socket);
         } else if (isStackDragData(sourceData)) {
-          // Find the innermost drop target that is a stack-item (for edge detection)
-          const stackItemTarget = location.current.dropTargets.find(target =>
-            isStackItemDropData(target.data)
-          );
-
-          // Find the stack-list drop target for the destination droppableId
+          // Find the stack-list drop target for the destination droppableId and activeSlot
           const stackListTarget = location.current.dropTargets.find(target =>
             isStackListDropData(target.data)
           );
 
           if (!stackListTarget || !isStackListDropData(stackListTarget.data)) return;
           const destDroppableId = stackListTarget.data.droppableId;
+          const activeSlot = stackListTarget.data.activeSlot;
 
           let destIndex: number;
-          if (stackItemTarget && isStackItemDropData(stackItemTarget.data)) {
-            const edge = extractClosestEdge(stackItemTarget.data);
-            destIndex = edge
-              ? getDestinationIndex(stackItemTarget.data.index, edge, sourceData.index)
-              : stackItemTarget.data.index;
+          if (activeSlot != null) {
+            // activeSlot is the visual gap position (slot i = before card i).
+            // Convert to insertion index in the filtered list (after source removal).
+            const srcIndex = sourceData.index;
+            const isSameList = sourceData.sourceDroppableId === destDroppableId;
+            if (isSameList && srcIndex < activeSlot) {
+              destIndex = activeSlot - 1;
+            } else {
+              destIndex = activeSlot;
+            }
           } else {
-            // Dropped on empty list or directly on the list container
-            destIndex = 0;
+            // Fallback: use edge detection from stack-item target
+            const stackItemTarget = location.current.dropTargets.find(target =>
+              isStackItemDropData(target.data)
+            );
+            if (stackItemTarget && isStackItemDropData(stackItemTarget.data)) {
+              const edge = extractClosestEdge(stackItemTarget.data);
+              destIndex = edge
+                ? getDestinationIndex(stackItemTarget.data.index, edge, sourceData.index)
+                : stackItemTarget.data.index;
+            } else {
+              destIndex = 0;
+            }
           }
 
           handleStackDrop(sourceData, destDroppableId, destIndex, eventId, store, socket);

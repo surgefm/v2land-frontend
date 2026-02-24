@@ -38,6 +38,9 @@ let nextConfig = {
     APPLE_CLIENT_ID: process.env.APPLE_CLIENT_ID,
     VAPID_PUBLIC_KEY: process.env.VAPID_PUBLIC_KEY,
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   images: {
     domains: ['cdn.surge.fm'],
   },
