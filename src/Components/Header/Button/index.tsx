@@ -111,7 +111,7 @@ export const HeaderButton: React.FunctionComponent<IHeaderButton.IProps> = ({
   if (!href) return content;
   if (href[0] === '/')
     return (
-      <Link href={href} as={as}>
+      <Link href={href} as={as} legacyBehavior>
         {content}
       </Link>
     );
