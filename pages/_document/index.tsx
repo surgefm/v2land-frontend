@@ -2,11 +2,13 @@
 import * as React from 'react';
 import Document, { Html, Head, Main, NextScript, DocumentContext } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
+import { createCache, extractStyle, StyleProvider } from '@ant-design/cssinjs';
 // #endregion Global Imports
 
 class WebAppDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
     const sheet = new ServerStyleSheet();
+    const antdCache = createCache();
     const originalRenderPage = ctx.renderPage;
 
     try {
@@ -14,17 +16,23 @@ class WebAppDocument extends Document {
         originalRenderPage({
           enhanceApp: App => props => {
             const A = App as any;
-            return sheet.collectStyles(<A {...props} />);
+            return sheet.collectStyles(
+              <StyleProvider cache={antdCache}>
+                <A {...props} />
+              </StyleProvider>
+            );
           },
         });
 
       const initialProps = await Document.getInitialProps(ctx);
+      const antdStyle = extractStyle(antdCache, true);
       return {
         ...initialProps,
         styles: (
           <>
             {initialProps.styles}
             {sheet.getStyleElement()}
+            <style dangerouslySetInnerHTML={{ __html: antdStyle }} />
           </>
         ),
       };

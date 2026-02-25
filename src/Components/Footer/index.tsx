@@ -31,7 +31,7 @@ const FooterComp: React.FunctionComponent<IFooter.IProps> = (): JSX.Element => {
           <Link href="/about" className="link">
             {t('Footer_About')}
           </Link>
-          <span>·</span>
+          <span> ·</span>
           <a href="https://github.com/surgefm" target="_blank" rel="noopener noreferrer">
             {t('Footer_Participate')}
           </a>
@@ -133,7 +133,7 @@ const FooterComp: React.FunctionComponent<IFooter.IProps> = (): JSX.Element => {
           }
 
           .link,
-          a {
+          .footer :global(a) {
             color: #586069 !important;
             background-color: transparent !important;
             box-shadow: none !important;

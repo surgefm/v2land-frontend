@@ -4,6 +4,9 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const withPWA = require('next-pwa');
 
 let nextConfig = {
+  compiler: {
+    styledComponents: true,
+  },
   eslint: {
     ignoreDuringBuilds: true,
   },

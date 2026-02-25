@@ -14,7 +14,7 @@ import { ClientActions, AppActions } from '@Actions';
 import { Header, BasicHead } from '@Components';
 import { setCookies, clearCookies, RedstoneService, gtag } from '@Services';
 
-import 'antd/dist/reset.css';
+import '@Static/css/antd.scss';
 import '@Static/css/styles.scss';
 
 const SurgeAppContent: React.FC<{ Component: any; router: AppProps['router']; pageProps: any }> = ({ Component, router, pageProps }) => {
