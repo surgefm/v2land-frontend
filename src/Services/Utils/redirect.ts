@@ -58,10 +58,21 @@ function serverSideRedirect(
   res.end();
 }
 
+function isExternalUrl(path: string): boolean {
+  return /^https?:\/\//.test(path);
+}
+
 function clientSideRedirect(asPath: string | UrlObject, options: RedirectOptions = {}) {
   if (typeof window === 'undefined') return;
   const path =
     typeof asPath === 'object' ? (((asPath as any).asPath || asPath.pathname) as string) : asPath;
+
+  // External URLs (e.g. OAuth authorize redirect) use window.location
+  if (isExternalUrl(path)) {
+    window.location.href = path;
+    return;
+  }
+
   if (options.replace) {
     Router.replace(getUrlFromAsPath(path, options), path, { shallow: options.shallow });
   } else {

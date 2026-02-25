@@ -216,3 +216,19 @@ export const loadAgentThinking = async (
     { type: 'thinking', runId }
   );
 };
+
+export const getMcpTokenStatus = async () => {
+  return get<{ hasCredentials: boolean; clientId?: number; createdAt?: string }>(
+    '/client/mcp-token'
+  );
+};
+
+export const createMcpToken = async () => {
+  return post<{ message: string; clientId: number; clientSecret: string }>(
+    '/client/mcp-token'
+  );
+};
+
+export const revokeMcpToken = async () => {
+  return del<{ message: string; revokedCount: number }>('/client/mcp-token');
+};

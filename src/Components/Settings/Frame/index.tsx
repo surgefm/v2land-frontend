@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Layout, Menu, MenuProps } from 'antd';
-import { MailOutlined, UserOutlined } from '@ant-design/icons';
+import { ApiOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
 
 const { Content, Sider } = Layout;
 
@@ -28,6 +28,7 @@ export const SettingsFrame = ({ children }: { children: React.ReactNode }) => {
   const menuItems: MenuProps['items'] = [
     getItem('个人资料', '/settings', <UserOutlined />),
     getItem('邀请链接', '/settings/invite', <MailOutlined />),
+    getItem('MCP 密钥', '/settings/mcp-token', <ApiOutlined />),
   ];
 
   const router = useRouter();
