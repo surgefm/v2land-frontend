@@ -94,7 +94,8 @@ img[src=""], img:not([src]) {
 .focused-search-box-input {
   position: absolute;
   left: 0;
-  width: calc(100% - 1rem);
+  width: calc(100% - 1rem) !important;
+  max-width: 100% !important;
   background-color: #fff;
   display: flex;
   justify-content: center;
@@ -111,7 +112,7 @@ img[src=""], img:not([src]) {
   width: calc(100% - 1rem) !important;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 800px) {
   .large {
     display: none;
   }
