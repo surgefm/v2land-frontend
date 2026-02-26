@@ -132,6 +132,12 @@ img[src=""], img:not([src]) {
   left: -100000rem;
 }
 
+@media (min-width: 600px) {
+  .search-wrapper .mini {
+    display: none;
+  }
+}
+
 @media (max-width: 600px) {
   .big {
     display: none !important;
