@@ -156,6 +156,6 @@ img[src=""], img:not([src]) {
   }
 
   .header-search-box-input {
-    position: absolute;
+    position: absolute !important;
   }
 }
