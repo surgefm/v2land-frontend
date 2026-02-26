@@ -154,4 +154,8 @@ img[src=""], img:not([src]) {
     width: calc(100% - 2rem) !important;
     min-width: 0 !important;
   }
+
+  .header-search-box-input {
+    position: absolute;
+  }
 }
