@@ -134,7 +134,7 @@ img[src=""], img:not([src]) {
 
 @media (max-width: 600px) {
   .big {
-    display: none;
+    display: none !important;
   }
 
   .mini {
