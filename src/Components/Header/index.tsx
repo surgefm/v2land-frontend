@@ -72,53 +72,53 @@ export const Header: React.FC = (): JSX.Element => {
       <div className="container">
         <div className="center">
           <div className="left" style={{ paddingRight: 4 + rightWidth }} ref={leftRef}>
-            {!isInNewsroom && <HeaderLogo />}
-            <Space size={4}>
-              {isInNewsroom ? (
-                <>
-                  <NewsroomHeaderBreadcrumb />
-                  <span className="large">
-                    <NewsroomHeaderClientAvatars />
-                  </span>
-                  <NewsroomHeaderSocketStatus />
-                </>
-              ) : (
-                <>
-                  <span className="large">
-                    <HeaderButton href="/" Icon={HomeOutlined}>
-                      {t('Header_Homepage')}
-                    </HeaderButton>
-                  </span>
-                  <span className="small">
-                    <HeaderButton href="/" Icon={LogoIcon}>
-                      {t('Header_Homepage')}
-                    </HeaderButton>
-                  </span>
-                  <HeaderButton
-                    href="/topic"
-                    Icon={() => (
-                      <NumberOutlined
-                        style={{
-                          transform: 'skewX(-10deg)',
-                          fontSize: 20,
-                          position: 'relative',
-                          top: 2,
-                          marginRight: 8
-                        }}
-                      />
-                    )}
-                  >
-                    话题
+            {!isInNewsroom && <span className="large"><HeaderLogo /></span>}
+            {isInNewsroom ? (
+              <Space size={4}>
+                <NewsroomHeaderBreadcrumb />
+                <span className="large">
+                  <NewsroomHeaderClientAvatars />
+                </span>
+                <NewsroomHeaderSocketStatus />
+              </Space>
+            ) : (
+              <div className="nav-items">
+                <span className="large">
+                  <HeaderButton href="/" Icon={HomeOutlined}>
+                    {t('Header_Homepage')}
                   </HeaderButton>
-                  <HeaderButton href="/wiki" Icon={QuestionCircleOutlined}>
-                    指南
+                </span>
+                <span className="small">
+                  <HeaderButton href="/" Icon={LogoIcon}>
+                    {t('Header_Homepage')}
                   </HeaderButton>
-                  {showSearchBox && (
-                    <HeaderSearchBox />
+                </span>
+                <HeaderButton
+                  href="/topic"
+                  Icon={() => (
+                    <NumberOutlined
+                      style={{
+                        transform: 'skewX(-10deg)',
+                        fontSize: 20,
+                        position: 'relative',
+                        top: 2,
+                        marginRight: 8
+                      }}
+                    />
                   )}
-                </>
-              )}
-            </Space>
+                >
+                  话题
+                </HeaderButton>
+                <HeaderButton href="/wiki" Icon={QuestionCircleOutlined}>
+                  指南
+                </HeaderButton>
+                {showSearchBox && (
+                  <div className="search-wrapper">
+                    <HeaderSearchBox />
+                  </div>
+                )}
+              </div>
+            )}
           </div>
           <div className="right" ref={rightRef}>
             {isInTagPage && <HeaderTagManage />}
@@ -196,14 +196,25 @@ export const Header: React.FC = (): JSX.Element => {
           }
 
           .left {
+            flex: 1;
+            min-width: 0;
             padding-left: 2rem;
             padding-right: 6rem;
-            overflow-x: scroll;
-            scroll-behavior: smooth;
+            overflow: hidden;
           }
 
-          .left::-webkit-scrollbar {
-            display: none;
+          .nav-items {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex: 1;
+            min-width: 0;
+          }
+
+          .search-wrapper {
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
           }
 
           .right {

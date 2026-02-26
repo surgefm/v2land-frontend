@@ -166,6 +166,7 @@ export const HeaderSearchBox: React.FC = () => {
         dropdownClassName="header-search-box"
         allowClear
         backfill={false}
+        style={{ width: '100%' }}
         className={`header-search-box-input ${focused ? 'focused-search-box-input' : 'big'}`}
         notFoundContent={results === undefined ? undefined : <Empty description="未找到相关内容" />}
         {...({ listHeight: '100%' } as {})}
@@ -177,7 +178,6 @@ export const HeaderSearchBox: React.FC = () => {
           onBlur={() => setFocused(false)}
           style={{
             borderRadius: '10000rem',
-            minWidth: '4.6rem',
           }}
         />
       </AutoComplete>
