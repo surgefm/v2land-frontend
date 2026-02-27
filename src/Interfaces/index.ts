@@ -6,6 +6,7 @@ export * from '@Interfaces/Pages/Client';
 export * from '@Interfaces/Pages/Error';
 export * from '@Interfaces/Pages/Event';
 export * from '@Interfaces/Pages/EventNewsroom';
+export * from '@Interfaces/Pages/EventReview';
 export * from '@Interfaces/Pages/Home';
 export * from '@Interfaces/Pages/Login';
 export * from '@Interfaces/Pages/Register';

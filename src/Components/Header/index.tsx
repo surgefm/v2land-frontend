@@ -13,6 +13,7 @@ import {
   NewsroomHeaderClientAvatars,
   NewsroomHeaderCommitButton,
   NewsroomHeaderEnterButton,
+  NewsroomHeaderReviewButton,
   NewsroomHeaderSocketStatus,
 } from '@Components/Newsroom';
 import { EventCreateButton } from '@Components/Event';
@@ -35,6 +36,8 @@ export const Header: React.FC = (): JSX.Element => {
   const canView = useSelector(canCurrentClientViewEvent(eventId));
 
   const isInNewsroom = router.route === '/[username]/[eventName]/newsroom';
+  const isInReview = router.route === '/[username]/[eventName]/review';
+  const isInNewsroomContext = isInNewsroom || isInReview;
   const isInTagPage = router.route === '/topic/[tagId]';
   const isInTagListPage = router.route === '/topic';
   const isInWikiPage = router.route === '/wiki';
@@ -72,8 +75,8 @@ export const Header: React.FC = (): JSX.Element => {
       <div className="container">
         <div className="center">
           <div className="left" style={{ paddingRight: 4 + rightWidth }} ref={leftRef}>
-            {!isInNewsroom && <span className="large"><HeaderLogo /></span>}
-            {isInNewsroom ? (
+            {!isInNewsroomContext && <span className="large"><HeaderLogo /></span>}
+            {isInNewsroomContext ? (
               <Space size={4}>
                 <NewsroomHeaderBreadcrumb />
                 <span className="large">
@@ -131,8 +134,9 @@ export const Header: React.FC = (): JSX.Element => {
                 <EventCreateButton />
               </div>
             )}
-            {!isInNewsroom || (
+            {!isInNewsroomContext || (
               <div className="large">
+                <NewsroomHeaderReviewButton />
                 <NewsroomHeaderCommitButton />
               </div>
             )}
@@ -150,7 +154,7 @@ export const Header: React.FC = (): JSX.Element => {
         </div>
       )}
 
-      {!isInNewsroom || (
+      {!isInNewsroomContext || (
         <div className="small fab">
           <NewsroomHeaderCommitButton />
         </div>
