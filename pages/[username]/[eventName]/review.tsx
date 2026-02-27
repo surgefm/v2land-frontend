@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 
 import { EventHead } from '@Components';
-import { ComparisonView } from '@Components/Comparison';
+import { ComparisonView, ConfirmCommitButton } from '@Components/Comparison';
 import {
   getEvent,
   getEventOwner,
@@ -47,6 +47,9 @@ const EventReviewPage: NextPage<IEventReviewPage.IProps, IEventReviewPage.Initia
         targetEventId={-absEventId}
         baseLabel="Committed"
         targetLabel="Draft"
+        renderFooter={(diffResult) => (
+          <ConfirmCommitButton eventId={eventId} diffResult={diffResult} />
+        )}
       />
     </>
   );

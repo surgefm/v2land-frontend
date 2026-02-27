@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 
-import { useDiffData } from './hooks/useDiffData';
+import { useDiffData, DiffResult } from './hooks/useDiffData';
 import { useCardPositions } from './hooks/useCardPositions';
 import { DiffSummary } from './DiffSummary';
 import { EventDetailDiff } from './EventDetailDiff';
@@ -14,6 +14,7 @@ interface IProps {
   targetLabel?: string;
   baseAccentColor?: string;
   targetAccentColor?: string;
+  renderFooter?: (diffResult: DiffResult) => React.ReactNode;
 }
 
 export const ComparisonView: React.FC<IProps> = ({
@@ -23,6 +24,7 @@ export const ComparisonView: React.FC<IProps> = ({
   targetLabel = 'Draft',
   baseAccentColor = 'rgb(37, 116, 169)',
   targetAccentColor = '#52c41a',
+  renderFooter,
 }) => {
   const diffResult = useDiffData(baseEventId, targetEventId);
   const basePositions = useCardPositions();
@@ -88,6 +90,8 @@ export const ComparisonView: React.FC<IProps> = ({
           accentColor={targetAccentColor}
         />
       </div>
+
+      {renderFooter && renderFooter(diffResult)}
 
       <style jsx>
         {`
