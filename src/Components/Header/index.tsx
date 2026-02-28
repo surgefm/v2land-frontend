@@ -23,9 +23,11 @@ import { HeaderUserInfo } from './UserInfo';
 import { HeaderTagManage } from './TagManage';
 import { HeaderSearchBox } from './SearchBox';
 
-export const Header: React.FC = (): JSX.Element => {
+export const Header: React.FC = (): JSX.Element | null => {
   const { t } = useTranslation('common');
   const router = useRouter();
+
+  if (router.query.noHeader !== undefined) return null;
   const leftRef: LegacyRef<HTMLDivElement> = createRef();
   const rightRef: LegacyRef<HTMLDivElement> = createRef();
   const eventId = useSelector(
