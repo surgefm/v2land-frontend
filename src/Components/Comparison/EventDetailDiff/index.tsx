@@ -20,11 +20,11 @@ const FieldDiff: React.FC<{ label: string; oldValue: string; newValue: string }>
   newValue,
 }) => (
   <div className="field-diff">
-    <span className="label">{label}:</span>
+    <span className="label">{label}：</span>
     <div className="values">
-      <span className="old-value">{oldValue || '(empty)'}</span>
+      <span className="old-value">{oldValue || '（空）'}</span>
       <span className="arrow">&rarr;</span>
-      <span className="new-value">{newValue || '(empty)'}</span>
+      <span className="new-value">{newValue || '（空）'}</span>
     </div>
     <style jsx>
       {`
@@ -41,7 +41,7 @@ const FieldDiff: React.FC<{ label: string; oldValue: string; newValue: string }>
           font-weight: 600;
           margin-right: 0.5rem;
           display: inline-block;
-          min-width: 6rem;
+          min-width: 4rem;
         }
 
         .values {
@@ -81,17 +81,17 @@ export const EventDetailDiff: React.FC<IProps> = ({
   return (
     <div className="event-detail-diff">
       <Collapse ghost>
-        <Panel header="Event detail changes" key="1">
+        <Panel header="事件信息变更" key="1">
           {diff.nameChanged && (
             <FieldDiff
-              label="Name"
+              label="名称"
               oldValue={baseEvent.name}
               newValue={targetEvent.name}
             />
           )}
           {diff.descriptionChanged && (
             <FieldDiff
-              label="Description"
+              label="描述"
               oldValue={baseEvent.description}
               newValue={targetEvent.description}
             />

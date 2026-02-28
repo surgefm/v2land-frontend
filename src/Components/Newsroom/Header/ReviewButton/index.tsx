@@ -2,7 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { Button } from 'antd';
-import { DiffOutlined } from '@ant-design/icons';
+import { FormOutlined } from '@ant-design/icons';
 
 import { getActiveNewsroomId, canCurrentClientEditEvent } from '@Selectors';
 
@@ -21,13 +21,15 @@ const NewsroomHeaderReviewButtonImpl: React.FC = () => {
   return (
     <div className="button">
       <Button
+        type="primary"
         size="large"
         shape="round"
-        icon={<DiffOutlined />}
+        icon={<FormOutlined />}
         disabled={!canEdit}
         onClick={navigateToReview}
+        className="fab-btn"
       >
-        Review
+        审阅并提交
       </Button>
       <style jsx>
         {`

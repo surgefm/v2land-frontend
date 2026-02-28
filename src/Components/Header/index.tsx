@@ -11,7 +11,6 @@ import { LogoIcon } from '@Components/Basic';
 import {
   NewsroomHeaderBreadcrumb,
   NewsroomHeaderClientAvatars,
-  NewsroomHeaderCommitButton,
   NewsroomHeaderEnterButton,
   NewsroomHeaderReviewButton,
   NewsroomHeaderSocketStatus,
@@ -137,7 +136,6 @@ export const Header: React.FC = (): JSX.Element => {
             {!isInNewsroomContext || (
               <div className="large">
                 <NewsroomHeaderReviewButton />
-                <NewsroomHeaderCommitButton />
               </div>
             )}
           </div>
@@ -156,7 +154,7 @@ export const Header: React.FC = (): JSX.Element => {
 
       {!isInNewsroomContext || (
         <div className="small fab">
-          <NewsroomHeaderCommitButton />
+          <NewsroomHeaderReviewButton />
         </div>
       )}
 

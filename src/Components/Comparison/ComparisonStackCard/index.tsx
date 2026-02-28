@@ -62,9 +62,9 @@ export const ComparisonStackCard: React.FC<IProps> = ({
 
   const statusLabel =
     status === 'added'
-      ? 'NEW'
+      ? '新增'
       : status === 'removed'
-      ? 'REMOVED'
+      ? '已删除'
       : undefined;
 
   return (

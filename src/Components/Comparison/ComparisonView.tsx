@@ -20,8 +20,8 @@ interface IProps {
 export const ComparisonView: React.FC<IProps> = ({
   baseEventId,
   targetEventId,
-  baseLabel = 'Committed',
-  targetLabel = 'Draft',
+  baseLabel = '已提交',
+  targetLabel = '草稿',
   baseAccentColor = 'rgb(37, 116, 169)',
   targetAccentColor = '#52c41a',
   renderFooter,
@@ -50,8 +50,8 @@ export const ComparisonView: React.FC<IProps> = ({
     <div className="comparison-root">
       <DiffSummary
         diffResult={diffResult}
-        baseLabel={baseLabel.toLowerCase()}
-        targetLabel={targetLabel.toLowerCase()}
+        baseLabel={baseLabel}
+        targetLabel={targetLabel}
       />
 
       <EventDetailDiff
@@ -74,12 +74,7 @@ export const ComparisonView: React.FC<IProps> = ({
           accentColor={baseAccentColor}
         />
 
-        <ConnectingWires
-          basePositions={basePositions.positions}
-          targetPositions={targetPositions.positions}
-          stackDiffs={diffResult.stackDiffs}
-          containerRef={containerRef}
-        />
+        <div className="wires-gap" />
 
         <ComparisonColumn
           title={targetLabel}
@@ -88,6 +83,13 @@ export const ComparisonView: React.FC<IProps> = ({
           order={diffResult.targetOrder}
           registerCard={targetPositions.registerCard}
           accentColor={targetAccentColor}
+        />
+
+        <ConnectingWires
+          basePositions={basePositions.positions}
+          targetPositions={targetPositions.positions}
+          stackDiffs={diffResult.stackDiffs}
+          containerRef={containerRef}
         />
       </div>
 
@@ -111,6 +113,12 @@ export const ComparisonView: React.FC<IProps> = ({
             max-height: calc(100vh - 14rem);
           }
 
+          .wires-gap {
+            width: 6rem;
+            min-width: 6rem;
+            flex-shrink: 0;
+          }
+
           @media (max-width: 768px) {
             .comparison-root {
               padding: 5rem 0.75rem 1rem 0.75rem;
@@ -120,6 +128,10 @@ export const ComparisonView: React.FC<IProps> = ({
               flex-direction: column;
               max-height: none;
               overflow-y: visible;
+            }
+
+            .wires-gap {
+              display: none;
             }
           }
         `}

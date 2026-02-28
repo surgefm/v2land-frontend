@@ -41,12 +41,12 @@ const EventReviewPage: NextPage<IEventReviewPage.IProps, IEventReviewPage.Initia
 
   return (
     <>
-      <EventHead eventId={eventId} title="Review Changes" />
+      <EventHead eventId={eventId} title="审阅变更" />
       <ComparisonView
         baseEventId={absEventId}
         targetEventId={-absEventId}
-        baseLabel="Committed"
-        targetLabel="Draft"
+        baseLabel="已提交"
+        targetLabel="草稿"
         renderFooter={(diffResult) => (
           <ConfirmCommitButton eventId={eventId} diffResult={diffResult} />
         )}

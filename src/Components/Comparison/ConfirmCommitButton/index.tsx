@@ -58,7 +58,7 @@ export const ConfirmCommitButton: React.FC<IProps> = ({ eventId, diffResult }) =
           shape="round"
           onClick={goBack}
         >
-          Back to Newsroom
+          返回编辑室
         </Button>
         <Button
           type="primary"
@@ -68,9 +68,8 @@ export const ConfirmCommitButton: React.FC<IProps> = ({ eventId, diffResult }) =
           loading={isLoading}
           disabled={!canEdit || !isConnected || !diffResult.hasChanges}
           onClick={makeCommit}
-          danger={false}
         >
-          Confirm Commit
+          确认提交
         </Button>
       </div>
 

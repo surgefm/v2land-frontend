@@ -15,8 +15,8 @@ interface IProps {
 
 export const DiffSummary: React.FC<IProps> = ({
   diffResult,
-  baseLabel = 'committed version',
-  targetLabel = 'draft',
+  baseLabel = '已提交版本',
+  targetLabel = '草稿',
 }) => {
   if (!diffResult.hasChanges) {
     return (
@@ -25,7 +25,7 @@ export const DiffSummary: React.FC<IProps> = ({
           type="success"
           icon={<CheckCircleOutlined />}
           showIcon
-          message={`No changes detected. The ${targetLabel} is identical to the ${baseLabel}.`}
+          message={`未检测到变更。${targetLabel}与${baseLabel}完全一致。`}
         />
         <style jsx>
           {`
@@ -43,15 +43,15 @@ export const DiffSummary: React.FC<IProps> = ({
   const modified = diffResult.stackDiffs.filter(d => d.status === 'modified').length;
 
   const parts: string[] = [];
-  if (added > 0) parts.push(`${added} stack${added > 1 ? 's' : ''} added`);
-  if (removed > 0) parts.push(`${removed} stack${removed > 1 ? 's' : ''} removed`);
-  if (modified > 0) parts.push(`${modified} stack${modified > 1 ? 's' : ''} modified`);
+  if (added > 0) parts.push(`新增 ${added} 个进展`);
+  if (removed > 0) parts.push(`删除 ${removed} 个进展`);
+  if (modified > 0) parts.push(`修改 ${modified} 个进展`);
 
   const eventChanges: string[] = [];
-  if (diffResult.eventDiff.nameChanged) eventChanges.push('name');
-  if (diffResult.eventDiff.descriptionChanged) eventChanges.push('description');
+  if (diffResult.eventDiff.nameChanged) eventChanges.push('名称');
+  if (diffResult.eventDiff.descriptionChanged) eventChanges.push('描述');
   if (eventChanges.length > 0) {
-    parts.push(`event ${eventChanges.join(' and ')} changed`);
+    parts.push(`事件${eventChanges.join('和')}已变更`);
   }
 
   return (
@@ -60,7 +60,7 @@ export const DiffSummary: React.FC<IProps> = ({
         type="info"
         icon={<InfoCircleOutlined />}
         showIcon
-        message={parts.join(' \u00b7 ')}
+        message={parts.join(' · ')}
       />
       <style jsx>
         {`
