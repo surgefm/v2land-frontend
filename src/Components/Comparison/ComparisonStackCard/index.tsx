@@ -108,6 +108,19 @@ export const ComparisonStackCard: React.FC<IProps> = ({
           {statusLabel && (
             <div className="status-label">{statusLabel}</div>
           )}
+
+          {status === 'modified' && (
+            <div className="diff-summary">
+              {[
+                titleChanged && '标题',
+                descriptionChanged && '描述',
+                timeChanged && '时间',
+                newsAdded.length > 0 && `${newsAdded.length} 条新闻新增`,
+                newsRemoved.length > 0 && `${newsRemoved.length} 条新闻删除`,
+              ].filter(Boolean).join(' · ')}
+              {'  已修改'}
+            </div>
+          )}
         </div>
       </Card>
 
@@ -116,26 +129,16 @@ export const ComparisonStackCard: React.FC<IProps> = ({
           .comparison-card-wrapper {
             position: relative;
             border-radius: 0.5rem;
-            outline: 1.5px solid rgba(0, 0, 0, 0.08);
             transition: all 0.3s;
           }
 
           .comparison-card-wrapper.added {
-            outline-color: rgba(82, 196, 26, 0.45);
+            outline: 1.5px solid rgba(82, 196, 26, 0.45);
           }
 
           .comparison-card-wrapper.removed {
-            outline-color: rgba(255, 77, 79, 0.4);
-            outline-style: dashed;
+            outline: 1.5px dashed rgba(255, 77, 79, 0.4);
             opacity: 0.8;
-          }
-
-          .comparison-card-wrapper.modified {
-            outline-color: rgba(250, 140, 22, 0.45);
-          }
-
-          .comparison-card-wrapper.unchanged {
-            outline-color: rgba(0, 0, 0, 0.08);
           }
 
           .title {
@@ -201,6 +204,14 @@ export const ComparisonStackCard: React.FC<IProps> = ({
 
           .removed .status-label {
             color: #ff4d4f;
+          }
+
+          .diff-summary {
+            font-size: 0.75rem;
+            color: #fa8c16;
+            margin-top: 0.5rem;
+            padding: 0.25rem 0;
+            opacity: 0.85;
           }
         `}
       </style>
