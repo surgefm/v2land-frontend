@@ -260,14 +260,23 @@ export const ComparisonColumn: React.FC<IProps> = ({
               flex: 1;
               min-height: 0;
               border-radius: 0;
+              flex-direction: row;
+              overflow: visible;
             }
 
             .column-header {
-              position: sticky;
-              left: 0;
-              top: auto;
-              padding: 0.5rem 0.75rem;
+              position: static;
+              writing-mode: vertical-rl;
+              padding: 0.5rem 0.25rem;
               flex-shrink: 0;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
+
+            .column-header h3 {
+              font-size: 0.8rem;
+              letter-spacing: 0.15em;
             }
 
             .column-body {
@@ -278,6 +287,7 @@ export const ComparisonColumn: React.FC<IProps> = ({
               padding: 0.5rem;
               gap: 0.5rem;
               flex: 1;
+              min-width: 0;
               min-height: 0;
               -webkit-overflow-scrolling: touch;
               align-items: stretch;
