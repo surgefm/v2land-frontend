@@ -113,7 +113,7 @@ export const ComparisonColumn: React.FC<IProps> = ({
 
             if (expanded) {
               return (
-                <div key={`group-${idx}`}>
+                <React.Fragment key={`group-${idx}`}>
                   <div className="unchanged-toggle" onClick={() => toggleGroup(idx)}>
                     <span>收起 {entry.count} 个无变化的进展</span>
                   </div>
@@ -130,7 +130,7 @@ export const ComparisonColumn: React.FC<IProps> = ({
                       />
                     );
                   })}
-                </div>
+                </React.Fragment>
               );
             }
 
