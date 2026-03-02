@@ -5,6 +5,7 @@ export interface CardPosition {
   top: number;
   bottom: number;
   midY: number;
+  midX: number;
 }
 
 export function useCardPositions() {
@@ -31,6 +32,7 @@ export function useCardPositions() {
         top: rect.top,
         bottom: rect.bottom,
         midY: rect.top + rect.height / 2,
+        midX: rect.left + rect.width / 2,
       });
     });
     setPositions(newPositions);

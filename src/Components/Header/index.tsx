@@ -83,7 +83,7 @@ export const Header: React.FC = (): JSX.Element | null => {
                 <span className="large">
                   <NewsroomHeaderClientAvatars />
                 </span>
-                <NewsroomHeaderSocketStatus />
+                {isInNewsroom && <NewsroomHeaderSocketStatus />}
               </Space>
             ) : (
               <div className="nav-items">

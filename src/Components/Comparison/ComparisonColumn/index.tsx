@@ -10,6 +10,7 @@ interface IProps {
   order: number[];
   registerCard: (absStackId: number, el: HTMLDivElement | null) => void;
   accentColor?: string;
+  onBodyScroll?: () => void;
 }
 
 interface DisplayItem {
@@ -34,6 +35,7 @@ export const ComparisonColumn: React.FC<IProps> = ({
   order,
   registerCard,
   accentColor = side === 'base' ? 'rgb(37, 116, 169)' : '#52c41a',
+  onBodyScroll,
 }) => {
   const [expandedGroups, setExpandedGroups] = useState<Set<number>>(new Set());
 
@@ -104,7 +106,7 @@ export const ComparisonColumn: React.FC<IProps> = ({
       <div className="column-header" style={{ backgroundColor: accentColor }}>
         <h3>{title}</h3>
       </div>
-      <div className="column-body">
+      <div className="column-body" onScroll={onBodyScroll}>
         {entries.map((entry, idx) => {
           if (entry.type === 'unchanged-group') {
             const expanded = expandedGroups.has(idx);
@@ -261,7 +263,7 @@ export const ComparisonColumn: React.FC<IProps> = ({
               min-height: 0;
               border-radius: 0;
               flex-direction: row;
-              overflow: visible;
+              overflow: hidden;
             }
 
             .column-header {
@@ -311,10 +313,15 @@ export const ComparisonColumn: React.FC<IProps> = ({
             .unchanged-summary {
               margin-bottom: 0;
               white-space: nowrap;
-              flex-direction: column;
+              flex-direction: row;
               width: auto;
-              min-width: 8rem;
-              max-width: 8rem;
+              min-width: auto;
+              max-width: none;
+            }
+
+            .unchanged-toggle {
+              margin-bottom: 0;
+              white-space: nowrap;
             }
           }
         `}

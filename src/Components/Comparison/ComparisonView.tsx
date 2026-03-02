@@ -46,6 +46,13 @@ export const ComparisonView: React.FC<IProps> = ({
     });
   };
 
+  const handleColumnScroll = () => {
+    requestAnimationFrame(() => {
+      basePositions.measureAll();
+      targetPositions.measureAll();
+    });
+  };
+
   return (
     <div className="comparison-root">
       <DiffSummary
@@ -72,6 +79,7 @@ export const ComparisonView: React.FC<IProps> = ({
           order={diffResult.baseOrder}
           registerCard={basePositions.registerCard}
           accentColor={baseAccentColor}
+          onBodyScroll={handleColumnScroll}
         />
 
         <div className="wires-gap" />
@@ -83,6 +91,7 @@ export const ComparisonView: React.FC<IProps> = ({
           order={diffResult.targetOrder}
           registerCard={targetPositions.registerCard}
           accentColor={targetAccentColor}
+          onBodyScroll={handleColumnScroll}
         />
 
         <ConnectingWires
@@ -137,7 +146,10 @@ export const ComparisonView: React.FC<IProps> = ({
             }
 
             .wires-gap {
-              display: none;
+              width: auto;
+              min-width: 0;
+              height: 1.5rem;
+              flex-shrink: 0;
             }
           }
         `}

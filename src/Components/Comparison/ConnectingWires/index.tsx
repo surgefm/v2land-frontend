@@ -27,6 +27,8 @@ export const ConnectingWires: React.FC<IProps> = ({
     const scrollTop = container.scrollTop;
     setContainerHeight(container.scrollHeight);
 
+    const isMobile = window.innerWidth <= 768;
+
     const matchedDiffs = stackDiffs.filter(
       d => d.baseStackId !== null && d.targetStackId !== null
     );
@@ -37,18 +39,36 @@ export const ConnectingWires: React.FC<IProps> = ({
         const targetPos = targetPositions.get(diff.absStackId);
         if (!basePos || !targetPos) return null;
 
-        // Convert viewport coordinates to container-relative coordinates
-        const y1 = basePos.midY - containerRect.top + scrollTop;
-        const y2 = targetPos.midY - containerRect.top + scrollTop;
-
-        // x: draw from ~47% to ~53% of container width (the gap between columns)
-        const x1 = containerRect.width * 0.44;
-        const x2 = containerRect.width * 0.56;
-        const cpOffset = (x2 - x1) * 0.6;
-
         const color = diff.status === 'modified' ? '#fa8c16' : '#d9d9d9';
         const dashArray = diff.status === 'unchanged' ? '6,4' : 'none';
         const strokeWidth = diff.status === 'modified' ? 2.5 : 1.5;
+
+        if (isMobile) {
+          const x1 = basePos.midX - containerRect.left;
+          const x2 = targetPos.midX - containerRect.left;
+          const y1 = basePos.bottom - containerRect.top + scrollTop;
+          const y2 = targetPos.top - containerRect.top + scrollTop;
+          const cpOffset = Math.abs(y2 - y1) * 0.4;
+
+          return (
+            <path
+              key={diff.absStackId}
+              d={`M ${x1} ${y1} C ${x1} ${y1 + cpOffset}, ${x2} ${y2 - cpOffset}, ${x2} ${y2}`}
+              stroke={color}
+              strokeWidth={strokeWidth}
+              fill="none"
+              strokeDasharray={dashArray}
+              opacity={0.6}
+            />
+          );
+        }
+
+        // Desktop: horizontal curves
+        const y1 = basePos.midY - containerRect.top + scrollTop;
+        const y2 = targetPos.midY - containerRect.top + scrollTop;
+        const x1 = containerRect.width * 0.44;
+        const x2 = containerRect.width * 0.56;
+        const cpOffset = (x2 - x1) * 0.6;
 
         return (
           <path
@@ -86,30 +106,18 @@ export const ConnectingWires: React.FC<IProps> = ({
   }, [containerRef, computePaths]);
 
   return (
-    <>
-      <svg
-        className="connecting-wires"
-        width="100%"
-        height={containerHeight || '100%'}
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          pointerEvents: 'none',
-          zIndex: 5,
-        }}
-      >
-        {svgContent}
-      </svg>
-      <style jsx>
-        {`
-          @media (max-width: 768px) {
-            .connecting-wires {
-              display: none;
-            }
-          }
-        `}
-      </style>
-    </>
+    <svg
+      width="100%"
+      height={containerHeight || '100%'}
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        pointerEvents: 'none',
+        zIndex: 5,
+      }}
+    >
+      {svgContent}
+    </svg>
   );
 };

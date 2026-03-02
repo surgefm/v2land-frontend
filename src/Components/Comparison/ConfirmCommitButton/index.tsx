@@ -6,10 +6,7 @@ import { CheckOutlined } from '@ant-design/icons';
 
 import { useTranslation } from '@I18n';
 import { getNewsroomSocket, NewsroomSocket } from '@Services';
-import {
-  canCurrentClientEditEvent,
-  isNewsroomSocketConnected,
-} from '@Selectors';
+import { canCurrentClientEditEvent } from '@Selectors';
 
 import { DiffResult } from '../hooks/useDiffData';
 
@@ -24,7 +21,6 @@ export const ConfirmCommitButton: React.FC<IProps> = ({ eventId, diffResult }) =
   const store = useStore();
   const [isLoading, setLoading] = useState(false);
   const canEdit = useSelector(canCurrentClientEditEvent());
-  const isConnected = useSelector(isNewsroomSocketConnected(eventId));
 
   const makeCommit = async () => {
     setLoading(true);
@@ -66,7 +62,7 @@ export const ConfirmCommitButton: React.FC<IProps> = ({ eventId, diffResult }) =
           shape="round"
           icon={<CheckOutlined />}
           loading={isLoading}
-          disabled={!canEdit || !isConnected || !diffResult.hasChanges}
+          disabled={!canEdit || !diffResult.hasChanges}
           onClick={makeCommit}
         >
           确认提交
