@@ -1,10 +1,13 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 
+import { getStack } from '@Selectors';
+import { IStore } from '@Interfaces';
 import { useDiffData, DiffResult } from './hooks/useDiffData';
 import { useCardPositions } from './hooks/useCardPositions';
 import { DiffSummary } from './DiffSummary';
 import { EventDetailDiff } from './EventDetailDiff';
-import { ComparisonColumn } from './ComparisonColumn';
+import { ComparisonColumn, BaseTextMap } from './ComparisonColumn';
 import { ConnectingWires } from './ConnectingWires';
 
 interface IProps {
@@ -30,6 +33,25 @@ export const ComparisonView: React.FC<IProps> = ({
   const basePositions = useCardPositions();
   const targetPositions = useCardPositions();
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Build base text map for inline diffs on the target side
+  const modifiedAbsIds = useMemo(
+    () => diffResult.stackDiffs
+      .filter(d => d.status === 'modified' && d.baseStackId !== null)
+      .map(d => ({ absId: d.absStackId, baseStackId: d.baseStackId! })),
+    [diffResult.stackDiffs]
+  );
+
+  const baseTexts = useSelector((state: IStore) => {
+    const map: BaseTextMap = {};
+    for (const { absId, baseStackId } of modifiedAbsIds) {
+      const stack = getStack(baseStackId)(state);
+      if (stack) {
+        map[absId] = { title: stack.title || '', description: stack.description || '' };
+      }
+    }
+    return map;
+  });
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -92,6 +114,7 @@ export const ComparisonView: React.FC<IProps> = ({
           registerCard={targetPositions.registerCard}
           accentColor={targetAccentColor}
           onBodyScroll={handleColumnScroll}
+          baseTexts={baseTexts}
         />
 
         <ConnectingWires

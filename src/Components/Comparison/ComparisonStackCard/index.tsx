@@ -5,6 +5,7 @@ import { getStack, getStackNewsIdList, getStackTime } from '@Selectors';
 import { Card, Time } from '@Components/Basic';
 
 import { ComparisonNewsItem } from '../ComparisonNewsItem';
+import { InlineDiff } from '../InlineDiff';
 import { ChangeStatus } from '../hooks/useDiffData';
 
 interface IProps {
@@ -15,6 +16,8 @@ interface IProps {
   titleChanged?: boolean;
   descriptionChanged?: boolean;
   timeChanged?: boolean;
+  baseTitle?: string;
+  baseDescription?: string;
   cardRef?: (el: HTMLDivElement | null) => void;
 }
 
@@ -26,6 +29,8 @@ export const ComparisonStackCard: React.FC<IProps> = ({
   titleChanged = false,
   descriptionChanged = false,
   timeChanged = false,
+  baseTitle,
+  baseDescription,
   cardRef,
 }) => {
   const stack = useSelector(getStack(stackId));
@@ -81,14 +86,24 @@ export const ComparisonStackCard: React.FC<IProps> = ({
                   <Time time={time} />
                 </span>
               )}
-              <h2 className={titleChanged ? 'field-changed' : ''}>{stack.title}</h2>
+              <h2 className={titleChanged && !baseTitle ? 'field-changed' : ''}>
+                {titleChanged && baseTitle !== undefined ? (
+                  <InlineDiff oldText={baseTitle} newText={stack.title || ''} />
+                ) : (
+                  stack.title
+                )}
+              </h2>
             </div>
           </div>
 
-          {stack.description && (
+          {(stack.description || (descriptionChanged && baseDescription)) && (
             <div className="content-area">
-              <p className={descriptionChanged ? 'field-changed' : ''}>
-                {stack.description}
+              <p className={descriptionChanged && baseDescription === undefined ? 'field-changed' : ''}>
+                {descriptionChanged && baseDescription !== undefined ? (
+                  <InlineDiff oldText={baseDescription} newText={stack.description || ''} />
+                ) : (
+                  stack.description
+                )}
               </p>
             </div>
           )}
@@ -212,6 +227,45 @@ export const ComparisonStackCard: React.FC<IProps> = ({
             margin-top: 0.5rem;
             padding: 0.25rem 0;
             opacity: 0.85;
+          }
+
+          @media (max-width: 768px) {
+            .comparison-card-wrapper {
+              margin-bottom: 0;
+            }
+
+            .order {
+              font-size: 1.75rem;
+              line-height: 1.75rem;
+              margin-top: 0.5rem;
+              margin-right: 0.35rem;
+            }
+
+            .title {
+              padding-top: 0.5rem;
+            }
+
+            h2 {
+              font-size: 0.95rem;
+              line-height: 1.4;
+              display: -webkit-box;
+              -webkit-line-clamp: 3;
+              -webkit-box-orient: vertical;
+              overflow: hidden;
+            }
+
+            .content-area p {
+              font-size: 0.8rem;
+              line-height: 1.5;
+              display: -webkit-box;
+              -webkit-line-clamp: 2;
+              -webkit-box-orient: vertical;
+              overflow: hidden;
+            }
+
+            .news-list {
+              margin-top: 0.25rem;
+            }
           }
         `}
       </style>

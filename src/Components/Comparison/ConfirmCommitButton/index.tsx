@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { useSelector, useStore } from 'react-redux';
+import { useStore } from 'react-redux';
 import { Button, message } from 'antd';
 import { CheckOutlined } from '@ant-design/icons';
 
 import { useTranslation } from '@I18n';
 import { getNewsroomSocket, NewsroomSocket } from '@Services';
-import { canCurrentClientEditEvent } from '@Selectors';
 
 import { DiffResult } from '../hooks/useDiffData';
 
@@ -20,7 +19,6 @@ export const ConfirmCommitButton: React.FC<IProps> = ({ eventId, diffResult }) =
   const router = useRouter();
   const store = useStore();
   const [isLoading, setLoading] = useState(false);
-  const canEdit = useSelector(canCurrentClientEditEvent());
 
   const makeCommit = async () => {
     setLoading(true);
@@ -62,7 +60,7 @@ export const ConfirmCommitButton: React.FC<IProps> = ({ eventId, diffResult }) =
           shape="round"
           icon={<CheckOutlined />}
           loading={isLoading}
-          disabled={!canEdit || !diffResult.hasChanges}
+          disabled={!diffResult.hasChanges}
           onClick={makeCommit}
         >
           确认提交

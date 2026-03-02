@@ -3,6 +3,10 @@ import React, { useState } from 'react';
 import { ComparisonStackCard } from '../ComparisonStackCard';
 import { StackDiff } from '../hooks/useDiffData';
 
+export interface BaseTextMap {
+  [absStackId: number]: { title: string; description: string };
+}
+
 interface IProps {
   title: string;
   side: 'base' | 'target';
@@ -11,6 +15,7 @@ interface IProps {
   registerCard: (absStackId: number, el: HTMLDivElement | null) => void;
   accentColor?: string;
   onBodyScroll?: () => void;
+  baseTexts?: BaseTextMap;
 }
 
 interface DisplayItem {
@@ -36,6 +41,7 @@ export const ComparisonColumn: React.FC<IProps> = ({
   registerCard,
   accentColor = side === 'base' ? 'rgb(37, 116, 169)' : '#52c41a',
   onBodyScroll,
+  baseTexts = {},
 }) => {
   const [expandedGroups, setExpandedGroups] = useState<Set<number>>(new Set());
 
@@ -157,6 +163,7 @@ export const ComparisonColumn: React.FC<IProps> = ({
             );
           }
 
+          const bt = baseTexts[absId];
           return (
             <ComparisonStackCard
               key={absId}
@@ -167,6 +174,8 @@ export const ComparisonColumn: React.FC<IProps> = ({
               titleChanged={diff.titleChanged}
               descriptionChanged={diff.descriptionChanged}
               timeChanged={diff.timeChanged}
+              baseTitle={bt && diff.titleChanged ? bt.title : undefined}
+              baseDescription={bt && diff.descriptionChanged ? bt.description : undefined}
               cardRef={el => registerCard(absId, el)}
             />
           );
@@ -297,8 +306,8 @@ export const ComparisonColumn: React.FC<IProps> = ({
 
             .column-body > :global(*) {
               flex-shrink: 0;
-              width: 70vw;
-              max-width: 18rem;
+              width: 60vw;
+              max-width: 16rem;
               overflow-y: auto;
             }
 
