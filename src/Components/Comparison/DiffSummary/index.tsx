@@ -67,6 +67,14 @@ export const DiffSummary: React.FC<IProps> = ({
           .diff-summary {
             margin-bottom: 1rem;
           }
+
+          @media (max-width: 768px) {
+            .diff-summary {
+              margin-bottom: 0.5rem;
+              padding: 0 0.5rem;
+              flex-shrink: 0;
+            }
+          }
         `}
       </style>
     </div>

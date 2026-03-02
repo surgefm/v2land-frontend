@@ -257,8 +257,8 @@ export const ComparisonColumn: React.FC<IProps> = ({
 
           @media (max-width: 768px) {
             .comparison-column {
-              height: 45vh;
-              flex: none;
+              flex: 1;
+              min-height: 0;
               border-radius: 0;
             }
 
@@ -267,6 +267,7 @@ export const ComparisonColumn: React.FC<IProps> = ({
               left: 0;
               top: auto;
               padding: 0.5rem 0.75rem;
+              flex-shrink: 0;
             }
 
             .column-body {
@@ -279,12 +280,14 @@ export const ComparisonColumn: React.FC<IProps> = ({
               flex: 1;
               min-height: 0;
               -webkit-overflow-scrolling: touch;
+              align-items: stretch;
             }
 
             .column-body > :global(*) {
               flex-shrink: 0;
-              width: 75vw;
-              max-width: 20rem;
+              width: 70vw;
+              max-width: 18rem;
+              overflow-y: auto;
             }
 
             .ghost-card {
