@@ -47,7 +47,7 @@ export const ComparisonView: React.FC<IProps> = ({
     for (const { absId, baseStackId } of modifiedAbsIds) {
       const stack = getStack(baseStackId)(state);
       if (stack) {
-        map[absId] = { title: stack.title || '', description: stack.description || '' };
+        map[absId] = { title: stack.title || '', description: stack.description || '', order: stack.order ?? 0 };
       }
     }
     return map;

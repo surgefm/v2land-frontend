@@ -4,7 +4,7 @@ import { ComparisonStackCard } from '../ComparisonStackCard';
 import { StackDiff } from '../hooks/useDiffData';
 
 export interface BaseTextMap {
-  [absStackId: number]: { title: string; description: string };
+  [absStackId: number]: { title: string; description: string; order: number };
 }
 
 interface IProps {
@@ -174,6 +174,8 @@ export const ComparisonColumn: React.FC<IProps> = ({
               titleChanged={diff.titleChanged}
               descriptionChanged={diff.descriptionChanged}
               timeChanged={diff.timeChanged}
+              orderChanged={diff.orderChanged}
+              baseOrder={bt ? bt.order : undefined}
               baseTitle={bt && diff.titleChanged ? bt.title : undefined}
               baseDescription={bt && diff.descriptionChanged ? bt.description : undefined}
               cardRef={el => registerCard(absId, el)}

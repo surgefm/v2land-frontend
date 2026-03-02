@@ -58,6 +58,8 @@ export const ComparisonNewsItem: React.FC<IProps> = ({ newsId, status }) => {
             display: flex;
             align-items: center;
             flex-grow: 1;
+            overflow: hidden;
+            min-width: 0;
           }
 
           .news-item .img {
@@ -108,6 +110,8 @@ export const ComparisonNewsItem: React.FC<IProps> = ({ newsId, status }) => {
             border-top: 1.5px solid transparent;
             border-bottom: 1.5px solid transparent;
             white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
 
           a:hover {

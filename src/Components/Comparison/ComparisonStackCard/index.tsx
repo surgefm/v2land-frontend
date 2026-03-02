@@ -16,6 +16,8 @@ interface IProps {
   titleChanged?: boolean;
   descriptionChanged?: boolean;
   timeChanged?: boolean;
+  orderChanged?: boolean;
+  baseOrder?: number;
   baseTitle?: string;
   baseDescription?: string;
   cardRef?: (el: HTMLDivElement | null) => void;
@@ -29,6 +31,8 @@ export const ComparisonStackCard: React.FC<IProps> = ({
   titleChanged = false,
   descriptionChanged = false,
   timeChanged = false,
+  orderChanged = false,
+  baseOrder,
   baseTitle,
   baseDescription,
   cardRef,
@@ -78,7 +82,12 @@ export const ComparisonStackCard: React.FC<IProps> = ({
         <div className="stack">
           <div className="stack-main">
             {typeof stack.order === 'number' && (
-              <span className="order">{stack.order + 1}</span>
+              <span className={`order${orderChanged ? ' order-changed' : ''}`}>
+                {orderChanged && baseOrder !== undefined && (
+                  <span className="order-old">{baseOrder + 1}</span>
+                )}
+                {stack.order + 1}
+              </span>
             )}
             <div className="title">
               {time && (
@@ -127,6 +136,9 @@ export const ComparisonStackCard: React.FC<IProps> = ({
           {status === 'modified' && (
             <div className="diff-summary">
               {[
+                orderChanged && baseOrder !== undefined
+                  ? `顺序 ${baseOrder + 1} → ${(stack.order ?? 0) + 1}`
+                  : orderChanged && '顺序',
                 titleChanged && '标题',
                 descriptionChanged && '描述',
                 timeChanged && '时间',
@@ -145,15 +157,20 @@ export const ComparisonStackCard: React.FC<IProps> = ({
             position: relative;
             border-radius: 0.5rem;
             transition: all 0.3s;
+            border-left: 3px solid transparent;
           }
 
           .comparison-card-wrapper.added {
-            outline: 1.5px solid rgba(82, 196, 26, 0.45);
+            border-left-color: #52c41a;
           }
 
           .comparison-card-wrapper.removed {
-            outline: 1.5px dashed rgba(255, 77, 79, 0.4);
-            opacity: 0.8;
+            border-left-color: #ff4d4f;
+            opacity: 0.7;
+          }
+
+          .comparison-card-wrapper.modified {
+            border-left-color: #fa8c16;
           }
 
           .title {
@@ -190,6 +207,21 @@ export const ComparisonStackCard: React.FC<IProps> = ({
             float: left;
             margin-right: 0.5rem;
             opacity: 1;
+            position: relative;
+          }
+
+          .order-changed {
+            color: #fa8c16;
+          }
+
+          .order-old {
+            font-size: 0.4em;
+            color: #b31d28;
+            text-decoration: line-through;
+            position: absolute;
+            top: -0.2em;
+            left: 0;
+            opacity: 0.7;
           }
 
           .field-changed {
