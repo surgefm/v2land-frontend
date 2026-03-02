@@ -121,13 +121,14 @@ export const ComparisonView: React.FC<IProps> = ({
 
           @media (max-width: 768px) {
             .comparison-root {
-              padding: 5rem 0.75rem 1rem 0.75rem;
+              padding: 4rem 0 1rem 0;
             }
 
             .comparison-container {
               flex-direction: column;
               max-height: none;
               overflow-y: visible;
+              gap: 0.5rem;
             }
 
             .wires-gap {

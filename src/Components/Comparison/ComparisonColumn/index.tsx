@@ -254,6 +254,56 @@ export const ComparisonColumn: React.FC<IProps> = ({
           .unchanged-toggle:hover {
             color: #666;
           }
+
+          @media (max-width: 768px) {
+            .comparison-column {
+              height: 45vh;
+              flex: none;
+              border-radius: 0;
+            }
+
+            .column-header {
+              position: sticky;
+              left: 0;
+              top: auto;
+              padding: 0.5rem 0.75rem;
+            }
+
+            .column-body {
+              display: flex;
+              flex-direction: row;
+              overflow-x: auto;
+              overflow-y: hidden;
+              padding: 0.5rem;
+              gap: 0.5rem;
+              flex: 1;
+              min-height: 0;
+              -webkit-overflow-scrolling: touch;
+            }
+
+            .column-body > :global(*) {
+              flex-shrink: 0;
+              width: 75vw;
+              max-width: 20rem;
+            }
+
+            .ghost-card {
+              margin-bottom: 0;
+            }
+
+            .ghost-inner {
+              min-height: 100%;
+            }
+
+            .unchanged-summary {
+              margin-bottom: 0;
+              white-space: nowrap;
+              flex-direction: column;
+              width: auto;
+              min-width: 8rem;
+              max-width: 8rem;
+            }
+          }
         `}
       </style>
     </div>

@@ -38,6 +38,7 @@ export const Card: React.FunctionComponent<ICard.IProps> = React.forwardRef(
 
             @media (max-width: 600px) {
               .card {
+                max-width: none;
                 padding: 0.75rem 1rem;
                 box-shadow: 0 5px 5px rgba(0, 0, 0, 0.025) !important;
               }

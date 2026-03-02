@@ -86,18 +86,30 @@ export const ConnectingWires: React.FC<IProps> = ({
   }, [containerRef, computePaths]);
 
   return (
-    <svg
-      width="100%"
-      height={containerHeight || '100%'}
-      style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        pointerEvents: 'none',
-        zIndex: 5,
-      }}
-    >
-      {svgContent}
-    </svg>
+    <>
+      <svg
+        className="connecting-wires"
+        width="100%"
+        height={containerHeight || '100%'}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          pointerEvents: 'none',
+          zIndex: 5,
+        }}
+      >
+        {svgContent}
+      </svg>
+      <style jsx>
+        {`
+          @media (max-width: 768px) {
+            .connecting-wires {
+              display: none;
+            }
+          }
+        `}
+      </style>
+    </>
   );
 };
