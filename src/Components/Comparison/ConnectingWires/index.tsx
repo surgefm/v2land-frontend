@@ -66,8 +66,8 @@ export const ConnectingWires: React.FC<IProps> = ({
         // Desktop: horizontal curves
         const y1 = basePos.midY - containerRect.top + scrollTop;
         const y2 = targetPos.midY - containerRect.top + scrollTop;
-        const x1 = containerRect.width * 0.44;
-        const x2 = containerRect.width * 0.56;
+        const x1 = basePos.right - containerRect.left;
+        const x2 = targetPos.left - containerRect.left;
         const cpOffset = (x2 - x1) * 0.6;
 
         return (

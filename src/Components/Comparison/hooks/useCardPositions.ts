@@ -4,6 +4,8 @@ export interface CardPosition {
   absStackId: number;
   top: number;
   bottom: number;
+  left: number;
+  right: number;
   midY: number;
   midX: number;
 }
@@ -31,6 +33,8 @@ export function useCardPositions() {
         absStackId: id,
         top: rect.top,
         bottom: rect.bottom,
+        left: rect.left,
+        right: rect.right,
         midY: rect.top + rect.height / 2,
         midX: rect.left + rect.width / 2,
       });
