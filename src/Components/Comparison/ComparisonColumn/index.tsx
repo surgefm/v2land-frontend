@@ -16,6 +16,7 @@ interface IProps {
   accentColor?: string;
   onBodyScroll?: () => void;
   baseTexts?: BaseTextMap;
+  hideNews?: boolean;
 }
 
 interface DisplayItem {
@@ -42,6 +43,7 @@ export const ComparisonColumn: React.FC<IProps> = ({
   accentColor = side === 'base' ? 'rgb(37, 116, 169)' : '#52c41a',
   onBodyScroll,
   baseTexts = {},
+  hideNews = false,
 }) => {
   const [expandedGroups, setExpandedGroups] = useState<Set<number>>(new Set());
 
@@ -101,7 +103,7 @@ export const ComparisonColumn: React.FC<IProps> = ({
 
   return (
     <div className="comparison-column">
-      <div className="column-header" style={{ backgroundColor: accentColor }}>
+      <div className="column-header">
         <h3>{title}</h3>
       </div>
       <div className="column-body" onScroll={onBodyScroll}>
@@ -165,6 +167,7 @@ export const ComparisonColumn: React.FC<IProps> = ({
               baseTitle={bt && diff.titleChanged ? bt.title : undefined}
               baseDescription={bt && diff.descriptionChanged ? bt.description : undefined}
               cardRef={el => registerCard(absId, el)}
+              hideNews={hideNews}
             />
           );
         })}
@@ -184,7 +187,6 @@ export const ComparisonColumn: React.FC<IProps> = ({
 
           .column-header {
             padding: 0.75rem 1rem;
-            color: #fff;
             position: sticky;
             top: 0;
             z-index: 10;
@@ -194,11 +196,10 @@ export const ComparisonColumn: React.FC<IProps> = ({
             margin: 0;
             font-size: 1rem;
             font-weight: 600;
-            color: #fff;
           }
 
           .column-body {
-            padding: 0.75rem;
+            padding: 0;
             flex: 1;
           }
 

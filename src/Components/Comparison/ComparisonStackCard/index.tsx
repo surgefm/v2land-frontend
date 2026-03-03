@@ -21,6 +21,7 @@ interface IProps {
   baseTitle?: string;
   baseDescription?: string;
   cardRef?: (el: HTMLDivElement | null) => void;
+  hideNews?: boolean;
 }
 
 export const ComparisonStackCard: React.FC<IProps> = ({
@@ -36,6 +37,7 @@ export const ComparisonStackCard: React.FC<IProps> = ({
   baseTitle,
   baseDescription,
   cardRef,
+  hideNews = false,
 }) => {
   const stack = useSelector(getStack(stackId));
   const newsIdList = useSelector(getStackNewsIdList(stackId));
@@ -117,7 +119,7 @@ export const ComparisonStackCard: React.FC<IProps> = ({
             </div>
           )}
 
-          {newsIdList && newsIdList.length > 0 && (
+          {!hideNews && newsIdList && newsIdList.length > 0 && (
             <div className="news-list">
               {newsIdList.map(nid => (
                 <ComparisonNewsItem

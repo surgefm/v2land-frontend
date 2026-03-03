@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useMemo } from 'react';
+import React, { useRef, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { getStack } from '@Selectors';
@@ -29,6 +29,7 @@ export const ComparisonView: React.FC<IProps> = ({
   targetAccentColor = '#52c41a',
   renderFooter,
 }) => {
+  const [hideNews, setHideNews] = useState(false);
   const diffResult = useDiffData(baseEventId, targetEventId);
   const basePositions = useCardPositions();
   const targetPositions = useCardPositions();
@@ -89,6 +90,17 @@ export const ComparisonView: React.FC<IProps> = ({
         diff={diffResult.eventDiff}
       />
 
+      <div className="comparison-toolbar">
+        <label className="toggle-news">
+          <input
+            type="checkbox"
+            checked={hideNews}
+            onChange={e => setHideNews(e.target.checked)}
+          />
+          <span>隐藏新闻</span>
+        </label>
+      </div>
+
       <div
         className="comparison-container"
         ref={containerRef}
@@ -102,6 +114,7 @@ export const ComparisonView: React.FC<IProps> = ({
           registerCard={basePositions.registerCard}
           accentColor={baseAccentColor}
           onBodyScroll={handleColumnScroll}
+          hideNews={hideNews}
         />
 
         <div className="wires-gap" />
@@ -115,6 +128,7 @@ export const ComparisonView: React.FC<IProps> = ({
           accentColor={targetAccentColor}
           onBodyScroll={handleColumnScroll}
           baseTexts={baseTexts}
+          hideNews={hideNews}
         />
 
         <ConnectingWires
@@ -136,6 +150,22 @@ export const ComparisonView: React.FC<IProps> = ({
             min-height: 100vh;
           }
 
+          .comparison-toolbar {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 0.75rem;
+          }
+
+          .toggle-news {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.875rem;
+            color: #666;
+            cursor: pointer;
+            user-select: none;
+          }
+
           .comparison-container {
             display: flex;
             align-items: flex-start;
@@ -146,8 +176,8 @@ export const ComparisonView: React.FC<IProps> = ({
           }
 
           .wires-gap {
-            width: 6rem;
-            min-width: 6rem;
+            width: 5rem;
+            min-width: 5rem;
             flex-shrink: 0;
           }
 
