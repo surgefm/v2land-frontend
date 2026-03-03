@@ -14,7 +14,6 @@ const EventCardListImpl: React.FunctionComponent<IEventCardList.IProps> = ({ cla
   const { t } = useTranslation('common');
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const dispatch = useDispatch();
   const eventIdList = useSelector(getHomepageEventIdList);
   const eventList = useSelector(getHomepageEventList);
@@ -22,16 +21,12 @@ const EventCardListImpl: React.FunctionComponent<IEventCardList.IProps> = ({ cla
   const cards: React.ReactElement[] = [];
   let lastLapseStr = '';
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   for (let i = 0; i < eventList.length; i += 1) {
     const event = eventList[i];
     const time = eventTimeList[i];
     if (event) {
-      const lapseStr = mounted && time ? UtilService.getTimeLapseString(t, time, 'general') : lastLapseStr;
-      if (mounted && (!lastLapseStr || lastLapseStr !== lapseStr)) {
+      const lapseStr = time ? UtilService.getTimeLapseString(t, time, 'general') : lastLapseStr;
+      if (!lastLapseStr || lastLapseStr !== lapseStr) {
         lastLapseStr = lapseStr;
         cards.push(<SectionHeader key={`section-${lapseStr}`}>{lapseStr}</SectionHeader>);
       }

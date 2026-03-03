@@ -1,14 +1,17 @@
 import { TFunction } from 'next-i18next';
 
+const BEIJING_OFFSET = 8 * 60; // UTC+8 in minutes
+
+function toBeijingDate(date: Date): Date {
+  const utc = date.getTime() + date.getTimezoneOffset() * 60000;
+  return new Date(utc + BEIJING_OFFSET * 60000);
+}
+
 function clearHour(time: Date) {
   time.setHours(0);
   time.setMinutes(0);
   time.setSeconds(0);
   time.setMilliseconds(0);
-}
-
-function getSecond(time: Date) {
-  return Math.floor(time.getTime() / 1000);
 }
 
 export const getTimeLapseString = (
@@ -37,9 +40,11 @@ export const getTimeLapseString = (
       });
   }
 
-  clearHour(now);
-  clearHour(time);
-  const dayDiff = Math.floor((getSecond(now) - getSecond(time)) / 60 / 60 / 24);
+  const bjNow = toBeijingDate(now);
+  const bjTime = toBeijingDate(time);
+  clearHour(bjNow);
+  clearHour(bjTime);
+  const dayDiff = Math.floor((bjNow.getTime() - bjTime.getTime()) / 1000 / 60 / 60 / 24);
   if (dayDiff === 0) return tf('Utils_TimeLapse_Today');
   if (type !== 'general' && secondDiff < 3600 * 24) {
     return tf('Utils_TimeLapse_HoursAgo', {
