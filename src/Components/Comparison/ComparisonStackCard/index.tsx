@@ -157,20 +157,22 @@ export const ComparisonStackCard: React.FC<IProps> = ({
             position: relative;
             border-radius: 0.5rem;
             transition: all 0.3s;
-            border-left: 3px solid transparent;
           }
 
-          .comparison-card-wrapper.added {
-            border-left-color: #52c41a;
+          .comparison-card-wrapper.added :global(.card) {
+            outline: 1.5px solid rgba(82, 196, 26, 0.45);
+          }
+
+          .comparison-card-wrapper.removed :global(.card) {
+            outline: 1.5px dashed rgba(255, 77, 79, 0.4);
           }
 
           .comparison-card-wrapper.removed {
-            border-left-color: #ff4d4f;
             opacity: 0.7;
           }
 
-          .comparison-card-wrapper.modified {
-            border-left-color: #fa8c16;
+          .comparison-card-wrapper.modified :global(.card) {
+            outline: 1.5px solid rgba(250, 140, 22, 0.45);
           }
 
           .title {

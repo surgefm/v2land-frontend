@@ -274,7 +274,7 @@ export const ComparisonColumn: React.FC<IProps> = ({
               min-height: 0;
               border-radius: 0;
               flex-direction: row;
-              overflow: hidden;
+              overflow: visible;
             }
 
             .column-header {
