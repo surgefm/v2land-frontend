@@ -4,22 +4,19 @@ import { useSelector } from 'react-redux';
 import { Button } from 'antd';
 import { FormOutlined } from '@ant-design/icons';
 
-import { useTranslation } from '@I18n';
-import {
-  canCurrentClientEditEvent,
-} from '@Selectors';
+import { getActiveNewsroomId, canCurrentClientEditEvent } from '@Selectors';
 
-import { INewsroomHeaderCommitButton } from './CommitButton';
-
-const NewsroomHeaderCommitButtonImpl: React.FC<INewsroomHeaderCommitButton.IProps> = () => {
-  const { t } = useTranslation('common');
+const NewsroomHeaderReviewButtonImpl: React.FC = () => {
   const router = useRouter();
+  const eventId = useSelector(getActiveNewsroomId);
   const canEdit = useSelector(canCurrentClientEditEvent());
 
-  const goToReview = () => {
+  const navigateToReview = () => {
     const { username, eventName } = router.query;
     router.push(`/${username}/${eventName}/review`);
   };
+
+  if (!eventId) return null;
 
   return (
     <div className="button">
@@ -29,10 +26,10 @@ const NewsroomHeaderCommitButtonImpl: React.FC<INewsroomHeaderCommitButton.IProp
         shape="round"
         icon={<FormOutlined />}
         disabled={!canEdit}
-        onClick={goToReview}
+        onClick={navigateToReview}
         className="fab-btn"
       >
-        {t('Newsroom_CommitButton_Label')}
+        审阅并提交
       </Button>
       <style jsx>
         {`
@@ -51,4 +48,4 @@ const NewsroomHeaderCommitButtonImpl: React.FC<INewsroomHeaderCommitButton.IProp
   );
 };
 
-export const NewsroomHeaderCommitButton = NewsroomHeaderCommitButtonImpl;
+export const NewsroomHeaderReviewButton = NewsroomHeaderReviewButtonImpl;
