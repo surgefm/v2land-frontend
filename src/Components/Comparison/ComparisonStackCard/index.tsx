@@ -266,23 +266,11 @@ export const ComparisonStackCard: React.FC<IProps> = ({
           @media (max-width: 768px) {
             .comparison-card-wrapper {
               margin-bottom: 0.75rem;
-              min-width: 0;
-              overflow: hidden;
             }
 
             .comparison-card-wrapper :global(.card) {
               max-width: none;
               margin-bottom: 0;
-            }
-
-            .stack-main {
-              min-width: 0;
-            }
-
-            h2,
-            .content-area p {
-              word-break: break-word;
-              overflow-wrap: anywhere;
             }
 
             .order {

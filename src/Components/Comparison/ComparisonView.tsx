@@ -164,6 +164,7 @@ export const ComparisonView: React.FC<IProps> = ({
               flex: 1;
               min-height: 0;
               flex-direction: column;
+              align-items: stretch;
               max-height: none;
               overflow-x: hidden;
               overflow-y: auto;
