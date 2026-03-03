@@ -70,9 +70,12 @@ export const ConfirmCommitButton: React.FC<IProps> = ({ eventId, diffResult }) =
       <style jsx>
         {`
           .confirm-commit {
-            padding: 1.5rem 0;
+            padding: 1rem 1.5rem;
             border-top: 1px solid #f0f0f0;
-            margin-top: 1rem;
+            position: sticky;
+            bottom: 0;
+            background: #fff;
+            z-index: 20;
           }
 
           .actions {
