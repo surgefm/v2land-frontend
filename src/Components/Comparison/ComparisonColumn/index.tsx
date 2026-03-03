@@ -287,7 +287,7 @@ export const ComparisonColumn: React.FC<IProps> = ({
             }
 
             .column-body {
-              padding: 0.75rem;
+              padding: 0;
             }
           }
         `}
