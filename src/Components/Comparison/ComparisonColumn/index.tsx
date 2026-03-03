@@ -52,15 +52,7 @@ export const ComparisonColumn: React.FC<IProps> = ({
   const displayIds: number[] = [...order];
   const orderSet = new Set(order);
 
-  stackDiffs.forEach(d => {
-    if (!orderSet.has(d.absStackId)) {
-      if (side === 'base' && d.status === 'added') {
-        displayIds.push(d.absStackId);
-      } else if (side === 'target' && d.status === 'removed') {
-        displayIds.push(d.absStackId);
-      }
-    }
-  });
+  // No ghost cards: only show stacks that actually exist on this side
 
   // Group consecutive unchanged stacks
   const entries: DisplayEntry[] = [];
@@ -155,13 +147,7 @@ export const ComparisonColumn: React.FC<IProps> = ({
           const { absId, diff } = entry;
           const stackId = side === 'base' ? diff.baseStackId : diff.targetStackId;
 
-          if (stackId === null) {
-            return (
-              <div key={absId} className="ghost-card">
-                <div className="ghost-inner" />
-              </div>
-            );
-          }
+          if (stackId === null) return null;
 
           const bt = baseTexts[absId];
           return (
