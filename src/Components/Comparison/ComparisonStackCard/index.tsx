@@ -266,7 +266,6 @@ export const ComparisonStackCard: React.FC<IProps> = ({
           @media (max-width: 768px) {
             .comparison-card-wrapper {
               margin-bottom: 0.75rem;
-              border-radius: 0;
             }
 
             .order {
