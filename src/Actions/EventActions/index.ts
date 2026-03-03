@@ -211,22 +211,24 @@ const GetEventList = (page = 1) => async (dispatch: Dispatch, state: IThunkStore
   }
 
   actions.push(HomepageActions.SetEventList(eventList.map(event => event.id), page));
-  const clientIds: number[] = [];
-  const promises: Promise<void>[] = [];
-  for (let i = 0; i < eventList.length; i += 1) {
-    const clientId = eventList[i].ownerId;
-    if (clientIds.indexOf(clientId) < 0) {
-      clientIds.push(clientId);
-      if (!getClient(clientId)(getState(state))) {
-        promises.push(ClientActions.GetClient(clientId)(dispatch, state));
-      }
-    }
-  }
-  await Promise.all(promises);
-
   actions.push(LoadingActions.FinishLoading(identifier));
 
   dispatch(batchActions(actions));
+
+  if (typeof window !== 'undefined') {
+    const clientIds: number[] = [];
+    const promises: Promise<void>[] = [];
+    for (let i = 0; i < eventList.length; i += 1) {
+      const clientId = eventList[i].ownerId;
+      if (clientIds.indexOf(clientId) < 0) {
+        clientIds.push(clientId);
+        if (!getClient(clientId)(getState(state))) {
+          promises.push(ClientActions.GetClient(clientId)(dispatch, state));
+        }
+      }
+    }
+    await Promise.all(promises);
+  }
 };
 
 export const EventActions = {
