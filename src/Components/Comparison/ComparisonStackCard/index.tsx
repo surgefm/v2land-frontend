@@ -291,10 +291,6 @@ export const ComparisonStackCard: React.FC<IProps> = ({
             .content-area p {
               font-size: 0.8rem;
               line-height: 1.5;
-              display: -webkit-box;
-              -webkit-line-clamp: 2;
-              -webkit-box-orient: vertical;
-              overflow: hidden;
             }
 
             .news-list {
