@@ -270,69 +270,24 @@ export const ComparisonColumn: React.FC<IProps> = ({
 
           @media (max-width: 768px) {
             .comparison-column {
-              flex: 1;
-              min-height: 0;
+              flex: none;
               border-radius: 0;
-              flex-direction: row;
               overflow: visible;
             }
 
             .column-header {
-              position: static;
-              writing-mode: vertical-rl;
-              padding: 0.5rem 0.25rem;
-              flex-shrink: 0;
-              display: flex;
-              align-items: center;
-              justify-content: center;
+              position: sticky;
+              top: 0;
+              z-index: 10;
+              padding: 0.5rem 1rem;
             }
 
             .column-header h3 {
-              font-size: 0.8rem;
-              letter-spacing: 0.15em;
+              font-size: 0.9rem;
             }
 
             .column-body {
-              display: flex;
-              flex-direction: row;
-              overflow-x: auto;
-              overflow-y: hidden;
-              padding: 0.5rem;
-              gap: 0.5rem;
-              flex: 1;
-              min-width: 0;
-              min-height: 0;
-              -webkit-overflow-scrolling: touch;
-              align-items: stretch;
-            }
-
-            .column-body > :global(*) {
-              flex-shrink: 0;
-              width: 60vw;
-              max-width: 16rem;
-              overflow-y: auto;
-            }
-
-            .ghost-card {
-              margin-bottom: 0;
-            }
-
-            .ghost-inner {
-              min-height: 100%;
-            }
-
-            .unchanged-summary {
-              margin-bottom: 0;
-              white-space: nowrap;
-              flex-direction: row;
-              width: auto;
-              min-width: auto;
-              max-width: none;
-            }
-
-            .unchanged-toggle {
-              margin-bottom: 0;
-              white-space: nowrap;
+              padding: 0.75rem;
             }
           }
         `}

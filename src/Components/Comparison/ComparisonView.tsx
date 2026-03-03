@@ -165,14 +165,20 @@ export const ComparisonView: React.FC<IProps> = ({
               min-height: 0;
               flex-direction: column;
               max-height: none;
-              overflow: hidden;
+              overflow-x: hidden;
+              overflow-y: auto;
+            }
+
+            .comparison-container > :global(.comparison-column:first-child) {
+              display: none;
             }
 
             .wires-gap {
-              width: auto;
-              min-width: 0;
-              height: 1.5rem;
-              flex-shrink: 0;
+              display: none;
+            }
+
+            .comparison-container > :global(svg) {
+              display: none;
             }
           }
         `}
