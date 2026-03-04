@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { LinkOutlined } from '@ant-design/icons';
 
 import { getNews } from '@Selectors';
+import { SourceIcon } from '@Components/Basic';
 
 import { ChangeStatus } from '../hooks/useDiffData';
 
@@ -19,7 +19,7 @@ export const ComparisonNewsItem: React.FC<IProps> = ({ newsId, status }) => {
     <div className={`news-item ${status}`}>
       <div className="news-link">
         <div className="img">
-          <LinkOutlined style={{ fontSize: '1rem' }} />
+          {news && <SourceIcon news={news} size={16} />}
         </div>
         <a href={url} target="_blank" rel="noreferrer">
           {news && news.title}
@@ -58,7 +58,7 @@ export const ComparisonNewsItem: React.FC<IProps> = ({ newsId, status }) => {
             display: flex;
             align-items: center;
             flex-grow: 1;
-            overflow: hidden;
+            overflow: visible;
             min-width: 0;
           }
 

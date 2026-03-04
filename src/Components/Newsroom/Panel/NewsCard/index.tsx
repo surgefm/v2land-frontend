@@ -10,7 +10,7 @@ import {
   isNewsroomSocketConnected,
   getActiveNewsroomId,
 } from '@Selectors';
-import { Time } from '@Components/Basic';
+import { Time, SourceIcon } from '@Components/Basic';
 import { getNewsroomSocket, RedstoneService } from '@Services';
 import { NewsActions, EventActions } from '@Actions';
 import { NewsDragData } from '@Services/NewsroomDndControl/types';
@@ -100,7 +100,8 @@ const NewsroomPanelNewsCard: React.FunctionComponent<INewsroomPanelNewsCard.IPro
         )}
         <Time time={news.time} className="time" />
         <br />
-        {`${news.source || new URL(news.url).hostname.replace('www.', '')} | ${news.title}`}
+        <SourceIcon news={news} size={14} translateY="-1.5px" />
+        {` ${news.source || new URL(news.url).hostname.replace('www.', '')} | ${news.title}`}
       </NewsroomPanelCard>
       <style jsx>
         {`

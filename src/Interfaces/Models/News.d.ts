@@ -1,5 +1,12 @@
 import { Record } from './Record';
 
+export interface Site {
+  id: number;
+  name: string;
+  icon?: string;
+  homepage?: string;
+}
+
 export interface News {
   id: number;
   title: string;
@@ -10,4 +17,5 @@ export interface News {
   status: 'pending' | 'admitted' | 'rejected' | 'removed';
   comment?: string;
   contribution?: Record[];
+  site?: Site;
 }

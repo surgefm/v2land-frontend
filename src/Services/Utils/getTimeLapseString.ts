@@ -31,7 +31,6 @@ export const getTimeLapseString = (
   const nowTimestamp = Math.floor(now.getTime() / 1000);
   const timestamp = Math.floor(time.getTime() / 1000);
   const secondDiff = nowTimestamp - timestamp;
-  if (secondDiff < 0) return tf('Utils_TimeLapse_Future');
   if (type !== 'general') {
     if (secondDiff < 120) return tf('Utils_TimeLapse_JustHappened');
     if (secondDiff < 3600)

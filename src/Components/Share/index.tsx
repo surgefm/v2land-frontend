@@ -341,11 +341,11 @@ const ShareImpl: React.FunctionComponent<IShare.IProps> = ({
             color: #1da1f2;
           }
 
-          .share a:notf(.event) :global(.border-color) {
-            color: rgb(104, 180, 252);
+          .share a:not(.event) :global(.border-color) {
+            color: rgba(104, 180, 252, .6);
           }
 
-          .share a:notf(.event) :global(.border-color):hover {
+          .share a:not(.event) :global(.border-color):hover {
             background-color: transparent;
             border-color: transparent;
           }

@@ -15,10 +15,10 @@ const NewsItemListImpl: React.FunctionComponent<INewsItemList.IProps> = ({ newsI
   const generatingScreenshot = useSelector(isGeneratingScreenshot);
 
   let newsItems: React.ReactElement[] = [];
-  if (newsIdList.length <= 3 || generatingScreenshot) {
+  if (newsIdList.length <= 2 || generatingScreenshot) {
     newsItems = newsIdList.map(id => <NewsItem id={id} key={`news-${id}`} />);
   } else {
-    for (let i = 0; i < (showMore ? newsIdList.length : 3); i += 1) {
+    for (let i = 0; i < (showMore ? newsIdList.length : 2); i += 1) {
       const id = newsIdList[i];
       newsItems.push(<NewsItem id={id} key={`news-${id}`} />);
     }

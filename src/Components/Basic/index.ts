@@ -11,6 +11,7 @@ export { Logo } from './Logo';
 export { LogoIcon } from './LogoIcon';
 export { LogoType } from './LogoType';
 export { SectionHeader } from './SectionHeader';
+export { SourceIcon } from './SourceIcon';
 export { TagHead } from './TagHead';
 export { TelegramLogo } from './TelegramLogo';
 export { Time } from './Time';
