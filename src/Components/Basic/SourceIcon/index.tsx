@@ -21,7 +21,7 @@ export const SourceIcon: React.FC<SourceIconProps> = ({ news, size = 16, transla
     objectFit: 'contain',
     borderRadius: 2,
     verticalAlign: 'middle',
-    boxShadow: '0 0 1px 1px rgba(0, 0, 0, 0.1)',
+    outline: '1px solid rgba(0, 0, 0, 0.0375)',
     ...(translateY ? { display: 'inline-block', transform: `translateY(${translateY})` } : {}),
   };
 
@@ -34,8 +34,6 @@ export const SourceIcon: React.FC<SourceIconProps> = ({ news, size = 16, transla
       crossOrigin="anonymous"
       onError={() => setHasError(true)}
       style={imgStyle}
-      loading="eager"
-      fetchPriority="high"
     />
   );
 };

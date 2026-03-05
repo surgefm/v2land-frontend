@@ -37,7 +37,7 @@ const NewsItemListImpl: React.FunctionComponent<INewsItemList.IProps> = ({ newsI
   }
 
   return (
-    <div className="news-area">
+    <div className={`news-area ${generatingScreenshot && 'generating-screenshot'}`}>
       {newsItems}
 
       <style jsx>
@@ -46,6 +46,12 @@ const NewsItemListImpl: React.FunctionComponent<INewsItemList.IProps> = ({ newsI
             padding: 0.4rem 0rem 0.5rem 0rem;
             display: flex;
             flex-direction: column;
+          }
+
+          .generating-screenshot {
+            flex-direction: row;
+            flex-wrap: wrap
+            margin: 0;
           }
         `}
       </style>

@@ -70,7 +70,7 @@ const StackImpl: React.FunctionComponent<IStack.IProps> = ({
   return (
     <Card styles={{ paddingTop: '0', paddingBottom: '0.75rem' }}>
       <ScrollElement name={`stack-${stackId}`}>
-        <div className="stack">
+        <div className={`stack ${generatingScreenshot && 'generating-screenshot'}`}>
           <div className="stack-main">
             {displayOrder && typeof stack.order === 'number' ? (
               <span className="order">{stack.order + 1}</span>
@@ -125,6 +125,10 @@ const StackImpl: React.FunctionComponent<IStack.IProps> = ({
             line-height: 1.8;
             display: block;
             white-space: break-spaces;
+          }
+
+          .generating-screenshot .content-area p {
+            margin-bottom: 0;
           }
 
           .stack :global(.event-card) {

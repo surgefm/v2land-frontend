@@ -230,11 +230,11 @@ const ShareImpl: React.FunctionComponent<IShare.IProps> = ({
       await Promise.all(promises);
 
       const domtoimage = (await import('dom-to-image-more')).default;
-      const dataUrl = await domtoimage.toJpeg(node, options);
+      const dataUrl = await domtoimage.toPng(node, options);
       dispatch(HomepageActions.SetGeneratingScreenshot(false));
 
       const link = document.createElement('a');
-      link.download = `surgefm-timeline-${event.name}.jpeg`;
+      link.download = `surgefm-timeline-${event.name}.png`;
       link.href = dataUrl;
       link.click();
     }, 1000);

@@ -1,16 +1,18 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { getNews } from '@Selectors';
+import { getNews, isGeneratingScreenshot } from '@Selectors';
 import { SourceIcon } from '@Components/Basic';
 
 import { INewsItem } from './NewsItem';
 
 export const NewsItem: React.FunctionComponent<INewsItem.IProps> = ({ id }) => {
   const news = useSelector(getNews(id));
+  const generatingScreenshot = useSelector(isGeneratingScreenshot);
+
   const url = news ? news.url : '';
   return (
-    <div className="news-item">
+    <div className={`news-item ${generatingScreenshot && 'generating-screenshot'}`}>
       <div className="news-link">
         <div className="img">
           {news && <SourceIcon news={news} size={16} />}
@@ -35,6 +37,10 @@ export const NewsItem: React.FunctionComponent<INewsItem.IProps> = ({ id }) => {
             position: relative;
             clip-path: inset(0 0 0 -9999px);
             scrollbar-width: none;
+          }
+
+          .news-item.generating-screenshot {
+            display: inline-flex;
           }
 
           .news-link {
@@ -81,6 +87,14 @@ export const NewsItem: React.FunctionComponent<INewsItem.IProps> = ({ id }) => {
             margin: 0;
             font-size: 0.9rem;
             color: gray;
+          }
+
+          .news-item.generating-screenshot a, .news-item.generating-screenshot .news-source {
+            display: none;
+          }
+
+          .news-item.generating-screenshot .img {
+            margin: .3rem .3rem .3rem 0;
           }
         `}
       </style>
