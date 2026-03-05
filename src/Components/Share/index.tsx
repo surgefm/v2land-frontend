@@ -211,18 +211,23 @@ const ShareImpl: React.FunctionComponent<IShare.IProps> = ({
         height: node.clientHeight,
       };
 
-      const img1 = new Image();
-      img1.src = '/images/icon.svg';
-      const img2 = new Image();
-      img2.src = '/images/logotype.svg';
-      await Promise.all([
-        new Promise(resolve => {
-          img1.onload = resolve;
-        }),
-        new Promise(resolve => {
-          img2.onload = resolve;
-        }),
-      ]);
+      const image_urls = new Set() as Set<string>;
+      document.querySelectorAll("img").forEach(el => {
+        const src = el.getAttribute("src")
+        if (!src || src.startsWith("data")) return;
+        image_urls.add(src);
+      });
+      const images = [...image_urls.values()].map(url => {
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.src = url as string;
+        return img;
+      });
+      const promises = images.map(img => new Promise(resolve => {
+        img.onload = resolve;
+      }));
+
+      await Promise.all(promises);
 
       const domtoimage = (await import('dom-to-image-more')).default;
       const dataUrl = await domtoimage.toJpeg(node, options);

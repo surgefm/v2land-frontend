@@ -65,10 +65,11 @@ export const NewsItem: React.FunctionComponent<INewsItem.IProps> = ({ id }) => {
 
           a {
             color: black;
-            line-height: 1.75;
+            line-height: 1.25;
             border-top: 1.5px solid transparent;
             border-bottom: 1.5px solid transparent;
             white-space: nowrap;
+            margin: 0.15rem 0;
           }
 
           a:hover {

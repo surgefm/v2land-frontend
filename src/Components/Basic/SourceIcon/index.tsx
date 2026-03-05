@@ -31,8 +31,11 @@ export const SourceIcon: React.FC<SourceIconProps> = ({ news, size = 16, transla
       alt={news.source || ''}
       width={size}
       height={size}
+      crossOrigin="anonymous"
       onError={() => setHasError(true)}
       style={imgStyle}
+      loading="eager"
+      fetchPriority="high"
     />
   );
 };

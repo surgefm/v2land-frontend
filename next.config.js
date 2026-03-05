@@ -27,7 +27,10 @@ let nextConfig = {
 if (process.env.PWA === '1') {
   nextConfig = withPWA({
     ...nextConfig,
-    pwa: { dest: 'public' },
+    pwa: {
+      dest: 'public',
+      exclude: [/^https:\/\/cdn\.surge\.fm\/.*/i],
+    },
   });
 }
 
