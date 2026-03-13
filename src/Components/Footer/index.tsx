@@ -1,6 +1,7 @@
 // #region Global Imports
 import * as React from 'react';
 import Link from 'next/link';
+import Image from "next/legacy/image";
 // #endregion Global Imports
 
 import { useTranslation } from '@I18n';
@@ -50,6 +51,25 @@ const FooterComp: React.FunctionComponent<IFooter.IProps> = (): JSX.Element => {
 
         <span>{`Langchao.org ${new Date().getFullYear()}`}</span>
 
+        <div style={{ marginTop: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <span>Powered by</span>
+          <a
+            href="https://www.cloudflare.com/galileo/"
+            target="_blank"
+            rel="noreferrer"
+            style={{ height: '24px', display: 'block', marginLeft: '0.5rem' }}
+          >
+            <Image
+              src="/images/logo_project-galileo.svg"
+              alt="Project Galileo by Cloudflare"
+              height={24}
+              width={(238 / 54) * 24}
+              style={{
+                maxWidth: "100%",
+                height: "auto"
+              }} />
+          </a>
+        </div>
       </div>
       <style jsx>
         {`
