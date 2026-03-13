@@ -1,8 +1,6 @@
 // #region Global Imports
 import * as React from 'react';
 import Link from 'next/link';
-import Image from "next/legacy/image";
-import { Space } from 'antd';
 // #endregion Global Imports
 
 import { useTranslation } from '@I18n';
@@ -52,41 +50,6 @@ const FooterComp: React.FunctionComponent<IFooter.IProps> = (): JSX.Element => {
 
         <span>{`Langchao.org ${new Date().getFullYear()}`}</span>
 
-        <Space style={{ alignItems: 'center', marginTop: '1.5rem' }}>
-          <span>Powered by</span>
-          <a
-            href="https://vercel.com/?utm_source=surgefm&utm_campaign=oss"
-            target="_blank"
-            rel="noreferrer"
-            style={{ height: '20px', display: 'block' }}
-          >
-            <Image
-              src="/images/vercel-logotype-dark.svg"
-              alt="Vercel"
-              height={20}
-              width={(4438 / 1000) * 20}
-              style={{
-                maxWidth: "100%",
-                height: "auto"
-              }} />
-          </a>
-          <a
-            href="https://www.cloudflare.com/galileo/"
-            target="_blank"
-            rel="noreferrer"
-            style={{ height: '24px', display: 'block' }}
-          >
-            <Image
-              src="/images/logo_project-galileo.svg"
-              alt="Project Galileo by Cloudflare"
-              height={24}
-              width={(238 / 54) * 24}
-              style={{
-                maxWidth: "100%",
-                height: "auto"
-              }} />
-          </a>
-        </Space>
       </div>
       <style jsx>
         {`
