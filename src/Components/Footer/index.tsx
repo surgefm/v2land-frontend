@@ -77,10 +77,10 @@ const FooterComp: React.FunctionComponent<IFooter.IProps> = (): JSX.Element => {
             style={{ height: '24px', display: 'block' }}
           >
             <Image
-              src="https://cf-assets.www.cloudflare.com/slt3lc6tev37/7gKGFoH8LRMxSQpKvoPlSd/b92fca38b473f4148c3502a7f654be47/logo_project-galileo.svg"
+              src="/images/logo_project-galileo.svg"
               alt="Project Galileo by Cloudflare"
               height={24}
-              width={100}
+              width={(238 / 54) * 24}
               style={{
                 maxWidth: "100%",
                 height: "auto"
