@@ -71,16 +71,16 @@ const FooterComp: React.FunctionComponent<IFooter.IProps> = (): JSX.Element => {
               }} />
           </a>
           <a
-            href="https://www.digitalocean.com/community/pages/hollies-hub-for-good"
+            href="https://www.cloudflare.com/galileo/"
             target="_blank"
             rel="noreferrer"
             style={{ height: '24px', display: 'block' }}
           >
             <Image
-              src="/images/DO_Logo_icon_blue.svg"
-              alt="DigitalOcean"
+              src="https://cf-assets.www.cloudflare.com/slt3lc6tev37/7gKGFoH8LRMxSQpKvoPlSd/b92fca38b473f4148c3502a7f654be47/logo_project-galileo.svg"
+              alt="Project Galileo by Cloudflare"
               height={24}
-              width={24}
+              width={100}
               style={{
                 maxWidth: "100%",
                 height: "auto"

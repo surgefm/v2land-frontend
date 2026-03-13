@@ -11,7 +11,7 @@ let nextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
-    domains: ['cdn.surge.fm'],
+    domains: ['cdn.surge.fm', 'cf-assets.www.cloudflare.com'],
   },
   // async redirects() {
   //   return [
