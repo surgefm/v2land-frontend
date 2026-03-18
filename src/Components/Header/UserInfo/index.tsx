@@ -60,7 +60,7 @@ const HeaderUserInfoImpl: React.FC<IHeaderUserInfo.IProps> = () => {
             {t('Login_Login')}
           </Button>
         )}
-        {router.pathname === '/signup' ? null : (
+        {router.pathname === '/login' && (
           <Button
             href="/signup"
             type="link"
