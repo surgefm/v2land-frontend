@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Form, Button, Input, Upload, Switch, message } from 'antd';
+import { Form, Button, Input, Upload, Switch, Select, message } from 'antd';
 import { PictureOutlined } from '@ant-design/icons';
 import { UploadChangeParam, UploadFile, RcFile } from 'antd/lib/upload/interface';
 
@@ -8,6 +8,8 @@ import {
   getEvent,
   canCurrentClientEditEvent,
   canCurrentClientManageEvent,
+  isCurrentClientEditor,
+  isCurrentClientEventOwner,
   isNewsroomSocketConnected,
 } from '@Selectors';
 import { getNewsroomSocket, imageUploadEndpoint, UtilService } from '@Services';
@@ -23,13 +25,18 @@ const NewsroomPanelEventDetailImpl: React.FC<INewsroomPanelEventDetail.IProps> =
   const event = useSelector(getEvent(eventId)) as Event;
   const canClientEdit = useSelector(canCurrentClientEditEvent());
   const canClientManage = useSelector(canCurrentClientManageEvent());
+  const isAdmin = useSelector(isCurrentClientEditor);
+  const isOwner = useSelector(isCurrentClientEventOwner(eventId));
   const isConnected = useSelector(isNewsroomSocketConnected(eventId));
   const canEdit = canClientEdit && isConnected;
   const canManage = canClientManage && isConnected;
+  const canChangeStatus = (isAdmin || isOwner) && isConnected;
+  const isStatusLocked = !isAdmin && event.status === 'removed';
 
   const [origData, setOrigData] = useState({
     name: event.name,
     description: event.description,
+    status: event.status || 'pending',
     needContributor: event.needContributor,
     headerImageUrl: (event.headerImage || {}).imageUrl || '',
     headerImageSource: (event.headerImage || {}).source || '',
@@ -65,6 +72,7 @@ const NewsroomPanelEventDetailImpl: React.FC<INewsroomPanelEventDetail.IProps> =
     const keys = [
       'name',
       'description',
+      'status',
       'needContributor',
       'headerImageUrl',
       'headerImageSource',
@@ -87,6 +95,7 @@ const NewsroomPanelEventDetailImpl: React.FC<INewsroomPanelEventDetail.IProps> =
       const data = {
         name: form.getFieldValue('name'),
         description: form.getFieldValue('description'),
+        status: form.getFieldValue('status'),
         needContributor: form.getFieldValue('needContributor'),
       } as Event;
       await socket.updateEvent(data);
@@ -148,7 +157,7 @@ const NewsroomPanelEventDetailImpl: React.FC<INewsroomPanelEventDetail.IProps> =
 
   useEffect(() => {
     const changes: { [index: string]: any } = {};
-    const keys = ['name', 'description', 'needContributor'];
+    const keys = ['name', 'description', 'status', 'needContributor'];
     for (let i = 0; i < keys.length; i += 1) {
       const key = keys[i];
       if (origData[key] !== event[key]) {
@@ -182,6 +191,7 @@ const NewsroomPanelEventDetailImpl: React.FC<INewsroomPanelEventDetail.IProps> =
     const data = {
       name: event.name,
       description: event.description,
+      status: event.status || 'pending',
       needContributor: event.needContributor || false,
       headerImageUrl: (event.headerImage || {}).imageUrl || '',
       headerImageSource: (event.headerImage || {}).source || '',
@@ -216,6 +226,14 @@ const NewsroomPanelEventDetailImpl: React.FC<INewsroomPanelEventDetail.IProps> =
         </Form.Item>
         <Form.Item name="needContributor" label="需要更多贡献者" valuePropName="checked">
           <Switch disabled={!canManage} onChange={() => onChange()} />
+        </Form.Item>
+        <Form.Item name="status" label="事件状态">
+          <Select disabled={!canChangeStatus || isStatusLocked} onChange={() => onChange()}>
+            <Select.Option value="pending">待审核</Select.Option>
+            <Select.Option value="admitted">已发布</Select.Option>
+            <Select.Option value="hidden">已隐藏</Select.Option>
+            {isAdmin && <Select.Option value="removed">已移除</Select.Option>}
+          </Select>
         </Form.Item>
         <Form.Item label={t('Newsroom_EventDetail_HeaderImage')}>
           <Upload.Dragger
